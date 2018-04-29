@@ -25,26 +25,26 @@ def publish(infile_name, app_root=False, rm_intermediate=False):
   (infile_name_first, infile_ext) = infile_name.split (syntax.PERIOD) 
   elaborated_file_int = infile_name_first + pos.ELABORATED_1 + pos.DEX_EXTENSION
   elaborated_file_dex = infile_name_first + pos.ELABORATED + pos.DEX_EXTENSION
-  elaborated_file_dil = infile_name_first + pos.DIL_EXTENSION
-  elaborated_file_loaded = infile_name_first + pos.LOADED + pos.DIL_EXTENSION
+  elaborated_file_mlx = infile_name_first + pos.MLX_EXTENSION
+  elaborated_file_loaded = infile_name_first + pos.LOADED + pos.MLX_EXTENSION
 
   if app_root:
     infile_name = prefix + infile_name
     elaborated_file_dex = prefix + elaborated_file_dex
-    elaborated_file_dil = prefix + elaborated_file_dil
+    elaborated_file_mlx = prefix + elaborated_file_mlx
 
   # dex: elobarate
   command = 'python ' + prefix + 'dex/elaborate.py ' + infile_name
   print 'Executing command:', command
   os.system(command)
 
-  # convert dex (elaborated) to dil
-  command = 'python ' + prefix + 'dex/dex2dil.py ' + elaborated_file_dex
+  # convert dex (elaborated) to mlx
+  command = 'python ' + prefix + 'dex/dex2mlx.py ' + elaborated_file_dex
   print 'Executing command:', command
   os.system(command)
 
   # load file into the dabasate
-  command = 'python ' + prefix + 'dil/loader.py ' + elaborated_file_dil
+  command = 'python ' + prefix + 'mlx/loader.py ' + elaborated_file_mlx
   print 'Executing command:', command
   os.system(command)
 
@@ -56,7 +56,7 @@ def publish(infile_name, app_root=False, rm_intermediate=False):
       print 'Removing ' + file
       os.system('rm ' + file)
     rm(elaborated_file_dex)
-    rm(elaborated_file_dil)
+    rm(elaborated_file_mlx)
     rm(elaborated_file_int)
     rm(elaborated_file_loaded)
 

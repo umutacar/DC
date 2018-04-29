@@ -24,7 +24,7 @@ import syntax as dex
 import tokens as tokens
 import uniques as uniques
 
-import dil.syntax as dil 
+import mlx.syntax as mlx
 import latex.latex2html as latex2html
 import string
 
@@ -113,64 +113,64 @@ def mk_str_generic(block_name, title, label, no, unique, parents, contents):
            dex.mk_str_end(block_name)
   return result
 
-# def mk_dil_str_fields_common (title, label, no, unique, parents):
-#   r = [dil.mk_str_title(title), \
-#        dil.mk_str_unique(unique), \
-#        dil.mk_str_label(label), \
-#        dil.mk_str_no(no), \
-#        dil.mk_str_parents (parents)]
+# def mk_mlx_str_fields_common (title, label, no, unique, parents):
+#   r = [mlx.mk_str_title(title), \
+#        mlx.mk_str_unique(unique), \
+#        mlx.mk_str_label(label), \
+#        mlx.mk_str_no(no), \
+#        mlx.mk_str_parents (parents)]
 #   return r
 
-def mk_dil_str_fields_common (title, label, no, unique, parents, convert_title):
+def mk_mlx_str_fields_common (title, label, no, unique, parents, convert_title):
 
   if convert_title: 
-    title_html = dil.mk_str_title(Tex2Html.translate(unique+pos.TITLE_EXTENSION, title, True))
+    title_html = mlx.mk_str_title(Tex2Html.translate(unique+pos.TITLE_EXTENSION, title, True))
   else:
-    title_html = dil.mk_str_title(title)
+    title_html = mlx.mk_str_title(title)
 
-  title_dex = dil.mk_str_title_dex(title)
+  title_dex = mlx.mk_str_title_dex(title)
 
   r = [title_html, \
        title_dex, \
-       dil.mk_str_unique(unique), \
-       dil.mk_str_label(label), \
-       dil.mk_str_no(no), \
-       dil.mk_str_parents (parents)]
+       mlx.mk_str_unique(unique), \
+       mlx.mk_str_label(label), \
+       mlx.mk_str_no(no), \
+       mlx.mk_str_parents (parents)]
   return r
 
-def mk_dil_bodies (unique, body):
-  body_dex = dil.mk_str_body_dex(body)
-  body_html = dil.mk_str_body(Tex2Html.translate(unique+pos.BODY_EXTENSION, body, False))
+def mk_mlx_bodies (unique, body):
+  body_dex = mlx.mk_str_body_dex(body)
+  body_html = mlx.mk_str_body(Tex2Html.translate(unique+pos.BODY_EXTENSION, body, False))
   return (body_html, body_dex)
 
-def mk_dil_explains (unique, explain):
-  explain_html = dil.mk_str_explain(Tex2Html.translate(unique+pos.EXPLAIN_EXTENSION, explain, False))
-  explain_dex = dil.mk_str_explain_dex(explain)
+def mk_mlx_explains (unique, explain):
+  explain_html = mlx.mk_str_explain(Tex2Html.translate(unique+pos.EXPLAIN_EXTENSION, explain, False))
+  explain_dex = mlx.mk_str_explain_dex(explain)
   return (explain_html, explain_dex)
 
-def mk_dil_hints (unique, hint):
-  hint_dex = dil.mk_str_hint_dex(hint)
-  hint_html = dil.mk_str_hint(Tex2Html.translate(unique+pos.HINT_EXTENSION, hint, False))
+def mk_mlx_hints (unique, hint):
+  hint_dex = mlx.mk_str_hint_dex(hint)
+  hint_html = mlx.mk_str_hint(Tex2Html.translate(unique+pos.HINT_EXTENSION, hint, False))
   return (hint_html, hint_dex)
 
-def mk_dil_infos (unique, info):
-  info_html = dil.mk_str_info(Tex2Html.translate(unique + pos.INFO_EXTENSION, info, False))
-  info_dex = dil.mk_str_info_dex(info)
+def mk_mlx_infos (unique, info):
+  info_html = mlx.mk_str_info(Tex2Html.translate(unique + pos.INFO_EXTENSION, info, False))
+  info_dex = mlx.mk_str_info_dex(info)
   return (info_html, info_dex)
 
-def mk_dil_intros (unique, intro):
-  intro_html = dil.mk_str_intro(Tex2Html.translate(unique+pos.INTRO_EXTENSION, intro, False))
-  intro_dex = dil.mk_str_intro_dex(intro)
+def mk_mlx_intros (unique, intro):
+  intro_html = mlx.mk_str_intro(Tex2Html.translate(unique+pos.INTRO_EXTENSION, intro, False))
+  intro_dex = mlx.mk_str_intro_dex(intro)
   return (intro_html, intro_dex)
 
-def mk_dil_prompts (unique, prompt):
-  prompt_dex = dil.mk_str_prompt_dex(prompt)
-  prompt_html = dil.mk_str_prompt(Tex2Html.translate(unique+pos.PROMPT_EXTENSION, prompt, False))
+def mk_mlx_prompts (unique, prompt):
+  prompt_dex = mlx.mk_str_prompt_dex(prompt)
+  prompt_html = mlx.mk_str_prompt(Tex2Html.translate(unique+pos.PROMPT_EXTENSION, prompt, False))
   return (prompt_html, prompt_dex)
 
-def mk_dil_titles (unique, title):
-  title_html = dil.mk_str_title(Tex2Html.translate(unique+pos.TITLE_EXTENSION, title, True))
-  title_dex = dil.mk_str_title_dex(title)
+def mk_mlx_titles (unique, title):
+  title_html = mlx.mk_str_title(Tex2Html.translate(unique+pos.TITLE_EXTENSION, title, True))
+  title_dex = mlx.mk_str_title_dex(title)
   return (title_html, title_dex)
 
 
@@ -224,14 +224,14 @@ class Book:
              dex.mk_str_end(dex.BOOK)
     return result
   
-  def to_dil_string (self):
-    authors = dil.mk_str_authors(self.authors)
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+  def to_mlx_string (self):
+    authors = mlx.mk_str_authors(self.authors)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([authors, self.contents])
     if self.asst is not None:
       fields.extend([self.asst])
-    r = dil.mk_str_book(fields)
-#    print 'book.to_dil_string:', r
+    r = mlx.mk_str_book(fields)
+#    print 'book.to_mlx_string:', r
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Chapters
@@ -266,15 +266,15 @@ class Chapter:
     result = mk_str_generic (dex.CHAPTER, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
 
-  def to_dil_string (self):
-    picture = dil.mk_str_picture(self.picture)
+  def to_mlx_string (self):
+    picture = mlx.mk_str_picture(self.picture)
     
-    (intro_html, intro_dex) = mk_dil_intros (self.unique, self.intro)
+    (intro_html, intro_dex) = mk_mlx_intros (self.unique, self.intro)
 
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([picture, intro_html, intro_dex, self.contents])
 
-    r = dil.mk_str_chapter(fields)
+    r = mlx.mk_str_chapter(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Course
@@ -329,26 +329,26 @@ class Course:
     return result
 
    ## INVARIANT requires self.book to be set
-  def to_dil_string (self):
+  def to_mlx_string (self):
     # TODO raise exception here
     if self.book == None:
       print 'Fatal Error.  Book must be set.'
 
-    course_number = dil.mk_str_course_number(self.number)
-    picture = dil.mk_str_picture(self.picture)
-    semester = dil.mk_str_semester(self.semester)
-    website = dil.mk_str_website(self.website)
-    provides_book = dil.mk_str_provides_book(self.provides_book)
-    provides_chapter = dil.mk_str_provides_chapter(self.provides_chapter)
-    provides_section = dil.mk_str_provides_section(self.provides_section)
-    provides_unit = dil.mk_str_provides_unit(self.provides_unit)
-    provides_assignment = dil.mk_str_provides_assignment(self.provides_assignment)
-    (intro_html, intro_dex) = mk_dil_intros (self.unique, self.intro)
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    course_number = mlx.mk_str_course_number(self.number)
+    picture = mlx.mk_str_picture(self.picture)
+    semester = mlx.mk_str_semester(self.semester)
+    website = mlx.mk_str_website(self.website)
+    provides_book = mlx.mk_str_provides_book(self.provides_book)
+    provides_chapter = mlx.mk_str_provides_chapter(self.provides_chapter)
+    provides_section = mlx.mk_str_provides_section(self.provides_section)
+    provides_unit = mlx.mk_str_provides_unit(self.provides_unit)
+    provides_assignment = mlx.mk_str_provides_assignment(self.provides_assignment)
+    (intro_html, intro_dex) = mk_mlx_intros (self.unique, self.intro)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([course_number, picture, semester, website, \
                    provides_book, provides_chapter, provides_section, provides_unit, provides_assignment, \
                    intro_html, intro_dex, self.book])
-    r = dil.mk_str_course(fields)
+    r = mlx.mk_str_course(fields)
 #    print 'blocks.course: course:', r
     return TEX_SEPARATOR + NEWLINE + r  + NEWLINE
 
@@ -388,13 +388,13 @@ class Group:
     result = mk_str_generic (dex.GROUP, self.title, self.label, self.no, self.unique, self.parents, self.contents)
     return result
 
-  def to_dil_string (self):
+  def to_mlx_string (self):
 #    print 'group: self.contents:', self.contents
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
     if self.contents:
       fields.extend([self.contents])
 
-    r = dil.mk_str_group(fields)
+    r = mlx.mk_str_group(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 
@@ -424,13 +424,13 @@ class Checkpoint:
     result = mk_str_generic (dex.CHECKPOINT, self.title, self.label, self.no, self.unique, self.parents, self.contents)
     return result
 
-  def to_dil_string (self):
+  def to_mlx_string (self):
     contents = self.contents.strip()
-#    print 'checkpoint.to_dil_string: contens: ', contents
+#    print 'checkpoint.to_mlx_string: contens: ', contents
 
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([contents])
-    r = dil.mk_str_checkpoint(fields)
+    r = mlx.mk_str_checkpoint(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 
@@ -470,13 +470,13 @@ class Assignment:
              dex.mk_str_end(dex.ASSIGNMENT) + NEWLINE
     return TEX_SEPARATOR + NEWLINE + result
 
-  def to_dil_string (self):
+  def to_mlx_string (self):
     contents = self.contents.strip()
 
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
-    duedate = dil.mk_str_duedate (self.duedate.strip())
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    duedate = mlx.mk_str_duedate (self.duedate.strip())
     fields.extend([duedate, contents])
-    r = dil.mk_str_assignment(fields)
+    r = mlx.mk_str_assignment(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Problem
@@ -515,12 +515,12 @@ class AsstProblem:
              dex.mk_str_end(dex.ASSTPROBLEM) + NEWLINE
     return TEX_SEPARATOR + NEWLINE + result
 
-  def to_dil_string (self):
+  def to_mlx_string (self):
     contents = self.contents.strip()
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
-    (info, info_dex) = mk_dil_infos(self.unique, self.info)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    (info, info_dex) = mk_mlx_infos(self.unique, self.info)
     fields.extend([info, info_dex, contents])
-    r = dil.mk_str_asstproblem(fields)
+    r = mlx.mk_str_asstproblem(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 
@@ -552,12 +552,12 @@ class Section:
     result = mk_str_generic (dex.SECTION, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
 
-  def to_dil_string (self):
-    (intro_html, intro_dex) = mk_dil_intros (self.unique, self.intro)
+  def to_mlx_string (self):
+    (intro_html, intro_dex) = mk_mlx_intros (self.unique, self.intro)
 
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([intro_html, intro_dex, self.contents])
-    r = dil.mk_str_section(fields)
+    r = mlx.mk_str_section(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Unit
@@ -589,11 +589,11 @@ class Unit:
     result = mk_str_generic (dex.UNIT, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
 
-  def to_dil_string (self):
+  def to_mlx_string (self):
     contents = self.contents + NEWLINE + self.checkpoint
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([contents])
-    r = dil.mk_str_unit(fields)
+    r = mlx.mk_str_unit(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Atom
@@ -624,13 +624,13 @@ class Atom:
     result = mk_str_generic (self.name, self.title, self.label, self.no, self.unique, self.parents, self.contents)
     return result
 
-  def to_dil_string (self, atom_name_dil):
+  def to_mlx_string (self, atom_name_mlx):
     contents =  self.contents
-    (contents_html, contents_dex) = mk_dil_bodies(self.unique, contents)
+    (contents_html, contents_dex) = mk_mlx_bodies(self.unique, contents)
 
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
     fields.extend([contents_html, contents_dex])
-    r = dil.mk_str_atom(atom_name_dil, fields)
+    r = mlx.mk_str_atom(atom_name_mlx, fields)
 #    print TEX_SEPARATOR, ' \n atom:', r, NEWLINE
     return TEX_SEPARATOR + NEWLINE + r
 
@@ -690,13 +690,13 @@ class Algo:
     result = mk_str_generic (dex.ALGO, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
     
-  def to_dil_string (self):
+  def to_mlx_string (self):
     contents = NEWLINE.join(self.contents)
-    (title_html, title_dex) = mk_dil_titles(self.unique, self.title)
-    (contents_html, contents_dex) = mk_dil_bodies(self.unique, contents)
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    (title_html, title_dex) = mk_mlx_titles(self.unique, self.title)
+    (contents_html, contents_dex) = mk_mlx_bodies(self.unique, contents)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
     fields.extend([contents_html, contents_dex])
-    r = dil.mk_str_atom(dil.ALGORITHM, fields)
+    r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
 #    print TEX_SEPARATOR, ' \n atom:', r, NEWLINE
     return TEX_SEPARATOR + NEWLINE + r
 
@@ -736,23 +736,23 @@ class Answer:
 
     return result
 
-  def to_dil_string (self): 
+  def to_mlx_string (self): 
 
     # Common fields
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
 
     # points
-    points = dil.mk_str_points(self.points)
+    points = mlx.mk_str_points(self.points)
 
     # body
-    (body_html, body_dex) = mk_dil_bodies(self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.unique, self.body)
     
     # explain
-    (explain_html, explain_dex) = mk_dil_explains(self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
-    r = dil.mk_str_answer(fields)
+    r = mlx.mk_str_answer(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Choices
@@ -793,22 +793,22 @@ class Choice:
 
     return result
 
-  def to_dil_string (self): 
+  def to_mlx_string (self): 
 
     # Common fields
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
 
     # points
-    points = dil.mk_str_points(self.points)
+    points = mlx.mk_str_points(self.points)
 
     # body
-    (body_html, body_dex) = mk_dil_bodies(self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.unique, self.body)
     # explain
-    (explain_html, explain_dex) = mk_dil_explains(self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
-    r = dil.mk_str_choice(fields)
+    r = mlx.mk_str_choice(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 ## Selects
@@ -849,22 +849,22 @@ class Select:
 
     return result
 
-  def to_dil_string (self): 
+  def to_mlx_string (self): 
 
     # Common fields
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
 
     # points
-    points = dil.mk_str_points(self.points)
+    points = mlx.mk_str_points(self.points)
 
     # body
-    (body_html, body_dex) = mk_dil_bodies(self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.unique, self.body)
     # explain
-    (explain_html, explain_dex) = mk_dil_explains(self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
-    r = dil.mk_str_select(fields)
+    r = mlx.mk_str_select(fields)
     return TEX_SEPARATOR + NEWLINE + r
 
 
@@ -908,26 +908,26 @@ class QuestionFR:
     return result
 
 
-  def to_dil_string (self): 
+  def to_mlx_string (self): 
     # Common fields
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
 
     # points
-    points = dil.mk_str_points(self.points)
+    points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_dil_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_dil_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
 
     # ### BEGIN :DELETE THIS
     # # explain
-    # (explain_html, explain_dex) = mk_dil_explains(self.unique, self.explain)
+    # (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
 
     # # solution - @umut - I changed self.solution here to self.ans for the code to compile
-    # field_solution_dex = dil.mk_str_solution_dex(self.ans)  
-    # field_solution = dil.mk_str_solution(Tex2Html.translate(self.unique+pos.SOLUTION_EXTENSION, self.ans, False))
+    # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
+    # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+pos.SOLUTION_EXTENSION, self.ans, False))
 
     # ### END:Q DELETE THIS
     
@@ -936,7 +936,7 @@ class QuestionFR:
                    hint_html, hint_dex, self.answers])
 
     # make the block
-    r = dil.mk_str_question_fr(fields)
+    r = mlx.mk_str_question_fr(fields)
 
     return TEX_SEPARATOR + NEWLINE + r
 
@@ -980,18 +980,18 @@ class QuestionMA:
     return result
 
 
-  def to_dil_string (self): 
+  def to_mlx_string (self): 
     # Common fields
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
 
     # points
-    points = dil.mk_str_points(self.points)
+    points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_dil_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_dil_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
 
 
     fields.extend([points, prompt_html, prompt_dex, \
@@ -999,7 +999,7 @@ class QuestionMA:
                    self.selects])
 
     # make the block
-    r = dil.mk_str_question_ma(fields)
+    r = mlx.mk_str_question_ma(fields)
 
     return TEX_SEPARATOR + NEWLINE + r
 
@@ -1040,18 +1040,18 @@ class QuestionMC:
     return result
 
 
-  def to_dil_string (self): 
+  def to_mlx_string (self): 
     # Common fields
-    fields = mk_dil_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
 
     # points
-    points = dil.mk_str_points(self.points)
+    points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_dil_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
     
     # hint
-    (hint_html, hint_dex) = mk_dil_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
 
     # put all fields together
     fields.extend([points, prompt_html, prompt_dex, \
@@ -1059,7 +1059,7 @@ class QuestionMC:
                    self.choices])
 
     # make the block
-    r = dil.mk_str_question_mc(fields)
+    r = mlx.mk_str_question_mc(fields)
 
     return TEX_SEPARATOR + NEWLINE + r
 
