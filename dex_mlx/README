@@ -1,0 +1,300 @@
+**********************************************************************
+** BEGIN: HOWTO
+
+** Setup:
+   For the scripts here you have to make the directory visible to python.
+   bash$ export PYTHONPATH=/Users/umut/r/diderot/diderot
+
+   You can then use commands like this:
+   $ python dex2dil.py unit-upload-test1.exp
+
+   this will convert the file to a dil file.  You can then use various
+   dil facilities on this file such as elaboration and loading it into
+   the database.
+
+** Scripts
+  *** parser.py
+
+  This parser is built to self-check (a bit) by comparing its output
+  with its output on parsed files.
+
+  > python parse.py dex_file 
+  Parse the file.  This is used to build the elaborate.py and dex2dil.
+
+  It takes several arguments.  Perhaps the first one course_label_on
+  is the most notable.  In the source file, we don't expect to see
+  label definition in the course.  But after elaboration, we need to.
+  So parser is designed to take this as argument.  Initially it is
+  false.  To parse the elaborated file , it has to be provided.  For
+  example (here seq_ed is an elaborated file):
+
+  > python parser.py seq_parsed.dex True
+
+    The "True" indicates that course label is available
+
+  After the parser completes, you can run
+  >  diff seq.dex seq_parsed.dex
+  
+  As difference you should see label, uniques, and otherwise you shoudl
+  mostly see differences concerning comments and white space.
+
+  You can also run
+  >  diff seq_parsed.dex seq_parsed_parsed.dex
+  
+  As difference you should see mostly white space
+  
+  ** elaborate.py
+
+  > python elaborate.py dex_file
+
+  Adds a auto-generatade label to each module, unit, atom.  Replaces
+  user defined labels with these.
+
+  Once elabaroted the file should be parseable.  For example
+
+  > python parser.py seq.dex
+  > python elaborate.py seq_ed.dex
+  > python parser.py seq_ed.dex True
+    It should work.
+
+  Now if your run
+  > diff seq_ed_parsed.dex seq_ed.dex
+  You should see very little difference.
+
+  ** dex2dil.py
+
+  > python dex2dil.py  dex_file_elaborated 
+  Important: assumes that the file is elaborated, e.g., each block has
+  a label.
+
+  > python dex2pdf.py dex_file
+    generates pdf after elaborating
+
+  > python publish.py dex_file
+
+    elaborated dex, converts it into dil (generating the html code),
+    and loads the atoms into the database.
+
+** END: HOWTO
+**********************************************************************
+
+**********************************************************************
+** Syntax
+
+* verbatim environment does not work.
+
+* lstinline needs to specify [lanugage=Python] to make sure that lines
+  do not get ommitted (compressed together).  Other languages such as
+  ocaml , or caml did not work.
+
+* in array's (mathjax mode)
+you cannot have empty lines or comments in empty lines.
+possibly also no comments 
+**********************************************************************
+
+
+* TODO 
+** cleanup unused files
+** empty units/chapters are not handled gracefully. 
+
+** Labels:
+   During elaboration:
+   1) Create a label for each atom
+   2) Replace user defined label with this atom
+   3) Update all ref's accordingly
+
+** This directory supplies dex2dil.py
+   To run this you have to first do this
+   bash$ export PYTHONPATH=/Users/umut/r/diderot/diderot
+
+   You can then use the following commands:
+   $ python dex2dil.py unit-upload-test1.exp
+
+   this will convert the file to a dil file.  You can then use various
+   dil facilities on this file such as elaboration and loading it into
+   the database.
+
+** It also supplies dex2latex.py which can be used to conver the file into latex.
+
+**********************************************************************
+** Atom-Graph Invariants
+
+Graph = (V = (Atoms, Units), E), where E \subset V x V
+
+o Units are roots
+
+o Every non-root (non-unit) vertex has parents, possibly none,
+possibly many.
+
+
+**********************************************************************
+** Diderot Latex Definitions
+
+* Every atom has a title and parents. Parents could be units + atoms.
+
+
+**********************************************************************
+** BEGIN[July 15]: notes on latex++ and how to parse it
+
+We want to treat latex as  black box as much as possible.  We are
+going to have certain macros but other than that, we want to build
+latex++ as a meta structure on top of latex.  This means that latex++
+will have blocks that have latex code peppered with our special macros
+of the form \dref{...}.  The point is that though these special macros
+will leave within the latex world.  So by defining them we will get
+latex compilable code.
+
+One problem with the macro approach is that we have to be able to
+match parenthesis.  I am not sure how well we can do that.  It is
+probably not too hard in the end but we might have to do that offline
+without using pyparsing, because I don't know what support pyparsing
+has for that.
+
+Latex++ blocks can be things like
+\begin{problem}[various optional arguments}
+\end{problem}
+
+Thus the BNF will be this
+
+block_latexpp ::= \begin{problem} exp_latex \end{problem}
+             |   \begin{exercise} exp_latex \end{exercise}
+              ... (and so on)
+
+exp_latexpp ::= "" | block_latexpp | block_latexpp exp_latexpp
+
+# As in latex.  We don't care about this
+word_latex ::= printable*
+exp_latex ::= ""
+          | word_latex | word_latex  exp_latex 
+
+
+**********************************************************************
+** BEGIN[July 13]: 
+
+o things become quie complicated if we don't declare \n as whitespace,
+because the parser matches only at white space boundaries.  for
+example, we have to specify all possible places at which \n can be
+encourntered.
+
+for example, I am not able to get the comments ignored.  if i don't
+declare the whitespace char's to igrote \n, then it works, but
+otherwise it does not. 
+
+so the best course of action is to trean \n as white space.  we can
+deal with paragraphs, which are '\n\n' parrents in some other way,
+perhaps by inserting a paragraph.
+
+* read_problem_tfs.py: There is some non-uniformity in the treatment
+of white spaces.  It would be better to trim them systematically
+rather than having this done as part of regular exression patterns.
+This is currently done by the problem pattern.
+
+**********************************************************************
+** BEGIN[July 11]: notes on latex++ and how to parse it
+
+
+** Attempt  3
+We want to treat latex as  black box as much as possible.  We are
+going to have certain macros but other than that, we want to build
+latex++ as a meta structure on top of latex.  This means that latex++
+will have blocks that have latex code peppered with our special macros
+of the form \dref{...}.  The point is that though these special macros
+will leave within the latex world.  So by defining them we will get
+latex compilable code.
+
+Latex++ blocks can be things like
+\begin{problem}[various optional arguments}
+\end{problem}
+
+Thus the BNF will be this
+
+block_latexpp ::= \begin{problem} exp_latex \end{problem}
+              |   \begin{theorem} exp_latex \end{theorem}
+              |   \begin{exercise} exp_latex \end{exercise}
+              ... (and so on)
+
+exp_latexpp ::= "" | block_latexpp | block_latexpp exp_latexpp
+
+# As in latex.  We don't care about this
+word_latex ::= printable*
+exp_latex ::= "" | word_latex | word_latex 
+
+
+** Attempt 2
+
+
+This is too complex.  We want to treat latex as pretty much black
+box.  I don't think we want to do anything with that at this point.
+we just want to pass it along treating it like a sequence of words.
+
+block_math ::= '\[' expr_math '\]'
+block_problem ::= \begin{problem} expr_inner \end{problem}
+block ::= block_problem | block_math
+
+word_math := '$' expr_math '$'
+word := Word(alphanums)
+
+atom := word | word_math | block 
+expr := atom | atom \ws expr
+
+# Inner expression has no blocks.  
+# Though there might be inner blocks, like begin{center} end{center} etc.
+expr_inner: word | word_math | expr_inner
+
+
+** Attempt 2: [This is too complex, see attempt 3].  
+
+A (lame) attempt at parsing latex.  I think latex's grammar does not
+require a full blown recursive descent parser.  But still I don't
+think that we want to parse latex.
+
+block_math ::= '\[' expr_math '\]'
+block_problem ::= \begin{problem} expr_inner \end{problem}
+block ::= block_problem | block_math
+
+word_math := '$' expr_math '$'
+word := Word(alphanums)
+
+atom := word | word_math | block 
+expr := atom | atom \ws expr
+
+# Inner expression has no blocks.  
+# Though there might be inner blocks, like begin{center} end{center} etc.
+expr_inner: word | word_math | expr_inner
+
+** Attempt 1
+This is mutually recursive. I don't think that this can be defined in
+pyparsing. We probably want something a bit more
+complex, with two levels of exprssions ore something like that.
+
+block_math ::= '\[' expr_math '\]'
+block_problem ::= \begin{problem} expr \end{problem}
+block ::= block_problem | block_math
+
+word_math := '$' expr '$'
+word := Word(alphanums)
+atom := word | word_math | block 
+expr := atom | atom \ws expr
+
+** Attempt 1:
+This is too complex.  We want to treat latex as pretty much black
+box.  I don't think we want to do anything with that at this point.
+we just want to pass it along treating it like a sequence of words.
+
+block_math ::= '\[' expr_math '\]'
+block_problem ::= \begin{problem} expr_inner \end{problem}
+block ::= block_problem | block_math
+
+word_math := '$' expr_math '$'
+word := Word(alphanums)
+
+atom := word | word_math | block 
+expr := atom | atom \ws expr
+
+# Inner expression has no blocks.  
+# Though there might be inner blocks, like begin{center} end{center} etc.
+expr_inner: word | word_math | expr_inner
+
+** END[July 11]: notes on latex++ and how to parse it
+**********************************************************************
+

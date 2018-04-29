@@ -1,0 +1,45 @@
+* How to add an atom.  Follow the instructions below.
+
+Note that atoms are ordered alphabetically in all files.  Follow the
+same convention.
+
+For example we assume you are adding new_atom
+
+** diderot/dex/syntax
+
+1. syntax.py
+   something like this
+   NEW_ATOM = newatom
+
+
+** diderot/dex/parser.py
+1. extend the class constructors, there are several
+2. extending the Parser class constructor requires a few steps
+   2.0 extend arguments
+   2.1 create self.process_atom_new_atom
+   2.2 create self.atom_new_atom
+   2.3 extend self_exp_atom
+3. extend mk_parser_begin_any_atom
+
+** diderot/dex/elaborate.py
+No changes required
+
+** diderot/diderot/dil/syntax.py
+1. Extend atom syntax 
+   NEW_ATOM = 'dilnewatom'
+
+** diderot/diderot/dil/parser.py
+1. extend the class constructors, there are several
+2. extending the Parser class constructor requires a few steps
+   2.0 extend arguments
+   2.1 create self.process_atom_new_atom
+   2.2 create self.atom_new_atom
+   2.3 extend self_exp_atom
+
+** diderot/diderot/dil/dexdil.py
+1. Update "def parse" function to
+   call the dex_parser.Parser with the right arg's
+
+** diderot/atoms/models.py
+1. Make necessary updates to the strings mappings.
+
