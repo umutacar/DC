@@ -21,6 +21,10 @@ import blocks as blocks
 # used during mlx translation to locate course specif info and files
 COURSE_NUMBER = 0
 
+## MLX Preamble
+MLX_PREAMBLE = '<?xml version = "1.0"?>'
+
+
 ## END: GLOBALS
 ######################################################################
 
@@ -320,7 +324,7 @@ def main(argv):
   book = result[1]
 #  print 'dex2mlx: book:', book
   course_block.book = book
-  result = course_block.to_mlx_string ()
+  result = MLX_PREAMBLE + course_block.to_mlx_string ()
   mlxfile.write(result)
 #  book = NEWLINE.join(result[1:])
 #  contents = course + NEWLINE + book  

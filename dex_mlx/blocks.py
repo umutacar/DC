@@ -40,20 +40,6 @@ LATEX_FILES_DIR = './latex/latex_files/'
 # Default latex-to-html generator is None
 Tex2Html = None
 
-## TODO: Delete, deprecated
-def init_latex2html_deprecated (course_number):
-  global COURSE_NUMBER, Tex2Html
-  
-  LATEX_PREAMBLE_FILE = LATEX_FILES_DIR + course_number + SLASH + 'preamble.tex'
-  LATEX_POSTAMBLE = r'\end{document}' + '\n'
-
-  print 'preamble file:', LATEX_PREAMBLE_FILE
-
-  Tex2Html = latex2html.Latex2Html(\
-                 TMP_DIR, \
-                 LATEX_PREAMBLE_FILE, \
-                 LATEX_POSTAMBLE)
-
 def init_latex2html (latex_preamble_file):
   global Tex2Html
   
@@ -102,7 +88,7 @@ def mk_str_generic(block_name, title, label, no, unique, parents, contents):
     contents = contents.strip() + NEWLINE
   else:
     contents = ''
-  result = TEX_SEPARATOR + NEWLINE + \
+  result = NEWLINE + \
            dex.mk_str_begin(block_name) + \
            dex.mk_str_opt_arg(title) + NEWLINE + \
            dex.mk_str_label(label)  + NEWLINE + \
@@ -232,7 +218,7 @@ class Book:
       fields.extend([self.asst])
     r = mlx.mk_str_book(fields)
 #    print 'book.to_mlx_string:', r
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Chapters
 class Chapter:
@@ -275,7 +261,7 @@ class Chapter:
     fields.extend([picture, intro_html, intro_dex, self.contents])
 
     r = mlx.mk_str_chapter(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Course
 class Course:
@@ -308,7 +294,7 @@ class Course:
 
   def to_string (self): 
     # in DEX, book is not part of a course.
-    result = TEX_SEPARATOR + NEWLINE + \
+    result = NEWLINE + \
              dex.mk_str_document_class() + NEWLINE + \
              dex.mk_str_title(self.title) + NEWLINE + \
              dex.mk_str_label(self.label)  + NEWLINE + \
@@ -350,7 +336,7 @@ class Course:
                    intro_html, intro_dex, self.book])
     r = mlx.mk_str_course(fields)
 #    print 'blocks.course: course:', r
-    return TEX_SEPARATOR + NEWLINE + r  + NEWLINE
+    return NEWLINE + r  + NEWLINE
 
 ## Group
 class Group:
@@ -395,7 +381,7 @@ class Group:
       fields.extend([self.contents])
 
     r = mlx.mk_str_group(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 
 ## Checkpoint
@@ -431,7 +417,7 @@ class Checkpoint:
     fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([contents])
     r = mlx.mk_str_checkpoint(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 
 ## Assignment
@@ -468,7 +454,7 @@ class Assignment:
              dex.mk_str_duedate (self.duedate) + NEWLINE + \
              self.contents + NEWLINE + \
              dex.mk_str_end(dex.ASSIGNMENT) + NEWLINE
-    return TEX_SEPARATOR + NEWLINE + result
+    return NEWLINE + result
 
   def to_mlx_string (self):
     contents = self.contents.strip()
@@ -477,7 +463,7 @@ class Assignment:
     duedate = mlx.mk_str_duedate (self.duedate.strip())
     fields.extend([duedate, contents])
     r = mlx.mk_str_assignment(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Problem
 class AsstProblem:
@@ -513,7 +499,7 @@ class AsstProblem:
              dex.mk_str_info(self.info) + NEWLINE + \
              self.contents + NEWLINE + \
              dex.mk_str_end(dex.ASSTPROBLEM) + NEWLINE
-    return TEX_SEPARATOR + NEWLINE + result
+    return NEWLINE + result
 
   def to_mlx_string (self):
     contents = self.contents.strip()
@@ -521,7 +507,7 @@ class AsstProblem:
     (info, info_dex) = mk_mlx_infos(self.unique, self.info)
     fields.extend([info, info_dex, contents])
     r = mlx.mk_str_asstproblem(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 
 ## Section
@@ -558,7 +544,7 @@ class Section:
     fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([intro_html, intro_dex, self.contents])
     r = mlx.mk_str_section(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Unit
 class Unit:
@@ -594,7 +580,7 @@ class Unit:
     fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
     fields.extend([contents])
     r = mlx.mk_str_unit(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Atom
 class Atom:
@@ -631,8 +617,7 @@ class Atom:
     fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
     fields.extend([contents_html, contents_dex])
     r = mlx.mk_str_atom(atom_name_mlx, fields)
-#    print TEX_SEPARATOR, ' \n atom:', r, NEWLINE
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Algo(rithm)
 class Algo:
@@ -697,8 +682,7 @@ class Algo:
     fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
     fields.extend([contents_html, contents_dex])
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
-#    print TEX_SEPARATOR, ' \n atom:', r, NEWLINE
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 
 ## Answers
@@ -753,7 +737,7 @@ class Answer:
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
     r = mlx.mk_str_answer(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Choices
 class Choice:
@@ -809,7 +793,7 @@ class Choice:
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
     r = mlx.mk_str_choice(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Selects
 class Select:
@@ -865,7 +849,7 @@ class Select:
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
     r = mlx.mk_str_select(fields)
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 
 
@@ -938,7 +922,7 @@ class QuestionFR:
     # make the block
     r = mlx.mk_str_question_fr(fields)
 
-    return TEX_SEPARATOR + NEWLINE + r
+    return  NEWLINE + r
 
 
 ## Question_ma
@@ -1001,7 +985,7 @@ class QuestionMA:
     # make the block
     r = mlx.mk_str_question_ma(fields)
 
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## Question_Mc
 class QuestionMC:
@@ -1061,7 +1045,7 @@ class QuestionMC:
     # make the block
     r = mlx.mk_str_question_mc(fields)
 
-    return TEX_SEPARATOR + NEWLINE + r
+    return NEWLINE + r
 
 ## END: block classes
 ######################################################################
