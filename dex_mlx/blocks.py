@@ -616,7 +616,7 @@ class Atom:
 
     fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
     fields.extend([contents_html, contents_dex])
-    r = mlx.mk_str_atom(atom_name_mlx, fields)
+    r = mlx.mk_str_block_atom(atom_name_mlx, fields)
     return NEWLINE + r
 
 ## Algo(rithm)
