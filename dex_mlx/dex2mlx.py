@@ -24,6 +24,9 @@ COURSE_NUMBER = 0
 ## MLX Preamble
 MLX_PREAMBLE = '<?xml version = "1.0"?>'
 
+# These are not used but for future reference. 
+DIDEROT_PREAMBLE = '<diderot: xmlns = "http://umut-acar.org/diderot">'
+DIDEROT_POSTAMBLE = '</diderot>'
 
 ## END: GLOBALS
 ######################################################################
