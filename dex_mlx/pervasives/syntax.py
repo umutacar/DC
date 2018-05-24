@@ -54,28 +54,31 @@ KW_TEX_END_ENUMERATE = r'\end{enumerate}'
 
 
 ## Error conditions that can occur as tokens
-KW_NO_ANS = '...NO.ANSWER...' 
-KW_NO_ANSWER = '...NO.ANSWER...' 
-KW_NO_ANSWERS = '...NO.ANSWERS...' 
-KW_NO_EXPLAIN = '...NO.EXPLANATION...' 
-KW_NO_HINT = '...NO.HINT...' 
-KW_NO_INTRO = '...NO.INTRO...' 
-KW_NO_INFO = '...NO.INFO...'
+KW_NOT_PROVIDED = '...NOT.PROVIDED.'
+KW_NO_ANS = KW_NOT_PROVIDED + 'ANSWER...' 
+KW_NO_ANSWER = KW_NOT_PROVIDED + 'ANSWER...' 
+KW_NO_ANSWERS = KW_NOT_PROVIDED + 'ANSWERS...' 
+KW_NO_EXPLAIN = KW_NOT_PROVIDED + 'EXPLANATION...' 
+KW_NO_HINT = KW_NOT_PROVIDED + 'HINT...' 
+KW_NO_INTRO = KW_NOT_PROVIDED + 'INTRO...' 
+KW_NO_INFO = KW_NOT_PROVIDED + 'INFO...'
+KW_NO_PARENTS = KW_NOT_PROVIDED + 'PARENTS...' 
+KW_NO_POINTS = KW_NOT_PROVIDED + '0'
+KW_POINTS_CORRECT = KW_NOT_PROVIDED + '1'  
+KW_NO_PICTURE = KW_NOT_PROVIDED + 'PICTURE...' 
+KW_NO_CHECKPOINT = KW_NOT_PROVIDED + 'CHECKPOINT...' 
+KW_NO_SEL = KW_NOT_PROVIDED + 'SELECT...' 
+KW_NO_SELECT = KW_NOT_PROVIDED + 'SELECT...' 
+KW_NO_SELECTS = KW_NOT_PROVIDED + 'SELECTS...' 
+KW_NO_SEMESTER = KW_NOT_PROVIDED + 'UNKNOWN.SEMESTER...' 
+KW_NO_SOLUTION = KW_NOT_PROVIDED + 'UNKOWN.SOLUTION...' 
+KW_UNLABELED = KW_NOT_PROVIDED + 'LABEL...' 
+KW_UNTITLED = KW_NOT_PROVIDED + 'TITLE...' 
+KW_NO_UNIQUE = KW_NOT_PROVIDED + 'UNIQUE...' 
+KW_NO_WEBSITE = KW_NOT_PROVIDED + 'WEBSITE...' 
+
+# These are handled specially
 KW_NO_NO = '0'  # has to be a number still 
-KW_NO_PARENTS = '...NO.PARENTS...' 
-KW_NO_POINTS = '0'
-KW_POINTS_CORRECT = '1'  
-KW_NO_PICTURE = '...NO.PICTURE...' 
-KW_NO_CHECKPOINT = '...NO.CHECKPOINT...' 
-KW_NO_SEL = '...NO.SELECT...' 
-KW_NO_SELECT = '...NO.SELECT...' 
-KW_NO_SELECTS = '...NO.SELECTS...' 
-KW_NO_SEMESTER = '...UNKNOWN.SEMESTER...' 
-KW_NO_SOLUTION = '...UNKOWN.SOLUTION...' 
-KW_UNLABELED = '...NO.LABEL...' 
-KW_UNTITLED = '...NO.TITLE...' 
-KW_NO_UNIQUE = '...NO.UNIQUE...' 
-KW_NO_WEBSITE = '...UNKNOWN.WEBSITE...' 
 KW_NO_CHAPTER_PROVISION = '1'   # This is the initial for chapter counter
 KW_NO_SECTION_PROVISION = '1'   # This is the initial for section counter
 KW_NO_UNIT_PROVISION = '1'   # This is the initial for unit counter
@@ -183,6 +186,12 @@ def sanitize_title (title):
 ## END: Utilities
 ######################################################################
 
+def missing_field(field_body):
+  if KW_NOT_PROVIDED in field_body:
+    return True
+  else: 
+    return False
+
 def valid_answer(answer):
   # explain could have <p> tags and other formatting.
   if KW_NO_ANSWER in answer:
@@ -217,13 +226,9 @@ def valid_label(label):
 
 def valid_title(title):
   title = title.strip()
-  print 'title= ', title
-  print 'untitle= ', KW_UNTITLED
   if title == KW_UNTITLED:
-    print 'title is invalid'
     return False
   else:
-    print 'title is valid'
     return True
 
 ######################################################################
