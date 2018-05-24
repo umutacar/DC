@@ -19,6 +19,25 @@ more widely available.  So, in the end, if the matter is the learning
 curve, you might as well sink time into ODT rather than somothing that
 is dying (Docbook).
 
+I did some more research into what publishers use.  It seems that
+publishers all use their own version of XML.  For example, I have
+found that Elsevier uses their owwn and so did another organization
+that published proceedings of XML conferences. The point seems to be
+that it is so easy to define your own XML language, you might as well
+come up with your own.  By no means, Docbook is a standard, and in
+fact far away from it.  
+
+My conclusion is this: I don't think we should focus on this.  If and
+when our platform becomes a widely accepted one, then we can pair up
+with publishers and all it takes to include their content would be to
+write an XML translator from their language into our own and off we go.
+
+Of course we can evolve our language over time as well.  
+
+In the long term, it seems that we would be moving towards the ODF...
+One interesting experiment could be to translate just one chapter to
+ODF using pandoc and see if I can deal with it.
+
 
 THINK ABOUT THESE.
 
