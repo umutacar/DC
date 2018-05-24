@@ -1,2 +1,16 @@
+o I have been looking at ODT (Open Document Format) and DocBook.  ODT
+is huge and complex, at least for my resources right now.  I am
+wondering if Docbook can be a reasonable starting point instead.  The
+advantage of docbook is that there are tool out there that convert
+latex to docbook, e.g., pandoc.  And thus we can rely on them instead
+of trying to parse latex ourselves.  This way our focus would be to
+upload docbook into Diderot.  We can implement the docbook to Diderot
+XML by writing a relatively straightforward translation I imagine.  
+
+The counter argument is that there are not that many users of docbook.
+It might be better for us to focus our efforts on latex support.  But
+what exactly is that support?  The idea would be to take plain latex
+and convert it into DEX. THINK ABOUT THESE.
+
 o Make this a standalone codebase that works independent of DIL.  THis
 is currently just a copy of the DEX part of the diderot project.
