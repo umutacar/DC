@@ -7,10 +7,21 @@ of trying to parse latex ourselves.  This way our focus would be to
 upload docbook into Diderot.  We can implement the docbook to Diderot
 XML by writing a relatively straightforward translation I imagine.  
 
+
 The counter argument is that there are not that many users of docbook.
 It might be better for us to focus our efforts on latex support.  But
 what exactly is that support?  The idea would be to take plain latex
-and convert it into DEX. THINK ABOUT THESE.
+and convert it into DEX. 
+
+Another counter argument is that apart from its complexity ODT has all
+of the above advantages of Docbook (pandoc produces it) and it also
+more widely available.  So, in the end, if the matter is the learning
+curve, you might as well sink time into ODT rather than somothing that
+is dying (Docbook).
+
+
+THINK ABOUT THESE.
+
 
 o Make this a standalone codebase that works independent of DIL.  THis
 is currently just a copy of the DEX part of the diderot project.
