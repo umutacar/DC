@@ -853,8 +853,8 @@ class Select:
 
 
 
-## Question_FR
-class QuestionFR:
+## Problem_FR
+class ProblemFR:
   def __init__(self, toks):
     (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
@@ -864,22 +864,22 @@ class QuestionFR:
 #    self.ans = tokens.get_ans(toks)
 #    self.explain = tokens.get_explain(toks) 
     self.answers = tokens.get_answers(toks) 
-#    print 'questionfr: answers:', self.answers
+#    print 'problemfr: answers:', self.answers
 
   def mk_unique (self):
-    u = uniques.mk_unique_question_fr ()
-#    print 'question.mk_unique:', u
+    u = uniques.mk_unique_problem_fr ()
+#    print 'problem.mk_unique:', u
     return u
 
   def mk_label (self): 
     if valid_label(self.label):
-      return KW_PREFIX_QUESTION_FR_LABEL + COLON + self.mk_unique() + COLON + self.label
+      return KW_PREFIX_PROBLEM_FR_LABEL + COLON + self.mk_unique() + COLON + self.label
     else:
-      return KW_PREFIX_QUESTION_FR_LABEL + COLON + self.mk_unique()
+      return KW_PREFIX_PROBLEM_FR_LABEL + COLON + self.mk_unique()
 
   def mk_no (self):
-    n = uniques.get_question ()
-#    print 'question.mk_no:', n
+    n = uniques.get_problem ()
+#    print 'problem.mk_no:', n
     return n
 
   def to_string (self): 
@@ -888,7 +888,7 @@ class QuestionFR:
                dex.mk_str_hint(self.hint) + NEWLINE + \
                self.answers
 
-    result = mk_str_generic (dex.QUESTION_FR, self.title, self.label, self.no, self.unique, self.parents, contents)
+    result = mk_str_generic (dex.PROBLEM_FR, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
 
 
@@ -920,37 +920,37 @@ class QuestionFR:
                    hint_html, hint_dex, self.answers])
 
     # make the block
-    r = mlx.mk_str_question_fr(fields)
+    r = mlx.mk_str_problem_fr(fields)
 
     return  NEWLINE + r
 
 
-## Question_ma
+## Problem_ma
 ## TODO THIS NEEDS WORK CURRENTL COPY OF MC
-class QuestionMA:
+class ProblemMA:
   def __init__(self, toks):
     (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
-#    print 'questionmc: self.points', self.points
+#    print 'problemmc: self.points', self.points
     self.prompt = tokens.get_prompt(toks)
     self.hint = tokens.get_hint(toks) 
     self.selects = tokens.get_selects(toks) 
-#    print 'questionmc: self.selects', self.selects
+#    print 'problemmc: self.selects', self.selects
 
   def mk_unique (self):
-    u = uniques.mk_unique_question_ma ()
-#    print 'questionma.mk_unique:', u
+    u = uniques.mk_unique_problem_ma ()
+#    print 'problemma.mk_unique:', u
     return u
 
   def mk_label (self): 
     if valid_label(self.label):
-      return KW_PREFIX_QUESTION_MA_LABEL + COLON + self.mk_unique() + COLON + self.label
+      return KW_PREFIX_PROBLEM_MA_LABEL + COLON + self.mk_unique() + COLON + self.label
     else:
-      return KW_PREFIX_QUESTION_MA_LABEL + COLON + self.mk_unique()
+      return KW_PREFIX_PROBLEM_MA_LABEL + COLON + self.mk_unique()
 
   def mk_no (self):
-    n = uniques.get_question ()
-#    print 'question.mk_no:', n
+    n = uniques.get_problem ()
+#    print 'problem.mk_no:', n
     return n
 
   def to_string (self): 
@@ -960,7 +960,7 @@ class QuestionMA:
                self.selects
 
 
-    result = mk_str_generic (dex.QUESTION_MA, self.title, self.label, self.no, self.unique, self.parents, contents)
+    result = mk_str_generic (dex.PROBLEM_MA, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
 
 
@@ -983,35 +983,35 @@ class QuestionMA:
                    self.selects])
 
     # make the block
-    r = mlx.mk_str_question_ma(fields)
+    r = mlx.mk_str_problem_ma(fields)
 
     return NEWLINE + r
 
-## Question_Mc
-class QuestionMC:
+## Problem_Mc
+class ProblemMC:
   def __init__(self, toks):
     (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
-#    print 'questionmc: self.points', self.points
+#    print 'problemmc: self.points', self.points
     self.prompt = tokens.get_prompt(toks)
     self.hint = tokens.get_hint(toks) 
     self.choices = tokens.get_choices(toks) 
-#    print 'questionmc: self.choices', self.choices
+#    print 'problemmc: self.choices', self.choices
 
   def mk_unique (self):
-    u = uniques.mk_unique_question_mc ()
-#    print 'questionmc.mk_unique:', u
+    u = uniques.mk_unique_problem_mc ()
+#    print 'problemmc.mk_unique:', u
     return u
 
   def mk_label (self): 
     if valid_label(self.label):
-      return KW_PREFIX_QUESTION_MC_LABEL + COLON + self.mk_unique() + COLON + self.label
+      return KW_PREFIX_PROBLEM_MC_LABEL + COLON + self.mk_unique() + COLON + self.label
     else:
-      return KW_PREFIX_QUESTION_MC_LABEL + COLON + self.mk_unique()
+      return KW_PREFIX_PROBLEM_MC_LABEL + COLON + self.mk_unique()
 
   def mk_no (self):
-    n = uniques.get_question ()
-#    print 'question.mk_no:', n
+    n = uniques.get_problem ()
+#    print 'problem.mk_no:', n
     return n
 
   def to_string (self): 
@@ -1020,7 +1020,7 @@ class QuestionMC:
                dex.mk_str_hint(self.hint) + NEWLINE + \
                self.choices
 
-    result = mk_str_generic (dex.QUESTION_MC, self.title, self.label, self.no, self.unique, self.parents, contents)
+    result = mk_str_generic (dex.PROBLEM_MC, self.title, self.label, self.no, self.unique, self.parents, contents)
     return result
 
 
@@ -1043,7 +1043,7 @@ class QuestionMC:
                    self.choices])
 
     # make the block
-    r = mlx.mk_str_question_mc(fields)
+    r = mlx.mk_str_problem_mc(fields)
 
     return NEWLINE + r
 
@@ -1116,19 +1116,19 @@ def unit_to_string(toks):
   print '    matched unit', '[', block.title, '].'
   return block.to_string()
 
-def question_fr_to_string(toks): 
-  print '        matched question_fr.'
-  block = QuestionFR(toks)
+def problem_fr_to_string(toks): 
+  print '        matched problem_fr.'
+  block = ProblemFR(toks)
   return block.to_string()
 
-def question_ma_to_string(toks): 
-  print '        matched question_ma.'
-  block = QuestionMA(toks)
+def problem_ma_to_string(toks): 
+  print '        matched problem_ma.'
+  block = ProblemMA(toks)
   return block.to_string()
 
-def question_mc_to_string(toks): 
-  print '        matched question_mc.'
-  block = QuestionMC(toks)
+def problem_mc_to_string(toks): 
+  print '        matched problem_mc.'
+  block = ProblemMC(toks)
   return block.to_string()
 
 def checkpoint_to_string(toks): 
