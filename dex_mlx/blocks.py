@@ -419,6 +419,41 @@ class Checkpoint:
     r = mlx.mk_str_checkpoint(fields)
     return NEWLINE + r
 
+## Problemset
+class ProblemSet:
+  def __init__(self, toks):
+    (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
+    self.contents = tokens.get_contents(toks) 
+
+  def mk_unique (self):
+    u = uniques.mk_unique_problemset ()
+#    print 'problemset.mk_unique:', u
+    return u
+
+  def mk_label (self): 
+    if valid_label(self.label):
+      return KW_PREFIX_PROBLEMSET_LABEL + COLON + self.mk_unique() + COLON + self.label
+    else:
+      return KW_PREFIX_PROBLEMSET_LABEL + COLON + self.mk_unique()
+
+  def mk_no (self):
+    n = uniques.get_problemset ()
+#    print 'problemset.mk_no:', n
+    return n
+
+  def to_string (self): 
+    result = mk_str_generic (dex.PROBLEMSET, self.title, self.label, self.no, self.unique, self.parents, self.contents)
+    return result
+
+  def to_mlx_string (self):
+    contents = self.contents.strip()
+#    print 'problemset.to_mlx_string: contens: ', contents
+
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, False)
+    fields.extend([contents])
+    r = mlx.mk_str_problemset(fields)
+    return NEWLINE + r
+
 
 ## Assignment
 class Assignment:
@@ -1134,6 +1169,11 @@ def problem_mc_to_string(toks):
 def checkpoint_to_string(toks): 
   print '      matched checkpoint.'
   block = Checkpoint(toks)
+  return block.to_string()
+
+def problemset_to_string(toks): 
+  print '      matched problemset.'
+  block = ProblemSet(toks)
   return block.to_string()
 
 def select_to_string(toks): 

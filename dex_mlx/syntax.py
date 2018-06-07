@@ -12,10 +12,13 @@ COM_COURSE_NUMBER = r'\coursenumber'
 COM_DOCUMENT_CLASS = r'\documentclass{course}'
 COM_CHOICE = r'\choice'
 COM_CHOICE_S = r'\choice*'
+COM_COURSE = BACKSLASH + r'course'
 COM_DUEDATE = r'\duedate'
 COM_EXPLAIN = r'\explain'
+COM_FOLDER = BACKSLASH + r'folder'
 COM_HINT = r'\hint'
 COM_INFO = r'\info'
+COM_INSTANCE = BACKSLASH + r'instance'
 COM_NO = r'\no'
 COM_PICTURE = r'\picture'
 COM_POINTS = r'\points'
@@ -31,6 +34,9 @@ COM_SEMESTER = r'\semester'
 COM_SOLUTION = r'\solution'
 COM_WEBSITE = r'\website'
 COM_TITLE = r'\title'
+COM_TOPICS = BACKSLASH + r'topics'
+
+
 
 # block strings
 ABOUT = r'about'

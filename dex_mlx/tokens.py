@@ -32,12 +32,14 @@ KEY_DUEDATE = 'KEY_DUEDATE'
 KEY_END = 'KEY_END_OF_SOMETHING'
 KEY_EXPLAIN = 'KEY_EXPLAIN'
 KEY_EXPLAIN_DEX = 'KEY_EXPLAIN_DEX'
+KEY_FOLDER = 'KEY_FOLDER'
 KEY_FRIENDS = 'KEY_FRIENDS'
 KEY_GROUP = 'KEY_GROUP'
 KEY_GROUP_CONTENTS = 'KEY_GROUP_CONTENTS'
 KEY_HINT = 'KEY_HINT'
 KEY_HINT_DEX = 'KEY_HINT_DEX'
 KEY_INFO = 'KEY_INFO'
+KEY_INSTANCE = 'KEY_INSTANCE'
 KEY_INTRO = 'KEY_INTRO'
 KEY_INTRO_DEX = 'KEY_INTRO_DEX'
 KEY_JOKER = 'KEY_JOKER'
@@ -47,6 +49,8 @@ KEY_NO = 'KEY_NO'
 KEY_PARENTS = 'KEY_PARENTS'
 KEY_PICTURE = 'KEY_PICTURE'
 KEY_POINTS = 'KEY_POINTS'
+KEY_PROBLEM = 'KEY_PROBLEM'
+KEY_PROBLEMSET = 'KEY_PROBLEM_SET'
 KEY_QUESTION = 'KEY_QUESTION'
 KEY_PROMPT = 'KEY_PROMPT'
 KEY_PROMPT_DEX = 'KEY_PROMPT_DEX'
@@ -64,6 +68,7 @@ KEY_SEMESTER = 'KEY_SEMESTER'
 KEY_SOLUTION = 'KEY_SOLUTION'
 KEY_SOLUTION_DEX = 'KEY_SOLUTION_DEX'
 KEY_TITLE = 'KEY_TITLE'
+KEY_TOPICS = 'KEY_TOPICS'
 KEY_UNIT = 'KEY_UNIT'
 KEY_UNIQUE = 'KEY_UNIQUE'
 KEY_WEBSITE = 'KEY_WEBSITE'
@@ -179,6 +184,10 @@ def set_key_explain_dex(parser):
   parser = parser.setName(KEY_EXPLAIN_DEX).setResultsName(KEY_EXPLAIN_DEX)
   return parser
 
+def set_key_folder(parser):
+  parser = parser.setName(KEY_FOLDER).setResultsName(KEY_FOLDER)
+  return parser
+
 def set_key_friends(parser):
   parser = parser.setName(KEY_FRIENDS).setResultsName(KEY_FRIENDS)
   return parser
@@ -205,6 +214,10 @@ def set_key_joker(parser):
 
 def set_key_info(parser):
   parser = parser.setName(KEY_INFO).setResultsName(KEY_INFO)
+  return parser
+
+def set_key_instance(parser):
+  parser = parser.setName(KEY_INSTANCE).setResultsName(KEY_INSTANCE)
   return parser
 
 def set_key_intro(parser):
@@ -237,6 +250,14 @@ def set_key_picture(parser):
 
 def set_key_points(parser):
   parser = parser.setName(KEY_POINTS).setResultsName(KEY_POINTS)
+  return parser
+
+def set_key_problem(parser):
+  parser = parser.setName(KEY_PROBLEM).setResultsName(KEY_PROBLEM)
+  return parser
+
+def set_key_problemset(parser):
+  parser = parser.setName(KEY_PROBLEMSET).setResultsName(KEY_PROBLEMSET)
   return parser
 
 def set_key_provides_book(parser):
@@ -305,6 +326,10 @@ def set_key_solution_dex(parser):
 
 def set_key_title(parser):
   parser = parser.setName(KEY_TITLE).setResultsName(KEY_TITLE)
+  return parser
+
+def set_key_topics(parser):
+  parser = parser.setName(KEY_TOPICS).setResultsName(KEY_TOPICS)
   return parser
 
 def set_key_unique(parser):

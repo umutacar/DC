@@ -151,12 +151,15 @@ com_answer = pp.Literal(dex.COM_ANSWER)
 com_authors = pp.Literal(dex.COM_AUTHORS).suppress()
 # begin is used in pp.Skip so cannot bu suppresed it seems
 com_begin = pp.Literal(COM_BEGIN)
+com_course = pp.Literal(dex.COM_COURSE).suppress()
 com_course_number = pp.Literal(dex.COM_COURSE_NUMBER).suppress()
 com_duedate = pp.Literal(dex.COM_DUEDATE).suppress()
 com_document_class = pp.Literal(dex.COM_DOCUMENT_CLASS)
 com_end = pp.Literal(COM_END).suppress()
 com_explain = pp.Literal(dex.COM_EXPLAIN)
+com_folder = pp.Literal(dex.COM_FOLDER)
 com_hint = pp.Literal(dex.COM_HINT)
+com_instance = pp.Literal(dex.COM_INSTANCE)
 com_no = pp.Literal(COM_NO).suppress()
 com_picture = pp.Literal(dex.COM_PICTURE).suppress()
 #  Used in pp.Skip, so this probably can't be suppressed 
@@ -172,6 +175,7 @@ com_provides_unit = pp.Literal(dex.COM_PROVIDES_UNIT).suppress()
 com_semester = pp.Literal(dex.COM_SEMESTER).suppress()
 #com_solution = pp.Literal(dex.COM_SOLUTION)
 com_title = pp.Literal(dex.COM_TITLE).suppress()
+com_topics = pp.Literal(dex.COM_TOPICS).suppress()
 com_unique = pp.Literal(COM_UNIQUE).suppress()
 com_website = pp.Literal(dex.COM_WEBSITE).suppress()
 com_begin_problemfr = pp.Literal(mk_str_begin(dex.PROBLEM_FR))
@@ -422,6 +426,78 @@ class Parser:
     (label, no, un, parents) = self.mk_parser_lnup()
     return (begin, end, title, label, no, un, parents)
 
+
+  # Make begin & end keywords, title
+  def mk_parsers_common_pset(self, dex_name, block_name): 
+    dex_name = dex.PROBLEMSET
+    block_name = Block.PROBLEMSET
+
+    def process_begin(x):
+      result = self.process_block_begin(block_name,x[0])
+      return result
+
+    def process_end(x):
+      result = self.process_block_end(block_name,x[0])
+      return result
+
+    
+    begin = mk_parser_begin(dex_name)
+    begin = begin.setParseAction(process_begin)
+    begin = tokens.set_key_begin(begin)
+
+    end = mk_parser_end(dex_name)
+    end = end.setParseAction(curry(self.process_block_end, block_name))
+    end = end.setParseAction(process_end)
+    end = tokens.set_key_end(end)
+
+    ## TODO: blend the following in
+    ## For lists such as topics and such you can probably use
+    ## naive pyhon parser to split the items into lists at spaces or punctionations
+
+    
+    # we will stop if \begin{answer} is seen
+    kw_begin = pp.Literal(COM_BEGIN)
+
+    # stoppers
+    stoppers = kw_begin | end | com_course | com_instance | com_folder | com_title | com_points | com_topics | com_prompt 
+    course = com_course.suppress() + self.mk_parser_text_block (stoppers)
+    course = tokens.set_key_course(course)
+    course.setParseAction(lambda x: x[0])
+    course.setDebug()
+
+    instance = com_instance.suppress() + self.mk_parser_text_block (stoppers)
+    instance = tokens.set_key_instance(instance)
+    instance.setParseAction(lambda x: x[0])
+    instance.setDebug()
+
+    folder = com_folder.suppress() + self.mk_parser_text_block (stoppers)
+    folder = tokens.set_key_folder(folder)
+    folder.setParseAction(lambda x: x[0])
+    folder.setDebug()
+
+    title = com_title.suppress() + self.mk_parser_text_block (stoppers)
+    title = tokens.set_key_title(title)
+    title.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+    title.setDebug()
+
+    points = com_points.suppress() + self.mk_parser_text_block (stoppers)
+    points = tokens.set_key_points(points)
+    points.setParseAction(lambda x: x[0])
+    points.setDebug()
+    
+    topics = com_topics.suppress() + self.mk_parser_text_block (stoppers)
+    topics = tokens.set_key_topics(topics)
+    topics.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+    topics.setDebug()
+
+    prompt = com_prompt.suppress() + self.mk_parser_text_block (stoppers)
+    prompt = tokens.set_key_prompt(prompt)
+    prompt.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+    prompt.setDebug()
+
+    return (begin, end, course, instance, folder, points,  prompt, title, topics)
+    
+  
   # Parser for course
   def mk_parser_course (self):
     document_class = com_document_class
@@ -530,23 +606,25 @@ class Parser:
 
   # Parser for problemsets
   def mk_parser_problemset (self):
-    # only begin, end, title will be used
-    (begin, end, title, __label, __no, __unique, __parents) = self.mk_parsers_common (dex.PROBLEMSET, Block.PROBLEMSET)
-
+    (begin, end, course, instance, folder, points,  prompt, title, topics) = self.mk_parsers_common_pset (dex.PROBLEMSET, Block.PROBLEMSET)
+    
     contents = tokens.set_key_contents(self.exp_problems)
 #    contents.setDebug()
 
     problemset = \
       begin + \
-      title + \
-      contents + \
+      course + \
+      instance + \
+      folder + \
+      (points & title & topics) + \
+      prompt + \
       end
    
     problemset = tokens.set_key_problemset(problemset)
-    checkpoint.setParseAction(self.process_problemset)
+    problemset.setParseAction(self.process_problemset)
 
     return problemset
-
+  
 
   # Parser for chapter
   def mk_parser_chapter (self):
@@ -1201,6 +1279,7 @@ class Parser:
     self.process_problem_fr = process_problem_fr
     self.process_problem_ma = process_problem_ma
     self.process_problem_mc = process_problem_mc
+    self.process_checkpoint = process_problemset
     self.process_problemset = process_problemset
     self.process_assignment = process_assignment
     self.process_asstproblem = process_asstproblem
@@ -1321,8 +1400,12 @@ class Parser:
     self.exp_elements = pp.ZeroOrMore(self.exp_atom | self.exp_group)
     self.exp_elements.setParseAction(lambda x: '\n'.join(x.asList()))
 
+    # checkpoint expressions
+    self.exp_checkpoint = self.mk_parser_checkpoint()
+
+    
     # problemset expressions
-    self.exp_problemset = self.mk_parser_problemset()
+    self.exp_pset = self.mk_parser_problemset()
 
     # asstproblem expression
     self.exp_asstproblem = self.mk_parser_asstproblem()
@@ -1372,7 +1455,7 @@ class Parser:
     # IMPORTANT: book is not nested inside a course
     # See book parser for details.
 
-    self.document = self.exp_course + self.exp_book + kw_string_end
+    self.document = self.exp_course + self.exp_book + kw_string_end | self.exp_pset + kw_string_end
 
     # Various modifiers
     self.document = self.document.ignore(latex_comment)
