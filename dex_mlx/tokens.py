@@ -451,6 +451,13 @@ def get_explain(toks):
     result = KW_NO_EXPLAIN
   return result
 
+def get_folder(toks):
+  try:
+    result = toks[KEY_FOLDER]
+  except KeyError:
+    result = KW_NO_FOLDER
+  return result
+
 def get_group(toks):
   return toks[KEY_GROUP]
 
@@ -468,12 +475,18 @@ def get_info(toks):
     result = KW_NO_INFO
   return result
 
+def get_instance(toks):
+  try:
+    result = toks[KEY_INSTANCE]
+  except KeyError:
+    result = KW_NO_INSTANCE
+  return result
+
 def get_intro(toks):
   try:
     result = toks[KEY_INTRO]
   except KeyError:
     result = KW_NO_INTRO
-
   return result
 
 def get_joker(toks):
@@ -581,6 +594,13 @@ def get_prompt(toks):
   result = toks[KEY_PROMPT]
   return result
 
+def get_topics(toks):
+  try:
+    result = toks[KEY_TOPICS]
+  except KeyError:
+    result = KW_NO_TOPICS
+  return result
+
 
 def get_checkpoint(toks):
   try:
@@ -657,6 +677,13 @@ def get_website(toks):
 def get_title(toks):
   try:
     title = toks[KEY_TITLE][0]
+  except KeyError:
+    title = KW_UNTITLED
+  return title
+
+def get_title_force(toks):
+  try:
+    title = toks[KEY_TITLE]
   except KeyError:
     title = KW_UNTITLED
   return title

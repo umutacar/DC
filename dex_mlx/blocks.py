@@ -83,6 +83,21 @@ def extract_common(toks):
 #  print 'extract: unique:', unique
   return (title,  label, no, unique, parents)
 
+def extract_common_pset (toks):
+  course_number = tokens.get_course_number(toks)
+  instance = tokens.get_instance(toks)
+  folder = tokens.get_folder(toks)
+  title = tokens.get_title_force(toks)
+  points = tokens.get_points(toks)
+  topics = tokens.get_topics(toks)
+  prompt = tokens.get_prompt(toks)  
+
+  unique = tokens.get_unique(toks)
+#  print 'label:', label
+  print 'title:', title
+#  print 'extract: unique:', unique
+  return (course_number, instance, folder,  points, prompt, title, topics)
+
 def mk_str_generic(block_name, title, label, no, unique, parents, contents): 
   if contents:
     contents = contents.strip() + NEWLINE
@@ -97,6 +112,24 @@ def mk_str_generic(block_name, title, label, no, unique, parents, contents):
            dex.mk_str_parents (parents) + NEWLINE + NEWLINE + \
            contents + \
            dex.mk_str_end(block_name)
+  return result
+
+def mk_str_pset(pset): 
+  if pset.contents:
+    contents = pset.contents.strip() + NEWLINE
+  else:
+    contents = ''
+  result = NEWLINE + \
+           dex.mk_str_begin(dex.PROBLEMSET) +  NEWLINE + \
+           dex.mk_str_course(pset.course)  + NEWLINE + \
+           dex.mk_str_instance(pset.instance)  + NEWLINE + \
+           dex.mk_str_folder(pset.folder)  + NEWLINE + \
+           dex.mk_str_title_noarg(pset.title)  + NEWLINE + \
+           dex.mk_str_points(pset.points)  + NEWLINE + \
+           dex.mk_str_topics(pset.topics)  + NEWLINE + \
+           dex.mk_str_prompt(pset.prompt)  + NEWLINE + \
+           contents + \
+           dex.mk_str_end(dex.PROBLEMSET)
   return result
 
 # def mk_mlx_str_fields_common (title, label, no, unique, parents):
@@ -422,7 +455,7 @@ class Checkpoint:
 ## Problemset
 class ProblemSet:
   def __init__(self, toks):
-    (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
+    (self.course, self.instance, self.folder,  self.points, self.prompt, self.title, self.topics) = extract_common_pset(toks)
     self.contents = tokens.get_contents(toks) 
 
   def mk_unique (self):
@@ -442,7 +475,7 @@ class ProblemSet:
     return n
 
   def to_string (self): 
-    result = mk_str_generic (dex.PROBLEMSET, self.title, self.label, self.no, self.unique, self.parents, self.contents)
+    result = mk_str_pset (self)
     return result
 
   def to_mlx_string (self):

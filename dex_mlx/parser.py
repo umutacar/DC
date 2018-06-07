@@ -461,7 +461,7 @@ class Parser:
     # stoppers
     stoppers = kw_begin | end | com_course | com_instance | com_folder | com_title | com_points | com_topics | com_prompt 
     course = com_course.suppress() + self.mk_parser_text_block (stoppers)
-    course = tokens.set_key_course(course)
+    course = tokens.set_key_course_number(course)
     course.setParseAction(lambda x: x[0])
     course.setDebug()
 
@@ -618,6 +618,7 @@ class Parser:
       folder + \
       (points & title & topics) + \
       prompt + \
+      contents + \
       end
    
     problemset = tokens.set_key_problemset(problemset)
@@ -1744,11 +1745,17 @@ def main(argv):
              data)
 
   # The result consists of a course and a book
-  course = result[0]
-  book = result[1]
-  outfile.write(course + NEWLINE + book + NEWLINE)
-  outfile.close()
-  print 'Parsed code written into file:', outfile_name
+  if len(result) == 1:
+    problemset = result[0]
+    outfile.write(problemset + NEWLINE)
+    outfile.close()
+    print 'Parsed code written into file:', outfile_name
+  else:
+    course = result[0]
+    book = result[1]
+    outfile.write(course + NEWLINE + book + NEWLINE)
+    outfile.close()
+    print 'Parsed code written into file:', outfile_name
 
 if __name__ == '__main__':
     main(sys.argv)

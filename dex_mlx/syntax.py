@@ -105,6 +105,10 @@ def mk_str_choices(xs):
   result = '\n'.join(ys)
   return result
 
+def mk_str_course(number):
+  result = COM_COURSE + SPACE + number 
+  return result 
+
 def mk_str_course_number(number):
   result = COM_COURSE_NUMBER + mk_str_arg(number) 
   return result 
@@ -122,6 +126,11 @@ def mk_str_explain(x):
   result = COM_EXPLAIN + NEWLINE + x
   return result
 
+def mk_str_folder(x): 
+  x = x.strip()
+  result = COM_FOLDER + SPACE + x
+  return result
+
 def mk_str_hint(x): 
   x = x.strip()
   result = COM_HINT + NEWLINE + x
@@ -130,6 +139,11 @@ def mk_str_hint(x):
 def mk_str_info(x):
   x = x.strip()
   result = COM_INFO + NEWLINE + x
+  return result
+
+def mk_str_instance(x):
+  x = x.strip()
+  result = COM_INSTANCE + SPACE + x
   return result
 
 def mk_str_no(x): 
@@ -197,6 +211,14 @@ def mk_str_solution(x):
 
 def mk_str_title(title):
   result = COM_TITLE + mk_str_arg(title)
+  return result
+
+def mk_str_title_noarg(title):
+  result = COM_TITLE + SPACE + title
+  return result
+
+def mk_str_topics(topics):
+  result = COM_TOPICS + SPACE + topics
   return result 
 
 def mk_str_opt_arg_title(title):
