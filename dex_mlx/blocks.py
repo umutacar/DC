@@ -157,6 +157,24 @@ def mk_mlx_str_fields_common (title, label, no, unique, parents, convert_title):
        mlx.mk_str_parents (parents)]
   return r
 
+def mk_mlx_str_pset(pset): 
+  if pset.contents:
+    contents = pset.contents.strip() + NEWLINE
+  else:
+    contents = ''
+  result = NEWLINE + \
+           mlx.mk_str_begin(dex.PROBLEMSET) +  NEWLINE + \
+           mlx.mk_str_course(pset.course)  + NEWLINE + \
+           mlx.mk_str_instance(pset.instance)  + NEWLINE + \
+           mlx.mk_str_folder(pset.folder)  + NEWLINE + \
+           mlx.mk_str_title(pset.title)  + NEWLINE + \
+           mlx.mk_str_points(pset.points)  + NEWLINE + \
+           mlx.mk_str_topics(pset.topics)  + NEWLINE + \
+           mlx.mk_str_prompt(pset.prompt)  + NEWLINE + \
+           contents + \
+           mlx.mk_str_end(dex.PROBLEMSET)
+  return result
+
 def mk_mlx_bodies (unique, body):
   body_dex = mlx.mk_str_body_dex(body)
   body_html = mlx.mk_str_body(Tex2Html.translate(unique+pos.BODY_EXTENSION, body, False))
@@ -1115,6 +1133,204 @@ class ProblemMC:
 
     return NEWLINE + r
 
+## Question_FR
+class QuestionFR:
+  def __init__(self, toks):
+    (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
+    self.points = tokens.get_points(toks) 
+    self.prompt = tokens.get_prompt(toks)
+    self.hint = tokens.get_hint(toks) 
+# simple answer are converted to answer blocks.
+#    self.ans = tokens.get_ans(toks)
+#    self.explain = tokens.get_explain(toks) 
+    self.answers = tokens.get_answers(toks) 
+#    print 'questionfr: answers:', self.answers
+
+  def mk_unique (self):
+    u = uniques.mk_unique_question_fr ()
+#    print 'question.mk_unique:', u
+    return u
+
+  def mk_label (self): 
+    if valid_label(self.label):
+      return KW_PREFIX_QUESTION_FR_LABEL + COLON + self.mk_unique() + COLON + self.label
+    else:
+      return KW_PREFIX_QUESTION_FR_LABEL + COLON + self.mk_unique()
+
+  def mk_no (self):
+    n = uniques.get_question ()
+#    print 'question.mk_no:', n
+    return n
+
+  def to_string (self): 
+    contents = dex.mk_str_points(self.points) + NEWLINE + \
+               dex.mk_str_prompt(self.prompt) + NEWLINE + \
+               dex.mk_str_hint(self.hint) + NEWLINE + \
+               self.answers
+
+    result = mk_str_generic (dex.QUESTION_FR, self.title, self.label, self.no, self.unique, self.parents, contents)
+    return result
+
+
+  def to_mlx_string (self): 
+    # Common fields
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+
+    # points
+    points = mlx.mk_str_points(self.points)
+
+    # prompt
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+
+    # hint
+    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+
+    # ### BEGIN :DELETE THIS
+    # # explain
+    # (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
+
+    # # solution - @umut - I changed self.solution here to self.ans for the code to compile
+    # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
+    # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+pos.SOLUTION_EXTENSION, self.ans, False))
+
+    # ### END:Q DELETE THIS
+    
+    # put all fields together
+    fields.extend([points, prompt_html, prompt_dex, \
+                   hint_html, hint_dex, self.answers])
+
+    # make the block
+    r = mlx.mk_str_question_fr(fields)
+
+    return  NEWLINE + r
+
+
+## Question_ma
+## TODO THIS NEEDS WORK CURRENTL COPY OF MC
+class QuestionMA:
+  def __init__(self, toks):
+    (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
+    self.points = tokens.get_points(toks) 
+#    print 'questionmc: self.points', self.points
+    self.prompt = tokens.get_prompt(toks)
+    self.hint = tokens.get_hint(toks) 
+    self.selects = tokens.get_selects(toks) 
+#    print 'questionmc: self.selects', self.selects
+
+  def mk_unique (self):
+    u = uniques.mk_unique_question_ma ()
+#    print 'questionma.mk_unique:', u
+    return u
+
+  def mk_label (self): 
+    if valid_label(self.label):
+      return KW_PREFIX_QUESTION_MA_LABEL + COLON + self.mk_unique() + COLON + self.label
+    else:
+      return KW_PREFIX_QUESTION_MA_LABEL + COLON + self.mk_unique()
+
+  def mk_no (self):
+    n = uniques.get_question ()
+#    print 'question.mk_no:', n
+    return n
+
+  def to_string (self): 
+    contents = dex.mk_str_points(self.points) + NEWLINE + \
+               dex.mk_str_prompt(self.prompt) + NEWLINE + \
+               dex.mk_str_hint(self.hint) + NEWLINE + \
+               self.selects
+
+
+    result = mk_str_generic (dex.QUESTION_MA, self.title, self.label, self.no, self.unique, self.parents, contents)
+    return result
+
+
+  def to_mlx_string (self): 
+    # Common fields
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+
+    # points
+    points = mlx.mk_str_points(self.points)
+
+    # prompt
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+
+    # hint
+    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+
+
+    fields.extend([points, prompt_html, prompt_dex, \
+                   hint_html, hint_dex, \
+                   self.selects])
+
+    # make the block
+    r = mlx.mk_str_question_ma(fields)
+
+    return NEWLINE + r
+
+## Question_Mc
+class QuestionMC:
+  def __init__(self, toks):
+    (self.title, self.label, self.no, self.unique, self.parents) = extract_common(toks)
+    self.points = tokens.get_points(toks) 
+#    print 'questionmc: self.points', self.points
+    self.prompt = tokens.get_prompt(toks)
+    self.hint = tokens.get_hint(toks) 
+    self.choices = tokens.get_choices(toks) 
+#    print 'questionmc: self.choices', self.choices
+
+  def mk_unique (self):
+    u = uniques.mk_unique_question_mc ()
+#    print 'questionmc.mk_unique:', u
+    return u
+
+  def mk_label (self): 
+    if valid_label(self.label):
+      return KW_PREFIX_QUESTION_MC_LABEL + COLON + self.mk_unique() + COLON + self.label
+    else:
+      return KW_PREFIX_QUESTION_MC_LABEL + COLON + self.mk_unique()
+
+  def mk_no (self):
+    n = uniques.get_question ()
+#    print 'question.mk_no:', n
+    return n
+
+  def to_string (self): 
+    contents = dex.mk_str_points(self.points) + NEWLINE + \
+               dex.mk_str_prompt(self.prompt) + NEWLINE + \
+               dex.mk_str_hint(self.hint) + NEWLINE + \
+               self.choices
+
+    result = mk_str_generic (dex.QUESTION_MC, self.title, self.label, self.no, self.unique, self.parents, contents)
+    return result
+
+
+  def to_mlx_string (self): 
+    # Common fields
+    fields = mk_mlx_str_fields_common(self.title, self.label, self.no, self.unique, self.parents, True)
+
+    # points
+    points = mlx.mk_str_points(self.points)
+
+    # prompt
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    
+    # hint
+    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+
+    # put all fields together
+    fields.extend([points, prompt_html, prompt_dex, \
+                   hint_html, hint_dex, \
+                   self.choices])
+
+    # make the block
+    r = mlx.mk_str_question_mc(fields)
+
+    return NEWLINE + r
+
+## END: block classes
+######################################################################
+
+
 ## END: block classes
 ######################################################################
 
@@ -1182,6 +1398,21 @@ def section_to_string(toks):
 def unit_to_string(toks): 
   block = Unit(toks)
   print '    matched unit', '[', block.title, '].'
+  return block.to_string()
+
+def question_fr_to_string(toks): 
+  print '        matched question_fr.'
+  block = QuestionFR(toks)
+  return block.to_string()
+
+def question_ma_to_string(toks): 
+  print '        matched question_ma.'
+  block = QuestionMA(toks)
+  return block.to_string()
+
+def question_mc_to_string(toks): 
+  print '        matched question_mc.'
+  block = QuestionMC(toks)
   return block.to_string()
 
 def problem_fr_to_string(toks): 

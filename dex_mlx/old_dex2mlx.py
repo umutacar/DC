@@ -208,9 +208,9 @@ def parse (process_algo, \
            data):
 
   ## Make parser, no's, labels, not optional
-  labels_optional = True
-  nos_optional = True
-  uniques_optional = True
+  labels_optional = False
+  nos_optional = False
+  uniques_optional = False
   parents_optional = True
   titles_optional = True
   course_label_on = True
@@ -294,7 +294,9 @@ def main(argv):
   print "latex_preamble_name:", latex_preamble_name
 
   (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
-  mlxfile_name = infile_name_first + pervasives.os.MLX_EXTENSION
+  (dex_file_name_first, xxx) = infile_name.split(pervasives.os.ELABORATED) 
+#  mlxfile_name = infile_name_first + pervasives.os.MLX_EXTENSION
+  mlxfile_name = dex_file_name_first + pervasives.os.MLX_EXTENSION
   print "mlxfile_name:", mlxfile_name
   infile = open(infile_name, 'r')
   mlxfile = open(mlxfile_name, 'w')
