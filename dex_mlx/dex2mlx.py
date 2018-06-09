@@ -22,7 +22,7 @@ import blocks as blocks
 COURSE_NUMBER = 0
 
 ## MLX Preamble
-MLX_PREAMBLE = '<?xml version='1.0' encoding='UTF-8'?>'
+MLX_PREAMBLE = '<?xml version="1.0" encoding="UTF-8"?>'
 
 
 # These are not used but for future reference. 

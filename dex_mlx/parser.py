@@ -160,7 +160,6 @@ com_explain = pp.Literal(dex.COM_EXPLAIN)
 com_folder = pp.Literal(dex.COM_FOLDER)
 com_hint = pp.Literal(dex.COM_HINT)
 com_instance = pp.Literal(dex.COM_INSTANCE)
-com_no = pp.Literal(COM_NO).suppress()
 com_picture = pp.Literal(dex.COM_PICTURE).suppress()
 #  Used in pp.Skip, so this probably can't be suppressed 
 com_points = pp.Literal(dex.COM_POINTS)
@@ -176,7 +175,6 @@ com_semester = pp.Literal(dex.COM_SEMESTER).suppress()
 #com_solution = pp.Literal(dex.COM_SOLUTION)
 com_title = pp.Literal(dex.COM_TITLE).suppress()
 com_topics = pp.Literal(dex.COM_TOPICS).suppress()
-com_unique = pp.Literal(COM_UNIQUE).suppress()
 com_website = pp.Literal(dex.COM_WEBSITE).suppress()
 com_begin_problemfr = pp.Literal(mk_str_begin(dex.PROBLEM_FR))
 com_begin_problemmc = pp.Literal(mk_str_begin(dex.PROBLEM_MC))
@@ -307,86 +305,16 @@ class Parser:
 #    website.setDebug()
     return website
 
-  def mk_parser_lnp (self): 
-    if self.labels_optional: 
-      label = pp.Optional(exp_label)
-    else: 
-      label = exp_label
+  def mk_parser_lp (self): 
+    label = pp.Optional(exp_label)
     label = tokens.set_key_label(label)
 #    label = label.setDebug()
-
-    if self.uniques_optional: 
-      un = pp.Optional(self.exp_unique)
-    else: 
-      un = self.exp_unique
-    un = tokens.set_key_unique(un)
-#    no.setDebug()
 
     parents = pp.ZeroOrMore(exp_parent)
     parents = tokens.set_key_parents(parents)
 #    parents.setDebug()
 
-    return (label, no, parents)
-
-  # TODO: elim this
-  def mk_parser_no_deprecated (self):
-    no = com_no + mk_parser_arg(exp_number)
-    if self.nos_optional: 
-      no = pp.Optional(exp_number)
-    no = tokens.set_key_no(no)
-#    no.setDebug()
-    return no
-
-  ## TODO: elim this
-  def mk_parser_lup_deprecated (self): 
-    if self.labels_optional: 
-      label = pp.Optional(exp_label)
-    else: 
-      label = exp_label
-    label = tokens.set_key_label(label)
-#    label = label.setDebug()
-
-    if self.uniques_optional: 
-      un = pp.Optional(self.exp_unique)
-    else: 
-      un = self.exp_unique
-    un = tokens.set_key_unique(un)
-#    no.setDebug()
-
-    parents = pp.ZeroOrMore(exp_parent)
-    parents = tokens.set_key_parents(parents)
-#    parents.setDebug()
-
-    return (label, un, parents)
-
-  def mk_parser_lnup (self): 
-    if self.labels_optional: 
-      label = pp.Optional(exp_label)
-    else: 
-      label = exp_label
-    label = tokens.set_key_label(label)
-#    label = label.setDebug()
-
-    if self.nos_optional: 
-      no = pp.Optional(com_no + mk_parser_arg(exp_number))
-    else:
-      no = com_no + mk_parser_arg(exp_number)
-
-    no = tokens.set_key_no(no)
-#    no.setDebug()
-
-    if self.uniques_optional: 
-      un = pp.Optional(self.exp_unique)
-    else: 
-      un = self.exp_unique
-    un = tokens.set_key_unique(un)
-#    no.setDebug()
-
-    parents = pp.ZeroOrMore(exp_parent)
-    parents = tokens.set_key_parents(parents)
-#    parents.setDebug()
-
-    return (label, no, un, parents)
+    return (label, parents)
    
   # Make begin & end keywords, title
   def mk_parsers_common(self, dex_name, block_name): 
@@ -423,8 +351,8 @@ class Parser:
     title = tokens.set_key_title(title)
 #    title = title.setDebug()
 
-    (label, no, un, parents) = self.mk_parser_lnup()
-    return (begin, end, title, label, no, un, parents)
+    (label, parents) = self.mk_parser_lp()
+    return (begin, end, title, label, parents)
 
 
   # Make begin & end keywords, title
@@ -506,7 +434,7 @@ class Parser:
     title_latex = tokens.set_key_title(pp.Group(exp_title_latex))
     title = com_title + mk_parser_arg(title_latex)
 
-    (label, no, unique, parents) = self.mk_parser_lnup()
+    (label, parents) = self.mk_parser_lp()
  
     # course number
     number = tokens.set_key_course_number(exp_number)
@@ -541,7 +469,7 @@ class Parser:
     if self.course_label_on: 
       course =  document_class + \
                 title + \
-                (label & no & unique & parents) + \
+                (label & parents) + \
                 (course_number & \
                  picture & \
                  pb & pc & ps & pu & pa & \
@@ -552,7 +480,7 @@ class Parser:
     else: 
       course =  document_class + \
                 title + \
-                (no & unique & parents) + \
+                (parents) + \
                 (course_number & \
                  picture & \
                  pb & pc & ps & pu & pa & \
@@ -576,7 +504,7 @@ class Parser:
 #    title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
 
-    (label, no, unique, parents) = self.mk_parser_lnup()
+    (label, parents) = self.mk_parser_lp()
 #    label.setDebug()
 #    no.setDebug()
 #    parents.setDebug()
@@ -593,7 +521,7 @@ class Parser:
     # course can assign a contents key it without updating the book contents
     book = book_begin + \
            title + \
-           (label & no & unique & parents) + \
+           (label & parents) + \
            authors + \
            contents + \
            asst + \
@@ -629,7 +557,7 @@ class Parser:
 
   # Parser for chapter
   def mk_parser_chapter (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
     picture = self.mk_parser_picture ()
 
     begin_section = mk_parser_begin(dex.SECTION)
@@ -645,7 +573,7 @@ class Parser:
 
     chapter = begin + \
               title + \
-              (label & no & unique & parents) + \
+              (label & parents) + \
               picture + \
               intro + \
               contents + \
@@ -659,7 +587,7 @@ class Parser:
 
   # Parser for section
   def mk_parser_section (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.SECTION, Block.SECTION)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.SECTION, Block.SECTION)
     
     begin_unit = mk_parser_begin(dex.UNIT)
     # intro is the part up to the first unit
@@ -672,7 +600,7 @@ class Parser:
     contents = tokens.set_key_contents(self.exp_units)
 
     section = begin + title + \
-             (label & no & unique & parents) + \
+             (label & parents) + \
               intro + \
               contents + \
               end
@@ -684,14 +612,14 @@ class Parser:
 
   # Parser for group
   def mk_parser_group (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
 
     contents = self.exp_atoms
     contents = tokens.set_key_group_contents(contents)
  #   contents.setDebug()
     group = begin + \
             title + \
-            (label & no & unique & parents) + \
+            (label & parents) + \
             contents + \
             end
     group = tokens.set_key_group(group)
@@ -701,7 +629,7 @@ class Parser:
 
   # Parser for unit
   def mk_parser_unit (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.UNIT, Block.UNIT)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.UNIT, Block.UNIT)
 
     contents = tokens.set_key_contents(self.exp_elements)
 
@@ -710,7 +638,7 @@ class Parser:
 
     unit = begin + \
            title + \
-           (label & no & unique & parents) +\
+           (label & parents) +\
            contents + \
            checkpoint + \
            end
@@ -721,7 +649,7 @@ class Parser:
   
   # Parser for checkpoint
   def mk_parser_checkpoint (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.CHECKPOINT, Block.CHECKPOINT)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.CHECKPOINT, Block.CHECKPOINT)
 
     contents = tokens.set_key_contents(self.exp_problems)
 #    contents.setDebug()
@@ -729,7 +657,7 @@ class Parser:
     checkpoint = \
       begin + \
       title + \
-      (label & no & unique  & parents) + \
+      (label & parents) + \
       contents + \
       end
    
@@ -740,7 +668,7 @@ class Parser:
 
   # Make a parser for an assignment
   def mk_parser_assignment (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.ASSIGNMENT, Block.ASSIGNMENT)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ASSIGNMENT, Block.ASSIGNMENT)
 
     title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
@@ -754,7 +682,7 @@ class Parser:
 
     assignment = begin + \
                  title + \
-                 (label & no & unique & parents) + \
+                 (label & parents) + \
                  duedate + \
                  contents + \
                  end
@@ -764,7 +692,7 @@ class Parser:
 
   # Make a parser for a problem
   def mk_parser_asstproblem (self):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.ASSTPROBLEM, Block.ASSTPROBLEM)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ASSTPROBLEM, Block.ASSTPROBLEM)
 
     title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
@@ -778,7 +706,7 @@ class Parser:
 
     problem = begin + \
               title + \
-              (label & no & unique & parents) + \
+              (label & parents) + \
               info + \
               contents + \
               end
@@ -788,7 +716,7 @@ class Parser:
 
   # Make parser for an algorithm
   def mk_parser_algo (self, process_algo):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.ALGO, Block.ALGO)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ALGO, Block.ALGO)
 
 #    begin.setDebug()
 #    end.setDebug()
@@ -807,7 +735,7 @@ class Parser:
     # Algo cannot be nested
     algo = begin + \
            title + \
-           (label & no & unique & parents) + \
+           (label & parents) + \
            body + \
            end
     algo.setParseAction(process_algo)
@@ -815,7 +743,7 @@ class Parser:
 
   # Make parser for an atom
   def mk_parser_atom (self, atom_name, process_atom):
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (atom_name, Block.ATOM)
+    (begin, end, title, label, parents) = self.mk_parsers_common (atom_name, Block.ATOM)
 
     atom_end_str = mk_str_end(atom_name)
     atom_body = pp.SkipTo(atom_end_str) 
@@ -823,7 +751,7 @@ class Parser:
     # Atom's cannot be nested.
     atom = begin + \
            title + \
-           (label & no & unique & parents) + \
+           (label & parents) + \
            atom_body + \
            end
     atom.setParseAction(process_atom)
@@ -832,7 +760,7 @@ class Parser:
 
   # Make parser for an answer
   def mk_parser_answer (self, process_answer):
-    (begin, end, title__, label, no, unique, parents) = self.mk_parsers_common (dex.ANSWER, Block.ANSWER)
+    (begin, end, title__, label, parents) = self.mk_parsers_common (dex.ANSWER, Block.ANSWER)
 
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_number)
@@ -861,7 +789,7 @@ class Parser:
 #    explain.setDebug()
 
     answer = begin + points + \
-             (label & no & unique & parents) + \
+             (label & parents) + \
              title + \
              body + \
              explain + \
@@ -874,7 +802,7 @@ class Parser:
 
   # Make parser for a choice
   def mk_parser_choice (self, process_choice):
-    (begin, end, title__, label, no, unique, parents) = self.mk_parsers_common (dex.CHOICE, Block.CHOICE)
+    (begin, end, title__, label, parents) = self.mk_parsers_common (dex.CHOICE, Block.CHOICE)
 
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_integer_number)
@@ -903,7 +831,7 @@ class Parser:
 #    explain.setDebug()
 
     choice = begin + points + \
-             (label & no & unique & parents) + \
+             (label & parents) + \
              title + \
              body + \
              explain + \
@@ -916,7 +844,7 @@ class Parser:
 
   # Make parser for a select
   def mk_parser_select (self, process_select):
-    (begin, end, title__, label, no, unique, parents) = self.mk_parsers_common (dex.SELECT, Block.CHOICE)
+    (begin, end, title__, label, parents) = self.mk_parsers_common (dex.SELECT, Block.CHOICE)
 
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_integer_number)
@@ -945,7 +873,7 @@ class Parser:
 #    explain.setDebug()
 
     select = begin + points + \
-             (label & no & unique & parents) + \
+             (label & parents) + \
              title + \
              body + \
              explain + \
@@ -1064,7 +992,7 @@ class Parser:
   # Make parser for a free-form problem
   def mk_parser_problem_fr (self, process_problem_fr):
 
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.PROBLEM_FR, Block.PROBLEM)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_FR, Block.PROBLEM)
 
     (ans, choi__, choi_s__, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_problem_elements (dex.PROBLEM_FR)
 
@@ -1087,7 +1015,7 @@ class Parser:
     problem = \
       (begin + \
        title + \
-       (label & no & unique & parents) + \
+       (label & parents) + \
        (points & prompt & hint) + \
        answers + \
        end) \
@@ -1100,7 +1028,7 @@ class Parser:
   # Make parser for a multi-answer problems
   def mk_parser_problem_ma (self, process_problem_ma):
 
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.PROBLEM_MA, Block.PROBLEM)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_MA, Block.PROBLEM)
 
     (ans__, choi__, choi_s__, explain, hint, points, prompt, sel, sel_s) = self.mk_parser_problem_elements (dex.PROBLEM_MA)
 
@@ -1132,7 +1060,7 @@ class Parser:
     problem = \
       (begin + \
        title + \
-       (label & no & unique & parents) + \
+       (label & parents) + \
        (hint & points & prompt) + \
        selects + \
        end) \
@@ -1145,7 +1073,7 @@ class Parser:
   # Make parser for a multi-choice problems
   def mk_parser_problem_mc (self, process_problem_mc):
 
-    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.PROBLEM_MC, Block.PROBLEM)
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_MC, Block.PROBLEM)
 
     (ans__, choi, choi_s, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_problem_elements (dex.PROBLEM_MC)
 
@@ -1175,7 +1103,7 @@ class Parser:
     problem = \
       (begin + \
        title + \
-       (label & no & unique & parents) + \
+       (label & parents) + \
        (hint & points & prompt) + \
        choices + \
        end) \
@@ -1187,9 +1115,6 @@ class Parser:
 
 
   def __init__(self, \
-               labels_optional, \
-               nos_optional, \
-               uniques_optional, \
                parents_optional, \
                titles_optional, \
                course_label_on, \
@@ -1235,9 +1160,6 @@ class Parser:
                process_section, \
                process_unit):
 
-    self.labels_optional = labels_optional
-    self.nos_optional = nos_optional
-    self.uniques_optional = uniques_optional
     self.parents_optional = parents_optional
     self.titles_optional = titles_optional
     self.course_label_on = course_label_on
@@ -1289,9 +1211,6 @@ class Parser:
 
     # Parser for any begin keyword
     self.begin_any_atom = self.mk_parser_begin_any_atom()
-
-    # Make same basic parsers
-    self.exp_unique = com_unique + mk_parser_arg(exp_phrase_gram_latex)
 
     # answers
     self.exp_answer = self.mk_parser_answer(self.process_answer)
@@ -1471,7 +1390,7 @@ class Parser:
 ######################################################################
 ## BEGIN: parser maker
 
-def mk_uniform_parser (labels_optional, nos_optional, uniques_optional, \
+def mk_uniform_parser (\
                        parents_optional, titles_optional, \
                        course_label_on, \
                        process_block_begin, \
@@ -1493,9 +1412,6 @@ def mk_uniform_parser (labels_optional, nos_optional, uniques_optional, \
                        process_section, process_unit): 
 
   parser = Parser (\
-                        labels_optional, \
-                        nos_optional, \
-                        uniques_optional, \
                         parents_optional, \
                         titles_optional, \
                         course_label_on, \
@@ -1550,7 +1466,7 @@ def mk_uniform_parser (labels_optional, nos_optional, uniques_optional, \
 ######################################################################
 ## Begin: Parser function
 
-def parse (labels_optional, nos_optional, uniques_optional, parents_optional, titles_optional, \
+def parse (parents_optional, titles_optional, \
            course_label_on, \
            process_block_begin, \
            process_block_end, \
@@ -1568,7 +1484,7 @@ def parse (labels_optional, nos_optional, uniques_optional, parents_optional, ti
            process_section, process_unit, \
            data):
 
-  parser = mk_uniform_parser(labels_optional, nos_optional, uniques_optional, \
+  parser = mk_uniform_parser(\
                              parents_optional, titles_optional, \
                              course_label_on, \
                              process_block_begin, \
@@ -1653,56 +1569,27 @@ def process_block_end (this_block, toks):
   return toks
 
 def main(argv):
-  labels_optional = True
-  nos_optional = True
-  uniques_optional = True
   parents_optional = True
   titles_optional = True
   course_label_on = False
 
   if len(sys.argv) < 2: 
-    print 'Usage: dex_parser inputfile [course_label_on = False] [labels_optional = True] [nos_optional = True] [uniques_optional = True] '
+    print 'Usage: dex_parser inputfile [course_label_on = False]'
     sys.exit()
   elif len(sys.argv) == 2:
     course_label_on = False
-    labels_optional = True
-    nos_optional = True
-    uniques_optional = True
   elif len(sys.argv) == 3:
     print 'course_label_on = ',  sys.argv[2]
     course_label_on = (sys.argv[2] == KW_TRUE)
-    labels_optional = True
-    nos_optional = True
-    uniques_optional = True
-  elif len(sys.argv) == 4:
-    print 'course_label_on = ',  sys.argv[2]
-    print 'labels_optional = ',  sys.argv[3]
-    course_label_on = (sys.argv[2] == KW_TRUE)
-    labels_optional = (sys.argv[3] == KW_TRUE)
-    nos_optional = True
-    uniques_optional = True
-  elif len(sys.argv) == 5:
-    course_label_on = (sys.argv[2] == KW_TRUE)
-    labels_optional = (sys.argv[3] == KW_TRUE)
-    nos_optional = (sys.argv[4] == KW_TRUE)
-    uniques_optional = True
-  elif len(sys.argv) == 6:
-    course_label_on = (sys.argv[2] == KW_TRUE)
-    labels_optional = (sys.argv[3] == KW_TRUE)
-    nos_optional = (sys.argv[4] == KW_TRUE)
-    uniques_optional = (sys.argv[5] == KW_TRUE)
-
   else:
-    print 'Usage: dex_parser inputfile [course_label_on = False] [labels_optional = True] [nos_optional = True] [uniques_optional = True] '
+    print 'Usage: dex_parser inputfile [course_label_on = False]'
     sys.exit()
 
   print 'Executing:', sys.argv[0], str(sys.argv[1]), \
                       'course_label_on = ', course_label_on, \
-                      'titles_optional = ', titles_optional, \
-                      'labels_optional = ', labels_optional, \
-                      'nos_optional = ', nos_optional, \
-                      'parents_optional = ', parents_optional, \
-                      'uniques_optional = ', uniques_optional
+                      'titles_optional = ', titles_optional,\
+                        'parents_optional = ', parents_optional
+
 
   infile_name = sys.argv[1]
   # drop path stuff
@@ -1717,9 +1604,6 @@ def main(argv):
 
   # both labels and numbers are optional
   result = parse (\
-             labels_optional, \
-             nos_optional, \
-             uniques_optional, \
              parents_optional, \
              titles_optional, \
              course_label_on, \

@@ -1,11 +1,12 @@
 import sys    
+import os
+from pervasives.syntax import *
 
 # Common file extensions
 DEX_EXTENSION = '.dex'
 DIL_EXTENSION = '.dil'
 HTML_EXTENSION = '.html'
 LATEX_EXTENSION = '.tex'
-MLX_EXTENSION = '.mlx'
 PDF_EXTENSION = '.pdf'
 XML_EXTENSION = '.xml'
 
@@ -27,6 +28,7 @@ ELABORATED = '_ed'
 LOADED = '_loaded'
 PARSED = '_parsed'
 
+TMP_DIR = '/tmp/'
 ######################################################################
 ## DEBUG HANDLING
 
@@ -45,3 +47,29 @@ def set_stdout(debug_flag):
 
 def reset_stdout():
   sys.stdout = backup_stdout
+
+
+######################################################################
+## BEGIN: Run commands
+
+def run_command(command):
+  print 'Executing command:', command
+  result = os.system(command)
+  if result:
+    print 'Command did not complete successfully.\n Offending command was:\n', command
+    exit()
+
+def run_command_no_check(command):
+  print 'Executing command:', command
+  result = os.system(command)
+
+def rm_file (filename):
+  command = 'rm ./filename'
+  run_command_no_check(command)
+
+def mv_file_to_tmp (filename):
+  command = 'mv ' + PERIOD + SLASH + filename + SPACE + TMP_DIR
+  run_command_no_check(command)  
+  
+## END: Run commands
+######################################################################
