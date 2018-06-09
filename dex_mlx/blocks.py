@@ -18,7 +18,7 @@
 
 from pervasives.parser import *
 from pervasives.syntax import *
-import pervasives.os as pos
+import pervasives.os_utils as os_utils
 
 import syntax as dex
 import tokens as tokens
@@ -39,15 +39,25 @@ LATEX_FILES_DIR = './latex/latex_files/'
 # Default latex-to-html generator is None
 Tex2Html = None
 
-def init_latex2html (latex_preamble_file):
+INDEX = 0
+
+def init (latex_preamble_file):
   global Tex2Html
-  
+
+  INDEX = 0
   latex_postamble = r'\end{document}' + '\n'
 
   Tex2Html = latex2html.Latex2Html(\
                  TMP_DIR, \
                  latex_preamble_file, \
                  latex_postamble)
+
+
+def new_index ():
+  global INDEX
+
+  INDEX = INDEX + 1
+  return str(INDEX)
 
 ## END: Globals
 ######################################################################
@@ -114,11 +124,9 @@ def mk_str_pset(pset):
            dex.mk_str_end(dex.PROBLEMSET)
   return result
 
-
-def mk_mlx_str_fields_common (title, label, parents, convert_title):
-
+def mk_mlx_str_fields_common (index, title, label, parents, convert_title):
   if convert_title: 
-    title_html = mlx.mk_str_title(Tex2Html.translate(unique+pos.TITLE_EXTENSION, title, True))
+    title_html = mlx.mk_str_title(Tex2Html.translate(index+os_utils.TITLE_EXTENSION, title, True))
   else:
     title_html = mlx.mk_str_title(title)
 
@@ -130,7 +138,7 @@ def mk_mlx_str_fields_common (title, label, parents, convert_title):
        mlx.mk_str_parents (parents)]
   return r
 
-def mk_mlx_str_pset(pset): 
+def mk_mlx_str_pset(index, pset): 
   if pset.contents:
     contents = pset.contents.strip() + NEWLINE
   else:
@@ -150,36 +158,36 @@ def mk_mlx_str_pset(pset):
 
 def mk_mlx_bodies (index, body):
   body_dex = mlx.mk_str_body_dex(body)
-  body_html = mlx.mk_str_body(Tex2Html.translate(index+pos.BODY_EXTENSION, body, False))
+  body_html = mlx.mk_str_body(Tex2Html.translate(index+os_utils.BODY_EXTENSION, body, False))
   return (body_html, body_dex)
 
 def mk_mlx_explains (index, explain):
-  explain_html = mlx.mk_str_explain(Tex2Html.translate(index+pos.EXPLAIN_EXTENSION, explain, False))
+  explain_html = mlx.mk_str_explain(Tex2Html.translate(index+os_utils.EXPLAIN_EXTENSION, explain, False))
   explain_dex = mlx.mk_str_explain_dex(explain)
   return (explain_html, explain_dex)
 
 def mk_mlx_hints (index, hint):
   hint_dex = mlx.mk_str_hint_dex(hint)
-  hint_html = mlx.mk_str_hint(Tex2Html.translate(index+pos.HINT_EXTENSION, hint, False))
+  hint_html = mlx.mk_str_hint(Tex2Html.translate(index+os_utils.HINT_EXTENSION, hint, False))
   return (hint_html, hint_dex)
 
 def mk_mlx_infos (index, info):
-  info_html = mlx.mk_str_info(Tex2Html.translate(index + pos.INFO_EXTENSION, info, False))
+  info_html = mlx.mk_str_info(Tex2Html.translate(index + os_utils.INFO_EXTENSION, info, False))
   info_dex = mlx.mk_str_info_dex(info)
   return (info_html, info_dex)
 
 def mk_mlx_intros (index, intro):
-  intro_html = mlx.mk_str_intro(Tex2Html.translate(index+pos.INTRO_EXTENSION, intro, False))
+  intro_html = mlx.mk_str_intro(Tex2Html.translate(index+os_utils.INTRO_EXTENSION, intro, False))
   intro_dex = mlx.mk_str_intro_dex(intro)
   return (intro_html, intro_dex)
 
 def mk_mlx_prompts (index, prompt):
   prompt_dex = mlx.mk_str_prompt_dex(prompt)
-  prompt_html = mlx.mk_str_prompt(Tex2Html.translate(index+pos.PROMPT_EXTENSION, prompt, False))
+  prompt_html = mlx.mk_str_prompt(Tex2Html.translate(index+os_utils.PROMPT_EXTENSION, prompt, False))
   return (prompt_html, prompt_dex)
 
 def mk_mlx_titles (index, title):
-  title_html = mlx.mk_str_title(Tex2Html.translate(index+pos.TITLE_EXTENSION, title, True))
+  title_html = mlx.mk_str_title(Tex2Html.translate(index+os_utils.TITLE_EXTENSION, title, True))
   title_dex = mlx.mk_str_title_dex(title)
   return (title_html, title_dex)
 
@@ -196,6 +204,7 @@ def mk_mlx_titles (index, title):
 ## Books
 class Book:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.authors = tokens.get_authors(toks)
     self.contents = tokens.get_contents(toks)
@@ -221,7 +230,7 @@ class Book:
   
   def to_mlx_string (self):
     authors = mlx.mk_str_authors(self.authors)
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([authors, self.contents])
     if self.asst is not None:
       fields.extend([self.asst])
@@ -232,6 +241,7 @@ class Book:
 ## Chapters
 class Chapter:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.picture = tokens.get_picture(toks)
     self.intro = tokens.get_intro(toks)
@@ -251,9 +261,9 @@ class Chapter:
   def to_mlx_string (self):
     picture = mlx.mk_str_picture(self.picture)
     
-    (intro_html, intro_dex) = mk_mlx_intros (self.intro)
+    (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
 
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([picture, intro_html, intro_dex, self.contents])
 
     r = mlx.mk_str_chapter(fields)
@@ -262,7 +272,7 @@ class Chapter:
 ## Course
 class Course:
   def __init__(self, toks):
-
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common (toks)
     self.picture = tokens.get_picture(toks)
     self.provides_book = tokens.get_provides_book(toks)
@@ -281,12 +291,8 @@ class Course:
     # self.book is None by default
     self.book = None
 
-    # Set course label to be the number    
-    self.label = self.number
-
     # Set course no to be its number    
     self.no = self.number
-
 
   def to_string (self): 
     # in DEX, book is not part of a course.
@@ -323,8 +329,8 @@ class Course:
     provides_section = mlx.mk_str_provides_section(self.provides_section)
     provides_unit = mlx.mk_str_provides_unit(self.provides_unit)
     provides_assignment = mlx.mk_str_provides_assignment(self.provides_assignment)
-    (intro_html, intro_dex) = mk_mlx_intros (self.intro)
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([course_number, picture, semester, website, \
                    provides_book, provides_chapter, provides_section, provides_unit, provides_assignment, \
                    intro_html, intro_dex, self.book])
@@ -335,6 +341,7 @@ class Course:
 ## Group
 class Group:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
 
     # could be None
@@ -357,7 +364,7 @@ class Group:
 
   def to_mlx_string (self):
 #    print 'group: self.contents:', self.contents
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
     if self.contents:
       fields.extend([self.contents])
 
@@ -368,6 +375,7 @@ class Group:
 ## Checkpoint
 class Checkpoint:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.contents = tokens.get_contents(toks) 
 
@@ -382,7 +390,7 @@ class Checkpoint:
     contents = self.contents.strip()
 #    print 'checkpoint.to_mlx_string: contens: ', contents
 
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([contents])
     r = mlx.mk_str_checkpoint(fields)
     return NEWLINE + r
@@ -390,6 +398,7 @@ class Checkpoint:
 ## Problemset
 class ProblemSet:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.course, self.instance, self.folder,  self.points, self.prompt, self.title, self.topics) = extract_common_pset(toks)
     self.contents = tokens.get_contents(toks) 
 
@@ -404,7 +413,7 @@ class ProblemSet:
     contents = self.contents.strip()
 #    print 'problemset.to_mlx_string: contens: ', contents
 
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([contents])
     r = mlx.mk_str_problemset(fields)
     return NEWLINE + r
@@ -413,6 +422,7 @@ class ProblemSet:
 ## Assignment
 class Assignment:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.title = toks[1]
     self.duedate = tokens.get_duedate(toks)
@@ -435,7 +445,7 @@ class Assignment:
   def to_mlx_string (self):
     contents = self.contents.strip()
 
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     duedate = mlx.mk_str_duedate (self.duedate.strip())
     fields.extend([duedate, contents])
     r = mlx.mk_str_assignment(fields)
@@ -444,6 +454,7 @@ class Assignment:
 ## Problem
 class AsstProblem:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     # TODO: not sure if necessary
     self.title = toks[1]
@@ -465,16 +476,16 @@ class AsstProblem:
 
   def to_mlx_string (self):
     contents = self.contents.strip()
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
-    (info, info_dex) = mk_mlx_infos(self.unique, self.info)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
+    (info, info_dex) = mk_mlx_infos(self.index, self.unique, self.info)
     fields.extend([info, info_dex, contents])
     r = mlx.mk_str_asstproblem(fields)
     return NEWLINE + r
 
-
 ## Section
 class Section:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.intro = tokens.get_intro(toks)
     self.contents = tokens.get_contents(toks) 
@@ -488,9 +499,9 @@ class Section:
     return result
 
   def to_mlx_string (self):
-    (intro_html, intro_dex) = mk_mlx_intros (self.unique, self.intro)
+    (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
 
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([intro_html, intro_dex, self.contents])
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
@@ -498,6 +509,7 @@ class Section:
 ## Unit
 class Unit:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.contents = tokens.get_contents(toks)
     self.checkpoint = tokens.get_checkpoint(toks) 
@@ -513,7 +525,7 @@ class Unit:
 
   def to_mlx_string (self):
     contents = self.contents + NEWLINE + self.checkpoint
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, False)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
     fields.extend([contents])
     r = mlx.mk_str_unit(fields)
     return NEWLINE + r
@@ -522,6 +534,7 @@ class Unit:
 class Atom:
 
   def __init__(self, name, toks):
+    self.index = new_index ()
     self.name = name
     (self.title, self.label, self.parents) = extract_common(toks)
     self.contents =  tokens.get_body(toks) 
@@ -535,9 +548,9 @@ class Atom:
 
   def to_mlx_string (self, atom_name_mlx):
     contents =  self.contents
-    (contents_html, contents_dex) = mk_mlx_bodies(self.unique, contents)
+    (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
 
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
     fields.extend([contents_html, contents_dex])
     r = mlx.mk_str_block_atom(atom_name_mlx, fields)
     return NEWLINE + r
@@ -546,6 +559,7 @@ class Atom:
 class Algo:
 
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     # contents is a list of lines
     self.contents =  tokens.get_body(toks)
@@ -586,9 +600,9 @@ class Algo:
     
   def to_mlx_string (self):
     contents = NEWLINE.join(self.contents)
-    (title_html, title_dex) = mk_mlx_titles(self.unique, self.title)
-    (contents_html, contents_dex) = mk_mlx_bodies(self.unique, contents)
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    (title_html, title_dex) = mk_mlx_titles(self.index, self.unique, self.title)
+    (contents_html, contents_dex) = mk_mlx_bodies(self.index,  self.unique, contents)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
     fields.extend([contents_html, contents_dex])
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
     return NEWLINE + r
@@ -597,6 +611,7 @@ class Algo:
 ## Answers
 class Answer:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points_opt(toks)
     self.body = tokens.get_body(toks)
@@ -619,16 +634,16 @@ class Answer:
   def to_mlx_string (self): 
 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # body
-    (body_html, body_dex) = mk_mlx_bodies(self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.index,  self.unique, self.body)
     
     # explain
-    (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
@@ -638,6 +653,7 @@ class Answer:
 ## Choices
 class Choice:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.body = tokens.get_body(toks)
     self.explain = tokens.get_explain(toks)
@@ -662,15 +678,13 @@ class Choice:
   def to_mlx_string (self): 
 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
-
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
     # points
     points = mlx.mk_str_points(self.points)
-
     # body
-    (body_html, body_dex) = mk_mlx_bodies(self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.index,  self.unique, self.body)
     # explain
-    (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
@@ -680,6 +694,7 @@ class Choice:
 ## Selects
 class Select:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.body = tokens.get_body(toks)
     self.explain = tokens.get_explain(toks)
@@ -704,15 +719,13 @@ class Select:
   def to_mlx_string (self): 
 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
-
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
     # points
     points = mlx.mk_str_points(self.points)
-
     # body
-    (body_html, body_dex) = mk_mlx_bodies(self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.index,  self.unique, self.body)
     # explain
-    (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
@@ -724,6 +737,7 @@ class Select:
 ## Problem_FR
 class ProblemFR:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
     self.prompt = tokens.get_prompt(toks)
@@ -749,24 +763,24 @@ class ProblemFR:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
 
     # ### BEGIN :DELETE THIS
     # # explain
-    # (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
+    # (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
 
     # # solution - @umut - I changed self.solution here to self.ans for the code to compile
     # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
-    # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+pos.SOLUTION_EXTENSION, self.ans, False))
+    # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+os_utils.SOLUTION_EXTENSION, self.ans, False))
 
     # ### END:Q DELETE THIS
     
@@ -784,6 +798,7 @@ class ProblemFR:
 ## TODO THIS NEEDS WORK CURRENTL COPY OF MC
 class ProblemMA:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
 #    print 'problemmc: self.points', self.points
@@ -808,16 +823,16 @@ class ProblemMA:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
 
 
     fields.extend([points, prompt_html, prompt_dex, \
@@ -832,6 +847,7 @@ class ProblemMA:
 ## Problem_Mc
 class ProblemMC:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
 #    print 'problemmc: self.points', self.points
@@ -855,16 +871,16 @@ class ProblemMC:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
     
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
 
     # put all fields together
     fields.extend([points, prompt_html, prompt_dex, \
@@ -879,6 +895,7 @@ class ProblemMC:
 ## Question_FR
 class QuestionFR:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
     self.prompt = tokens.get_prompt(toks)
@@ -904,24 +921,24 @@ class QuestionFR:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
 
     # ### BEGIN :DELETE THIS
     # # explain
-    # (explain_html, explain_dex) = mk_mlx_explains(self.unique, self.explain)
+    # (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
 
     # # solution - @umut - I changed self.solution here to self.ans for the code to compile
     # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
-    # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+pos.SOLUTION_EXTENSION, self.ans, False))
+    # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+os_utils.SOLUTION_EXTENSION, self.ans, False))
 
     # ### END:Q DELETE THIS
     
@@ -939,6 +956,7 @@ class QuestionFR:
 ## TODO THIS NEEDS WORK CURRENTL COPY OF MC
 class QuestionMA:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
 #    print 'questionmc: self.points', self.points
@@ -963,16 +981,16 @@ class QuestionMA:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
 
 
     fields.extend([points, prompt_html, prompt_dex, \
@@ -987,6 +1005,7 @@ class QuestionMA:
 ## Question_Mc
 class QuestionMC:
   def __init__(self, toks):
+    self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.points = tokens.get_points(toks) 
 #    print 'questionmc: self.points', self.points
@@ -1010,16 +1029,16 @@ class QuestionMC:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self.title, self.label, self.parents, True)
+    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
 
     # points
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
     
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
 
     # put all fields together
     fields.extend([points, prompt_html, prompt_dex, \

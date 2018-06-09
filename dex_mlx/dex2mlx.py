@@ -5,7 +5,7 @@ import sys
 from functools import partial as curry
 import pyparsing as pp 
 
-import pervasives.os
+import pervasives.os_utils as os_utils
 from pervasives.parser import *
 from pervasives.syntax import *
 
@@ -17,9 +17,6 @@ import blocks as blocks
 
 ######################################################################
 ## BEGIN GLOBALS
-
-# used during mlx translation to locate course specif info and files
-COURSE_NUMBER = 0
 
 ## MLX Preamble
 MLX_PREAMBLE = '<?xml version="1.0" encoding="UTF-8"?>'
@@ -64,7 +61,6 @@ def process_chapter(process_label, toks):
   return r
 
 def process_course(process_label, toks): 
-  global COURSE_NUMBER
   print "course matched:"
 #  print "toks:", toks
 
@@ -217,9 +213,6 @@ def parse (process_algo, \
   course_label_on = True
 
   parser = dex_parser.Parser (\
-             labels_optional, \
-             nos_optional, \
-             uniques_optional, \
              parents_optional, \
              titles_optional, \
              course_label_on, \
@@ -295,14 +288,14 @@ def main(argv):
   print "latex_preamble_name:", latex_preamble_name
 
   (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
-  mlxfile_name = infile_name_first + pervasives.os.MLX_EXTENSION
+  mlxfile_name = infile_name_first + os_utils.MLX_EXTENSION
   print "mlxfile_name:", mlxfile_name
   infile = open(infile_name, 'r')
   mlxfile = open(mlxfile_name, 'w')
 
   data = infile.read ()
 
-  blocks.init_latex2html(latex_preamble_name)
+  blocks.init(latex_preamble_name)
 
   result = parse (
              process_algo, \

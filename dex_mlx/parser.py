@@ -442,7 +442,6 @@ class Parser:
     arg_course_number_curly = mk_parser_arg(number)
     course_number = com_course_number + arg_course_number_curly
 
-
     about = self.mk_parser_text_block(com_begin)
     about = pp.Optional(about)
     about = about.setParseAction(lambda x: x[0])

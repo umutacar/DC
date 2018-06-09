@@ -7,8 +7,10 @@ DEX_EXTENSION = '.dex'
 DIL_EXTENSION = '.dil'
 HTML_EXTENSION = '.html'
 LATEX_EXTENSION = '.tex'
+MLX_EXTENSION = '.mlx'
 PDF_EXTENSION = '.pdf'
 XML_EXTENSION = '.xml'
+
 
 # Common file prefixes
 INTRO_EXTENSION = ':intro'
