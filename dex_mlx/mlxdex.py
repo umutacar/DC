@@ -64,8 +64,9 @@ def main(argv):
   print 'Executing command:', command
   os.system(command)
 
-  # cp to Desktop
+  # rename and copy to Desktop
   os_utils.mv_file_to(outfile_mlx_elaborated, outfile_mlx)  
+  os_utils.cp_file_to(outfile_mlx, '~/Desktop/')  
 
   # cd to starting directory
   os.chdir(root_dir)
