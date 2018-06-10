@@ -31,6 +31,7 @@ LOADED = '_loaded'
 PARSED = '_parsed'
 
 TMP_DIR = '/tmp/'
+DESKTOP_DIR = '~/Desktop/'
 ######################################################################
 ## DEBUG HANDLING
 
@@ -72,6 +73,18 @@ def rm_file (filename):
 def mv_file_to_tmp (filename):
   command = 'mv ' + PERIOD + SLASH + filename + SPACE + TMP_DIR
   run_command_no_check(command)  
+
+def cp_file_to_desktop (filename):
+  command = 'mv ' + PERIOD + SLASH + filename + SPACE + DESKTOP_DIR
+  run_command_no_check(command)
+
+def cp_file_to (filename1, filename2):
+  command = 'cp ' + SPACE + filename1 + SPACE + filename2
+  run_command_no_check(command)
+
+def mv_file_to (filename1, filename2):
+  command = 'mv ' + SPACE + filename1 + SPACE + filename2
+  run_command_no_check(command)    
   
 ## END: Run commands
 ######################################################################
