@@ -12,10 +12,13 @@ COM_COURSE_NUMBER = r'\coursenumber'
 COM_DOCUMENT_CLASS = r'\documentclass{course}'
 COM_CHOICE = r'\choice'
 COM_CHOICE_S = r'\choice*'
+COM_COURSE = BACKSLASH + r'course'
 COM_DUEDATE = r'\duedate'
 COM_EXPLAIN = r'\explain'
+COM_FOLDER = BACKSLASH + r'folder'
 COM_HINT = r'\hint'
 COM_INFO = r'\info'
+COM_INSTANCE = BACKSLASH + r'instance'
 COM_NO = r'\no'
 COM_PICTURE = r'\picture'
 COM_POINTS = r'\points'
@@ -31,6 +34,9 @@ COM_SEMESTER = r'\semester'
 COM_SOLUTION = r'\solution'
 COM_WEBSITE = r'\website'
 COM_TITLE = r'\title'
+COM_TOPICS = BACKSLASH + r'topics'
+
+
 
 # block strings
 ABOUT = r'about'
@@ -38,12 +44,18 @@ ASSIGNMENT = r'assignment'
 ASSTPROBLEM = r'asstproblem'
 BOOK = r'book'
 CHAPTER = r'chapter'
+CHECKPOINT = r'checkpoint'
 CHOICE = r'choice'
 GROUP = r'group'
-QUESTION_FR = r'questionfr'
-QUESTION_MA = r'questionma'
-QUESTION_MC = r'questionmc'
-CHECKPOINT = r'checkpoint'
+
+#QUESTION_FR = r'questionfr'
+#QUESTION_MA = r'questionma'
+#QUESTION_MC = r'questionmc'
+
+PROBLEM_FR = r'problemfr'
+PROBLEM_MA = r'problemma'
+PROBLEM_MC = r'problemmc'
+PROBLEMSET = r'problemset'
 SELECT = r'select'
 SECTION = r'section'
 UNIT = r'unit'
@@ -93,6 +105,10 @@ def mk_str_choices(xs):
   result = '\n'.join(ys)
   return result
 
+def mk_str_course(number):
+  result = COM_COURSE + SPACE + number 
+  return result 
+
 def mk_str_course_number(number):
   result = COM_COURSE_NUMBER + mk_str_arg(number) 
   return result 
@@ -110,6 +126,11 @@ def mk_str_explain(x):
   result = COM_EXPLAIN + NEWLINE + x
   return result
 
+def mk_str_folder(x): 
+  x = x.strip()
+  result = COM_FOLDER + SPACE + x
+  return result
+
 def mk_str_hint(x): 
   x = x.strip()
   result = COM_HINT + NEWLINE + x
@@ -118,6 +139,11 @@ def mk_str_hint(x):
 def mk_str_info(x):
   x = x.strip()
   result = COM_INFO + NEWLINE + x
+  return result
+
+def mk_str_instance(x):
+  x = x.strip()
+  result = COM_INSTANCE + SPACE + x
   return result
 
 def mk_str_no(x): 
@@ -185,6 +211,14 @@ def mk_str_solution(x):
 
 def mk_str_title(title):
   result = COM_TITLE + mk_str_arg(title)
+  return result
+
+def mk_str_title_noarg(title):
+  result = COM_TITLE + SPACE + title
+  return result
+
+def mk_str_topics(topics):
+  result = COM_TOPICS + SPACE + topics
   return result 
 
 def mk_str_opt_arg_title(title):

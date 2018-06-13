@@ -5,7 +5,7 @@ import sys
 from functools import partial as curry
 import pyparsing as pp 
 
-import pervasives.os_utils as os_utils
+import pervasives.os
 from pervasives.parser import *
 from pervasives.syntax import *
 
@@ -18,9 +18,11 @@ import blocks as blocks
 ######################################################################
 ## BEGIN GLOBALS
 
-## MLX Preamble
-MLX_PREAMBLE = '<?xml version="1.0" encoding="UTF-8"?>'
+# used during mlx translation to locate course specif info and files
+COURSE_NUMBER = 0
 
+## MLX Preamble
+MLX_PREAMBLE = '<?xml version = "1.0"?>'
 
 # These are not used but for future reference. 
 DIDEROT_PREAMBLE = '<diderot: xmlns = "http://umut-acar.org/diderot">'
@@ -61,6 +63,7 @@ def process_chapter(process_label, toks):
   return r
 
 def process_course(process_label, toks): 
+  global COURSE_NUMBER
   print "course matched:"
 #  print "toks:", toks
 
@@ -205,14 +208,17 @@ def parse (process_algo, \
            data):
 
   ## Make parser, no's, labels, not optional
-  labels_optional = True
-  nos_optional = True
-  uniques_optional = True
+  labels_optional = False
+  nos_optional = False
+  uniques_optional = False
   parents_optional = True
   titles_optional = True
   course_label_on = True
 
   parser = dex_parser.Parser (\
+             labels_optional, \
+             nos_optional, \
+             uniques_optional, \
              parents_optional, \
              titles_optional, \
              course_label_on, \
@@ -288,14 +294,16 @@ def main(argv):
   print "latex_preamble_name:", latex_preamble_name
 
   (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
-  mlxfile_name = infile_name_first + os_utils.MLX_EXTENSION
+  (dex_file_name_first, xxx) = infile_name.split(pervasives.os.ELABORATED) 
+#  mlxfile_name = infile_name_first + pervasives.os.MLX_EXTENSION
+  mlxfile_name = dex_file_name_first + pervasives.os.MLX_EXTENSION
   print "mlxfile_name:", mlxfile_name
   infile = open(infile_name, 'r')
   mlxfile = open(mlxfile_name, 'w')
 
   data = infile.read ()
 
-  blocks.init(latex_preamble_name)
+  blocks.init_latex2html(latex_preamble_name)
 
   result = parse (
              process_algo, \

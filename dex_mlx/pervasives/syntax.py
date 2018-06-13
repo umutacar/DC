@@ -78,6 +78,7 @@ KW_NO_UNIQUE = KW_NOT_PROVIDED + 'UNIQUE...'
 KW_NO_WEBSITE = KW_NOT_PROVIDED + 'WEBSITE...' 
 
 # These are handled specially
+KW_NO_UNIQUE = '0'  # has to be a number still 
 KW_NO_NO = '0'  # has to be a number still 
 KW_NO_CHAPTER_PROVISION = '1'   # This is the initial for chapter counter
 KW_NO_SECTION_PROVISION = '1'   # This is the initial for section counter
@@ -103,23 +104,27 @@ KW_SECTION_TITLE_PREFIX = 'Section'
 KW_UNIT_TITLE_PREFIX = 'Unit'
 
 # Label prefixes
-KW_PREFIX_ANSWER_LABEL = 'answer'
-KW_PREFIX_ASSIGNMENT_LABEL = 'assignment'
-KW_PREFIX_ASSTPROBLEM_LABEL = 'asstproblem'
-KW_PREFIX_BOOK_LABEL = 'book'
-KW_PREFIX_CHAPTER_LABEL = 'chapter'
-KW_PREFIX_CHOICE_LABEL = 'choice'
-KW_PREFIX_SELECT_LABEL = 'select'
-KW_PREFIX_COURSE_LABEL = 'course'
-KW_PREFIX_SECTION_LABEL = 'section'
-KW_PREFIX_UNIT_LABEL = 'unit'
-KW_PREFIX_GROUP_LABEL = 'group'
-KW_PREFIX_CHECKPOINT_LABEL = 'checkpoint'
-KW_PREFIX_ATOM_LABEL = 'atom'
-KW_PREFIX_QUESTION_FR_LABEL = 'question_fr'
-KW_PREFIX_QUESTION_MA_LABEL = 'question_ma'
-KW_PREFIX_QUESTION_MC_LABEL = 'question_mc'
-
+KW_LABEL_PREFIX_ANSWER = 'answer'
+KW_LABEL_PREFIX_ASSIGNMENT = 'assignment'
+KW_LABEL_PREFIX_ASSTPROBLEM = 'asstproblem'
+KW_LABEL_PREFIX_ATOM = 'atom'
+KW_LABEL_PREFIX_BOOK = 'book'
+KW_LABEL_PREFIX_CHAPTER = 'chapter'
+KW_LABEL_PREFIX_CHOICE = 'choice'
+KW_LABEL_PREFIX_COURSE = 'course'
+KW_LABEL_PREFIX_GRAM = 'gram'
+KW_LABEL_PREFIX_GROUP = 'group'
+KW_LABEL_PREFIX_CHECKPOINT = 'checkpoint'
+KW_LABEL_PREFIX_PROBLEM_FR = 'problem_fr'
+KW_LABEL_PREFIX_PROBLEM_MA = 'problem_ma'
+KW_LABEL_PREFIX_PROBLEM_MC = 'problem_mc'
+KW_LABEL_PREFIX_QUESTION_FR = 'question_fr'
+KW_LABEL_PREFIX_QUESTION_MA = 'question_ma'
+KW_LABEL_PREFIX_QUESTION_MC = 'question_mc'
+KW_LABEL_PREFIX_SECTION = 'section'
+KW_LABEL_PREFIX_SELECT = 'select'
+KW_LABEL_PREFIX_SEMESTER = 'semester'
+KW_LABEL_PREFIX_UNIT = 'unit'
 
 ## Keywords, don't start with a backshlash
 KW_BOOK_NO = r'bookno'
@@ -135,6 +140,7 @@ KW_PROMPT = r'prompt'
 KW_POINTS = r'points'
 KW_TRUE = r'True'
 KW_UNIT_NO = r'unitno'
+
 
 
 ######################################################################
@@ -187,9 +193,14 @@ def sanitize_title (title):
 ######################################################################
 
 def missing_field(field_body):
+#  print 'missing_field: KW_NOT_PROVIDED = ', KW_NOT_PROVIDED
+#  print 'missing_field:', field_body[0:50]
+  field_body = field_body.strip()
   if KW_NOT_PROVIDED in field_body:
+#    print 'missing_field: True'
     return True
   else: 
+#    print 'missing_field: False'
     return False
 
 def valid_answer(answer):

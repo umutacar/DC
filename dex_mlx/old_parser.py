@@ -151,15 +151,13 @@ com_answer = pp.Literal(dex.COM_ANSWER)
 com_authors = pp.Literal(dex.COM_AUTHORS).suppress()
 # begin is used in pp.Skip so cannot bu suppresed it seems
 com_begin = pp.Literal(COM_BEGIN)
-com_course = pp.Literal(dex.COM_COURSE).suppress()
 com_course_number = pp.Literal(dex.COM_COURSE_NUMBER).suppress()
 com_duedate = pp.Literal(dex.COM_DUEDATE).suppress()
 com_document_class = pp.Literal(dex.COM_DOCUMENT_CLASS)
 com_end = pp.Literal(COM_END).suppress()
 com_explain = pp.Literal(dex.COM_EXPLAIN)
-com_folder = pp.Literal(dex.COM_FOLDER)
 com_hint = pp.Literal(dex.COM_HINT)
-com_instance = pp.Literal(dex.COM_INSTANCE)
+com_no = pp.Literal(COM_NO).suppress()
 com_picture = pp.Literal(dex.COM_PICTURE).suppress()
 #  Used in pp.Skip, so this probably can't be suppressed 
 com_points = pp.Literal(dex.COM_POINTS)
@@ -174,10 +172,10 @@ com_provides_unit = pp.Literal(dex.COM_PROVIDES_UNIT).suppress()
 com_semester = pp.Literal(dex.COM_SEMESTER).suppress()
 #com_solution = pp.Literal(dex.COM_SOLUTION)
 com_title = pp.Literal(dex.COM_TITLE).suppress()
-com_topics = pp.Literal(dex.COM_TOPICS).suppress()
+com_unique = pp.Literal(COM_UNIQUE).suppress()
 com_website = pp.Literal(dex.COM_WEBSITE).suppress()
-com_begin_problemfr = pp.Literal(mk_str_begin(dex.PROBLEM_FR))
-com_begin_problemmc = pp.Literal(mk_str_begin(dex.PROBLEM_MC))
+com_begin_questionfr = pp.Literal(mk_str_begin(dex.QUESTION_FR))
+com_begin_questionmc = pp.Literal(mk_str_begin(dex.QUESTION_MC))
 
 
 
@@ -305,16 +303,86 @@ class Parser:
 #    website.setDebug()
     return website
 
-  def mk_parser_lp (self): 
-    label = pp.Optional(exp_label)
+  def mk_parser_lnp (self): 
+    if self.labels_optional: 
+      label = pp.Optional(exp_label)
+    else: 
+      label = exp_label
     label = tokens.set_key_label(label)
 #    label = label.setDebug()
+
+    if self.uniques_optional: 
+      un = pp.Optional(self.exp_unique)
+    else: 
+      un = self.exp_unique
+    un = tokens.set_key_unique(un)
+#    no.setDebug()
 
     parents = pp.ZeroOrMore(exp_parent)
     parents = tokens.set_key_parents(parents)
 #    parents.setDebug()
 
-    return (label, parents)
+    return (label, no, parents)
+
+  # TODO: elim this
+  def mk_parser_no_deprecated (self):
+    no = com_no + mk_parser_arg(exp_number)
+    if self.nos_optional: 
+      no = pp.Optional(exp_number)
+    no = tokens.set_key_no(no)
+#    no.setDebug()
+    return no
+
+  ## TODO: elim this
+  def mk_parser_lup_deprecated (self): 
+    if self.labels_optional: 
+      label = pp.Optional(exp_label)
+    else: 
+      label = exp_label
+    label = tokens.set_key_label(label)
+#    label = label.setDebug()
+
+    if self.uniques_optional: 
+      un = pp.Optional(self.exp_unique)
+    else: 
+      un = self.exp_unique
+    un = tokens.set_key_unique(un)
+#    no.setDebug()
+
+    parents = pp.ZeroOrMore(exp_parent)
+    parents = tokens.set_key_parents(parents)
+#    parents.setDebug()
+
+    return (label, un, parents)
+
+  def mk_parser_lnup (self): 
+    if self.labels_optional: 
+      label = pp.Optional(exp_label)
+    else: 
+      label = exp_label
+    label = tokens.set_key_label(label)
+#    label = label.setDebug()
+
+    if self.nos_optional: 
+      no = pp.Optional(com_no + mk_parser_arg(exp_number))
+    else:
+      no = com_no + mk_parser_arg(exp_number)
+
+    no = tokens.set_key_no(no)
+#    no.setDebug()
+
+    if self.uniques_optional: 
+      un = pp.Optional(self.exp_unique)
+    else: 
+      un = self.exp_unique
+    un = tokens.set_key_unique(un)
+#    no.setDebug()
+
+    parents = pp.ZeroOrMore(exp_parent)
+    parents = tokens.set_key_parents(parents)
+#    parents.setDebug()
+
+    return (label, no, un, parents)
    
   # Make begin & end keywords, title
   def mk_parsers_common(self, dex_name, block_name): 
@@ -351,81 +419,9 @@ class Parser:
     title = tokens.set_key_title(title)
 #    title = title.setDebug()
 
-    (label, parents) = self.mk_parser_lp()
-    return (begin, end, title, label, parents)
+    (label, no, un, parents) = self.mk_parser_lnup()
+    return (begin, end, title, label, no, un, parents)
 
-
-  # Make begin & end keywords, title
-  def mk_parsers_common_pset(self, dex_name, block_name): 
-    dex_name = dex.PROBLEMSET
-    block_name = Block.PROBLEMSET
-
-    def process_begin(x):
-      result = self.process_block_begin(block_name,x[0])
-      return result
-
-    def process_end(x):
-      result = self.process_block_end(block_name,x[0])
-      return result
-
-    
-    begin = mk_parser_begin(dex_name)
-    begin = begin.setParseAction(process_begin)
-    begin = tokens.set_key_begin(begin)
-
-    end = mk_parser_end(dex_name)
-    end = end.setParseAction(curry(self.process_block_end, block_name))
-    end = end.setParseAction(process_end)
-    end = tokens.set_key_end(end)
-
-    ## TODO: blend the following in
-    ## For lists such as topics and such you can probably use
-    ## naive pyhon parser to split the items into lists at spaces or punctionations
-
-    
-    # we will stop if \begin{answer} is seen
-    kw_begin = pp.Literal(COM_BEGIN)
-
-    # stoppers
-    stoppers = kw_begin | end | com_course | com_instance | com_folder | com_title | com_points | com_topics | com_prompt 
-    course = com_course.suppress() + self.mk_parser_text_block (stoppers)
-    course = tokens.set_key_course_number(course)
-    course.setParseAction(lambda x: x[0])
-    course.setDebug()
-
-    instance = com_instance.suppress() + self.mk_parser_text_block (stoppers)
-    instance = tokens.set_key_instance(instance)
-    instance.setParseAction(lambda x: x[0])
-    instance.setDebug()
-
-    folder = com_folder.suppress() + self.mk_parser_text_block (stoppers)
-    folder = tokens.set_key_folder(folder)
-    folder.setParseAction(lambda x: x[0])
-    folder.setDebug()
-
-    title = com_title.suppress() + self.mk_parser_text_block (stoppers)
-    title = tokens.set_key_title(title)
-    title.setParseAction(lambda x: (NEWLINE.join(x.asList())))
-    title.setDebug()
-
-    points = com_points.suppress() + self.mk_parser_text_block (stoppers)
-    points = tokens.set_key_points(points)
-    points.setParseAction(lambda x: x[0])
-    points.setDebug()
-    
-    topics = com_topics.suppress() + self.mk_parser_text_block (stoppers)
-    topics = tokens.set_key_topics(topics)
-    topics.setParseAction(lambda x: (NEWLINE.join(x.asList())))
-    topics.setDebug()
-
-    prompt = com_prompt.suppress() + self.mk_parser_text_block (stoppers)
-    prompt = tokens.set_key_prompt(prompt)
-    prompt.setParseAction(lambda x: (NEWLINE.join(x.asList())))
-    prompt.setDebug()
-
-    return (begin, end, course, instance, folder, points,  prompt, title, topics)
-    
-  
   # Parser for course
   def mk_parser_course (self):
     document_class = com_document_class
@@ -434,13 +430,14 @@ class Parser:
     title_latex = tokens.set_key_title(pp.Group(exp_title_latex))
     title = com_title + mk_parser_arg(title_latex)
 
-    (label, parents) = self.mk_parser_lp()
+    (label, no, unique, parents) = self.mk_parser_lnup()
  
     # course number
     number = tokens.set_key_course_number(exp_number)
 #    arg_course_number_curly = mk_parser_arg(dash_separated_number)
     arg_course_number_curly = mk_parser_arg(number)
     course_number = com_course_number + arg_course_number_curly
+
 
     about = self.mk_parser_text_block(com_begin)
     about = pp.Optional(about)
@@ -468,7 +465,7 @@ class Parser:
     if self.course_label_on: 
       course =  document_class + \
                 title + \
-                (label & parents) + \
+                (label & no & unique & parents) + \
                 (course_number & \
                  picture & \
                  pb & pc & ps & pu & pa & \
@@ -479,7 +476,7 @@ class Parser:
     else: 
       course =  document_class + \
                 title + \
-                (parents) + \
+                (no & unique & parents) + \
                 (course_number & \
                  picture & \
                  pb & pc & ps & pu & pa & \
@@ -503,7 +500,7 @@ class Parser:
 #    title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
 
-    (label, parents) = self.mk_parser_lp()
+    (label, no, unique, parents) = self.mk_parser_lnup()
 #    label.setDebug()
 #    no.setDebug()
 #    parents.setDebug()
@@ -520,7 +517,7 @@ class Parser:
     # course can assign a contents key it without updating the book contents
     book = book_begin + \
            title + \
-           (label & parents) + \
+           (label & no & unique & parents) + \
            authors + \
            contents + \
            asst + \
@@ -531,32 +528,9 @@ class Parser:
     book.setParseAction(self.process_book)
     return book
 
-  # Parser for problemsets
-  def mk_parser_problemset (self):
-    (begin, end, course, instance, folder, points,  prompt, title, topics) = self.mk_parsers_common_pset (dex.PROBLEMSET, Block.PROBLEMSET)
-    
-    contents = tokens.set_key_contents(self.exp_problems)
-#    contents.setDebug()
-
-    problemset = \
-      begin + \
-      course + \
-      instance + \
-      folder + \
-      (points & title & topics) + \
-      prompt + \
-      contents + \
-      end
-   
-    problemset = tokens.set_key_problemset(problemset)
-    problemset.setParseAction(self.process_problemset)
-
-    return problemset
-  
-
   # Parser for chapter
   def mk_parser_chapter (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
     picture = self.mk_parser_picture ()
 
     begin_section = mk_parser_begin(dex.SECTION)
@@ -572,7 +546,7 @@ class Parser:
 
     chapter = begin + \
               title + \
-              (label & parents) + \
+              (label & no & unique & parents) + \
               picture + \
               intro + \
               contents + \
@@ -586,7 +560,7 @@ class Parser:
 
   # Parser for section
   def mk_parser_section (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.SECTION, Block.SECTION)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.SECTION, Block.SECTION)
     
     begin_unit = mk_parser_begin(dex.UNIT)
     # intro is the part up to the first unit
@@ -599,7 +573,7 @@ class Parser:
     contents = tokens.set_key_contents(self.exp_units)
 
     section = begin + title + \
-             (label & parents) + \
+             (label & no & unique & parents) + \
               intro + \
               contents + \
               end
@@ -611,14 +585,14 @@ class Parser:
 
   # Parser for group
   def mk_parser_group (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
 
     contents = self.exp_atoms
     contents = tokens.set_key_group_contents(contents)
  #   contents.setDebug()
     group = begin + \
             title + \
-            (label & parents) + \
+            (label & no & unique & parents) + \
             contents + \
             end
     group = tokens.set_key_group(group)
@@ -628,7 +602,7 @@ class Parser:
 
   # Parser for unit
   def mk_parser_unit (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.UNIT, Block.UNIT)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.UNIT, Block.UNIT)
 
     contents = tokens.set_key_contents(self.exp_elements)
 
@@ -637,7 +611,7 @@ class Parser:
 
     unit = begin + \
            title + \
-           (label & parents) +\
+           (label & no & unique & parents) +\
            contents + \
            checkpoint + \
            end
@@ -648,15 +622,15 @@ class Parser:
   
   # Parser for checkpoint
   def mk_parser_checkpoint (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.CHECKPOINT, Block.CHECKPOINT)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.CHECKPOINT, Block.CHECKPOINT)
 
-    contents = tokens.set_key_contents(self.exp_problems)
+    contents = tokens.set_key_contents(self.exp_questions)
 #    contents.setDebug()
 
     checkpoint = \
       begin + \
       title + \
-      (label & parents) + \
+      (label & no & unique  & parents) + \
       contents + \
       end
    
@@ -667,7 +641,7 @@ class Parser:
 
   # Make a parser for an assignment
   def mk_parser_assignment (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ASSIGNMENT, Block.ASSIGNMENT)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.ASSIGNMENT, Block.ASSIGNMENT)
 
     title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
@@ -681,7 +655,7 @@ class Parser:
 
     assignment = begin + \
                  title + \
-                 (label & parents) + \
+                 (label & no & unique & parents) + \
                  duedate + \
                  contents + \
                  end
@@ -691,21 +665,21 @@ class Parser:
 
   # Make a parser for a problem
   def mk_parser_asstproblem (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ASSTPROBLEM, Block.ASSTPROBLEM)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.ASSTPROBLEM, Block.ASSTPROBLEM)
 
     title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
 
-    contents = tokens.set_key_contents(self.exp_problems)
+    contents = tokens.set_key_contents(self.exp_questions)
 
-    info = com_info.suppress() + self.mk_parser_text_block(com_begin_problemfr | com_begin_problemmc)
+    info = com_info.suppress() + self.mk_parser_text_block(com_begin_questionfr | com_begin_questionmc)
     info = info * (0, 1)
     info = info.setParseAction(lambda x: (NEWLINE.join(x.asList())))
     info = tokens.set_key_info(info)
 
     problem = begin + \
               title + \
-              (label & parents) + \
+              (label & no & unique & parents) + \
               info + \
               contents + \
               end
@@ -715,7 +689,7 @@ class Parser:
 
   # Make parser for an algorithm
   def mk_parser_algo (self, process_algo):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ALGO, Block.ALGO)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.ALGO, Block.ALGO)
 
 #    begin.setDebug()
 #    end.setDebug()
@@ -734,7 +708,7 @@ class Parser:
     # Algo cannot be nested
     algo = begin + \
            title + \
-           (label & parents) + \
+           (label & no & unique & parents) + \
            body + \
            end
     algo.setParseAction(process_algo)
@@ -742,7 +716,7 @@ class Parser:
 
   # Make parser for an atom
   def mk_parser_atom (self, atom_name, process_atom):
-    (begin, end, title, label, parents) = self.mk_parsers_common (atom_name, Block.ATOM)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (atom_name, Block.ATOM)
 
     atom_end_str = mk_str_end(atom_name)
     atom_body = pp.SkipTo(atom_end_str) 
@@ -750,7 +724,7 @@ class Parser:
     # Atom's cannot be nested.
     atom = begin + \
            title + \
-           (label & parents) + \
+           (label & no & unique & parents) + \
            atom_body + \
            end
     atom.setParseAction(process_atom)
@@ -759,7 +733,7 @@ class Parser:
 
   # Make parser for an answer
   def mk_parser_answer (self, process_answer):
-    (begin, end, title__, label, parents) = self.mk_parsers_common (dex.ANSWER, Block.ANSWER)
+    (begin, end, title__, label, no, unique, parents) = self.mk_parsers_common (dex.ANSWER, Block.ANSWER)
 
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_number)
@@ -788,7 +762,7 @@ class Parser:
 #    explain.setDebug()
 
     answer = begin + points + \
-             (label & parents) + \
+             (label & no & unique & parents) + \
              title + \
              body + \
              explain + \
@@ -801,7 +775,7 @@ class Parser:
 
   # Make parser for a choice
   def mk_parser_choice (self, process_choice):
-    (begin, end, title__, label, parents) = self.mk_parsers_common (dex.CHOICE, Block.CHOICE)
+    (begin, end, title__, label, no, unique, parents) = self.mk_parsers_common (dex.CHOICE, Block.CHOICE)
 
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_integer_number)
@@ -830,7 +804,7 @@ class Parser:
 #    explain.setDebug()
 
     choice = begin + points + \
-             (label & parents) + \
+             (label & no & unique & parents) + \
              title + \
              body + \
              explain + \
@@ -843,7 +817,7 @@ class Parser:
 
   # Make parser for a select
   def mk_parser_select (self, process_select):
-    (begin, end, title__, label, parents) = self.mk_parsers_common (dex.SELECT, Block.CHOICE)
+    (begin, end, title__, label, no, unique, parents) = self.mk_parsers_common (dex.SELECT, Block.CHOICE)
 
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_integer_number)
@@ -872,7 +846,7 @@ class Parser:
 #    explain.setDebug()
 
     select = begin + points + \
-             (label & parents) + \
+             (label & no & unique & parents) + \
              title + \
              body + \
              explain + \
@@ -883,13 +857,13 @@ class Parser:
 #    select.setDebug()
     return select
 
-  # Make parser for common problem elements
+  # Make parser for common question elements
   ## TODO: seems like teh stoppers can all be unified as one or perhaps 
   ## two parsers
-  def mk_parser_problem_elements (self, dex_name): 
+  def mk_parser_question_elements (self, dex_name): 
 
     # an element will stop if \end{dex_name} is seen
-    end_problem = mk_parser_end(dex_name)
+    end_question = mk_parser_end(dex_name)
 
     # an element will stop if \begin{answer} is seen
     begin_answer = mk_parser_begin(dex.ANSWER)
@@ -901,7 +875,7 @@ class Parser:
     begin_select = mk_parser_begin(dex.SELECT)
 
     # stoppers
-    common_stopper = com_explain | com_hint | com_points | com_prompt | end_problem 
+    common_stopper = com_explain | com_hint | com_points | com_prompt | end_question 
     answer_stopper = begin_answer | com_answer | common_stopper
     choice_stopper = begin_choice | com_choice | com_choice_s | common_stopper
     select_stopper = begin_select | com_select | com_select_s | common_stopper
@@ -988,12 +962,12 @@ class Parser:
     
     return (ans, choi, choi_s, explain, hint, points, prompt, sel, sel_s)
 
-  # Make parser for a free-form problem
-  def mk_parser_problem_fr (self, process_problem_fr):
+  # Make parser for a free-form question
+  def mk_parser_question_fr (self, process_question_fr):
 
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_FR, Block.PROBLEM)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.QUESTION_FR, Block.QUESTION)
 
-    (ans, choi__, choi_s__, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_problem_elements (dex.PROBLEM_FR)
+    (ans, choi__, choi_s__, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_question_elements (dex.QUESTION_FR)
 
     simple_answer = ans + explain
 #    simple_answer.setName('simple_answer').setResultsName('simple_answer')
@@ -1011,25 +985,25 @@ class Parser:
     ## If answers is included as part of the & pattern, it gets
     ## attempted at every possible location and somehow the match 
     ## gets forgotton.  
-    problem = \
+    question = \
       (begin + \
        title + \
-       (label & parents) + \
+       (label & no & unique & parents) + \
        (points & prompt & hint) + \
        answers + \
        end) \
 
-    problem.setParseAction(process_problem_fr)
-    problem = tokens.set_key_problem(problem)
- #   problem.setDebug()
-    return problem
+    question.setParseAction(process_question_fr)
+    question = tokens.set_key_question(question)
+ #   question.setDebug()
+    return question
 
-  # Make parser for a multi-answer problems
-  def mk_parser_problem_ma (self, process_problem_ma):
+  # Make parser for a multi-answer questions
+  def mk_parser_question_ma (self, process_question_ma):
 
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_MA, Block.PROBLEM)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.QUESTION_MA, Block.QUESTION)
 
-    (ans__, choi__, choi_s__, explain, hint, points, prompt, sel, sel_s) = self.mk_parser_problem_elements (dex.PROBLEM_MA)
+    (ans__, choi__, choi_s__, explain, hint, points, prompt, sel, sel_s) = self.mk_parser_question_elements (dex.QUESTION_MA)
 
     simple_select = sel + explain
     simple_select.setParseAction(lambda toks:simple_select_to_select(toks))
@@ -1056,25 +1030,25 @@ class Parser:
     ## If answers is included as part of the & pattern, it gets
     ## attempted at every possible location and somehow the match 
     ## gets forgotton.  
-    problem = \
+    question = \
       (begin + \
        title + \
-       (label & parents) + \
+       (label & no & unique & parents) + \
        (hint & points & prompt) + \
        selects + \
        end) \
 
-    problem.setParseAction(process_problem_ma)
-    problem = tokens.set_key_problem(problem)
-#    problem.setDebug()
-    return problem
+    question.setParseAction(process_question_ma)
+    question = tokens.set_key_question(question)
+#    question.setDebug()
+    return question
 
-  # Make parser for a multi-choice problems
-  def mk_parser_problem_mc (self, process_problem_mc):
+  # Make parser for a multi-choice questions
+  def mk_parser_question_mc (self, process_question_mc):
 
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_MC, Block.PROBLEM)
+    (begin, end, title, label, no, unique, parents) = self.mk_parsers_common (dex.QUESTION_MC, Block.QUESTION)
 
-    (ans__, choi, choi_s, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_problem_elements (dex.PROBLEM_MC)
+    (ans__, choi, choi_s, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_question_elements (dex.QUESTION_MC)
 
     simple_choice = choi + explain
     simple_choice.setParseAction(lambda toks:simple_choice_to_choice(toks))
@@ -1099,21 +1073,24 @@ class Parser:
     ## If answers is included as part of the & pattern, it gets
     ## attempted at every possible location and somehow the match 
     ## gets forgotton.  
-    problem = \
+    question = \
       (begin + \
        title + \
-       (label & parents) + \
+       (label & no & unique & parents) + \
        (hint & points & prompt) + \
        choices + \
        end) \
 
-    problem.setParseAction(process_problem_mc)
-    problem = tokens.set_key_problem(problem)
-#    problem.setDebug()
-    return problem
+    question.setParseAction(process_question_mc)
+    question = tokens.set_key_question(question)
+#    question.setDebug()
+    return question
 
 
   def __init__(self, \
+               labels_optional, \
+               nos_optional, \
+               uniques_optional, \
                parents_optional, \
                titles_optional, \
                course_label_on, \
@@ -1150,15 +1127,18 @@ class Parser:
                process_chapter, \
                process_course, \
                process_group, \
-               process_problem_fr, \
-               process_problem_ma, \
-               process_problem_mc, \
-               process_problemset, \
+               process_question_fr, \
+               process_question_ma, \
+               process_question_mc, \
+               process_checkpoint, \
                process_assignment, \
                process_asstproblem, \
                process_section, \
                process_unit):
 
+    self.labels_optional = labels_optional
+    self.nos_optional = nos_optional
+    self.uniques_optional = uniques_optional
     self.parents_optional = parents_optional
     self.titles_optional = titles_optional
     self.course_label_on = course_label_on
@@ -1198,11 +1178,10 @@ class Parser:
     self.process_course = process_course
     self.process_group = process_group
     self.process_chapter = process_chapter
-    self.process_problem_fr = process_problem_fr
-    self.process_problem_ma = process_problem_ma
-    self.process_problem_mc = process_problem_mc
-    self.process_checkpoint = process_problemset
-    self.process_problemset = process_problemset
+    self.process_question_fr = process_question_fr
+    self.process_question_ma = process_question_ma
+    self.process_question_mc = process_question_mc
+    self.process_checkpoint = process_checkpoint
     self.process_assignment = process_assignment
     self.process_asstproblem = process_asstproblem
     self.process_section = process_section
@@ -1210,6 +1189,9 @@ class Parser:
 
     # Parser for any begin keyword
     self.begin_any_atom = self.mk_parser_begin_any_atom()
+
+    # Make same basic parsers
+    self.exp_unique = com_unique + mk_parser_arg(exp_phrase_gram_latex)
 
     # answers
     self.exp_answer = self.mk_parser_answer(self.process_answer)
@@ -1292,10 +1274,10 @@ class Parser:
                     self.exp_algo   # algo's are included as atoms
 
 
-    # problems
-    self.problem_fr = self.mk_parser_problem_fr(process_problem_fr)
-    self.problem_ma = self.mk_parser_problem_ma(process_problem_ma)
-    self.problem_mc = self.mk_parser_problem_mc(process_problem_mc)
+    # questions
+    self.question_fr = self.mk_parser_question_fr(process_question_fr)
+    self.question_ma = self.mk_parser_question_ma(process_question_ma)
+    self.question_mc = self.mk_parser_question_mc(process_question_mc)
 
 
     # dex expression    
@@ -1306,10 +1288,10 @@ class Parser:
     self.exp_atoms.setParseAction(lambda x: '\n'.join(x.asList()))
 
     # problems expressions
-    self.exp_problem =  self.problem_fr | self.problem_ma | self.problem_mc
-    self.exp_problems = pp.ZeroOrMore(self.exp_problem)
-    self.exp_problems.setParseAction(lambda x: '\n'.join(x.asList()))
-#    self.exp_problems.setDebug()
+    self.exp_question =  self.question_fr | self.question_ma | self.question_mc
+    self.exp_questions = pp.ZeroOrMore(self.exp_question)
+    self.exp_questions.setParseAction(lambda x: '\n'.join(x.asList()))
+#    self.exp_questions.setDebug()
 
     # group expressions
     self.exp_group = self.mk_parser_group()
@@ -1321,10 +1303,6 @@ class Parser:
 
     # checkpoint expressions
     self.exp_checkpoint = self.mk_parser_checkpoint()
-
-    
-    # problemset expressions
-    self.exp_pset = self.mk_parser_problemset()
 
     # asstproblem expression
     self.exp_asstproblem = self.mk_parser_asstproblem()
@@ -1374,7 +1352,7 @@ class Parser:
     # IMPORTANT: book is not nested inside a course
     # See book parser for details.
 
-    self.document = self.exp_course + self.exp_book + kw_string_end | self.exp_pset + kw_string_end
+    self.document = self.exp_course + self.exp_book + kw_string_end
 
     # Various modifiers
     self.document = self.document.ignore(latex_comment)
@@ -1389,7 +1367,7 @@ class Parser:
 ######################################################################
 ## BEGIN: parser maker
 
-def mk_uniform_parser (\
+def mk_uniform_parser (labels_optional, nos_optional, uniques_optional, \
                        parents_optional, titles_optional, \
                        course_label_on, \
                        process_block_begin, \
@@ -1402,15 +1380,18 @@ def mk_uniform_parser (\
                        process_book, \
                        process_chapter, \
                        process_course, process_group, \
-                       process_problem_fr, \
-                       process_problem_ma, \
-                       process_problem_mc, \
-                       process_problemset, \
+                       process_question_fr, \
+                       process_question_ma, \
+                       process_question_mc, \
+                       process_checkpoint, \
                        process_assignment, \
                        process_asstproblem, \
                        process_section, process_unit): 
 
   parser = Parser (\
+                        labels_optional, \
+                        nos_optional, \
+                        uniques_optional, \
                         parents_optional, \
                         titles_optional, \
                         course_label_on, \
@@ -1447,10 +1428,10 @@ def mk_uniform_parser (\
                         process_chapter, \
                         process_course, \
                         process_group, \
-                        process_problem_fr, \
-                        process_problem_ma, \
-                        process_problem_mc, \
-                        process_problemset, \
+                        process_question_fr, \
+                        process_question_ma, \
+                        process_question_mc, \
+                        process_checkpoint, \
                         process_assignment, \
                         process_asstproblem, \
                         process_section, \
@@ -1465,7 +1446,7 @@ def mk_uniform_parser (\
 ######################################################################
 ## Begin: Parser function
 
-def parse (parents_optional, titles_optional, \
+def parse (labels_optional, nos_optional, uniques_optional, parents_optional, titles_optional, \
            course_label_on, \
            process_block_begin, \
            process_block_end, \
@@ -1476,14 +1457,14 @@ def parse (parents_optional, titles_optional, \
            process_select, \
            process_book,  \
            process_chapter, process_course, process_group, \
-           process_problem_fr, process_problem_ma, process_problem_mc, \
-           process_problemset, \
+           process_question_fr, process_question_ma, process_question_mc, \
+           process_checkpoint, \
            process_assignment, \
            process_asstproblem, \
            process_section, process_unit, \
            data):
 
-  parser = mk_uniform_parser(\
+  parser = mk_uniform_parser(labels_optional, nos_optional, uniques_optional, \
                              parents_optional, titles_optional, \
                              course_label_on, \
                              process_block_begin, \
@@ -1497,10 +1478,10 @@ def parse (parents_optional, titles_optional, \
                              process_chapter, \
                              process_course, \
                              process_group, \
-                             process_problem_fr, \
-                             process_problem_ma, \
-                             process_problem_mc, \
-                             process_problemset, \
+                             process_question_fr, \
+                             process_question_ma, \
+                             process_question_mc, \
+                             process_checkpoint, \
                              process_assignment, \
                              process_asstproblem, \
                              process_section, \
@@ -1530,14 +1511,14 @@ def process_block_begin (this_block, toks):
   #   print ('process_block_begin: this  block is chapter')
   # elif this_block == Block.SECTION:
   #   print ('process_block_begin: this  block is section')
-  # elif this_block == Block.PROBLEMSET:
-  #   print ('process_block_begin: this  block is problemset')
+  # elif this_block == Block.CHECKPOINT:
+  #   print ('process_block_begin: this  block is checkpoint')
   # elif this_block == Block.UNIT:
   #   print ('process_block_begin: this  block is unit')
   # elif this_block == Block.ATOM:
   #   print ('process_block_begin: this  block is atom')
-  # elif this_block == Block.PROBLEM:
-  #   print ('process_block_begin: this  block is problem')
+  # elif this_block == Block.QUESTION:
+  #   print ('process_block_begin: this  block is question')
   # elif this_block == Block.CHOICE:
   #   print ('process_block_begin: this  block is choice')
   # else :
@@ -1550,16 +1531,16 @@ def process_block_end (this_block, toks):
   #   print ('process_block_end: this  block is book')
   # elif this_block == Block.CHAPTER:
   #   print ('process_block_end: this  block is chapter')
-  # elif this_block == Block.PROBLEMSET:
-  #   print ('process_block_end: this  block is problemset')
+  # elif this_block == Block.CHECKPOINT:
+  #   print ('process_block_end: this  block is checkpoint')
   # elif this_block == Block.SECTION:
   #   print ('process_block_end: this  block is section')
   # elif this_block == Block.UNIT:
   #   print ('process_block_end: this  block is unit')
   # elif this_block == Block.ATOM:
   #   print ('process_block_end: this  block is atom')
-  # elif this_block == Block.PROBLEM:
-  #   print ('process_block_begin: this  block is problem')
+  # elif this_block == Block.QUESTION:
+  #   print ('process_block_begin: this  block is question')
   # elif this_block == Block.CHOICE:
   #   print ('process_block_begin: this  block is choice')
   # else :
@@ -1568,27 +1549,56 @@ def process_block_end (this_block, toks):
   return toks
 
 def main(argv):
+  labels_optional = True
+  nos_optional = True
+  uniques_optional = True
   parents_optional = True
   titles_optional = True
   course_label_on = False
 
   if len(sys.argv) < 2: 
-    print 'Usage: dex_parser inputfile [course_label_on = False]'
+    print 'Usage: dex_parser inputfile [course_label_on = False] [labels_optional = True] [nos_optional = True] [uniques_optional = True] '
     sys.exit()
   elif len(sys.argv) == 2:
     course_label_on = False
+    labels_optional = True
+    nos_optional = True
+    uniques_optional = True
   elif len(sys.argv) == 3:
     print 'course_label_on = ',  sys.argv[2]
     course_label_on = (sys.argv[2] == KW_TRUE)
+    labels_optional = True
+    nos_optional = True
+    uniques_optional = True
+  elif len(sys.argv) == 4:
+    print 'course_label_on = ',  sys.argv[2]
+    print 'labels_optional = ',  sys.argv[3]
+    course_label_on = (sys.argv[2] == KW_TRUE)
+    labels_optional = (sys.argv[3] == KW_TRUE)
+    nos_optional = True
+    uniques_optional = True
+  elif len(sys.argv) == 5:
+    course_label_on = (sys.argv[2] == KW_TRUE)
+    labels_optional = (sys.argv[3] == KW_TRUE)
+    nos_optional = (sys.argv[4] == KW_TRUE)
+    uniques_optional = True
+  elif len(sys.argv) == 6:
+    course_label_on = (sys.argv[2] == KW_TRUE)
+    labels_optional = (sys.argv[3] == KW_TRUE)
+    nos_optional = (sys.argv[4] == KW_TRUE)
+    uniques_optional = (sys.argv[5] == KW_TRUE)
+
   else:
-    print 'Usage: dex_parser inputfile [course_label_on = False]'
+    print 'Usage: dex_parser inputfile [course_label_on = False] [labels_optional = True] [nos_optional = True] [uniques_optional = True] '
     sys.exit()
 
   print 'Executing:', sys.argv[0], str(sys.argv[1]), \
                       'course_label_on = ', course_label_on, \
-                      'titles_optional = ', titles_optional,\
-                        'parents_optional = ', parents_optional
-
+                      'titles_optional = ', titles_optional, \
+                      'labels_optional = ', labels_optional, \
+                      'nos_optional = ', nos_optional, \
+                      'parents_optional = ', parents_optional, \
+                      'uniques_optional = ', uniques_optional
 
   infile_name = sys.argv[1]
   # drop path stuff
@@ -1603,6 +1613,9 @@ def main(argv):
 
   # both labels and numbers are optional
   result = parse (\
+             labels_optional, \
+             nos_optional, \
+             uniques_optional, \
              parents_optional, \
              titles_optional, \
              course_label_on, \
@@ -1617,10 +1630,10 @@ def main(argv):
              blocks.chapter_to_string, \
              blocks.course_to_string, \
              blocks.group_to_string, \
-             blocks.problem_fr_to_string, \
-             blocks.problem_ma_to_string, \
-             blocks.problem_mc_to_string, \
-             blocks.problemset_to_string, \
+             blocks.question_fr_to_string, \
+             blocks.question_ma_to_string, \
+             blocks.question_mc_to_string, \
+             blocks.checkpoint_to_string, \
              blocks.assignment_to_string, \
              blocks.asstproblem_to_string, \
              blocks.section_to_string, \
@@ -1628,17 +1641,11 @@ def main(argv):
              data)
 
   # The result consists of a course and a book
-  if len(result) == 1:
-    problemset = result[0]
-    outfile.write(problemset + NEWLINE)
-    outfile.close()
-    print 'Parsed code written into file:', outfile_name
-  else:
-    course = result[0]
-    book = result[1]
-    outfile.write(course + NEWLINE + book + NEWLINE)
-    outfile.close()
-    print 'Parsed code written into file:', outfile_name
+  course = result[0]
+  book = result[1]
+  outfile.write(course + NEWLINE + book + NEWLINE)
+  outfile.close()
+  print 'Parsed code written into file:', outfile_name
 
 if __name__ == '__main__':
     main(sys.argv)
