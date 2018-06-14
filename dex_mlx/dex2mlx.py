@@ -80,12 +80,12 @@ def process_group (toks):
   r = group.to_mlx_string()
   return r
 
-def process_checkpoint (toks): 
-  print 'checkpoint matched:'
+def process_problemset (toks): 
+  print 'problemset matched:'
 
-  checkpoint = blocks.Checkpoint(toks)
-  r = checkpoint.to_mlx_string()
-#  print 'checkpoint: ', r
+  problemset = blocks.ProblemSet(toks)
+  r = problemset.to_mlx_string()
+#  print 'problemset: ', r
   return r
 
 def process_assignment (toks): 
@@ -125,6 +125,30 @@ def process_atom (atom_name_dex, atom_name_mlx, toks):
 
   atom = blocks.Atom(atom_name_dex, toks)
   r = atom.to_mlx_string(atom_name_mlx)
+  return r
+
+
+def process_problem_fr (toks): 
+  print 'problem_fr matched'
+
+  problem = blocks.ProblemFR(toks)
+  r = problem.to_mlx_string()
+  return r
+
+def process_problem_ma (toks): 
+  print 'problem_ma matched.'
+
+  problem = blocks.ProblemMA(toks)
+  r = problem.to_mlx_string()
+#  print 'problem_ma matched result =', r
+  return r
+
+
+def process_problem_mc (toks): 
+  print 'problem_mc matched.'
+
+  problem = blocks.ProblemMC(toks)
+  r = problem.to_mlx_string()
   return r
 
 
@@ -196,10 +220,10 @@ def parse (process_algo, \
            process_chapter, \
            process_course, \
            process_group, \
-           process_question_fr, \
-           process_question_ma, \
-           process_question_mc, \
-           process_checkpoint, \
+           process_problem_fr, \
+           process_problem_ma, \
+           process_problem_mc, \
+           process_problemset, \
            process_section, \
            process_unit, \
            data):
@@ -249,10 +273,10 @@ def parse (process_algo, \
              process_chapter, \
              process_course, \
              process_group, \
-             process_question_fr, \
-             process_question_ma, \
-             process_question_mc, \
-             process_checkpoint, \
+             process_problem_fr, \
+             process_problem_ma, \
+             process_problem_mc, \
+             process_problemset, \
              process_assignment, \
              process_asstproblem, \
              process_section, \
@@ -304,27 +328,34 @@ def main(argv):
              process_chapter, \
              process_course, \
              process_group, \
-             process_question_fr, \
-             process_question_ma, \
-             process_question_mc, \
-             process_checkpoint, \
+             process_problem_fr, \
+             process_problem_ma, \
+             process_problem_mc, \
+             process_problemset, \
              process_section, \
              process_unit, data)
 
 
-  ## Write output
-  # The result consists of a course block and a book
-  course_block = result[0]
-#  print 'dex2mlx: course_block:', course_block
-  book = result[1]
-#  print 'dex2mlx: book:', book
-  course_block.book = book
-  result = MLX_PREAMBLE + course_block.to_mlx_string ()
-  mlxfile.write(result)
-#  book = NEWLINE.join(result[1:])
-#  contents = course + NEWLINE + book  
-#  mlxfile.write(contents)
+  if len(result) == 2:
+    ## Write output
+    # The result consists of a course block and a book
+    course_block = result[0]
+  #  print 'dex2mlx: course_block:', course_block
+    book = result[1]
+  #  print 'dex2mlx: book:', book
+    course_block.book = book
+    result = MLX_PREAMBLE + course_block.to_mlx_string ()
 
+  #  book = NEWLINE.join(result[1:])
+  #  contents = course + NEWLINE + book  
+  #  mlxfile.write(contents)
+  elif len(result) == 1:
+    result = MLX_PREAMBLE + result[0]
+  else:
+    print "Fatal Error: Unknown Input."
+    exit(1)
+
+  mlxfile.write(result)
   mlxfile.close()
   print "mlx code written into file:", mlxfile_name
 

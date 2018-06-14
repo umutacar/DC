@@ -79,18 +79,18 @@ def extract_common(toks):
   parents = tokens.get_parents(toks)
   return (title,  label, parents)
 
-def extract_common_pset (toks):
+def extract_pset (toks):
   course_number = tokens.get_course_number(toks)
   instance = tokens.get_instance(toks)
   folder = tokens.get_folder(toks)
   title = tokens.get_title_force(toks)
+  label = label_to_string(toks)
+  parents = tokens.get_parents(toks)  
   points = tokens.get_points(toks)
   topics = tokens.get_topics(toks)
   prompt = tokens.get_prompt(toks)  
 
-  print 'title:', title
-#  print 'extract: unique:', unique
-  return (course_number, instance, folder,  points, prompt, title, topics)
+  return (course_number, instance, folder, title, label, parents, points, prompt, topics)
 
 def mk_str_generic(block_name, title, label, parents, contents): 
   if contents:
@@ -106,23 +106,23 @@ def mk_str_generic(block_name, title, label, parents, contents):
            dex.mk_str_end(block_name)
   return result
 
-def mk_str_pset(pset): 
-  if pset.contents:
-    contents = pset.contents.strip() + NEWLINE
-  else:
-    contents = ''
-  result = NEWLINE + \
-           dex.mk_str_begin(dex.PROBLEMSET) +  NEWLINE + \
-           dex.mk_str_course(pset.course)  + NEWLINE + \
-           dex.mk_str_instance(pset.instance)  + NEWLINE + \
-           dex.mk_str_folder(pset.folder)  + NEWLINE + \
-           dex.mk_str_title_noarg(pset.title)  + NEWLINE + \
-           dex.mk_str_points(pset.points)  + NEWLINE + \
-           dex.mk_str_topics(pset.topics)  + NEWLINE + \
-           dex.mk_str_prompt(pset.prompt)  + NEWLINE + \
-           contents + \
-           dex.mk_str_end(dex.PROBLEMSET)
-  return result
+# def mk_str_pset(pset): 
+#   if pset.contents:
+#     contents = pset.contents.strip() + NEWLINE
+#   else:
+#     contents = ''
+#   result = NEWLINE + \
+#            dex.mk_str_begin(dex.PROBLEMSET) +  NEWLINE + \
+#            dex.mk_str_course(pset.course)  + NEWLINE + \
+#            dex.mk_str_instance(pset.instance)  + NEWLINE + \
+#            dex.mk_str_folder(pset.folder)  + NEWLINE + \
+#            dex.mk_str_title_noarg(pset.title)  + NEWLINE + \
+#            dex.mk_str_points(pset.points)  + NEWLINE + \
+#            dex.mk_str_topics(pset.topics)  + NEWLINE + \
+#            dex.mk_str_prompt(pset.prompt)  + NEWLINE + \
+#            contents + \
+#            dex.mk_str_end(dex.PROBLEMSET)
+#   return result
 
 def mk_mlx_str_fields_common (index, title, label, parents, convert_title):
   if convert_title: 
@@ -138,22 +138,21 @@ def mk_mlx_str_fields_common (index, title, label, parents, convert_title):
        mlx.mk_str_parents (parents)]
   return r
 
-def mk_mlx_str_pset(index, pset): 
+def mk_mlx_str_fields_pset(pset): 
   if pset.contents:
     contents = pset.contents.strip() + NEWLINE
   else:
     contents = ''
-  result = NEWLINE + \
-           mlx.mk_str_begin(dex.PROBLEMSET) +  NEWLINE + \
-           mlx.mk_str_course(pset.course)  + NEWLINE + \
-           mlx.mk_str_instance(pset.instance)  + NEWLINE + \
-           mlx.mk_str_folder(pset.folder)  + NEWLINE + \
-           mlx.mk_str_title(pset.title)  + NEWLINE + \
-           mlx.mk_str_points(pset.points)  + NEWLINE + \
-           mlx.mk_str_topics(pset.topics)  + NEWLINE + \
-           mlx.mk_str_prompt(pset.prompt)  + NEWLINE + \
-           contents + \
-           mlx.mk_str_end(dex.PROBLEMSET)
+  result = [\
+    mlx.mk_str_course_number(pset.course_number), \
+    mlx.mk_str_instance(pset.instance), \
+    mlx.mk_str_folder(pset.folder), \
+    mlx.mk_str_title(pset.title), \
+    mlx.mk_str_points(pset.points), \
+    mlx.mk_str_topics(pset.topics), \
+    mlx.mk_str_prompt(pset.prompt), \
+    contents\
+   ]            
   return result
 
 def mk_mlx_bodies (index, body):
@@ -399,7 +398,17 @@ class Checkpoint:
 class ProblemSet:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.course, self.instance, self.folder,  self.points, self.prompt, self.title, self.topics) = extract_common_pset(toks)
+    (self.course_number, self.instance, self.folder, self.title, self.label, self.parents,  self.points, self.prompt, self.topics) = extract_pset(toks)
+    print "course number = ", self.course_number
+    print "title = ", self.title
+    print "label = ", self.label
+    print "parents = ", self.parents
+    print "instance = ", self.instance
+    print "folder = ", self.folder
+    print "points = ", self.points
+    print "prompt = ", self.prompt
+    print "topics = ", self.topics            
+    
     self.contents = tokens.get_contents(toks) 
 
   def mk_label (self):
@@ -411,10 +420,9 @@ class ProblemSet:
 
   def to_mlx_string (self):
     contents = self.contents.strip()
-#    print 'problemset.to_mlx_string: contens: ', contents
+    print 'problemset.to_mlx_string: title: ', self.title
 
-    fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
-    fields.extend([contents])
+    fields = mk_mlx_str_fields_pset(self)
     r = mlx.mk_str_problemset(fields)
     return NEWLINE + r
 
@@ -477,7 +485,7 @@ class AsstProblem:
   def to_mlx_string (self):
     contents = self.contents.strip()
     fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, False)
-    (info, info_dex) = mk_mlx_infos(self.index, self.unique, self.info)
+    (info, info_dex) = mk_mlx_infos(self.index, self.info)
     fields.extend([info, info_dex, contents])
     r = mlx.mk_str_asstproblem(fields)
     return NEWLINE + r
@@ -600,8 +608,8 @@ class Algo:
     
   def to_mlx_string (self):
     contents = NEWLINE.join(self.contents)
-    (title_html, title_dex) = mk_mlx_titles(self.index, self.unique, self.title)
-    (contents_html, contents_dex) = mk_mlx_bodies(self.index,  self.unique, contents)
+    (title_html, title_dex) = mk_mlx_titles(self.index, self.title)
+    (contents_html, contents_dex) = mk_mlx_bodies(self.index, contents)
     fields = mk_mlx_str_fields_common(self.index, self.title, self.label, self.parents, True)
     fields.extend([contents_html, contents_dex])
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
@@ -640,10 +648,10 @@ class Answer:
     points = mlx.mk_str_points(self.points)
 
     # body
-    (body_html, body_dex) = mk_mlx_bodies(self.index,  self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.index, self.body)
     
     # explain
-    (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.index, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
@@ -682,9 +690,9 @@ class Choice:
     # points
     points = mlx.mk_str_points(self.points)
     # body
-    (body_html, body_dex) = mk_mlx_bodies(self.index,  self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.index, self.body)
     # explain
-    (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.index, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
@@ -723,9 +731,9 @@ class Select:
     # points
     points = mlx.mk_str_points(self.points)
     # body
-    (body_html, body_dex) = mk_mlx_bodies(self.index,  self.unique, self.body)
+    (body_html, body_dex) = mk_mlx_bodies(self.index, self.body)
     # explain
-    (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
+    (explain_html, explain_dex) = mk_mlx_explains(self.index, self.explain)
 
     fields.extend([points, body_html, body_dex, explain_html, explain_dex])
 
@@ -769,14 +777,14 @@ class ProblemFR:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
 
     # ### BEGIN :DELETE THIS
     # # explain
-    # (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
+    # (explain_html, explain_dex) = mk_mlx_explains(self.index, self.explain)
 
     # # solution - @umut - I changed self.solution here to self.ans for the code to compile
     # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
@@ -829,10 +837,10 @@ class ProblemMA:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
 
 
     fields.extend([points, prompt_html, prompt_dex, \
@@ -877,10 +885,10 @@ class ProblemMC:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
     
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
 
     # put all fields together
     fields.extend([points, prompt_html, prompt_dex, \
@@ -927,14 +935,14 @@ class QuestionFR:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
 
     # ### BEGIN :DELETE THIS
     # # explain
-    # (explain_html, explain_dex) = mk_mlx_explains(self.index,  self.unique, self.explain)
+    # (explain_html, explain_dex) = mk_mlx_explains(self.index, self.explain)
 
     # # solution - @umut - I changed self.solution here to self.ans for the code to compile
     # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
@@ -987,10 +995,10 @@ class QuestionMA:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
 
 
     fields.extend([points, prompt_html, prompt_dex, \
@@ -1035,10 +1043,10 @@ class QuestionMC:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.unique, self.prompt)
+    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
     
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.unique, self.hint)
+    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
 
     # put all fields together
     fields.extend([points, prompt_html, prompt_dex, \
