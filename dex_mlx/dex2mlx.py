@@ -311,11 +311,12 @@ def main(argv):
   print "infile_name:", infile_name
   print "latex_preamble_name:", latex_preamble_name
 
-  (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
-  mlxfile_name = infile_name_first + os_utils.MLX_EXTENSION
-  print "mlxfile_name:", mlxfile_name
+  # (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
+  # lxfile_name = infile_name_first + os_utils.MLX_EXTENSION
+  mlx_file_name = os_utils.mk_file_name_ext(infile_name, os_utils.MLX_EXTENSION)
+  print "mlx_file_name:", mlx_file_name
   infile = open(infile_name, 'r')
-  mlxfile = open(mlxfile_name, 'w')
+  mlx_file = open(mlx_file_name, 'w')
 
   data = infile.read ()
 
@@ -348,16 +349,16 @@ def main(argv):
 
   #  book = NEWLINE.join(result[1:])
   #  contents = course + NEWLINE + book  
-  #  mlxfile.write(contents)
+  #  mlx_file.write(contents)
   elif len(result) == 1:
     result = MLX_PREAMBLE + result[0]
   else:
     print "Fatal Error: Unknown Input."
     exit(1)
 
-  mlxfile.write(result)
-  mlxfile.close()
-  print "mlx code written into file:", mlxfile_name
+  mlx_file.write(result)
+  mlx_file.close()
+  print "mlx code written into file:", mlx_file_name
 
 if __name__ == "__main__":
     main(sys.argv)

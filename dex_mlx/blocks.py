@@ -136,6 +136,7 @@ def mk_mlx_str_fields_pset(pset):
     mlx.mk_str_course_number(pset.course_number), \
     mlx.mk_str_instance(pset.instance), \
     mlx.mk_str_folder(pset.folder), \
+    mlx.mk_str_label(pset.label), \
     mlx.mk_str_title(pset.title), \
     mlx.mk_str_points(pset.points), \
     mlx.mk_str_topics(pset.topics), \
