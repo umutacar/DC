@@ -55,7 +55,7 @@ GROUP = r'group'
 PROBLEM_FR = r'problemfr'
 PROBLEM_MA = r'problemma'
 PROBLEM_MC = r'problemmc'
-PROBLEMSET = r'problemset'
+PROBLEM_SET = r'problemset'
 SELECT = r'select'
 SECTION = r'section'
 UNIT = r'unit'
@@ -144,6 +144,14 @@ def mk_str_info(x):
 def mk_str_instance(x):
   x = x.strip()
   result = COM_INSTANCE + SPACE + x
+  return result
+
+def mk_str_label(label):
+  result = COM_LABEL + mk_str_arg(label)
+  return result
+
+def mk_str_label_noarg(label):
+  result = COM_LABEL + SPACE + label
   return result
 
 def mk_str_no(x): 

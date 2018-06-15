@@ -50,7 +50,7 @@ KEY_PARENTS = 'KEY_PARENTS'
 KEY_PICTURE = 'KEY_PICTURE'
 KEY_POINTS = 'KEY_POINTS'
 KEY_PROBLEM = 'KEY_PROBLEM'
-KEY_PROBLEMSET = 'KEY_PROBLEM_SET'
+KEY_PROBLEM_SET = 'KEY_PROBLEM_SET'
 KEY_QUESTION = 'KEY_QUESTION'
 KEY_PROMPT = 'KEY_PROMPT'
 KEY_PROMPT_DEX = 'KEY_PROMPT_DEX'
@@ -256,8 +256,8 @@ def set_key_problem(parser):
   parser = parser.setName(KEY_PROBLEM).setResultsName(KEY_PROBLEM)
   return parser
 
-def set_key_problemset(parser):
-  parser = parser.setName(KEY_PROBLEMSET).setResultsName(KEY_PROBLEMSET)
+def set_key_problem_set(parser):
+  parser = parser.setName(KEY_PROBLEM_SET).setResultsName(KEY_PROBLEM_SET)
   return parser
 
 def set_key_provides_book(parser):
@@ -505,6 +505,13 @@ def get_label(toks):
     label = toks[KEY_LABEL][0]
   except KeyError:
     # label = KW_UNLABELED
+    label = None
+  return label
+
+def get_label_force(toks):
+  try:
+    label = toks[KEY_LABEL]
+  except KeyError:
     label = None
   return label
 

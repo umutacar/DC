@@ -160,6 +160,7 @@ com_explain = pp.Literal(dex.COM_EXPLAIN)
 com_folder = pp.Literal(dex.COM_FOLDER)
 com_hint = pp.Literal(dex.COM_HINT)
 com_instance = pp.Literal(dex.COM_INSTANCE)
+com_label = pp.Literal(dex.COM_LABEL)
 com_picture = pp.Literal(dex.COM_PICTURE).suppress()
 #  Used in pp.Skip, so this probably can't be suppressed 
 com_points = pp.Literal(dex.COM_POINTS)
@@ -357,8 +358,8 @@ class Parser:
 
   # Make begin & end keywords, title
   def mk_parsers_common_pset(self, dex_name, block_name): 
-    dex_name = dex.PROBLEMSET
-    block_name = Block.PROBLEMSET
+    dex_name = dex.PROBLEM_SET
+    block_name = Block.PROBLEM_SET
 
     def process_begin(x):
       result = self.process_block_begin(block_name,x[0])
@@ -387,7 +388,7 @@ class Parser:
     kw_begin = pp.Literal(COM_BEGIN)
 
     # stoppers
-    stoppers = kw_begin | end | com_course | com_instance | com_folder | com_title | com_points | com_topics | com_prompt 
+    stoppers = kw_begin | end | com_course | com_instance | com_label | com_folder | com_title | com_points | com_topics | com_prompt 
     course = com_course.suppress() + self.mk_parser_text_block (stoppers)
     course = tokens.set_key_course_number(course)
     course.setParseAction(lambda x: x[0])
@@ -397,6 +398,12 @@ class Parser:
     instance = tokens.set_key_instance(instance)
     instance.setParseAction(lambda x: x[0])
     instance.setDebug()
+
+    
+    label = com_label.suppress() + self.mk_parser_text_block (stoppers)
+    label = tokens.set_key_label(label)
+    label.setParseAction(lambda x: x[0])
+    label.setDebug()
 
     folder = com_folder.suppress() + self.mk_parser_text_block (stoppers)
     folder = tokens.set_key_folder(folder)
@@ -423,7 +430,7 @@ class Parser:
     prompt.setParseAction(lambda x: (NEWLINE.join(x.asList())))
     prompt.setDebug()
 
-    return (begin, end, course, instance, folder, points,  prompt, title, topics)
+    return (begin, end, course, instance,  label, folder, points,  prompt, title, topics)
     
   
   # Parser for course
@@ -531,27 +538,27 @@ class Parser:
     book.setParseAction(self.process_book)
     return book
 
-  # Parser for problemsets
-  def mk_parser_problemset (self):
-    (begin, end, course, instance, folder, points,  prompt, title, topics) = self.mk_parsers_common_pset (dex.PROBLEMSET, Block.PROBLEMSET)
+  # Parser for problem_sets
+  def mk_parser_problem_set (self):
+    (begin, end, course, instance, label, folder, points,  prompt, title, topics) = self.mk_parsers_common_pset (dex.PROBLEM_SET, Block.PROBLEM_SET)
     
     contents = tokens.set_key_contents(self.exp_problems)
 #    contents.setDebug()
 
-    problemset = \
+    problem_set = \
       begin + \
       course + \
       instance + \
       folder + \
-      (points & title & topics) + \
+      (label & points & title & topics) + \
       prompt + \
       contents + \
       end
    
-    problemset = tokens.set_key_problemset(problemset)
-    problemset.setParseAction(self.process_problemset)
+    problem_set = tokens.set_key_problem_set(problem_set)
+    problem_set.setParseAction(self.process_problem_set)
 
-    return problemset
+    return problem_set
   
 
   # Parser for chapter
@@ -1153,7 +1160,7 @@ class Parser:
                process_problem_fr, \
                process_problem_ma, \
                process_problem_mc, \
-               process_problemset, \
+               process_problem_set, \
                process_assignment, \
                process_asstproblem, \
                process_section, \
@@ -1201,8 +1208,8 @@ class Parser:
     self.process_problem_fr = process_problem_fr
     self.process_problem_ma = process_problem_ma
     self.process_problem_mc = process_problem_mc
-    self.process_checkpoint = process_problemset
-    self.process_problemset = process_problemset
+    self.process_checkpoint = process_problem_set
+    self.process_problem_set = process_problem_set
     self.process_assignment = process_assignment
     self.process_asstproblem = process_asstproblem
     self.process_section = process_section
@@ -1323,8 +1330,8 @@ class Parser:
     self.exp_checkpoint = self.mk_parser_checkpoint()
 
     
-    # problemset expressions
-    self.exp_pset = self.mk_parser_problemset()
+    # problem_set expressions
+    self.exp_pset = self.mk_parser_problem_set()
 
     # asstproblem expression
     self.exp_asstproblem = self.mk_parser_asstproblem()
@@ -1405,7 +1412,7 @@ def mk_uniform_parser (\
                        process_problem_fr, \
                        process_problem_ma, \
                        process_problem_mc, \
-                       process_problemset, \
+                       process_problem_set, \
                        process_assignment, \
                        process_asstproblem, \
                        process_section, process_unit): 
@@ -1450,7 +1457,7 @@ def mk_uniform_parser (\
                         process_problem_fr, \
                         process_problem_ma, \
                         process_problem_mc, \
-                        process_problemset, \
+                        process_problem_set, \
                         process_assignment, \
                         process_asstproblem, \
                         process_section, \
@@ -1477,7 +1484,7 @@ def parse (parents_optional, titles_optional, \
            process_book,  \
            process_chapter, process_course, process_group, \
            process_problem_fr, process_problem_ma, process_problem_mc, \
-           process_problemset, \
+           process_problem_set, \
            process_assignment, \
            process_asstproblem, \
            process_section, process_unit, \
@@ -1500,7 +1507,7 @@ def parse (parents_optional, titles_optional, \
                              process_problem_fr, \
                              process_problem_ma, \
                              process_problem_mc, \
-                             process_problemset, \
+                             process_problem_set, \
                              process_assignment, \
                              process_asstproblem, \
                              process_section, \
@@ -1530,8 +1537,8 @@ def process_block_begin (this_block, toks):
   #   print ('process_block_begin: this  block is chapter')
   # elif this_block == Block.SECTION:
   #   print ('process_block_begin: this  block is section')
-  # elif this_block == Block.PROBLEMSET:
-  #   print ('process_block_begin: this  block is problemset')
+  # elif this_block == Block.PROBLEM_SET:
+  #   print ('process_block_begin: this  block is problem_set')
   # elif this_block == Block.UNIT:
   #   print ('process_block_begin: this  block is unit')
   # elif this_block == Block.ATOM:
@@ -1550,8 +1557,8 @@ def process_block_end (this_block, toks):
   #   print ('process_block_end: this  block is book')
   # elif this_block == Block.CHAPTER:
   #   print ('process_block_end: this  block is chapter')
-  # elif this_block == Block.PROBLEMSET:
-  #   print ('process_block_end: this  block is problemset')
+  # elif this_block == Block.PROBLEM_SET:
+  #   print ('process_block_end: this  block is problem_set')
   # elif this_block == Block.SECTION:
   #   print ('process_block_end: this  block is section')
   # elif this_block == Block.UNIT:
@@ -1620,7 +1627,7 @@ def main(argv):
              blocks.problem_fr_to_string, \
              blocks.problem_ma_to_string, \
              blocks.problem_mc_to_string, \
-             blocks.problemset_to_string, \
+             blocks.problem_set_to_string, \
              blocks.assignment_to_string, \
              blocks.asstproblem_to_string, \
              blocks.section_to_string, \
@@ -1629,8 +1636,8 @@ def main(argv):
 
   # The result consists of a course and a book
   if len(result) == 1:
-    problemset = result[0]
-    outfile.write(problemset + NEWLINE)
+    problem_set = result[0]
+    outfile.write(problem_set + NEWLINE)
     outfile.close()
     print 'Parsed code written into file:', outfile_name
   else:
