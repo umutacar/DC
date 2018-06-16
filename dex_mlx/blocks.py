@@ -285,11 +285,14 @@ class Course:
 
   def to_string (self): 
     # in DEX, book is not part of a course.
+#
+# Books don't have labels and parents
+#             dex.mk_str_label(self.label)  + NEWLINE + \
+#             dex.mk_str_parents (self.parents) + NEWLINE + NEWLINE + \
+
     result = NEWLINE + \
              dex.mk_str_document_class() + NEWLINE + \
              dex.mk_str_title(self.title) + NEWLINE + \
-             dex.mk_str_label(self.label)  + NEWLINE + \
-             dex.mk_str_parents (self.parents) + NEWLINE + NEWLINE + \
              dex.mk_str_course_number(self.number)  + NEWLINE + \
              dex.mk_str_picture(self.picture)  + NEWLINE + \
              dex.mk_str_provides_book(self.provides_book)  + NEWLINE + \
