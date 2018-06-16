@@ -103,6 +103,11 @@ def mk_file_name (infile_name, derivative, extension):
   outfile_name = infile_name_first + UNDERSCORE + derivative + PERIOD + extension
   return outfile_name
 
+def mk_file_name_derivative (infile_name, derivative):
+  (infile_name_first, infile_ext) = infile_name.split (PERIOD) 
+  outfile_name = infile_name_first + UNDERSCORE + derivative + PERIOD + infile_ext
+  return outfile_name
+
 def mk_file_name_ext (infile_name, extension):
   (infile_name_first, infile_ext) = infile_name.split (PERIOD) 
   outfile_name = infile_name_first + PERIOD + extension

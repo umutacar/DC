@@ -355,7 +355,7 @@ def set_key_website(parser):
 
 # small ans(wer)
 def sanitize (result):
-  print "sanitize", result
+#  print "sanitize", result
   result = result.strip()
   return result
 

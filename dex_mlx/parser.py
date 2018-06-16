@@ -1596,7 +1596,7 @@ def main(argv):
   print 'Executing:', sys.argv[0], str(sys.argv[1]), \
                       'course_label_on = ', course_label_on, \
                       'titles_optional = ', titles_optional,\
-                        'parents_optional = ', parents_optional
+                      'parents_optional = ', parents_optional
 
 
   infile_name = sys.argv[1]

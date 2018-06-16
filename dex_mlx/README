@@ -21,55 +21,50 @@
   > python parse.py dex_file 
   Parse the file.  This is used to build the elaborate.py and dex2dil.
 
-  It takes several arguments.  Perhaps the first one course_label_on
-  is the most notable.  In the source file, we don't expect to see
-  label definition in the course.  But after elaboration, we need to.
-  So parser is designed to take this as argument.  Initially it is
-  false.  To parse the elaborated file , it has to be provided.  For
-  example (here seq_ed is an elaborated file):
+  It takes several arguments. These are set to common values that we
+  expect but can be configured.
+ 
+  The parser outputs a parsed program in the "core language" which
+  differs from the surface language in the sense that it does not
+  support the syntactic sugar that the surface language supports.  The
+  only syntactic sugar currently is the simplifed language for
+  problems.
 
-  > python parser.py seq_parsed.dex True
+  The parser is idempotent.  That is after a file is parsed, the
+  output can be parsed again and the resulting file will be the same
+  as the input.
 
-    The "True" indicates that course label is available
+  > python parser.py file.dex 
+  this will output file_parsed.dex
 
   After the parser completes, you can run
-  >  diff seq.dex seq_parsed.dex
+  >  diff file.dex file_parsed.dex
   
   As difference you should see label, uniques, and otherwise you shoudl
   mostly see differences concerning comments and white space.
 
+  Now run
+  > python parser.py file_parsed.dex 
+  this will output file_parsed_parsed.dex
+
   You can also run
-  >  diff seq_parsed.dex seq_parsed_parsed.dex
+  >  diff file_parsed.dex file_parsed_parsed.dex
   
   As difference you should see mostly white space
   
-  ** elaborate.py
 
-  > python elaborate.py dex_file
+  ** dex2mtl.py
 
-  Adds a auto-generatade label to each module, unit, atom.  Replaces
-  user defined labels with these.
+  > python dex2mtl.py  dex_file_parsed
 
-  Once elabaroted the file should be parseable.  For example
+  Important: assumes that the file is already converted to the core
+  language
 
-  > python parser.py seq.dex
-  > python elaborate.py seq_ed.dex
-  > python parser.py seq_ed.dex True
-    It should work.
-
-  Now if your run
-  > diff seq_ed_parsed.dex seq_ed.dex
-  You should see very little difference.
-
-  ** dex2dil.py
-
-  > python dex2dil.py  dex_file_elaborated 
-  Important: assumes that the file is elaborated, e.g., each block has
-  a label.
-
+  !! THIS IS NOT UPDATED FOR MLX
   > python dex2pdf.py dex_file
     generates pdf after elaborating
 
+  !! THIS IS NOT UPDATED FOR MLX
   > python publish.py dex_file
 
     elaborated dex, converts it into dil (generating the html code),

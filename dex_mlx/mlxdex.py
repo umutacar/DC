@@ -1,4 +1,9 @@
 #!/usr/bin/python
+
+## IMPORTANT:
+## This is a copy of ~/mtl/dex_mlx/mlxdex.py
+## It should always be maintained as such.
+
 import re
 import sys
 import os
@@ -29,6 +34,7 @@ LATEX_PREAMBLE_FILE =  '/Users/umut/teach/adps-diderot/latex_preamble/preamble.t
 ######################################################################
 
 # scripts
+DEX_PARSER = DEX_DIR + 'parser.py'
 DEX_2_MLX = DEX_DIR + 'dex2mlx.py'
 MLX_ELABORATE = MLX_DIR + 'elaborate.py'
 
@@ -51,16 +57,24 @@ def main(argv):
 
   # create the various file names
   (infile_name_first, infile_ext) = infile_name.split (syntax.PERIOD) 
-  outfile_mlx = infile_name_first + MLX_EXTENSION
-  outfile_mlx_elaborated = infile_name_first + MLX_EXTENSION + MLX_EXTENSION
-  
-  # convert dex to mlx
-  command = PYTHON + syntax.SPACE + DEX_2_MLX + syntax.SPACE + infile_name + syntax.SPACE + LATEX_PREAMBLE_FILE
+  parsed_infile = os_utils.mk_file_name_derivative(infile_name, os_utils.PARSED)
+  parsed_infile_mlx = os_utils.mk_file_name_ext(parsed_infile, os_utils.MLX_EXTENSION)
+  outfile_mlx = os_utils.mk_file_name_ext(infile_name, os_utils.MLX_EXTENSION)
+  outfile_mlx_elaborated = os_utils.mk_file_name_derivative(parsed_infile_mlx, os_utils.ELABORATED)
+
+   # convert dex to core dex by using the parser
+  command = PYTHON + syntax.SPACE + DEX_PARSER + syntax.SPACE + infile_name
   print 'Executing command:', command
   os.system(command)
 
+  # convert core dex to mlx
+  command = PYTHON + syntax.SPACE + DEX_2_MLX + syntax.SPACE + parsed_infile + syntax.SPACE + LATEX_PREAMBLE_FILE
+  print 'Executing command:', command
+  os.system(command)
+
+
   # elaborate mlx
-  command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + outfile_mlx + syntax.SPACE + outfile_mlx_elaborated
+  command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + parsed_infile_mlx + syntax.SPACE + outfile_mlx_elaborated
   print 'Executing command:', command
   os.system(command)
 

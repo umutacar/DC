@@ -1,4 +1,10 @@
 #!/usr/bin/python
+######################################################################
+##
+## Translate dex to mlx
+## Assumes that the dex has been converted to the core language. 
+## This requires running the parser twice.
+
 import os
 import re
 import sys
