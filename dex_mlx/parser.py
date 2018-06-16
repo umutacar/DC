@@ -764,6 +764,56 @@ class Parser:
 
     return atom
 
+  # Make begin & end keywords, title
+  def mk_parsers_common_problems(self, dex_name, block_name): 
+
+
+    def process_begin(x):
+      result = self.process_block_begin(block.PROBLEM,x[0])
+      return result
+
+    def process_end(x):
+      result = self.process_block_end(block.PROBLEM,x[0])
+      return result
+    
+    begin = mk_parser_begin(dex_name)
+    begin = begin.setParseAction(process_begin)
+    begin = tokens.set_key_begin(begin)
+
+    end = mk_parser_end(dex_name)
+    end = end.setParseAction(process_end)
+    end = tokens.set_key_end(end)
+
+    # we will stop if \begin{...} is seen
+    kw_begin = pp.Literal(COM_BEGIN)
+
+    # stoppers
+    stoppers = kw_begin | end | com_course | com_instance | com_label | com_folder | com_title | com_points | com_topics | com_prompt 
+
+    label = com_label.suppress() + self.mk_parser_text_block (stoppers)
+    label = tokens.set_key_label(label)
+    label.setParseAction(lambda x: x[0])
+    label.setDebug()
+
+    points = com_points.suppress() + self.mk_parser_text_block (stoppers)
+    points = tokens.set_key_points(points)
+    points.setParseAction(lambda x: x[0])
+    points.setDebug()
+    
+    topics = com_topics.suppress() + self.mk_parser_text_block (stoppers)
+    topics = tokens.set_key_topics(topics)
+    topics.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+    topics.setDebug()
+
+    prompt = com_prompt.suppress() + self.mk_parser_text_block (stoppers)
+    prompt = tokens.set_key_prompt(prompt)
+    prompt.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+    prompt.setDebug()
+
+    return (begin, end, course, instance,  label, folder, points,  prompt, title, topics)
+    
+
+
   # Make parser for an answer
   def mk_parser_answer (self, process_answer):
     (begin, end, title__, label, parents) = self.mk_parsers_common (dex.ANSWER, Block.ANSWER)
@@ -852,12 +902,12 @@ class Parser:
   def mk_parser_select (self, process_select):
     (begin, end, title__, label, parents) = self.mk_parsers_common (dex.SELECT, Block.CHOICE)
 
-    label.setDebug ()
+#    label.setDebug ()
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_integer_number)
     points = pp.Optional(points)
     points = tokens.set_key_points(points)
-    points.setDebug()
+#    points.setDebug()
 
     # titles can be provided by with extra keyword, always optional
     # Make it a group to provide uniform access with optional titles
@@ -865,12 +915,12 @@ class Parser:
 #    title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
     title = pp.Optional(title)
-    title.setDebug()
+#    title.setDebug()
 
     # select body
     body = self.mk_parser_text_block(com_explain | end)
     body = tokens.set_key_body(body)
-    body.setDebug()
+#    body.setDebug()
    
     # explaination, optional
     explain = com_explain.suppress() + self.mk_parser_text_block (com_hint | end)
@@ -878,7 +928,7 @@ class Parser:
     # because of the optional, we need to handle it again
     explain = explain.setParseAction(lambda x: '\n'.join(x.asList()))
     explain = tokens.set_key_explain(explain)
-    explain.setDebug()
+#    explain.setDebug()
 
     select = begin + points + \
              (label & parents) + \
@@ -889,7 +939,7 @@ class Parser:
 
     select.setParseAction(process_select)
     select = tokens.set_key_select(select)
-    select.setDebug()
+ #   select.setDebug()
     return select
 
   # Make parser for common problem elements
@@ -910,7 +960,7 @@ class Parser:
     begin_select = mk_parser_begin(dex.SELECT)
 
     # stoppers
-    common_stopper = com_explain | com_hint | com_points | com_prompt | end_problem 
+    common_stopper = com_explain | com_hint | com_label | com_points | com_prompt | com_topics | end_problem 
     answer_stopper = begin_answer | com_answer | common_stopper
     choice_stopper = begin_choice | com_choice | com_choice_s | common_stopper
     select_stopper = begin_select | com_select | com_select_s | common_stopper
@@ -920,6 +970,17 @@ class Parser:
     points = tokens.set_key_points(points)
     points.setParseAction(lambda x: x[0])
 #    points.setDebug()
+
+    label = com_label.suppress() + self.mk_parser_text_block (all_stopper)
+    label = tokens.set_key_label(label)
+    label.setParseAction(lambda x: x[0])
+#    label.setDebug()
+
+    topics = com_topics.suppress() + self.mk_parser_text_block (all_stopper)
+    topics = pp.Optional (topics)
+    topics = tokens.set_key_topics(topics)
+    topics.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+#    topics.setDebug()
 
     # argument points
     arg_points = mk_parser_opt_arg(exp_integer_number)
@@ -995,14 +1056,14 @@ class Parser:
 #    sel_s.setDebug()
     # ## END: Choices
     
-    return (ans, choi, choi_s, explain, hint, points, prompt, sel, sel_s)
+    return (ans, choi, choi_s, explain, hint, label, points, prompt, sel, sel_s, topics)
 
   # Make parser for a free-form problem
   def mk_parser_problem_fr (self, process_problem_fr):
 
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_FR, Block.PROBLEM)
+    (begin, end, title, label__, parents) = self.mk_parsers_common (dex.PROBLEM_FR, Block.PROBLEM)
 
-    (ans, choi__, choi_s__, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_problem_elements (dex.PROBLEM_FR)
+    (ans, choi__, choi_s__, explain, hint, label, points, prompt, sel__, sel_s__, topics) = self.mk_parser_problem_elements (dex.PROBLEM_FR)
 
     simple_answer = ans + explain
 #    simple_answer.setName('simple_answer').setResultsName('simple_answer')
@@ -1023,8 +1084,8 @@ class Parser:
     problem = \
       (begin + \
        title + \
-       (label & parents) + \
-       (points & prompt & hint) + \
+       (label & parents & points & topics) + \
+       (prompt & hint) + \
        answers + \
        end) \
 
@@ -1036,9 +1097,9 @@ class Parser:
   # Make parser for a multi-answer problems
   def mk_parser_problem_ma (self, process_problem_ma):
 
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_MA, Block.PROBLEM)
+    (begin, end, title, label__, parents) = self.mk_parsers_common (dex.PROBLEM_MA, Block.PROBLEM)
 
-    (ans__, choi__, choi_s__, explain, hint, points, prompt, sel, sel_s) = self.mk_parser_problem_elements (dex.PROBLEM_MA)
+    (ans__, choi__, choi_s__, explain, hint, label, points, prompt, sel, sel_s, topics) = self.mk_parser_problem_elements (dex.PROBLEM_MA)
 
     simple_select = sel + explain
     simple_select.setParseAction(lambda toks:simple_select_to_select(toks))
@@ -1068,8 +1129,8 @@ class Parser:
     problem = \
       (begin + \
        title + \
-       (label & parents) + \
-       (hint & points & prompt) + \
+       (label & parents & points & topics) + \
+       (hint & prompt) + \
        selects + \
        end) \
 
@@ -1081,9 +1142,9 @@ class Parser:
   # Make parser for a multi-choice problems
   def mk_parser_problem_mc (self, process_problem_mc):
 
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.PROBLEM_MC, Block.PROBLEM)
+    (begin, end, title, label__, parents) = self.mk_parsers_common (dex.PROBLEM_MC, Block.PROBLEM)
 
-    (ans__, choi, choi_s, explain, hint, points, prompt, sel__, sel_s__) = self.mk_parser_problem_elements (dex.PROBLEM_MC)
+    (ans__, choi, choi_s, explain, hint, label, points, prompt, sel__, sel_s__, topics) = self.mk_parser_problem_elements (dex.PROBLEM_MC)
 
     simple_choice = choi + explain
     simple_choice.setParseAction(lambda toks:simple_choice_to_choice(toks))
@@ -1111,8 +1172,8 @@ class Parser:
     problem = \
       (begin + \
        title + \
-       (label & parents) + \
-       (hint & points & prompt) + \
+       (label & parents & points & topics) + \
+       (hint & prompt) + \
        choices + \
        end) \
 

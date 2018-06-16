@@ -151,6 +151,7 @@ def mk_str_label(label):
   return result
 
 def mk_str_label_noarg(label):
+  print "label:", label
   result = COM_LABEL + SPACE + label
   return result
 
@@ -204,6 +205,7 @@ def mk_str_website(website):
 
 def mk_str_points(x): 
   x = x.strip()
+  print "points:", x, "!"
   result = COM_POINTS + SPACE + x
   return result
 
