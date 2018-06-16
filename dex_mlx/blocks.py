@@ -415,12 +415,11 @@ class ProblemSet:
 
     result = NEWLINE + \
       dex.mk_str_begin(dex.PROBLEM_SET) +  NEWLINE + \
-      dex.mk_str_course_number(self.course_number)  + NEWLINE + \
+      dex.mk_str_course(self.course_number)  + NEWLINE + \
       dex.mk_str_instance(self.instance)  + NEWLINE + \
       dex.mk_str_folder(self.folder)  + NEWLINE + \
-      dex.mk_str_instance(self.instance)  + NEWLINE + \
-      dex.mk_str_label_noarg(self.label)  + NEWLINE + \
       dex.mk_str_title_noarg(self.title)  + NEWLINE + \
+      dex.mk_str_label_noarg(self.label)  + NEWLINE + \
       dex.mk_str_points(self.points)  + NEWLINE + \
       dex.mk_str_topics(self.topics)  + NEWLINE + \
       dex.mk_str_prompt(self.prompt)  + NEWLINE + \

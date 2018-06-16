@@ -852,11 +852,12 @@ class Parser:
   def mk_parser_select (self, process_select):
     (begin, end, title__, label, parents) = self.mk_parsers_common (dex.SELECT, Block.CHOICE)
 
+    label.setDebug ()
     # points is optional argument, will be interpreted as 0 of missing.
     points = mk_parser_opt_arg(exp_integer_number)
     points = pp.Optional(points)
     points = tokens.set_key_points(points)
-#    points.setDebug()
+    points.setDebug()
 
     # titles can be provided by with extra keyword, always optional
     # Make it a group to provide uniform access with optional titles
@@ -864,11 +865,12 @@ class Parser:
 #    title_latex = tokens.set_key_title(exp_title_latex)
     title = com_title + mk_parser_arg(title_latex)
     title = pp.Optional(title)
+    title.setDebug()
 
     # select body
     body = self.mk_parser_text_block(com_explain | end)
     body = tokens.set_key_body(body)
-#    body.setDebug()
+    body.setDebug()
    
     # explaination, optional
     explain = com_explain.suppress() + self.mk_parser_text_block (com_hint | end)
@@ -876,7 +878,7 @@ class Parser:
     # because of the optional, we need to handle it again
     explain = explain.setParseAction(lambda x: '\n'.join(x.asList()))
     explain = tokens.set_key_explain(explain)
-#    explain.setDebug()
+    explain.setDebug()
 
     select = begin + points + \
              (label & parents) + \
@@ -887,7 +889,7 @@ class Parser:
 
     select.setParseAction(process_select)
     select = tokens.set_key_select(select)
-#    select.setDebug()
+    select.setDebug()
     return select
 
   # Make parser for common problem elements
@@ -1073,7 +1075,7 @@ class Parser:
 
     problem.setParseAction(process_problem_ma)
     problem = tokens.set_key_problem(problem)
-#    problem.setDebug()
+ #   problem.setDebug()
     return problem
 
   # Make parser for a multi-choice problems
