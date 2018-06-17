@@ -85,6 +85,28 @@ def extract_common(toks):
   parents = tokens.get_parents(toks)
   return (title,  label, parents)
 
+def extract_common_problem(toks):
+  hint = tokens.get_hint(toks) 
+  label = label_to_string_force(toks)
+  points = tokens.get_points(toks) 
+  prompt = tokens.get_prompt(toks)
+  title = tokens.get_title(toks)
+  topics = tokens.get_topics(toks) 
+  return (hint, label, points, prompt, title, topics)
+
+def extract_common_solution(toks):
+  body = tokens.get_body(toks)
+  print 'body:', body
+  explain = tokens.get_explain(toks) 
+  print 'explain:', explain
+  label = label_to_string_force(toks)
+  print 'label', label
+  points = tokens.get_points_opt(toks) 
+  print 'points', points
+  title = tokens.get_title(toks)
+  print 'title', title
+  return (body, explain, label, points, title)
+
 def extract_pset (toks):
   course_number = tokens.get_course_number(toks)
   instance = tokens.get_instance(toks)
@@ -109,6 +131,32 @@ def mk_str_generic(block_name, title, label, parents, contents):
            dex.mk_str_label(label)  + NEWLINE + \
            dex.mk_str_parents (parents) + NEWLINE + NEWLINE + \
            contents + \
+           dex.mk_str_end(block_name)
+  return result
+
+#           dex.mk_str_parents_noarg (parents) + NEWLINE + NEWLINE + \
+
+def mk_str_generic_problem(block_name, title, label, contents): 
+  if contents:
+    contents = contents.strip() + NEWLINE
+  else:
+    contents = ''
+  result = NEWLINE + \
+           dex.mk_str_begin(block_name) + \
+           dex.mk_str_opt_arg(title) + NEWLINE + \
+           dex.mk_str_label_noarg (label)  + NEWLINE + \
+           contents + \
+           dex.mk_str_end(block_name)
+  return result
+
+def mk_str_generic_solution(block_name, solution): 
+  result = NEWLINE + \
+           dex.mk_str_begin(block_name) + \
+           dex.mk_str_opt_arg(solution.title) + NEWLINE + \
+           dex.mk_str_label_noarg (solution.label)  + NEWLINE + \
+           dex.mk_str_points (solution.points)  + NEWLINE + \
+           dex.mk_str_body_noarg(solution.body) + NEWLINE + \
+           dex.mk_str_explain(solution.explain) + NEWLINE + \
            dex.mk_str_end(block_name)
   return result
 
@@ -631,23 +679,15 @@ class Algo:
 class Answer:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.points = tokens.get_points_opt(toks)
-    self.body = tokens.get_body(toks)
-    self.explain = tokens.get_explain(toks)
+    (self.body, self.explain, self.label, self.points, self.title) = extract_common_solution(toks)
 
   def mk_label (self): 
     return self.label
 
   def to_string (self): 
-    contents = dex.mk_str_title(self.title) + NEWLINE + \
-               self.body + NEWLINE + \
-               dex.mk_str_explain(self.explain)
-
-    # Use points as title.
-    result = mk_str_generic (dex.ANSWER, self.points, self.label, self.parents, contents)
-#    print 'answer:', result
-
+    print "Answer.to_string"
+    result = mk_str_generic_solution (dex.ANSWER, self)
+    print 'answer:', result
     return result
 
   def to_mlx_string (self): 
@@ -673,25 +713,15 @@ class Answer:
 class Choice:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.body = tokens.get_body(toks)
-    self.explain = tokens.get_explain(toks)
-    self.points = tokens.get_points_opt(toks)
-#    print 'self.point:', self.points
-#    print 'self.title:', self.title
+    (self.body, self.explain, self.label, self.points, self.title) = extract_common_solution(toks)
 
   def mk_label (self): 
     return self.label
 
   def to_string (self): 
-    contents = dex.mk_str_title(self.title) + NEWLINE + \
-               self.body + NEWLINE + \
-               dex.mk_str_explain(self.explain)
-
-    # Use points as title.
-    result = mk_str_generic (dex.CHOICE, self.points, self.label, self.parents, contents)
-#    print 'choice:', result
-
+    print "Choice.to_string"
+    result = mk_str_generic_solution (dex.CHOICE, self)
+    print 'choice:', result
     return result
 
   def to_mlx_string (self): 
@@ -714,26 +744,17 @@ class Choice:
 class Select:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.body = tokens.get_body(toks)
-    self.explain = tokens.get_explain(toks)
-    self.points = tokens.get_points_opt(toks)
-#    print 'self.point:', self.points
-#    print 'self.title:', self.title
+    (self.body, self.explain, self.label, self.points, self.title) = extract_common_solution(toks)
 
   def mk_label (self): 
     return self.label
 
   def to_string (self): 
-    contents = dex.mk_str_title(self.title) + NEWLINE + \
-               self.body + NEWLINE + \
-               dex.mk_str_explain(self.explain)
-
-    # Use points as title.
-    result = mk_str_generic (dex.SELECT, self.points, self.label, self.parents, contents)
-#    print 'select:', result
-
+    print "Select.to_string"
+    result = mk_str_generic_solution (dex.SELECT, self)
+    print 'select:', result
     return result
+
 
   def to_mlx_string (self): 
 
@@ -757,13 +778,7 @@ class Select:
 class ProblemFR:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.points = tokens.get_points(toks) 
-    self.prompt = tokens.get_prompt(toks)
-    self.hint = tokens.get_hint(toks) 
-# simple answer are converted to answer blocks.
-#    self.ans = tokens.get_ans(toks)
-#    self.explain = tokens.get_explain(toks) 
+    (self.hint, self.label, self.points, self.prompt, self.title, self.topics) = extract_common_problem(toks)
     self.answers = tokens.get_answers(toks) 
 #    print 'problemfr: answers:', self.answers
 
@@ -776,7 +791,7 @@ class ProblemFR:
                dex.mk_str_hint(self.hint) + NEWLINE + \
                self.answers
 
-    result = mk_str_generic (dex.PROBLEM_FR, self.title, self.label, self.parents, contents)
+    result = mk_str_generic_problem (dex.PROBLEM_FR, self.title, self.label, contents)
     return result
 
 
@@ -818,11 +833,7 @@ class ProblemFR:
 class ProblemMA:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.points = tokens.get_points(toks) 
-#    print 'problemmc: self.points', self.points
-    self.prompt = tokens.get_prompt(toks)
-    self.hint = tokens.get_hint(toks) 
+    (self.hint, self.label, self.points, self.prompt, self.title, self.topics) = extract_common_problem(toks)
     self.selects = tokens.get_selects(toks) 
 #    print 'problemmc: self.selects', self.selects
 
@@ -836,7 +847,7 @@ class ProblemMA:
                self.selects
 
 
-    result = mk_str_generic (dex.PROBLEM_MA, self.title, self.label, self.parents, contents)
+    result = mk_str_generic_problem (dex.PROBLEM_MA, self.title, self.label, contents)
     return result
 
 
@@ -867,11 +878,7 @@ class ProblemMA:
 class ProblemMC:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.points = tokens.get_points(toks) 
-#    print 'problemmc: self.points', self.points
-    self.prompt = tokens.get_prompt(toks)
-    self.hint = tokens.get_hint(toks) 
+    (self.hint, self.label, self.points, self.prompt, self.title, self.topics) = extract_common_problem(toks)
     self.choices = tokens.get_choices(toks) 
 #    print 'problemmc: self.choices', self.choices
 
@@ -884,7 +891,7 @@ class ProblemMC:
                dex.mk_str_hint(self.hint) + NEWLINE + \
                self.choices
 
-    result = mk_str_generic (dex.PROBLEM_MC, self.title, self.label, self.parents, contents)
+    result = mk_str_generic_problem (dex.PROBLEM_MC, self.title, self.label, contents)
     return result
 
 
@@ -934,7 +941,7 @@ class QuestionFR:
                dex.mk_str_hint(self.hint) + NEWLINE + \
                self.answers
 
-    result = mk_str_generic (dex.QUESTION_FR, self.title, self.label, self.parents, contents)
+    result = mk_str_generic_problem (dex.QUESTION_FR, self.title, self.label, contents)
     return result
 
 

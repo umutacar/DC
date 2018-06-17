@@ -356,15 +356,17 @@ def set_key_website(parser):
 # small ans(wer)
 def sanitize (result):
 #  print "sanitize", result
-  result = result.strip()
+  if result:
+    result = result.strip()
   return result
 
+# This isa  list
 def get_ans(toks):
   try: 
     result = toks[KEY_ANS]
   except KeyError:
     result = KW_NO_ANS
-  return sanitize(result)
+  return result
 
 
 def get_answer(toks):
@@ -511,14 +513,14 @@ def get_label(toks):
   except KeyError:
     # label = KW_UNLABELED
     label = None
-  return label
+  return sanitize(label)
 
 def get_label_force(toks):
   try:
     label = toks[KEY_LABEL]
   except KeyError:
     label = None
-  return label
+  return sanitize(label)
 
 # I don't know why I need the 0 here.
 # One possibility: if it may or may not exists, then you get a conditional.
@@ -560,7 +562,10 @@ def get_picture(toks):
   return sanitize(result)
 
 def get_points(toks):
-  result = toks[KEY_POINTS]
+  try:
+    result = toks[KEY_POINTS]
+  except KeyError:
+    result = KW_NO_POINTS
   return sanitize(result)
 
 def get_points_opt(toks):
