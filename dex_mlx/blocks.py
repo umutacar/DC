@@ -107,7 +107,16 @@ def extract_common_solution(toks):
   print 'title', title
   return (body, explain, label, points, title)
 
-def extract_pset (toks):
+def extract_problem_group (toks):
+  title = tokens.get_title(toks)
+  label = label_to_string_force(toks)
+  points = tokens.get_points(toks)
+  topics = tokens.get_topics(toks)
+  prompt = tokens.get_prompt(toks)  
+  return (title, label, points, prompt, topics)
+
+
+def extract_problem_set (toks):
   course_number = tokens.get_course_number(toks)
   instance = tokens.get_instance(toks)
   folder = tokens.get_folder(toks)
@@ -180,7 +189,25 @@ def mk_mlx_str_fields_common (block, convert_title):
        mlx.mk_str_parents (parents)]
   return r
 
-def mk_mlx_str_fields_pset(pset): 
+def mk_mlx_str_fields_problem_group(block): 
+
+  if block.contents:
+    contents = block.contents.strip() + NEWLINE
+  else:
+    contents = ''
+
+  result = [\
+    mlx.mk_str_title(block.title), \
+    mlx.mk_str_label(block.label), \
+    mlx.mk_str_points(block.points), \
+    mlx.mk_str_topics(block.topics), \
+    mlx.mk_str_prompt(block.prompt), \
+    contents\
+   ]            
+  return result
+
+
+def mk_mlx_str_fields_problem_set(pset): 
   if pset.contents:
     contents = pset.contents.strip() + NEWLINE
   else:
@@ -510,11 +537,53 @@ class Checkpoint:
     r = mlx.mk_str_checkpoint(fields)
     return NEWLINE + r
 
+
+## Problemset
+class ProblemGroup:
+  def __init__(self, toks):
+    self.index = new_index ()
+    (self.title, self.label, self.points, self.prompt, self.topics) = extract_problem_group(toks)
+    print "title = ", self.title
+    print "label = ", self.label
+    print "points = ", self.points
+    print "prompt = ", self.prompt
+    print "topics = ", self.topics            
+
+    self.contents = tokens.get_contents(toks) 
+
+  def mk_label (self):
+    return self.label    
+
+  def to_string (self): 
+    if self.contents:
+      contents = self.contents.strip() + NEWLINE
+    else:
+      contents = ''
+
+    result = NEWLINE + \
+      dex.mk_str_begin(dex.PROBLEM_GROUP) + \
+      dex.mk_str_opt_arg(self.title)  + NEWLINE + \
+      dex.mk_str_label_noarg(self.label)  + NEWLINE + \
+      dex.mk_str_points(self.points)  + NEWLINE + \
+      dex.mk_str_topics(self.topics)  + NEWLINE + \
+      dex.mk_str_prompt(self.prompt)  + NEWLINE + \
+      contents + \
+      dex.mk_str_end(dex.PROBLEM_GROUP)
+
+    return result
+
+
+  def to_mlx_string (self):
+    fields = mk_mlx_str_fields_problem_group(self)
+    r = mlx.mk_str_problem_group(fields)
+    return NEWLINE + r
+
+
 ## Problemset
 class ProblemSet:
   def __init__(self, toks):
     self.index = new_index ()
-    (self.course_number, self.instance, self.folder, self.title, self.label, self.parents,  self.points, self.prompt, self.topics) = extract_pset(toks)
+    (self.course_number, self.instance, self.folder, self.title, self.label, self.parents,  self.points, self.prompt, self.topics) = extract_problem_set(toks)
     print "course number = ", self.course_number
     print "title = ", self.title
     print "label = ", self.label
@@ -556,7 +625,7 @@ class ProblemSet:
     contents = self.contents.strip()
     print 'problemset.to_mlx_string: title: ', self.title
 
-    fields = mk_mlx_str_fields_pset(self)
+    fields = mk_mlx_str_fields_problem_set(self)
     r = mlx.mk_str_problem_set(fields)
     return NEWLINE + r
 
@@ -1161,6 +1230,11 @@ def problem_mc_to_string(toks):
 def checkpoint_to_string(toks): 
   print '      matched checkpoint.'
   block = Checkpoint(toks)
+  return block.to_string()
+
+def problem_group_to_string(toks): 
+  print '      matched problem_group.'
+  block = ProblemGroup(toks)
   return block.to_string()
 
 def problem_set_to_string(toks): 

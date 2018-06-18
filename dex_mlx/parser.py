@@ -197,6 +197,12 @@ com_select_s = pp.Keyword(dex.COM_SELECT_S)
 
 ## END Globals
 ######################################################################
+
+## Parse Actions
+def set_parse_action_list_to_text(parser):
+  parser = parser.setParseAction(lambda x: (NEWLINE.join(x.asList())).strip())
+  return parser
+
 def set_text_block_parse_action(parser):
   parser = parser.setParseAction(lambda x: (NEWLINE.join(x.asList())).strip())
   return parser
@@ -204,6 +210,8 @@ def set_text_block_parse_action(parser):
 def set_text_block_parse_action_single(parser):
   parser = parser.setParseAction(lambda x: x[0].strip())
   return parser
+
+
 
 
 ######################################################################
@@ -554,7 +562,9 @@ class Parser:
   def mk_parser_problem_set (self):
     (begin, end, course, instance, label, folder, points,  prompt, title, topics) = self.mk_parsers_common_pset (dex.PROBLEM_SET, Block.PROBLEM_SET)
     
-    contents = tokens.set_key_contents(self.exp_problems)
+    contents = pp.ZeroOrMore(self.exp_problem_set_elements)
+    contents = tokens.set_key_contents(contents)
+    set_parse_action_list_to_text(contents)
 #    contents.setDebug()
 
     problem_set = \
@@ -569,7 +579,7 @@ class Parser:
    
     problem_set = tokens.set_key_problem_set(problem_set)
     problem_set.setParseAction(self.process_problem_set)
-
+    problem_set.setDebug()
     return problem_set
   
 
@@ -899,6 +909,7 @@ class Parser:
     begin = mk_parser_begin(dex_name)
     begin = begin.setParseAction(process_begin)
     begin = tokens.set_key_begin(begin)
+    begin.setDebug()
 
     end = mk_parser_end(dex_name)
     end = end.setParseAction(process_end)
@@ -933,7 +944,7 @@ class Parser:
 
     topics = com_topics.suppress() + self.mk_parser_text_block (all_stopper)
     topics = pp.Optional (topics)
-    topics.setParseAction(lambda x: (NEWLINE.join(x.asList())))
+    topics = set_text_block_parse_action(topics)
     topics = tokens.set_key_topics(topics)
 
 #    topics.setDebug()
@@ -944,7 +955,7 @@ class Parser:
     title = mk_parser_opt_arg(exp_title)
     title = pp.Optional(title)
     title = tokens.set_key_title(title)
-#    title = title.setDebug()
+    title = title.setDebug()
 
     # title = com_title.suppress() + self.mk_parser_text_block (all_stopper)
     # title = pp.Optional(title)
@@ -959,7 +970,7 @@ class Parser:
 #    arg_points.setDebug()
 
     prompt = com_prompt.suppress() + self.mk_parser_text_block (all_stopper)
-    prompt = set_text_block_parse_action_single(prompt)
+    prompt = set_text_block_parse_action(prompt)
     prompt = tokens.set_key_prompt(prompt)
 #    prompt.setDebug()
 
@@ -1133,10 +1144,7 @@ class Parser:
 #    choices.setDebug()
 
 
-    ## NOTE: EXTREMELY FRAGILE
-    ## If answers is included as part of the & pattern, it gets
-    ## attempted at every possible location and somehow the match 
-    ## gets forgotton.  
+
     problem = \
       (begin + \
        title + \
@@ -1149,6 +1157,48 @@ class Parser:
     problem = tokens.set_key_problem(problem)
 #    problem.setDebug()
     return problem
+
+
+  # Parser for group
+  def mk_parser_problem_group (self):
+    (begin, end, title, label, parents__) = self.mk_parsers_common (dex.PROBLEM_GROUP, Block.PROBLEM_GROUP)
+
+    # stoppers
+    stoppers = com_begin | com_label | com_points | com_prompt |  com_topics | end 
+    label = com_label.suppress() + self.mk_parser_text_block (stoppers)
+    label = set_text_block_parse_action_single(label)
+    label = tokens.set_key_label(label)
+    label.setDebug()
+
+    points = com_points.suppress() + self.mk_parser_text_block(stoppers)
+    points = set_text_block_parse_action_single(points)
+    points = tokens.set_key_points(points)
+    points.setDebug()
+
+    topics = com_topics.suppress() + self.mk_parser_text_block (stoppers)
+    topics = pp.Optional (topics)
+    topics = set_text_block_parse_action(topics)
+    topics = tokens.set_key_topics(topics)
+
+    prompt = com_prompt.suppress() + self.mk_parser_text_block (stoppers)
+    prompt = pp.Optional(prompt)
+    prompt = set_text_block_parse_action(prompt)
+    prompt = tokens.set_key_prompt(prompt)
+
+    contents = self.exp_problems
+    contents = tokens.set_key_contents(contents)
+ #   contents.setDebug()
+    group = begin + \
+            title + \
+            (label & points & topics) + \
+            prompt + \
+            contents + \
+            end
+    group.setParseAction(self.process_problem_group)
+    group = tokens.set_key_group(group)
+
+
+    return group
 
 
   def __init__(self, \
@@ -1191,6 +1241,7 @@ class Parser:
                process_problem_fr, \
                process_problem_ma, \
                process_problem_mc, \
+               process_problem_group, \
                process_problem_set, \
                process_assignment, \
                process_asstproblem, \
@@ -1240,6 +1291,7 @@ class Parser:
     self.process_problem_ma = process_problem_ma
     self.process_problem_mc = process_problem_mc
     self.process_checkpoint = process_problem_set
+    self.process_problem_group = process_problem_group
     self.process_problem_set = process_problem_set
     self.process_assignment = process_assignment
     self.process_asstproblem = process_asstproblem
@@ -1341,25 +1393,32 @@ class Parser:
     ## TODO: the next line seems redundant
     self.exp_atoms = self.exp_atoms.ignore(latex_comment)
     self.exp_atoms = self.exp_atoms.setName('exp_atoms').setResultsName('exp_atoms')
-    self.exp_atoms.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_atoms)
 
     # problems expressions
     self.exp_problem =  self.problem_fr | self.problem_ma | self.problem_mc
     self.exp_problems = pp.ZeroOrMore(self.exp_problem)
-    self.exp_problems.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_problems)
 #    self.exp_problems.setDebug()
 
     # group expressions
     self.exp_group = self.mk_parser_group()
     self.exp_group = self.exp_group.ignore(latex_comment)
 
+    # problem group expressions
+    self.exp_problem_group = self.mk_parser_problem_group()
+    self.exp_problem_group = self.exp_problem_group.ignore(latex_comment)
+
+    # problem set elements
+    self.exp_problem_set_elements =  self.problem_fr | self.problem_ma | self.problem_mc | self.exp_problem_group
+    self.exp_problem_set_elements.setDebug()
+
     # a unit element is an atom or a  group
     self.exp_elements = pp.ZeroOrMore(self.exp_atom | self.exp_group)
-    self.exp_elements.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_elements)
 
     # checkpoint expressions
     self.exp_checkpoint = self.mk_parser_checkpoint()
-
     
     # problem_set expressions
     self.exp_pset = self.mk_parser_problem_set()
@@ -1369,21 +1428,22 @@ class Parser:
     self.exp_asstproblem = self.exp_asstproblem.setName('exp_asstproblem').setResultsName('exp_asstproblem')
     self.exp_asstproblems = pp.ZeroOrMore(self.exp_asstproblem)
     self.exp_asstproblems = self.exp_asstproblems.setName('exp_asstproblems').setResultsName('exp_asstproblems')
-    self.exp_asstproblems.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_asstproblems)
 
     # assignment expresssions
     self.exp_assignment = self.mk_parser_assignment()
     self.exp_assignment = self.exp_assignment.setName('exp_assignment').setResultsName('exp_assignment')
     self.exp_assignments = pp.ZeroOrMore(self.exp_assignment)
     self.exp_assignments = self.exp_assignments.setName('exp_assignments').setResultsName('exp_assignments')
-    self.exp_assignments.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_assignments)
+
 
     # dex unit
     self.exp_unit = self.mk_parser_unit()
     self.exp_unit = self.exp_unit.setName('exp_unit').setResultsName('exp_unit')
     self.exp_units = pp.ZeroOrMore(self.exp_unit) 
     self.exp_units = self.exp_units.setName('exp_units').setResultsName('exp_units')
-    self.exp_units.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_units)
 
     # dex section
     self.exp_section = self.mk_parser_section()
@@ -1391,7 +1451,7 @@ class Parser:
     self.exp_section = self.exp_section.setName('exp_section').setResultsName('exp_section')
     self.exp_sections = pp.ZeroOrMore(self.exp_section) 
     self.exp_sections = self.exp_sections.setName('exp_sections').setResultsName('exp_sections')
-    self.exp_sections.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_sections)
 
     # dex chapter
     self.exp_chapter = self.mk_parser_chapter()
@@ -1400,7 +1460,8 @@ class Parser:
     #self.exp_chapter.setDebug()
     self.exp_chapters = pp.ZeroOrMore(self.exp_chapter) 
     self.exp_chapters = self.exp_chapters.setName('exp_chapters').setResultsName('exp_chapters')
-    self.exp_chapters.setParseAction(lambda x: '\n'.join(x.asList()))
+    set_parse_action_list_to_text(self.exp_chapters)
+
 
     # dex book
     self.exp_book = self.mk_parser_book()
@@ -1443,6 +1504,7 @@ def mk_uniform_parser (\
                        process_problem_fr, \
                        process_problem_ma, \
                        process_problem_mc, \
+                       process_problem_group, \
                        process_problem_set, \
                        process_assignment, \
                        process_asstproblem, \
@@ -1488,6 +1550,7 @@ def mk_uniform_parser (\
                         process_problem_fr, \
                         process_problem_ma, \
                         process_problem_mc, \
+                        process_problem_group, \
                         process_problem_set, \
                         process_assignment, \
                         process_asstproblem, \
@@ -1515,6 +1578,7 @@ def parse (parents_optional, titles_optional, \
            process_book,  \
            process_chapter, process_course, process_group, \
            process_problem_fr, process_problem_ma, process_problem_mc, \
+           process_problem_group, \
            process_problem_set, \
            process_assignment, \
            process_asstproblem, \
@@ -1538,6 +1602,7 @@ def parse (parents_optional, titles_optional, \
                              process_problem_fr, \
                              process_problem_ma, \
                              process_problem_mc, \
+                             process_problem_group, \
                              process_problem_set, \
                              process_assignment, \
                              process_asstproblem, \
@@ -1658,6 +1723,7 @@ def main(argv):
              blocks.problem_fr_to_string, \
              blocks.problem_ma_to_string, \
              blocks.problem_mc_to_string, \
+             blocks.problem_group_to_string, \
              blocks.problem_set_to_string, \
              blocks.assignment_to_string, \
              blocks.asstproblem_to_string, \

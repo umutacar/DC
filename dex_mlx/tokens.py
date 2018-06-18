@@ -608,7 +608,11 @@ def get_provides_assignment(toks):
   return sanitize(result)
 
 def get_prompt(toks):
-  result = toks[KEY_PROMPT]
+  try:
+    result = toks[KEY_PROMPT]
+  except KeyError:
+    result = KW_NO_PROMPT
+
   return sanitize(result)
 
 def get_topics(toks):
