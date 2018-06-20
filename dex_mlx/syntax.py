@@ -8,6 +8,7 @@ from pervasives.syntax import *
 # Commands
 COM_ANSWER = r'\answer'
 COM_AUTHORS = r'\authors'
+COM_BODY = r'\body'
 COM_COURSE_NUMBER = r'\coursenumber'
 COM_DOCUMENT_CLASS = r'\documentclass{course}'
 COM_CHOICE = r'\choice'
@@ -20,6 +21,7 @@ COM_HINT = r'\hint'
 COM_INFO = r'\info'
 COM_INSTANCE = BACKSLASH + r'instance'
 COM_NO = r'\no'
+COM_PARENTS = r'\parents'
 COM_PICTURE = r'\picture'
 COM_POINTS = r'\points'
 COM_PROMPT = r'\prompt'
@@ -55,6 +57,7 @@ GROUP = r'group'
 PROBLEM_FR = r'problemfr'
 PROBLEM_MA = r'problemma'
 PROBLEM_MC = r'problemmc'
+PROBLEM_GROUP = r'problemgroup'
 PROBLEM_SET = r'problemset'
 SELECT = r'select'
 SECTION = r'section'
@@ -99,6 +102,11 @@ def mk_str_ans(x):
 def mk_str_authors(authors):
   result = COM_AUTHORS + mk_str_arg(authors)
   return result 
+
+def mk_str_body_noarg (body):
+  result = COM_BODY + SPACE + body
+  return result 
+
 
 def mk_str_choices(xs): 
   ys = map(lambda x: str(x[0]).strip() + ' ' + str(x[1]).strip(), xs)  
@@ -151,6 +159,7 @@ def mk_str_label(label):
   return result
 
 def mk_str_label_noarg(label):
+  print "label:", label
   result = COM_LABEL + SPACE + label
   return result
 
@@ -162,8 +171,20 @@ def mk_str_parent(x):
   result = COM_PARENT + mk_str_arg(x)
   return result
 
+def mk_str_parent_noarg(x): 
+  result = COM_PARENT + SPACE + x
+  return result
+
 def mk_str_parents(x): 
   y = map(lambda p: mk_str_parent(p), x)
+  result = '\n'.join(y)
+#  if result == '':
+#    result = mk_str_parent(KW_NO_PARENTS)
+
+  return result
+
+def mk_str_parents_noarg (x): 
+  y = map(lambda p: mk_str_parent_noarg(p), x)
   result = '\n'.join(y)
 #  if result == '':
 #    result = mk_str_parent(KW_NO_PARENTS)
@@ -204,6 +225,7 @@ def mk_str_website(website):
 
 def mk_str_points(x): 
   x = x.strip()
+  print "points:", x, "!"
   result = COM_POINTS + SPACE + x
   return result
 

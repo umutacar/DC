@@ -1,4 +1,10 @@
 #!/usr/bin/python
+######################################################################
+##
+## Translate dex to mlx
+## Assumes that the dex has been converted to the core language. 
+## This requires running the parser twice.
+
 import os
 import re
 import sys
@@ -80,12 +86,21 @@ def process_group (toks):
   r = group.to_mlx_string()
   return r
 
-def process_problemset (toks): 
-  print 'problemset matched:'
+def process_problem_group (toks): 
+  print 'problemgroup matched:'
 
-  problemset = blocks.ProblemSet(toks)
-  r = problemset.to_mlx_string()
-#  print 'problemset: ', r
+  block = blocks.ProblemGroup(toks)
+  r = block.to_mlx_string()
+#  print 'problemgroup: ', r
+  return r
+
+
+def process_problem_set (toks): 
+  print 'problem_set matched:'
+
+  problem_set = blocks.ProblemSet(toks)
+  r = problem_set.to_mlx_string()
+#  print 'problem_set: ', r
   return r
 
 def process_assignment (toks): 
@@ -223,7 +238,8 @@ def parse (process_algo, \
            process_problem_fr, \
            process_problem_ma, \
            process_problem_mc, \
-           process_problemset, \
+           process_problem_group, \
+           process_problem_set, \
            process_section, \
            process_unit, \
            data):
@@ -276,7 +292,8 @@ def parse (process_algo, \
              process_problem_fr, \
              process_problem_ma, \
              process_problem_mc, \
-             process_problemset, \
+             process_problem_group, \
+             process_problem_set, \
              process_assignment, \
              process_asstproblem, \
              process_section, \
@@ -332,7 +349,8 @@ def main(argv):
              process_problem_fr, \
              process_problem_ma, \
              process_problem_mc, \
-             process_problemset, \
+             process_problem_group, \
+             process_problem_set, \
              process_section, \
              process_unit, data)
 

@@ -354,7 +354,13 @@ def set_key_website(parser):
 ##
 
 # small ans(wer)
+def sanitize (result):
+#  print "sanitize", result
+  if result:
+    result = result.strip()
+  return result
 
+# This isa  list
 def get_ans(toks):
   try: 
     result = toks[KEY_ANS]
@@ -368,9 +374,10 @@ def get_answer(toks):
     result = toks[KEY_ANSWER]
   except KeyError:
     result = KW_NO_ANSWER
-  return result
+  return sanitize(result)
 
 # small choice
+# returns a list
 def get_choi(toks):
   try: 
     result = toks[KEY_CHOI]
@@ -383,7 +390,7 @@ def get_choice(toks):
     result = toks[KEY_CHOICE]
   except KeyError:
     result = KW_NO_CHOICE
-  return result
+  return sanitize(result)
 
 def get_answers(toks):
 #  print 'get_answers: toks = ', toks
@@ -391,7 +398,7 @@ def get_answers(toks):
     result = toks[KEY_ANSWERS]
   except KeyError:
     result = KW_NO_ANSWERS
-  return result
+  return sanitize(result)
 
 def get_assignment(toks):
   return toks.get(KEY_ASSIGNMENT)
@@ -414,7 +421,7 @@ def get_book(toks):
 
 def get_choices(toks):
   result = toks[KEY_CHOICES]
-  return result
+  return sanitize(result)
 
 def get_correctness(toks):  
   return toks[KEY_CORRECTNESS]
@@ -429,7 +436,7 @@ def get_contents(toks):
   except KeyError:
     result = ''
 #  print 'get_contents: result = ', result
-  return result
+  return sanitize(result)
 
 def get_duedate(toks):
   return toks[KEY_DUEDATE]
@@ -439,7 +446,7 @@ def get_group_contents(toks):
     result = toks[KEY_GROUP_CONTENTS]
   except KeyError:
     result = None
-  return result
+  return sanitize(result)
 
 def get_end(toks):
   return toks[KEY_END]
@@ -449,14 +456,14 @@ def get_explain(toks):
     result = toks[KEY_EXPLAIN]
   except KeyError:
     result = KW_NO_EXPLAIN
-  return result
+  return sanitize(result)
 
 def get_folder(toks):
   try:
     result = toks[KEY_FOLDER]
   except KeyError:
     result = KW_NO_FOLDER
-  return result
+  return sanitize(result)
 
 def get_group(toks):
   return toks[KEY_GROUP]
@@ -466,35 +473,35 @@ def get_hint(toks):
     result = toks[KEY_HINT]
   except KeyError:
     result = KW_NO_HINT
-  return result
+  return sanitize(result)
 
 def get_info(toks):
   try:
     result = toks[KEY_INFO]
   except KeyError:
     result = KW_NO_INFO
-  return result
+  return sanitize(result)
 
 def get_instance(toks):
   try:
     result = toks[KEY_INSTANCE]
   except KeyError:
     result = KW_NO_INSTANCE
-  return result
+  return sanitize(result)
 
 def get_intro(toks):
   try:
     result = toks[KEY_INTRO]
   except KeyError:
     result = KW_NO_INTRO
-  return result
+  return sanitize(result)
 
 def get_joker(toks):
   try:
     result = toks[KEY_JOKER]
   except KeyError:
     result = ''
-  return result
+  return sanitize(result)
 
 
 # I don't know why I need the 0 here.
@@ -506,14 +513,14 @@ def get_label(toks):
   except KeyError:
     # label = KW_UNLABELED
     label = None
-  return label
+  return sanitize(label)
 
 def get_label_force(toks):
   try:
     label = toks[KEY_LABEL]
   except KeyError:
     label = None
-  return label
+  return sanitize(label)
 
 # I don't know why I need the 0 here.
 # One possibility: if it may or may not exists, then you get a conditional.
@@ -552,61 +559,68 @@ def get_picture(toks):
     result = toks[KEY_PICTURE][0]
   except KeyError:
     result = KW_NO_PICTURE
-  return result
+  return sanitize(result)
 
 def get_points(toks):
-  result = toks[KEY_POINTS]
-  return result
+  try:
+    result = toks[KEY_POINTS]
+  except KeyError:
+    result = KW_NO_POINTS
+  return sanitize(result)
 
 def get_points_opt(toks):
   try:
     result = toks[KEY_POINTS][0]
   except KeyError:
     result = KW_NO_POINTS  # this should return 0
-  return result
+  return sanitize(result)
 
 def get_provides_book(toks):
   result = toks[KEY_PROVIDES_BOOK][0]
-  return result
+  return sanitize(result)
 
 def get_provides_chapter(toks):
   try:
     result = toks[KEY_PROVIDES_CHAPTER][0]
   except KeyError:
     result = KW_NO_CHAPTER_PROVISION
-  return result
+  return sanitize(result)
 
 def get_provides_section(toks):
   try:
     result = toks[KEY_PROVIDES_SECTION][0]
   except KeyError:
     result = KW_NO_SECTION_PROVISION
-  return result
+  return sanitize(result)
 
 def get_provides_unit(toks):
   try:
     result = toks[KEY_PROVIDES_UNIT][0]
   except KeyError:
     result = KW_NO_UNIT_PROVISION
-  return result
+  return sanitize(result)
 
 def get_provides_assignment(toks):
   try:
     result = toks[KEY_PROVIDES_ASSIGNMENT][0]
   except KeyError:
     result = KW_NO_ASSIGNMENT_PROVISION
-  return result
+  return sanitize(result)
 
 def get_prompt(toks):
-  result = toks[KEY_PROMPT]
-  return result
+  try:
+    result = toks[KEY_PROMPT]
+  except KeyError:
+    result = KW_NO_PROMPT
+
+  return sanitize(result)
 
 def get_topics(toks):
   try:
     result = toks[KEY_TOPICS]
   except KeyError:
     result = KW_NO_TOPICS
-  return result
+  return sanitize(result)
 
 
 def get_checkpoint(toks):
@@ -615,9 +629,10 @@ def get_checkpoint(toks):
   except KeyError:
     result = ''
 #    result = KW_NO_CHECKPOINT
-  return result
+  return sanitize(result)
 
 # small select
+# returns a list
 def get_sel(toks):
   try: 
     result = toks[KEY_SEL]
@@ -630,11 +645,11 @@ def get_select(toks):
     result = toks[KEY_SELECT]
   except KeyError:
     result = KW_NO_SELECT
-  return result
+  return sanitize(result)
 
 def get_selects(toks):
   result = toks[KEY_SELECTS]
-  return result
+  return sanitize(result)
 
 
 # def get_parents_with_flag(toks):
@@ -655,14 +670,14 @@ def get_semester(toks):
   except KeyError:
     result = KW_NO_SEMESTER
 
-  return result
+  return sanitize(result)
 
 def get_solution(toks):
   try: 
     result = toks[KEY_SOLUTION]
   except KeyError:
     result = KW_NO_SOLUTION
-  return result
+  return sanitize(result)
 
 
 def get_unique(toks):
@@ -678,22 +693,22 @@ def get_website(toks):
     result = toks[KEY_WEBSITE][0]
   except KeyError:
     result = KW_NO_WEBSITE
-  return result
+  return sanitize(result)
 
 # I don't know why I need the 0 here.
 def get_title(toks):
   try:
-    title = toks[KEY_TITLE][0]
+    result = toks[KEY_TITLE][0]
   except KeyError:
-    title = KW_UNTITLED
-  return title
+    result = KW_UNTITLED
+  return sanitize(result)
 
 def get_title_force(toks):
   try:
-    title = toks[KEY_TITLE]
+    result = toks[KEY_TITLE]
   except KeyError:
-    title = KW_UNTITLED
-  return title
+    result = KW_UNTITLED
+  return sanitize(result)
 
 ## END: Field Extractors
 ######################################################################
