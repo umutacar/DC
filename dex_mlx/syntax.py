@@ -62,6 +62,7 @@ PROBLEM_SET = r'problemset'
 SELECT = r'select'
 SECTION = r'section'
 SUBSECTION = r'subsection'
+SUBSUBSECTION = r'subsubsection'
 
 
 # Atoms

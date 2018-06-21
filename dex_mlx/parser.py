@@ -540,8 +540,6 @@ class Parser:
     authors = com_authors + mk_parser_arg(exp_authors_keyed)
 
     contents = tokens.set_key_contents(self.exp_chapters)
-#    contents = contents.setDebug()
-    asst = tokens.set_key_assignment(self.exp_assignments)
 
     # Wrap it inside a group so that the 
     # course can assign a contents key it without updating the book contents
@@ -550,7 +548,6 @@ class Parser:
            (label & parents) + \
            authors + \
            contents + \
-           asst + \
            book_end
 
     book = tokens.set_key_chapter(book)
@@ -650,8 +647,8 @@ class Parser:
             (label & parents) + \
             contents + \
             end
-    group = tokens.set_key_group(group)
     group.setParseAction(self.process_group)
+    group = tokens.set_key_group(group)
 
     return group
 
@@ -659,8 +656,10 @@ class Parser:
   def mk_parser_subsection (self):
     (begin, end, title, label, parents) = self.mk_parsers_common (dex.SUBSECTION, Block.SUBSECTION)
 
-    contents = tokens.set_key_contents(self.exp_elements)
-
+    contents = self.exp_elements + self.exp_subsubsections
+    set_parse_action_list_to_text(contents)
+    contents = tokens.set_key_contents(contents)
+    
     subsection = begin + \
            title + \
            (label & parents) +\
@@ -684,84 +683,9 @@ class Parser:
             contents + \
             end
     block = tokens.set_key_subsection(block)
-    block.setParseAction(self.process_subsection)
-
+    block.setParseAction(self.process_subsubsection)
+    block.setDebug()
     return block
-
-  # Make a parser for an assignment
-  def mk_parser_assignment (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ASSIGNMENT, Block.ASSIGNMENT)
-
-    title_latex = tokens.set_key_title(exp_title_latex)
-    title = com_title + mk_parser_arg(title_latex)
-
-    # using the title latex?
-    exp_duedate_latex = exp_title_latex
-    duedate_latex = tokens.set_key_duedate(exp_duedate_latex)
-    duedate = com_duedate + mk_parser_arg(duedate_latex)
-
-    contents = tokens.set_key_contents(self.exp_asstproblems)
-
-    assignment = begin + \
-                 title + \
-                 (label & parents) + \
-                 duedate + \
-                 contents + \
-                 end
-    assignment = tokens.set_key_assignment(assignment)
-    assignment.setParseAction(self.process_assignment)
-    return assignment
-
-  # Make a parser for a problem
-  def mk_parser_asstproblem (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ASSTPROBLEM, Block.ASSTPROBLEM)
-
-    title_latex = tokens.set_key_title(exp_title_latex)
-    title = com_title + mk_parser_arg(title_latex)
-
-    contents = tokens.set_key_contents(self.exp_problems)
-
-    info = com_info.suppress() + self.mk_parser_text_block(com_begin_problemfr | com_begin_problemmc)
-    info = info * (0, 1)
-    info = set_text_block_parse_action(info)
-    info = tokens.set_key_info(info)
-
-    problem = begin + \
-              title + \
-              (label & parents) + \
-              info + \
-              contents + \
-              end
-    problem = tokens.set_key_asstproblem(problem)
-    problem.setParseAction(self.process_asstproblem)
-    return problem
-
-  # Make parser for an algorithm
-  def mk_parser_algo (self, process_algo):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.ALGO, Block.ALGO)
-
-#    begin.setDebug()
-#    end.setDebug()
-    
-    # a line of the body is a line of text that does not start with 
-    # \end{algo}
-    # combining leads to dropping of initial spaces 
-    # body_line = pp.Combine(~end + pp.restOfLine() + pp.lineEnd())
-    body_line = ~end + pp.restOfLine() + pp.lineEnd().suppress()
-
-    # Body is multiple lines
-    body = pp.ZeroOrMore(body_line)
-    body = tokens.set_key_body(body)
-#    body.setDebug()
- 
-    # Algo cannot be nested
-    algo = begin + \
-           title + \
-           (label & parents) + \
-           body + \
-           end
-    algo.setParseAction(process_algo)
-    return algo
 
   # Make parser for an atom
   def mk_parser_atom (self, atom_name, process_atom):
@@ -1194,6 +1118,12 @@ class Parser:
 
     return group
 
+  def mk_blocks (self, block, name):
+    name_plural = name + 's'
+    blocks = pp.ZeroOrMore(block) 
+    blocks = blocks.setName(name_plural).setResultsName(name_plural)
+    set_parse_action_list_to_text(blocks)
+    return blocks
 
   def __init__(self, \
                parents_optional, \
@@ -1238,9 +1168,9 @@ class Parser:
                process_problem_group, \
                process_problem_set, \
                process_assignment, \
-               process_asstproblem, \
                process_section, \
-               process_subsection):
+               process_subsection, \
+               process_subsubsection):
 
     self.parents_optional = parents_optional
     self.titles_optional = titles_optional
@@ -1287,9 +1217,9 @@ class Parser:
     self.process_problem_group = process_problem_group
     self.process_problem_set = process_problem_set
     self.process_assignment = process_assignment
-    self.process_asstproblem = process_asstproblem
     self.process_section = process_section
     self.process_subsection = process_subsection
+    self.process_subsubsection = process_subsubsection
 
     # Parser for any begin keyword
     self.begin_any_atom = self.mk_parser_begin_any_atom()
@@ -1299,25 +1229,22 @@ class Parser:
     # group this so that it is returned as a list
     self.exp_answers = pp.ZeroOrMore(self.exp_answer)
     self.exp_answers = tokens.set_key_answers(self.exp_answers)
-    self.exp_answers = self.exp_answers.setParseAction(lambda xs: NEWLINE.join(xs.asList()))
-    self.exp_answers.setDebug()
+    set_parse_action_list_to_text(self.exp_answers)
+#    self.exp_answers.setDebug()
 
     # choices
     self.exp_choice = self.mk_parser_choice(self.process_choice)
     # group this so that it is returned as a list
     self.exp_choices = pp.OneOrMore(self.exp_choice)
     self.exp_choices = tokens.set_key_choices(self.exp_choices)
-    self.exp_choices.setParseAction(lambda xs: NEWLINE.join(xs))
+    set_parse_action_list_to_text(self.exp_choices)
 
     # selects
     self.exp_select = self.mk_parser_select(self.process_select)
     # group this so that it is returned as a list
     self.exp_selects = pp.OneOrMore(self.exp_select)
     self.exp_selects = tokens.set_key_selects(self.exp_selects)
-    self.exp_selects.setParseAction(lambda xs: NEWLINE.join(xs))
-
-    # algo's
-    self.exp_algo = self.mk_parser_algo(process_algo)
+    set_parse_action_list_to_text(self.exp_selects)
 
     # Make the atoms
     # Invariant: all atoms have a title
@@ -1371,8 +1298,7 @@ class Parser:
                     self.atom_syntax | \
                     self.atom_teach_ask | \
                     self.atom_teach_note | \
-                    self.atom_theorem | \
-                    self.exp_algo   # algo's are included as atoms
+                    self.atom_theorem
 
 
     # problems
@@ -1413,45 +1339,26 @@ class Parser:
     # problem_set expressions
     self.exp_pset = self.mk_parser_problem_set()
 
-    # asstproblem expression
-    self.exp_asstproblem = self.mk_parser_asstproblem()
-    self.exp_asstproblem = self.exp_asstproblem.setName('exp_asstproblem').setResultsName('exp_asstproblem')
-    self.exp_asstproblems = pp.ZeroOrMore(self.exp_asstproblem)
-    self.exp_asstproblems = self.exp_asstproblems.setName('exp_asstproblems').setResultsName('exp_asstproblems')
-    set_parse_action_list_to_text(self.exp_asstproblems)
-
-    # assignment expresssions
-    self.exp_assignment = self.mk_parser_assignment()
-    self.exp_assignment = self.exp_assignment.setName('exp_assignment').setResultsName('exp_assignment')
-    self.exp_assignments = pp.ZeroOrMore(self.exp_assignment)
-    self.exp_assignments = self.exp_assignments.setName('exp_assignments').setResultsName('exp_assignments')
-    set_parse_action_list_to_text(self.exp_assignments)
-
+    # dex subsubsection
+    self.exp_subsubsection = self.mk_parser_subsubsection()
+    self.exp_subsubsection = self.exp_subsubsection.setName('exp_subsubsection').setResultsName('exp_subsubsection')
+    self.exp_subsubsections = self.mk_blocks(self.exp_subsubsection, 'exp_subsubsection')
 
     # dex subsection
     self.exp_subsection = self.mk_parser_subsection()
     self.exp_subsection = self.exp_subsection.setName('exp_subsection').setResultsName('exp_subsection')
-    self.exp_subsections = pp.ZeroOrMore(self.exp_subsection) 
-    self.exp_subsections = self.exp_subsections.setName('exp_subsections').setResultsName('exp_subsections')
-    set_parse_action_list_to_text(self.exp_subsections)
+    self.exp_subsections = self.mk_blocks (self.exp_subsection, 'exp_subsection') 
 
     # dex section
     self.exp_section = self.mk_parser_section()
     self.exp_section = self.exp_section.setName('exp_section').setResultsName('exp_section')
-    self.exp_section = self.exp_section.setName('exp_section').setResultsName('exp_section')
-    self.exp_sections = pp.ZeroOrMore(self.exp_section) 
-    self.exp_sections = self.exp_sections.setName('exp_sections').setResultsName('exp_sections')
-    set_parse_action_list_to_text(self.exp_sections)
+    self.exp_sections = self.mk_blocks(self.exp_section, 'exp_section') 
 
     # dex chapter
     self.exp_chapter = self.mk_parser_chapter()
     self.exp_chapter = self.exp_chapter.setName('exp_chapter').setResultsName('exp_chapter')
-    self.exp_chapter = self.exp_chapter.setName('exp_chapter').setResultsName('exp_chapter')
     #self.exp_chapter.setDebug()
-    self.exp_chapters = pp.ZeroOrMore(self.exp_chapter) 
-    self.exp_chapters = self.exp_chapters.setName('exp_chapters').setResultsName('exp_chapters')
-    set_parse_action_list_to_text(self.exp_chapters)
-
+    self.exp_chapters = self.mk_blocks (self.exp_chapter, 'exp_chapter') 
 
     # dex book
     self.exp_book = self.mk_parser_book()
@@ -1497,8 +1404,8 @@ def mk_uniform_parser (\
                        process_problem_group, \
                        process_problem_set, \
                        process_assignment, \
-                       process_asstproblem, \
-                       process_section, process_subsection): 
+                       process_section, \
+                       process_subsection, process_subsubsection): 
 
   parser = Parser (\
                         parents_optional, \
@@ -1543,9 +1450,9 @@ def mk_uniform_parser (\
                         process_problem_group, \
                         process_problem_set, \
                         process_assignment, \
-                        process_asstproblem, \
                         process_section, \
-                        process_subsection
+                        process_subsection, \
+                        process_subsubsection
                      )
 
   return parser
@@ -1571,8 +1478,8 @@ def parse (parents_optional, titles_optional, \
            process_problem_group, \
            process_problem_set, \
            process_assignment, \
-           process_asstproblem, \
-           process_section, process_subsection, \
+           process_section, \
+           process_subsection, process_subsubsection, \
            data):
 
   parser = mk_uniform_parser(\
@@ -1595,9 +1502,9 @@ def parse (parents_optional, titles_optional, \
                              process_problem_group, \
                              process_problem_set, \
                              process_assignment, \
-                             process_asstproblem, \
                              process_section, \
-                             process_subsection)
+                             process_subsection, \
+                             process_subsubsection)
 
   try:
     result = parser.document.parseString(data)
@@ -1716,9 +1623,9 @@ def main(argv):
              blocks.problem_group_to_string, \
              blocks.problem_set_to_string, \
              blocks.assignment_to_string, \
-             blocks.asstproblem_to_string, \
              blocks.section_to_string, \
              blocks.subsection_to_string, \
+             blocks.subsubsection_to_string, \
              data)
 
   # The result consists of a course and a book

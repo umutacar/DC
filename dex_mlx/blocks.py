@@ -347,7 +347,6 @@ class Book:
     (self.title, self.label, self.parents) = extract_common(toks)
     self.authors = tokens.get_authors(toks)
     self.contents = tokens.get_contents(toks)
-    self.asst = tokens.get_assignment(toks)
 #    print 'book.contents = ', self.contents
 
   def mk_label (self):
@@ -355,15 +354,12 @@ class Book:
 
   def to_string (self): 
     contents = self.contents.strip ()
-    asst = ''
-    if self.asst is not None:
-      asst = self.asst.strip()
     result = dex.mk_str_begin(dex.BOOK) + NEWLINE + \
              dex.mk_str_title(self.title) + NEWLINE + \
              dex.mk_str_label(self.label)  + NEWLINE + \
              dex.mk_str_parents (self.parents) + NEWLINE + \
              dex.mk_str_authors(self.authors) + NEWLINE +  NEWLINE + \
-             contents + NEWLINE + asst + NEWLINE + \
+             contents + NEWLINE + \
              dex.mk_str_end(dex.BOOK)
     return result
   
@@ -371,8 +367,6 @@ class Book:
     authors = mlx.mk_str_authors(self.authors)
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([authors, self.contents])
-    if self.asst is not None:
-      fields.extend([self.asst])
     r = mlx.mk_str_book(fields)
 #    print 'book.to_mlx_string:', r
     return NEWLINE + r
@@ -740,6 +734,31 @@ class Subsection:
     fields.extend([contents])
     r = mlx.mk_str_subsection(fields)
     return NEWLINE + r
+
+## Subsubsection
+class Subsubsection:
+  def __init__(self, toks):
+    self.index = new_index ()
+    (self.title, self.label, self.parents) = extract_common(toks)
+    self.contents = tokens.get_contents(toks)
+    self.checkpoint = tokens.get_checkpoint(toks) 
+#    print 'subsection.constructor: checkpoint:', self.checkpoint
+
+  def mk_label (self): 
+    return self.label
+
+  def to_string (self): 
+    contents = self.contents + NEWLINE + self.checkpoint
+    result = mk_str_generic (dex.SUBSUBSECTION, self.title, self.label, self.parents, contents)
+    return result
+
+  def to_mlx_string (self):
+    contents = self.contents + NEWLINE + self.checkpoint
+    fields = mk_mlx_str_fields_common(self, False)
+    fields.extend([contents])
+    r = mlx.mk_str_subsubsection(fields)
+    return NEWLINE + r
+
 
 ## Atom
 class Atom:
@@ -1195,6 +1214,11 @@ def section_to_string(toks):
 def subsection_to_string(toks): 
   block = Subsection(toks)
   print '    matched subsection', '[', block.title, '].'
+  return block.to_string()
+
+def subsubsection_to_string(toks): 
+  block = Subsubsection(toks)
+  print '    matched subsubsection', '[', block.title, '].'
   return block.to_string()
 
 def question_fr_to_string(toks): 
