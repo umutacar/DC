@@ -87,7 +87,7 @@ KW_NO_UNIQUE = '0'  # has to be a number still
 KW_NO_NO = '0'  # has to be a number still 
 KW_NO_CHAPTER_PROVISION = '1'   # This is the initial for chapter counter
 KW_NO_SECTION_PROVISION = '1'   # This is the initial for section counter
-KW_NO_UNIT_PROVISION = '1'   # This is the initial for unit counter
+KW_NO_SUBSECTION_PROVISION = '1'   # This is the initial for subsection counter
 KW_NO_ASSIGNMENT_PROVISION = '1' # ditto
 
 
@@ -107,7 +107,7 @@ KW_CHAPTER_TITLE_PREFIX = 'Chapter'
 KW_QUESTION_TITLE_PREFIX = 'Question'
 KW_CHECKPOINT_TITLE_PREFIX = 'Checkpoint'
 KW_SECTION_TITLE_PREFIX = 'Section'
-KW_UNIT_TITLE_PREFIX = 'Unit'
+KW_SUBSECTION_TITLE_PREFIX = 'Subsection'
 
 # Label prefixes
 KW_LABEL_PREFIX_ANSWER = 'answer'
@@ -133,7 +133,7 @@ KW_LABEL_PREFIX_QUESTION_MC = 'question_mc'
 KW_LABEL_PREFIX_SECTION = 'section'
 KW_LABEL_PREFIX_SELECT = 'select'
 KW_LABEL_PREFIX_SEMESTER = 'semester'
-KW_LABEL_PREFIX_UNIT = 'unit'
+KW_LABEL_PREFIX_SUBSECTION = 'subsection'
 
 ## Keywords, don't start with a backshlash
 KW_BOOK_NO = r'bookno'
@@ -148,7 +148,7 @@ KW_PARENT = r'parent'
 KW_PROMPT = r'prompt'
 KW_POINTS = r'points'
 KW_TRUE = r'True'
-KW_UNIT_NO = r'unitno'
+KW_SUBSECTION_NO = r'subsectionno'
 
 
 
@@ -305,9 +305,9 @@ def mk_str_latex_section_label(title):
   result = 'section:' + s 
   return result 
 
-def mk_str_latex_unit_label(title):
+def mk_str_latex_subsection_label(title):
   s = sanitize_title(title)
-  result = 'unit:' + s 
+  result = 'subsection:' + s 
   return result 
 
 def mk_str_unique (un):
@@ -328,8 +328,8 @@ def mk_str_section_title (title):
 #  print 'mk: title_out:', title_out
   return title_out
 
-def mk_str_unit_title (title):   
-  title_out = KW_UNIT_TITLE_PREFIX + COLON + cap_title(title)
+def mk_str_subsection_title (title):   
+  title_out = KW_SUBSECTION_TITLE_PREFIX + COLON + cap_title(title)
 #  print 'mk: title_out:', title_out
   return title_out
 

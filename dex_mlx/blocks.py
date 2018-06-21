@@ -417,7 +417,7 @@ class Course:
     self.provides_book = tokens.get_provides_book(toks)
     self.provides_chapter = tokens.get_provides_chapter(toks)
     self.provides_section = tokens.get_provides_section(toks)
-    self.provides_unit = tokens.get_provides_unit(toks)
+    self.provides_subsection = tokens.get_provides_subsection(toks)
     self.provides_assignment = tokens.get_provides_assignment(toks)
     # intro
     self.intro = tokens.get_joker(toks)
@@ -448,7 +448,7 @@ class Course:
              dex.mk_str_provides_book(self.provides_book)  + NEWLINE + \
              dex.mk_str_provides_chapter(self.provides_chapter)  + NEWLINE + \
              dex.mk_str_provides_section(self.provides_section)  + NEWLINE + \
-             dex.mk_str_provides_unit(self.provides_unit)  + NEWLINE + \
+             dex.mk_str_provides_subsection(self.provides_subsection)  + NEWLINE + \
              dex.mk_str_provides_assignment(self.provides_assignment) + NEWLINE + \
              dex.mk_str_semester(self.semester)  + NEWLINE + \
              dex.mk_str_website(self.website)    + NEWLINE + \
@@ -469,12 +469,12 @@ class Course:
     provides_book = mlx.mk_str_provides_book(self.provides_book)
     provides_chapter = mlx.mk_str_provides_chapter(self.provides_chapter)
     provides_section = mlx.mk_str_provides_section(self.provides_section)
-    provides_unit = mlx.mk_str_provides_unit(self.provides_unit)
+    provides_subsection = mlx.mk_str_provides_subsection(self.provides_subsection)
     provides_assignment = mlx.mk_str_provides_assignment(self.provides_assignment)
     (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([course_number, picture, semester, website, \
-                   provides_book, provides_chapter, provides_section, provides_unit, provides_assignment, \
+                   provides_book, provides_chapter, provides_section, provides_subsection, provides_assignment, \
                    intro_html, intro_dex, self.book])
     r = mlx.mk_str_course(fields)
 #    print 'blocks.course: course:', r
@@ -717,28 +717,28 @@ class Section:
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
-## Unit
-class Unit:
+## Subsection
+class Subsection:
   def __init__(self, toks):
     self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.contents = tokens.get_contents(toks)
     self.checkpoint = tokens.get_checkpoint(toks) 
-#    print 'unit.constructor: checkpoint:', self.checkpoint
+#    print 'subsection.constructor: checkpoint:', self.checkpoint
 
   def mk_label (self): 
     return self.label
 
   def to_string (self): 
     contents = self.contents + NEWLINE + self.checkpoint
-    result = mk_str_generic (dex.UNIT, self.title, self.label, self.parents, contents)
+    result = mk_str_generic (dex.SUBSECTION, self.title, self.label, self.parents, contents)
     return result
 
   def to_mlx_string (self):
     contents = self.contents + NEWLINE + self.checkpoint
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([contents])
-    r = mlx.mk_str_unit(fields)
+    r = mlx.mk_str_subsection(fields)
     return NEWLINE + r
 
 ## Atom
@@ -1192,9 +1192,9 @@ def section_to_string(toks):
   print '  matched section', '[', block.title, '].'
   return block.to_string()
 
-def unit_to_string(toks): 
-  block = Unit(toks)
-  print '    matched unit', '[', block.title, '].'
+def subsection_to_string(toks): 
+  block = Subsection(toks)
+  print '    matched subsection', '[', block.title, '].'
   return block.to_string()
 
 def question_fr_to_string(toks): 

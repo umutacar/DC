@@ -33,8 +33,8 @@ class Block:
   CHAPTER = 3
   CHOICE = 4
   SECTION = 5
-  CHECKPOINT = 6
-  UNIT = 7
+  SUBSECTION = 6
+  CHECKPOINT = 7
   GROUP = 8
   ATOM = 9
   PROBLEM_SET = 10

@@ -29,7 +29,7 @@ COM_PROVIDES_ASSIGNMENT = r'\providesassignment'
 COM_PROVIDES_BOOK = r'\providesbook' 
 COM_PROVIDES_CHAPTER = r'\provideschapter' 
 COM_PROVIDES_SECTION = r'\providessection' 
-COM_PROVIDES_UNIT = r'\providesunit' 
+COM_PROVIDES_SUBSECTION = r'\providessubsection' 
 COM_SELECT = r'\select'
 COM_SELECT_S = r'\select*'
 COM_SEMESTER = r'\semester'
@@ -61,7 +61,7 @@ PROBLEM_GROUP = r'problemgroup'
 PROBLEM_SET = r'problemset'
 SELECT = r'select'
 SECTION = r'section'
-UNIT = r'unit'
+SUBSECTION = r'subsection'
 
 
 # Atoms
@@ -207,8 +207,8 @@ def mk_str_provides_section(x):
   result = COM_PROVIDES_SECTION + mk_str_arg(x)
   return result 
 
-def mk_str_provides_unit(x):
-  result = COM_PROVIDES_UNIT + mk_str_arg(x)
+def mk_str_provides_subsection(x):
+  result = COM_PROVIDES_SUBSECTION + mk_str_arg(x)
   return result
 
 def mk_str_provides_assignment(x):

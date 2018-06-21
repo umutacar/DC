@@ -58,7 +58,7 @@ KEY_PROVIDES_ASSIGNMENT = 'KEY_PROVIDES_ASSIGNMENT'
 KEY_PROVIDES_BOOK = 'KEY_PROVIDES_BOOK'
 KEY_PROVIDES_CHAPTER = 'KEY_PROVIDES_CHAPTER'
 KEY_PROVIDES_SECTION = 'KEY_PROVIDES_SECTION'
-KEY_PROVIDES_UNIT = 'KEY_PROVIDES_UNIT'
+KEY_PROVIDES_SUBSECTION = 'KEY_PROVIDES_SUBSECTION'
 KEY_CHECKPOINT = 'KEY_CHECKPOINT'
 KEY_SECTION = 'KEY_SECTION'
 KEY_SEL = 'KEY_SEL'
@@ -69,7 +69,7 @@ KEY_SOLUTION = 'KEY_SOLUTION'
 KEY_SOLUTION_DEX = 'KEY_SOLUTION_DEX'
 KEY_TITLE = 'KEY_TITLE'
 KEY_TOPICS = 'KEY_TOPICS'
-KEY_UNIT = 'KEY_UNIT'
+KEY_SUBSECTION = 'KEY_SUBSECTION'
 KEY_UNIQUE = 'KEY_UNIQUE'
 KEY_WEBSITE = 'KEY_WEBSITE'
 
@@ -272,8 +272,8 @@ def set_key_provides_section(parser):
   parser = parser.setName(KEY_PROVIDES_SECTION).setResultsName(KEY_PROVIDES_SECTION)
   return parser
 
-def set_key_provides_unit(parser):
-  parser = parser.setName(KEY_PROVIDES_UNIT).setResultsName(KEY_PROVIDES_UNIT)
+def set_key_provides_subsection(parser):
+  parser = parser.setName(KEY_PROVIDES_SUBSECTION).setResultsName(KEY_PROVIDES_SUBSECTION)
   return parser
 
 def set_key_provides_assignment(parser):
@@ -336,8 +336,8 @@ def set_key_unique(parser):
   parser = parser.setName(KEY_UNIQUE).setResultsName(KEY_UNIQUE)
   return parser
 
-def set_key_unit(parser):
-  parser = parser.setName(KEY_UNIT).setResultsName(KEY_UNIT)
+def set_key_subsection(parser):
+  parser = parser.setName(KEY_SUBSECTION).setResultsName(KEY_SUBSECTION)
   return parser
 
 def set_key_website(parser):
@@ -593,11 +593,11 @@ def get_provides_section(toks):
     result = KW_NO_SECTION_PROVISION
   return sanitize(result)
 
-def get_provides_unit(toks):
+def get_provides_subsection(toks):
   try:
-    result = toks[KEY_PROVIDES_UNIT][0]
+    result = toks[KEY_PROVIDES_SUBSECTION][0]
   except KeyError:
-    result = KW_NO_UNIT_PROVISION
+    result = KW_NO_SUBSECTION_PROVISION
   return sanitize(result)
 
 def get_provides_assignment(toks):

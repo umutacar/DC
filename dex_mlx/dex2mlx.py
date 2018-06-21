@@ -126,12 +126,12 @@ def process_section(process_label, toks):
   r = section.to_mlx_string()
   return r
 
-# convert unit to  mlx 
-def process_unit(toks): 
-  print "unit_matched."
+# convert subsection to  mlx 
+def process_subsection(toks): 
+  print "subsection_matched."
 #  print "toks:", toks
-  unit = blocks.Unit(toks)
-  r = unit.to_mlx_string()
+  subsection = blocks.Subsection(toks)
+  r = subsection.to_mlx_string()
   return r
 
 # convert an atom to mlx
@@ -241,7 +241,7 @@ def parse (process_algo, \
            process_problem_group, \
            process_problem_set, \
            process_section, \
-           process_unit, \
+           process_subsection, \
            data):
 
   ## Make parser, no's, labels, not optional
@@ -297,7 +297,7 @@ def parse (process_algo, \
              process_assignment, \
              process_asstproblem, \
              process_section, \
-             process_unit)
+             process_subsection)
 
   try:
     result = parser.document.parseString(data)
@@ -352,7 +352,7 @@ def main(argv):
              process_problem_group, \
              process_problem_set, \
              process_section, \
-             process_unit, data)
+             process_subsection, data)
 
 
   if len(result) == 2:
