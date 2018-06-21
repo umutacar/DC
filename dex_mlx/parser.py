@@ -232,8 +232,8 @@ class Parser:
   #   block.setDebug()
   #   return block
 
-  def mk_parser_begin_any_atom(self):
-    result = mk_parser_begin(dex.ALGO) | \
+  def mk_parser_begin_any_atom_or_group(self):
+    result = mk_parser_begin(dex.GROUP) | \
              mk_parser_begin(dex.ALGORITHM) | \
              mk_parser_begin(dex.CODE) | \
              mk_parser_begin(dex.COROLLARY) | \
@@ -248,6 +248,7 @@ class Parser:
              mk_parser_begin(dex.LEMMA) | \
              mk_parser_begin(dex.NOTE) | \
              mk_parser_begin(dex.PARAGRAPH) | \
+             mk_parser_begin(dex.PARAGRAPH_HTML) | \
              mk_parser_begin(dex.PROBLEM) | \
              mk_parser_begin(dex.PROOF) | \
              mk_parser_begin(dex.PROPOSITION) | \
@@ -256,7 +257,8 @@ class Parser:
              mk_parser_begin(dex.SYNTAX) | \
              mk_parser_begin(dex.TEACH_ASK) | \
              mk_parser_begin(dex.TEACH_NOTE) | \
-             mk_parser_begin(dex.THEOREM)
+             mk_parser_begin(dex.THEOREM) 
+      
     return result    
 
 
@@ -587,13 +589,15 @@ class Parser:
 
     begin_section = mk_parser_begin(dex.SECTION)
     # intro is the part up to the first section
-    intro = self.mk_parser_text_block(begin_section | end)
+    intro = self.mk_parser_text_block(begin_section | self.begin_any_atom_or_group | end)
     intro = pp.Optional(intro)
     intro = set_text_block_parse_action_single(intro)
     intro = tokens.set_key_intro(intro)
 #    about.setDebug()
 
-    contents = tokens.set_key_contents(self.exp_sections)
+    contents = self.exp_elements + self.exp_sections
+    set_parse_action_list_to_text(contents)
+    contents = tokens.set_key_contents(contents)
 #    contents = contents.setDebug()
 
     chapter = begin + \
@@ -622,7 +626,11 @@ class Parser:
     intro = tokens.set_key_intro(intro)
 #    about.setDebug()
 
-    contents = tokens.set_key_contents(self.exp_subsections)
+
+
+    contents = self.exp_elements + self.exp_subsections
+    set_parse_action_list_to_text(contents)
+    contents = tokens.set_key_contents(contents)
 
     section = begin + title + \
              (label & parents) + \
@@ -1224,7 +1232,7 @@ class Parser:
     self.process_subsubsection = process_subsubsection
 
     # Parser for any begin keyword
-    self.begin_any_atom = self.mk_parser_begin_any_atom()
+    self.begin_any_atom_or_group = self.mk_parser_begin_any_atom_or_group()
 
     # answers
     self.exp_answer = self.mk_parser_answer(self.process_answer)
