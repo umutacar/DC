@@ -763,7 +763,8 @@ class Subsubsection:
 ## Atom
 class Atom:
 
-  def __init__(self, name, toks):
+  def __init__(self, name, translate_to_html, toks):
+    self.translate_to_html = translate_to_html
     self.index = new_index ()
     self.name = name
     (self.title, self.label, self.parents) = extract_common(toks)
@@ -778,7 +779,12 @@ class Atom:
 
   def to_mlx_string (self, atom_name_mlx):
     contents =  self.contents
-    (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
+    if translate_to_html: 
+      (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
+    else:
+      contents_dex = mlx.mk_str_body_dex(contents)
+      contents_html = mlx.mk_str_body(contents)
+
 
     fields = mk_mlx_str_fields_common(self, True)
     fields.extend([contents_html, contents_dex])
@@ -1175,7 +1181,13 @@ def asstproblem_to_string(toks):
 
 def atom_to_string(name, toks): 
 #  print 'atom to string: toks = ', toks 
-  block = Atom(name, toks)
+
+  if name == dex.PARAGRAPH_HTML:
+    translate_to_html = False
+  else: 
+    translate_to_html = True
+
+  block = Atom(name, translate_to_html, toks)
   print '        matched atom', name, '[', block.title, '].'
   return block.to_string()
 

@@ -138,7 +138,12 @@ def process_subsection(toks):
 def process_atom (atom_name_dex, atom_name_mlx, toks):
   print 'atom matched:', atom_name_dex
 
-  atom = blocks.Atom(atom_name_dex, toks)
+  if atom_name_dex == DEX.PARAGRAPH_HTML:
+    translate_to_html = False
+  else: 
+    translate_to_html = True
+
+  atom = blocks.Atom(atom_name_dex, translate_to_html, toks)
   r = atom.to_mlx_string(atom_name_mlx)
   return r
 
@@ -273,6 +278,7 @@ def parse (process_algo, \
              curry(process_atom, dex.LEMMA, mlx.LEMMA), \
              curry(process_atom, dex.NOTE, mlx.NOTE), \
              curry(process_atom, dex.PARAGRAPH, mlx.PARAGRAPH), \
+             curry(process_atom, dex.PARAGRAPH_HTML, mlx.PARAGRAPH_HTML), \
              curry(process_atom, dex.PROBLEM, mlx.PROBLEM), \
              curry(process_atom, dex.PROOF, mlx.PROOF), \
              curry(process_atom, dex.PROPOSITION, mlx.PROPOSITION), \
