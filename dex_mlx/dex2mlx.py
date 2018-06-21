@@ -134,14 +134,24 @@ def process_subsection(toks):
   r = subsection.to_mlx_string()
   return r
 
+
+# convert subsection to  mlx 
+def process_subsubsection(toks): 
+  print "subsubsection_matched."
+#  print "toks:", toks
+  subsubsection = blocks.Subsubsection(toks)
+  r = subsubsection.to_mlx_string()
+  return r
+
 # convert an atom to mlx
 def process_atom (atom_name_dex, atom_name_mlx, toks):
   print 'atom matched:', atom_name_dex
 
-  if atom_name_dex == DEX.PARAGRAPH_HTML:
+  # Should we translate body to html? 
+  # Yes, unless it is the HTML atom.
+  translate_to_html = True
+  if atom_name_dex == dex.PARAGRAPH_HTML:
     translate_to_html = False
-  else: 
-    translate_to_html = True
 
   atom = blocks.Atom(atom_name_dex, translate_to_html, toks)
   r = atom.to_mlx_string(atom_name_mlx)
@@ -301,9 +311,9 @@ def parse (process_algo, \
              process_problem_group, \
              process_problem_set, \
              process_assignment, \
-             process_asstproblem, \
              process_section, \
-             process_subsection)
+             process_subsection, \
+             process_subsubsection)
 
   try:
     result = parser.document.parseString(data)

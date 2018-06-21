@@ -656,36 +656,6 @@ class Assignment:
     r = mlx.mk_str_assignment(fields)
     return NEWLINE + r
 
-## Problem
-class AsstProblem:
-  def __init__(self, toks):
-    self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    # TODO: not sure if necessary
-    self.title = toks[1]
-    self.contents = tokens.get_contents(toks)
-    self.info = tokens.get_info(toks)
-
-  def mk_label (self):
-    return self.label
-
-  def to_string (self):
-    result = dex.mk_str_begin(dex.ASSTPROBLEM) + NEWLINE + \
-             dex.mk_str_title(self.title) + NEWLINE + \
-             dex.mk_str_label(self.label)  + NEWLINE + \
-             dex.mk_str_parents (self.parents) + NEWLINE + \
-             dex.mk_str_info(self.info) + NEWLINE + \
-             self.contents + NEWLINE + \
-             dex.mk_str_end(dex.ASSTPROBLEM) + NEWLINE
-    return NEWLINE + result
-
-  def to_mlx_string (self):
-    contents = self.contents.strip()
-    fields = mk_mlx_str_fields_common(self, False)
-    (info, info_dex) = mk_mlx_infos(self.index, self.info)
-    fields.extend([info, info_dex, contents])
-    r = mlx.mk_str_asstproblem(fields)
-    return NEWLINE + r
 
 ## Section
 class Section:
@@ -779,7 +749,7 @@ class Atom:
 
   def to_mlx_string (self, atom_name_mlx):
     contents =  self.contents
-    if translate_to_html: 
+    if self.translate_to_html: 
       (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
     else:
       contents_dex = mlx.mk_str_body_dex(contents)
@@ -1172,11 +1142,6 @@ def algo_to_string(toks):
 def assignment_to_string(toks):
   print '      matched assignment.'
   block = Assignment(toks)
-  return block.to_string()
-
-def asstproblem_to_string(toks):
-  print '      matched asstproblem.'
-  block = AsstProblem(toks)
   return block.to_string()
 
 def atom_to_string(name, toks): 
