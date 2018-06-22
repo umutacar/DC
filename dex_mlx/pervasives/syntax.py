@@ -134,6 +134,7 @@ KW_LABEL_PREFIX_SECTION = 'section'
 KW_LABEL_PREFIX_SELECT = 'select'
 KW_LABEL_PREFIX_SEMESTER = 'semester'
 KW_LABEL_PREFIX_SUBSECTION = 'subsection'
+KW_LABEL_PREFIX_SUBSUBSECTION = 'subsubsection'
 
 ## Keywords, don't start with a backshlash
 KW_BOOK_NO = r'bookno'
