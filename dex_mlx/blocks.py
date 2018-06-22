@@ -347,7 +347,6 @@ class Book:
     (self.title, self.label, self.parents) = extract_common(toks)
     self.authors = tokens.get_authors(toks)
     self.contents = tokens.get_contents(toks)
-    self.asst = tokens.get_assignment(toks)
 #    print 'book.contents = ', self.contents
 
   def mk_label (self):
@@ -355,15 +354,12 @@ class Book:
 
   def to_string (self): 
     contents = self.contents.strip ()
-    asst = ''
-    if self.asst is not None:
-      asst = self.asst.strip()
     result = dex.mk_str_begin(dex.BOOK) + NEWLINE + \
              dex.mk_str_title(self.title) + NEWLINE + \
              dex.mk_str_label(self.label)  + NEWLINE + \
              dex.mk_str_parents (self.parents) + NEWLINE + \
              dex.mk_str_authors(self.authors) + NEWLINE +  NEWLINE + \
-             contents + NEWLINE + asst + NEWLINE + \
+             contents + NEWLINE + \
              dex.mk_str_end(dex.BOOK)
     return result
   
@@ -371,8 +367,6 @@ class Book:
     authors = mlx.mk_str_authors(self.authors)
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([authors, self.contents])
-    if self.asst is not None:
-      fields.extend([self.asst])
     r = mlx.mk_str_book(fields)
 #    print 'book.to_mlx_string:', r
     return NEWLINE + r
@@ -417,7 +411,7 @@ class Course:
     self.provides_book = tokens.get_provides_book(toks)
     self.provides_chapter = tokens.get_provides_chapter(toks)
     self.provides_section = tokens.get_provides_section(toks)
-    self.provides_unit = tokens.get_provides_unit(toks)
+    self.provides_subsection = tokens.get_provides_subsection(toks)
     self.provides_assignment = tokens.get_provides_assignment(toks)
     # intro
     self.intro = tokens.get_joker(toks)
@@ -448,7 +442,7 @@ class Course:
              dex.mk_str_provides_book(self.provides_book)  + NEWLINE + \
              dex.mk_str_provides_chapter(self.provides_chapter)  + NEWLINE + \
              dex.mk_str_provides_section(self.provides_section)  + NEWLINE + \
-             dex.mk_str_provides_unit(self.provides_unit)  + NEWLINE + \
+             dex.mk_str_provides_subsection(self.provides_subsection)  + NEWLINE + \
              dex.mk_str_provides_assignment(self.provides_assignment) + NEWLINE + \
              dex.mk_str_semester(self.semester)  + NEWLINE + \
              dex.mk_str_website(self.website)    + NEWLINE + \
@@ -469,12 +463,12 @@ class Course:
     provides_book = mlx.mk_str_provides_book(self.provides_book)
     provides_chapter = mlx.mk_str_provides_chapter(self.provides_chapter)
     provides_section = mlx.mk_str_provides_section(self.provides_section)
-    provides_unit = mlx.mk_str_provides_unit(self.provides_unit)
+    provides_subsection = mlx.mk_str_provides_subsection(self.provides_subsection)
     provides_assignment = mlx.mk_str_provides_assignment(self.provides_assignment)
     (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([course_number, picture, semester, website, \
-                   provides_book, provides_chapter, provides_section, provides_unit, provides_assignment, \
+                   provides_book, provides_chapter, provides_section, provides_subsection, provides_assignment, \
                    intro_html, intro_dex, self.book])
     r = mlx.mk_str_course(fields)
 #    print 'blocks.course: course:', r
@@ -662,36 +656,6 @@ class Assignment:
     r = mlx.mk_str_assignment(fields)
     return NEWLINE + r
 
-## Problem
-class AsstProblem:
-  def __init__(self, toks):
-    self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    # TODO: not sure if necessary
-    self.title = toks[1]
-    self.contents = tokens.get_contents(toks)
-    self.info = tokens.get_info(toks)
-
-  def mk_label (self):
-    return self.label
-
-  def to_string (self):
-    result = dex.mk_str_begin(dex.ASSTPROBLEM) + NEWLINE + \
-             dex.mk_str_title(self.title) + NEWLINE + \
-             dex.mk_str_label(self.label)  + NEWLINE + \
-             dex.mk_str_parents (self.parents) + NEWLINE + \
-             dex.mk_str_info(self.info) + NEWLINE + \
-             self.contents + NEWLINE + \
-             dex.mk_str_end(dex.ASSTPROBLEM) + NEWLINE
-    return NEWLINE + result
-
-  def to_mlx_string (self):
-    contents = self.contents.strip()
-    fields = mk_mlx_str_fields_common(self, False)
-    (info, info_dex) = mk_mlx_infos(self.index, self.info)
-    fields.extend([info, info_dex, contents])
-    r = mlx.mk_str_asstproblem(fields)
-    return NEWLINE + r
 
 ## Section
 class Section:
@@ -717,34 +681,60 @@ class Section:
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
-## Unit
-class Unit:
+## Subsection
+class Subsection:
   def __init__(self, toks):
     self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
     self.contents = tokens.get_contents(toks)
     self.checkpoint = tokens.get_checkpoint(toks) 
-#    print 'unit.constructor: checkpoint:', self.checkpoint
+#    print 'subsection.constructor: checkpoint:', self.checkpoint
 
   def mk_label (self): 
     return self.label
 
   def to_string (self): 
     contents = self.contents + NEWLINE + self.checkpoint
-    result = mk_str_generic (dex.UNIT, self.title, self.label, self.parents, contents)
+    result = mk_str_generic (dex.SUBSECTION, self.title, self.label, self.parents, contents)
     return result
 
   def to_mlx_string (self):
     contents = self.contents + NEWLINE + self.checkpoint
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([contents])
-    r = mlx.mk_str_unit(fields)
+    r = mlx.mk_str_subsection(fields)
     return NEWLINE + r
+
+## Subsubsection
+class Subsubsection:
+  def __init__(self, toks):
+    self.index = new_index ()
+    (self.title, self.label, self.parents) = extract_common(toks)
+    self.contents = tokens.get_contents(toks)
+    self.checkpoint = tokens.get_checkpoint(toks) 
+#    print 'subsection.constructor: checkpoint:', self.checkpoint
+
+  def mk_label (self): 
+    return self.label
+
+  def to_string (self): 
+    contents = self.contents + NEWLINE + self.checkpoint
+    result = mk_str_generic (dex.SUBSUBSECTION, self.title, self.label, self.parents, contents)
+    return result
+
+  def to_mlx_string (self):
+    contents = self.contents + NEWLINE + self.checkpoint
+    fields = mk_mlx_str_fields_common(self, False)
+    fields.extend([contents])
+    r = mlx.mk_str_subsubsection(fields)
+    return NEWLINE + r
+
 
 ## Atom
 class Atom:
 
-  def __init__(self, name, toks):
+  def __init__(self, name, translate_to_html, toks):
+    self.translate_to_html = translate_to_html
     self.index = new_index ()
     self.name = name
     (self.title, self.label, self.parents) = extract_common(toks)
@@ -759,7 +749,12 @@ class Atom:
 
   def to_mlx_string (self, atom_name_mlx):
     contents =  self.contents
-    (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
+    if self.translate_to_html: 
+      (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
+    else:
+      contents_dex = mlx.mk_str_body_dex(contents)
+      contents_html = mlx.mk_str_body(contents)
+
 
     fields = mk_mlx_str_fields_common(self, True)
     fields.extend([contents_html, contents_dex])
@@ -1149,14 +1144,15 @@ def assignment_to_string(toks):
   block = Assignment(toks)
   return block.to_string()
 
-def asstproblem_to_string(toks):
-  print '      matched asstproblem.'
-  block = AsstProblem(toks)
-  return block.to_string()
-
 def atom_to_string(name, toks): 
 #  print 'atom to string: toks = ', toks 
-  block = Atom(name, toks)
+
+  if name == dex.PARAGRAPH_HTML:
+    translate_to_html = False
+  else: 
+    translate_to_html = True
+
+  block = Atom(name, translate_to_html, toks)
   print '        matched atom', name, '[', block.title, '].'
   return block.to_string()
 
@@ -1192,9 +1188,14 @@ def section_to_string(toks):
   print '  matched section', '[', block.title, '].'
   return block.to_string()
 
-def unit_to_string(toks): 
-  block = Unit(toks)
-  print '    matched unit', '[', block.title, '].'
+def subsection_to_string(toks): 
+  block = Subsection(toks)
+  print '    matched subsection', '[', block.title, '].'
+  return block.to_string()
+
+def subsubsection_to_string(toks): 
+  block = Subsubsection(toks)
+  print '    matched subsubsection', '[', block.title, '].'
   return block.to_string()
 
 def question_fr_to_string(toks): 

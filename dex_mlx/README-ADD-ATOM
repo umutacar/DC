@@ -19,10 +19,9 @@ For example we assume you are adding new_atom
    2.1 create self.process_atom_new_atom
    2.2 create self.atom_new_atom
    2.3 extend self_exp_atom
-3. extend mk_parser_begin_any_atom
 
-** diderot/dex/elaborate.py
-No changes required
+
+--- ANY NEEDED HERE?
 
 ** diderot/diderot/dil/syntax.py
 1. Extend atom syntax 

@@ -126,19 +126,34 @@ def process_section(process_label, toks):
   r = section.to_mlx_string()
   return r
 
-# convert unit to  mlx 
-def process_unit(toks): 
-  print "unit_matched."
+# convert subsection to  mlx 
+def process_subsection(toks): 
+  print "subsection_matched."
 #  print "toks:", toks
-  unit = blocks.Unit(toks)
-  r = unit.to_mlx_string()
+  subsection = blocks.Subsection(toks)
+  r = subsection.to_mlx_string()
+  return r
+
+
+# convert subsection to  mlx 
+def process_subsubsection(toks): 
+  print "subsubsection_matched."
+#  print "toks:", toks
+  subsubsection = blocks.Subsubsection(toks)
+  r = subsubsection.to_mlx_string()
   return r
 
 # convert an atom to mlx
 def process_atom (atom_name_dex, atom_name_mlx, toks):
   print 'atom matched:', atom_name_dex
 
-  atom = blocks.Atom(atom_name_dex, toks)
+  # Should we translate body to html? 
+  # Yes, unless it is the HTML atom.
+  translate_to_html = True
+  if atom_name_dex == dex.PARAGRAPH_HTML:
+    translate_to_html = False
+
+  atom = blocks.Atom(atom_name_dex, translate_to_html, toks)
   r = atom.to_mlx_string(atom_name_mlx)
   return r
 
@@ -241,7 +256,7 @@ def parse (process_algo, \
            process_problem_group, \
            process_problem_set, \
            process_section, \
-           process_unit, \
+           process_subsection, \
            data):
 
   ## Make parser, no's, labels, not optional
@@ -273,6 +288,7 @@ def parse (process_algo, \
              curry(process_atom, dex.LEMMA, mlx.LEMMA), \
              curry(process_atom, dex.NOTE, mlx.NOTE), \
              curry(process_atom, dex.PARAGRAPH, mlx.PARAGRAPH), \
+             curry(process_atom, dex.PARAGRAPH_HTML, mlx.PARAGRAPH_HTML), \
              curry(process_atom, dex.PROBLEM, mlx.PROBLEM), \
              curry(process_atom, dex.PROOF, mlx.PROOF), \
              curry(process_atom, dex.PROPOSITION, mlx.PROPOSITION), \
@@ -295,9 +311,9 @@ def parse (process_algo, \
              process_problem_group, \
              process_problem_set, \
              process_assignment, \
-             process_asstproblem, \
              process_section, \
-             process_unit)
+             process_subsection, \
+             process_subsubsection)
 
   try:
     result = parser.document.parseString(data)
@@ -352,7 +368,7 @@ def main(argv):
              process_problem_group, \
              process_problem_set, \
              process_section, \
-             process_unit, data)
+             process_subsection, data)
 
 
   if len(result) == 2:

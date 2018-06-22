@@ -35,7 +35,6 @@ COM_TITLE = r'\title'
 # block strings
 ABOUT = r'about'
 ASSIGNMENT = r'assignment'
-ASSTPROBLEM = r'asstproblem'
 BOOK = r'book'
 CHAPTER = r'chapter'
 CHOICE = r'choice'
