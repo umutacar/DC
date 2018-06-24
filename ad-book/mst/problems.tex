@@ -1,0 +1,38 @@
+\newpage
+\section{Problems}
+
+\begin{probl}{Trees and edges}
+Prove that any tree with $n$ vertices has $n-1$ edges. 
+\end{probl}
+
+\begin{probl}{MST with star contraction}
+Work out the details of the algorithm for spanning trees using graph
+contraction with star partitions (as mentioned in \secref{mst::mst})
+and prove that it produces a spanning tree.
+\end{probl}
+
+\begin{probl}{Network design}
+Prove that the network with the minimum cost in
+\exref{mst::network-design} is indeed an MST of the graph.
+\end{probl}
+
+\begin{probl}{MST with priority queues}
+Write out the pseudocode for a Priority Queue based implementation
+of Prim's algorithm that runs in $O(m \log n)$ work.
+\end{probl}
+
+
+
+\begin{probl}{Unique MST's}
+Prove that a graph with distinct edge weights has a unique minimum
+spanning tree.
+\end{probl}
+
+
+\begin{probl}{Acyclic vertex-joiners}
+  Prove that the vertex-joiners selected in any round \boruvka's
+  algorithm form a forest.  Recall that we are assuming that no two
+  edge weights are equal.
+\end{probl}
+%% Proof: Make unique, there exists a unique MST. joiners are part of
+%% MST, which is acyclic by definition.

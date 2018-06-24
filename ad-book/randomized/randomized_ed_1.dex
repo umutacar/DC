@@ -1,0 +1,2944 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+\label{15210}
+\no{15210}
+\unique{15210}
+\parent{...NO.PARENTS...}
+
+\coursenumber{15210}
+\picture{/210/course/air-pavilion.jpg}
+\providesbook{S18}
+\provideschapter{11}
+\providessection{1}
+\providesunit{1}
+\providesassignment{1}
+\semester{Spring 2018}
+\website{http://www.cs.cmu.edu/~15210}
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues.
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{book:15210:S18}
+\no{0}
+\unique{15210:S18}
+\parent{...NO.PARENTS...}
+\authors{Umut A. Acar and Guy Blelloch}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{chapter}[Randomized Algorithms]
+\label{chapter:15210:S18:CH11:ch:randomized}
+\no{11}
+\unique{15210:S18:CH11}
+\parent{...NO.PARENTS...}
+
+\picture{./media/turing-flow-jonathan-mccabe.jpg}
+
+
+
+%% \begin{teachnote}
+
+%% A cleanup is needed to eliminate various redundancies in maxtwo and quicksort.
+
+%% Use rank instead of sorted sequence in analysis of quicksort.
+%% Use $r_i$ instead of $t_i$ 
+
+%% Terminology confusion $a_i$ versus $a[i]$.
+
+%% \end{teachnote}
+
+This chapter presents an introduction to randomized algorithms and
+their analysis.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[Randomized Algorithms]
+\label{section:15210:S18:CH11:SEC1}
+\no{1}
+\unique{15210:S18:CH11:SEC1}
+\parent{...NO.PARENTS...}
+
+...NO.INTRO...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Basic Concepts]
+\label{unit:15210:S18:CH11:SEC1:UN1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN1:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definition}[Randomized Algorithm]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+We say that an algorithm is \defn{randomized} if it makes random
+choices.
+%
+Algorithms typically make their random choices by consulting
+a~\defn{source of randomness} such as a pseudo-random number
+generator.
+\end{definition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR1:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC1:UN1:GR1:AT2}
+\parent{...NO.PARENTS...}
+
+A classic randomized algorithm is the quick-sort algorithm, which
+selects a random element, called the pivot, and partitions the input into
+two by comparing each element to the pivot.
+%
+To determine a randomly chosen pivot, the algorithm needs $\log{n}$
+bits of random information, usually drawn from a pseudo-random number
+generator.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN1:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC1:UN1:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Why Use Randomness?]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+Randomization has several advantages and is therefore used quite
+frequently in algorithm design.
+
+\begin{itemize}
+\item Randomization can simplify the design of algorithms, sometimes
+  dramatically.
+
+\item Randomization is particularly useful in designing parallel
+  algorithms, because it facilitates symmetry breaking without relying
+  on communication and coordination.
+
+\item Randomization can be used to eliminate inherent bias.
+\end{itemize}
+\end{gram}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR2:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC1:UN1:GR2:AT2}
+\parent{...NO.PARENTS...}
+
+A classic example where randomization simplifies algorithm design is
+primality testing.
+%
+The problem of \defn{primality testing} requires determining whether a
+given integer is prime.  
+%
+In the late 70s Miller and Rabin developed a famous and simple
+randomized algorithm for the problem that only requires polynomial
+work.  
+%
+For over 20 years it was not known whether the problem could be
+solved in polynomial work without randomization.  
+%
+Eventually a polynomial time algorithm was developed, but it is more
+complex and computationally more costly than the randomized version.
+Hence in practice everyone still uses the randomized version.
+
+Symmetry breaking is commonly required in parallel algorithms when the
+algorithm performs a typically ``local'' computation on any one of
+elements of a larger structure, such as nodes in a tree or vertices in
+a graph.
+%
+If a parallel algorithm operates by making local decisions, without
+necessarily knowing the global structure, it might have to be break
+the ``symmetry'' and perform a computation for some elements but not
+others.
+%
+In such cases, instead of running a deterministic and possibly
+expensive coordination protocol the algorithm could make local
+decisions by using randomness.
+%
+We shall see many examples of such symmetry breaking.  For example, in
+a parallel graph algorithm, the algorithm might ``flip a coin'' for
+each vertex in the graph and determine the computation to perform
+based on the outcome of the coin.
+
+As an example for eliminating bias, consider a problem might require
+choosing one of two actions, none of which is preferable to other.
+%
+In such a case, choosing one action deterministically would introduce
+a bias, that especially when repeated could create heavily biased
+outcomes.
+%
+Choosing one of two choice randomly with say 50\% probability would
+eliminate the bias.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN1:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC1:UN1:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Disadvantages of Randomization]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+One disadvantage of randomization is that it can complicate the
+analysis of an algorithm, even though it simplifies the algorithm
+itself.
+%
+Because we only have to analyze an algorithm once, but usually execute
+it many times, this trade-off is usually well worth it.
+%
+
+Another disadvantage is that uncertainty due to randomization.  
+%
+For example, an randomized algorithm could get unlucky and take long
+to compute the answer.  In some applications, such as real-time
+systems, this uncertainty may be unacceptable.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN1:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC1:UN1:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definition}[Las Vegas and Monte Carlo Algorithms]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+There are two distinct uses of randomization in algorithms.
+%
+
+The first method, which is more common, is to use randomization to
+weaken the cost guarantees, such as the work and span, of the
+algorithm.  That is, randomization is used to organize the computation
+in such a way that the impact is on the cost but not on the
+correctness.
+%
+Such algorithms are called \defn{Las Vegas algorithms}.
+%
+
+Another approach is to use randomization to weaken the correctness
+guarantees of the computation: an execution of the algorithm might or
+might not return a correct answer.
+%  
+Such algorithms are called \defn{Monte Carlo algorithms}.
+\end{definition}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN1:GR5}
+\no{5}
+\unique{15210:S18:CH11:SEC1:UN1:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{note}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+In this book, we only use Las Vegas algorithms.
+%
+Our algorithm thus always return the correct answer, but their costs
+(work and span) will depend on random choices.
+%
+\end{note}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN1:GR6}
+\no{6}
+\unique{15210:S18:CH11:SEC1:UN1:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Random Distance Run]
+\label{atom:15210:S18:CH11:SEC1:UN1:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN1:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+Every year around the middle of April the Computer Science Department
+at Carnegie Mellon University holds an event called the ``Random
+Distance Run''.  It is a running event around the track, where the
+official die tosser rolls a die immediately before the race is
+started.  The die indicates how many initial laps everyone has to run.
+When the first person is about to complete the laps, the die is rolled
+again to determine the additional laps to be run.
+%
+Rumor has it that Carnegie Mellon scientists have successfully used
+their knowledge of probabilities to train for the race and to adjust
+their pace during the race (e.g., how fast to run at the start).
+
+Thanks to Carnegie Mellon CSD PhD Tom Murphy for the design of the
+2007 T-shirt.
+
+\includegraphics[width=3in]{./media/rdr.jpg}
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Analysis of Randomized Algorithms]
+\label{unit:15210:S18:CH11:SEC1:UN2:sec:randomized::probability}
+\no{2}
+\unique{15210:S18:CH11:SEC1:UN2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Develop an example here.  I think what you need is to have n tasks
+each of which require 1 time with probability (m-1)/m and m time with
+probablity 1/m.  you can show that the span is almost alway m by
+choosing n to be large.
+\end{teachnote}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC1:UN2:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definition}[Expected and High-Probability Bounds]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+In analyzing costs for a randomized algorithms there are two types of
+bounds that are useful: expected bounds, and high-probability bounds.
+
+\begin{itemize}
+\item
+\defn{Expected bounds} inform us about the average cost across all
+random choices made by the algorithm.  
+%
+
+\item
+\defn{High-probability} bounds inform us that it is very unlikely that
+the cost will be above some bound.
+%
+For an algorithm, we say that some property is true with \defn{high
+  probability} if it is true with probability $p(n)$ such that
+$\lim_{n \ra \infty}(p(n)) = 1$, where $n$ is an algorithm specific
+parameter, which is usually the instance size.
+%
+In other words, the term ``high probability'' refers to an property
+that is almost certain to hold, especially as the size of the problem
+instance increases.
+\end{itemize}
+
+As the terms suggest, expected bounds characterize average-case
+behavior whereas high-probability bounds characterize the common-case
+behavior of an algorithm.
+\end{definition}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC1:UN2:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+In computer science, the function $p(n)$ in the definition of high
+probability is usually of the form $1 - \frac{1}{n^k}$ where $n$ is
+the instance size or a similar measure and $k$ is some constant such
+that $k \ge 1$.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC1:UN2:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+If an algorithm has $\Theta(n)$ expected work, it means that when
+averaged over all random choices it makes in all runs, the algorithm
+performs $\Theta(n)$ work.
+%
+Because expected bounds are averaged over all random choices in all
+possible runs, there can be runs that require more or less work.
+%
+For example
+%
+once in every $1/n$ tries the algorithm
+might require $\Theta(n^2)$ work, 
+%
+and (or)
+%
+once  in every $\sqrt{n}$ tries the algorithm might require
+$\Theta(n^{3/2})$ work.
+
+
+As an example of a high-probability bound, suppose that we have $n$
+experiments where the probability that work exceeds $O(n\lg{n})$ is
+$1/n^k$.
+%
+We can use the union bound to argue that the total probability that
+the work exceeds $O(n\lg{n})$ is at most $n \cdot 1/n^{k} =
+1/n^{k-1}$.
+%
+This means that the work is $O(n\lg{n})$ is at least $1 - 1/n^{k-1}$.
+%
+If $k > 2$, then we have a high probability bound of $O(n\lg{n})$ work.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR5}
+\no{5}
+\unique{15210:S18:CH11:SEC1:UN2:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Analyzing Expected Work]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+Expected bounds are quite convenient when analyzing work (or
+running time in traditional sequential algorithms).  
+%
+This is because the linearity of expectations
+%
+% (\chref{probability})
+%
+allows adding expectations across the components of an algorithm to
+get the overall expected work.
+%
+For example, if the algorithm performs $n$ tasks each of which take on
+average $2$ units of work, then the total work on average across all tasks will
+be $n \times 2 = 2n$ units.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR6}
+\no{6}
+\unique{15210:S18:CH11:SEC1:UN2:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Analyzing Expected Span]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+When analyzing span, expectations are less helpful, because bounding
+span requires taking the maximum of random variables, rather than
+their sum and the expectation of the maximum of two randow variables
+is not equal to the maximum of expectations of the random variables.
+
+% This kind of composition does not work when analyzing the span of an
+% algorithm, because bounding span requires taking the maximum of random
+% variables, rather than their sum.
+%
+
+For example, if we had $n$ tasks each of which has expected span of
+$2$ units of time, we cannot say that the expected span across all
+tasks is $2$ units.
+%
+It could be that most of the time each task has a span of $2$ units,
+but that once with probability $1/n$,  the task requires $n$ units.
+%
+The expected span for each task is still close to $2$ units but if we
+have $n$ tasks chances are high that one task will take $n$ units and
+the expected maximum will be close to $n$ rather than $2$.
+%
+We therefore cannot compose the expected span from each task by taking
+a maximum.
+%
+
+High-probability bounds can help us bound the span of a computation.
+%
+Going back to our example, let's say that every task finishes in $2$
+units of time with probability $1 - 1/n^5$, or equivalently that each
+task takes more than $2$ units of time with probability $1/n^5$ and
+takes at most $n$ units of time otherwise.
+%
+Now with $n$ tasks the probability that there will be at least one
+that requires more than $2$ units of time is at most $1/n^4$ by union
+bound.
+%
+Furthermore, when it does, the contribution to the expectation is
+$1/n^3$.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC1:UN2:GR7}
+\no{7}
+\unique{15210:S18:CH11:SEC1:UN2:GR7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC1:UN2:GR7:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC1:UN2:GR7:AT1}
+\parent{...NO.PARENTS...}
+
+Because of these properties of summing versus taking a maximum, we
+usually analyze work using expectation, but analyze span using high
+probability.
+\end{remark}
+\end{group}
+\end{unit}
+\end{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[Finding The Two Largest]
+\label{section:15210:S18:CH11:SEC2}
+\no{2}
+\unique{15210:S18:CH11:SEC2}
+\parent{...NO.PARENTS...}
+
+...NO.INTRO...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[The Problem]
+\label{unit:15210:S18:CH11:SEC2:UN3}
+\no{3}
+\unique{15210:S18:CH11:SEC2:UN3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN3:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[Max-Two Problem]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+The \defn{max-two problem} requires finding the two largest elements
+from a sequence of $n$ unique numbers.
+\end{problem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR1:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC2:UN3:GR1:AT2}
+\parent{...NO.PARENTS...}
+
+The max-two of the sequence $\cseq{9, 3, 2, 5, 4, 7, 8, 6}$ is $(9,
+8)$.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN3:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC2:UN3:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[Iterative Max-Two]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+The following is a simple iterative algorithm for solving the max-two
+problem.
+
+\[
+\begin{array}{ll}
+1 & \cd{max2}~a =
+\\ 
+2 & ~~~\cd{let}
+\\
+3 & ~~~~~~\cd{update}~((m_1,m_2),v) =
+\\
+4 & ~~~~~~~~~\cd{if}~v \leq m_2~\cd{then}
+\\
+5 & ~~~~~~~~~~~~(m_1,m_2)
+\\
+6 & ~~~~~~~~~\cd{else if}~v \leq m_1~\cd{then}
+\\
+7 & ~~~~~~~~~~~~(m_1, v)
+\\
+8 & ~~~~~~~~~\cd{else}
+\\
+9 & ~~~~~~~~~~~~(v, m_1)
+\\
+10 &~~~~~~ \cd{init} = \cd{if}~a[0] \leq a[1]~\cd{then}
+\\
+11 & ~~~~~~~~~~~~~~~~~~~~~~~~~~~~(a[1], a[0])
+\\
+12 & ~~~~~~~~~~~~~~~~~~~~~~~~~\cd{else} 
+\\
+13 & ~~~~~~~~~~~~~~~~~~~~~~~~~~~~(a[0], a[1])
+\\
+14 & ~~~\cd{in}
+\\ 
+15 & ~~~~~~\cd{iterate}~\cd{update}~\cd{init}~a\cirange{2}{|a|-1}
+\\
+16  & ~~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN3:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC2:UN3:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Worst-Case Cost Analysis]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+We can analyze the work of this algorithm by bounding the number of
+comparisons performed by the algorithm.
+%
+To this end, we note that the algorithm performs one comparison to
+initialize and then it performs at most two comparisons per element.
+%
+Thus, in the worst case the algorithm performs $ 1 + 2(n-2) = 2n - 3$
+comparisons.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN3:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC2:UN3:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+Give the input that leads to worst-case number of comparisons.
+\end{exercise}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{solution}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR4:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC2:UN3:GR4:AT2}
+\parent{...NO.PARENTS...}
+
+For any $n > 0$, the sequence $\cseq{0, 1, 2, \ldots, n}$ leads to
+worst-case number of comparisons.
+\end{solution}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN3:GR5}
+\no{5}
+\unique{15210:S18:CH11:SEC2:UN3:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+This bound may seem like the best we can do. 
+%
+But, in reality, many inputs will be much ``nicer'' and will lead to
+fewer numbers of comparisons because intuitively the next element in
+the sequence is unlikely to be greater than the second largest computed thus far.
+%
+Using the techniques that we have learned so far, we have no way of
+giving an analysis that takes advantage of this intuition.  We
+therefore analyzed the algorithm by considering the worst case.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN3:GR6}
+\no{6}
+\unique{15210:S18:CH11:SEC2:UN3:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN3:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN3:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+Surprisingly, there is a
+divide-and-conquer algorithm that uses only about $3n/2$ comparisons
+(exercise to the reader).  More surprisingly still is the fact that it
+can be done in $n + O(\log n)$ comparisons. But how?
+%
+\end{teachnote}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[A Randomized Algorithm for Max-Two]
+\label{unit:15210:S18:CH11:SEC2:UN4}
+\no{4}
+\unique{15210:S18:CH11:SEC2:UN4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN4:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[Randomized Max-Two]
+\label{atom:15210:S18:CH11:SEC2:UN4:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+We give a randomized algorithm for solving the max-two problem.
+%
+The algorithm takes an input sequence of $n$ elements and then
+permutes it uniformly randomly.
+%
+It then runs the iterative algorithm $\cd{max2}$ given above.
+ 
+Given input sequence $b$,
+\begin{enumerate}
+\item let $a = \cd{permute}(b, \pi)$, where $\pi$ is a uniformly
+  random permutation (i.e., we choose one of the $n!$
+  permutations with equal probability), and 
+
+\item run algorithm $\cd{max2}$ on $a$.
+\end{enumerate}
+%
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN4:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC2:UN4:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN4:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+The randomized algorithm does not need to explicitly construct the
+sequence $a$ but can simulate doing so by, at each step, picking a
+random element that hasn't been considered thus far and running
+$\cd{update}$ with that element.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN4:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC2:UN4:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Analysis of Randomized Max-Two]
+\label{atom:15210:S18:CH11:SEC2:UN4:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+As noted above, the algorithm need not permute the input explicitly
+but we assume so, because it streamlines the analysis.
+%
+
+%
+
+After applying the random permutation, our sample space $\Omega$
+corresponds to each permutation of the input $b$. 
+%
+Because there are $n!$ permutations on a sequence of length $n$ and
+each has equal probability, we have 
+%
+\begin{align*}
+|\Omega| & = n! &  \text{and} &
+\\
+\forall x, x \in \Omega. \prob{x} & = 1/n!.  & &  
+\end{align*}
+%
+
+%%%% This is cryptic.
+%  However, as we will see, we do not really need
+%to know this, all we need to know is what fraction of the sample space
+%obeys some property.
+
+Let $i$ be the position in $a$ (indexed from $0$ to $n-1$) and define
+$X_i$ as an indicator random variable denoting whether Line
+\randomizedmaxtwocmpone{} and hence the corresponding comparison
+gets executed for the value at $a[i]$.
+%%%% Unnecessary for the notes
+%% (i.e., Recall that an indicator random variable is actually a
+%% function that maps each primitive event (each permutation in our
+%% case) to 0 or 1.  In particular given a permutation, it returns 1
+%% iff for that permutation the comparison on Line~\ref{code:if2} gets
+%% executed on iteration $i$.  
+%%
+%%
+
+
+Let's calculate the probability that $X_i = 1$.
+%
+By definition of indicator random variables, we know that $X_i = 1$ if
+the comparison in Line~\randomizedmaxtwocmpone{} occurs, which is the
+case if $a[i] > m_2$.
+%
+A moment's thought shows that the condition $a[i] > m_2$ holds exactly
+when $a[i]$ is either the largest element or the second largest element
+in $\{a_0, \dots, a[i]\}$. 
+%
+So ultimately we want to calculute the probability that $a[i]$ is the
+largest or the second largest element in randomly-permuted sequence of
+length $i+1$?
+
+To calculate this probability, note that each element in the sequence
+is equally likely to be anywhere in the permuted sequence, because we
+chose a random permutation.  
+%
+In particular, if we look at the $k$-th largest element, it has $1/i$
+chance of being at $a[i]$. 
+%
+% (You should also try to work it out using a counting argument.)  
+%
+Therefore, the probability that $a[i]$ is the largest or the second
+largest element in $\{a_0, \dots, a[i]\}$ is $\frac{1}{i+1} + \frac{1}{i+1} =
+\frac{2}{i+1}$.
+
+
+To bound the total number of comparisons, define another random
+variable (function) $Y$ that for any permutation denotes the total
+number of comparisons the algorithm takes on that permutation. We can
+write $Y$ as 
+\[
+Y = \underbrace{\;\;1\;\;}_{\text{Line~\randomizedmaxtwostart}} \,\,+\,\,
+\underbrace{\;\;n - 2\;\;}_{\text{Line~\randomizedmaxtwocmpone}} \,\, + \,\,
+\underbrace{\sum_{i=3}^n X_i}_{\text{Line~\randomizedmaxtwocmptwo}}
+.
+\]
+
+To bound the number of comparisons that the algorithm does in the
+expected case, we calculate the expected value of $Y$.
+%
+By linearity of
+expectation, we have
+%
+\begin{align*}
+  \expct{Y} & = \expct{1 + (n-2) + \sum_{i=2}^{n-1} X_i}
+\\
+            & =  1 + (n-2) + \sum_{i=2}^{n-1} \expct{X_i}.
+\end{align*}
+%
+Since $X_i$ is an indicator random variable, we know that 
+\[
+  \expct{X_i} = 1\cdot \frac{2}{i+1} = \frac{2}{i+1}
+\]
+Plugging this into the expression for $\expct{Y}$, we obtain
+\begin{align*}
+  \expct{Y} &= 1 + (n-2) + \sum_{i=3}^{n-1} \expct{X_i} \\
+  &= 1 + (n-2) + \sum_{i=2}^{n-1} \frac{2}{i+1} \\
+  &= 1 + (n-2) + 2\Big(\frac{1}{3} + \frac{1}{4} + \dots \frac{1}{n}\Big)\\
+  &= n - 4 + 2\Big(1 + \frac{1}{2} + \frac{1}{3} + \frac{1}{4} + \dots \frac{1}{n}\Big)\\
+  &= n - 4 + 2H_n,
+\end{align*}
+where $H_n$ is the $n$-th Harmonic number.  But we know that $H_n \leq 1 +
+\lg n$, so we obtain $\expct{Y} \leq n - 2 + 2\lg n$.
+%
+We can also use the following bound on  Harmonic sums: 
+\[
+H(n) = O(\lg{n} + 1),
+\]
+or more precisely
+\begin{align*}
+    H_n = 1 + \frac12 + \dots + \frac1n = \ln n + \gamma + \vareps_n,
+\end{align*}
+where $\gamma$ is the Euler-Mascheroni constant, which is
+approximately $0.57721\cdots$, and $\vareps_n \sim \frac1{2n}$,
+ which tends to $0$ as $n$ approaches $\infty$. This shows that the
+summation and integral of $1/i$ are almost identical (up to
+a small adative constant and a low-order vanishing term).  
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC2:UN4:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC2:UN4:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC2:UN4:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+In this section, we analyzed a deterministic algorithm and its
+randomized variant.
+%
+The analysis of the randomized algorithm follows a typical analysis
+strategy that involves declaration of random variables and calculation
+of their expectation.
+%
+
+Although the analysis shows that the randomized
+algorithm performs in expectation approximately a factor of two fewer
+comparisons than the deterministic algorithm would in the worst case,
+we would not expect such a reduction to lead to efficiency
+improvements in practice, because for example, the deterministic
+algorithm has better data locality.
+% 
+
+What is perhaps most interesting about the analysis is that it hints
+at why on a typical ``real-world'' input, the deterministic algorithm
+performs much better than the worst-case analysis suggests.
+%
+This is because real-world instances are usually not adversarial,
+especially when there are few adversarial instances.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{checkpoint}[...NO.TITLE...]
+\label{checkpoint:15210:S18:CH11:SEC2:UN4:GR5:CP5}
+\no{5}
+\unique{15210:S18:CH11:SEC2:UN4:GR5:CP5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{questionfr}[...NO.TITLE...]
+\label{question_fr:15210:S18:CH11:SEC2:UN4:GR5:CP5:Q1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR5:CP5:Q1}
+\parent{...NO.PARENTS...}
+
+\points 10
+\prompt
+Give a divide-and-conquer algorithm for the max-two problem
+that performs approximately $3n/2$ comparisons in the worst case.
+\hint
+...NO.HINT...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{answer}[0]
+\label{answer:15210:S18:CH11:SEC2:UN4:GR5:CP5:Q1:a1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR5:CP5:Q1:a1}
+\parent{...NO.PARENTS...}
+
+\title{...NO.TITLE...}
+
+...NO.ANSWER...
+\explain
+...NO.EXPLANATION...
+\end{answer}
+\end{questionfr}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{questionfr}[...NO.TITLE...]
+\label{question_fr:15210:S18:CH11:SEC2:UN4:GR5:CP5:Q2}
+\no{2}
+\unique{15210:S18:CH11:SEC2:UN4:GR5:CP5:Q2}
+\parent{...NO.PARENTS...}
+
+\points 10
+\prompt
+Prove that the probability of the random variable $X_i$
+defined in the analysis of the randomized algorithm is $\frac{1}{i+1}$
+by using a counting argument.
+\hint
+...NO.HINT...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{answer}[0]
+\label{answer:15210:S18:CH11:SEC2:UN4:GR5:CP5:Q2:a1}
+\no{1}
+\unique{15210:S18:CH11:SEC2:UN4:GR5:CP5:Q2:a1}
+\parent{...NO.PARENTS...}
+
+\title{...NO.TITLE...}
+
+...NO.ANSWER...
+\explain
+...NO.EXPLANATION...
+\end{answer}
+\end{questionfr}
+\end{checkpoint}
+\end{unit}
+\end{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[Order Statistics]
+\label{section:15210:S18:CH11:SEC3:sec:randomized::select}
+\no{3}
+\unique{15210:S18:CH11:SEC3}
+\parent{...NO.PARENTS...}
+
+...NO.INTRO...
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[The Order-Statistics Problem]
+\label{unit:15210:S18:CH11:SEC3:UN5}
+\no{5}
+\unique{15210:S18:CH11:SEC3:UN5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN5:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN5:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[Order Statistics]
+\label{atom:15210:S18:CH11:SEC3:UN5:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN5:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Given an $a$ sequence and an integer $k$ where $0 \leq k < |a|$, and a
+  comparison $<$ defining a total ordering over the elements of the
+  sequence, find the $k^{th}$~\defn{order statistics}, i.e.,  $k^{th}$ smallest element, in the sequences.
+\end{problem}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN5:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC3:UN5:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Reduction to Sorting]
+\label{atom:15210:S18:CH11:SEC3:UN5:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN5:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+We can solve this problem by sorting first and selecting the $k^{th}$
+element but this would require $O(n \log n)$ work, assuming that
+comparisons require constant work.
+%
+We wish to do better; in particular we would like to
+achieve linear work and still achieve $O(\log^2 n)$ span.  
+%
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Randomized Algorithm for Order Statistics]
+\label{unit:15210:S18:CH11:SEC3:UN6}
+\no{6}
+\unique{15210:S18:CH11:SEC3:UN6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN6:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN6:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN6:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN6:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+We present a randomized algorithm for computing order statistics that
+uses the contraction technique: it solves a given problem instance by
+reducing it a problem instance whose size is expected to be smaller.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN6:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC3:UN6:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[Contraction-Based Select]
+\label{atom:15210:S18:CH11:SEC3:UN6:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN6:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+For the purposes of simplicity, let's assume that sequences consist of
+unique elements and consider the following simple algorithm.  Based on
+the contraction design technique, the algorithm uses randomization to
+contract the problem to a smaller instance.
+%
+
+\[
+\begin{array}{ll}
+1 & \cd{select}~a~k = 
+\\
+2 & \cd{let}
+\\
+3 & ~~~p = a[0]
+\\
+4 & ~~~\ell = \cseqf{x \in a}{x < p}
+\\
+5 & ~~~r = \cseqf{x \in b}{x > p}
+\\
+6 & \cd{in}
+\\
+7 & ~~~\cd{if}~(k < |\ell|)~\cd{then}~\cd{select}~\ell~k
+\\
+8 & ~~~\cd{else if}~(k = |\ell|)~\cd{then}~p
+\\
+9 & ~~~\cd{else}~\cd{select}~r~(k - (|\ell|))
+\\
+10 & \cd{end}
+\end{array}
+%% \\
+%% 7 & ~~~\cd{if}~(k < |\ell|)~\cd{then}~\cd{select}~\ell~k
+%% \\
+%% 8 & ~~~\cd{else if}~(k < |a| - |r|)~\cd{then}~p
+%% \\
+%% 9 & ~~~\cd{else}~\cd{select}~r~(k - (|a| - |r|))
+%% \\
+%% 10 & \cd{end}
+\]
+
+%
+% This algorithm is similar to \qsort{} but instead of recursing on both
+% sides, it only recurs on one side.  
+%
+The algorithm divides the input into left and right sequences, $\ell$
+and $r$, and figures out the side $k^{th}$ smallest must be in, and
+explores that side recursively.  
+%
+When exploring the right side, $r$, the algorithm adjusts the
+parameter $k$ because the elements less or equal to the pivot $p$ are
+being thrown out (there are $|a|-|r|$ such elements).
+%
+
+
+As written the algorithm picks as pivot the first key in the sequence
+instead of a random key.
+%
+As with the max-two problem we considered earlier in the chapter, we
+can randomize the algorithm by uniformly randomly permuting the input sequence
+and then applying $\ksmall$ on the permuted sequences.
+%
+This is equivalent to randomly picking a pivot at each step of
+contraction.
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN6:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC3:UN6:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN6:GR3:AT1:ex:randomized::select}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN6:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+Example runs of $\ksmall{}$ illustrated by a~\defn{pivot tree.}  For
+illustrative purposes, we show all possible recursive calls being
+explored down to singleton sequences.
+%
+In reality, the algorithm explores only one path. 
+%
+
+\begin{itemize}
+\item
+The path highlighted with red is the path of recursive calls taken by
+$\ksmall$ when searching for the first-order statistics, $k = 0$.
+%
+
+\item
+The path highlighted with brown is the path of recursive calls taken by
+$\ksmall$ when searching for the fifth-order statistics, $k = 4$.
+%
+
+\item
+The path highlighted with green is the path of recursive calls taken by
+$\ksmall$ when searching for the eight-order statistics, $k = 7$.
+\end{itemize}
+
+\begin{center}
+\includegraphics[width=5in]{./media/select-example.jpg}
+\end{center}
+\end{example}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Analysis]
+\label{unit:15210:S18:CH11:SEC3:UN7}
+\no{7}
+\unique{15210:S18:CH11:SEC3:UN7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Let's analyze the work and span of the randomized algorithm that picks
+pivots uniformly randomly.
+%
+We first present the intuition behind the proof and then present a
+more mathematical argument.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC3:UN7:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Intuition]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+Before we cover the more precise analysis, let's develop some
+intuition by considering the probability that we split the input
+sequence more or less evenly.
+%
+%\begin{question}
+%What is the probability that $X(n)$ is at most $3n/4$? 
+%\end{question}
+%
+
+Recall that rank of an element in a sequence is the position of the
+element in the corresponding sorted sequence and consider the rank of
+the pivot selected at a step.
+%
+% 
+If we select a pivot whose rank is greater $n/4$ and less than $3n/4$
+then the size of the input to the recursive call is at most $3n/4$.
+%
+Since all elements are equally likely to be selected as a pivot this
+probability is 
+\[
+\frac{3n/4 - n/4}{n} = 1/2.
+\]
+The figure below illustrates this.
+
+\begin{center}
+\centering
+\includegraphics[width=4in]{./media/qsort-span-intuition.jpg}
+\end{center}
+
+%% \begin{question}
+%% What does this say about what the span of $\cd{quicksort}$ may be? 
+%% \end{question}
+
+This observations implies that at each recursive call, the size of the
+input sequence sent to the recursive call decreases by a constant
+fraction of at least $3/4$ with probability $1/2$.
+%
+Thus if we are lucky, we successfully decrease the input size by a
+constant fraction.  But what if we are unlucky? 
+
+Consider two successive recursive calls, the probability that the
+input size decreases by $3/4$ after two calls is the probability that
+it decreases at either step, which is at least $1-\frac{1}{2} \cdot
+\frac{1}{2} = \frac{3}{4}$.
+%
+More generally, after $c > 1$ such successive calls, the probability
+that the input size decreases by a factor of $\frac{3}{4}$ is $1 -
+\frac{1}{2^c}$, which quickly approaches $1$ as $c$ increases.  For
+example if $c = 10$ then this probability is $0.999$.
+%
+In other words, chances of getting unlucky at any given step is
+reasonably high ($1/4$) but chances of getting unlucky over and over
+again is low and we only need to get lucky once.
+
+This means that with quite high probability, a constant number $c$ of
+recursive calls is almost guaranteed to decrease the input size by a
+constant fraction.
+%
+We thus informally expect $\cd{select}$ to complete after $c\log{n}$
+levels for some constant $c$.
+%
+
+By inspecting the algorithm, we see that each recursive call performs
+linear work and logarithmic span to filter the input sequence and then
+recurs.
+%
+Therefore, we can write the total work is a geometrically decreasing
+sum totaling up to $O(n)$ and span is $O(\log^2{n})$.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC3:UN7:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[The Recurrences]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+Let $n = |a|$ and consider the partition of $a$ into $\ell$ and $r$.
+%
+Define $X(n)= \max\{|\ell|, |r|\}/|a|$ as the fractional size of the
+larger side.  
+
+Notice that $X(n)$ is an upper bound on the fractional size of the
+side the algorithm actually recurs into.
+%
+Because lines \randomizedosfilterone{} and \randomizedosfiltertwo{}
+are calls to $\cd{filter}$, we have the following recurrences:
+\begin{align*}
+W(n) &\leq  W(X(n) \cdot n) + O(n)
+\\
+S(n) &\leq  S(X(n) \cdot n) + O(\log n)
+\end{align*}
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC3:UN7:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Bounding the Expected Fraction]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+Let's first bound $\expct{X(n)}$, i.e., the expected fraction of the
+size of the input instance for the recursize call with respect to the
+input of size $n$.
+%
+
+Note that all pivots are equally likely and thus we can draw the
+following plot of the size of $\ell$ and size of $r$ as a function of
+to the \defn{rank} of the pivot, i.e., its position in the sorted
+order of $a$.
+\begin{center}
+  \includegraphics[width=3.5in]{./media/max-random.jpg}
+\end{center}
+%
+If the pivot is the minumum element then $\ell$ is empty and $|r|
+=|a|-1$, and if the pivot is the maximum element then $r$ is empty and
+$|\ell|=|a|-1$.
+%
+Since the probability that we choose a pivot on any point along the $x$
+axis is $1/n$, we can write the expectation for $X(n)$ as
+\begin{align*}
+  \expct{X(n)} = \frac{1}{n} \sum_{i=0}^{n-1} \frac{\max\{i, n-i-1\}}{n} \leq \frac{1}{n} \sum_{j=n/2}^{n-1} \frac{2}{n}\cdot j \leq \frac{3}{4}
+\end{align*}
+(Recall that $\sum_{i=x}^y i = \frac12(x+y)(y - x + 1)$.)
+
+%\myp{Aside:} This is a counterexample showing that $\expct{\max\{X,
+%  Y\}} \neq \max\{\expct{X},\expct{Y}\}$.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR5}
+\no{5}
+\unique{15210:S18:CH11:SEC3:UN7:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{important}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+Note that expectation bound hold for all input sizes $n$.
+\end{important}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR6}
+\no{6}
+\unique{15210:S18:CH11:SEC3:UN7:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+The calculation of $\expct{X(n)}$ tells us that in expectation, $X(n)$
+is a smaller than $1$. 
+%
+Thus when bounding the work we should have a nice geometrically
+decreasing sum that adds up to $O(n)$.
+%
+But it is not quite so simple, because the constant fraction is only
+in expectation.
+%
+For example, we could get unlucky for a few contraction steps and
+leading to little or no reduction in the size of the input sequence.
+%
+
+We next show that that even if we are unlucky on some steps, the
+expected size will indeed go down geometrically.  Together with the
+linearity of expectations this will allow us to bound the work.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR7}
+\no{7}
+\unique{15210:S18:CH11:SEC3:UN7:GR7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{theorem}[Expected Size of Input]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR7:AT1:thm:random::contract}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR7:AT1}
+\parent{...NO.PARENTS...}
+
+Starting with size $n$, the expected size of $a$ in algorithm
+\ksmall{} after
+$d$ recursive calls is $\left(\frac{3}{4}\right)^d n$.
+\end{theorem}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR7:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC3:UN7:GR7:AT2}
+\parent{...NO.PARENTS...}
+
+The proof is by induction on the depth of the recursion~$d$. 
+%
+In the base case, $d = 0$ and the lemma holds trivially.
+%
+For the inductive case assume that the lemma holds for some $d  \ge 0$.
+%
+Consider now the $(d+1)^{th}$ recursive call.
+%
+Let $Y_d$ be the random variable denoting the size of the input to the
+$d^{th}$ recursive call and let $Z$ the pivot chosen at the
+$d^{th}$ call.
+%
+For any value of $y$ and $z$, let $f(y,z)$ be the fraction of the
+input reduced by the choice of the pivot at position $z$ for an input of size
+$y$. 
+%
+We can write the expectation for the input size at $(d+1)^{st}$ call
+as 
+\[
+\begin{array}{lll}
+E[Y_{d+1}] 
+& = & \sum_{y,z}{y f(y,z) \pmf{Y,Z}(y,z)} 
+\\
+& = & \sum_{y}{\sum_{z}{y f(y,z) \pmf{Y_d}(y) \pmf{Z \given Y_d}(z \given y)}} 
+\\
+& = & \sum_{y}{y \pmf{Y_d}(y) \sum_{z}{f(y,z) \pmf{Z \given Y_d}(z \given y)}} 
+\\
+& \le & \sum_{y}{y \pmf{Y_d}(y) \expct{X(y)}}.
+\\
+& \le & \frac{3}{4} \sum_{y}{y \pmf{Y}(y)}.
+\\
+& \le & \frac{3}{4} \expct{Y_d}.
+\end{array}
+\]  
+
+Note that we have used the bound 
+\[
+\expct{X(y)} = \sum_{z}{f(y,z) \pmf{Z \given Y_d}(z \given y)} \le \frac{3}{4},
+\]
+which we established above.
+
+
+We thus conclude that $\expct{Y_{d+1}} = \frac34 \expct{Y_d}$, which
+this trivially solves to the bound given in the theorem, since at
+$d=0$ the input size is $n$.
+\end{proof}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR8}
+\no{8}
+\unique{15210:S18:CH11:SEC3:UN7:GR8}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR8:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR8:AT1}
+\parent{...NO.PARENTS...}
+
+Note that the proof of this theorem would have been relatively easy if
+the successive choices made by the algorithm were independent but they
+are not, because the size to the algorithm at each recursive call
+depends on prior choices of pivots.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR9}
+\no{9}
+\unique{15210:S18:CH11:SEC3:UN7:GR9}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Completing the Work Analysis]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR9:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR9:AT1}
+\parent{...NO.PARENTS...}
+
+We now have all the ingredients to complete the analysis.
+%
+
+The work at each level of the recursive calls is linear in the size of
+the input and thus can be written as $W_{\cd{select}}(n) \leq k_1n + k_2$, where $n$ is the input size.
+%
+Because at least one element, the pivot, is taken out of the input for
+the recursive call at each level, there are at most $n$ levels of
+recursion. Thus, by using the theorem below, we can bound the expected
+work as
+\begin{align*}
+\expct{W_{\ksmall}(n)}
+& \leq  \sum_{i=0}^n (k_1 \expct{Y_i} + k_2) \\
+\expct{W_{\ksmall}(n)}
+& \leq  \sum_{i=0}^n (k_1 n \left(\frac{3}{4}\right)^i + k_2) \\
+& \leq  k_1 n \left(\sum_{i=0}^n \left(\frac{3}{4}\right)^i\right) + k_2 n \\
+& \leq  4 k_1 n + k_2 n\\
+& \in  O(n).
+\end{align*}
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR10}
+\no{10}
+\unique{15210:S18:CH11:SEC3:UN7:GR10}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{note}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR10:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR10:AT1}
+\parent{...NO.PARENTS...}
+
+Many algorithms, such as graph algorithm, have the same property that
+the size of the problem instance goes down by an expected constant
+factor on each contraction step.
+%
+\end{note}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR11}
+\no{11}
+\unique{15210:S18:CH11:SEC3:UN7:GR11}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Span Analysis]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR11:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR11:AT1}
+\parent{...NO.PARENTS...}
+
+We can bound the span of the algorithm by $O(n\lg{n})$ trivially
+in the worst case, but we expect the average span to be a lot better
+because chances of picking a poor pivot over and over again, which
+would be required for the linear span is unlikely.
+%
+To bound the span in the expected case, we shall use
+Expected-Size-of-Input Theorem established above
+%
+%\thmref{random::contract}
+%
+to bound the number of levels taken by
+$\ksmall{}$ more tightly using a high probability bound.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR12}
+\no{12}
+\unique{15210:S18:CH11:SEC3:UN7:GR12}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR12:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR12:AT1}
+\parent{...NO.PARENTS...}
+
+Consider depth $d = 10 \lg n$.
+%
+At this depth, the expected size upper bounded by
+\[
+n\left(\frac{3}{4}\right)^{10 \lg n}.
+\]
+%
+With a little math this is equal to $n \times n^{-10 \lg (4/3)}
+\approx n^{-3.15}$.
+%
+Now, by Markov's inequality, if the expected size is at most
+$n^{-3.15}$ then the probability of having size at least $1$ is
+bounded by
+\[ 
+\prob{Y_{10\lg n} \geq 1} \leq \frac{E[Y_{10\lg n}]}{1} = n^{-3.15}. 
+\]
+
+In applying Markov's inequality, we choose $1$, because we know that
+the algorithm terminates for that input size.
+%
+By increasing the constant factor from $10$ to $20$ would decrease the
+probability to $n^{-7.15}$, which is extremely unlikely: for $n =
+10^6$ this is $10^{-42}$.  
+%
+
+We have therefore shown that the number of steps is $O(\log n)$ with
+high probability.  
+%
+Each step has span $O(\log n)$ so the overall span is $O(\log^2 n)$
+with high probability.
+
+Using the high probability bound, we can bound the expected span by
+using the Total Expectations theorem.
+%
+
+For brevity let the random variable $Y$ be defined as $Y = Y_{10\lg n}$,
+%
+\[
+\begin{array}{lll}
+\expct{S} & = & \sum_{y}\pmf{Y}(y) \expct{S \given Y = y}.
+\\
+& = & 
+\sum_{y \le 1}{\pmf{Y}(y) \expct{S \given Y = y}}
+ + 
+\sum_{y >1}{\pmf{Y}(y) \expct{S \given Y = y}}
+\\
+& \le & 
+(1 - n^{-3.5}) O(\lg^2{n}) 
+ + 
+n^{-3.5} O(n)
+\\
+& = &
+O(\lg^2{n}). 
+\end{array}
+\]
+
+The expected bound follows by the fact that with high probability the
+depth of the recursive calls is $O(\lg{n})$ and that each
+recursive call has $O(\lg{n})$ span, because it requires a
+sequences $\cd{filter}$.
+%
+The span for the case when the span is not greater that $10\lg{n}$
+contributes only a constant value to the expectation as long as it is
+a polynomial that is less that $n^{3.5}$.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR13}
+\no{13}
+\unique{15210:S18:CH11:SEC3:UN7:GR13}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Summary]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR13:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR13:AT1}
+\parent{...NO.PARENTS...}
+
+In summary, we have shown than the $\ksmall{}$ algorithm on input of
+size $n$ does $O(n)$ work in expectation and has $O(\log^2 n)$ span
+with high probability.  
+%
+
+For reasons explained at the start of the chapter, we typically
+analyze work using expectation and span using high probability.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC3:UN7:GR14}
+\no{14}
+\unique{15210:S18:CH11:SEC3:UN7:GR14}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC3:UN7:GR14:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC3:UN7:GR14:AT1}
+\parent{...NO.PARENTS...}
+
+\paragraph{Alternative Analysis.}
+
+Let $Z_n$ denote the random variable denoting the size of the maximum
+of the two subsequences computed by splitting inpet sequence of size
+$n$ by the pivot.
+%
+We can see that $\prob{Z(n) \le \frac34 n} \ge \frac12$, because
+choosing any one of the elements between rank $\frac{n}{4}$ and
+$\frac{3n}{4}$ yield such a fairly balanced partition.
+%
+
+Using total expectation theorem, we can write the expected work of the
+algorithm by conditioning on the random variable $Z$.
+\[
+\expct{W(n)} = \sum_{i = z}^{n}{\prob{Z(n) = z} \cdot \expct{W(n}  \given n = z} + O(n).
+\]
+We can bound this sum as follows
+\[
+\begin{array}{lll}
+\expct{W(n)} 
+& = & 
+\sum_{i = z}^{n}{\prob{Z(n) = z} \cdot \expct{W(n}  \given n = z} + O(n).
+\\
+& = & 
+\sum_{i = z}^{n}{\prob{Z(n) = z} \cdot \expct{W(z}} + O(n).
+\\
+& \le & 
+\prob{Z(n) \le \frac34 n} \cdot \expct{W(\frac34 n} 
++ 
+\prob{Z(n) > \frac34 n} \cdot \expct{W(n)}
++
+O(n)
+\\
+& \le & \frac12 \expct{W(\frac34 n)} +  \frac12 \expct{W(n)} + O(n).
+\end{array}
+\]
+
+We now have the following recurrence
+\[
+\expct{W(n)} 
+\le 
+\frac12 \expct{W(\frac34 n)} +  \frac12 \expct{W(n)} + O(n),
+\]
+which can be simplified as 
+\[
+\expct{W(n)} 
+\le 
+\expct{W(\frac34 n)} + O(n).
+\]
+
+This solves to $O(n)$.  Exactly the same approach can be followed to
+obtain the following recurrence for span
+\[
+\expct{W(n)} 
+\le 
+\expct{W(\frac34 n)} + O(\lg{n}).
+\]
+This solves to $O(\lg^2{n})$.
+\end{teachnote}
+\end{group}
+\end{unit}
+\end{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[The Quick Sort Algorithm and Its Analysis]
+\label{section:15210:S18:CH11:SEC4}
+\no{4}
+\unique{15210:S18:CH11:SEC4}
+\parent{...NO.PARENTS...}
+
+In this section, we consider the randomized quick sort algorithm and
+analyze its work and span.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[The Quick Sort Algorithm]
+\label{unit:15210:S18:CH11:SEC4:UN8}
+\no{8}
+\unique{15210:S18:CH11:SEC4:UN8}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN8:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN8:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN8:GR1:AT1:alg:randomized::qsort}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN8:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Consider the quick sort algorithm specified below, where we
+intentionally leave the pivot-choosing step unspecified.
+
+% @\label{line:randomized::qsort-rk}@
+
+\[
+\begin{array}{ll}
+1 & \cd{quicksort}~a =
+\\
+2 & ~~~\cd{if}~|a| = 0~\cd{then}~a
+\\
+3 & ~~~\cd{else} 
+\\
+4 & ~~~~~~\cd{let}
+\\
+5 & ~~~~~~~~~p = \cd{pick a pivot from}~a
+\\
+6 & ~~~~~~~~~    a_1 = \cseqf{x \in a}{x < p}
+\\
+7 & ~~~~~~~~~    a_2 = \cseqf{x \in a}{x = p}
+\\
+8 & ~~~~~~~~~    a_3 = \cseqf{x \in a}{x > p}
+\\
+9 & ~~~~~~~~~    (s_1,s_3) = (\cd{quicksort}~a_1)~\cpar{}~(\cd{quicksort}~a_3)
+\\
+10 & ~~~~~~   \cd{in}
+\\
+11 & ~~~~~~~~~    s_1 \cappend{} a_2 \cappend{} s_3
+\\
+12 & ~~~~~~  \cd{end}
+\end{array}
+\]
+
+
+There is plenty of parallelism in this version quick sort.
+%
+There is both parallelism due to the two recursive calls and in the
+fact that the filters for selecting elements greater, equal, and less
+than the pivot can be parallel.
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN8:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC4:UN8:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Pivot Tree]
+\label{atom:15210:S18:CH11:SEC4:UN8:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN8:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+Note that each call to $\cd{quicksort}$ either makes no recursive calls (the
+base case) or two recursive calls.  
+%
+We can therefore represent an execution of $\cd{quicksort}$ as a binary tree.
+%
+More specifically, it is convenient to map the run of a $\cd{quicksort}$ to a
+binary-search tree (BST) representing the recursive calls along with
+the pivots chosen.
+%
+We refer to this tree as~\defn{pivot tree}.
+%
+
+We use the pivot-tree representation to reason about the
+properties of $\cd{quicksort}$, e.g., the comparisons performed, its span.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN8:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC4:UN8:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN8:GR3:AT1:ex:randomized::qsort}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN8:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+An example run of $\cd{quicksort}$ along with its pivot tree.
+\begin{center}
+\includegraphics[width=4in]{./media/qsort-bst-example.jpg}
+\end{center}
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN8:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC4:UN8:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Pivot Selection]
+\label{atom:15210:S18:CH11:SEC4:UN8:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN8:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+Let's consider some strategies for picking a pivot.   
+
+\begin{itemize}
+\item \textbf{Always pick the first element:} If the sequence is sorted
+  in increasing order, then picking the first element is the same as
+  picking the smallest element.  We end up with a lopsided recursion
+  tree of depth $n$.  The total work is $O(n^2)$ since $n-i$ keys will
+  remain at level $i$ and hence we will do $n-i-1$ comparisons at that
+  level for a total of $\sum_{i=0}^{n-1} (n-i-1)$.  Similarly, if the
+  sequence is sorted in decreasing order, we will end up with a
+  recursion tree that is lopsided in the other direction.  In
+  practice, it is not uncommon for a sort function input to be a
+  sequence that is already sorted or nearly sorted.
+
+\item \textbf{Pick the median of three elements:} Another strategy is to
+  take the first, middle, and the last elements and pick the median of
+  them.  For sorted lists the split is even, so each side contains
+  half of the original size and the depth of the tree is $O(\log n)$.
+  Although this strategy avoids the pitfall with sorted sequences, it
+  is still possible to be unlucky, and in the worst-case the costs and
+  tree depth are the same as the first strategy.  This is the strategy
+  used by many library implementations of $\cd{quicksort}$.  Can you think of
+  a way to slow down a $\cd{quicksort}$ implementation that uses this
+  strategy by picking an adversarial input?
+
+\item \textbf{Pick an element randomly:} It is not immediately clear
+  what the depth of this is, but intuitively, when we choose a random
+  pivot, the size of each side is not far from $n/2$ in expectation.
+  This doesn't give us a proof but it gives us hope that this strategy
+  will result in a tree of depth $O(\log n)$ in expectation or with
+  high probability.  Indeed, picking a random pivot gives us expected
+  $O(n \log n)$ work and $O(\log^2 n)$ span for $\cd{quicksort}$ and an
+  expected $O(\log n)$-depth tree, as we will show.
+\end{itemize}
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Analysis of Quick Sort]
+\label{unit:15210:S18:CH11:SEC4:UN9}
+\no{9}
+\unique{15210:S18:CH11:SEC4:UN9}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Intuition]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+We can reason about the work and span of quick sort in a way similar
+to the randomized $\cd{select}$ algorithm that we considered above.
+
+Recall that rank of an element in a sequence is the position of the
+element in the corresponding sorted sequence and consider the rank of
+the pivot selected at a step.
+%
+% 
+If we select a pivot whose rank is greater $n/4$ and less than $3n/4$
+then the size of the input to the recursive call is at most $3n/4$.
+%
+Since all elements are equally likely to be selected as a pivot this
+probability is 
+\[
+\frac{3n/4 - n/4}{n} = 1/2.
+\]
+The figure below illustrates this.
+
+\begin{center}
+\centering
+\includegraphics[width=4in]{./media/qsort-span-intuition.jpg}
+\end{center}
+
+%% \begin{question}
+%% What does this say about what the span of $\cd{quicksort}$ may be? 
+%% \end{question}
+
+This observations implies that at each recursive call, the size of the
+input sequence sent to the recursive call decreases by a constant
+fraction of at least $3/4$ with probability $1/2$.
+%
+Thus if we are lucky, we successfully decrease the input size by a
+constant fraction.  But what if we are unlucky? 
+
+Consider two successive recursive calls, the probability that the
+input size decreases by $3/4$ after two calls is the probability that
+it decreases at either call, which is at least $1-\frac{1}{2} \cdot
+\frac{1}{2} = \frac{3}{4}$.
+%
+More generally, after $c > 1$ such successive calls, the probability
+that the input size decreases by a factor of $\frac{3}{4}$ is $1 -
+\frac{1}{2^c}$, which quickly approaches $1$ as $c$ increases.  For
+example if $c = 10$ then this probability is $0.999$.
+%
+In other words, chances of getting unlucky at any given step is
+reasonably high ($1/4$) but chances of getting unlucky over and over
+again is low and we only need to get lucky once.
+
+This means that with quite high probability, a constant number $c$ of
+recursive calls is almost guaranteed to decrease the input size by a
+constant fraction.
+%
+Thus we informally expect $\cd{quicksort}$ to complete after
+$c\log{n}$ levels for some constant $c$.
+%
+
+By inspecting the algorithm, we see that each recursive call performs
+linear work and logarithmic span to filter the input sequence and then
+recurs and then performs a linear work constant span append operation.
+%
+Therefore, we can write the total work is a geometrically decreasing
+sum totaling up to $O(n)$ and span is $O(\log^2{n})$.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC4:UN9:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+The rest of this section makes this intuition more precise.  There are
+many methods of analysis that we can use. 
+%
+We consider one in detail, which is based on counting, and outline
+another, which is based establishing a recurrence, which can then be
+solved.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR3}
+\no{3}
+\unique{15210:S18:CH11:SEC4:UN9:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+For the analysis, we assume a priority-based selection technique for
+pivots.
+%
+At the start of the algorithm, we assign each key a random priority
+uniformly at random from the real interval $[0, 1]$ such that each key
+has a unique priority.  
+%
+We then pick in Line~\randomizedqsortpivot{} the key with the highest
+priority.  Notice that once the priorities are decided, the algorithm
+is completely deterministic.
+%
+
+In addition, we assume a version of quicksort that compares the pivot
+$p$ to each key in the input $a$ once (instead of 3 times, once to
+generate each of $a_1$, $a_2$, and $a_3$).
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR4}
+\no{4}
+\unique{15210:S18:CH11:SEC4:UN9:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+Rewrite the quicksort algorithm so to use the comparison once when
+  comparing the pivot with each key at a recursive call.
+\end{exercise}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR5}
+\no{5}
+\unique{15210:S18:CH11:SEC4:UN9:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+An execution of $\cd{quicksort}$ with priorities and its pivot tree, which is a binary-search-tree, illustrated. 
+
+\begin{center}
+\includegraphics[width=4in]{./media/qsort-bst-example-with-p.jpg}
+\end{center}
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR6}
+\no{6}
+\unique{15210:S18:CH11:SEC4:UN9:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+Convince yourself that the two
+presentations of randomized $\cd{quicksort}$ are fully equivalent (modulo the
+technical details about how we might store the priority values).
+\end{exercise}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR7}
+\no{7}
+\unique{15210:S18:CH11:SEC4:UN9:GR7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR7:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR7:AT1}
+\parent{...NO.PARENTS...}
+
+Before we get to the analysis, let's observe some properties of
+$\cd{quicksort}$.  For these observations, it might be helpful to consider the
+example shown above.  
+\begin{itemize}
+\item In $\cd{quicksort}$, a comparison always involves a
+pivot and another key.  
+
+\item Since, the pivot is not sent as part of the input to a recursive
+  call, a key is selected to be a pivot at most once.
+
+\item Each key is selected to be pivot.
+ 
+\end{itemize}
+
+Based on these observations, we conclude that each pair of keys is
+compared at most once.
+%
+\footnote{We need only the first two observations to establish this
+  conclusion.}
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR8}
+\no{8}
+\unique{15210:S18:CH11:SEC4:UN9:GR8}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Expected Work for Quick Sort]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR8:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR8:AT1}
+\parent{...NO.PARENTS...}
+
+We are now ready to analyze the expected work of randomized
+$\cd{quicksort}$ by counting the number of comparisons
+that it performs.
+%
+
+We define the random variable $Y(n)$ as the number of
+comparisons~$\cd{quicksort}$~makes on input of size~$n$.  For the
+analysis, we will find an upper bound on $\expct{Y(n)}$.
+%
+ In
+particular we will show it is in $O(n \log n)$.
+%
+ $\expct{Y(n)}$ will not depend on the order of the input sequence.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR9}
+\no{9}
+\unique{15210:S18:CH11:SEC4:UN9:GR9}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR9:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR9:AT1}
+\parent{...NO.PARENTS...}
+
+Consider the final sorted order of the keys $t = \cd{sort}(a)$
+%
+and
+%
+for any element element $t_i$, let $p_i$ denote the  priority of $t_i$.
+%
+Consider two positions $i, j \in \{1, \dots, n\}$ in the sequence $t$
+and define following random variable
+%
+\begin{eqnarray*}
+X_{ij} 
+%
+& = &
+%
+\left\{\begin{array}{ll}
+1 & \text{if}~t_i~\text{and}~t_j~\text{are compared by} \cd{quicksort}
+\\
+0 & \mbox{otherwise}
+\end{array}\right.
+\end{eqnarray*}
+%
+
+Because in any run of $\cd{quicksort}$, each pair of keys is compared at most
+once, $Y(n)$ is equal to the sum of all $X_{ij}$'s, i.e.,
+\[
+Y(n) \;\; \leq \;\; \sum_{i=1}^n \sum_{j=i+1}^n X_{ij}
+\]
+
+
+We only consider the case that $i < j$ since we only want to count
+each comparison once. 
+%
+By linearity of expectation, we have
+\[
+ \expct{Y(n)} \leq \sum_{i=1}^n \sum_{j=i+1}^n \expct{X_{ij}}
+\]
+%
+Since each $X_{ij}$ is an indicator random variable,
+$\expct{X_{ij}} = \prob{X_{ij} = 1}$.  
+
+
+The drawing below illustrates the possible relationships between the
+selected pivot $p$, $t_i$ and $t_j$.
+\begin{center}
+\includegraphics[width=3in]{./media/qsort-cases.jpg}
+%\label{fig:lec18::cases}
+\end{center}
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR10}
+\no{10}
+\unique{15210:S18:CH11:SEC4:UN9:GR10}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR10:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR10:AT1}
+\parent{...NO.PARENTS...}
+
+To compute the probability that $t_i$ and $t_j$ are compared (i.e.,
+$\prob{X_{ij}=1}$), 
+%
+let's take a closer look at the $\cd{quicksort}$ algorithm to gather some
+intuitions.  
+%
+
+Notice that the first recursive call takes as its pivot $p$ the
+element with highest priority.  
+%
+Then, it splits the sequence into two parts, one with keys larger than
+$p$ and the other with keys smaller than $p$.  For each of these
+parts, we run $\cd{quicksort}$ recursively; therefore, inside it, the
+algorithm will pick the highest priority element as the pivot, which
+is then used to split the sequence further.
+
+For any one call to $\cd{quicksort}$ there are three possibilities
+(as illustrated in the drawing above)
+%(illustrated in Figure~\ref{fig:lec18::cases})
+for $X_{ij}$, where $i < j$:
+\begin{itemize}
+\item The pivot (highest priority element) is either $t_i$ or $t_j$,
+  in which case $t_i$ and $t_j$ are compared and $X_{ij} = 1$.
+\item The pivot is element between $t_i$ and $t_j$, in which case
+  $t_i$ is in $a_1$ and $t_j$ is in $a_3$ and $t_i$ and $t_j$ will
+  never be compared and $X_{ij} = 0$.
+\item The pivot is less than $t_i$ or greater than $t_j$.  Then 
+  $t_i$ and $t_j$ are either both in $a_1$ or both in $a_3$,
+  respectively.  Whether $t_i$ and $t_j$ are compared will be
+  determined in some later recursive call to $\cd{quicksort}$.
+\end{itemize}
+
+With this intuition in mind, we can establish the following lemma.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR11}
+\no{11}
+\unique{15210:S18:CH11:SEC4:UN9:GR11}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lemma}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR11:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR11:AT1}
+\parent{...NO.PARENTS...}
+
+For $i < j$, $t_i$ and $t_j$ are compared if and only if $p_i$ or
+  $p_j$ has the highest priority among $\{p_i, p_{i+1},\dots, p_j\}$.
+\end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR11:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC4:UN9:GR11:AT2}
+\parent{...NO.PARENTS...}
+
+Assume first that $t_i$ ($t_j$) has the highest priority.  In this
+case, all the elements in the subsequence $t_i \ldots t_j$ will move
+together in the pivot tree until $t_i$ ($t_j$) is selected as pivot.
+%
+When it is selected as pivot, $t_i$ and $t_j$ will be compared. 
+%
+This proves the first half of the claim.
+
+For the second half, assume that $t_i$ and $t_j$ are compared.  For
+the purposes of contradiction, assume that there is a key $t_k$, $i <
+k < j$ with a higher priority between them.  In any collection of keys
+that include $t_i$ and $t_j$, $t_k$ will become a pivot before either
+of them.  Since $t_i \leq t_k \leq t_j$ it will separate $t_i$ and
+$t_j$ into different buckets, so they are never compared.  This is a
+contradiction; thus we conclude there is no such $t_k$.
+\end{proof}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR12}
+\no{12}
+\unique{15210:S18:CH11:SEC4:UN9:GR12}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR12:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR12:AT1}
+\parent{...NO.PARENTS...}
+
+Therefore, for $t_i$ and $t_j$ to be compared, $p_i$ or $p_j$ has to
+be bigger than all the priorities in between.  
+%
+Since there are $j-i+1$ possible keys in between (including both $i$
+and $j$) and each has equal probability of being the highest, the
+probability that either $i$ or $j$ is the highest is $2/(j-i+1)$.
+%
+Therefore,
+%
+\begin{align*}
+  \expct{X_{ij}} &= \prob{X_{ij} = 1} \\
+  &= \prob{p_i \text{ or } p_j \text{ is the maximum among } \{p_i, \dots, p_j\}} \\
+  &= \frac{2}{j - i + 1}.
+\end{align*}
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR13}
+\no{13}
+\unique{15210:S18:CH11:SEC4:UN9:GR13}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR13:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR13:AT1}
+\parent{...NO.PARENTS...}
+
+We can write the expected number of comparisons made in randomized
+$\cd{quicksort}$ is
+\begin{align*}
+  \expct{Y(n)} &\leq \sum_{i=1}^{n-1} \sum_{j=i+1}^n \expct{X_{ij}}
+\\
+  &= \sum_{i=1}^{n-1}  \sum_{j=i+1}^n \frac{2}{j-i+1}
+\\
+  &= \sum_{i=1}^{n-1}  \sum_{k=2}^{n-i+1} \frac{2}{k} 
+\\
+  & \leq 2n \sum_{i=1}^{n-1}  H_n 
+\\
+  &= 2n H_n \in O(n\log n).
+\end{align*}
+Note that in the derivation of the asymptotic bound, we used the fact
+that $H_n = \ln{n} + O(1)$.
+
+Indirectly, we have also shown that the average work for the basic
+deterministic $\cd{quicksort}$ (always pick the first element) is also $O(n
+\log n)$.  Just shuffle the data randomly and then apply the basic
+$\cd{quicksort}$ algorithm.  Since shuffling the input randomly results in the
+same input as picking random priorities and then reordering the data
+so that the priorities are in decreasing order, the basic $\cd{quicksort}$ on
+that shuffled input does the same operations as randomized $\cd{quicksort}$
+on the input in the original order.  Thus, if we averaged over all
+permutations of the input the work for the basic $\cd{quicksort}$ is $O(n
+\log n)$ on average.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR14}
+\no{14}
+\unique{15210:S18:CH11:SEC4:UN9:GR14}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR14:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR14:AT1}
+\parent{...NO.PARENTS...}
+
+The bound
+\[
+  \expct{X_{ij}} = \frac{2}{j - i + 1}
+\]
+indicates that the closer two keys are in the sorted order ($t$) the
+more likely it is that they are compared.  For example, the keys $t_i$
+is compared to $t_{i+1}$ with probability~1. It is easy to understand
+why if we consider the corresponding pivot tree.
+%
+
+One of $t_i$ and $t_{i+1}$ must be an ancestor of the other in the
+pivot tree: there is no other element that could be the root of a
+subtree that has $t_i$ in its left subtree and $t_{i+1}$ in its right
+subtree.
+%
+Regardless, $t_i$ and $t_{i+1}$ will be compared.
+
+If we consider $t_{i}$ and $t_{i+2}$ there could be such an element,
+namely $t_{i+1}$, which could have $t_i$ in its left subtree and
+$t_{i+2}$ in its right subtree. That is, with probability $1/3$,
+$t_{i+1}$ has the highest probability of the three and $t_i$ is not
+compared to $t_{i+2}$, and with probability $2/3$ one of $t_i$ and
+$t_{i+2}$ has the highest probability and, the two are compared.  
+
+In general, the probability of two elements being compared is
+inversely proportional to the number of elements between them when
+sorted.  The further apart the less likely they will be compared.
+Analogously, the further apart the less likely one will be the
+ancestor of the other in the related pivot tree.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR15}
+\no{15}
+\unique{15210:S18:CH11:SEC4:UN9:GR15}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Analysis of Quick Sort: Span]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR15:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR15:AT1}
+\parent{...NO.PARENTS...}
+
+We now analyze the span of $\cd{quicksort}$.  All we really need to
+calculate is the depth of the pivot tree, since each level of the tree
+has span $O(\log n)$---needed for the filter.  We argue that the depth
+of the pivot tree is $O(\log n)$ by relating it to the number of
+contraction steps of the randomized $\cd{select}$ we considered
+earlier.
+%in \secref{sec:randomized::select}.  
+%
+We refer to the $i^{th}$ node of
+the pivot tree as the node corresponding to the $i^{th}$ smallest key.
+This is also the $i^{th}$ node in an in-order traversal.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR16}
+\no{16}
+\unique{15210:S18:CH11:SEC4:UN9:GR16}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{lemma}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR16:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR16:AT1}
+\parent{...NO.PARENTS...}
+
+The path from the root to the $i^{th}$ node of the pivot tree is the
+same as the steps of $\cd{select}$ on $k = i$.  That is to the
+say that the distribution of pivots selected along the path and the
+sizes of each problem is identical.
+\end{lemma}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{proof}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR16:AT2}
+\no{2}
+\unique{15210:S18:CH11:SEC4:UN9:GR16:AT2}
+\parent{...NO.PARENTS...}
+
+Note that that $\cd{select}$ is the same as $\cd{quicksort}$ except that
+it only goes down one of the two recursive branches---the branch that
+contains the $k^{th}$ key.
+%
+
+Recall that for $\cd{select}$, we showed that the length of the
+path is more than $10 \lg n$ with probability at most $1/n^{3.15}$.
+%
+This means that the length of any path being longer that $10\lg{n}$ is
+tiny.
+%
+%% \begin{question}
+%% Can we thus say that there can be no long paths.
+%% \end{question}
+\end{proof}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR17}
+\no{17}
+\unique{15210:S18:CH11:SEC4:UN9:GR17}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR17:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR17:AT1}
+\parent{...NO.PARENTS...}
+
+This does not suffice to conclude, however, that there are no paths
+longer than $10\lg{n}$, because there are many paths in the pivot
+tree, and because we only need one to be long to impact the span.
+%
+Luckily, we don't have too many paths to begin with.
+%
+We can take advantage of this property by using the union bound,
+%
+which
+%
+says that the probability of the union of a collection of events is at
+most the sum of the probabilities of the events.
+%
+
+To apply the union bound, consider the event that the depth of a node
+along a path is larger $10 \lg n$, which is $1/n^{3.5}$.
+%
+The total probability that any of the $n$ leaves have depth larger
+than $10 \lg n$ is
+\[
+\prob{\text{depth of}~\cd{quicksort}~\text{pivot tree}} > 10 \lg{n} 
+\leq 
+\frac{n}{n^{3.15}} = \frac{1}{n^{2.15}}.
+\]
+%
+We thus have our high probability bound on the depth of the pivot tree.
+
+The overall span of randomized $\cd{quicksort}$ is therefore $O(\log^2 n)$
+with high probability.
+%
+As in $\cd{select}$, we can establish an expected bound by using the
+Total Expectation Theorem.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR18}
+\no{18}
+\unique{15210:S18:CH11:SEC4:UN9:GR18}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR18:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR18:AT1}
+\parent{...NO.PARENTS...}
+
+Complete the span analysis of proof by showing how to apply the Total
+Expectation Theorem.
+\end{exercise}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN9:GR19}
+\no{19}
+\unique{15210:S18:CH11:SEC4:UN9:GR19}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN9:GR19:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN9:GR19:AT1}
+\parent{...NO.PARENTS...}
+
+Using the high probability bound, we can bound the expected span by
+using the total expectation theorem.
+%
+For brevity let the random variable $Y$ be defined as $Y = Y_{10\lg n}$,
+%
+\[
+\begin{array}{lll}
+\expct{S} & = & \sum_{y}\pmf{Y}(y) \expct{S \given Y = y}.
+\\
+& = & 
+\sum_{y \le 1}{\pmf{Y}(y) \expct{S \given Y = y}}
+ + 
+\sum_{y >1}{\pmf{Y}(y) \expct{S \given Y = y}}
+\\
+& \le & 
+(1 - n^{-2.5}) O(\lg^2{n}) 
+ + 
+n^{-2.5} O(n^2)
+\\
+& = &
+O(\lg^2{n}). 
+\end{array}
+\]
+\end{teachnote}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Alternative Analysis of Quick Sort]
+\label{unit:15210:S18:CH11:SEC4:UN10}
+\no{10}
+\unique{15210:S18:CH11:SEC4:UN10}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN10:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN10:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN10:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN10:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Another way to analyze the work of $\cd{quicksort}$ is to write a recurrence
+for the expected work (number of comparisons) directly.  This is the
+approach taken by Tony Hoare in his original paper.  For simplicity we
+assume there are no equal keys (equal keys just reduce the cost).  The
+recurrence for the number of comparisons $Y(n)$ done by $\cd{quicksort}$ is
+then:
+%
+\begin{align*}
+Y(n) & =  Y(X(n)) + Y(n-X(n)-1) + n -1
+\end{align*}
+%
+where the random variable $Y(n)$ is the size of the set $a_1$ (we
+use $X(n)$ instead of $Y_n$ to avoid double subscripts).  We can now write
+an equation for the expectation of $X(n)$.
+%
+\begin{align*}
+\expct{Y(n)} & = \expct{Y(X(n)) + Y(n-X(n)-1) + n -1}\\
+             & = \expct{Y(X(n))} + \expct{Y(n-X(n)-1)} + n -1\\
+             & = \frac{1}{n} \sum_{i=0}^{n-1}(\expct{Y(i)} + \expct{Y(n-i-1)}) + n -1
+\end{align*}
+%
+where the last equality arises since all positions of the pivot are
+equally likely, so we can just take the average over them.  
+%
+This can be by guessing the answer and using substitution.  It gives
+the same result as our previous method.  We leave this as exercise.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN10:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC4:UN10:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Span Analysis]
+\label{atom:15210:S18:CH11:SEC4:UN10:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN10:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+We can use a similar strategy to analyze span.
+%
+Recall that in randomized $\cd{quicksort}$, at each recursive call, we
+partition the input sequence $a$ of length $n$ into three subsequences
+$a_1$, $a_2$, and $a_3$, such that elements in the subsequences are
+less than, equal, and greater than the pivot, respectfully.  
+%
+Let the random variable $X(n)
+= \max\{|a_1|, |a_2|\}$, which is the size of larger subsequence. 
+%
+
+The span of $\cd{quicksort}$ is determined by the sizes of these larger
+subsequences. For ease of analysis, we will assume that $|a_2| = 0$, as
+more equal elements will only decrease the span. As this partitioning
+uses $\cd{filter}$ we have the following recurrence for span for input
+size $n$
+
+\[ 
+S(n) = S(X(n)) + O(\log n). 
+\]
+
+For the analysis, we shall condition the span on the random variable
+denoting the size of the maximum half and apply the total expectation
+theorem.
+%%
+%% As we did for \sml{SmallestK}, we will bound $E[a_n]$ by considering
+%% the $\prob{Y_n \leq 3n/4}$ and $\prob{Y_n > 3n/4}$ and use the maximum
+%% sizes in the recurrence to upper bound $\expct{a_n}$. Now, the
+%% $\prob{Y_n \leq 3n/4} = 1/2$, since half of the randomly chosen pivots
+%% results in the larger partition to be at most $3n/4$ elements: Any
+%% pivot in the range $T_{n/4}$ to $T_{3n/4}$ will do, where $T$ is the
+%% sorted input sequence.
+
+\[
+\expct{S(n)} = \sum_{m=n/2}^{n}{\prob{X(n)=m} \cdot \expct{S(n) \given (X(n)=m)}}.
+\]
+
+The rest is algebra
+\begin{align*}
+\expct{a_n} 
+&=  \sum_{m=n/2}^{n}{\prob{M(n)=m} \cdot \expct{S(n) \given (M(n)=m)}}
+\\
+&\leq 
+\prob{X(n) \leq \frac{3n}{4}} \cdot \expct{S({\frac{3n}{4}})} + 
+\prob{X(n) > \frac{3n}{4}} \cdot \expct{S(n)} + c\cdot \log n
+\\
+&\leq \frac{1}{2} \expct{S({\frac{3n}{4}})} + \frac{1}{2} \expct{S(n)}
+\\
+&\implies \expct{S(n)} \leq \expct{S(\frac{3n}{4})} + 2c \log n.
+\\
+\end{align*}
+This is a recursion in $\expct{S(\cdot)}$ and solves easily to 
+ $\expct{S(n)} = O(\log^2 n)$.
+
+% That is, with probability $1/2$ we will be
+% lucky and the subproblem size will go down by at least $3n/4$ and with
+% probability $1/2$ we will be unlucky and we have to start again.  In
+% the end,
+% the expected span is twice what it would be if we could
+% guarantee partition sizes of $n/4$ and $3n/4$.
+
+
+% \newcommand{\sbar}{\overline{S}}
+%  Let $\sbar(n)$ denote
+% $\expct{S(n)}$. As we did for \sml{SmallestK} we will bound $\sbar(n)$
+% by considering the $\prob{Y_n \leq 3n/4}$ and $\prob{Y_n > 3n/4}$ and use the maximum sizes in the recurrence to upper
+% bound $\expct{S(n)}$. Now, the $\prob{Y_n \leq 3n/4} = 1/2$, since
+% half of the randomly chosen pivots results in the larger partition
+% to be at most $3n/4$ elements: Any pivot in the range $T_{n/4}$ to
+% $T_{3n/4}$ will do, where $T$ is the sorted input sequence.
+
+% So then, by the definition of expectation, we have
+% \begin{align*}
+%   \sbar(n) &= \leq \sum_{i} \prob{Y_n = i } \cdot \sbar(i) + c\log n \\
+%   &\leq \prob{Y_n \leq \tfrac{3n}4} \sbar(\tfrac{3n}4) + \prob{Y_n >
+%     \tfrac{3n}4} \sbar(n) + c\cdot \log n\\
+%   &\leq \tfrac12 \sbar(\tfrac{3n}4) + \tfrac12 \sbar(n) + c\cdot \log n\\
+%   &\implies (1- \tfrac12)\sbar(n) \leq \tfrac12 \sbar(\tfrac{3n}4) + c\log n \\
+%   &\implies \sbar(n) \leq \sbar(\tfrac{3n}4) + 2c \log n,
+% \end{align*}
+% which we know is a balanced cost tree and solves to $O(\log^2 n)$.
+
+% That is, with probability $1/2$ we will be
+% lucky and the subproblem size will go down by at least $3n/4$ and with
+% probability $1/2$ we will be unlucky and we have to start again.  In
+% the end,
+% the expected span is twice what it would be if we could
+% guarantee partition sizes of $n/4$ and $3n/4$.
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Concluding Remarks]
+\label{unit:15210:S18:CH11:SEC4:UN11}
+\no{11}
+\unique{15210:S18:CH11:SEC4:UN11}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN11:GR1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN11:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN11:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN11:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+\Qsort{} is one of the earliest and most famous algorithms. It was
+invented and analyzed by Tony Hoare around 1960.  This was before the
+big-O notation was used to analyze algorithms.  Hoare invented the
+algorithm while an exchange student at Moscow State University while
+studying probability under Kolmogorov---one of the most famous
+researchers in probability theory.  The analysis we will cover is
+different from what Hoare used in his original paper, although we will
+mention how he did the analysis.  It is interesting that while
+\Qsort{} is often used as an quintessential example of a recursive
+algorithm, at the time, no programming language supported recursion
+and Hoare spent significant space in his paper explaining how to
+simulate recursion with a stack.
+
+We note that our presentation of \qsort{} algorithm 
+%(as shown in \algref{randomized::qsort})
+differs from Hoare's original version which
+sequentially partitioned the input by using two fingers that moved
+from each end and by swapping two keys whenever a key was found on the
+left greater than the pivot and on the right less than the pivot.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH11:SEC4:UN11:GR2}
+\no{2}
+\unique{15210:S18:CH11:SEC4:UN11:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH11:SEC4:UN11:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH11:SEC4:UN11:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+In later chapters we will see that the analysis of \qsort{} presented
+here is is effectively identical to the analysis of a certain type of
+balanced tree called Treaps.  
+%
+It is also the same as the analysis of ``unbalanced'' binary search
+trees under random insertion.
+\end{remark}
+\end{group}
+\end{unit}
+\end{section}
+\end{chapter}
+
+\end{book}

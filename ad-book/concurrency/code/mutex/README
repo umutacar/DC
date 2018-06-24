@@ -1,0 +1,16 @@
+Several mutual exclusion examples.
+
+** COMPILING
+Use C++11
+
+g++ -std=c++11  *.cpp
+
+
+
+
+FILES
+The main files are
+biglock-driver.cpp
+cas-driver.cpp
+
+

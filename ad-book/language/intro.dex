@@ -1,0 +1,189 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring 2018}
+\picture{/210/course/artemis.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+% Start counting chapters from 
+% This is optional. Will start counting at 1.
+\provideschapter{3}
+\providessection{1}
+
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues.
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{15210-2016}
+\unique{15210S18}
+\authors{Umut A. Acar and Guy Blelloch}
+
+
+\begin{chapter}[SPARC: A Strict Language for Parallel Computing]
+\picture{/210/language/dora-maar-seated.jpg}
+
+
+This chapter presents \pml{}: a parallel functional language used
+throughout the book for specifying algorithms.
+
+\begin{section}[Introduction]
+To describe the algorithms covered in this book, we use a pseudocode
+notation that is based on a language, which we call \pml{}.
+%
+\pml is a strict functional language similar to the ML class of
+languages such as Standard ML or SML, Caml, and F\#.
+%
+In pseudo code, we sometimes use mathematical notation, and even
+English descriptions in addition to \pml{} syntax.
+%
+This chapter describes the basic syntax and semantics of \pml{}; we
+introduce additional syntax as needed in the rest of the book.
+
+
+\begin{unit}[Lambda Calculus]
+
+\begin{gram}
+As with most functional programming languages, the ML class of
+languages are based on the \defn{lambda calculus} (or $\lambda$
+calculus), a computational model developed by Alonzo Church in 1932.
+\end{gram}
+
+\begin{definition}[Syntax of Lambda Calculus]
+
+The lambda calculus is a very simple language consisting of
+expressions $e$ which can only be one of the following three forms.
+
+\begin{description}
+\item[A variable name:] written as $x$,
+
+\item[A function definition:] written as $(\lambda~x~.~e)$, where $e$ is
+  an expression denoting the body of the function, or
+
+\item[A function application:] written as $e_1~e_2$, where $e_1$ and
+  $e_2$ are expressions.
+\end{description}
+\end{definition}
+
+\begin{gram}
+Evaluation of lambda calculus expressions requires effectively a
+single rule called \defn{beta reduction}.  
+%
+\end{gram}
+
+\begin{definition}[Beta Reduction]
+For any function
+application for which the left hand expression is a function
+definition, beta reduction ``applies the function'' by making the
+transformation:
+\[ (\lambda~x~.~e_1)~e_2 \longrightarrow e_1[x/e_2] \]
+where $e_1[x/e_2]$ roughly means for every (free) occurrence of $x$ in
+$e_1$, substitute it with $e_2$.  Computation in the \lc{} consists of
+applying beta reduction until there is nothing left to reduce.  
+\end{definition}
+
+\begin{gram}
+In the early 30s Church argued that anything that can be ``effectively
+computed'' can be computed with the lambda calculus, and therefore
+that it is a universal mechanism for computation.  
+%
+However, it was not until a few years later when Alan Turing developed
+the Turing machine and showed its equivalence to the lambda calculus
+that the concept of universality became widely accepted.  The fact
+that the models were so different, but equivalent in what they can
+compute, was a powerful argument for the universality of the models.
+We now refer to the hypothesis that anything that can be computed can
+be computed with the lambda calculus, or equivalently the Turing
+machine, as the \defn{Church-Turing hypothesis}, and refer to any
+computational model that is computationally equivalent to the lambda
+calculus as \defn{Church-Turing complete}.
+\end{gram}
+
+\begin{gram}
+Although the lambda calculus allows beta reduction to be applied in
+any order, most functional programming languages use a specific order.
+%
+The two most prominent orders are called ``call-by-value'' or
+``call-be-need.''
+\end{gram}
+
+\begin{group}
+\begin{definition}[Call-by-Value]
+In \defn{call-by-value} evaluation order, a function application
+$(\lambda~x~.~e_1)~e_2$ can be evaluated only if the expression $e_2$
+is a value first, i.e., $e_2$ is evaluated to a value first and then
+beta reduction is applied to evaluate the application.  
+%
+\end{definition}
+
+\begin{example}
+The ML class of languages such as Standard ML, CAML, and OCAML, all
+use call-by-value evaluation order.
+\end{example}
+
+\end{group}
+
+
+\begin{group}
+\begin{definition}[Call-by-Need]
+In \defn{call-by-need} evaluation order, beta reduction can proceed
+for any expression $e_2$.
+% 
+If during beta reduction $e_2$ is copied into each variable $x$ in the
+body, this reduction order is called \defn{call-by-name}, and if $e_2$
+is shared, it is called call-by-need.  
+%
+\end{definition}
+
+\begin{example}
+The Haskell language is perhaps the most well known example of a
+call-by-need (or lazy) functinoal language.
+\end{example}
+
+\end{group}
+
+\begin{important}
+All the reduction orders, call-by-value, call-by-name, and
+call-by-value are Church-Turing complete.
+%
+But there are differences in terms of cost.
+%
+Call-by-name is inefficient, because it can create redundant
+computations.
+%
+Call-by need can be efficient but is inherently sequential.
+%
+%% TODO: Why? 
+%
+Call-by-need can also complicate cost analysis because it is difficult
+to know if andt when an expression is evaluated. 
+%
+We therefore only use call-by-value. 
+\end{important}
+\end{unit}
+\end{section}
+%
+\end{chapter}
+\end{book}

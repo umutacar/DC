@@ -1,0 +1,202 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+\providesassignment{6}
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{15210-2016}
+\unique{15210S18}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{assignment}
+\title{FingerLab (Written)}
+\duedate{2 March 2018}
+
+\begin{asstproblem}
+  \title{Analysis for Treaps}
+  \info
+  For any two nodes in a treap, how long is the path between them?
+  
+  Consider a treap formed from the sorted sequence of keys $S$, $|S| = n$, and
+  recall that every key is assigned a uniform random priority. Let
+  $\ell_{i,j}$ be a random variable for the number of distinct nodes on the path
+  between $S_i$ and $S_j$, inclusive on both ends. Here are a couple more useful
+  random variables:
+  \[ A_i^k = \begin{cases}
+    1, &\text{if $S_k$ is an ancestor of $S_i$} \\
+    0, &\text{otherwise}
+  \end{cases}
+  \quad
+  A_{i,j}^k = \begin{cases}
+    1, &\text{if $S_k$ is an ancestor of both $S_i$ and $S_j$} \\
+    0, &\text{otherwise}
+  \end{cases}
+  \]
+  For simplicity, we'll say that every node is its own ancestor. We'll also
+  assume throughout that $0 \leq i \leq j < n$.
+  
+  From lecture, we know that $\expct{A_i^k} = \frac{1}{|k-i|+1}$.
+  \begin{questionfr}
+    \points 10
+    \prompt
+    Give $\expct{A_{i,j}^k}$ in terms of $i$, $j$, and $k$.
+    (\emph{Hint:} separately consider the cases $k < i$, $i \leq k \leq j$, and
+    $j < k$.)
+    \answer
+    \[ \expct{A_{i,j}^k} = \begin{cases}
+      \frac 1 {j - k + 1}, &\text{if $k < i$} \\
+      \frac 1 {j - i + 1}, &\text{if $i \leq k \leq j$} \\
+      \frac 1 {k - i + 1}, &\text{if $j < k$}
+    \end{cases}
+    \]
+
+    Or, more compactly:
+    \[ \expct{A_{i,j}^k} = \frac{1}{\max\{i,j,k\} - \min\{i,j,k\} + 1} \]
+  \end{questionfr}
+
+  \begin{questionfr}
+    \points 10
+    \prompt
+    Give $\ell_{i,j}$ in terms of the random variables $A_i^k$ and
+    $A_{i,j}^k$. Be careful about off-by-one errors.
+    \answer
+    \[ \ell_{i,j} = 1 + \sum_k A_i^k + \sum_k A_j^k - 2 \sum_k A_{i,j}^k \]
+  \end{questionfr}
+
+  \begin{questionfr}
+    \points 17
+    \prompt
+    Show that
+    \[ \expct{\ell_{i,j}} =
+    4 H_{j-i+1} + (H_{i+1} - H_{j+1}) + (H_{n-j} - H_{n-i}) - 3 \]
+    where $H_k$ is the $k^\text{th}$ harmonic number. This question relies on having
+    correct answers for the previous tasks. You should double check them before
+    continuing.
+    \answer
+    We have
+    \begin{align*}
+      \sum_{k=0}^{n-1} \expct{A_i^k}
+      &= \sum_{k=0}^{i-1} \frac 1 {i-k+1} + \sum_{k=i}^{n-1} \frac 1 {k-i+1} \\
+      &= \left( H_{i+1} - 1 \right) + H_{n-i}
+    \end{align*}
+    %
+    \begin{align*}
+      \sum_{k=0}^{n-1} \expct{A_{i,j}^k}
+      &= \sum_{k=0}^{i-1} \frac 1 {j-k+1} + \sum_{k=i}^j \frac 1 {j-i+1}
+      + \sum_{k=j+1}^{n-1} \frac 1 {k-i+1} \\
+      &= \left( \sum_{m=j-i+2}^{j+1} \frac 1 m \right)
+      + \left( \frac {j-i+1} {j-i+1} \right)
+      + \left( \sum_{m=j-i+2}^{n-i} \frac 1 m \right) \\
+      &= \left( H_{j+1} - H_{j-i+1} \right) + 1
+      + \left( H_{n-i} - H_{j-i+1} \right) \\
+      &= 1 + H_{j+1} + H_{n-i} - 2H_{j-i+1}
+    \end{align*}
+    
+    Putting the pieces together:
+    \begin{align*}
+      \expct{\ell_{i,j}}
+      &= 1 + \sum_{k=0}^{n-1} \expct{A_i^k} + \sum_{k=0}^{n-1} \expct{A_j^k}
+      - 2\sum_{k=0}^{n-1} \expct{A_{i,j}^k} \\
+      &= 1 + \left( H_{i+1} + H_{n-i} - 1 \right)
+      + \left( H_{j+1} + H_{n-j} - 1 \right)
+      - 2 \left( 1 + H_{j+1} + H_{n-i} - 2H_{j-i+1} \right) \\
+      &= 4 H_{j-i+1} + (H_{i+1} - H_{j+1}) + (H_{n-j} - H_{n-i}) - 3
+    \end{align*}
+  \end{questionfr}
+
+  \begin{questionfr}
+    \points 10
+    \prompt
+    Use the result of the previous task to show that finger
+    searching between $S_i$ and $S_j$ is expected
+    $O(\log (j - i + 1))$. We often pronounce this bound as either
+      ``logarithmic in the distance between the keys,'' or ``logarithmic in the
+      difference in ranks of the keys.'' You should also use the fact that
+    $H_k \leq 1 + \ln k$.
+    \answer
+    Finger search between $S_i$ and $S_j$ takes time proportional to $\ell_{i,j}$.
+    \begin{align*}
+      \expct{\ell_{i,j}}
+      &= 4 H_{j-i+1} + (H_{i+1} - H_{j+1}) + (H_{n-j} - H_{n-i}) - 3 \\
+      &< 4 H_{j-i+1} \\
+      &\leq 4(1 + \ln (j-i+1)) \in O(\log(j-i+1))
+    \end{align*}
+  \end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+  \title{Additional Analysis}
+  \info
+  \begin{center}
+    (This task pertains to treaps, but not necessarily fingers.)
+  \end{center}
+
+  Recall the BST function \sml{join}, which combines two binary search trees
+  in logarithmic time. For treaps, its implementation is as follows. We've
+  omitted the polymorphic value stored at each node for brevity.
+
+\[
+\begin{array}{1}
+1 & \cd{fun join $(T_1, T_2)$ =}
+\\
+2 & ~~\cd{case $(T_1, T_2)$ of}
+\\
+3 & ~~~~\cd{(Leaf, _) => $T_2$}
+\\
+4 & ~~\cd{| (_, Leaf) => $T_1$}
+\\
+5 & ~~\cd{| (Node $(L_1, k_1, p_1, R_1)$, Node $(L_2, k_2, p_2, R_2)$ =>}
+\\
+6 & ~~~~\cd{if $(p_1 > p_2)$ then}
+\\
+7 & ~~~~~~~\cd{Node $(L_1, k_1, p_1, \texttt{join}\ (R_1, T_2))$}
+\\
+8 & ~~~~\cd{else}
+\\
+9 & ~~~~~~\cd{Node $(\texttt{join}\ (T_1, L_2), k_2, p_2, R_2)$}
+\\
+\end{array}
+\]
+
+%  \begin{lstlisting}
+%  fun join @$(T_1, T_2)$@ =
+%    case @$(T_1, T_2)$@ of
+%      (Leaf, _) => @$T_2$@
+%    | (_, Leaf) => @$T_1$@
+%    | (Node @$(L_1, k_1, p_1, R_1)$@, Node @$(L_2, k_2, p_2, R_2)$@ =>
+%      if @$(p_1 > p_2)$@ then
+%         Node @$(L_1, k_1, p_1, \texttt{join}\ (R_1, T_2))$@
+%      else
+%        Node @$(\texttt{join}\ (T_1, L_2), k_2, p_2, R_2)$@
+%  \end{lstlisting}
+  Notice that this implementation stores priorities explicitly at each node. It is
+  sometimes advantageous (or necessary, even) to not store priorities.
+  Instead, we'd like to simply ``witness their effects'' -- i.e., we'd like to
+  simulate the outcome of ``$p_1 > p_2$'' without actually knowing the
+  values of $p_1$ and $p_2$.
+
+  \begin{questionfr}
+    \points 8
+    \prompt
+    Suppose we rewrite line 6 as a biased coin flip with probability
+    of heads equal to $\prob{p_1 > p_2}$. Give $\prob{p_1 > p_2}$ in terms of
+    $|T_1|$ and $|T_2|$.
+    \answer
+    \[ \prob{p_1 > p_2} = \frac {|T_1|} {|T_1| + |T_2|} \]
+  \end{questionfr}
+\end{asstproblem}
+\end{assignment}
+\end{book}

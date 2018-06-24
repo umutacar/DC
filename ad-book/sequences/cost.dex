@@ -1,0 +1,1296 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring 2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+% Start counting chapters from 
+% This is optional. Will start counting at 1.
+\provideschapter{8}
+\providessection{3}
+
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues. Concepts
+covered in this class include:
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{chapter}[Sequences]
+\label{ch:sequences}
+
+\picture{/210/sequences/water-town-suzhou-embroidery.jpg}
+
+A sequence is an ordered set, i.e., is a collection of elements that
+are totally ordered. 
+%
+Computer scientists use sequence data grams such as arrays and
+lists to represent many different sorts of data.
+%
+
+This chapter defines the syntax and the semantics of sequences and
+presents cost specifications and implementation strategies for
+matching them.
+
+
+\begin{section}[Cost]
+\label{sec:seq::cost}
+
+So far in this chapter, we have only specified the behavior of
+the operations in the sequence ADT.
+%
+In this section, we consider several different cost specifications for
+the sequence ADT that are implemented by using arrays, trees, and
+lists.
+%
+
+
+\begin{unit}[Cost Specification]
+
+\begin{gram}
+Cost specifications indicate the cost for the class of implementations
+that can achieve the specified cost bounds.
+%
+There can be many specific implementations that match a cost
+specification.
+%
+For example, for the tree-sequence specification, an implementations
+can use one of many balanced binary tree data structures available.
+%
+To apply the cost bounds, we don't need to know the details of how
+these implementations work.  
+%
+Cost specifications can thus be viewed as an abstraction over
+implementation details that do not matter for the purposes of the
+algorithm.
+\end{gram}
+
+\begin{gram}[Domination of cost specifications]
+Since there usually are many ways to implement an ADT specification,
+there can be multiple cost specifications for an ADT.
+%
+We say that one cost specification~\defn{dominates} another if for
+every function, its asymptotic costs are no higher.
+%
+Of the three specifications we consider, none dominates another but
+there are trade-offs: while some operations may be cheaper in one
+specification, other operations may be more expensive.
+%
+\end{gram}
+
+\begin{gram}[Choosing cost specifications]
+Such trade-offs are common and should be considered when selecting
+which cost specification to use.  
+%
+When designing an algorithm, our goal would be to choose the
+specification that minimizes the cost for the algorithm.
+%
+For example, as we will see soon, if an algorithm makes many calls to
+$\cd{nth}$ but no calls to $\cd{append}$, then we would use the
+array-sequence specification rather than the tree-sequence
+specification.  
+%
+Conversely, if the algorithm mostly uses $\cd{append}$ and
+$\cd{update}$, then tree-sequence specification would be better.
+%
+After we decide the specification to use, what remains is to select
+the implementation that matches the specification, which can include
+additional considerations.
+\end{gram}
+
+
+% We will justify this cost in the implementation section.
+
+\begin{note}[Cost of aggregation]
+When presenting the cost bounds, we consider the aggregation
+operations separately, because the cost of such operations depend on
+the nature of the aggregation performed.
+\end{note}
+\end{unit}
+
+\begin{unit}[Array Sequences]
+
+\begin{costspec}[Array Sequences]
+\label{cost:seq::arraySeq}
+The table below specifies the~\defn{array-sequence} costs.
+%
+The notation $\Rset(-)$ refer to the trace of the corresponding
+operation.
+%
+The specification for $\cd{scan}$ assumes that $f$ has constant work and span.
+
+\[
+\begin{array}{lcc}
+\mbox{Operation} & \mbox{Work} & \mbox{Span}
+\\
+\cd{length}~a
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{length}~a
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{singleton}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{isSingleton}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{isEmpty}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\ 
+\cd{nth}~a~i
+& \bigo{1}
+& \bigo{1}
+\\ 
+\cd{tabulate}~f~n
+& \bigo{1 + \displaystyle\sum_{i=0}^n \cwork{f(i)}}
+& \bigo{1 + \displaystyle\max_{i=0}^n \cspan{f(i)}} 
+\\ 
+\cd{map}~f~a
+& \bigo{1 + \displaystyle\sum_{x \in a}  \cwork{f(x)}}
+& \bigo{1 + \displaystyle\max_{x \in a}  \cspan{f(x)}} 
+\\ 
+\cd{filter}~f~a
+& \bigo{1 + \displaystyle\sum_{x \in a} \cwork{p(x)}}
+& \bigo{\log \cseqlen{a} + \displaystyle\max_{x \in a} \cspan{f(x)}} 
+\\ 
+\cd{subseq}~a~(i,j)
+& \bigo{1}
+& \bigo{1} 
+\\ 
+\cd{append}~a~b
+& \bigo{1 + \cseqlen{a}+\cseqlen{b}}
+& \bigo{1} 
+\\ 
+\cd{flatten}~a
+& \bigo{1 + \cseqlen{a} + \sum_{x \in a} |x|}
+& \bigo{1 + \log \cseqlen{a}} 
+\\ 
+\cd{update}~a~(i,x) 
+& \bigo{1 + \cseqlen{a}}
+& \bigo{1} 
+\\ 
+\cd{inject}~a~b 
+& \bigo{1 + \cseqlen{a} + \cseqlen{b}}
+& \bigo{1} 
+\\ 
+\cd{collect}~f~a
+& \bigo{1 + \cwork{f} \cdot \cseqlen{a} \log \cseqlen{a}}
+& \bigo{1 + \cspan{f} \cdot \log^2 \cseqlen{a}}
+\\ 
+\cd{iterate}~f~x~a
+&
+\bigo{1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cwork{f(y,z)}}
+&
+\bigo{1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cspan{f(y,z)}}
+\\ 
+\cd{reduce}~f~x~a 
+& 
+\bigo{1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cwork{f(y,z)}}
+&
+\bigo{\log \cseqlen{a} \cdot  \displaystyle\max_{f(y,z) \in \Rset(-)} \cspan{f(y,z)}}
+\\ 
+\cd{scan}~f~x~a
+& \bigo{\cseqlen{a}}
+& \bigo{\log \cseqlen{a}}
+\\
+\end{array}
+\]
+\end{costspec}
+%%%%
+
+\begin{gram}[Cost specification for Array Sequences]
+%
+
+\begin{itemize}
+
+\item Simple operations such as $\cd{length}$ as well as $\cd{isEmpty}$ and
+$\cd{singleton}$ and $\cd{isSingleton}$ all require constant work and span.
+%
+
+\item 
+Since arrays support random access to any element in constant time,
+the function $\cd{nth}$ takes constant work and span. 
+%
+
+\item
+For the three operations $\cd{tabulate}$, $\cd{map}$, and $\cd{filter}$ the
+work includes the sum of the work of applying $f$ at each position, as
+well as an additional unit cost, for the operation itself.
+%
+In all three operations it is possible to apply the function $f$ in
+parallel since there is no dependency among the positions.  Therefore
+the span of the functions is the maximum of the span of applying $f$
+at each position.
+%
+\item
+The operations $\cd{map}$ and $\cd{tabulate}$ incur an additional unit
+overhead in the span, but for $\cd{filter}$ the overhead is
+logarithmic, because $\cd{filter}$ requires \defn{compaction}, i.e.,
+packing the chosen elements contiguously into the result array.
+
+\item
+The operation $\cd{subseq}$ has constant work and span.  It can be
+implemented by maintaining the relevant parts of an array.
+%
+
+\item
+The operation $\cd{append}$ requires work proportional to the length
+of the sequences given as input, can be implemented in constant span.
+%
+
+\item
+The operation $\cd{flatten}$ generalizes $\cd{append}$, requiring work
+proportional to the total length of the sequences flattened, and
+can be implemented in parallel in logarithmic span in the number of
+sequences flattened.
+%
+
+\item 
+The operations $\cd{update}$ and $\cd{inject}$ both require work
+proportional to the length of the sequences they are given as input,
+and can be implemented in constant span.
+%
+It might seem surprising that $\cd{update}$ takes work proportional to
+the size of the input sequence $a$, since updating a single element
+should require constant work.  The reason is that the interface is purely
+functional so that the input sequence needs to be copied--we are not
+allowed to update the old copy.  
+%
+In the last section of this chapter,
+%~\ref{sec:seq::starrays}, 
+we describe single-threaded array sequences that allows updating under
+a sequence in constant work, but under  certain restrictions.
+
+\item
+The primary cost in implementing $\cd{collect}$ is a sorting step that
+sorts the sequence based on the keys.  The work and span of collect is
+therefore determined by the work and span of (comparison) sorting with
+the specified comparison function~$f$. 
+\end{itemize}
+\end{gram}
+
+
+\begin{example}[Tabulate and map with array costs]
+As an example of $\cd{tabulate}$ and $\cd{map}$ 
+\[
+\begin{array}{lllll} 
+\cwork{\cseq{i^2 : 0 \leq i < n}}  
+& = &  
+\bigoh{1 + \sum_{0=1}^{n-1} \bigoh{1}}  
+& = & \bigoh{n} 
+\\ 
+\cspan{\cseq{i^2 : 0 \leq i < n}}  
+& = &  
+\bigoh{1 + \max_{i=0}^{n-1} \bigoh{1}}  
+& = & \bigoh{1} 
+\end{array} 
+\]
+because the work and span for $i^2$ is $\bigoh{1}$.   
+ 
+As an example of $\cd{filter}$, we have 
+\[
+\begin{array}{lllll} 
+\cwork{\cseqf{x: x \in a}{x < 27}}  
+& = &  
+\bigoh{1 + \sum_{i=0}^{|a|-1} \bigoh{1}}  
+& = & 
+\bigoh{|a|} 
+\\ 
+\cspan{\cseqf{x: x \in a}{x < 27}}  
+& = & 
+\bigoh{\lg{|a|} + \max_{i=0}^{|a|-1} \bigoh{1}}  
+& = & 
+ O(\lg{|a|}). 
+\end{array} 
+\]
+\end{example}
+
+
+\begin{example}[Bounding cost for all subsequences]
+\label{ex:subseqcosts}
+Consider the code 
+%from~Example\ref{ex:seq::allsubseqs}:
+\[
+\cseq{a\cirange{i}{j} : 0 \leq i < \cseqlen{a}, i \leq j <  \cseqlen{a}},
+\]
+which extracts all contiguous subsequences from the sequence $a$.
+Recall that the notation is equivalent to a nested $\cd{tabulate}$
+first over the indices $i$, and then inside over the indices $j$.  The
+results are then $\cd{flatten}$'ed.  
+%
+The nesting of $\cd{tabulate}$'s allows all the calls to
+$a\cirange{i}{j}$ (i.e., $\cd{subseq}$) to run in parallel.  
+%
+Let $n =
+\cseqlen{a}$.  
+%
+There are a total of
+\[
+\sum_{i=1}^n i = n(n+1)/2 = O(n^2)
+\] contiguous subsequences and hence that many calls to $\cd{subseq}$,
+each of which has constant work and span according to the cost
+specifications.
+%
+The work of the nested $\cd{tabulate}$'s and the $\cd{subseq}$'s is
+therefore $O(n^2)$.
+%
+The span of the inner $\cd{tabulate}$ is maximum over 
+the span of the inner $\cd{subseq}$'s, which is $\bigoh{1}$.
+%
+The span of the outer $\cd{tabulate}$ is the maximum over the inner
+$\cd{tabulate}$'s, which is again $\bigoh{1}$.
+%
+The $\cd{flatten}$ at the end requires $O(n^2)$ work and $O(\lg{n})$
+span, because the total length of all subsequences is
+$\frac{n(n+1)}{2} = O(n^2)$, and $\cseqlen{a} = n$.
+%
+The total work and span are therefore
+\begin{align*}
+\cwork{e} & =   O(\cseqlen{a}^2),~\mbox{and}\\
+\cspan{e}  & =  O(\lg{\cseqlen{a}}).\\
+\end{align*}
+\end{example}
+
+
+\begin{gram}[Cost of aggregation]
+
+The cost of aggregation operations, $\cd{iterate}$, $\cd{reduce}$, and
+$\cd{scan}$ are somewhat more difficult to specify because they depend
+on the functions supplied as arguments and more specifically on the
+intermediate values computed during evaluation.
+%
+For example, the cost of $\cd{iterate}$ depends not only on the
+arguments but also the intermediate values computed during evaluation.
+%
+The next example
+%Example~\ref{ex:seq::iterate-cost} 
+shows a case where the length of the sequence being iterated over and
+that of the results are the same but the costs differ due to
+intermediate values.
+%
+\end{gram}
+%% \begin{teachask}[Intermediate values]
+%% But which intermediate values exactly? 
+%% \end{teachask}
+
+
+
+
+\begin{example}[Cost of iterated append]
+\label{ex:seq::iterate-cost}
+Consider appending the following sequence of strings using $\cd{iterate}$:
+\[
+\cd{iterate}~\cd{append}~\cstr{}~\cseq{\cstr{abc}, \cstr{d}, \cstr{e}, \cstr{f}}.
+\]
+If we only count the work of $\cd{append}$ operations performed during
+evaluation, we obtain a total work of $22$, because the following
+$\cd{append}$ operations are performed
+\begin{enumerate}
+\item $\cd{append}~\cstr{}~\cstr{abc}$ (work $4$), 
+\item $\cd{append}~\cstr{abc}~\cstr{d}$ (work $5$), 
+\item $\cd{append}~\cstr{abcd}~\cstr{e}$ (work $6$), and
+\item $\cd{append}~\cstr{abcde}~\cstr{f}$ (work $7$).
+\end{enumerate}
+%
+
+Consider now appending the following sequence of strings, which is a
+permutation of the previous, using $\cd{iterate}$:
+\[
+\cd{iterate}~\cd{append}~\cstr{}~\cseq{\cstr{d}, \cstr{e}, \cstr{f}, \cstr{abc}}
+\]
+If we only count the work of $\cd{append}$ operations using the
+array-sequence specification, we obtain a total work of $16$, because
+the following $\cd{append}$ operations are performed 
+\begin{enumerate}
+\item $\cd{append}~\cstr{}~\cstr{d}$ (work $2$), 
+\item $\cd{append}~\cstr{d}~\cstr{e}$ (work $3$), 
+\item $\cd{append}~\cstr{de}~\cstr{f}$, (work $4$) and
+\item $\cd{append}~\cstr{def}~\cstr{abc}$ (work $7$).
+\end{enumerate}
+
+In summary, we have used iteration over two sequences both with $4$
+elements and obtained different costs even though the sequences are
+permutations of each other (their elements have the same length).
+%
+This is because the total cost depends on the intermediate values
+generated during computation.
+
+\end{example}
+
+\begin{gram}[Defining cost of iteration]
+To specify its cost, we will consider the intermediate
+values from the specification of $\cd{iterate}$, reproduced here for 
+convenience.
+%
+%%%%
+%%\input{sequences/fig-iterate-spec}
+\begin{code}
+\[
+\cd{iterate}~f~x~a
+=  
+\left\{
+\begin{array}{ll}
+x & \mbox{if}~ \cseqlen{a}= 0\\
+f(x, a[0]) & \mbox{if}~\cseqlen{a}= 1\\
+\cd{iterate}~f~(f(x, a[0])) (a\cirange{1}{\cseqlen{a}-1}) & \mbox{otherwise.}
+\end{array}
+\right.
+\]
+\medskip
+\end{code}
+
+
+%%%%
+
+%
+Consider evaluation of
+$\cd{iterate}~f~v~a)$ and let ${\mathcal{T}}(\cd{iterate}~f~v~a)$ denote the
+set of calls to $f(\cdot,\cdot)$ performed along with the arguments,
+as defined by the specification above.
+%
+We refer to this set of function calls as the ~\defn{trace} of
+$\cd{iterate}$.
+% 
+We define the cost of $\cd{iterate}$ as the sum of these calls.
+\end{gram}
+
+
+
+\begin{costspec}[Cost for $\cd{iterate}$]
+Consider evaluation of $\cd{iterate}~f~v~a$ and let
+${\mathcal{T}}(\cd{iterate}~f~v~a)$ denote the set of calls (trace) to
+$f(\cdot,\cdot)$ performed along with the arguments.
+%
+The work and span are as follows.
+\[
+\begin{array}{lll}
+\cwork{\cd{iterate}~f~x~a} 
+& = & 
+O\left(
+1 +  \sum_{f(y,z) \in {\mathcal{T}}(\cd{iterate}~f~x~a)} \cwork{f(y,z)}
+\right)
+\\
+\cspan{\cd{iterate}~f~x~a} 
+& = & 
+O\left(
+1 +  \sum_{f(y,z) \in {\mathcal{T}}(\cd{iterate}~f~x~a)} \cspan{f(y,z)}
+\right)
+\end{array}
+\]
+\end{costspec}
+
+
+
+\begin{teachask}
+Can you sort a sequence by using such a function?
+\end{teachask}
+
+\begin{example}[Cost of merging]
+As an interesting example, consider the function $\cd{mergeOne}~a~x$
+for merging a sequence~$a$ with the singleton sequence $\cseq{x}$ by
+using an assumed comparison function.
+%
+The function performs $O(n)$ work in $O(\lg{n})$ span, where $n$ is
+the total number of elements in the output sequence.
+%
+We can use the $\cd{mergeOne}$ function to sort a sequence via iteration as follows
+%
+\[
+\cd{iterSort}~a = \cd{iterate}~\cd{mergeOne}~\cseq{}~a.
+\]
+%
+For example, on input $a = \cseq{2, 1, 0}$, $\cd{iterSort}$ first
+merges $\cseq{}$ and $\cseq{2}$, then merges the result $\cseq{2}$
+with $\cseq{1}$, then merges the resulting sequence $\cseq{1, 2}$ with
+$\cseq{0}$ to obtain the final result $\cseq{0, 1, 2}$.
+
+The trace for $\cd{iterSort}$ with an input sequence of length $n$
+consists of a set of calls to $\cd{mergeOne}$, where the first argument
+is a sequence of sizes varying from $1$ to $n-1$, while its right
+argument is always a singleton sequence.
+%
+For example, the final $\cd{mergeOne}$ merges the first $(n-1)$ elements
+with the last element, the second to last $\cd{mergeOne}$ merges the
+first $(n-2)$ elements with the second to last element, and so on.
+%
+Therefore, the total work for an input sequence $a$ of length $n$ is
+\[
+\cwork{\cd{iterSort}~a} 
+\leq 
+\sum_{i=1}^{n-1} c\cdot (1 + i)
+= O(n^2).
+\]
+
+Using the trace, we can also analyze the span of $\cd{iterSort}$.  
+%
+Since we iterate adding in each element after the previous, there is
+no parallelism between merges, but there is parallelism within a
+$\cd{mergeOne}$, whose span is is logarithmic.
+%
+We can calculate the total span as
+\[
+\cspan{\cd{iterSort}~a} 
+\leq
+\sum_{i=1}^{n-1} c\cdot \lg{(1 + i)}
+= O(n \lg{n}).
+\]
+%
+Since average parallelism, $\cwork{n}/\cspan{n} = O(n / \lg{n})$, we
+see that the algorithm has a reasonable amount of parallelism.
+%
+Unfortunately, it does much too much work.
+\end{example}
+
+
+\begin{teachask}[Algorithm for $\cd{iterSort}$]
+Can you see what algorithm $\cd{iterSort}$ implements?
+\end{teachask}
+
+\begin{gram}[Algorithm for $\cd{iterSort}$]
+%
+Using this reduction order the algorithm is effectively working from
+the front to the rear, using $\cd{mergeOne}$ to ``insert'' each element
+into a sorted prefix where it is placed at the correct location to
+maintain the sorted order.  
+%
+The algorithm thus implements the well-known insertion sort.
+\end{gram}
+
+\begin{gram}[Cost of $\cd{reduce}$]
+Recall that with $\cd{reduce}$, we noted that the result
+of the computation is not affected by the order in which the
+associative function is applied and in fact is the same as that of
+performing the same computation with $\cd{iterate}$.
+%
+As discussed below, however, the cost of $\cd{reduce}$, however,
+depends on the order in which the operations are performed.
+%, as shown by Example~\ref{ex:seq::cost-reduce}.
+\end{gram}
+
+%
+\begin{example}[Cost of reduce append]
+\label{ex:seq::cost-reduce}
+Consider appending the following code
+\[
+\cd{reduce}~\cd{append}~\cstr{~}~\cseq{\cstr{abc}, \cstr{d}, \cstr{e}, \cstr{f}}.
+\]
+Suppose performing append operations in left-to-right order and count
+their work using the array-sequence specification. 
+%
+The total work is $19$, because the following $\cd{append}$
+operations are performed
+\begin{enumerate}
+\item $\cd{append} \cstr{abc} \cstr{d}$ (work $5$),
+\item $\cd{append} \cstr{abcd} \cstr{e}$ (work $6$), and
+\item $\cd{append} \cstr{abcde} \cstr{f}$ (work $7$).
+\end{enumerate}
+
+Consider now performing the $\cd{append}$ operations from right to
+left order. 
+%
+We obtain a total cost of $15$, because the following $\cd{append}$
+operations are performed
+\begin{enumerate}
+\item $\cd{append}~\cstr{e}~\cstr{f}$ (work $3$),
+\item $\cd{append}~\cstr{d}~\cstr{ef}$, (work $4$) and
+\item $\cd{append}~\cstr{abc}~\cstr{def}$ (work $7$).
+\end{enumerate}
+\end{example}
+
+
+
+\begin{gram}
+To specify the cost of reduce, we therefore consider its trace based
+on its specification,
+% as given in Section~\ref{sec:seq::adt},
+reproduced below
+for convenience.
+%%%%
+%%\input{sequences/fig-reduce-spec}
+\[ 
+\cd{reduce}~f~id~a
+= 
+\left\{
+\begin{array}{ll}
+id & \mbox{if}~\cseqlen{a}= 0
+\\
+a[0] & \mbox{if}~\cseqlen{a}= 1
+\\[2ex]
+f\left(\cd{reduce}~f~id~(a\cirange{0}{\lfloor \frac{\cseqlen{a}}{2}
+    \rfloor - 1}),
+\right.
+\\
+~~~~\left.\cd{reduce}~f~id~(a\cirange{\lfloor \frac{\cseqlen{a}}{2} \rfloor}{\cseqlen{a}-1}\right) & \mbox{otherwise.}
+\end{array}
+\right.
+\]
+\end{gram}
+%%%%%
+
+\begin{costspec}[Cost for $\cd{reduce}$]
+Consider evaluation of $\cd{reduce}~f~x~a$ and let
+${\mathcal{T}}(\cd{reduce}~f~x~a)$ denote the set of calls to
+$f(\cdot,\cdot)$ performed along with the arguments. 
+%
+The work and span are defined as
+\[
+\begin{array}{lll}
+\cwork{\cd{reduce}~f~x~a} 
+& = & 
+O\left(
+1 +  \displaystyle\sum_{f(y,z) \in {\mathcal{T}}(\cd{reduce}~f~x~a)} \cwork{f(y,z)}
+\right),~\mbox{and}
+\\[2ex]
+\cspan{\cd{reduce}~f~x~a} 
+& = & 
+O\left(
+\lg{\cseqlen{a}} \cdot  \displaystyle\max_{f(y,z) \in {\mathcal{T}}(\cd{reduce}~f~x~a)} \cspan{f(y,z)}
+\right).
+\end{array}
+\]
+\end{costspec}
+
+\begin{gram}[Work and span of reduce]
+The work bound is simply the total work performed, which we obtain by
+summing across all combine functions, plus one for the
+$\cd{reduce}$. 
+%
+The span bound is more interesting. The $\lg{\cseqlen{a}}$ term
+expresses the fact that the recursion tree in the specification of
+$\cd{reduce}$
+%
+% (ADT~\ref{adt:seq::sequences}) 
+%
+is at most $O(\lg{\cseqlen{a}})$
+deep. Since each node in the recursion tree has span at most
+$\max_{f(y,z)} \cspan{f(y,z)}$, any root-to-leaf path, has at most
+$O(\lg{\cseqlen{a}} \cdot \max_{f(a,b)} \cspan{f(a,b)})$ span.
+\end{gram}
+
+
+%% This can be used, for example, to prove the following lemma:
+
+%% \begin{lemma}
+%%   For any combine function $f\!: \alpha \times \alpha \to \alpha$ and 
+%%   size function $s\!: \alpha \to \R_+$, if for any $x, y$,
+%% \begin{enumerate}[topsep=0pt,itemsep=1pt]
+%% \item $s(f(x,y)) \leq s(x) + s(y)$ and
+%% \item $W(f(x,y)) \leq c\pparen{s(x) + s(y)}$ for some constant $c$,
+%% \end{enumerate}
+%% then \[W(\creduce\; f\; \mathbb{I}\; S) = O\pparen{\log |S| \sum_{x \in S} (1 + s(x))}.\]
+%% \end{lemma}
+
+
+
+%% \begin{quote}
+%% \begin{tabular}{lp{4in}}
+%% $S_i$ & The $i^{th}$ element of sequence $S$\\
+%% $|S|$ & The length of sequence $S$ \\
+%% $\cseq{}$ & The empty sequence\\
+%% $\cseq{v}$ & A sequence with a single element $v$\\
+%% $\cirange{i}{j}$ & A sequence of integers starting at $i$ and ending at
+%% $j \geq i$.\\
+%% $\cseq{e : p \in S}$ & {\bf Map} the expression $e$ to each element $p$ of
+%% sequence $S$.   The same as ``$\cd{map}~(\cfn{p}{e})~S$'' in ML.\\
+%% $\cseqf{p \in S}{e}$ & {\bf Filter} out the elements $p$ in $S$ that satisfy
+%% the
+%% predicate $e$.   The same as ``$\cd{filter}~(\cfn{p}{e})~S$'' in ML.\\
+%% \end{tabular}
+%% \end{quote}
+%% More examples are given in the ``Syntax and Costs'' document.
+%\end{document}
+
+\begin{gram}[Cost of $\cd{scan}$]
+As in $\cd{iterate}$ and $\cd{reduce}$ the cost specification of
+$\cd{scan}$ depends on the intermediate results.  
+%
+But the dependency is more complex than can be represented by our ADT
+specification.  
+%
+For $\cd{scan}$, we will stop at giving a cost specification by assuming
+that the function that we are scanning with performs $\bigoh{1}$ work and
+span.
+\end{gram}
+
+
+\begin{costspec}[Cost for $\cd{scan}$]
+Consider evaluation of $\cd{scan}~f~x~a$.  For both the
+array-sequence and tree-sequence specification
+\[
+\begin{array}{lll}
+\cwork{\cd{scan}~f~x~a}
+& = & 
+O(\cseqlen{a})
+\\[2ex]
+\cspan{\cd{scan}~f~x~a} 
+& = & 
+O(\lg{\cseqlen{a}}).
+\end{array}
+\]
+\end{costspec}
+
+%%%%
+%%\input{./sequences/fig-cost-tree}
+
+%%%%
+
+\end{unit}
+
+\begin{unit}[Tree Sequences]
+
+\begin{gram}
+The costs for tree sequences is given in Cost~Specification below. %~\ref{cost:seq::treeSeq}. 
+%
+The specification represents the cost for a class of implementations
+that use a balanced tree to represent the sequence.
+%
+The cost of each operation is similar to the array-based
+specification, and many are exactly the same, i.e., $\cd{length}$,
+$\cd{singleton}$, $\cd{isSingleton}$, $\cd{isEmpty}$, $\cd{collect}$,
+$\cd{iterate}$, $\cd{reduce}$, and $\cd{scan}$.
+
+
+There are also differences.
+%
+The work and span of the operation $\cd{nth}$ is logarithmic, as
+opposed to being constant.  
+%
+This is because in balanced-tree based implementation, the operation
+must follow a path from the root to a leaf to find the desired element
+element.  
+%
+For a sequence $a$, such a path has length $O(\lg{\cseqlen{a}})$.
+%
+Although $\cd{nth}$ does more work with tree sequences, $\cd{append}$ does
+not. Instead of requiring linear work, the work of $\cd{append}$ with
+tree sequences is proportional to the logarithm of the ratio of the
+size of the larger sequence to the size of the smaller one smaller
+one.
+%
+For example if the two sequences are the same size, then
+$\cd{append}$ takes $\bigoh{1}$ work.  On the other hand if one is length
+$n$ and the other $1$, then the work is $O(\lg{n})$.  
+%
+The work of $\cd{update}$ is also less with tree sequences than
+within array sequences. 
+%
+
+The work for operations $\cd{map}$ and $\cd{tabulate}$ are the same as
+those for array sequences; their span incurs an extra logarithmic
+overhead.
+%
+The work and span of $\cd{filter}$ are the same for both.
+\end{gram}
+
+
+
+
+\begin{costspec}[Tree~Sequences]
+\label{cost:seq::treeSeq}
+
+We specify the~\defn{tree-sequence} costs as follows.
+%
+The notation $\Rset(-)$ refer to the trace of the corresponding
+operation.
+%
+The specification for $\cd{scan}$ assumes that $f$ has constant work and span.
+
+\[
+\begin{array}{lcc}
+\mbox{Operation} & \mbox{Work} & \mbox{Span}
+\\ 
+\cd{length}~a
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{singleton}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{isSingleton}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{isEmpty}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{nth}~a~i
+& \bigo{\log \cseqlen{a}}
+& \bigo{\log \cseqlen{a}}
+\\ 
+\cd{tabulate}~f~n
+& \bigo{1 + \displaystyle\sum_{i=0}^n \cwork{f(i)}}
+& \bigo{1 + \log n + \displaystyle\max_{i=0}^n \cspan{f(i)}} 
+\\ 
+\cd{map}~f~a
+& \bigo{1 + \displaystyle\sum_{x \in a} \cwork{f(x)}}
+&\bigo{1 + \log \cseqlen{a} + \displaystyle\max_{x \in a} \cspan{f(x)}} 
+\\
+\cd{filter}~f~a
+& \bigo{1+ \displaystyle\sum_{x \in a} \cwork{f(x)}}
+& \bigo{1 + \log \cseqlen{a} + \displaystyle\max_{x \in a} \cspan{f(x)}} 
+\\
+\cd{subseq}(a,i,j)
+& \bigo{1 + \log(\cseqlen{a})}
+& \bigo{1 + \log(\cseqlen{a})}
+\\
+\cd{append}~a~b
+& \bigo{1 +|\log(\cseqlen{a}/\cseqlen{b})|}
+& \bigo{1 +|\log(\cseqlen{a}/\cseqlen{b})|}
+\\
+\cd{flatten}~a
+& \bigo{1 + \cseqlen{a}\log\left(\sum_{x \in a} |x|\right)}
+& \bigo{1 + \log(\cseqlen{a} + \sum_{x \in a} |x|)} 
+\\
+\cd{inject}~a~b
+& \bigo{1 + (\cseqlen{a}+\cseqlen{b})\log\cseqlen{a}}
+& \bigo{1 + \log(\cseqlen{a}+\cseqlen{b})}
+\\
+\cd{collect}~f~a
+& \bigo{1 + \cwork{f} \cdot \cseqlen{a} \log \cseqlen{a}}
+& \bigo{1 + \cspan{f} \cdot \log^2 \cseqlen{a}}
+\\
+\cd{iterate}~f~x~a
+&
+\bigo{
+1 + \sum\limits_{f(y,z) \in \Rset(-)} \cwork{f(y,z)}
+}
+&
+\bigo{
+1 + \sum\limits_{f(y,z) \in \Rset(-)} \cspan{f(y,z)}
+}
+\\
+\cd{reduce}~f~x~a 
+& 
+\bigo{
+1 + \sum\limits_{f(y,z) \in \Rset(-)} \cwork{f(y,z)}
+}
+&
+\bigo{
+\log \cseqlen{a} \cdot  \max\limits_{f(y,z) \in \Rset(-)} \cspan{f(y,z)}
+}
+\\
+\cd{scan}~f~x~a
+& \bigo{\cseqlen{a}}
+& \bigo{\log \cseqlen{a}}
+\end{array}
+\]
+
+\end{costspec}
+\end{unit}
+
+\begin{unit}[List Sequences]
+
+\begin{gram}
+%The costs for list sequences is given in \costref{seq::listSeq}. 
+%
+The Cost Specification below defines the cost for list sequences.
+% 
+The specification represents the cost for a class of implementations
+that use (linked) lists to represent the sequence.
+%
+The determining cost in list-based implementations is the sequential
+nature of the representation: accessing the element at position~$i$
+requires traversing the list from the head to~$i$, which leads to
+$\bigoh{i}$ work and span.
+%
+List-based implementations therefore expose hardly any parallelism.
+%
+Their main advantage is that they require quick access to the~\defn{head} and the~\defn{tail} of the sequence, which are defined as
+the first element and the suffix of the sequence that starts at the
+second element respectively.
+\end{gram}
+
+\begin{gram}
+The work of each operation is similar to the array-based
+specification.
+%
+Since the data structure mostly serial, the span of each operation is
+essentially the same as that of its work, except that the total is
+taken over the spans of its components.
+%
+The work and span of $\cd{subseq}$ operation depends on the beginning
+position of the subsequence,  because list-based representation can
+share their suffixes.
+\end{gram}
+
+\begin{costspec}[List Sequences]
+\label{cost:seq::listSeq}
+{ 
+We specify the~\defn{list-sequence} costs as follows.
+%
+The notation $\Rset(-)$ refer to the trace of the corresponding
+operation.
+%
+The specification for $\cd{scan}$ assumes that $f$ has constant work and span.
+
+
+\[
+\begin{array}{lcc}
+\mbox{Operation} & \mbox{Work} & \mbox{Span}
+\\ 
+\cd{length}~a
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{singleton}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{isSingleton}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{isEmpty}~x
+&
+\bigo{1}
+& 
+\bigo{1}
+\\
+\cd{nth}~a~i
+& \bigo{i}
+& \bigo{i}
+\\
+\cd{tabulate}~f~n
+& \bigo{1 + \displaystyle\sum_{i=0}^n \cwork{f(i)}}
+& \bigo{1 + \displaystyle\sum_{i=0}^n \cspan{f(i)}} 
+\\
+\cd{map}~f~a
+& \bigo{1 + \displaystyle\sum_{x \in a}  \cwork{f(x)}}
+& \bigo{1 + \displaystyle\sum_{x \in a}  \cspan{f(x)}} 
+\\
+\cd{filter}~f~a
+& \bigo{1 + \displaystyle\sum_{x \in a} \cwork{p(x)}}
+& \bigo{1 + \displaystyle\sum_{x \in a} \cspan{p(x)}}
+\\
+\cd{subseq}~a~(i,j)
+& \bigo{1+i}
+& \bigo{1+i} 
+\\
+\cd{append}~a~b
+& \bigo{1 + \cseqlen{a}}
+& \bigo{1 + \cseqlen{a}}
+\\
+\cd{flatten}~a
+& \bigo{1 + \cseqlen{a} + \sum_{x \in a} |x|}
+& \bigo{1 + \cseqlen{a} + \sum_{x \in a} |x|}
+\\
+\cd{update}~a~(i,x) 
+& \bigo{1 + \cseqlen{a}}
+& \bigo{1 + \cseqlen{a}}
+\\
+\cd{inject}~a~b 
+& \bigo{1 + \cseqlen{a} + \cseqlen{b}}
+& \bigo{1 + \cseqlen{a} + \cseqlen{b}}
+\\
+\cd{collect}~f~a
+& \bigo{1 + \cwork{f} \cdot \cseqlen{a} \lg{\cseqlen{a}}}
+& \bigo{1 + \cspan{f} \cdot \cseqlen{a} \lg{\cseqlen{a}}}
+\\
+\cd{iterate}~f~x~a
+&
+\bigo{
+1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cwork{f(y,z)}
+}
+&
+\bigo{
+1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cspan{f(y,z)}
+}
+\\
+\cd{reduce}~f~x~a 
+& 
+\bigo{
+1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cwork{f(y,z)}
+}
+&
+\bigo{
+1 + \displaystyle\sum_{f(y,z) \in \Rset(-)} \cspan{f(y,z)}
+}
+\\
+\cd{scan}~f~a
+& \bigo{\cseqlen{a}}
+& \bigo{\cseqlen{a}}
+\\
+\end{array}
+\]
+} 
+\end{costspec}
+
+
+\begin{remark}
+Since they are serial, list-based sequences are usually ineffective
+for parallel algorithm design.
+\end{remark}
+\end{unit}
+
+
+\begin{unit}[Single-Threaded Sequences]
+\label{sec:seq::starrays}
+
+\begin{gram}
+In this course we will be using purely functional code because it is
+safe for parallelism and enables higher-order design of algorithms by
+use of higher-order functions.  It is also easier to reason about
+formally, and is just cool.  For many algorithms using the purely
+functional version makes no difference in the asymptotic work
+bounds---for example quickSort and mergeSort use $\Theta(n \log n)$
+work (expected case for quickSort) whether purely functional or
+imperative.  However, in some cases purely functional implementations
+lead to up to a $O(\log n)$ factor of additional work.  To avoid this
+we will slightly cheat in this class and allow for benign ``effect''
+under the hood in exactly one ADT, described in this section.  These
+effects do not affect the observable values (you can't observe them by
+looking at results), but they do affect cost analysis---and if you
+sneak a peak at our implementation, you will see some side effects.
+
+The issue has to do with updating positions in a sequence.  In
+an imperative language updating a single position can be done in ``constant
+time''.  In the functional setting we are not allowed to
+change the existing sequence, everything is persistent.  This means
+that for a sequence of length $n$ an update can either be done in
+$\Theta(n)$ work with an arraySequence (the whole sequence has to be copied
+before the update) or $\Theta(\log n)$ work with a treeSequence (an update
+involves traversing the path of a tree to a leaf).    In fact you
+might have noticed that our sequence interface does not even supply a
+function for updating a single position.   The reason is both to
+discourage sequential computation, but also because it would be
+expensive.
+
+Consider a function $\cd{update}~(i,v)~S$ that updates sequence $S$
+at location $i$ with value $v$ returning the new sequence.  This
+function would have cost $\Theta(|S|)$ in the arraySequence cost
+specification.  Someone might be tempted to write a sequential loop 
+using this function.     For example for a function $f : \alpha \ra
+\alpha$,  a $\cd{map}$ function can be implemented as follows:
+\[
+\begin{array}{ll}
+\cd{map}~f~S = 
+\\
+~~\cd{iterate} & (\lambda~((i,S'),v).~(i+1,~\cd{update}~(i,f(v))~S'))
+\\
+& (0,S)
+\\
+&  S
+\end{array}
+\]
+This code iterates over $S$ with $i$ going from $0$ to $n-1$ and at
+each position $i$ updates the value $S_i$ with $f(S_i)$.  The problem
+with this code is that even if $f$ has constant work, with an
+$\cd{arraySequence}$ this will do $\Theta(|S|^2)$ total work since every
+update will do $\Theta(|S|)$ work.  By using a $\cd{treeSequence}$
+implementation we can reduce the work to $\Theta(|S| \log |S|)$ but that is
+still a factor of $\Theta(\log |S|)$ off of what we would like.
+
+In the class we sometimes do need to update either a single element or
+a small number of elements of a sequence.  We therefore introduce an
+ADT we refer to as a \emph{Single Threaded Sequence} ($\cd{stseq}$).
+Although the interface for this ADT is quite straightforward, the cost
+specification is somewhat tricky.  To define the cost specification we
+need to distinguish between the latest ``copy'' of an instance of an
+$\cd{stseq}$, and earlier copies.  Basically whenever we update a
+sequence we create a new ``copy'', and the old ``copy'' is still
+around due to the persistence in functional languages.  The cost
+specification is going to give different costs for updating the latest
+copy and old copies.  Here we will only define the cost for updating
+and accessing the latest copy, since this is the only way we will be
+using an $\cd{stseq}$.  The interface and costs is as follows:
+\end{gram}
+
+\begin{gram}[Interface and cost for single-threaded sequences]
+\begin{tabular}{lcc}
+& Work & Span
+\\
+%
+$\cd{fromSeq}$ $S$ : $\alpha$ seq $\rightarrow$ $\alpha$ stseq &
+$O(|S|)$ & $\bigoh{1}$ 
+\\
+%
+\hspace* {.3in}Converts from a regular sequence to a stseq.
+\\
+$\cd{toSeq}$ $ST$ : $\alpha$ stseq $\rightarrow$ $\alpha$ seq &
+$O(|S|)$ & $\bigoh{1}$ 
+\\
+\hspace*{.3in}Converts from a stseq to a regular sequence.
+\\
+$\cd{nth}$ $ST$ $i$ : $\alpha$ stseq $\rightarrow$ int $\rightarrow$
+$\alpha$ &
+$\bigoh{1}$ & $\bigoh{1}$ 
+\\
+\hspace*{.3in}Returns the $i^{th}$ element of ST.  Same as for seq. 
+\\
+$\cd{update}$ $ST$ $(i,v)$ :$\alpha$ stseq $\rightarrow$ (int $\times\ \alpha$)
+ $\rightarrow$ $\alpha$ stseq &
+$\bigoh{1}$ & $\bigoh{1}$ 
+\\
+\hspace*{.3in}Replaces the $i^{th}$ element of $ST$ with $v$.
+\\
+$\cd{inject}$ $ST$ $I$ : $\alpha$ stseq $\rightarrow$  (int $\times$ $\alpha$) seq $\rightarrow$ $\alpha$ stseq &
+$O(|I|)$ & $\bigoh{1}$ 
+\\
+\hspace*{.3in}For each $(i,v) \in I$ replaces the $i^{th}$ element of $ST$ with
+$v$.
+\\
+%\small\tt inject? $I$ ST : (int $\times \alpha$) stseq $\rightarrow$
+%$\alpha$ option seq $\rightarrow$ $\alpha$ option seq
+%& for each $(i,v) \in I$ replaces the $i^{th}$ element of ST with
+%$v$ if the location contains NONE.
+\end{tabular}
+\end{gram}
+
+\begin{gram}[Operations on single threaded sequences]
+
+An $\cd{stseq}$ is basically a sequence but with very little
+functionality.  Other than converting to and from sequences, the only
+functions are to read from a position of the sequence ($\cd{nth}$),
+update a position of the sequence ($\cd{update}$) or update multiple
+positions in the sequence ($\cd{inject}$).  To use other functions
+from the sequence library, one needs to covert an $\cd{stseq}$ back
+to a sequence (using $\cd{toSeq}$).  
+
+In the cost specification the work for both $\cd{nth}$ and
+$\cd{update}$ is $\bigoh{1}$, which is about as good as we can get.
+Again, however, this is only when $S$ is the latest version of a
+sequence (i.e. noone else has updated it).   The work for
+$\cd{inject}$ is proportional to the number of updates.  It can be
+viewed as a parallel version of $\cd{update}$.
+\end{gram}
+
+\begin{example}[Map with single-threaded sequences]
+Now with an $\cd{stseq}$ we can implement our map as follows:
+\[
+\begin{array}{l}
+\cd{map}~f~S = 
+\\
+~~\cd{let}
+\\
+~~~~S' = \cd{StSeq.fromSeq}
+\\
+~~~~R = \cd{iterate}~(\lambda~((i,S''),v).~(i+1,~\cd{StSeq.update}~S''~(i,f(v))))
+\\
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~(0,S')
+\\
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~S
+\\
+~~\cd{in}
+~~~~\cd{StSeq.toSeq} R
+~~\cd{end}
+\end{array}
+\]
+
+This implementation first converts the input sequence to an
+$\cd{stseq}$, then updates each element of the $\cd{stseq}$, and
+finally converts back to a sequence.  Since each update takes constant
+work, and assuming the function $f$ takes constant work, the overall
+work is $O(n)$.  The span is also $O(n)$ since $\cd{iter}$ is
+completely sequential.  This is therefore not a good way to implement
+$\cd{map}$ but it does illustrate that the work of multiple updates can
+be reduced from $\Theta(n^2)$ on array sequences or $O(n \log n)$ on tree
+sequences to $O(n)$ using an $\cd{stseq}$.
+
+\end{example}
+
+
+\begin{gram}[Implementing Single Threaded Sequences]
+
+
+
+You might be
+curious about how single threaded sequences can be implemented so they
+act purely functional but match the cost specification.  Here we will
+just briefly outline the idea.
+
+The trick is to keep two copies of the sequence (the original and the
+current copy) and additionally to keep a ``change log''.  The change
+log is a linked list storing all the updates made to the original
+sequence.  When converting from a sequence to an $\cd{stseq}$ the
+sequence is copied to make a second identical copy (the current copy),
+and an empty change log is created.  A different representation is
+now
+used for the latest version and old versions of an $\cd{stseq}$.  In
+the latest version we keep both copies (original and current) as well
+as the change log.  In the old versions we only keep the original copy
+and the change log.  Let's consider what is needed to update either the
+current or an old version.  To update the current version we modify
+the current copy in place with a side effect (non functionally), and
+add the change to the change log.  We also take the previous version
+and mark it as an old version by removing its current copy.  When
+updating an old version we just add the update to its change log.
+Updating the current version requires side effects since it needs to
+update the current copy in place, and also has to modify the old
+version to mark it as old and remove its current copy.
+
+Either updating the current version or an old version takes constant
+work.  The problem is the cost of $\cd{nth}$.  When operating on the
+current version we can just look up the value in the current copy,
+which is up to date.  When operating on an old version, however, we
+have to go back to the original copy and then check all the changes in
+the change log to see if any have modified the location we are asking
+about.  This can be expensive.  This is why updating and reading the
+current version is cheap ($\bigoh{1}$ work) while working with an old
+version is expensive.
+
+In this course we will use $\cd{stseq}$'s for some graph algorithms,
+including breadth-first search (BFS) and depth-first search (DFS), and
+for hash tables.
+\end{gram}
+
+
+\end{unit}
+\end{section}
+\end{chapter}
+\end{book}

@@ -1,0 +1,372 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring 2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+% Start counting chapters from 
+% This is optional. Will start counting at 1.
+\provideschapter{8}
+\providessection{2}
+
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues. Concepts
+covered in this class include:
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{chapter}[Sequences]
+\label{ch:sequences}
+
+\picture{/210/sequences/water-town-suzhou-embroidery.jpg}
+
+A sequence is an ordered set, i.e., is a collection of elements that
+are totally ordered. 
+%
+Computer scientists use sequence data grams such as arrays and
+lists to represent many different sorts of data.
+%
+
+This chapter defines the syntax and the semantics of sequences and
+presents cost specifications and implementation strategies for
+matching them.
+
+\begin{section}[Comprehensions]
+\label{sec:sequences}
+
+We describe the sequence comprehensions notation that we shall be
+using heavily in this book.
+
+
+
+\begin{unit}[Sequence Comprehensions]
+\label{unit:seq:sequence-comprehensions}
+
+\begin{gram}
+\label{gr:seq:comprehend-intro}
+Notation such as $\csetf{x^2 : x \in a}{\cd{isPrime}~a}$ in which
+one set is defined in terms of the elements of other sets, and
+conditions on them is referred to as a~\defn{set comprehensions}.  
+%
+The example can be read as: the set of squares of the primes in the
+set $a$.  
+%
+Comprehensions are commonly used in mathematics, because of
+the economy of expression and ``comprehension'' that they offer.
+%
+In this book we use the comprehension syntax for a similar reason:
+they allow expressing algorithms in clear, concise notation.
+%
+%% For example, the syntax for sequences shown in Syntax~\ref{syn:seq::seq}, as
+%% well as sets which will see later in \chref{sets-and-tables}, are
+%% based on set comprehensions.
+%% %
+In the examples shown thus far, we have mostly used sequences in
+``flat'' fashion, without nesting sequence primitives within each
+other.
+%
+In this section, we describe the sequence comprehensions in more
+detail and how they can be used to express more complex algorithms
+concisely.
+%
+\end{gram}
+
+\begin{example}[Points in 2D]
+\parent{gr:seq:comprehend-intro} Suppose that we wish to create a
+sequence consisting of points in two dimensional space $(x,y)$ whose
+coordinates are natural numbers that satisfy the conditions that $0
+\le x \le n-1$ and $1 \le y \le n$.
+%
+For example, for $n = 3$, we would like to construct the sequence
+$\cseq{(0,1), (0,2), (1,1), (1,2), (2,1), (2,2)}$.
+%
+
+The code below shows one way to generate such a sequence.
+%
+\[
+\begin{array}{l}
+\cd{points2D}~n = \\
+~~\cd{flatten}~(\cd{tabulate}~(\cd{lambda}~x\,.\,\cd{tabulate}~(\cd{lambda}~y\,.\,(x,y+1))
+\\
+\phantom{
+~~\cd{flatten}~(\cd{tabulate}~(\cd{lambda}~x\,.\,\cd{tabulate}}~n)
+\\
+\phantom{
+~~\cd{flatten}~(\cd{tabulate}}~n)
+\end{array}
+\]
+
+The algorithm first generates a sequence of the form 
+\[
+\begin{alignat}{2}
+\cseqbb 
+& 
+\cseq{(0,1), (0,2), \ldots, (0,n)}
+\\
+& \cseq{(1,1), (1,2), \ldots, (1,n)}
+\\
+& \vdots
+\\
+& \cseq{(n-1,1), (n-1,2), \ldots, (n-1,n)}
+\\
+\cseqee
+\end{alignat}
+\]
+and then concatenates the inner sequences by using $\cd{flatten}$.
+
+Using our sequence comprehension notation, we can express the same
+code more succinctly as
+\[
+\begin{array}{l}
+\cd{points2D}~n = \cd{flatten}~\cseq{\cseq{(x, y): 1 \le y \le n }: 0 \le x \le n-1}.
+\end{array}
+\]
+%
+We simplify this notation a bit more and write the same algorithm as
+\[
+\begin{array}{l}
+\cd{points2D}~n = \cseq{(x, y): 1 \le y \le n, 0 \le x \le n-1}.
+\end{array}
+\]
+%
+In this notation, we allow the expression to define the members of a
+sequence by using multiple variables.
+%
+%
+\end{example}
+
+
+\begin{important}
+Note that there is an implicit $\cd{flatten}$ in sequence
+comprehensions that involve multiple sequences as shown in the example
+above.
+%
+We will have to remember this point, as we analyze algorithms that
+range over multiple sequences.
+\end{important}
+
+\begin{gram}[Deeper nesting levels]
+\label{gr:seq:comprehend-nesting}
+ 
+The notation generalizes to arbitrary levels of nesting.
+%
+For example, we may want to add one more dimension to point sequences
+by considering points in three dimensional space, $(x,y,z)$, whose
+coordinates are natural numbers that satisfy the conditions that $0
+\le x \le n-1$, $1 \le y \le n$, $2 \le z \le n+1$.
+%
+We can write the code for this by nesting the sequences in three
+levels as follows.
+\[
+\begin{array}{l}
+\cd{points3D}~n = \\ 
+~~\cd{flatten} \cseq{\cseq{\cseq{(x,y,z): 2 \le z \le n+1 }: 1 \le y \le  n}: 0 \le x \le n-1}
+\end{array}
+\]
+%
+or more succinctly as 
+%
+\[
+\begin{array}{l}
+\cd{points3D}~n = \\ 
+~~\cseq{(x,y,z): 2 \le z \le n+1, 1 \le y \le  n, 0 \le x \le n-1}, 
+\end{array}
+\]
+or as
+\[
+\begin{array}{l}
+\cd{points3D}~n = \\ 
+~~\cseq{(x,y,z): 0 \le x \le n-1, 1 \le y \le  n, 2 \le z \le n+1}. 
+\end{array}
+\]
+
+\end{gram}
+
+\begin{gram}[Nested sequences, more generally]
+\label{gr:seq:comprehend-nesting-2}
+We can also nest other sequence operations.
+%
+For example, suppose that we wish to compute the Cartesian product of
+two sequences.
+%
+Given
+%
+$a = \cseq{1,2}$, and 
+\\
+$b = \cseq{3.0,4.0,5.0}$,
+the
+Cartesian product of $a$ and $b$ is 
+\[
+a \times b = \cseq{(1,3.0), (1,4.0), (1,5.0), (2,3.0),
+  (2,4.0), (2,5.0)}.
+\]
+%
+We can write the code for a function for computing as  
+\[
+\begin{array}{l}
+\cd{CartesianProduct}~(a,b) = \\
+~~\cd{flatten}~(\cd{map}~(\cfn{x}{\cd{map}~(\cfn{y}{(x,y)})~b})~a).
+\end{array}
+\]
+%
+or equivalently as
+%
+\[
+\begin{array}{l}
+\cd{CartesianProduct}~(a,b) = \\ 
+~~\cseq{(x,y): x \in a, y \in b}.
+\end{array}
+\]
+%
+Note that the resulting sequence is ordered by the natural
+lexicographic generalization of the ordering of all the sequences
+involved.
+\end{gram}
+
+\begin{example}[Multiple sequences]
+\parent{gr:seq:comprehend-nesting}
+\parent{gr:seq:comprehend-nesting-2}
+Some simple examples with multiple sequences follow.   
+\begin{itemize}
+\item 
+Let $a = \cseq{0,1}$ and $b = \cseq{\chr{a},\chr{b}}$.  
+\[
+\cseq{(x,y) : x \in a, y \in x} = \cseq{(0,\cchr{a}), (0,\cchr{b}), (1,\cchr{a}), (1,\cchr{b})}. 
+\]
+%
+\item
+The expression
+\[
+\cseq{x * y : x \in \cseq{1,2,3} , y \in \cseq{4,5}}
+\]
+multiplies all pairs and evaluates to
+\[
+\cseq{4,5,8,10,12,15}.
+\]
+\end{itemize}
+
+\end{example}
+
+
+%
+
+%In general, we can \cd{tabulate}, \cd{map} and \cd{filter} over any
+%number of sequences.
+
+\begin{syntax}[Comprehensions for multiple sequences]
+\label{syn:seq::comp-mult}
+We can sample from any finitely many sequences and compute an
+expression in terms of their elements, while also filtering the
+elements using finetely many expressions:
+\[
+\cseq{e : x_1 \in e_1, x_2 \in e_2 \ldots, x_n \in e_n \mid e_1', e_2'
+  \ldots e_m'}.
+\] 
+%
+
+We can also allow variable binding involving ranges of natural
+numbers, as for example, can be used by $\cd{tabulate}$. 
+%
+Specifically, $x_i \in e_i$ could be replaced by $e_j \le i \le e_k$,
+where $e_j$ and $e_k$ are expressions whose values are natural numbers
+and $i$ is a variable.
+\end{syntax}
+
+
+\begin{example}[Using multiple sequences]
+\parent{gr:seq:comprehend-nesting}
+\parent{gr:seq:comprehend-nesting-2}
+\parent{syn:seq::comp-mult}
+
+  Given sequences $a$ of natural numbers and $b$ of letters of the
+  alphabet, we wish to compute the sequence that pairs each even
+  element of $a$ with all elements of $b$ that are vowels.
+%
+We can writes this simply by adding the filtering predicates
+$\cd{isEven}$, which holds for even numbers, and $\cd{isVowel}$, which
+holds for vowels.
+%
+\[
+\begin{array}{l}
+\cseq{(x,y): x \in a, y \in b~\sucht~\cd{isEven}~x, \cd{isVowel}~y}
+\end{array}
+\]
+\end{example}
+
+\begin{example}[All contiguous subsequences]
+\label{ex:seq::allsubseqs}
+\parent{gr:seq:comprehend-nesting}
+\parent{gr:seq:comprehend-nesting-2}
+\parent{gr:seq:comprehend-nesting-2}
+\parent{syn:seq::comp-mult}
+
+
+Let's say we want to generate all contiguous subsequences of a 
+sequence $a$.   Each sequence can start at any position $0 \leq i <
+\cseqlen{a}$, and end at any position  $i \leq j < \cseqlen{a}$.    
+%
+We can do this with the following pseudocode
+\[
+\cseq{a\cseq{i,\ldots,j} : 0 \leq i < \cseqlen{a}, i \leq j < \cseqlen{a}}\, ,
+\]
+which is equivalent to
+%
+\[
+\begin{alignat}{1}
+\cd{flatten}~(\cd{tabulate} & ~(\cd{lambda}~i\,.\,\cd{tabulate}~(\cd{lambda}~j.~a\cirange{i}{i+j})
+\\
+                   & \phantom{~(\cd{lambda}~i\,.\,\cd{tabulate}}~(\cseqlen{a}-i-1)
+\\
+&~\cseqlen{a}).
+
+\end{alignat}
+\]
+
+%
+This example shows again that comprehensions can be quite convenient.
+\end{example}
+
+\begin{remark}[Comprehensions]
+Syntax based on set comprehensions is included in many programming
+languages either directly for sets (e.g., SETL), or for other
+collections of values such as lists, sequences, or mappings
+(e.g. Python, Haskell and Javascript).  We should note, however, that
+the syntax is not uniform among the languages.  Indeed even among
+texts on set theory in mathematics the syntax for set comprehensions
+varies significantly.  In our usage, we try to be self consistent, but
+necessarily we are not always consistent with usage found elsewhere.
+To be precise we always view comprehensions as syntactic sugar for
+specific \pml code, and always define the translation between the two.
+%,
+%as we do in Syntax~\ref{syn:seq::seq}.
+\end{remark}
+
+\end{unit}
+\end{section}
+\end{chapter}
+\end{book}

@@ -1,0 +1,538 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring 2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+% Start counting chapters from 
+% This is optional. Will start counting at 1.
+\provideschapter{8}
+\providessection{4}
+
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues. Concepts
+covered in this class include:
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{chapter}[Sequences]
+\label{ch:sequences}
+
+\picture{/210/sequences/water-town-suzhou-embroidery.jpg}
+
+A sequence is an ordered set, i.e., is a collection of elements that
+are totally ordered. 
+%
+Computer scientists use sequence data grams such as arrays and
+lists to represent many different sorts of data.
+%
+
+This chapter defines the syntax and the semantics of sequences and
+presents cost specifications and implementation strategies for
+matching them.
+
+\begin{section}[An Example: Primes]
+\label{sec:seq::primes}
+
+We now give some more involved examples of how to use sequences and
+analyze work and span.  
+%
+As usual, the ratio of work and span gives us the parallelism of the
+algorithm.  
+%
+As our example, we consider the  problem of finding prime numbers,
+more precisely defined as follows.
+%
+
+\begin{unit}[Computing Primes]
+\begin{problem}[Primes]
+The~\defn{primes} problem requires finding all prime numbers less than
+a given natural number $n$.
+\end{problem}
+
+\begin{gram}
+Recall that a natural number $n$ is a prime if it has exactly two
+distinct divisors $1$ and itself.
+%
+For example, the number $1$ is not prime, but $2$, $3$, $7$, and
+$9967$ are.
+%
+If $n$ is not prime, then it has a divisor that is at most $\sqrt{n}$
+since for any $i \times j = n$, either $i$ or $j$ has to be less than
+or equal to $\sqrt{n}$.
+%
+We can therefore test the primality of a number $n$ by checking
+whether any $i$, $2 \leq i \leq \sqrt{n}$ is a divisor of $n$.
+%
+We can write such an algorithm using sequences as follows.
+%
+For simplicity we assume throughout that $n \ge 2$.
+%
+\end{gram}
+
+\begin{algorithm}[Brute Force Primality Test]
+\label{alg:seq::bfprime}
+\[
+\begin{array}{l}
+\cd{isPrime}~n =
+\\ 
+~~\cd{let}
+\\ 
+~~~~\cd{all} = \cseq{n \bmod i : 1 \le i \le \fsqrt{n}}
+\\
+~~~~\cd{divisors} = \cseq{x: x \in \cd{all} \sucht x = 0}
+\\
+~~\cd{in}
+\\ 
+~~~~|\cd{divisors}| = 1
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+%
+%%%% Old version
+%% \begin{algorithm}~
+%% \label{alg:seq::bfprime}
+%% \begin{lstlisting}
+%% isPrime $m$ = $(|\cseqf{1 \leq i \leq \isqrt{m}}{i \bmod m = 0}| = 1)$
+%% \end{lstlisting}
+%% \end{algorithm}
+%%
+%%%% The algorithm below is not quite correct, does not work for 2
+%%%% Also, mod notation is used incorrectly.
+%%%%
+%% \begin{algorithm}~
+%% \label{alg:seq::bfprime}
+%% \begin{lstlisting}
+%% isPrime $m$ = $(|\cseqf{2 \leq i \leq \isqrt{m}}{m \bmod i = 0}| = 0)$
+%% \end{lstlisting}
+%% \end{algorithm}
+%% The length of the sequence is simply the number of $j$ that divide
+%% $n$.  If that is zero, then $n$ is a prime.  
+
+\begin{gram}[Cost of Brute Force Primality Test]
+Let's calculate the work and span of this algorithm based on the array
+sequence cost specification.  
+%
+The algorithm constructs a sequence of length $\fsqrt{n}$ and then
+filters it.
+%
+Since the work for computing $i \bmod n$ and checking that a value is
+zero $x = 0$ is constant, based on the array-sequence costs, we can
+write work as
+\[
+\cworkof{\cd{isPrime}}{n} 
+=  
+\bigoh{1 + \sum_{i=1}^{\fsqrt{n}} \bigoh{1}} 
+= 
+\bigoh{\sqrt{n}}.
+\]
+%
+Similarly we
+can write span as:
+\[
+\cspanof{\cd{isPrime}}{n} 
+=  
+\bigoh{\lg{\sqrt{n}} + \max_{i=1}^{\fsqrt{n}} \bigoh{1}}
+=
+\bigoh{\lg{n}}.
+\]
+%
+The $\lg{\sqrt{n}}$  additive terms come from the cost specification for
+$\cd{filter}$.
+
+Since parallelism is the ratio of work to span,  it is
+\[
+\bigoh{\frac{\sqrt{n}}{\lg{\sqrt{n}}}}.
+\]
+%
+This is not an abundant amount of parallelism but adequate especially,
+because work is small.
+%
+\end{gram}
+
+\begin{algorithm}[Brute Force Solution to the Primes Problem]
+\label{alg:seq::bfprimes}
+Now that we can test for primality of a number, we can solve the
+primes problem by testing the numbers up to $n$.
+%
+We can write the code for such a brute-force algorithm as follows.
+% 
+\[
+\begin{array}{l}
+\cd{primesBF}~n =
+\\ 
+~~\cd{let}
+\\ 
+~~~~\cd{all} = \cseq{i : 1 < i < n}
+\\
+~~~~\cd{primes} = \cseq{x : x \in \cd{all} \sucht \cd{isPrime}(x)}
+\\
+~~\cd{in} 
+\\
+~~~~\cd{primes}
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+
+%% \begin{algorithm}~
+%% \label{alg:seq::bfprimes}
+%% \cd{primes} $n$ = $\cseqf{1 \leq i \leq n}{\cd{isPrime}(i)}$ 
+%% \end{algorithm}
+
+\begin{gram}
+Let's analyze work and span, again  using array sequences.
+%
+Constructing the sequence $\cd{all}$ using $\cd{tabulate}$ requires linear
+work.
+%
+Filtering through $\cd{all}$ requires work that is the sum of the work
+of the calls to $\cd{isPrime}$; thus we have
+%
+\begin{align*}
+\cworkof{\cd{primesBF}}{n} 
+ & =  
+\bigoh{\sum_{i=2}^{n-1}{1+\cworkof{\cd{isPrime}}{i}}}
+\\
+& =  \bigoh{\sum_{i=2}^{n-1}{1 +\sqrt{i}}}
+\\
+& =  \bigoh{n^{3/2}}.
+\end{align*}
+
+Similarly, the span is dominated by the maximum of the span of calls
+to $\cd{isPrime}$ and a logarithmic additive term.
+%
+\begin{align*}
+\cspanof{\cd{primesBF}}{n} = 
+& = 
+\bigoh{\lg{n} + \max_{i=2}^{n}{\cspanof{\cd{isPrime}}{i}}}
+\\
+& = 
+\bigoh{\lg{n} + \max_{i=2}^{n}{\lg{i}}}
+\\
+& = 
+\bigoh{\lg{n}}                               
+\end{align*}
+
+The parallelism is hence 
+\[
+\frac
+{\cworkof{\cd{primesBF}}{n}}
+{\cspanof{\cd{primesBF}}{n}} 
+=
+\frac{n^{3/2}}{\lg{n}}.
+\]  
+%
+This is plenty of parallelism but comes at the expense of a large amount of work.
+%
+
+%
+\end{gram}
+
+\begin{teachask}
+Can you see why the algorithm does a lot of work.
+\end{teachask}
+%
+
+\begin{gram}
+We can improve the work for the algorithm, because the algorithm does
+a lot of redundant work.
+%
+Intuitively, we can see that the algorithm does redundant work,
+because it repeatedly performs checks with the same numbers.  To test
+whether a number $m$ is prime, the algorithm checks its divisors, it
+then checks essentially the same divisors for multiples of $m$, such
+as $2m, 3m, \ldots$, which largely overlap, because if a number
+divides $m$, it also divides its multiples.
+
+We can eliminate this redundancy by more actively eliminating numbers
+that are \defn{composites}, i.e., not primes.
+%
+The basic idea is to create a collection of composite numbers up to $n$ and use
+this as a \defn{sieve.}.
+%
+Generating such a sieve is easy: we just have to include for any
+number $i \le \sqrt{n}$, its multiples of up to $\frac{n}{i}$.
+%
+Having generated the sieve, what remains is to run the numbers up to
+$n$ through the sieve. 
+%
+To do this in parallel, we  can use $\cd{inject}$.
+\end{gram}
+%
+
+\begin{algorithm}[Prime Sieve]
+The pseudo-code below presents the prime-sieve algorithm.
+%
+The idea is to do construct the sieve as a length-$n$ sequence of the
+Boolean value $\cd{true}$, and then update the sequence by writing
+$\cd{false}$ into all positions that correspond to composite numbers.
+%
+The remaining $\cd{true}$ values indicate the prime numbers.
+%
+
+\[
+\begin{array}{l}
+\cd{primeSieve}~n = 
+\\
+~~\cd{let}
+\\ 
+~~~~\cd{(*  Composite numbers. *)}
+\\
+~~~~\cd{cs} = \cseq{i * j : 2 \le i \le \fsqrt{n}, 2 \le j  \le n/i}
+\\
+~~~~\cd{sieve} = \cseq{(x,\cd{false}) : x \in cs}
+\\
+~~~~\cd{all} = \cseq{\cd{true}: i \le 0 < n}
+\\
+~~~~\cd{isPrime} = \cd{inject}~\cd{all}~\cd{sieve}
+\\
+~~~~\cd{primes} = \cseq{i : 2 \le i < n \sucht  \cd{isPrime}[i] = \cd{true}}
+\\
+~~\cd{in}
+\\ 
+~~~~\cd{primes}
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+
+%%%% Algorithm with flatten.
+%% \begin{algorithm}~
+%% \begin{lstlisting}
+%% primeSieve $n$ = 
+%%   let 
+%%     $composites$ = flatten $\cseq{\cseq{i * j : 1 \le j  \le n/i } : 0 \le i \le \fsqrt{n}}$
+%%     $sieve$ = $\cseqb$ ($x$,true) $:$ $x \in composites$ $\cseqe$
+%%     $all$ = $\cseqb$ true $:$ $i \le 0 < n$ $\cseqe$
+%%     $isPrime$ = inject $all$ $sieve$
+%%     $primes$ = $\cseqb$ $i : 2 \le i < n$ $\sucht$ $isPrime[i] = true$ $\cseqe$
+%%   in 
+%%     $primes$
+%%   end 
+%% \end{lstlisting}
+%% \end{algorithm}
+
+%
+%%%%% There seems to some issues with the edge cases in the algorithm below.
+%%%%% Otherwise it is essentially identical to the one above.
+%% \begin{algorithm}~
+%% \begin{lstlisting}
+%% primes(n) = 
+%%   let 
+%%     sieves = $\cseq{(i \times j,\sml{false}) : 2 \leq i \leq \isqrt{n}, 1 \leq j \leq \lceil n/i \rceil}$
+%%     $R$ = inject($\cset{\sml{true} : 0 \leq i \leq n}$,sieves) 
+%%   in 
+%%     $\cseqf{i : 2 \leq i \leq n}{R[i]}$@\label{line:primesFilter}@
+%%   end 
+%% \end{lstlisting}
+%% \end{algorithm}
+
+
+\begin{gram}[Cost of the Sieve Algorithm]
+The work and span for calculating $\cd{primeSieve}$ is similar to the
+analysis for finding all subsequences.
+% in \exref{subseqcosts}.
+%
+We shall consider the phases of the algorithm and show that the work
+and span are functions of the total number of composites which we
+denote by $m$.
+%
+\begin{itemize}
+\item 
+Generating each composite takes constant work and because it is just a
+multiplication.
+%
+The work for generating the sequence of composites is linear in
+the total number of composites, $m$.
+%
+The span is $O(\lg{m})$ because of the nested sequence and the implied
+$\cd{tabulate}$.
+%
+Constructing the sieve requires linear work in its length, which is
+$m$, and constant span.
+
+\item 
+ The work of $\cd{inject}$ is also proportional to the length of
+ $\cd{sieve}$, $m$,  and its span is constant.  
+
+\item 
+The work for computing $\cd{primes}$, using $\cd{tabulate}$ and
+$\cd{filter}$ is proportional to $n$, and the span is $O(\lg{n})$.
+%
+\end{itemize}
+
+Therefore the total work is proportional to the number composites $m$,
+which is larger than $n$, and the total span is $O(\lg{n+m})$.
+%
+To calculate $m$, we can add up the number of multiples each $i$ from
+$2$ to $\floor{\sqrt{n}}$ have, i.e.,
+%
+
+\begin{align*}
+m & =  \sum_{i=2}^{\fsqrt{n}} \left\lceil \frac{n}{i} \right\rceil\\
+                           & \leq  (n+1) \sum_{i=2}^{\fsqrt{n}}\frac{1}{i} \\
+                           & =  (n+1) H(\fsqrt{n}) \\
+                           & \leq  (n+2) \ln n^{1/2}\\
+                           & = \frac{n+2}{2} \ln n.\\
+\end{align*}
+%
+Here $H(n)$ is the $n^{th}$ harmonic number, which is known to be
+bounded below by $\ln n$ and above by $\ln n + 1$.   
+We therefore have    
+\begin{align*}
+\cworkof{\cd{primeSieve}}{n} & =  O(n \lg{n}),~\mbox{and}
+\\
+\cspanof{\cd{primeSieve}}{n} & =  O(\lg{n}).
+\end{align*}
+
+%
+We have thus reduced the work from $\bigoh{\frac{n^{3/2}}{\lg{n}}}$
+to something much more reasonable $\bigoh{n\lg{n}}$.
+\end{gram}
+
+\begin{teachnote}
+The question is how do we generate just the primes less than
+$\isqrt{n}$ for computing the sieves. This is easy to recursively,
+giving the following algorithm.
+
+%\begin{algorithm}
+\begin{lstlisting}
+primeSieve $n$ = 
+  let 
+    $P$ = primeSieve $\fsqrt{n}$ 
+    $cs$ = $\cseq{i * j :  i \in P, 2 \le j  \le n/i}$
+    $sieve$ = $\cseqb$ ($x$,true) $:$ $x \in cs$ $\cseqe$
+    $all$ = $\cseqb$ true $:$ $0 \le i < n$ $\cseqe$
+    $isPrime$ = inject $all$ $sieve$
+    $primes$ = $\cseqb$ $i : 2 \le i < n$ $\sucht$ $isPrime[i] = true$ $\cseqe$
+  in 
+    $primes$
+  end 
+\end{lstlisting}
+%\end{algorithm}
+
+%% \begin{algorithm}~
+%% \begin{lstlisting}
+%% primes(n) = 
+%% if (n < 2) then $\cseq{}$
+%% else 
+%%   let $P$ = primes($\isqrt{n}$) 
+%%     sieves = $\cseq{(p \times i,\sml{false}) : p \in P, 1 \leq i \leq \lceil n/p \rceil}$
+%%     $R$ = inject($\cset{\sml{true} : 0 \leq i \leq n}$,sieves) 
+%%   in 
+%%    $\cseqf{i : 2 \leq i \leq n}{R[i]}$
+%%   end 
+%% \end{lstlisting}
+%% \end{algorithm}
+
+We leave the analysis of this algorithm as an exercise, but we state
+without justification that it has $\bigoh{n \lg{\lg{n}}}$ work and
+$\bigoh{\lg{n}}$ span.
+\end{teachnote}
+
+
+\begin{remark}
+The algorithm for computing primes described here dates back to
+antiquity and attributed to Eratosthenes of Cyrene, a Greek
+mathematician.
+\end{remark}
+\begin{checkpoint}
+
+\begin{questionfr}
+\points 10 
+
+\prompt 
+Describe an algorithm for computing prime numbers up to $n$ in
+$\bigoh{n\lg{\lg{n}}}$ work and $\bigoh{\lg{n}}$ span.
+%
+Show that the cost bounds hold.
+
+\hint
+The work of the sieve algorithm can be further improved by
+noticing that when computing the composites, we only need to consider
+the multiples of prime numbers.
+%
+% This is because one of
+% its divisors will include all its multiples.  
+%
+For example we don't need to consider the multiples of $6$ since all
+multiples of 6 are also multiples of $2$ and of $3$. 
+%
+
+\begin{answer}
+
+
+%% Answer below. hidden  
+%% \begin{lstlisting}[numbers=none]
+%% primeSieve $n$ = 
+%%   let 
+%%     $P$ = primeSieve $\fsqrt{n}$ 
+%%     $cs$ = $\cseq{i * j :  i \in P, 2 \le j  \le n/i}$
+%%     $sieve$ = $\cseqb$ ($x$,true) $:$ $x \in cs$ $\cseqe$
+%%     $all$ = $\cseqb$ true $:$ $0 \le i < n$ $\cseqe$
+%%     $isPrime$ = inject $all$ $sieve$
+%%     $primes$ = $\cseqb$ $i : 2 \le i < n$ $\sucht$ $isPrime[i] = true$ $\cseqe$
+%%   in 
+%%     $primes$
+%%   end 
+%% \end{lstlisting}
+
+
+%%%% The algorithm below seems to have some issues regarding edge cases.
+%% \begin{algorithm}~
+%% \begin{lstlisting}[numbers=none]
+%% primes(n) = 
+%% if (n < 2) then $\cseq{}$
+%% else 
+%%   let $P$ = primes($\isqrt{n}$) 
+%%     sieves = $\cseq{(p \times i,\sml{false}) : p \in P, 1 \leq i \leq \lceil n/p \rceil}$
+%%     $R$ = inject($\cset{\sml{true} : 0 \leq i \leq n}$,sieves) 
+%%   in 
+%%    $\cseqf{i : 2 \leq i \leq n}{R[i]}$
+%%   end 
+%% \end{lstlisting}
+%% \end{algorithm}
+
+We leave the analysis of this algorithm as an exercise, but we state
+without justification that it has $\bigoh{n \lg{\lg{n}}}$ work and
+$\bigoh{\lg{n}}$ span.
+\end{answer}
+
+\end{questionfr}
+
+\end{checkpoint}
+
+\end{unit}
+\end{section}
+\end{chapter}
+\end{book}

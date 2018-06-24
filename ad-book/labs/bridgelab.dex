@@ -1,0 +1,277 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+\coursenumber{15210}
+\semester{Spring2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+\providesbook{S18}
+\providesassignment{8}
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{15210-2016}
+\unique{15210S18}
+\authors{Umut A. Acar and Guy Blelloch}
+
+
+\begin{assignment}
+\title{BridgeLab (Written)}
+\duedate{23 March 2018}
+
+\begin{asstproblem}
+  \title{3edgy5me}
+  \info
+
+DFS numbering is a handy way to identify different types of edges in a graph. For the following two problems, refer to the graph below:
+
+\includegraphics{https://storage.cloud.google.com/diderot-cmu/media-files/courses/15210/Spring 2018/assignment/Bridgelab (Written)/bridgelab-pic.png}
+
+% \begin{center}
+% \begin{tikzpicture}[scale=0.2]
+% \tikzstyle{every node}+=[inner sep=0pt]
+% \draw [black] (19.9,-9.2) circle (3);
+% \draw (19.9,-9.2) node {$s$};
+% \draw [black] (13,-19.5) circle (3);
+% \draw (13,-19.5) node {$a$};
+% \draw [black] (32.7,-9.2) circle (3);
+% \draw (32.7,-9.2) node {$e$};
+% \draw [black] (39.4,-19.5) circle (3);
+% \draw (39.4,-19.5) node {$c$};
+% \draw [black] (19.9,-30.3) circle (3);
+% \draw (19.9,-30.3) node {$b$};
+% \draw [black] (32.7,-30.3) circle (3);
+% \draw (32.7,-30.3) node {$d$};
+% \draw [black] (26.3,-19.5) circle (3);
+% \draw (26.3,-19.5) node {$f$};
+% \draw [black] (22.9,-9.2) -- (29.7,-9.2);
+% \fill [black] (29.7,-9.2) -- (28.9,-8.7) -- (28.9,-9.7);
+% \draw [black] (34.9,-11.5) -- (37.93,-16.89);
+% \fill [black] (37.93,-16.89) -- (37.97,-15.94) -- (37.1,-16.43);
+% \draw [black] (28.4,-17.3) -- (31.29,-11.85);
+% \fill [black] (31.29,-11.85) -- (30.48,-12.32) -- (31.36,-12.79);
+% \draw [black] (38.4,-22.5) -- (34.47,-27.88);
+% \fill [black] (34.47,-27.88) -- (35.35,-27.53) -- (34.54,-26.94);
+% \draw [black] (32.7,-12.3) -- (32.7,-27.3);
+% \fill [black] (32.7,-27.3) -- (33.2,-26.5) -- (32.2,-26.5);
+% \draw [black] (18.1,-12) -- (14.69,-17.02);
+% \fill [black] (14.69,-17.02) -- (15.55,-16.64) -- (14.72,-16.08);
+% \draw [black] (30.1,-11.3) -- (15.71,-18.2);
+% \fill [black] (15.71,-18.2) -- (16.64,-18.31) -- (16.21,-17.41);
+% \draw [black] (19.9,-27.3) -- (19.9,-12.2);
+% \fill [black] (19.9,-12.2) -- (19.4,-13) -- (20.4,-13);
+% \draw [black] (36.78,-20.95) -- (22.52,-28.85);
+% \fill [black] (22.52,-28.85) -- (23.47,-28.9) -- (22.98,-28.02);
+% \draw [black] (21.2,-27.4) -- (24.67,-22.02);
+% \fill [black] (24.67,-22.02) -- (23.82,-22.42) -- (24.66,-22.96);
+% \draw [black] (36.4,-19.5) -- (29.3,-19.5);
+% \fill [black] (29.3,-19.5) -- (30.1,-20) -- (30.1,-19);
+% \draw [black] (29.7,-30.3) -- (22.9,-30.3);
+% \fill [black] (22.9,-30.3) -- (23.7,-30.8) -- (23.7,-29.8);
+% \end{tikzpicture}
+% \end{center}
+
+\begin{questionfr}
+  \points 10
+  \prompt
+Draw the DFS tree for the graph, starting at node $s$. If there are multiple possible nodes to expand at a step, expand the nodes in alphabetical order. Also give the DFS numbering (discover time, finish time) for each node, for example $s: (0, 13)$. Include only the \emph{tree edges} in your DFS tree.
+
+{\it Hint:} Use \url{http://madebyevan.com/fsm/} to make your graphs look nice in \LaTeX.
+\answer
+Compile the pdf from the repo to see the answer
+\end{questionfr}
+%% \solution{
+%%   \begin{center}
+%%     \begin{tikzpicture}[scale=0.2]
+%%       \tikzstyle{every node}+=[inner sep=0pt]
+%%       \draw [black] (29.6,-6.6) circle (3);
+%%       \draw (29.6,-6.6) node {$s$};
+%%       \draw [black] (21.7,-15.1) circle (3);
+%%       \draw (21.7,-15.1) node {$a$};
+%%       \draw [black] (37.6,-15.1) circle (3);
+%%       \draw (37.6,-15.1) node {$e$};
+%%       \draw [black] (30.4,-23.7) circle (3);
+%%       \draw (30.4,-23.7) node {$c$};
+%%       \draw [black] (24.2,-32.8) circle (3);
+%%       \draw (24.2,-32.8) node {$b$};
+%%       \draw [black] (18.7,-41.7) circle (3);
+%%       \draw (18.7,-41.7) node {$f$};
+%%       \draw [black] (37.6,-32.8) circle (3);
+%%       \draw (37.6,-32.8) node {$d$};
+%%       \draw [black] (27.56,-8.8) -- (23.74,-12.9);
+%%       \fill [black] (23.74,-12.9) -- (24.65,-12.66) -- (23.92,-11.98);
+%%       \draw [black] (31.66,-8.78) -- (35.54,-12.92);
+%%       \fill [black] (35.54,-12.92) -- (35.36,-11.99) -- (34.63,-12.68);
+%%       \draw [black] (35.67,-17.4) -- (32.33,-21.4);
+%%       \fill [black] (32.33,-21.4) -- (33.22,-21.11) -- (32.46,-20.47);
+%%       \draw [black] (28.71,-26.18) -- (25.89,-30.32);
+%%       \fill [black] (25.89,-30.32) -- (26.75,-29.94) -- (25.93,-29.38);
+%%       \draw [black] (22.62,-35.35) -- (20.28,-39.15);
+%%       \fill [black] (20.28,-39.15) -- (21.12,-38.73) -- (20.27,-38.2);
+%%       \draw [black] (32.26,-26.05) -- (35.74,-30.45);
+%%       \fill [black] (35.74,-30.45) -- (35.63,-29.51) -- (34.85,-30.13);
+%%     \end{tikzpicture}
+%%   \end{center}
+%%   s - (0, 13) \\
+%%   a - (1, 2) \\
+%%   e - (3, 12) \\
+%%   c - (4, 11) \\
+%%   b - (5, 8) \\
+%%   f - (6, 7) \\
+%%   d - (9, 10)
+%% }
+\begin{questionfr}
+  \points 5
+  \prompt
+  List all the forward edges, back edges, and cross edges in the graph.
+  \answer
+  Forward - (e,d), (c,f) \\
+  Back - (b,s), (f,e) \\
+  Cross - (e,a), (d,b)
+\end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+  \title{3edgy5me round 2}
+  \info
+  For any directed graph $G$, we define its transpose, $G^T$, to be the graph that contains the same set of vertices with all of its edges reversed. That is, $(u,v)$ exists in $G \leftrightarrow (v,u)$ exists in $G^T$. We also define $G^A$, the autotranspose graph of $G$, as follows: $V(G^A) = V(G), E(G^A) = E(G) \cup E(G^T)$.
+
+  \begin{questionfr}
+    \points 7
+    \prompt
+    Give an example of a graph $G$ with at most 4 vertices, such that there exists a \textit{cross edge} $e=(u,v)$ in the DFS tree of $G$, but $e$ (not its reverse) is a \textit{back edge} in the DFS tree of $G^A$. Label your vertices alphabetically from ``a''. The DFS tree should start from the node labelled ``a''. If there are multiple possible nodes to expand at a step, do so in alphabetical order. Label the edge $e$ clearly.
+    \answer
+    A simple graph with 3 vertices as follows: $V(G) = \{a,b,c\}, E(G) = \{(a,b),(a,c),(c,b)\}$ Then $(c,b)$ is a cross edge in $G$ but a back edge in $G^A$.
+  \end{questionfr}
+
+  \begin{questionfr}
+    \points 8
+    \prompt
+Give an example of a graph $H$ with at most 4 vertices, such
+that there exists a \textit{tree edge} $e=(u,v)$ in the DFS tree of $H$, but $e$
+is a \textit{back edge} in the DFS tree of $H^A$. Label your vertices alphabetically from ``a''. The DFS tree should start from the node labelled ``a''. If there are multiple possible nodes to expand at a step, do so in alphabetical order. Label the edge $e$ clearly.
+\answer
+The following graph works: $V(H) = \{a,b,c,d\}, E(H) = \{(a,d),(d,c),(c,b),(b,a)\}$. Then $(c,b)$ is a tree-edge in $H$ but a back edge in $H^A$.
+  \end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+  \title{Connected Components}
+  \info
+  In an undirected graph, a connected component is a set of vertices such that for every pair vertices in the set, there exists a path between the two.
+
+  \begin{questionfr}
+    \points 5
+    \prompt
+Give an algorithm that uses DFS to count the number of connected components in a undirected graph. You may give your answer in English or pseudocode.
+
+Your algorithm should run in $O(n+m)$ work and span.
+
+\answer
+Iteratively apply DFS on unvisited vertices, and increment counter at each round of a new DFS.
+  \end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+  \title{Higher-Order DFS}
+  \info
+In lecture, we introducted the idea of ``higher-order DFS", which generalizes the common structure between all DFS algorithms. To utilize the generalized DFS template, all you need to do is define the three functions, \cd{discover}, \cd{finish}, \cd{revisit} and an initial state $\Sigma_0$. Consider the following pseudocode, which performs the higher-order DFS on an enumerated, directed graph represented by adjacency sequence. Assume we use Single-Threaded Sequence for keeing track of the visited vertices.
+
+\[
+\begin{array}{ll}
+1 & \cd{fun directedDFS (revisit, discover, finish) ($G$,$\Sigma_0$,$s$) =}
+\\
+2 & ~~\cd{let}
+\\
+3 & ~~~~\cd{DFS $p$ (($X$, $\Sigma$), $v$) =}
+\\
+4 & ~~~~~~\cd{if ($X[v]$) then}
+\\
+5 & ~~~~~~~~\cd{($X$, revisit($\Sigma, v, p$))}
+\\
+6 & ~~~~~~\cd{else}
+\\
+7 & ~~~~~~~~\cd{let}
+\\
+8 & ~~~~~~~~~~\cd{$\Sigma'$ = discover($\Sigma, v, p$)}
+\\
+9 & ~~~~~~~~~~\cd{$X'$ = STSeq.update $X$ $(v, true)$}
+\\
+10 & ~~~~~~~~~~\cd{($X'', \Sigma''$) = Seq.iterate (DFS $v$) ($X', \Sigma'$) ($N^+_G(v)$)}
+\\
+11 & ~~~~~~~~~~\cd{$\Sigma'''$ = finish($\Sigma', \Sigma'', v, p$)}
+\\
+12 & ~~~~~~~~\cd{in ($X'', \Sigma'''$) end}
+\\
+13 & ~~~~\cd{$X_{init}$ = STSeq.fromSeq $\langle false : v \in \langle 0, ..., |G|-1 \rangle \rangle $}
+\\
+14 & ~~\cd{in}
+\\
+15 & ~~~~\cd{DFS $s$ ($(X_{init}, \Sigma_0), s$)}
+\\
+16 & ~~\cd{end}
+\\
+\end{array}
+\]
+
+%% \begin{center}
+%% \begin{lstlisting}
+%% fun directedDFS (revisit, discover, finish) (@$G$@,@$\Sigma_0$@,@$s$@) =
+%%   let
+%%     DFS @$p$@ ((@$X$@, @$\Sigma$@), @$v$@) =
+%%       if (@$X[v]$@) then
+%%         (@$X$@, revisit(@$\Sigma, v, p$@))
+%%       else
+%%         let
+%%           @$\Sigma'$@ = discover(@$\Sigma, v, p$@)
+%%           @$X'$@ = STSeq.update @$X$@ @$(v, true)$@
+%%           (@$X'', \Sigma''$@) = Seq.iterate (DFS @$v$@) (@$X', \Sigma'$@) (@$N^+_G(v)$@)
+%%           @$\Sigma'''$@ = finish(@$\Sigma', \Sigma'', v, p$@)
+%%         in (@$X'', \Sigma'''$@) end
+%%     @$X_{init}$@ = STSeq.fromSeq @$\langle false : v \in \langle 0, ..., |G|-1 \rangle \rangle $@
+%%   in
+%%     DFS @$s$@ (@$(X_{init}, \Sigma_0), s$@)
+%%   end
+%% \end{lstlisting}
+%% \end{center}
+
+Define a directed bipartite graph to be a graph where the vertices can be
+split into two sets $U$ and $V$ such that every edge has one endpoint in $U$
+and the
+other endpoint in $V$. Specifically, for every directed edge $(x,y)$,
+either $(x \in U$ and $ y \in V)$ or $(x \in V$ and $y \in U)$.
+
+\begin{questionfr}
+  \points 10
+  \prompt
+ Define $\Sigma_0$ and the \cd{discover}, \cd{finish}, and \cd{revisit} functions you would use to find all vertices in the two partitions $U$ and $V$.
+
+You may assume that the graph is a strongly connected, directed, bipartite graph. You can use CD or pseudocode notations for your answer.
+
+Your \cd{discover}, \cd{finish}, and \cd{revisit} functions should be $O(1)$ work and initializing the state should take no more than $O(n)$ work and $O(1)$ span.
+You may use any data structure you like for the state $\Sigma$, however given any pair of vertices, you should be able to determine from your final state if the vertices are in the same partition in $O(1)$ work.
+
+\answer
+look at the repo
+\end{questionfr}
+
+\begin{questionfr}
+  \points 5
+  \prompt
+  It turns out that it is also possible to partition the graph using BFS. Give a high level algorithm, in English or pseudocode, that uses BFS to achieve the same output as Task 7.6.
+  \answer
+  Keep an STSeq of NONE's (one for each vertex) and a bit (0 = Left, 1 = Right). When first visiting a vertex, set the index in the STSEQ to SOME(bit). Every new level, flip the bit.
+\end{questionfr}
+\begin{questionfr}
+  \points 5
+  \prompt
+  Analyze the work and span for detecting if a graph is bipartite using DFS and BFS and Single-Threaded Sequences. Give your answers in terms of $n = |V|, m = |E|, d = \text{max depth}$.
+  \answer
+  DFS work/span = $O(m)$ for both \\
+  BFS work/span = $O(m)$/$O(d log n)$ with STSEQ
+\end{questionfr}
+\end{asstproblem}
+\end{assignment}
+\end{book}

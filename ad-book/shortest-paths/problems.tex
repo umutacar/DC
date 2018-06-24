@@ -1,0 +1,58 @@
+\section{Problems}
+
+\begin{probl}{Sub-paths}
+Prove that the sub-paths property holds for any graph, also in the
+presence of negative weights.
+\end{probl}
+
+\begin{probl}{Distances and Paths}
+We mentioned that we are sometimes only interested in the weight of a
+shortest path, rather than the path itself.
+%
+For a weighted graph $G = (V,E,w)$, assume you are given the distances
+$\dist_G(s,v)$ for all vertices $v \in V$.  For a particular vertex
+$u$, describe how you could determine the vertices $P$ in a shortest
+path from $s$ to $u$ in $O(p)$ work, where $p = \sum_{v \in P}
+d^-(v)$.
+\end{probl}
+
+\begin{probl}{Dijkstra and BFS}
+Consider a graph $G$ where all edges have weight $1$. The following is
+true: When run on $G$, Dijkstra's can algorithm visits the vertices in
+the same order as BFS does.
+%
+Explain your answer.
+\end{probl}
+
+\begin{probl}{Parallel Dijkstra}
+As we have seen, there is not much parallelism in Dijkstra's
+algorithm.
+%
+One way to increase parallelism in Dijkstra is to remove all vertices
+that have the same priority together and visit them all at once.
+%
+Carefully describe an algorithm that can perform such visits in
+parallel and the priority-queue ADT and the data structure needed by
+the algorithm. 
+%
+What is the work and span of your algorithm? 
+\end{probl}
+
+\begin{probl}{Dijkstra with Negative Edge Weights}
+Given a graph $G$ with possibly negative edge weights, one idea would
+be to find the smallest negative edge weight $k$ and create a new
+graph $G'$ by adding to each edge weight the value $|k|$ to ensure
+that all edge weights are non-negative.  We can now run Dijkstra's
+algorithm on $G'$ from any given source $s$ to find the shortest paths
+to all the other vertices from $s$.  Since by adding the same constant
+value $|k|$ to each edge, we have not changed the relative comparison
+between edges.  We might thus conclude that the shortest paths in $G'$
+and $G$ are the same.  Is this correct? Prove or disprove by creating
+an example.  Is there a relationship between shortest paths in $G$ and $G'$?
+
+\end{probl}
+
+\begin{todo}
+Multisource problem for dijkstra?
+\end{todo}
+\flushchapter

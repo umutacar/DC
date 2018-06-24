@@ -1,0 +1,4797 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilCourse}
+\begin{dilFieldTitle}
+Parallel and Sequential Algorithms
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Parallel and Sequential Algorithms
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210
+\end{dilFieldUnique}
+\begin{dilLabel}
+15210
+\end{dilLabel}
+\begin{dilNo}
+15210
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldCourseNumber}
+15210
+\end{dilFieldCourseNumber}
+\begin{dilFieldPicture}
+/210/course/air-pavilion.jpg
+\end{dilFieldPicture}
+\begin{dilFieldSemester}
+Spring 2018
+\end{dilFieldSemester}
+\begin{dilFieldWebsite}
+http://www.cs.cmu.edu/~15210
+\end{dilFieldWebsite}
+\begin{dilFieldProvidesBook}
+S18
+\end{dilFieldProvidesBook}
+\begin{dilFieldProvidesChapter}
+2
+\end{dilFieldProvidesChapter}
+\begin{dilFieldProvidesSection}
+1
+\end{dilFieldProvidesSection}
+\begin{dilFieldProvidesUnit}
+1
+\end{dilFieldProvidesUnit}
+\begin{dilFieldProvidesAssignment}
+1
+\end{dilFieldProvidesAssignment}
+\begin{dilIntro}
+<p>15-210 aims to teach methods for designing, analyzing, and programming sequential and parallel algorithms and data structures. The emphasis is on teaching fundamental concepts applicable across a wide variety of problem domains, and transferable across a reasonably broad set of programming languages and computer architectures. This course also includes a significant programming component in which students will program concrete examples from domains such as engineering, scientific computing, graphics, data mining, and information retrieval (web search).</p>
+<p>Unlike a traditional introduction to algorithms and data structures, this course puts an emphasis on parallel thinking — i.e., thinking about how algorithms can do multiple things at once instead of one at a time. The course follows up on material learned in 15-122 and 15-150 but goes into significantly more depth on algorithmic issues.</p>
+
+\end{dilIntro}
+\begin{dilIntroDex}
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues.
+\end{dilIntroDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilBook}
+\begin{dilFieldTitle}
+Algorithm Design: Parallel and Sequential
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Algorithm Design: Parallel and Sequential
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18
+\end{dilFieldUnique}
+\begin{dilLabel}
+book:15210:S18
+\end{dilLabel}
+\begin{dilNo}
+0
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldAuthors}
+Umut A. Acar and Guy Blelloch
+\end{dilFieldAuthors}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilChapter}
+\begin{dilFieldTitle}
+Preliminaries
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Preliminaries
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2
+\end{dilFieldUnique}
+\begin{dilLabel}
+chapter:15210:S18:CH2:ch:preliminaries
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPicture}
+./media/latelier-rouge.jpg
+\end{dilFieldPicture}
+\begin{dilIntro}
+<p>This chapter presents an overview of basic mathematical definitions used throughout the book. We assume familiarity with college-level mathematics. This chapter does not aim to be complete (and is far from it) but tries to cover the most relevant material to the course. More details can be found in standard texts.</p>
+
+\end{dilIntro}
+\begin{dilIntroDex}
+
+
+
+
+This chapter presents an overview of basic mathematical definitions
+used throughout the book.
+%
+We assume familiarity with college-level mathematics. 
+%
+This chapter does not aim to be complete (and is far from it) but
+tries to cover the most relevant material to the course.  
+%
+More details can be found in standard texts.
+\end{dilIntroDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSection}
+\begin{dilFieldTitle}
+Sets and Relations
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Sets and Relations
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1
+\end{dilFieldUnique}
+\begin{dilLabel}
+section:15210:S18:CH2:SEC1:sec:preliminaries::sets
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilIntro}
+<p>This section presents a review of some basic definitions on sets and relations.</p>
+
+\end{dilIntro}
+\begin{dilIntroDex}
+
+
+This section presents a review of some basic definitions on sets and
+relations.
+\end{dilIntroDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Sets
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Sets
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC1:UN1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN1:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>set</em></strong></span></span> is a collection of distinct objects. The objects that are contained in a set, are called  <span style="color: black"><span><strong><em>members</em></strong></span></span> or the  <span style="color: black"><span><strong><em>elements</em></strong></span></span> of the set. The elements of a set must be distinct: a set may not contain the same element more than once. The set that contains no elements is called the  <span style="color: black"><span><strong><em>empty set</em></strong></span></span> and is denoted by <span class="math inline">\(\{\}\)</span> or <span class="math inline">\(\emptyset\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{set} is a collection of distinct objects.  The objects that
+are contained in a set, are called~\defn{members} or
+the~\defn{elements} of the set.  The elements of a set must be
+distinct: a set may not contain the same element more than once. The
+set that contains no elements is called the~\defn{empty set} and is
+denoted by $\{\}$ or $\emptyset$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN1:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+Specification
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Specification
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR2:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Sets can be specified intentionally, by mathematically describing their members. For example, the set of natural numbers, traditionally written as <span class="math inline">\(\mathbb{N}\)</span>, can be specified  <span style="color: black"><span><strong><em>intentionally</em></strong></span></span> as the set of all nonnegative integral numbers. Sets can also be specified  <span style="color: black"><span><strong><em>extensionally</em></strong></span></span> by listing their members. For example, the set <span class="math inline">\(\mathbb{N}= \{0, 1, 2, \ldots\}.\)</span> We say that an element <span class="math inline">\(x\)</span> is a <span><em>member of</em></span> <span class="math inline">\(A\)</span>, written <span class="math inline">\(x \in 
+A\)</span>, if <span class="math inline">\(x\)</span> is in <span class="math inline">\(A\)</span>. More generally, sets can be specified using  <span style="color: black"><span><strong><em>set comprehensions</em></strong></span></span>, which offer a compact and precise way to define sets by mixing intentional and extensional notation.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Sets can be specified intentionally, by mathematically describing
+their members.
+%
+For example, the set of natural numbers, traditionally written as
+$\tynat$, can be specified~\defn{intentionally} as the set of all
+nonnegative integral numbers.
+%
+Sets can also be specified~\defn{extensionally} by listing their members.
+For example, the set $\tynat = \{0, 1, 2, \ldots\}.$
+%
+We say that an element $x$ is a {\em member of} $A$, written $x \in
+A$, if $x$ is in $A$.  
+%
+More generally, sets can be specified using~\defn{set comprehensions},
+which offer a compact and precise way to define sets by mixing
+intentional and extensional notation.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN1:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Union and Intersection
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Union and Intersection
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR3:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>For two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the  <span style="color: black"><span><strong><em>union</em></strong></span></span> <span class="math inline">\(A \cup B\)</span> is defined as the set containing all the elements of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. Symmetrically, their  <span style="color: black"><span><strong><em>intersection</em></strong></span></span>, <span class="math inline">\(A \cap B\)</span> is the defined as the set containing the elements that are member of both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. We say that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are  <span style="color: black"><span><strong><em>disjoint</em></strong></span></span> if their intersection is the empty set, i.e., <span class="math inline">\(A \cap B = \emptyset\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+For two sets $A$ and $B$, the~\defn{union} $A \cup B$ is defined as
+the set containing all the elements of $A$ and $B$.  Symmetrically,
+their~\defn{intersection}, $A \cap B$ is the defined as the set
+containing the elements that are member of both $A$ and $B$.
+% 
+We say that $A$ and $B$ are~\defn{disjoint} if their intersection is
+the empty set, i.e., $A \cap B = \emptyset$.
+%
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR4
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN1:GR4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Cartesian Product
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Cartesian Product
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR4:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR4:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Consider two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. The  <span style="color: black"><span><strong><em>Cartesian product <span class="math inline">\(A \times 
+  B\)</span></em></strong></span></span> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b 
+\in B\)</span>, i.e., <span class="math display">\[A \times B = \left\{ (a,b) : a \in A, b \in B \right\}.\]</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Consider two sets~$A$ and~$B$.  The~\defn{Cartesian product $A \times
+  B$} is the set of all ordered pairs $(a,b)$ where $a \in A$ and $b
+\in B$, i.e.,
+%
+\[
+A \times B = \cset{(a,b) : a \in A, b \in B}.
+\]
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR4:AT2
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR4:AT2:ex:prelim::cartesian
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>The Cartesian product of <span class="math inline">\(A = \left\{ 0,1,2,3 \right\}\)</span> and <span class="math inline">\(B = \left\{ a,b \right\}\)</span> is <span class="math display">\[\begin{array}{lll} 
+A \times B = &amp; \{ &amp; (0,a),(0,b),(1,a),(1,b), 
+\\ 
+             &amp;    &amp; (2,a),(2,b),(3,a),(3,b)  
+\\ 
+             &amp; \}. 
+\end{array}\]</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+The Cartesian product of $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$ is
+\[
+\begin{array}{lll}
+A \times B = & \{ & (0,a),(0,b),(1,a),(1,b),
+\\
+             &    & (2,a),(2,b),(3,a),(3,b) 
+\\
+             & \}.
+\end{array}
+\]
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR5
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN1:GR5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Set Partition
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Set Partition
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR5:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR5:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Given a set <span class="math inline">\(A\)</span>, a partition of <span class="math inline">\(A\)</span> is a set <span class="math inline">\(P\)</span> of non-empty subsets of <span class="math inline">\(A\)</span> such that each element of <span class="math inline">\(P\)</span> is in exactly one subset in <span class="math inline">\(P\)</span>. We refer to each element of <span class="math inline">\(P\)</span> as a  <span style="color: black"><span><strong><em>block</em></strong></span></span> or a  <span style="color: black"><span><strong><em>part</em></strong></span></span> and the set <span class="math inline">\(P\)</span> as a  <span style="color: black"><span><strong><em>partition</em></strong></span></span> of <span class="math inline">\(A\)</span>. More precisely, <span class="math inline">\(P\)</span> is a partition of <span class="math inline">\(A\)</span> if the following conditions hold:</p>
+<ul>
+<li><p>if <span class="math inline">\(B \in P\)</span>, then <span class="math inline">\(B \not= \emptyset\)</span>,</p></li>
+<li><p>if <span class="math inline">\(A = \bigcup_{B \in P}{B}\)</span>, and</p></li>
+<li><p>if <span class="math inline">\(B, C \in P\)</span>, then <span class="math inline">\(B = C\)</span> or <span class="math inline">\(B \cap C = \emptyset\)</span>.</p></li>
+</ul>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Given a set $A$, a partition of $A$ is a set $P$ of non-empty subsets
+of $A$ such that each element of $P$ is in exactly one subset in $P$.
+%
+We refer to each element of $P$ as a~\defn{block} or a~\defn{part} and
+the set $P$ as a~\defn{partition} of $A$.
+%
+More precisely, $P$ is a partition of $A$ if the following conditions
+hold:
+\begin{itemize}
+\item if $B \in P$, then $B \not= \emptyset$,
+\item if $A = \bigcup_{B \in P}{B}$, and
+\item if $B, C \in P$, then $B = C$ or $B \cap C = \emptyset$.
+\end{itemize}
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR5:AT2
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR5:AT2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>If <span class="math inline">\(A = \{1, 2, 3, 4, 5, 6 \}\)</span> then <span class="math inline">\(P = \{ \{1,3,5\}, \{2, 4, 6\} \}\)</span> is a partition of <span class="math inline">\(A\)</span>. The set <span class="math inline">\(\{1,3,5\}\)</span> is a block.</p>
+<p>The set <span class="math inline">\(Q = \{ \{1,3,5,6\}, \{2, 4, 6\} \}\)</span> is a not partition of <span class="math inline">\(A\)</span>, because the element <span class="math inline">\(6\)</span> is contained in any of the blocks.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+If $A = \{1, 2, 3, 4, 5, 6 \}$ then $P = \{ \{1,3,5\}, \{2, 4, 6\} \}$
+is a partition of $A$.  The set $\{1,3,5\}$ is a block.
+
+The set $Q = \{ \{1,3,5,6\}, \{2, 4, 6\} \}$ is a not partition of
+$A$, because the element $6$ is contained in any of the blocks.
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR6
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN1:GR6
+\end{dilLabel}
+\begin{dilNo}
+6
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Kleene Operators
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Kleene Operators
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR6:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR6:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>For any set <span class="math inline">\(\Sigma\)</span>, its  <span style="color: black"><span><strong><em>Kleene star</em></strong></span></span> <span class="math inline">\(\Sigma^*\)</span> is the set of all possible strings consisting of members of <span class="math inline">\(\Sigma\)</span>, including the empty string.</p>
+<p>For any set <span class="math inline">\(\Sigma\)</span>, its  <span style="color: black"><span><strong><em>Kleene plus</em></strong></span></span> <span class="math inline">\(\Sigma^+\)</span> is the set of all possible strings consisting of members <span class="math inline">\(\Sigma\)</span>, excluding the empty string.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+For any set $\Sigma$, its~\defn{Kleene star} $\Sigma^*$ is the set of
+all possible strings consisting of members of $\Sigma$, including the
+empty string.
+
+For any set $\Sigma$, its~\defn{Kleene plus} $\Sigma^+$ is the set of
+all possible strings consisting of members $\Sigma$, excluding the
+empty string.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR6:AT2
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN1:GR6:AT2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Given <span class="math inline">\(\Sigma = \{\texttt{a},\texttt{b}\}\)</span>, <span class="math display">\[\begin{array}{rl} 
+\Sigma^*  
+% 
+=  
+% 
+\{ 
+&amp; 
+\text{&#39;}\,{}\,\text{&#39;},  
+% 
+\\ 
+&amp; 
+\text{&#39;}\,{\texttt{a}}\,\text{&#39;}, \text{&#39;}\,{\texttt{b}}\,\text{&#39;},  
+% 
+\\ 
+&amp; 
+\text{&#39;}\,{\texttt{aa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{ab}}\,\text{&#39;},  
+\text{&#39;}\,{\texttt{ba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bb}}\,\text{&#39;},  
+\\ 
+% 
+&amp; 
+\text{&#39;}\,{\texttt{aaa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aba}}\,\text{&#39;}, 
+\text{&#39;}\,{\texttt{abb}}\,\text{&#39;}, 
+\\ 
+&amp; \text{&#39;}\,{\texttt{baa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bbb}}\,\text{&#39;}, 
+\\ 
+% 
+&amp; 
+\ldots 
+\\ 
+\} &amp; 
+\end{array}\]</span> and <span class="math display">\[\begin{array}{rl} 
+\Sigma^+  
+% 
+=  
+% 
+\{ 
+&amp; 
+\text{&#39;}\,{\texttt{a}}\,\text{&#39;}, \text{&#39;}\,{\texttt{b}}\,\text{&#39;},  
+\\ 
+% 
+&amp; 
+\text{&#39;}\,{\texttt{aa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{ab}}\,\text{&#39;},  
+\text{&#39;}\,{\texttt{ba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bb}}\,\text{&#39;},  
+\\ 
+% 
+&amp; 
+\text{&#39;}\,{\texttt{aaa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{abb}}\,\text{&#39;},  
+\\ 
+&amp; 
+\text{&#39;}\,{\texttt{baa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bba}}\,\text{&#39;},  
+\text{&#39;}\,{\texttt{bbb}}\,\text{&#39;}, 
+\\ 
+% 
+&amp; \ldots 
+\\ 
+\} &amp;  
+\\ 
+\end{array}\]</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Given $\Sigma = \{\texttt{a},\texttt{b}\}$,
+\[
+\begin{array}{rl}
+\Sigma^* 
+%
+= 
+%
+\{
+&
+\str{}, 
+%
+\\
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+%
+\\
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+%
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}},
+\str{\texttt{abb}},
+\\
+& \str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, \str{\texttt{bbb}},
+\\
+%
+&
+\ldots
+\\
+\} &
+\end{array}
+\]
+%
+and
+%
+\[
+\begin{array}{rl}
+\Sigma^+ 
+%
+= 
+%
+\{
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+\\
+%
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+%
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}}, \str{\texttt{abb}}, 
+\\
+&
+\str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, 
+\str{\texttt{bbb}},
+\\
+%
+& \ldots
+\\
+\} & 
+\\
+\end{array}
+\]
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilCheckpoint}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7
+\end{dilFieldUnique}
+\begin{dilLabel}
+checkpoint:15210:S18:CH2:SEC1:UN1:GR7:CP7
+\end{dilLabel}
+\begin{dilNo}
+7
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionMA}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_ma:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>Which one of the following are well-defined sets?</p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+Which one of the following are well-defined sets?
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>...NO.HINT...</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+...NO.HINT...
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSelect}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s1
+\end{dilFieldUnique}
+\begin{dilLabel}
+select:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+1
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p><span class="math inline">\(\{1, 2, 3\}\)</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+
+$\{1, 2, 3\}$
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+
+...NO.EXPLANATION...
+\end{dilFieldExplainDex}
+\end{dilSelect}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSelect}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s2
+\end{dilFieldUnique}
+\begin{dilLabel}
+select:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+0
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p><span class="math inline">\(\{1, 1, 2, 3\}\)</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+
+$\{1, 1, 2, 3\}$
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+
+...NO.EXPLANATION...
+\end{dilFieldExplainDex}
+\end{dilSelect}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSelect}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s3
+\end{dilFieldUnique}
+\begin{dilLabel}
+select:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+1
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>Sets of all sets that are not members of themselves.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+
+Sets of all sets that are not members of themselves.
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>This set plays the key role in Russel’s paradox.</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+
+This set plays the key role in Russel's paradox.
+\end{dilFieldExplainDex}
+\end{dilSelect}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSelect}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s4
+\end{dilFieldUnique}
+\begin{dilLabel}
+select:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+1
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p><span class="math inline">\(\{&#39;i&#39;, &#39;am&#39;, &#39;new&#39;\}\)</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+
+$\{'i', 'am', 'new'\}$
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+
+...NO.EXPLANATION...
+\end{dilFieldExplainDex}
+\end{dilSelect}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSelect}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s5
+\end{dilFieldUnique}
+\begin{dilLabel}
+select:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q1:s5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+1
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p><span class="math inline">\(\{&#39;i&#39;, &#39;am&#39;, &#39;also&#39;, &#39;new&#39;\}\)</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+
+$\{'i', 'am', 'also', 'new'\}$
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+
+...NO.EXPLANATION...
+\end{dilFieldExplainDex}
+\end{dilSelect}
+\end{dilQuestionMA}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionFR}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q2
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_fr:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>Let <span class="math inline">\(A\)</span> be a set of natural numbers of size <span class="math inline">\(n\)</span>. How many unique numbers are there in <span class="math inline">\(A\)</span>.</p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+Let $A$ be a set of natural numbers of size $n$.  How many
+unique numbers are there in $A$.
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>Definition of sets.</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+Definition of sets.
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q2:a1
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q2:a1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+1
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>A sets consists of unique elements. Thus there are exactly <span class="math inline">\(n\)</span> numbers.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+ A sets consists of unique elements.  Thus there are exactly
+$n$ numbers.
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+\end{dilQuestionFR}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionFR}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q3
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_fr:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>Prove that <span class="math inline">\(A \cap (B \cup C) = (A \cap B) \cup (A \cap C)\)</span></p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+Prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>...NO.HINT...</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+...NO.HINT...
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q3:a1
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q3:a1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+10
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>Let <span class="math inline">\(x\)</span> be an element on the left side, then we know that <span class="math inline">\(x \in A\)</span> and that <span class="math inline">\(x \in B\)</span> or <span class="math inline">\(x \in C\)</span>. This means that <span class="math inline">\(x\)</span> is a member of one of the two sets being unioned on the right.</p>
+<p>Conversely, let <span class="math inline">\(x\)</span> be an element on the right hand side, then we know that <span class="math inline">\(x \in A\)</span> and <span class="math inline">\(x \in B\)</span> or <span class="math inline">\(x \in C\)</span>. In either case <span class="math inline">\(x \in A 
+\cap (B \cup C)\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+Let $x$ be an element on the left side, then we know that $x \in A$
+and that $x \in B$ or $x \in C$.  This means that $x$ is a member of
+one of the two sets being unioned on the right. 
+
+Conversely, let $x$ be an element on the right hand side, then we know
+that $x \in A$ and $x \in B$ or $x \in C$.  In either case $x \in A
+\cap (B \cup C)$.
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q3:a2
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q3:a2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+10
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>This is one of the two distributive laws of sets: which are <span class="math display">\[\begin{aligned}
+A \cap (B \cup C) &amp; = (A \cap B) \cup (A \cap C) 
+\\ 
+A \cup (B \cap C) &amp; = (A \cup B) \cap (A \cup C) \end{aligned}\]</span></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+This is one of the two distributive laws of sets: which are
+\begin{eqnarray}
+A \cap (B \cup C) & = (A \cap B) \cup (A \cap C)
+\\
+A \cup (B \cap C) & = (A \cup B) \cap (A \cup C)
+\end{eqnarray}
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+\end{dilQuestionFR}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionFR}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q4
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_fr:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>List all the partitions of the set <span class="math inline">\(\{1, 2, 3 \}\)</span>.</p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+List all the partitions of the set $\{1, 2, 3 \}$.
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>...NO.HINT...</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+...NO.HINT...
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN1:GR7:CP7:Q4:a1
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN1:GR7:CP7:Q4:a1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+0
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>...NO.ANSWER...</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+...NO.ANSWER...
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+\end{dilQuestionFR}
+\end{dilCheckpoint}
+\end{dilUnit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Relations
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Relations
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC1:UN2:unit:preliminaries::relations
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN2:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Relation
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Relation
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN2:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>(binary)  <span style="color: black"><span><strong><em>relation</em></strong></span></span> from a set <span class="math inline">\(A\)</span> to set <span class="math inline">\(B\)</span></em></strong></span></span> is a subset of the Cartesian product of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. For a relation <span class="math inline">\(R \subseteq A \times B\)</span>,</p>
+<ul>
+<li><p>the set <span class="math inline">\(\left\{ a : (a,b) \in 
+  R \right\}\)</span> is referred to as the  <span style="color: black"><span><strong><em>domain</em></strong></span></span> of <span class="math inline">\(R\)</span>, and</p></li>
+<li><p>the set <span class="math inline">\(\left\{ b 
+  : (a,b) \in R \right\}\)</span> is referred to as the  <span style="color: black"><span><strong><em>range</em></strong></span></span> of <span class="math inline">\(R\)</span>.</p></li>
+</ul>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{(binary)~\defn{relation} from a set~$A$ to set~$B$} is a
+subset of the Cartesian product of~$A$ and~$B$.  
+%
+For a relation~$R \subseteq A \times B$, 
+\begin{itemize}
+\item the set~$\cset{a : (a,b) \in
+  R}$ is referred to as the~\defn{domain} of $R$, and 
+\item 
+the set~$\cset{b
+  : (a,b) \in R}$ is referred to as the~\defn{range} of $R$.
+\end{itemize}
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN2:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Function
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Function
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN2:GR2:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>mapping from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span></em></strong></span></span> is a relation <span class="math inline">\(R \subset A \times B\)</span> such that <span class="math inline">\(|R| = |\mbox{domain}(R)|\)</span>, i.e., for every <span class="math inline">\(a\)</span> in the domain of <span class="math inline">\(R\)</span> there is only one <span class="math inline">\(b\)</span> such that <span class="math inline">\((a,b) \in R\)</span>. A mapping is also called a  <span style="color: black"><span><strong><em>function</em></strong></span></span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{mapping from $A$ to $B$} is a relation $R \subset A \times B$
+such that $|R| = |\mbox{domain}(R)|$, i.e., for every $a$ in the
+domain of $R$ there is only one $b$ such that $(a,b) \in R$.  A
+mapping is also called a~\defn{function}.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC1:UN2:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC1:UN2:GR3:AT1:ex:prelim::sequencesdef
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Consider the sets <span class="math inline">\(A = \left\{ 0,1,2,3 \right\}\)</span> and <span class="math inline">\(B = \left\{ a,b \right\}\)</span>.</p>
+<p>The set: <span class="math display">\[X = \left\{ (0,a),(0,b),(1,b),(3,a) \right\}\]</span> is a relation from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span> since <span class="math inline">\(X \subset A \times B\)</span>, but not a mapping (function) since <span class="math inline">\(0\)</span> is repeated.</p>
+<p>The set <span class="math display">\[Y = \left\{ (0,a),(1,b),(3,a) \right\}\]</span> is both a relation and a function from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span> since each element only appears once on the left.</p>
+<p>The domain of <span class="math inline">\(Y\)</span> is <span class="math inline">\(\left\{ 0,1,3 \right\}\)</span> and the range is <span class="math inline">\(\left\{ a,b \right\}\)</span>. It is, however, not a sequence since there is a gap in the domain.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Consider the sets $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$.
+
+The set:
+\[X = \cset{(0,a),(0,b),(1,b),(3,a)}\]
+is a relation from $A$ to $B$ since $X \subset A \times B$, but not a mapping (function) since $0$
+is repeated.   
+
+The set
+\[Y = \cset{(0,a),(1,b),(3,a)}\]
+is both a relation and a function from $A$ to $B$ since each element
+only appears once on the left.  
+
+The domain of $Y$ is $\cset{0,1,3}$ and the range is $\cset{a,b}$.  It
+is, however, not a sequence since there is a gap in the domain.
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilCheckpoint}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4
+\end{dilFieldUnique}
+\begin{dilLabel}
+checkpoint:15210:S18:CH2:SEC1:UN2:GR4:CP4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionFR}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4:Q1
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_fr:15210:S18:CH2:SEC1:UN2:GR4:CP4:Q1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>How many functions are there from from the set <span class="math inline">\(\{1, 2, 3\}\)</span> to <span class="math inline">\(\{a, b\}\)</span>.</p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+How many functions are there from from the set $\{1, 2, 3\}$ to $\{a, b\}$.
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>...NO.HINT...</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+...NO.HINT...
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4:Q1:a1
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN2:GR4:CP4:Q1:a1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+0
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>...NO.ANSWER...</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+...NO.ANSWER...
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+\end{dilQuestionFR}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionFR}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4:Q2
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_fr:15210:S18:CH2:SEC1:UN2:GR4:CP4:Q2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>How many relations are there from from the set <span class="math inline">\(\{1, 2, 3\}\)</span> to <span class="math inline">\(\{a, b\}\)</span>.</p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+How many relations are there from from the set $\{1, 2, 3\}$ to $\{a, b\}$.
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>...NO.HINT...</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+...NO.HINT...
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4:Q2:a1
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN2:GR4:CP4:Q2:a1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+0
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>...NO.ANSWER...</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+...NO.ANSWER...
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+\end{dilQuestionFR}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilQuestionFR}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4:Q3
+\end{dilFieldUnique}
+\begin{dilLabel}
+question_fr:15210:S18:CH2:SEC1:UN2:GR4:CP4:Q3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+ 10
+\end{dilFieldPoints}
+\begin{dilFieldPrompt}
+<p>Let <span class="math inline">\(f(\cdot): A \rightarrow B\)</span>, i.e., <span class="math inline">\(f(\cdot)\)</span> is a function from the set <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span>. We can define the inverse function, typically written <span class="math inline">\(f^{-1} (\cdot)\)</span> as a function from <span class="math inline">\(B\)</span> to <span class="math inline">\(A\)</span> such that <span class="math inline">\(f^{-1}(f(x)) 
+= x\)</span> for all <span class="math inline">\(x \in A\)</span>. Does such the inverse of a function always exist? Prove or disprove.</p>
+
+\end{dilFieldPrompt}
+\begin{dilFieldPromptDex}
+
+Let $f(\cdot): A \ra B$, i.e., $f(\cdot)$ is a function from the set
+$A$ to $B$.  We can define the inverse function, typically written
+$f^{-1} (\cdot)$ as a function from $B$ to $A$ such that $f^{-1}(f(x))
+= x$ for all $x \in A$.  Does such the inverse of a function always
+exist?  Prove or disprove.
+\end{dilFieldPromptDex}
+\begin{dilFieldHint}
+<p>...NO.HINT...</p>
+
+\end{dilFieldHint}
+\begin{dilFieldHintDex}
+
+...NO.HINT...
+\end{dilFieldHintDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAnswer}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC1:UN2:GR4:CP4:Q3:a1
+\end{dilFieldUnique}
+\begin{dilLabel}
+answer:15210:S18:CH2:SEC1:UN2:GR4:CP4:Q3:a1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldPoints}
+0
+\end{dilFieldPoints}
+\begin{dilFieldBody}
+<p>...NO.ANSWER...</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+
+
+...NO.ANSWER...
+\end{dilFieldBodyDex}
+\begin{dilFieldExplain}
+<p>...NO.EXPLANATION...</p>
+
+\end{dilFieldExplain}
+\begin{dilFieldExplainDex}
+...NO.EXPLANATION...
+
+\end{dilFieldExplainDex}
+\end{dilAnswer}
+\end{dilQuestionFR}
+\end{dilCheckpoint}
+\end{dilUnit}
+\end{dilSection}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilSection}
+\begin{dilFieldTitle}
+Graph Theory
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Graph Theory
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2
+\end{dilFieldUnique}
+\begin{dilLabel}
+section:15210:S18:CH2:SEC2:sec:preliminaries::graph-theory
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilIntro}
+<p>This section reviews the basic graph theory definitions and terminology that we use in this book.</p>
+
+\end{dilIntro}
+\begin{dilIntroDex}
+
+
+This section reviews the basic graph theory definitions and
+terminology that we use in this book.
+\end{dilIntroDex}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Basic Definitions
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Basic Definitions
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC2:UN3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomTeachNote}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>TODO</p>
+<p>Hamiltonian paths/cycles.</p>
+<p>Define Diamater</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+TODO
+
+Hamiltonian paths/cycles.
+
+Define Diamater
+
+\end{dilFieldBodyDex}
+\end{dilAtomTeachNote}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Directed Graph
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Directed Graph
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR2:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>directed graph</em></strong></span></span> or ( <span style="color: black"><span><strong><em>digraph</em></strong></span></span>) is a pair <span class="math inline">\(G = (V,A)\)</span> where</p>
+<ul>
+<li><p><span class="math inline">\(V\)</span> is a set of  <span style="color: black"><span><strong><em>vertices</em></strong></span></span>, and</p></li>
+<li><p><span class="math inline">\(A \subseteq V \times V\)</span> is a set of  <span style="color: black"><span><strong><em>directed edges</em></strong></span></span> or   <span style="color: black"><span><strong><em>arcs</em></strong></span></span>.</p></li>
+</ul>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{directed graph} or (\defn{digraph}) is a pair $G = (V,A)$
+where
+\begin{itemize}
+\item $V$ is a set of~\defn{vertices}, and
+
+\item $A \subseteq V \times V$ is a set of~\defn{directed edges} or
+ ~\defn{arcs}.
+\end{itemize}
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomNote}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR3:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>In a digraph, each arc is an ordered pair <span class="math inline">\(e = (u,v)\)</span>. A digraph can have  <span style="color: black"><span><strong><em>self loops</em></strong></span></span> <span class="math inline">\((u,u)\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+In a digraph, each arc is an ordered pair $e = (u,v)$.  A digraph can
+have~\defn{self loops} $(u,u)$.  
+%
+%\exref{preliminaries::graphs::examples} shows a digraph with $4$
+%vertices and $4$ arcs.
+
+\end{dilFieldBodyDex}
+\end{dilAtomNote}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR4
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Undirected graph
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Undirected graph
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR4:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR4:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An  <span style="color: black"><span><strong><em>undirected graph</em></strong></span></span> is a pair <span class="math inline">\(G = (V,E)\)</span> where</p>
+<ul>
+<li><p><span class="math inline">\(V\)</span> is a set of  <span style="color: black"><span><strong><em>vertices</em></strong></span></span> (or nodes), and</p></li>
+<li><p><span class="math inline">\(E \subseteq  \binom{V}{2}\)</span> is a set of edges.</p></li>
+</ul>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An~\defn{undirected graph} is a pair $G = (V,E)$ where
+\begin{itemize}
+\item  $V$ is a set of~\defn{vertices} (or nodes), and
+\item  $E \subseteq  \binom{V}{2}$ is a set of edges.
+\end{itemize}
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR5
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomNote}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR5:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR5:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>In an undirected graph, each edge is an unordered pair <span class="math inline">\(e = \{u,v\}\)</span> (or equivalently <span class="math inline">\(\{v,u\}\)</span>). By this definition an undirected graph cannot have self loops since <span class="math inline">\(\{v,v\} = \{v\} \not\in \binom{V}{2}\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+In an undirected graph, each edge is an unordered pair $e = \{u,v\}$
+(or equivalently $\{v,u\}$).  By this definition an undirected graph
+cannot have self loops since $\{v,v\} = \{v\} \not\in \binom{V}{2}$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomNote}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR6
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR6
+\end{dilLabel}
+\begin{dilNo}
+6
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR6:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR6:AT1:ex:preliminaries::graphs::examples
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An example directed graph with <span class="math inline">\(4\)</span> vertices:</p>
+<p><img src="./media/directed1.jpg" alt="image" style="width:2in" /></p>
+<p>An undirected graph on <span class="math inline">\(4\)</span> vertices, representing the Königsberg problem. (Picture Source: Wikipedia):</p>
+<p><img src="./media/konig.jpg" alt="image" style="width:2in" /></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An example directed graph with $4$ vertices:
+
+\includegraphics[width=2in]{./media/directed1.jpg} 
+
+An undirected graph on $4$ vertices, representing the
+  K\"onigsberg problem. (Picture Source: Wikipedia):
+
+\includegraphics[width=2in]{./media/konig.jpg}
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR7
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR7
+\end{dilLabel}
+\begin{dilNo}
+7
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomRemark}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR7:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR7:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>While directed graphs represent possibly asymmetric relationships, undirected graphs represent symmetric relationships. Directed graphs are therefore more general than undirected graphs because an undirected graph can be represented by a directed graph by replacing an edge with two arcs, one in each direction.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+While directed graphs represent possibly asymmetric relationships,
+undirected graphs represent symmetric relationships.
+%
+Directed graphs are therefore more general than undirected graphs
+because an undirected graph can be represented by a directed graph by
+replacing an edge with two arcs, one in each direction.
+
+\end{dilFieldBodyDex}
+\end{dilAtomRemark}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR8
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR8
+\end{dilLabel}
+\begin{dilNo}
+8
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR8:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR8:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Graphs come with a lot of terminology, but fortunately most of it is intuitive once we understand the concept. In this section, we consider graphs that do not have any data associated with edges, such as weights. In the next section, we consider weighted graphs, where the weights on edges can represent a distance, a capacity or the strength of the connection.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Graphs come with a lot of terminology, but fortunately most of it is
+intuitive once we understand the concept.  
+%
+In this section, we consider graphs that do not have any data
+associated with edges, such as weights.
+%
+In the next section, we consider weighted graphs, where the weights on
+edges can represent a distance, a capacity or the strength of the
+connection.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR9
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR9
+\end{dilLabel}
+\begin{dilNo}
+9
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Neighbors
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Neighbors
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR9:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR9:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A vertex <span class="math inline">\(u\)</span> is a  <span style="color: black"><span><strong><em>neighbor</em></strong></span></span> of, or equivalently  <span style="color: black"><span><strong><em>adjacent</em></strong></span></span> to, a vertex <span class="math inline">\(v\)</span> in a graph <span class="math inline">\(G = (V,E)\)</span> if there is an edge <span class="math inline">\(\{u,v\} 
+ \in E\)</span>. For a directed graph a vertex <span class="math inline">\(u\)</span> is an  <span style="color: black"><span><strong><em>in-neighbor</em></strong></span></span> of a vertex <span class="math inline">\(v\)</span> if <span class="math inline">\((u,v) \in E\)</span> and an  <span style="color: black"><span><strong><em>out-neighbor</em></strong></span></span> if <span class="math inline">\((v,u) 
+ \in E\)</span>. We also say two edges or arcs are neighbors if they share a vertex.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A vertex $u$ is a~\defn{neighbor} of, or equivalently~\defn{adjacent}
+ to, a vertex $v$ in a graph $G = (V,E)$ if there is an edge $\{u,v\}
+ \in E$.  For a directed graph a vertex $u$ is an~\defn{in-neighbor}
+ of a vertex $v$ if $(u,v) \in E$ and an~\defn{out-neighbor} if $(v,u)
+ \in E$.  We also say two edges or arcs are neighbors if they share a
+ vertex.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR10
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR10
+\end{dilLabel}
+\begin{dilNo}
+10
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Neighborhood
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Neighborhood
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR10:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR10:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>For an undirected graph <span class="math inline">\(G = (V,E)\)</span>, the  <span style="color: black"><span><strong><em>neighborhood</em></strong></span></span> <span class="math inline">\(N_G(v)\)</span> of a vertex <span class="math inline">\(v \in V\)</span> is its set of all neighbors of <span class="math inline">\(v\)</span>, i.e., <span class="math inline">\(N_G(v) = \left\{ u \;|\; \{u,v\} \in E \right\}\)</span>. For a directed graph we use <span class="math inline">\(N_G^+(v)\)</span> to indicate the set of out-neighbors and <span class="math inline">\(N_G^-(v)\)</span> to indicate the set of in-neighbors of <span class="math inline">\(v\)</span>. If we use <span class="math inline">\(N_G(v)\)</span> for a directed graph, we mean the out neighbors.</p>
+<p>The neighborhood of a set of vertices <span class="math inline">\(U \subseteq V\)</span> is the union of their neighborhoods, e.g.,</p>
+<ul>
+<li><p><span class="math inline">\(N_G(U) = \bigcup_{u \in U} N_G(y)\)</span>, or</p></li>
+<li><p><span class="math inline">\(N_G^+(U) = \bigcup_{u \in U} N_G^+(u)\)</span>.</p></li>
+</ul>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+For an undirected graph $G = (V,E)$, the~\defn{neighborhood} $N_G(v)$ 
+of a vertex $v \in V$ is its set of all neighbors of $v$, i.e.,
+$N_G(v) = \csetf{u}{\{u,v\} \in E}$. 
+For a directed graph we use $N_G^+(v)$ to indicate the set of 
+out-neighbors and $N_G^-(v)$ to indicate the set of in-neighbors of
+$v$.  If we use $N_G(v)$ for a directed graph, we mean the out 
+neighbors.  
+
+The neighborhood of a set of vertices $U \subseteq V$ is the union of
+their neighborhoods, e.g.,
+
+\begin{itemize}
+\item  $N_G(U) = \bigcup_{u \in U} N_G(y)$, or
+\item $N_G^+(U) = \bigcup_{u \in U} N_G^+(u)$.
+\end{itemize}
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR11
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR11
+\end{dilLabel}
+\begin{dilNo}
+11
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Incidence
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Incidence
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR11:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR11:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>We say an edge is  <span style="color: black"><span><strong><em>incident</em></strong></span></span> on a vertex if the vertex is one of its endpoints. Similarly we say a vertex is incident on an edge if it is one of the endpoints of the edge.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+We say an edge is~\defn{incident} on a vertex if the vertex is one of
+its endpoints.  Similarly we say a vertex is incident on an edge if it
+is one of the endpoints of the edge.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR12
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR12
+\end{dilLabel}
+\begin{dilNo}
+12
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Degree
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Degree
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR12:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR12:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>The  <span style="color: black"><span><strong><em>degree</em></strong></span></span> <span class="math inline">\(d_G(v)\)</span> of a vertex <span class="math inline">\(v \in V\)</span> in a graph <span class="math inline">\(G = 
+ (V,E)\)</span> is the size of the neighborhood <span class="math inline">\(|N_G(v)|\)</span>. For directed graphs we use  <span style="color: black"><span><strong><em>in-degree</em></strong></span></span> <span class="math inline">\(d_G^-(v) = |N_G^-(v)|\)</span> and  <span style="color: black"><span><strong><em>out-degree</em></strong></span></span> <span class="math inline">\(d_G^+(v) = |N_G^+(v)|\)</span>. We will drop the subscript <span class="math inline">\(G\)</span> when it is clear from the context which graph we’re talking about.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+The~\defn{degree} $d_G(v)$ of a vertex $v \in V$ in a graph $G =
+ (V,E)$ is the size of the neighborhood $|N_G(v)|$.  For directed
+ graphs we use~\defn{in-degree} $d_G^-(v) = |N_G^-(v)|$
+ and~\defn{out-degree} $d_G^+(v) = |N_G^+(v)|$.  We will drop the
+ subscript $G$ when it is clear from the context which graph we're
+ talking about.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR13
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR13
+\end{dilLabel}
+\begin{dilNo}
+13
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Path
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Path
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR13:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR13:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>path</em></strong></span></span> in a graph is a sequence of adjacent vertices. More formally for a graph <span class="math inline">\(G = (V,E)\)</span>, we define the set of all paths in <span class="math inline">\(G\)</span>, written <span class="math inline">\(\textit{Paths}(G)\)</span> as <span class="math display">\[\textit{Paths}(G) = \left\{ P 
+  \in V^+ \;|\; 1 \leq i &lt; |P|, (P_i, P_{i+1}) \in E \right\},\]</span> where <span class="math inline">\(V^+\)</span> indicates all positive length sequences of vertices (allowing for repeats). The length of a path is one less than the number of vertices in the path—i.e., it is the number of edges in the path. A path in a finite graph can have infinite length. A  <span style="color: black"><span><strong><em>simple path</em></strong></span></span> is a path with no repeated vertices. Please see the remark below, however.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{path} in a graph is a sequence of adjacent vertices.  
+%
+More formally for a graph $G = (V,E)$, we define the set of all paths
+in $G$, written $\textit{Paths}(G)$ as 
+\[
+\textit{Paths}(G) = \csetf{P
+  \in V^+}{1 \leq i < |P|, (P_i, P_{i+1}) \in E},
+\]
+%
+where $V^+$ indicates all positive length sequences of vertices
+(allowing for repeats).
+%
+The length of a path is one less than the number of vertices in the
+path---i.e., it is the number of edges in the path.  A path in a
+finite graph can have infinite length.  A~\defn{simple path} is a path
+with no repeated vertices.  Please see the remark below, however.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR14
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR14
+\end{dilLabel}
+\begin{dilNo}
+14
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomRemark}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR14:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR14:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Some authors use the terms walk for path, and path for simple path. Even in this book when it is clear from the context we will sometimes drop the “simple” from simple path.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Some authors use the terms walk for path, and path for
+simple path.   Even in this book when it is clear from the context
+we will sometimes drop the ``simple'' from simple path.
+
+\end{dilFieldBodyDex}
+\end{dilAtomRemark}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR15
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR15
+\end{dilLabel}
+\begin{dilNo}
+15
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Reachability and connectivity
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Reachability and connectivity
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR15:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR15:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A vertex <span class="math inline">\(v\)</span> is  <span style="color: black"><span><strong><em>reachable</em></strong></span></span> from a vertex <span class="math inline">\(u\)</span> in <span class="math inline">\(G\)</span> if there is a path starting at <span class="math inline">\(v\)</span> and ending at <span class="math inline">\(u\)</span> in <span class="math inline">\(G\)</span>. We use <span class="math inline">\(R_G(v)\)</span> to indicate the set of all vertices reachable from <span class="math inline">\(v\)</span> in <span class="math inline">\(G\)</span>. An undirected graph is  <span style="color: black"><span><strong><em>connected</em></strong></span></span> if all vertices are reachable from all other vertices. A directed graph is  <span style="color: black"><span><strong><em>strongly connected</em></strong></span></span> if all vertices are reachable from all other vertices.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A vertex $v$ is~\defn{reachable} from a vertex $u$ in $G$ if there is
+a path starting at $v$ and ending at $u$ in $G$.  We use $R_G(v)$ to
+indicate the set of all vertices reachable from $v$ in $G$.  An
+undirected graph is~\defn{connected} if all vertices are reachable
+from all other vertices.  A directed graph is~\defn{strongly
+  connected} if all vertices are reachable from all other vertices.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR16
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR16
+\end{dilLabel}
+\begin{dilNo}
+16
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Cycles
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Cycles
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR16:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR16:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>In a directed graph a  <span style="color: black"><span><strong><em>cycle</em></strong></span></span> is a path that starts and ends at the same vertex. A cycle can have length one (i.e. a  <span style="color: black"><span><strong><em>self loop</em></strong></span></span>). A  <span style="color: black"><span><strong><em>simple cycle</em></strong></span></span> is a cycle that has no repeated vertices other than the start and end vertices being the same. In an undirected graph a (simple)  <span style="color: black"><span><strong><em>cycle</em></strong></span></span> is a path that starts and ends at the same vertex, has no repeated vertices other than the first and last, and has length at least three. In this course we will exclusively talk about simple cycles and hence, as with paths, we will often drop simple.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+In a directed graph a~\defn{cycle} is a path that starts and ends at
+the same vertex.    A cycle can have length one (i.e. a~\defn{self loop}).
+A~\defn{simple cycle} is a
+cycle that has no repeated vertices other than the start and end
+vertices being the same.
+In an undirected graph a (simple)~\defn{cycle} is a path that
+starts and ends at the same vertex, has no repeated vertices other
+than the first and last, and has length at least three.
+In this course we will exclusively talk
+about simple cycles and hence, as with paths, we will often drop
+simple.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR17
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR17
+\end{dilLabel}
+\begin{dilNo}
+17
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExercise}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR17:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR17:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Why is important in a undirected graph to require that a cycle has length at least three? Why is important that we do not allow repeated vertices?</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Why is important in a undirected graph to require that a cycle has
+length at least three?  Why is important that we do not allow repeated
+vertices?
+
+\end{dilFieldBodyDex}
+\end{dilAtomExercise}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR18
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR18
+\end{dilLabel}
+\begin{dilNo}
+18
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Trees and forests
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Trees and forests
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR18:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR18:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An undirected graph with no cycles is a  <span style="color: black"><span><strong><em>forest</em></strong></span></span>. A forest that is connected is a  <span style="color: black"><span><strong><em>tree</em></strong></span></span>. A directed graph is a forest (or tree) if when all edges are converted to undirected edges it is undirected forest (or tree). A  <span style="color: black"><span><strong><em>rooted tree</em></strong></span></span> is a tree with one vertex designated as the root. For a directed graph the edges are typically all directed toward the root or away from the root.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An undirected graph with no cycles is a~\defn{forest}.
+%
+A forest that is connected is a~\defn{tree}.  
+%
+A directed graph is a forest (or tree) if when all edges are converted
+to undirected edges it is undirected forest (or tree).  
+%
+A~\defn{rooted tree} is a tree with one vertex designated as the root.
+For a directed graph the edges are typically all directed toward the
+root or away from the root.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR19
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR19
+\end{dilLabel}
+\begin{dilNo}
+19
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Directed acyclic graphs
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Directed acyclic graphs
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR19:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR19:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A directed graph with no cycles is a  <span style="color: black"><span><strong><em>directed acyclic graph</em></strong></span></span> (DAG).</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A directed graph with no cycles is a~\defn{directed acyclic graph} (DAG).
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR20
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR20
+\end{dilLabel}
+\begin{dilNo}
+20
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Distance
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Distance
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR20:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR20:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>The  <span style="color: black"><span><strong><em>distance</em></strong></span></span> <span class="math inline">\(\delta_G(u,v)\)</span> from a vertex <span class="math inline">\(u\)</span> to a vertex <span class="math inline">\(v\)</span> in a graph <span class="math inline">\(G\)</span> is the shortest path (minimum number of edges) from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. It is also referred to as the  <span style="color: black"><span><strong><em>shortest path length</em></strong></span></span> from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+The~\defn{distance} $\delta_G(u,v)$ from a vertex $u$ to a vertex $v$
+in a graph $G$ is the shortest path (minimum number of edges) from $u$
+to $v$.  It is also referred to as the~\defn{shortest path length}
+from $u$ to $v$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR21
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR21
+\end{dilLabel}
+\begin{dilNo}
+21
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Diameter
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Diameter
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR21:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR21:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>The  <span style="color: black"><span><strong><em>diameter</em></strong></span></span> of a graph <span class="math inline">\(G\)</span> is the maximum shortest path length over all pairs of vertices in <span class="math inline">\(G\)</span>, i.e., <span class="math inline">\(\max\left\{ \delta_G(u,v) : u, v \in V \right\}\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+The~\defn{diameter} of a graph $G$ is the maximum shortest path length over all
+pairs of vertices in $G$, i.e., $\max\cset{\delta_G(u,v) : u, v \in V}$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR22
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR22
+\end{dilLabel}
+\begin{dilNo}
+22
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Multigraphs
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Multigraphs
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR22:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR22:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Sometimes graphs allow multiple edges between the same pair of vertices, called  <span style="color: black"><span><strong><em>multi-edges</em></strong></span></span>. Graphs with multi-edges are called  <span style="color: black"><span><strong><em>multi-graphs</em></strong></span></span>. We will allow multi-edges in a couple algorithms just for convenience.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Sometimes graphs allow multiple edges between the same pair of
+vertices, called~\defn{multi-edges}.  Graphs with multi-edges are
+called~\defn{multi-graphs}.  We will allow multi-edges in a couple
+algorithms just for convenience.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR23
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN3:GR23
+\end{dilLabel}
+\begin{dilNo}
+23
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Sparse and Dense Graphs
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Sparse and Dense Graphs
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN3:GR23:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN3:GR23:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>By convention we will use the following definitions: <span class="math display">\[\begin{aligned}
+n &amp; = |V|\\ 
+m &amp; = |E| \end{aligned}\]</span> Note that a directed graph can have at most <span class="math inline">\(n^2\)</span> edges (including self loops) and an undirected graph at most <span class="math inline">\(n(n-1)/2\)</span>. We informally say that a graph is  <span style="color: black"><span><strong><em>sparse</em></strong></span></span> if <span class="math inline">\(m \ll n^2\)</span> and  <span style="color: black"><span><strong><em>dense</em></strong></span></span> otherwise. In most applications graphs are very sparse, often with only a handful of neighbors per vertex when averaged across vertices, although some vertices could have high degree. Therefore, the emphasis in the design of graph algorithms, at least for this book, is typically on algorithms that work well for sparse graphs.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+By convention we will use the following definitions:
+\begin{eqnarray*}
+n & = |V|\\
+m & = |E|
+\end{eqnarray*}
+Note that a directed graph can have at most $n^2$ edges (including self loops)
+and an undirected graph at most $n(n-1)/2$.  We informally say that a graph
+is~\defn{sparse} if $m \ll n^2$ and~\defn{dense} otherwise.  In most
+applications graphs are very sparse, often with only a handful of neighbors per
+vertex when averaged across vertices, although some vertices could have high
+degree.  Therefore, the emphasis in the design of graph algorithms, at least for
+this book, is typically on algorithms that work well for sparse graphs.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+
+\end{dilUnit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Weighted Graphs
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Weighted Graphs
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC2:UN4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN4:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN4:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Many applications of graphs require associating weights or other values with the edges of a graph.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Many applications of graphs require associating weights or other
+values with the edges of a graph.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN4:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Weighted and Edge-Labeled Graphs
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Weighted and Edge-Labeled Graphs
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN4:GR2:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An <span style="color: black"><span><strong><em>edge-labeled graph</em></strong></span></span> or a <span style="color: black"><span> <strong><em>weighted graph</em></strong></span></span> is a triple <span class="math inline">\(G = (E,V,w)\)</span> where <span class="math inline">\(w\!: E \to L\)</span> is a function mapping edges or directed edges to their labels (weights) , and <span class="math inline">\(L\)</span> is the set of possible labels (weights).</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An \defn{edge-labeled graph} or a \defn{ weighted graph} is a triple
+$G = (E,V,w)$ where $w\!: E \to L$ is a function mapping edges or
+directed edges to their labels (weights) , and $L$ is the set of
+possible labels (weights).
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN4:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN4:GR3:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>In a graph, if the data associated with the edges are real numbers, we often use the term “weight” to refer to the edge labels, and use the term “weighted graph” to refer to the graph. In the general case, we use the terms “edge label” and edge-labeled graph. Weights or other values on edges could represent many things, such as a distance, or a capacity, or the strength of a relationship.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+In a graph, if the data associated with the edges are real numbers, we
+often use the term ``weight'' to refer to the edge labels, and use the
+term ``weighted graph'' to refer to the graph.  In the general case,
+we use the terms ``edge label'' and edge-labeled graph.  Weights or
+other values on edges could represent many things, such as a distance,
+or a capacity, or the strength of a relationship.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR4
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN4:GR4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR4:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN4:GR4:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An example directed weighted graph.</p>
+<p><img src="./media/dir-graph1.jpg" alt="image" style="width:1.5in" /></p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An example directed weighted graph.
+
+\begin{center}
+\includegraphics[width=1.5in]{./media/dir-graph1.jpg}
+\end{center}
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR5
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN4:GR5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomRemark}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN4:GR5:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN4:GR5:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>As it may be expected, basic terminology on graphs defined above straightforwardly extend to weighted graphs.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+As it may be expected, basic terminology on graphs defined above
+straightforwardly extend to weighted graphs.
+
+\end{dilFieldBodyDex}
+\end{dilAtomRemark}
+\end{dilGroup}
+
+\end{dilUnit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Subgraphs
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Subgraphs
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC2:UN5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>When working with graphs, we sometimes wish to refer to parts of a graph. To this end, we can use the notion of a subgraph, which refers to a graph contained in a larger graph. A subgraph can be defined as any subsets of edges and vertices that together constitute a well defined graph.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+When working with graphs, we sometimes wish to refer to parts of a
+graph.  To this end, we can use the notion of a subgraph, which refers
+to a graph contained in a larger graph. A subgraph can be defined as
+any subsets of edges and vertices that together constitute a well
+defined graph.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Subgraph
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Subgraph
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR2:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Let <span class="math inline">\(G = (V,E)\)</span> and <span class="math inline">\(H = (V&#39;, E&#39;)\)</span> be two graphs. <span class="math inline">\(H\)</span> is a subgraph of if <span class="math inline">\(V&#39; \subseteq V\)</span> and <span class="math inline">\(E&#39; \subseteq E\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Let $G = (V,E)$ and $H = (V', E')$ be two graphs.  $H$ is a
+subgraph of if $V' \subseteq V$ and $E' \subseteq E$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomNote}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR3:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Note that since <span class="math inline">\(H\)</span> is a graph, the vertices defining each edge are in the vertex set <span class="math inline">\(V&#39;\)</span>, i.e., for an undirected graph <span class="math inline">\(E&#39; \subseteq 
+\binom{V&#39;}{2}\)</span>). There are many possible subgraphs of a graph.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Note that since $H$ is a graph, the vertices defining each edge are in
+the vertex set $V'$, i.e., for an undirected graph $E' \subseteq
+\binom{V'}{2}$).  There are many possible subgraphs of a graph.
+
+\end{dilFieldBodyDex}
+\end{dilAtomNote}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR4
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR4:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR4:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An important class of subgraphs are  <span style="color: black"><span><strong><em>vertex-induced subgraphs</em></strong></span></span>, which are maximal subgraphs defined by a set of vertices. A vertex-induced subgraph is maximal in the sense that it contains all the edges that it can possibly contain. In general when an object is said to be a  <span style="color: black"><span><strong><em>maximal</em></strong></span></span> “X”, it means that nothing more can be added to the object without violating the property “X”.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An important class of subgraphs are~\defn{vertex-induced subgraphs},
+which are maximal subgraphs defined by a set of vertices.
+%
+A vertex-induced subgraph is maximal in the sense that it contains all
+the edges that it can possibly contain.
+%
+In general when an object is said to be a~\defn{maximal} ``X'', it
+means that nothing more can be added to the object without violating
+the property ``X''.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR5
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Vertex-Induced Subgraph
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Vertex-Induced Subgraph
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR5:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR5:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>The subgraph of <span class="math inline">\(G = (V,E)\)</span> induced by <span class="math inline">\(V&#39; \subseteq V\)</span> is the graph <span class="math inline">\(H 
+= (V&#39;,E&#39;)\)</span> where <span class="math inline">\(E&#39; = \left\{ \left\{ u,v \right\} \in E \;|\; u \in V&#39;, v \in V&#39; \right\}\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+The subgraph of $G = (V,E)$ induced by $V' \subseteq V$ is the graph $H
+= (V',E')$ where $E' = \csetf{\cset{u,v} \in E}{u \in V', v \in V'}$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR6
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR6
+\end{dilLabel}
+\begin{dilNo}
+6
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR6:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR6:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Some vertex induced subgraphs:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="./media/contract-example1.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Original graph</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="./media/induced-example.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Induced by <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{e},\texttt{f} \right\}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="./media/induced-example2.jpg" alt="image" style="width:1in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Induced by <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{d} \right\}\)</span></td>
+</tr>
+</tbody>
+</table>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Some vertex induced subgraphs:
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=2in]{./media/contract-example1.jpg}
+\\
+Original graph 
+\\
+\includegraphics[width=2in]{./media/induced-example.jpg}
+\\
+ Induced by
+$\cset{\vname{a},\vname{b},\vname{c},\vname{e},\vname{f}}$ 
+\\
+\includegraphics[width=1in]{./media/induced-example2.jpg}
+\\
+Induced by $\cset{\vname{a},\vname{b},\vname{c},\vname{d}}$
+\end{tabular}
+\end{center}
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR7
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR7
+\end{dilLabel}
+\begin{dilNo}
+7
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR7:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR7:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Although we will not use it in this book, it is also possible to define an induced subgraph in terms of a set of edges by including in the graph all the vertices incident on the edges.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Although we will not use it in this book, it is also possible to
+define an induced subgraph in terms of a set of edges by including in
+the graph all the vertices incident on the edges.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR8
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN5:GR8
+\end{dilLabel}
+\begin{dilNo}
+8
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Edge-Induced Subgraph
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Edge-Induced Subgraph
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN5:GR8:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN5:GR8:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>The subgraph of <span class="math inline">\(G = (V,E)\)</span> induced by <span class="math inline">\(E&#39; \subseteq E\)</span> is a graph <span class="math inline">\(H 
+= (V&#39;,E&#39;)\)</span> where <span class="math inline">\(V&#39; = \cup_{e \in E} e\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+The subgraph of $G = (V,E)$ induced by $E' \subseteq E$ is a graph $H
+= (V',E')$ where $V' = \cup_{e \in E} e$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+
+\end{dilUnit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Connectivity
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Connectivity
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC2:UN6
+\end{dilLabel}
+\begin{dilNo}
+6
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN6:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN6:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Recall that in a graph (either directed or undirected) a vertex <span class="math inline">\(v\)</span> is reachable from a vertex <span class="math inline">\(u\)</span> if there is a path from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. Also recall that an undirected graph is connected if all vertices are reachable from all other vertices.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Recall that in a graph (either directed or undirected) a vertex $v$ is
+reachable from a vertex $u$ if there is a path from $u$ to $v$.  Also
+recall that an undirected graph is connected if all vertices are
+reachable from all other vertices.
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN6:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN6:GR2:AT1:ex:gc::two-graphs
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Two example graphs shown. The first in connected; the second is not.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="./media/contract-example1.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span>Graph 1</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="./media/contract-example4.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span>Graph 2</span></td>
+</tr>
+</tbody>
+</table>
+<p>An important subgraph of an undirected graph is a connected component of a graph, defined below.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Two example graphs shown. The first in connected; the second is not.
+
+\begin{tabular}{c}
+\includegraphics[width=2in]{./media/contract-example1.jpg}
+\\
+{Graph 1}
+\\
+\includegraphics[width=2in]{./media/contract-example4.jpg}
+\\
+{Graph 2}
+\end{tabular}
+
+An important subgraph of an undirected graph is a connected component
+of a graph, defined below.
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN6:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Connected Component
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Connected Component
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN6:GR3:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Let <span class="math inline">\(G = (V,E)\)</span> be an undirected graph. A subgraph <span class="math inline">\(H\)</span> of <span class="math inline">\(G\)</span> is a  <span style="color: black"><span><strong><em>connected component</em></strong></span></span> of <span class="math inline">\(G\)</span> if it is a maximally connected subgraph of <span class="math inline">\(G\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Let $G = (V,E)$ be an undirected graph.  A subgraph $H$ of $G$ is
+a~\defn{connected component} of $G$ if it is a maximally connected
+subgraph of $G$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR4
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN6:GR4
+\end{dilLabel}
+\begin{dilNo}
+4
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR4:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN6:GR4:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Here, “maximally connected component” means we cannot add any more vertices and edges from <span class="math inline">\(G\)</span> to <span class="math inline">\(H\)</span> without disconnecting <span class="math inline">\(H\)</span>. In the graphs shown in the example above, the first graph has one connected component (hence it is connected); the second has two connected components.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Here, ``maximally connected component'' means we cannot add any more
+vertices and edges from $G$ to $H$ without disconnecting $H$. In the
+graphs shown in the example above, the first graph has one connected
+component (hence it is connected); the second has two connected
+components.
+%
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR5
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN6:GR5
+\end{dilLabel}
+\begin{dilNo}
+5
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomNote}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN6:GR5:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN6:GR5:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>We can specify a connected component of a graph by simply specifying the vertices in the component. For example, the connected components of the second graph in the example above can be specified as <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{d} \right\}\)</span> and <span class="math inline">\(\left\{ \texttt{e},\texttt{f} \right\}\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+We can specify a connected component of a graph by simply specifying the
+vertices in the component.
+%
+For example, the connected components of the second graph in the
+example above can be specified as
+%
+$\cset{\vname{a},\vname{b},\vname{c},\vname{d}}$
+%
+and 
+%
+$\cset{\vname{e},\vname{f}}$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomNote}
+\end{dilGroup}
+
+\end{dilUnit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Graph Partition
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Graph Partition
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC2:UN7
+\end{dilLabel}
+\begin{dilNo}
+7
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN7:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomGram}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN7:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>Recall that a partition of a set <span class="math inline">\(A\)</span> is a set <span class="math inline">\(P\)</span> of non-empty subsets of <span class="math inline">\(A\)</span> such that each element of <span class="math inline">\(A\)</span> is in exactly one subset, also called block, <span class="math inline">\(B \in P\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+Recall that a partition of a set $A$ is a set $P$ of non-empty subsets
+of $A$ such that each element of $A$ is in exactly one subset, also
+called block, $B \in P$.
+%
+
+\end{dilFieldBodyDex}
+\end{dilAtomGram}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN7:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Graph Partition
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Graph Partition
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN7:GR2:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>graph partition</em></strong></span></span> is a partition of the vertex set of the graph. More precisely, given graph <span class="math inline">\(G = (V,E)\)</span>, we define a partition of <span class="math inline">\(G\)</span> as a set of graphs <span class="math display">\[P = \{ G_1 = (V_1,E_1) \ldots G_k = (V_k,E_k) \},\]</span> where <span class="math inline">\(\{V_1, \ldots, V_k\}\)</span> is a (set) partition of <span class="math inline">\(V\)</span> and <span class="math inline">\(G_1, 
+\ldots, G_k\)</span> are vertex-induced subgraphs of <span class="math inline">\(G\)</span> with respect to <span class="math inline">\(V_1, 
+\ldots, V_k\)</span> respectively. As in set partitions, we use the term  <span style="color: black"><span><strong><em>part</em></strong></span></span> or  <span style="color: black"><span><strong><em>block</em></strong></span></span> to refer to each vertex-induced subgraph <span class="math inline">\(G_1, \ldots, G_k\)</span>.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{graph partition} is a partition of the vertex set of the
+graph.
+%
+More precisely, given graph $G = (V,E)$, we define a partition of $G$
+as a set of graphs 
+\[
+P = \{ G_1 = (V_1,E_1) \ldots G_k = (V_k,E_k) \},
+\]
+where $\{V_1, \ldots, V_k\}$ is a (set) partition of $V$ and $G_1,
+\ldots, G_k$ are vertex-induced subgraphs of $G$ with respect to $V_1,
+\ldots, V_k$ respectively.  
+%
+As in set partitions, we use the term~\defn{part} or~\defn{block} to
+refer to each vertex-induced subgraph $G_1, \ldots, G_k$.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN7:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Internal and Cut Edges
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Internal and Cut Edges
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN7:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN7:GR3:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>In a graph partition, we can distinguish between two kinds of edges: internal edges and cut edges.   <span style="color: black"><span><strong><em>Internal edges</em></strong></span></span> are edges that are within a block;  <span style="color: black"><span><strong><em>cut edges</em></strong></span></span> are edges that are between blocks. One way to partition a graph is to make each connected component a block. In such a partition, there are no cut edges between the partitions.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+In a graph partition, we can distinguish between two kinds of edges:
+internal edges and cut edges. ~\defn{Internal edges} are edges that
+are within a block;~\defn{cut edges} are edges that are between
+blocks.
+%
+One way to partition a graph is to make each connected component a
+block. In such a partition, there are no cut edges between the
+partitions.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+
+\end{dilUnit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilUnit}
+\begin{dilFieldTitle}
+Trees
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Trees
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8
+\end{dilFieldUnique}
+\begin{dilLabel}
+unit:15210:S18:CH2:SEC2:UN8
+\end{dilLabel}
+\begin{dilNo}
+8
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8:GR1
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN8:GR1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Tree
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Tree
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8:GR1:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN8:GR1:AT1
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An undirected graph is a  <span style="color: black"><span><strong><em>tree</em></strong></span></span> if it does not have cycles and it is connected. A  <span style="color: black"><span><strong><em>rooted tree</em></strong></span></span> is a tree with a distinguished root node that can be used to access all other nodes. An example of a rooted tree along with the associated terminology is given in below.</p>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An undirected graph is a~\defn{tree} if it does not have cycles and it is
+connected.  A~\defn{rooted tree} is a tree with a distinguished root
+node that can be used to access all other nodes.
+%
+%\defref{prelim::rootedtree}).  
+%
+An example of a rooted tree along with
+the associated terminology is given in below.
+% \exref{prelim::rootedtree}.
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8:GR2
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN8:GR2
+\end{dilLabel}
+\begin{dilNo}
+2
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomDefinition}
+\begin{dilFieldTitle}
+Rooted Trees
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+Rooted Trees
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8:GR2:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN8:GR2:AT1:def:prelim::rootedtree
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>A  <span style="color: black"><span><strong><em>rooted tree</em></strong></span></span> is a directed graph such that</p>
+<ol>
+<li><p>One of the vertices is the  <span style="color: black"><span><strong><em>root</em></strong></span></span> and it has no in edges.</p></li>
+<li><p>All other vertices have one in-edge.</p></li>
+<li><p>There is a path from the root to all other vertices.</p></li>
+</ol>
+<p>Rooted trees are common structures in computing and have their own dedicated terminology.</p>
+<ul>
+<li><p>By convention we use the term  <span style="color: black"><span><strong><em>node</em></strong></span></span> instead of vertex to refer to the vertices of a rooted tree.</p></li>
+<li><p>A node is a  <span style="color: black"><span><strong><em>leaf</em></strong></span></span> if it has no out edges, and an  <span style="color: black"><span><strong><em>internal node</em></strong></span></span> otherwise.</p></li>
+<li><p>For each directed edge <span class="math inline">\((u,v)\)</span>, <span class="math inline">\(u\)</span> is the  <span style="color: black"><span><strong><em>parent</em></strong></span></span> of <span class="math inline">\(v\)</span>, and <span class="math inline">\(v\)</span> is a  <span style="color: black"><span><strong><em>child</em></strong></span></span> of <span class="math inline">\(u\)</span>.</p></li>
+<li><p>For each path from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span> (including the empty path with <span class="math inline">\(u = v\)</span>), <span class="math inline">\(u\)</span> is an  <span style="color: black"><span><strong><em>ancestor</em></strong></span></span> of <span class="math inline">\(v\)</span>, and <span class="math inline">\(v\)</span> is a  <span style="color: black"><span><strong><em>descendant</em></strong></span></span> of <span class="math inline">\(u\)</span>.</p></li>
+<li><p>For a vertex <span class="math inline">\(v\)</span>, its  <span style="color: black"><span><strong><em>depth</em></strong></span></span> is the length of the path from the root to <span class="math inline">\(v\)</span> and its  <span style="color: black"><span><strong><em>height</em></strong></span></span> is the longest path from <span class="math inline">\(v\)</span> to any leaf.</p></li>
+<li><p>The  <span style="color: black"><span><strong><em>height of a tree</em></strong></span></span> is the height of its root.</p></li>
+<li><p>For any node <span class="math inline">\(v\)</span> in a tree, the  <span style="color: black"><span><strong><em>subtree rooted at <span class="math inline">\(v\)</span></em></strong></span></span> is the rooted tree defined by taking the induced subgraph of all vertices reachable from <span class="math inline">\(v\)</span> (i.e. the vertices and the directed edges between them), and making <span class="math inline">\(v\)</span> the root.</p></li>
+<li><p>As with graphs, an  <span style="color: black"><span><strong><em>ordered rooted tree</em></strong></span></span> is a rooted tree in which the out edges (children) of each node are ordered.</p></li>
+</ul>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+A~\defn{rooted tree} is a directed graph such that
+\begin{enumerate}
+\item 
+One of the vertices is the~\defn{root} and it has no in edges.
+\item 
+All other vertices have one in-edge.
+\item
+There is a path from the root to all other vertices.
+\end{enumerate}
+
+Rooted trees are common structures in computing and have their own
+dedicated terminology.
+%
+\begin{itemize}
+\item
+By convention we use the term~\defn{node} instead of vertex to refer
+to the vertices of a rooted tree.  
+%
+\item
+A node is a~\defn{leaf} if it has no out edges, and an~\defn{internal
+  node} otherwise.  
+%
+
+\item
+For each directed edge $(u,v)$, $u$ is the~\defn{parent} of $v$, and
+$v$ is a~\defn{child} of $u$.  
+%
+
+\item
+For each path from $u$ to $v$ (including the empty path with $u = v$),
+$u$ is an~\defn{ancestor} of $v$, and $v$ is a~\defn{descendant} of
+$u$.
+%
+\item
+For a vertex $v$, its~\defn{depth} is the length of the path from the
+root to $v$ and its~\defn{height} is the longest path from $v$ to any
+leaf.  
+%
+
+\item
+The~\defn{height of a tree} is the height of its root.  
+%
+
+\item
+For any node $v$ in a tree, the~\defn{subtree rooted at $v$} is the
+rooted tree defined by taking the induced subgraph of all vertices
+reachable from $v$ (i.e. the vertices and the directed edges between
+them), and making $v$ the root.  
+%
+
+\item
+As with graphs, an~\defn{ordered rooted tree} is a rooted tree in
+which the out edges (children) of each node are ordered.
+\end{itemize}
+
+\end{dilFieldBodyDex}
+\end{dilAtomDefinition}
+\end{dilGroup}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilGroup}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8:GR3
+\end{dilFieldUnique}
+\begin{dilLabel}
+group:15210:S18:CH2:SEC2:UN8:GR3
+\end{dilLabel}
+\begin{dilNo}
+3
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{dilAtomExample}
+\begin{dilFieldTitle}
+...NO.TITLE...
+\end{dilFieldTitle}
+\begin{dilFieldTitleDex}
+...NO.TITLE...
+\end{dilFieldTitleDex}
+\begin{dilFieldUnique}
+15210:S18:CH2:SEC2:UN8:GR3:AT1
+\end{dilFieldUnique}
+\begin{dilLabel}
+atom:15210:S18:CH2:SEC2:UN8:GR3:AT1:ex:prelim::rootedtree
+\end{dilLabel}
+\begin{dilNo}
+1
+\end{dilNo}
+\begin{dilParents}
+...NO.PARENTS...
+\end{dilParents}
+\begin{dilFieldBody}
+<p>An example rooted tree follows.</p>
+<p><img src="./media/rootedtree.jpg" alt="image" style="width:2in" /></p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">root</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">leaves</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(E\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(F\)</span>, <span class="math inline">\(G\)</span>, and <span class="math inline">\(H\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">internal nodes</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, and <span class="math inline">\(D\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">children of <span class="math inline">\(A\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(B\)</span>, <span class="math inline">\(C\)</span> and <span class="math inline">\(D\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">parent of <span class="math inline">\(E\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(B\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">descendants of <span class="math inline">\(A\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">all nodes, including <span class="math inline">\(A\)</span> itself</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">ancestors of <span class="math inline">\(F\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span>, <span class="math inline">\(D\)</span> and <span class="math inline">\(A\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">depth of <span class="math inline">\(F\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">height of <span class="math inline">\(B\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">height of the tree</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">subtree rooted at <span class="math inline">\(D\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">the rooted tree consisting of <span class="math inline">\(D\)</span>, <span class="math inline">\(F\)</span>, <span class="math inline">\(G\)</span> and <span class="math inline">\(H\)</span></td>
+</tr>
+</tbody>
+</table>
+
+\end{dilFieldBody}
+\begin{dilFieldBodyDex}
+An example rooted tree follows.
+\begin{center}
+  \includegraphics[width=2in]{./media/rootedtree.jpg}
+\end{center}
+\begin{center}
+\begin{tabular}{rcl}
+root & : & $A$\\
+leaves & : & $E$, $C$, $F$, $G$, and $H$\\
+internal nodes & : & $A$, $B$, and $D$\\
+children of $A$ & : & $B$, $C$ and $D$\\
+parent of $E$ & : & $B$\\
+descendants of $A$ & : & all nodes, including $A$ itself\\
+ancestors of $F$ & : & $F$, $D$ and $A$\\
+depth of $F$ & : & 2\\
+height of $B$ & : & 1\\
+height of the tree & : & 2\\
+subtree rooted at $D$ & : & the rooted tree consisting of $D$, $F$, $G$ and $H$
+\end{tabular}
+\end{center}
+
+\end{dilFieldBodyDex}
+\end{dilAtomExample}
+\end{dilGroup}
+
+\end{dilUnit}
+\end{dilSection}
+\end{dilChapter}
+\end{dilBook}
+\end{dilCourse}

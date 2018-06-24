@@ -1,0 +1,429 @@
+\begin{syntax}[While loops]
+\label{syn:language::while}
+The \defn{while loop} can appear as one of the bindings $b$ in a
+\clet expression and has the syntax the following syntax.
+%
+\begin{lstlisting}
+$xs$ = start $p$ and
+     while $e_{continue}$ do
+       $b^+$
+\end{lstlisting}
+%
+Here $xs$ are the result variables holding the values computed by the
+while loop, the pattern $p$ is the initial value for $xs$.
+%
+Such a \cd{while} loop evaluates by setting $xs$ to pattern $p$ and
+then evaluating the loop until $e_{continue}$ evaluates to \cfalse.
+%
+In a typical use the body of the loop $b^+$ defines the variables
+$xs$, whose final value will be the value of $xs$ when the loop terminates.
+
+We define the while loop syntax as equivalent to the
+following pair of bindings.
+
+\begin{tabular}{lcl}
+\begin{minipage}[t]{2.5in}
+\begin{lstlisting}
+$xs$ = start $p$ and
+     while $e_{continue}$ do
+       $b^+$
+\end{lstlisting}
+\end{minipage}
+&
+\begin{minipage}[t]{5mm}
+\vspace{1cm}
+$\equiv$
+\vspace{1cm}
+\end{minipage}
+&
+\begin{minipage}[t]{2in}
+\begin{lstlisting}
+$f$ $xs$ = 
+  if not $e_{continue}$ then $xs$
+  else let $b^+$ in $f~xs$ end
+
+$xs$ = $f~p$
+\end{lstlisting}
+
+
+\end{minipage}
+\end{tabular}
+
+%% Note:
+%% $xs$ are used in place of a pattern. This is ok, though more
+%% generally we can allow a pattern instead of $xs$.
+%%
+
+Here $xs$, $p$, $e_{continue}$ and $b^+$ are substituted
+verbatim.  
+%
+The loop is expressed as a function that takes $xs$ as an argument and
+runs the body of the loop until the expression $e_{continue}$ becomes
+false at which time the variables $xs$ is returned.
+%
+The variables $xs$ are passed from one iteration of the while to the next
+each of which might redefine them in the bindings.  
+%
+After the loop terminates, the variables take on the value they had at
+the end of the last iteration.
+
+\end{syntax}
+
+\paragraph{Loops.}
+%
+\pml{} does not have explicit syntax for loops but loops can be
+implemented with recursion.
+%
+Throughout the book, we use the following syntactic sugar for
+expressing while loops.  
+%
+\synref{language::while} defines the syntax of the while loops.
+%
+In the definition, the expressions $e_{continue}$ determines the
+termination condition for the loop, while the bindings $b^+$
+constitute the body of the loop.
+%
+In a typical use, the body of the loop assigns to the variables of
+$xs$, effectively determining the return value of the while loop.
+
+When evaluated a while loop starts by matching the variables $xs$ to
+the pattern $p$ and then continues to evaluate the while loop in the
+usual fashion.
+%
+It first checks the value of $e_{continue}$, if it is false, then the
+evaluation completes.  
+%
+If not, then the  bindings in $b^{+}$, which can use the variables
+$xs$, are evaluated.
+%
+Having finished the body, evaluation jumps to the beginning of the
+\cd{while} and evaluates the termination condition $e_{continue}$, and
+continues on executing the loop body and so on. 
+
+\begin{example}
+The following code sums the squares of the integers from 1 to $n$.
+%
+\begin{lstlisting}[numbers=none]
+sumSquares($n$) = 
+  let
+    ($s$,$n$) = 
+      start (0,$n$) and 
+      while $n$ $>$ 0 do
+        $s$ = $s$ + $n$ * $n$
+        $n$ = $n$ - 1
+  in $s$ end
+\end{lstlisting}
+%
+By definition it is equivalent
+to the following code.
+\begin{lstlisting}[numbers=none]
+sumSquares($n$) = 
+  let
+    $f$($s$,$n$) = if not ($n$ > 0) then ($n$,$s$)
+            else let
+                 $s$ = $s$ + $n$ * $n$
+                 $n$ = $n$ - 1
+                in $f$($s$,$n$) end
+    ($s$,$n$) = $f$(0,$n$)
+  in $s$ end
+\end{lstlisting}
+\end{example}
+
+
+\begin{example}
+The piece of code below illustrates an example use of data types and
+higher-order functions.
+%
+\begin{lstlisting}
+let 
+  type point = Point2D of $\tyint$ * $\tyint$ 
+             | Point3D of $\tyint$ * $\tyint$ * $\tyint$
+
+  inject3D (Point2D ($x$,$y$)) = Point3D ($x$,$y$,0)
+  
+  project2D (Point3D ($x$,$y$,$z$)) = Point2D ($x$,$y$)
+ 
+  compose $f$ $g$ = $f$ $g$  
+
+  $p0$ = (0,0)
+  $q0$ = project3D $p0$
+  $p1$ = (compose project2D inject3D) $p0$
+in 
+  ($p0$, $q0$)
+end
+
+\end{lstlisting}
+
+The example code above defines a \cd{point} as a two (consisting of
+$x$ and $y$ axes) or three dimensional (consisting of $x$, $y$, and
+$z$ axes) point in space.
+%
+The function \cd{inject3D} takes a 2D point and transforms it to a 3D
+point by mapping it to a point on the $z=0$ plane. 
+%
+The function \cd{project2D} takes a 3D point and transforms it to a 2D
+point by dropping its $z$ coordinate.
+%
+The function \cd{compose} takes two functions $f$ and $g$ and composes
+them.
+%
+The function \cd{compose} is a higher-order function, since id operates
+on functions.
+
+The point $p0$ is the origin in 2D.  The point $q0$ is then computed
+as the origin in 3D.  The point $p1$ is computed by injecting $p0$ to
+3D and then projecting it back to 2D by dropping the $z$ components,
+which yields again $p0$.  
+%
+In the end we thus have $p0 = p1 = (0,0)$. 
+
+\end{example}
+
+
+
+
+\begin{example}
+The following \pml code, which defines a binary tree whose leaves and
+internal nodes holds keys of integer type.
+%
+The function \cd{find} performs a lookup in a given binary-search tree
+$t$, by recursively comparing the key $x$ to the keys along a path in
+the tree.
+
+\begin{lstlisting}
+type tree = Leaf of $\tyint$ | Node of (tree, $\tyint$, tree)
+
+find ($t$, $x$) = 
+  case $x$ 
+  | Leaf $y$ => $x$ = $y$ 
+  | Node ($left$, $y$, $right$) =>
+      if $x$ = $y$ then 
+        return true
+      else if $x$ < $y$ then 
+        find ($left$, $x$)
+      else
+        find ($right$, $x$)
+\end{lstlisting}
+\end{example}
+
+
+%% \begin{example}
+%% The expression: \[(\cfn{(x,y)}{x / y})~(8,2)\] evaluates to $4$ since $8$ and 
+%% $2$ are bound to $x$ and $y$, respectively, and then divided.
+%% The expression: \[(\cfn{(f,x)}{f(x,x)})~(\cd{plus},3)\] evaluates to $6$
+%% since $f$ is bound to the function \cd{plus}, $x$ is bound to $3$,
+%% and then \cd{plus} is applied to the pair $(3,3)$.
+%% The expression: \[(\cfn{x}{(\cfn{y}{x + y})})~3\] evaluates to a
+%% function that adds $3$ to any integer.
+%% \end{example}
+
+
+
+\begin{remark}~\\
+%\begin{minipage}[t]{3.5in}
+The definition
+\[(\cfn{x}{(\cfn{y}{f(x,y)})})\]
+  takes a function $f$ of a pair of arguments and converts it
+  into a function that takes one of the arguments and returns a
+  function which takes the second argument.  This technique can be
+  generalized to functions with multiple arguments and is often
+  referred to as \defn{currying}, named after Haskell Curry
+  (1900-1982), who developed the idea.  It has nothing to do with the
+  popular dish from Southern Asia, although that might be an easy way
+  to remember the term.
+%\end{minipage}
+%% %
+%% \begin{notesonly}
+%% \begin{minipage}[t]{2.2in}
+%% \vspace*{0in}
+%% \includegraphics[width=2.2in]{introduction/curry}
+%% \end{minipage}
+%% \end{notesonly}
+\end{remark}
+
+
+\subsection{Type System of \pml}
+
+Type me if you can.
+
+
+
+%% \subsection{Type System of \pml}
+
+%% \todo{What is the point of this.  What are we saying?}
+
+%% \pml is a statically typed language: well-typed expressions are
+%% guaranteed to evaluate to a value of the same type as the expressions
+%% itself or are non-terminating expressions.
+%% %
+%% The type system is relatively simple, especially because it does not
+%% allow for polymorphism.  Nevertheless, the type system is beyond the
+%% scope of this book, but we discuss it briefly here to aid
+%% understanding of the algorithms. 
+%% %
+
+
+%% For the purposes of this informas discussion, we can think of types as
+%% disjoint sets of values~\footnote{Technically this is not quite right,
+%%   but the reasons why are beyond the scope of this book.}.  For
+%% example the set of integers is the integer type $\tyint$, and the set
+%% $\cset{true,false}$ is the Boolean type $\bbb$.
+%% %
+%% The type of a pair of types such as $a * b$ corresponds to the 
+%% the Cartesian product of two sets $A$ and $B$ corresponding to types
+%% $a$ and $b$.
+%% %
+%% For example a pair consisting of an integer and a Boolean has type
+%% $int \times bool$.  This is often called a product type.  
+%% %
+%% Functions also have types representing the mapping of their input to
+%% their output.  
+%% %
+%% If a function has input type $A$ and resulting type $B$ then its type
+%% is $A \rightarrow B$. 
+
+%% It is often useful to have a value be one of many alternative
+%% types---for example, either an integer or a Boolean.  For this purpose
+%% we use \defn{data types} (sometimes called disjoint union, tagged
+%% union types, or variant types).  Every variant of a data type is
+%% labeled with a unique identifier.  The syntax for data types
+%% includes a way to define new types with type bindings in a \clet, a
+%% way to create labeled values of that type, and a way to conditionally
+%% branch on the variants using a \ccase{} expression.
+
+%% A new variant type can be defined using a \defn{type
+%%   binding} in the bindings of a \clet{} expression.    A type binding
+%% with $m$ variants has the form:
+%% \[ \ctype~x = dcon_1~\cof~t_1 \mid dcon_2~\cof~t_2 \mid \cdots \mid dcon_m~\cof~t_m\]
+%% where each $dcon_i$ is a data constructor and each $t_i$ is the value
+%% type associated with that constructor.  If there is no value
+%% associated with a constructor (see below) then the $\cof~t_i$ is
+%% dropped.  A type binding, binds the name of the type as well as the
+%% names of the data constructors.  These bindings have the same scope as
+%% the function name of a function binding---i.e. they are visible to the
+%% expression of the \clet{} after the \cin, and on the right hand side
+%% of all bindings in the \clet.
+
+%% \begin{example}
+%% We can define a data type that is either a Boolean or integer, using,
+%% for example, \cd{bool} as the label for when it is a Boolean and
+%% \cd{int} as the label for when it is an integer:
+%% \begin{lstlisting}[numbers=none]
+%% type boolOrInt = Bool of $\bbb$ | Int of $\tyint$
+%% \end{lstlisting}
+
+%% We can also define a type that has one of multiple labels, none of
+%% which is associated with a value:
+%% \begin{lstlisting}[numbers=none]
+%% type color = Red | Green | Blue
+%% \end{lstlisting}
+%% \end{example}
+
+%% To create a value of the particular data type we simply use a data
+%% constructor.  In particular if $dcon~\cof~t$ is one of the variants of
+%% type $t'$, then for a value of type $v$, $dcon(v)$ will generate a
+%% value of type $t'$.
+
+%% We use the \defn{case expression} to branch on the labels of a variant
+%% type, where the expression for a type with $m$ variants has the
+%% form:
+%% \begin{lstlisting}[numbers=none]
+%% case $e$ 
+%%  | $p_1$ => $e_1$
+%%  | $p_2$ => $e_2$
+%%  | $\cdots$
+%%  | $p_m$ => $e_n$
+%% \end{lstlisting}
+%% The \ccase{} expression evaluates $e$ to value $v$ which is then
+%% pattern matched with the labels in the patterns $p_i$.  For the first
+%% pattern $p_i$ that matches, the $e_i$ is evaluated with the bindings
+%% from $p_i$.
+
+%% \begin{example}
+%% The following \ccase{} expression will
+%% convert a value of \cd{boolOrInt} into an integer by treating
+%% \ctrue{} as 1 and \cfalse{} as 0:
+%% \begin{lstlisting}[numbers=none]
+%% toInt(ib) =
+%%   case ib 
+%%   | Bool(b) => if b then 1 else 0
+%%   | Int(i) => i
+%% \end{lstlisting}
+%% \end{example}
+
+%% The variant types we use also allow for the recursive definition of
+%% types.  This is done by including the name of the type itself in one
+%% or more of the variants, as in:
+%% \begin{lstlisting}[numbers=none]
+%%   type x = ... | l of (..,x,..) | ...
+%% \end{lstlisting}
+%% This can be used to define a type corresponding to lists of integers:
+%% \begin{lstlisting}[numbers=none]
+%%   type list = Nil | Cons of $\tyint$ ** list
+%% \end{lstlisting}
+
+%% \begin{example}
+%% The following is a recursive data type defining binary trees.
+%% \begin{lstlisting}[numbers=none]
+%% type tree = Leaf | Node of tree ** int ** tree 
+%% \end{lstlisting}
+
+%% We can then create a tree using, for example
+%% \begin{lstlisting}[numbers=none]
+%% Node(Node(Leaf,1,Node(Leaf,2,Leaf)),3,Node(Leaf,4,Leaf)).
+%% \end{lstlisting}
+%% %%%
+%% %% which corresponds to the tree:
+%% %% \begin{verbatim}
+%% %%           3
+%% %%        /     \
+%% %%       1       4 
+%% %%     /   \    /  \
+%% %%    Leaf  2  Leaf Leaf
+%% %%        /   \
+%% %%      Leaf  Leaf
+%% %% \end{verbatim}
+%% %%
+%% We can also define a function that counts the number of leaves
+%% of a tree recursively as follows:
+%% \begin{lstlisting}[numbers=none]
+%% countLeaves($T$) =
+%%   case $T$
+%%   | Leaf => 1
+%%   | Node of $(L,R)$ => countLeaves$(L)$ + countLeaves$(R)$
+%% \end{lstlisting}
+%% \end{example}
+
+
+%% \begin{comment}
+%% \paragraph{Todo}
+%% \begin{itemshort}
+%% \item more description of parallelism
+%% \item separate out comma and parallel from binops
+%% \item describe shadowing
+%% \item add simple form of exceptions
+%% \end{itemshort}
+%% \end{comment}
+
+%% \begin{comment}
+%% We use mathematical set notation as indicated using the last rule
+%% in \texttt{exp}.  We note that set notation is not consistent across
+%% different communities.    In the notation we use the expression
+%% \[\csetf{ e : x \in S}{p}\]
+%% means apply the expression $e$ to every $x$ taken from the set $S$ such
+%% that the predicate $p$ is true.  For example
+%% \[\csetf{x^2 : x \in \cset{2,7,11}}{x > 5}\]
+%% indicates taking each element of the set $\cset{2,7,11}$, and for
+%% those that satisfy $x>5$, take their squares.
+%% The first part can be left off, e.g.,
+%% \[\csetf{x \in \cset{2,7,11}}{x > 5} \Rightarrow \cset{7, 11}\;.\]
+%% The last part can also be left off, e.g.,
+%% \[\cset{x^2 : x \in \cset{2,7,11}} \Rightarrow \cset{4, 49, 121}\;,\]
+%% or can be repeated with different conditions with a comma in between
+%% conditions, e.g.,
+%% \[\csetf{x \in \cset{2,7,11}}{x > 5, x^2 < 100} \Rightarrow \cset{7}\; .\]
+%% The middle part can be repeated with different assignments, e.g.,
+%% \[\cset{x+y : x \in \cset{2,7}, y \in \cset{2,4}} \Rightarrow \cset{4,6,9,11}\;.\]
+%% \end{comment}
+
+\flushchapter

@@ -1,0 +1,564 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+\label{15210}
+\no{15210}
+\unique{15210}
+\parent{...NO.PARENTS...}
+
+\coursenumber{15210}
+\picture{/210/course/air-pavilion.jpg}
+\providesbook{S18}
+\provideschapter{1}
+\providessection{1}
+\providesunit{1}
+\providesassignment{1}
+\semester{Spring 2018}
+\website{http://www.cs.cmu.edu/~15210}
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues.
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{book:15210:S18}
+\no{0}
+\unique{15210:S18}
+\parent{...NO.PARENTS...}
+\authors{Umut A. Acar and Guy Blelloch}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{chapter}[Introduction]
+\label{chapter:15210:S18:CH1:ch:intro}
+\no{1}
+\unique{15210:S18:CH1}
+\parent{...NO.PARENTS...}
+
+\picture{./media/la-tour-aux-rideaux.jpg}
+
+
+
+
+This chapter presents a brief overview of the methodology followed in
+this book.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[Introduction]
+\label{section:15210:S18:CH1:SEC1}
+\no{1}
+\unique{15210:S18:CH1:SEC1}
+\parent{...NO.PARENTS...}
+
+This section presents an overview of the approach taken in this book.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Specification, Problem, Implementation]
+\label{unit:15210:S18:CH1:SEC1:UN1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Problem solving in computer science requires reasoning precisely about
+problems being studied and the properties of solutions.
+%
+To facilitate such reasoning,  we define problems by
+specifying them and describe the desired properties of solutions at
+different levels of abstraction, such as the cost and the
+implementation  of the solution.
+
+In this book, we are usually interested in two distinct classes of
+problems: algorithms problems and data structures problems.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR2}
+\no{2}
+\unique{15210:S18:CH1:SEC1:UN1:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Algorithm Specification]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+We specify an algorithm by describing what is expected of the
+algorithm via an~\defn{algorithm specification}.
+%
+For example, we can specify a sorting algorithm for sequences with
+respect to a given comparison function as follows.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR3}
+\no{3}
+\unique{15210:S18:CH1:SEC1:UN1:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definition}[Comparison Sort]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+Given a sequence $A$ of $n$ elements taken from a totally ordered set
+with comparison operator $\leq$, return a comparison-sorting algorithm
+sequence $B$ containing the same elements but such that $B[i] \leq
+B[j]$ for $0 \leq i < j < n$.
+\end{definition}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR4}
+\no{4}
+\unique{15210:S18:CH1:SEC1:UN1:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{note}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+The specification describes~\defn{what} the algorithm should do but it
+does not describe~\defn{how} it achieves what is asked.
+%
+This is intentional---and is exactly the point---because there can be
+many algorithms that meet a specification.
+%
+\end{note}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR5}
+\no{5}
+\unique{15210:S18:CH1:SEC1:UN1:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+A crucial property of any algorithm is its resource requirements or
+its~\defn{cost}.
+%
+For example, of the many ways algorithms for sorting a sequence, we
+may prefer some over the others.  
+%
+We specify the cost of class of algorithms with a~\defn{cost
+  specification}.  For example, the following cost specification
+states that a particular class of parallel sorting algorithms performs
+$O(n \log{n})$ work and $O(\log^2{n})$ span.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR6}
+\no{6}
+\unique{15210:S18:CH1:SEC1:UN1:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{costspec}[Comparison Sort: Efficient \& Parallel]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+Assuming the comparison function $<$ does constant work, the cost for
+parallel comparison sorting a sequence of length $n$ is $O(n \log n)$
+work and $O(\log^2 n)$ span.
+\end{costspec}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR7}
+\no{7}
+\unique{15210:S18:CH1:SEC1:UN1:GR7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR7:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR7:AT1}
+\parent{...NO.PARENTS...}
+
+There can be many cost specifications for sorting.  For example, if we
+are not interested in parallelism, we can specify $O(n \log{n})$ work
+but no bounds on the span. There is another cost specification below
+that requires even smaller span but allows for more work.
+%
+We usually care more about work and thus would prefer the first cost
+specification; there might, however, be cases where the second
+specification is preferable.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR8}
+\no{8}
+\unique{15210:S18:CH1:SEC1:UN1:GR8}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{costspec}[Comparison Sort: Inefficient but Parallel]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR8:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR8:AT1}
+\parent{...NO.PARENTS...}
+
+Assuming the comparison function $<$ does constant work, the cost for
+parallel comparison sorting a sequence of length $n$ is $O(n^2)$ work
+and $O(\log n)$ span.
+\end{costspec}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR9}
+\no{9}
+\unique{15210:S18:CH1:SEC1:UN1:GR9}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Data Structure Specification]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR9:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR9:AT1}
+\parent{...NO.PARENTS...}
+
+We specify a data structure by describing what is expected of the data
+structure via an~\defn{Abstract Data Type (ADT) specification}.
+%
+As with algorithms, we usually give cost specifications to data
+structures.
+%
+For example, we can specify a priority queue ADT and give it a cost
+specification. 
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR10}
+\no{10}
+\unique{15210:S18:CH1:SEC1:UN1:GR10}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{datatype}[Priority Queue]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR10:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR10:AT1}
+\parent{...NO.PARENTS...}
+
+A priority queue consists of a priority queue type and supports three
+operations on values of this type.  The operation $\cd{empty}$ returns
+an empty queue.  The operation $\cd{insert}$ inserts a given value with
+a priority into the queue and returns the queue.  The operation
+$\cd{removeMin}$ removes the value with the smallest priority from the
+queue and returns it.
+\end{datatype}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR11}
+\no{11}
+\unique{15210:S18:CH1:SEC1:UN1:GR11}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{costspec}[Priority Queue: Basic]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR11:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR11:AT1}
+\parent{...NO.PARENTS...}
+
+The work and span of a priority queue operations are as follows.
+\begin{itemize}
+\item $\cd{create}$: $O(1)$, $O(1)$.
+\item $\cd{insert}$: $O(\log{n})$, $O(\log{n})$.
+\item $\cd{removeMin}$: $O(\log{n})$, $O(\log{n})$.
+\end{itemize}
+\end{costspec}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR12}
+\no{12}
+\unique{15210:S18:CH1:SEC1:UN1:GR12}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Problem]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR12:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR12:AT1}
+\parent{...NO.PARENTS...}
+
+A~\defn{problem} requires meeting an algorithm or an ADT specification
+and a corresponding cost specification.
+%
+Since we allow specifying algorithms and data structures, we can
+distinguish between algorithms problems and data-structure problems.
+%
+
+An~\defn{algorithms problem} requires designing an algorithm that
+satisfies the given algorithm specification and cost specification if
+any.
+%
+
+A~\defn{data-structures problem} requires meeting an ADT
+specification by designing a data structure that can
+support the desired operations with the required efficiency specified
+by the cost specification.
+%
+
+The difference between an algorithms problem and a data-structures
+problem is that the latter involves designing a data structure and a
+collection of algorithms, one for each operation, that operate on that
+data structure.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR13}
+\no{13}
+\unique{15210:S18:CH1:SEC1:UN1:GR13}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{note}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR13:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR13:AT1}
+\parent{...NO.PARENTS...}
+
+When we consider problems, it is usually clear from the context
+whether we are talking about algorithms or data structures.
+%
+In such cases, we use the simpler terms~\defn{specification}
+and~\defn{problem} to refer to the algorithm/ADT specification and the
+corresponding problem respectively.
+\end{note}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR14}
+\no{14}
+\unique{15210:S18:CH1:SEC1:UN1:GR14}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Implementation]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR14:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR14:AT1}
+\parent{...NO.PARENTS...}
+
+We can solve an algorithms or a data-structures problem by presenting
+an~\defn{implementation}.  
+%
+The term~\defn{algorithm} refers to an implementation that solves an
+algorithms problem and the term~\defn{data structure} to
+refer to an implementation that solves a data-structures problem.
+%
+We note that while the distinction between problems and algorithms is
+common in the literature, the distinction between abstract data types
+and data structures is less so.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR15}
+\no{15}
+\unique{15210:S18:CH1:SEC1:UN1:GR15}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR15:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR15:AT1}
+\parent{...NO.PARENTS...}
+
+Why do we think this distinction is important?
+\end{teachnote}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR16}
+\no{16}
+\unique{15210:S18:CH1:SEC1:UN1:GR16}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR16:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR16:AT1}
+\parent{...NO.PARENTS...}
+
+We describe an algorithm by using the pseudo-code notation based on
+\pml, the language  used in this book.  For example, we can specify
+the classic insertion sort algorithm as follows.
+%
+
+\[
+\begin{array}{l}
+\cd{insSort}~f~s =
+\\ 
+~~\cd{if}~|s| = 0~\cd{then} 
+\\
+~~~~\cseq{}
+\\
+~~\cd{else}~\cd{insert}~f~s[0]~(\cd{insSort}~f~(s[1,...,n-1]))
+\end{array}
+\]
+
+
+In the algorithm, $f$ is the comparison function and $s$ is the input
+sequence.  
+%
+The algorithm uses a function ($\cd{insert}~f~x~s$) that
+takes the comparison function $f$, an element $x$, and a sequence $s$
+sorted by $f$, and inserts $x$ in the appropriate place.  
+%
+Inserting into a sorted sequence is itself an algorithms problem,
+since we are not specifying how it is implemented, but just specifying
+its functionality.  
+%
+We might also be given a cost specification for $\cd{insert}$, e.g., for
+a sequence of length $n$ the cost of $\cd{insert}$ should be $O(n)$
+work and $O(\log n)$ span.  
+%
+Given this cost we can determine the overall asymptotic cost of
+$\cd{sort}$ using our composition rules described in the last section.
+%
+Since the code uses $\cd{insert}$ sequentially and since there are $n$
+inserts, the algorithm $\cd{insSort}$ has $n \times O(n) =
+O(n^2)$ work and $n \times O(\log n) = O(n \log n)$ span.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR17}
+\no{17}
+\unique{15210:S18:CH1:SEC1:UN1:GR17}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR17:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR17:AT1}
+\parent{...NO.PARENTS...}
+
+Similarly, we can specify a data structure by specifying the data type
+used by the implementation, and the algorithms for each operation.
+%
+For example, we can implement a priority queue with a binary heap data
+structure and describe each operation as an algorithm that operates on
+this data structure.  In other words, a data structure can be viewed
+as a collection of algorithms that operate on the same organization
+of the data.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR18}
+\no{18}
+\unique{15210:S18:CH1:SEC1:UN1:GR18}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[On the importance of specification]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR18:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR18:AT1}
+\parent{...NO.PARENTS...}
+
+Several reasons underline the importance of distinguishing between
+specification and implementation.  
+
+First, we want to be able to use a specification without knowing the
+details of an implementation that matches that specification.
+%
+In many cases the specification of a problem is quite simple, but an
+efficient algorithm or data structure that solves it, i.e., the
+implementation, is complicated.  
+%
+Specifications allow us abstract from implementation details.
+%
+
+Second, we want to be able to change or improve implementations over
+time.  As long as each implementation matches the same specification,
+and the user relied only on the specification, then he or she can
+continue using the new implementation without worrying about their
+code breaking. 
+%
+
+Third, when we compare the performance of different
+algorithms or data structures it is important that we are not
+comparing apples with oranges.  We have to make sure the algorithms we
+compare are solving the same problem, because subtle differences in
+the problem specification can make a significant difference in how
+efficiently that problem can be solved.
+\end{remark}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH1:SEC1:UN1:GR19}
+\no{19}
+\unique{15210:S18:CH1:SEC1:UN1:GR19}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH1:SEC1:UN1:GR19:AT1}
+\no{1}
+\unique{15210:S18:CH1:SEC1:UN1:GR19:AT1}
+\parent{...NO.PARENTS...}
+
+\[
+    {x} \above 4pt {y}
+  \]
+\end{gram}
+\end{group}
+\end{unit}
+\end{section}
+\end{chapter}
+
+\end{book}

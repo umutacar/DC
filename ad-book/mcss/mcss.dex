@@ -1,0 +1,1437 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring 2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+% Start counting chapters from 
+% This is optional. Will start counting at 1.
+\provideschapter{9}
+
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues. 
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{chapter}[Maximum Contiguous Subsequences]
+\picture{./media/the-persistence-of-memory.jpg}
+
+In this chapter, we apply the algorithm-design techniques considered
+thus far to a well-known problem, that of finding contiguous
+subsequence of a string that sums of to the maximal value.
+%
+To exercise our vocabulary for algorithm design, we carefully identify
+the techniques being used, sometimes at a level of precision that may,
+especially in subsequent reads, feel pedantic.
+%
+
+\begin{section}[Defining The Problem]
+
+%% TEACHING NOTES:
+%% You need about exactly one lecture for this chapter,
+%% if you skip all the proofs.
+%%
+%% Teaching outline
+%% Goal: vocabulary for algorithm design
+%% Key tool: recognise redundancies in work.
+%% 
+%% Otherwise follow notes.
+%%
+%% One way to teach this lecture is reserve a piece of the board for
+%% all the problems identified and the relationships between them,
+%% such as one being reduced to another etc.
+
+
+\begin{unit}[The Problem]
+\begin{teachnote}
+This lecture needs a bit more structure.  There are quie a few moving
+pieces complete the plot below and use it as a guide.  
+
+There are some glitches with -infty.  
+\end{teachnote}
+
+\begin{teachnote}
+
+Here is a graph of various problems that we will consider.
+
+\includegraphics[width=4in]{./media/mcs-reductions.jpg}
+
+\end{teachnote}
+
+\begin{definition}[Subsequence]
+
+A~\defn{subsequence} $b$ of a sequence $a$ is a sequence that can be
+derived from $a$ by deleting elements of $a$ without changing the
+order of remaining elements. 
+%
+\end{definition}
+
+\begin{example}
+\begin{itemize}
+
+\item
+The sequence $\cseq{0,2,4}$ is a subsequence of
+$\cseq{0,1,2,2,3,4,5}$.
+\item
+The sequence $\cseq{2,4,3}$ is a not
+subsequence of $\cseq{0,1,2,2,3,4,5}$ but $\cseq{2,3,4}$ is.
+\end{itemize}
+%
+\end{example}
+
+\begin{definition}[Contiguous Subsequence]
+A~\defn{contiguous subsequence} is a subsequence that appears
+contiguously in the original sequence.
+%
+For any sequence $a$ of $n$ elements, the subsequence
+%
+$b =  a\cirange{i}{j}$, $0 \le i \le j < n$,
+%
+consisting of the elements of $a$ at positions $i, i+1, \ldots, j$ is
+a contiguous subsequence of~$b$.
+\end{definition}
+%
+
+\begin{example}
+For $a = \langle 1, -2, 0, 3, -1, 0, 2, -3 \cseqee$, here are some
+contiguous subsequences:
+\begin{itemize}
+\item 
+$\cseqbb 1 \cseqee$,
+
+\item
+$\cseqbb -2, 0, 3 \cseqee$, and
+
+\item
+$\cseqbb 3, -1, 2, 0, -3 \cseqee$.
+
+\end{itemize}
+
+The sequence $\cseqbb -1,2,-3 \cseqee$ is not a contiguous subsequence,
+even though it is a subsequence.
+
+\end{example}
+
+
+%
+\begin{problem}[The Maximum Contiguous-Subsequence-Sum (\MCSS{}) Problem]
+Given a sequence of integers, the~\defn{Maximum-Contiguous-Subsequence-Sum Problem} requires finding the
+contiguous subsequence of the sequence with maximum total
+sum, i.e.,
+  \begin{eqnarray*}
+    \MCSS{}\,(a) = \max \left\{ \sum_{k=i}^j a[k] \;:\; 0 \leq i,j <
+      |a| \right\}.
+  \end{eqnarray*}
+%
+We define the maximum contiguous subsequence sum of an empty sequence
+to be~$\ninfty{}$.
+%
+\end{problem}
+
+\begin{teachnote}
+We define $\ninfty{}$ for the empty case instead of $0$ to allow for
+negative numbers to matter.
+\end{teachnote}
+
+
+%
+\begin{note}
+Here we only consider sequences of integers and the addition operation
+to compute the sum, the techniques that we describe should apply to
+sequences of other types and other associative sum operations.
+\end{note}
+
+\begin{example}
+For $a = \cseq{1, -2, 0, 3, -1, 0, 2, -3 \cseqee},$ a maximum contiguous
+subsequence is, $\cseq{3, -1, 0, 2};$ 
+%
+another is $\cseqbb 0, 3, -1, 0, 2 \cseqee.$
+%
+Thus $\MCSS{}~(a) = 4$.
+\end{example}
+
+\begin{gram}[Lower Bound]
+To solve the \MCSS{} problem, we need to inspect, at the
+very least, each and  every element of the sequence.  This requires linear work
+in the length of the sequence.  We thus have a lower bound of
+$\Omega(n)$ for the work needed to solve the \MCSS{} problem.
+\end{gram}
+
+\begin{remark}[History of the Problem]
+The study of  maximum contiguous subsequence problem goes to 1970's.  
+%
+The problem was first proposed in by Ulf Grenander, a Swedish
+statistician and a professor of applied mathematics at Brown
+University, in 1977.
+%
+The problem has several names, such maximum subarray sum problem, or
+maximum segment sum problem, the former of which appears to be the
+name originally used by Grenander.
+%
+Grenander intended it to be a simplified model for maximum likelihood
+estimation of patterns in digitized images, whose structure he wanted
+to understand.
+%
+According to Jon Bentley
+%
+\footnote{Jon Bentley, Programming Pearls (1st
+  edition), page 76.}
+%
+in 1977, Grenander described the problem to Michael Shamos of
+Carnegie Mellon University who overnight designed a divide and
+conquer algorithm, which corresponds to our first-divide-and-conquer
+algorithm.
+%
+When Shamos and Bentley discussed the problem and Shamos' solution,
+they thought that it was probably the best possible.
+%
+A few days later Shamos described the problem and its history at a
+Carnegie Mellon seminar attended by statistician Joseph (Jay) Kadane,
+who designed the work efficient algorithm within a minute.
+%
+\end{remark}
+\end{unit}
+\end{section}
+
+\begin{section}[The Brute Force Technique]
+
+\begin{unit}[A Brute-Force Algorithm]
+
+\begin{gram}
+To solve the \MCSS{} problem, we can apply our most basic
+algorithm-design technique, brute force, which requires
+trying out all candidade solutions.
+%
+We first identify the result, which is just an integer.
+%
+Thus technically speaking, we can enumerate all integers and, for each
+and every one, check that there is a contiguous subsequence that
+matches it until we find the largest integer with a matching
+subsequence.
+%
+Such an algorithm would not terminate, because we don't know when to
+stop unless.
+
+%
+To avoid non-termination, we can calculate an upper bound on the
+result by summing all positive integers in the sequence.
+%
+Still, such a bound can be large and cause the cost bounds to depend on the
+elements of the sequence rather than its length.
+
+This is a small challenge and we can overcome it by changing our
+problem slightly to return a different result: we can reduce \MCSS{}
+problem to another closely related problem,~\defn{Maximum-Contiguous-Subsequence}, in short~\defn{\MCS{}},
+problem, which requires finding the contiguous subsequence with the
+largest sum.
+%
+The reduction itself is straightforward: because both problems operate
+on the same input, there is no need to convert the input; to compute
+the output all we have to do is sum the elements in the sequence
+returned by the \MCS{} problem.
+%
+Using $\cd{reduce}$, this requires $O(n)$ work and $O(\log{n})$ span.
+%
+Thus, the work and span of the reduction is $O(n)$ and $O(\log{n})$
+respectively.
+
+To solve the \MCS{} problem, we can again apply the
+brute-force-technique by enumerating all candidate solutions.
+%
+Because contiguous sequences can be represented by a pair of integers
+$(i,j)$, $0 \le i \le j < n$, we can generate all such integer pairs,
+compute the sum for each sequence, and pick the largest.
+
+We thus completed our first solution by reducing the problem to
+another one and solving that problem using the brute-force technique.
+\end{gram}
+
+\begin{gram}[Strengthening]
+Our brute-force algorithm for solving the
+maximum-contiguous-subsequence problem has some redundancy: to find
+the solution, it computes the result for the \MCSS{} problem and then
+computes the sum of the result sequence, which is already computed by
+the \MCSS{} algorithm.
+%
+We can eliminate this redundancy by strengthening the \MCS{} problem
+and requiring it to return the sum in addition to the subsequence.
+\end{gram}
+
+\begin{algorithm}[Brute Force 1]
+We specify our first brute-force algorithm as follows.
+
+\[
+\begin{array}{l}
+\cd{BFMCSS}~a =
+\\
+~~\cd{let} 
+\\
+~~~~b = \cseqbb \cd{reduce}~+~0~a\cirange{i}{j}  : 0  \le i \le j < n \cseqee
+\\
+~~\cd{in}
+\\
+~~~~\cd{reduce}~\cd{max}~\ninfty{}~b
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+%
+
+
+\begin{gram}[Cost Analysis]
+%
+We can analyze the work and span of the algorithm by appealing to our
+cost bounds for $\cd{reduce}$, $\cd{subseq}$, and $\cd{tabulate}$.
+%
+Because $\cd{subseq}$ is somewhat more expensive with tree sequences,
+we can use the array-sequence cost specification, where is has
+constant work and span.
+%
+The cost bounds for enumerating all possible subsequences and
+computing their sums is as follows.
+%
+\[
+\begin{array}{lllll}
+  W(n) & = & 1 + \displaystyle\sum_{1 \leq i\leq j\leq n} W_{\cd{reduce}}(j-i) \leq
+           1 + n^2 \cdot W_{\cd{reduce}}(n) 
+       & = & \Theta(n^3) 
+\\
+  S(n) & = & 1 + \displaystyle\max_{1 \leq i\leq j\leq n} S_{\textrm{reduce}}(j-i) \leq 
+           1 + S_{\cd{reduce}}(n) 
+       & = & \Theta(\log n) 
+\end{array}
+\]
+%
+The final step of the brute-force algorithm is to find the maximum
+over these $\Theta(n^2)$ combinations.
+%
+Since the reduce for this step has $\Theta(n^2)$ work and $\Theta(\log n)$
+span\footnote{Note that it takes the maximum over $\binom{n}{2} \leq
+  n^2$ values, but since $\log n^k = k \log n$, this is simply $\Theta(\log
+  n)$}, the cost of the final step is subsumed by other costs analyzed
+above.  
+%
+Overall, we have an $\Theta(n^3)$-work $\Theta(\log n)$-span algorithm.
+\end{gram}
+
+\begin{gram}[Summary]
+  When trying to apply the brute-force technique to the \MCSS{} problem,
+  we encountered a problem.  We solved this problem by reducing \MCSS{}
+  problem to another problem, \MCS{}. We then realized a redundancy in
+  the resulting algorithm and eliminated that redundancy by
+  strengthening \MCS{}.  This is a quite common route when designing a
+  good algorithm: we find ourselves refining the problem and the
+  solution until it is (close to) perfect.
+\end{gram}
+\end{unit}
+\end{section}
+
+\begin{section}[The Reduction Technique]
+
+\begin{unit}[Refining Brute Force with a Reduction]
+\begin{teachnote}
+Reduced force instead of brute force.
+\end{teachnote}
+
+\begin{gram}
+In the previous section, we used the brute-force technique to
+develope an algorithm that has low span but large, $\Theta(n^3)$, work.
+%
+In this section, we reduce the work by a linear factor.
+%
+\end{gram}
+
+\begin{gram}
+First note that the brute-force algorithm performs a lot of redundant
+work, because it repeats the same work many times.
+%
+To see why, consider the subsequences that start at some location,
+for example in the middle.  For each position the algorithm considers
+a number of subsequences that differ by ``one'' element in their ending
+positions.
+%
+In other words many, sequences actually overlap but the algorithm does
+not take advantage of such overlaps.
+%
+
+We can take advantage of such overlaps by computing all subsequences
+that start at a given position together.  
+%
+\end{gram}
+
+\begin{problem}[\MCSSS{}]~\defn{Maximum-Contiguous-Subsequence-Sum-with-Start}, abbreviated~\defn{\MCSSS{}},
+problem requires finding the maximum contiguous subsequence of a
+sequence that starts at a given position.
+\end{problem}
+%
+
+\begin{algorithm}[Brute-Force \MCSSSS{} Algorithm]
+We can solve this problem by first computing the sum for all
+subsequences that start at the given position by using a scan and then
+computing their maximum as shown below.
+%
+Because the algorithm performs a scan and a reduce, it performs
+(wost-case) $\Theta(n)$ work in $\Theta(\log{n})$ span, for any
+starting position.
+
+\[
+\begin{array}{l}
+\cd{BFMCSSS}~a~i =
+\\ 
+~~\cd{let} 
+\\ 
+~~~~b = \cd{scan}~+~0~a~\cirange{i}{(|a|-1)}
+\\ 
+~~\cd{in}
+\\ 
+~~~~\cd{reduce}~\cd{max}~\ninfty{}~b
+\\ 
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+%
+
+
+
+\begin{teachask}
+Can you improve the brute-force algorithm by reducing the \MCSS{}
+problem to \MCSSS{} problem?
+\end{teachask}
+%
+\begin{algorithm}[Brute Force 2]
+We can use this algorithm to find a more efficient brute-force
+algorithm for \MCSS{} by reducing that problem to it: we can try all
+possible start positions, solve the \MCSSS{} problem for each, and select
+the maximum of all the solutions.
+%
+The code for the algorithm is shown below.
+%
+In the worst case, the algorithm performs $\Theta(n^2)$ work in
+$\Theta(\log{n})$ span, delivering a linear-factor improvement in
+work.
+\[
+\begin{array}{l}
+\cd{RBFMCSS}~a = 
+\\
+~~\cd{reduce}~\cd{max}~\ninfty{}~\cseq{(\cd{BFMCSSS})~a~i : 0 \le i < n}.
+\end{array}
+\]
+\end{algorithm}
+%
+\end{unit}
+
+\begin{unit}[Reduction and Iteration]
+
+\begin{gram}
+In the previous section, we reduce the \MCSS{} problem to the \MCSSS{}
+problem, which we solved using scan.  
+%
+In this section, we consider the ``dual'' of the \MCSSS{} problem and
+solve the \MCSS{} problem by reducing to this problem.
+\end{gram}
+
+\begin{problem}[\MCSSE{}]
+The~\defn{Maximum-Contiguous-Subsequence at Ending}, i.e., the~\defn{\MCSSE{}} problem requires finding the maximum contiguous
+subsequence ending at a specified end position.
+\end{problem}
+
+%
+\begin{gram}[Reducing \MCSS{} to \MCSSE{}]
+We can reduce the \MCSS{} problem to \MCSSE{} problem by solving the
+\MCSSE{} problem for each position and taking the maximum over all
+solutions.
+\end{gram}
+
+\begin{gram}[Intuition behind the Algorithm for \MCSSE{}]
+Observe that any contiguous subsequence of a given sequence can be
+expressed in terms of the difference between two prefixes of the
+sequence:
+%
+the subsequence $A\cirange{i}{j}$ is equivalent to the subsequence
+$A\cirange{0}{j}$ and the subsequence $A\cirange{0}{i-1}$.
+%
+For example, in \MCSSE{} problem, we can find the sum of the elements in
+a contiguous subsequence $\cd{reduce}~+~0~a\cirange{i}{j}$ as follows
+\[
+\cd{reduce}~+~0~a\cirange{i}{j}
+= 
+\left(\cd{reduce}~+~0~a\cirange{0}{j}\right)
+- 
+\left(\cd{reduce}~+~0~a\cirange{0}{i-1}\right)
+\]
+where the ``-'' is the substraction operation on integers.
+
+This observation leads us to a solution to the \MCSSE{} problem.
+%
+Consider an ending position $j$ and suppose that we have
+the sum for each prefix that ends at $i < j$.
+%
+Since we can express any subsequence ending at position $j$ by
+subtracting the corresponding prefix, we can compute the sum for the
+subsequence $A\cirange{i}{j}$ by subtracting the sum for the prefix
+ending at $j$ from the prefix ending at $i-1$.
+%
+Thus the maximum contiguous sequence ending at position $j$ starts at
+position $i$ which has the minimum of all prefixes up to $i$.
+%
+%% \begin{teachnote}
+%% Important: We don't need to include $j$ because this would
+%%  result in an empty subsequence. We can handle that separately
+%%  at the top level.
+%% \end{teachnote}
+%
+We can compute the minimum prefix that comes before $j$ by using just
+another scan.  
+%
+%Furthermore, we can compute the minimum preceeding prefix for all
+%positions in a single scan.
+%
+\end{gram}
+
+%
+\begin{algorithm}[Algorithm for \MCSSE{}]
+The algorithm below shows a scan-based algorithm based on the
+intuition described above. 
+%
+
+Given the costs for scan and the fact that addition and minimum take
+constant work, this algorithm has $\Theta(n)$ work and $\Theta(\log n)$ span.
+\[
+\begin{array}{l}
+\cd{ScanMCSSE}~a~j=
+\\
+~~\cd{let}
+\\
+~~~~(b,v) = \cd{scan}~+~0~\cirange{0}{j}
+\\
+~~~~w= \cd{reduce}~\cd{min}~\infty~b
+\\
+~~\cd{in}
+\\
+~~~~v - w 
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+%
+
+\begin{algorithm}[Algorithm for \MCSS{} via reduction to \MCSSE{}]
+We can solve the \MCSS{} problem by iterating over all instances of
+\MCSEE{} problems and selecting the maximum. 
+%
+This algorithm has $O(n^2)$ work and $O(\lg{n})$ span.
+\[
+\begin{array}{l}
+\cd{ScanMCSS}~a=
+\\
+~~\cd{reduce}~\cd{max}~\ninfty~\cseq{(\cd{ScanMCSSE}~a~i) : 0 \le i < |a|}
+\end{array}
+\]
+\end{algorithm}
+
+
+\begin{gram}[Solving \MCSS{} via Iteration]
+The algorithm for solving \MCSS{} by reduction to \MCSSE{} solves many
+instances of \MCSSE{} in parallel.
+%
+If we give up some parallelism, it turns out that we can improve the
+work efficiency further based on an observation.
+%
+Suppose that we are given the maximum contiguous sequence, $M_{i}$
+ending at position~$i$.
+%
+We can compute the maximum contiguous sequence ending at position~$i+1$,
+$M_{i+1}$, from this by noticing that 
+%
+\begin{itemize}
+\item $M_{i+1} = \kwappend{M_{i}}{\cseq{a[i]}},$ or 
+\item $M_{i+1} = \cseq{a[i]},$
+\end{itemize}
+%
+depending on the sum for each.
+
+%% \begin{teachnote}
+%% Why is this correct?  There cannot be a smaller subsequence contained
+%% in the left one because if so, the returned sequence would not be maximum.
+%% \end{teachnote}
+
+We can use thus iterate over the sequence and solve the \MCSSE{}
+problem for each ending position in just one pass over the sequence.
+%
+To solve the \MCSSE{} problem, we then take the maximum over all
+positions.
+%
+\end{gram}
+
+
+
+\begin{algorithm}[\MCSS{} with Iteration]
+\label{alg:mcs::iterative}
+The \PML code for the algorithm for \MCSS{} obtained by reduction to
+\MCSSE{} is shown below.
+%
+% in \algref{mcs::iterative}.
+%
+We use the function $\cd{iteratePrefixes}$ to iterate over the input
+sequence and construct a sequence whose $i^{th}$ position contains the
+solution to the \MCSSE{} problem at that position.
+
+\[
+\begin{array}{l}
+\cd{IterativeMCSS}~a = 
+\\
+~~\cd{let}
+\\ 
+~~~~f~(\cdvar{sum},x) =
+\\
+~~~~~~\cd{if}~\cdvar{sum} + x \ge x~\cd{then}
+\\ 
+~~~~~~~~\cdvar{sum} + x
+\\
+~~~~~~\cd{else}
+\\
+~~~~~~~~x
+\\ 
+~~~~b = \cd{iteratePrefixes}~f~\ninfty{}~a
+\\
+~~\cd{in}
+\\
+~~~~\cd{reduce}~\cd{max}~\ninfty{}~b
+\\
+~~\cd{end}
+\end{array}
+\] 
+\end{algorithm}
+
+\begin{gram}[Cost Analysis]
+Let's analyze the work and span of this algorithm.
+%
+We first have to decide the cost specification of sequences that we
+want to use.
+%
+The algorithm only uses $\cd{iteratePrefixes}$ and $\cd{reduce},$ we
+can therefore use array sequences.
+%
+Note now that the function $f$ performs constant work in constant
+span, we thus have $W(n) = O(n)$ and $S(n) = O(n)$.
+%
+\end{gram}
+
+\begin{gram}[Summary]
+Using reduction and iteration, we designed an algorithm that is work
+efficient, which performs asymptotically optimal work.
+%
+But unfortunately the algorithm is completely sequential.
+\end{gram}
+\end{unit}
+\end{section}
+
+\begin{section}[The Contraction Technique]
+
+\begin{unit}[Contraction]
+
+\begin{gram}
+In the previos section, we designed a work-efficient algorithm for the
+\MCSS{} problem by using the reduction and iteration techniques but
+the algorithm is completely sequential.
+%
+In this section, we will design a work-efficient and low-span
+algorithm for the \MCSS{} problem using the contraction technique and
+in particular the $\cd{scan}$ operation.
+%
+\end{gram}
+
+\begin{gram}[Intuition behind the Algorithm]
+Our algorithm relies on the same intuition for the scan-based solution
+\MCSSE{} problem but refines it further by noticing that
+\begin{itemize}
+\item we can compute the sum for all prefixes in the sequence in one
+  scan
+\item we can select the minimum prefix sum before any position in the
+  sequence in one scan.
+\end{itemize}
+
+After computing these quantities, all that remains is to take the
+difference and select the maximum.
+%
+\end{gram}
+
+%
+\begin{algorithm}[Scan-based MCSS]
+The algorithm below shows a scan-based algorithm based on the
+intuition described above. 
+%
+
+Given the costs for scan and the fact that addition and minimum take
+constant work, this algorithm has $\Theta(n)$ work and $\Theta(\log n)$ span.
+Since, we have to inspect each element of the sequence at least once
+to solve the \MCSS{} problem, this algorithm is work optimal.
+
+
+\[
+\begin{array}{l}
+\cd{ScanMCSS}~a =
+\\
+~~\cd{let}
+\\
+~~~~(b,v) = \cd{scan}~+~0~a
+\\
+~~~~c = \cd{append}~b~\cseq{v}
+\\
+~~~~(d,\_) = \cd{scan}~\cd{min}~\infty~c
+\\
+~~~~e = \cseq{c[i]-d[i]: 0 < i < |a|}
+\\
+~~\cd{in}
+\\
+~~~~\cd{reduce}~\cd{max}~\ninfty{}~e
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+%
+
+
+\begin{example}
+\label{ex:mcs:scan-based}
+Consider the sequence $a$
+\[
+a = \cseq{1, -2, 0, 3, -1, 0, 2, -3}.
+\]
+
+Compute
+\[
+\begin{array}{lcl}
+(b,v) & = & \cd{scan}~\cd{+}~0~a
+\\
+c  & = & \cd{append}~ b~ \cseq{v}.
+\end{array}
+\]
+We have $c =  \cseq{0, 1, -1, -1, 2, 1, 1, 3, 0}$.
+
+The sequence~$c$ contains the prefix sums ending at each position,
+including the element at the position; it also contains the empty
+prefix.
+
+% \begin{teachnote}
+%\includegraphics[width=3in]{maximum-contiguous-subsequence/mcss-scan-generic}
+%\end{teachnote}
+
+Using the sequence $c$, we can find the minimum prefix up to all
+positions as
+\[
+(d,\_) = \cd{scan}~\cd{min}~\infty~c
+\]
+to obtain
+\[
+d = \cseq{\infty, 0, 0, -1, -1 -1, -1, -1, -1}.
+\]
+
+We can now find the maximum subsequence ending at any position $i$ by
+subtracting the value for $i$ in $c$ from the value for all the prior
+prefixes calculated in $d$.
+%
+
+Compute
+\[
+\begin{array}{lcl}
+e & = & \cseq{c[i]-d[i]: 0 < i < |a|} 
+\\
+  & = & \cseq{1, -1, 0, 3, 2, 2, 4, 1}.
+\end{array}
+\]
+
+It is not difficult to verify in this small example that the values in
+$e$ are indeed the maximum contiguous subsequences ending in each
+position of the original sequence.  Finally, we take the maximum of
+all the values is $e$ to compute the result
+\[
+\cd{reduce}~\cd{max}~\ninfty{}~e = 4.
+\]
+
+\end{example}
+
+\end{unit}
+\end{section}
+
+\begin{section}[Divide And Conquer]
+
+\begin{unit}[A First Solution]
+
+
+\begin{gram}
+
+In this section, we apply the divide-and-conquer technique to solve
+the \MCS{} problem.
+
+To this end, we first need to figure out how to divide the input.
+%
+There are many possibilities, but dividing the input in two halves is
+usually a good starting point, because it reduces the input for both
+subproblems equally, reducing thus the size of the largest component,
+which is important in bounding the overall span.
+%
+Correctness is usually independent of the particular strategy of
+division.
+%
+
+Let us divide the sequence into two halves, recursively solve the
+problem on both parts, and combine the solutions to solve the original
+problem.
+\end{gram}
+
+\begin{example}
+\label{ex:mcss1}
+Let $a = \cseq{1, -2, 0, 3, -1, 0, 2, -3}$.  By using the approach, we
+divide the sequence into two sequences $b$ and $c$ as follows
+\[
+b = \cseq{1, -2, 0, 3}
+\]
+and
+\[
+c = \cseq{-1, 0, 2, -3}
+\]
+%
+We can now solve each part to obtain $3$ and $2$ as the solutions to
+the subproblems.
+%
+Note that there are multiple sequences that yield the maximum sum.  
+\end{example}
+
+\begin{teachask}
+How can we combine the solutions for the two halves to solve the
+original problem?
+\end{teachask}
+%
+
+\begin{gram}
+To construct a solution for the original problem from those of the
+subproblems, let's consider where the solution subsequence might come
+from.  There are three possibilities.
+\begin{enumerate}
+\item  
+The maximum sum lies completely in the left subproblem.
+
+\item 
+The maximum sum lies completely in the right subproblem.
+
+\item
+The maximum sum overlaps with both halves, spanning the cut.
+\end{enumerate}
+
+The three cases are illustrated below
+
+\begin{center}
+\includegraphics[width=4.5in]{./media/mcss-dandc-simple.jpg}
+\end{center}
+
+The first two cases are already solved by the recursive calls, but not
+the last.  Assuming we can find the largest subsequence that spans the
+cut, we can write our algorithm as shown below.
+% \algref{mcssSimp}.
+\end{gram}
+
+
+\begin{algorithm}[Simple Divide-and-Conquer \MCSS{}]
+\label{alg:mcssSimp}
+Using a function called $\cd{bestAcross}$ to find the larargest
+subsequence that spans the cut, we can write our algorithm as follows.
+
+\[
+\begin{array}{l}
+\cd{DCMCSS}~a =
+\\
+~~\cd{if}~ |a| = 0~\cd{then}
+\\
+~~~~\ninfty{}
+\\
+~~\cd{else if}~|a| = 1 ~\cd{then}
+\\ 
+~~~~a[0]
+\\
+~~\cd{else}
+\\ 
+~~~~\cd{let}
+\\ 
+~~~~~~(b, c)  = \cd{splitMid}~a
+\\ 
+~~~~~~(m_b, m_c) = \left( \cd{DCMCSS}~b \ ||\ \cd{DCMCSS}~c \right)
+\\ 
+~~~~~~m_{bc} = \cd{bestAcross}~(b, c)
+\\ 
+~~~~\cd{in}
+\\ 
+~~~~~~\max\{m_b, m_c, m_{bc}\}
+\\ 
+~~~~\cd{end}
+\end{array} 
+\]
+\end{algorithm}
+
+%% \begin{question}
+%%   Can you find an algorithm for finding the subsequence with the
+%%   largest sum that spans the cut (i.e.,
+%%   \texttt{bestAcross}$(L,R)$)?  Hint: try the problem-reduction
+%%   technique to reduce the problem to another one that we know.
+%% \end{question}
+
+\begin{gram}
+The problem of finding the maximum subsequence spanning the cut is
+closely related to two problems that we have seen already:
+Maximum-Contiguous-Subsequence Sum with Start, \MCSSS{}, 
+and Maximum-Contiguous-Subsequence Sum at Ending, \MCSSE{}. 
+
+%
+The maximum sum spanning the cut is the sum of the largest suffix on
+the left plus the largest prefix on the right.  
+%
+The prefix of the right part is easy as it directly maps to the
+solution of \MCSSS{} problem at position $0$.
+%
+Similarly, the suffix for the left part is exactly an instance of
+\MCSSE{} problem.
+\end{gram}
+
+\begin{example}
+%In \exref{mcss1}
+In the example above, the largest suffix on the left is $3$, which is
+given by the sequence 
+$\cseq{3}$ or $\cseq{0, 3}$.
+
+%
+The largest prefix on the right is $1$ given by the sequence
+$\cseq{-1, 0, 2}$.
+%
+Therefore the largest sum that crosses the middle is $3 + 1 = 4$.
+\end{example}
+
+\begin{gram}[Correctness]
+%
+%% \begin{question}
+%% What technique can we use to show that our divide-and-conquer
+%% algorithm is correct?
+%% \end{question}
+%
+%As described in \chref{divide-and-conquer}, to prove a
+
+To prove a divide-and-conquer algorithm correct, we can use the
+technique of strong induction, which enables to assume that the
+theorem that we are trying to prove remains correct for all smaller
+subproblems.
+%
+We now present such a correctness proof for the algorithm~$\cd{DCMCSS}$.
+\end{gram}
+
+\begin{group}
+\begin{theorem}[Correctness of the algorithm $\cd{DCMCSS}$]
+  Let $a$ be a sequence. The algorithm $\cd{DCMCS2}$ returns the
+  maximum contiguous subsequence sum in a gives sequence---and returns
+  $\ninfty{}$ if $a$ is empty.
+\end{theorem}
+
+\begin{proof}
+The proof will be by (strong) induction on length of the input
+sequence.  Our induction hypothesis is that the theorem above holds
+for all inputs smaller than the current input.
+%
+
+We have two base cases: one when the sequence is empty and one when it
+has one element.  
+%
+On the empty sequence, the algorithm returns $\ninfty{}$ and thus the
+theorem holds.
+%
+On any singleton sequence $\cseqbb x \cseqee$, the \MCSS{} is $x$,
+because
+\[
+\max \left\{ \sum_{k=i}^j a[k] \;:\; 0 \leq i <
+    1, 0 \leq j < 1 \right\} = \sum_{k=0}^0 a[0] = a[0] = x\,.
+\]
+%
+The theorem therefore holds.
+
+For the inductive step, let $a$ be a sequence of length $n \ge 1$, and
+assume inductively that for any sequence $a'$ of length $n' < n$, the
+algorithm correctly computes the maximum contiguous subsequence sum.
+%
+Now consider the sequence $a$ and let $b$ and $c$ denote the left and
+right subsequences resulted from dividing $a$ into two parts (i.e.,
+$\cd{(b, c) = splitMid a}$).  
+%
+Furthermore, let $a\cirange{i}{j}$ be any contiguous subsequence of $a$
+that has the largest sum, and this value is $v$.  
+%
+Note that the proof has to account for the possibility that there may
+be many other subsequences with equal sum.  
+%
+Every contiguous subsequence must start somewhere and end after it.
+We consider the following $3$ possibilities corresponding to how the
+sequence $a\cirange{i}{j}$ lies with respect to $b$ and $c$:
+
+\begin{itemize}
+\item 
+If the sequence $a\cirange{i}{j}$ starts in $b$ and ends $c$. Then its
+sum equals its part in $b$ (a suffix of $b$) and its part in $c$ (a
+prefix of $c$).  
+%
+If we take the maximum of all suffixes in $c$ and
+prefixes in $b$ and add them this is equal the maximum of all
+contiguous sequences bridging the two, because $\max\cset{x + y : x
+  \in X, y \in Y\}} = \max\cset{x \in X} + \max\cset{y \in Y}$. 
+%
+By assumption this equals the sum of $a\cirange{i}{j}$ which is $v$.
+Furthermore by induction $m_b$ and $m_c$ are sums of other
+subsequences so they cannot be any larger than $v$ and hence
+$\max\{m_b, m_c, m_{bc}\} = v$.
+
+
+\item 
+If $a\cirange{i}{j}$ lies entirely in $b$, then it follows from our
+inductive hypothesis that $m_b = v$.  Furthermore $m_c$ and $m_{bc}$
+correspond to the maximum sum of other subsequences, which cannot be
+larger than $v$. 
+%
+So again $\max\{m_b, m_c, m_{bc}\} = v$.
+
+\item Similarly, if $a_{i..j}$ lies entirely in $c$, then it follows
+  from our inductive hypothesis that $m_c = \max\{m_b, m_c, m_{bc}\} =
+  v$.
+
+\end{itemize}
+
+We conclude that in all cases, we return $\max\{m_b, m_c, m_{bc}\} = v$,
+as claimed.
+\end{proof}
+\end{group}
+
+\begin{gram}[Cost Analysis]
+%
+%% \begin{todo}
+%% We have given a log span algorithm for prefix but not for suffix.  we
+%% should to that.
+%% \end{todo}
+%
+Before we analyze the cost, let's first remark that it turns out that
+we can compute the maximum prefix and suffix sums in parallel by using
+a primitive called {\tt scan} in $O(n)$ work and $O(\log n)$ span.
+%
+Note also that $\cd{splitMid}$ requires  $O(\log n)$ work and span using
+array or tree sequences.
+%
+% This yields the following recurrences
+We thus have the following recurrences with array-sequence or
+tree-sequence specifications
+%
+\begin{align*}
+  W(n) &= 2W(n/2) + \Theta(n)\\
+  S(n) &= S(n/2) +  \Theta(\log n).
+\end{align*}
+%% showt: if O(1) work and span, then span is S(n) &=& S(n/2) + O(1)
+
+Using the definition of big-$\Theta$, we know
+that
+\begin{align*}
+  W(n) &\leq 2W(n/2) + k_1\cdot n + k_2,
+\end{align*}
+where $k_1$ and $k_2$ are constants.
+%
+By using the tree method, we can conclude that $W(n) = \Theta(n\lg{n})$ and
+$S(n) = \log^2{n}$.
+%
+
+We can also arrive at the same answer by mathematical induction.  If
+you want to go via this route (and you don't know the answer a
+priori), you'll need to guess the answer first and check it.  This is
+often called the ``substitution method.''  Since this technique relies
+on guessing an answer, you can sometimes fool yourself by giving a
+false proof.  The following are some tips:
+\begin{enumerate}
+\item Spell out the constants. Do not use the asymptotic notation---we
+  need to be precise about constants, the asymptotic notation makes it
+  super easy to fool ourselves.
+
+\item Be careful that the inequalities always go in the right direction.
+
+\item Add additional lower-order terms, if necessary, to make the
+  induction go through.
+\end{enumerate}
+\end{gram}
+
+\begin{gram}
+Let's now redo the recurrences above using the substitution method.
+%
+Specifically, we'll prove the following theorem using (strong)
+induction on $n$.
+%
+\end{gram}
+
+\begin{theorem}
+  Let a constant $k > 0$ be given.  If $W(n) \leq 2 W(n/2) + k \cdot n$ for $n >
+  1$ and $W(1) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$ and
+  $\kappa_2$ such that \[ W(n) \;\leq\; \kappa_1 \cdot n \log n + \kappa_2.\]
+\end{theorem}
+
+\begin{proof}
+  Let $\kappa_1 = 2k$ and $\kappa_2 = k$.  For the base case ($n=1$), we check
+  that $W(1) = k \leq \kappa_2$.  For the inductive step ($n>1$), we assume that
+  \[
+  W(n/2) \leq \kappa_1 \cdot \tfrac{n}2 \log (\tfrac{n}2) + \kappa_2,
+  \]
+  And we'll show that $W(n) \leq \kappa_1 \cdot n \log n + \kappa_2$.  To show
+  this, we substitute an upper bound for $W(n/2)$ from our assumption into the
+  recurrence, yielding
+  \begin{align*}
+    W(n) \;&\leq\; 2W(n/2) + k \cdot n  \\
+    \;&\leq\; 2(\kappa_1 \cdot \tfrac{n}2 \log (\tfrac{n}2) + \kappa_2) + k \cdot n\\
+    \;&=\; \kappa_1 n (\log n - 1) + 2 \kappa_2 + k \cdot n\\
+    \;&=\; \kappa_1 n \log n + \kappa_2 + (k \cdot n + \kappa_2 - \kappa_1 \cdot n)\\
+    \;&\leq\; \kappa_1 n \log n + \kappa_2,
+  \end{align*}
+  where the final step follows because $k \cdot n + \kappa_2 - \kappa_1 \cdot n \leq
+  0$ as long as $n > 1$.
+\end{proof}
+
+\begin{teachnote}
+Using divide and conquer, we were able to reduce work to
+$\Theta(n\log{n})$ from $\Theta(n^2)$, which was the bound that we
+obtained using the brute-fore algorithm.
+%
+%% \begin{question}
+%% Where did the savings come from?
+%% \end{question}
+%
+The improved brute-force algorithm still performs poorly, because it
+performs  redundant work by considering seperately subsequences
+that overlap significantly.  
+%
+\end{teachnote}
+\end{unit}
+
+
+\begin{unit}[Divide And Conquer with Strengthening]
+\begin{gram}
+Our first divide-and-conquer algorithm performs $O(n \log n)$ work,
+which is $O(\log{n})$ factor more than the optimal.
+%
+In this section, we shall reduce the work to $O(n)$ by being more
+careful about avoiding redundant work.
+%
+%\begin{question}
+%Is there some redundancy in our first divide-and-conquer algorithm?
+%\end{question}
+%
+Our divide-and-conquer algorithm has an important redundancy: the
+maximum prefix and maximum suffix are computed recursively to solve
+the subproblems for the two halves but are computed again at the
+combine step of the divide-and-conquer algorithm.
+%
+%\begin{question}
+%Can we avoid re-computing the maximum prefix and suffix?
+%\end{question}
+%
+\end{gram}
+
+\begin{gram}[Intuition]
+Since these should be computed as part of solving the subproblems, we
+should be able to return them from the recursive calls.  In other
+words, we want to strengthen the problem so that it returns the
+maximum prefix and suffix.  This problem, which we shall
+call~\defn{\MCSSPS{}}, matches the original \MCSS{} problem in its
+input and returns strictly more information.
+% 
+Solving \MCSS{} using \MCSSPS{} is therefor trivial.  
+%
+We thus focus on the \MCSSPS{} problem.
+
+
+%% \begin{question}
+%% Can you see how we can update our divide and conquer algorithm to
+%% solve the \MCSSPS{} problem, i.e., to return also the maximum prefix and
+%% suffix in addition to maximum contiguous subsequence?
+%% \end{question}
+%
+We can solve this problem by strengthening our divide-and-conquer
+algorithm from the previous section.
+%
+We need to return a total of three values: 
+\begin{itemize}
+\item the max subsequence sum,
+%
+\item the max prefix sum, and
+%
+\item the max suffix sum.
+\end{itemize}
+%
+
+At the base cases, when the sequence is empty or consists of a single element, this is easy to do.  
+%
+For the recursive case, we need to consider how to produce the desired
+return values from those of the subproblems.
+Suppose that the two subproblems return  $(m_1, p_1, s_1)$ and $(m_2, p_2, s_2)$.
+%% \begin{question}
+%% How can we compute the result from the solutions to the subproblems? 
+%% \end{question}
+
+One possibility to compute as result
+\[
+  (\max(s_1+p_2, m_1, m_2), p_1, s_2).
+\]
+
+
+\includegraphics[width=4.5in]{./media/mcss-dandc.jpg}
+
+%% \begin{question}
+%% Don't we have consider the case when $s_1$ or $p_2$ is the maximum? 
+%% \end{question}
+
+Note that we don't have to consider the case when $s_1$ or $p_2$ is
+the maximum, because that case is checked in the computation of $m_1$
+and $m_2$ by the two subproblems.
+%
+%% \begin{question}
+%% Are the prefix and suffix correct?  Can we not have a bigger prefix
+%% that contains all of the first sequence?
+%% \end{question}
+
+
+This solution fails to account for the case when the suffix and
+prefix can span the whole sequence.
+%
+%% \begin{todo}
+%% Give an example.
+%% \end{todo}
+%% %
+%% \begin{question}
+%% How can you fix this problem? 
+%% \end{question}
+%
+
+We can fix this problem by returning the total for each subsequence so
+that we can compute the maximum prefix and suffix correctly.  Thus, we
+need to return a total of four values: 
+\begin{itemize}
+\item the max subsequence sum,
+\item the
+max prefix sum, 
+\item the max suffix sum, and 
+\item the overall sum.
+\end{itemize}
+%
+
+Having this information from the subproblems is enough to produce a
+similar answer tuple for all levels up, in constant work and span per
+level. Thus what we have discovered is that to solve the strengthened
+problem efficiently we have to strengthen the problem once again.
+Thus if the recursive calls return $(m_1, p_1, s_1, t_1)$ and $(m_2,
+p_2, s_2, t_2)$, then we return
+\[
+  (\max(s_1+p_2, m_1, m_2), \max(p_1,
+  t_1+p_2), \max(s_1+t_2, s_2), t_1+t_2).
+\]
+%
+\end{gram}
+
+
+%
+\begin{algorithm}[Linear Work Divide-and-Conquer MCSS]
+\[
+\begin{array}{l}
+\cd{DCMCSSAux}~a = 
+\\
+~~\cd{if}~|a| = 0~\cd{then}
+\\
+~~~~(\ninfty{},\ninfty{},\ninfty{},0)
+\\
+~~\cd{else}~if |a| = 1 \cd{then}
+\\
+~~~~(a[0], a[0], a[0], a[0])
+\\
+~~\cd{else}
+\\
+~~~~\cd{let} 
+\\
+~~~~~~(b,c) = \cd{splitMid}~a 
+\\
+~~~~~~((m_1, p_1, s_1, t_1), (m_2, p_2, s_2, t_2)) = (\cd{DCMCSSAux}~b~\cpar{}~\cd{DCMCSSAux}~c)
+\\
+~~~~\cd{in} 
+\\
+~~~~~~(\cd{max}~(s_1+p_2, m_1, m_2),   
+\\
+~~~~~~~\cd{max}~(p_1, t_1+p_2),      
+\\
+~~~~~~~\cd{max}~(s_1+t_2, s_2),     
+\\
+~~~~~~~t_1+t_2)              
+\\
+~~~~\cd{end}
+\\
+\cd{DCMCSS}~a = 
+\\
+~~\cd{let} 
+\\
+~~~~(m, \_, \_, \_) = \cd{DCMCSSAux}~a 
+\\
+~~\cd{in}
+\\
+~~~~m 
+\\
+~~\cd{end}
+\end{array}
+\]
+\end{algorithm}
+
+%% \cd{DCMCSS}~a = 
+%% \\
+%% ~~\cd{let} 
+%% \\
+%% ~~~~(m,_,_,_) = \cd{DCMCSSAux}~a 
+%% \\
+%% ~~\cd{in}
+%% \\
+%% ~~~~m 
+%% \\
+%% ~~\cd{end}
+
+
+%% \\
+%% ~~~~~~(\cd{max}~ (s_1+p_2, m_1, m_2),   \cdc{overall mcss}
+%% \\
+%% ~~~~~~\cd{max}~ (p_1,t_1+p_2),      \cdc{maximum prefix}
+%% \\
+%% ~~~~~~\cd{max}~ (s_1+t_2, s_2),     \cdc{maximum suffix}
+%% \\
+%% ~~~~~~t_1+t_2)              \cdc{total sum}
+%% \\
+%% ~~~~\cd{end}
+%% \\
+%% ~~~~(m,_,_,_) = \cd{DCMCSS'}~a
+%% \\
+%% ~~~~\cd{in} 
+%% \\
+%% ~~~~~~m 
+%% \\
+%% ~~~~\cd{end}
+%% \\
+%% \cd{DCMCSS}~a = 
+%% \\
+%% ~~\cd{let} 
+%% \\
+%% ~~~~(m,_,_,_) = \cd{DCMCSS'}~ a 
+%% \\
+%% ~~\cd{in}
+%% \\
+%% ~~~~m 
+%% \\
+%% ~~\cd{end}
+
+
+\begin{gram}[Cost Analysis]
+Since $\cd{splitMid}$ requires $O(\log n)$ work and
+span in both array and tree sequences, we have
+\begin{align*}
+  W(n) &= 2 W(n/2) + O(\log n)\\
+  S(n) &= S(n/2) + O(\log n).
+\end{align*}
+%
+Note that the
+span is the same as before, so we'll focus on analyzing the work.  Using the
+tree method, we have
+\begin{center}
+  \includegraphics[width=5in]{./media/recurtree2.jpg}
+\end{center}
+
+Therefore, the total work is upper-bounded by
+\begin{eqnarray*}
+  W(n) &\leq& \sum_{i=0}^{\log n} k_1 2^i \log (n/2^i)
+\end{eqnarray*}
+
+It is not so obvious to what this sum evaluates. The substitution method seems
+to be more convenient.  We'll make a guess that $W(n) \leq \kappa_1 n - \kappa_2
+\log n - k_3$.  
+More formally, we'll prove the following theorem.
+\end{gram}
+
+\begin{theorem}
+  Let $k > 0$ be given.  If $W(n) \leq 2 W(n/2) + k \cdot \log n$ for $n > 1$
+  and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$,
+  $\kappa_2$, and $\kappa_3$ such that \[ W(n) \;\leq\; \kappa_1 \cdot n -
+  \kappa_2 \cdot \log n - \kappa_3.\]
+\end{theorem}
+\begin{proof}
+  Let $\kappa_1 = 3k$, $\kappa_2 = k$, $\kappa_3 = 2k$. We begin with
+  the base case. Clearly, $W(1) = k \leq \kappa_1 - \kappa_3 = 3k - 2k = k$.
+  For the inductive step, we substitute the inductive hypothesis into
+  the recurrence and obtain
+  \begin{align*}
+    W(n) &\leq 2W(n/2) + k \cdot \log n\\
+    &\leq 2 (\kappa_1 \tfrac{n}2 - \kappa_2 \log (n/2) - \kappa_3) + k \cdot\log n\\
+    &= \kappa_1 n - 2 \kappa_2 (\log n - 1) - 2 \kappa_3 + k \cdot \log n\\
+    &= (\kappa_1 n - \kappa_2 \log n - \kappa_3) +
+    (k \log n - \kappa_2 \log n + 2 \kappa_2 - \kappa_3) \\
+    &\leq \kappa_1 n - \kappa_2 \log n - \kappa_3,
+  \end{align*}
+  where the final step uses the fact that $(k \log n - \kappa_2 \log n +
+  2 \kappa_2 - \kappa_3) = (k \log n - k \log n + 2 k - 2 k) = 0 
+ \leq 0$ by our choice of $\kappa$'s.
+\end{proof}
+
+
+\begin{gram}[Finishing the Tree Method]
+It is possible to solve the recurrence directly by evaluating the sum we
+established using the tree method. We didn't cover this in lecture, but for the
+curious, here's how you can ``tame'' it.
+\begin{align*}
+  W(n) &\leq \sum_{i=0}^{\log n} k_1 2^i \log (n/2^i) \\
+  &= \sum_{i=0}^{\log n} k_1 \pparen{2^i\log n - i\cdot 2^i} \\
+  &= k_1\pparen{\sum_{i=0}^{\log n} 2^i}\log n - k_1\sum_{i=0}^{\log n} i\cdot 2^i\\
+  &= k_1(2n - 1)\log n - k_1\sum_{i=0}^{\log n} i\cdot 2^i.
+\end{align*}
+We're left with evaluating $s = \sum_{i=0}^{\log n} i\cdot 2^i$.  Observe that
+if we multiply $s$ by $2$, we have
+\[
+2s = \sum_{i=0}^{\log n} i\cdot 2^{i+1} = \sum_{i=1}^{1 + \log n} (i-1)2^i,
+\]
+so then
+\begin{align*}
+s &= 2s - s \;=\; \sum_{i=1}^{1 + \log n} (i-1)2^i - \sum_{i=0}^{\log n} i\cdot 2^i\\
+&= \pparen{(1 + \log n)  - 1}2^{1 + \log n} - \sum_{i=1}^{\log n} 2^i \\
+&= 2n\log n - (2n -2).
+\end{align*}
+Substituting this back into the expression we derived earlier, we have $W(n)
+\leq k_1(2n - 1)\log n - 2k_1(n \log n - n + 1) \in O(n)$ because the $n\log n$
+terms cancel.
+\end{gram}
+\end{unit}
+\end{section}
+\end{chapter}
+\end{book}

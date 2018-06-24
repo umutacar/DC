@@ -1,0 +1,134 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+\providesassignment{3}
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{15210-2016}
+\unique{15210S18}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{assignment}
+\title{SkylineLab (Written)}
+\duedate{2 February 2018}
+
+\begin{asstproblem}
+\title{Cost}
+\info
+Consider the functions \texttt{skyline}, \texttt{combine}, and \texttt{singleton} as
+given in section 4.4. Assume \texttt{combine} and
+\texttt{singleton} are implemented correctly and meet the required cost bounds.
+
+\begin{questionfr}
+\points 5
+\prompt
+Give an upper bound for $|$\texttt{combine $(S1, S2)$}$|$ in terms
+of $|S_1|$ and $|S_2|$.
+
+\answer
+  Length is upper-bounded by $|S_1| + |S_2|$
+\end{questionfr}
+
+\begin{questionfr}
+\points 5
+\prompt
+Write the work and span recurrences of (\texttt{skyline $B$}) in
+terms of $n = |B|$. State the tight Big-$O$ bound for each recurrence (don't
+show your work of solving them; we just want the bound).
+
+\answer
+  $$W(n) = 2W(\frac{n}{2}) + O(n) \text{ which solves to } n\log n$$
+  $$S(n) = S(\frac{n}{2}) + O(\log n) \text{ which solves to } \log^2n$$
+
+\end{questionfr}
+
+\begin{questionfr}
+\points 15
+\prompt
+Suppose that (\texttt{combine $(S1, S2)$}) now has
+$O(|S_1|\log|S_1| + |S_2|\log|S_2|)$ work. Write the new work recurrence of
+(\texttt{skyline $B$}) in terms of $n = |B|$. Solve it using the
+substitution method and give a tight Big-$O$ bound (show your work this time).
+
+\answer
+\textbf{Claim:} Let constant $k$ be given. If $W(n) \leq 2W(\frac{n}{2}) + k\cdot nlogn$ for $n \geq 1$ and $W(1) \leq k$ for $n \leq 1$, we can find constants $c_1$ and $c_2$ such that $W(n)
+ \leq c_1 \cdot nlog^2n + c_2$. \newline
+
+ \textit{Proof.}  Let $c_1 = 2k$ and $c_2 = k$. For the base case ($n=1$), we check that $W(1) \leq k \leq c_2$. for the inductive step ($n > 1$), we assume that $W(n/2) \leq c_2 \cdot \frac{n}{2}log^2\frac{n}{2} + c_2$, and we'll show that $W(n) \leq c_1 \cdot nlogn + c_2$. To show this, we substitute an upper bound for $W(n/2)$ from our assumption into the recurrence, yielding
+ \begin{align*}
+        W(n) &\leq 2W(\frac{n}{2}) + k \cdot nlogn \\
+        &\leq 2(c_1 \frac{n}{2}log^2\frac{n}{2} + c_2) + k \cdot nlogn \\
+        &=c_1n(logn-1)^2 + 2c_2 + k \cdot nlogn \\
+        &=c_1n(log^2n - 2logn + 1) + 2c_2 + k\cdot nlogn \\
+        &=c_1nlog^2n - 2c_1nlogn + c_1n + 2c_2+k\cdot logn \\
+        &= c_1nlog^2n + c_2 + (-2c_1nlogn + c_1n + c_2 + k\cdot nlogn) \\
+        &\leq c_1nlog^2n + c_2
+ \end{align*}
+ where the final step follows because $-2c_1nlogn + c_1n + c_2 + k \cdot nlogn \leq 0$ as long as $n > 1$.
+\end{questionfr}
+
+\end{asstproblem}
+
+\begin{asstproblem}
+\title{Finding a Lower Bounds}
+\info
+Our skyline algorithm runs in $O(n \log n)$ time. But is this
+algorithm the fastest possible, asymptotically? It turns out that the answer is
+yes!
+
+It is well known that any comparison-based sorting algorithm requires at least
+$\Omega(n \log n)$ work in the worst case. This lower bound applies to the skyline problem as well; for a
+proof, we just have to construct a reduction from the sorting problem.
+
+% How much wiggle room do we have? Well, since we're trying to show a lower bound
+% of $\Omega(n \log n)$, we need to use asymptotically less than $O(n \log n)$
+% extra work. For this reduction, we'll actually only need a linear amount.
+
+\begin{questionfr}
+\points 15
+\prompt
+Assume you have a black-box algorithm \texttt{skyline} with the
+same specification as the one given in section 4.4. Write pseudocode for a function
+\begin{quote}
+  \texttt{val sort~:~int Seq.t -> int Seq.t}
+\end{quote}
+which sorts its input. Your answer must be $O(n + W_\texttt{skyline}(n))$. For
+the sake of simplicity, you may assume the input contains only non-negative
+numbers and no duplicates. Our answer is 4 lines long.
+
+\answer
+\begin{lstlisting}
+fun sort s =
+  let val s' = Seq.map (fn x => (2*x, x , 2x+1)) s
+  in Seq.map (fn (_,y) => y) (filter (fn (x,_) => isEven x)) (skyline s')
+  end
+\end{lstlisting}
+\end{questionfr}
+
+\begin{questionfr}
+\points 5
+\prompt
+Argue in just a few short sentences why this reduction proves
+that \sml{skyline} must run in time $\Omega(n \log n)$ in the worst case.
+
+\answer
+If \sml{skyline} could run in time $f(n) \not\in \Omega(n\log n)$, then we can solve sorting
+problem in the bound $f(n) + O(n) \not\in \Omega(n\log n)$, which contradicts the lower bound of
+$\Omega(n \log n)$ for sorting.
+\end{questionfr}
+\end{asstproblem}
+\end{assignment}
+\end{book}

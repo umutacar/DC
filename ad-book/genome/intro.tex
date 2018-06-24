@@ -1,0 +1,70 @@
+\documentclass[12pt]{article}
+\usepackage{../template/lect}
+\usepackage{../template/code}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{colortbl}
+\usepackage{graphicx,xcolor,lipsum}
+\usepackage{titlesec}
+
+
+
+%\usepackage[svgnames]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{shapes,snakes}
+%\usepackage{tkz-graph}
+
+\addtolength{\parskip}{7pt}
+
+
+\Lecturer{\umut}
+\LectureNumber{1}
+\LectureDate{August 27, 2013}
+\LectureVersion{2.0}
+\LectureTitle{Overview and Sequencing the Genome}
+
+% \newenvironment{optional}{
+% \begin{tikzpicture}
+%   \node[fill=gray!20,rectangle,inner sep=10pt](box) {
+%     \begin{minipage}{0.96\textwidth}
+% }{\end{minipage}
+%  };
+% \end{tikzpicture}}
+
+\usepackage{microtype}
+\renewcommand{\topfraction}{1.0}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{1.0}	% max fraction of floats at bottom
+\renewcommand{\textfraction}{0.1}
+
+\begin{document}
+%% Change this to derive notes for different levels.
+%% Use one of the following 
+%% \levelLectureNotes to include everything
+%% \levelLectureSummaryE, to include easy stuff
+%% \levelLectureSummaryM, to include moderate stuff
+%% \levelLectureSummaryD to include difficult stuff
+%% \levelLectureSummary to exclude all questions and level-qualified figures and such.
+ 
+%\renewcommand{\compilationLevel}{\levelLectureNotes} % the notes for the students
+%\renewcommand{\compilationLevel}{\levelLectureSummaryE} % intermediate
+%\renewcommand{\compilationLevel}{\levelLectureSummaryM} % intermediate
+\renewcommand{\compilationLevel}{\levelLectureSummary} % summary
+%\renewcommand{\compilationLevel}{\levelLecture}  % for lecture delivery
+
+
+\MakeScribeTop
+
+
+
+\input{./body}
+
+
+\bibliographystyle{abbrv}           % if you need a bibliography
+\bibliography{mybib}                % assuming yours is named mybib.bib
+
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,1315 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+\label{15210}
+\no{15210}
+\unique{15210}
+\parent{...NO.PARENTS...}
+
+\coursenumber{15210}
+\picture{/210/course/air-pavilion.jpg}
+\providesbook{S18}
+\provideschapter{12}
+\providessection{7}
+\providesunit{1}
+\providesassignment{1}
+\semester{Spring 2018}
+\website{http://www.cs.cmu.edu/~15210}
+15-210 aims to teach methods for designing, analyzing, and programming
+sequential and parallel algorithms and data structures. The emphasis
+is on teaching fundamental concepts applicable across a wide variety
+of problem domains, and transferable across a reasonably broad set of
+programming languages and computer architectures. This course also
+includes a significant programming component in which students will
+program concrete examples from domains such as engineering, scientific
+computing, graphics, data mining, and information retrieval (web
+search).
+
+Unlike a traditional introduction to algorithms and data structures,
+this course puts an emphasis on parallel thinking — i.e., thinking
+about how algorithms can do multiple things at once instead of one at
+a time. The course follows up on material learned in 15-122 and 15-150
+but goes into significantly more depth on algorithmic issues.
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{book:15210:S18}
+\no{0}
+\unique{15210:S18}
+\parent{...NO.PARENTS...}
+\authors{Umut A. Acar and Guy Blelloch}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{chapter}[Binary Search Trees]
+\label{chapter:15210:S18:CH12:ch:bsts}
+\no{12}
+\unique{15210:S18:CH12}
+\parent{...NO.PARENTS...}
+
+\picture{/210/bsts/abstract-tree.jpg}
+
+
+%% UPDATE LOG (Umut)
+%%%% Umut: Updates in Fall 2016
+%% consistency in notation
+%% simplified adt
+%%
+%%%% Umut: Updates from 2015 to 2016
+%%   Feb 2016: Bunch of corrections.
+%%             Augmentation part (- reduced values) updated.
+%%
+%%%% Umut: Updates from 2014 to 2015 (body-2014.tex)
+%% (balancing) scheme --> data structure
+%% (I worry that ``scheme'' can piss people off.)
+%%
+%% skip trees --> skip lists.
+%%
+%% Define full ADT.
+%% Major edit on the rest of the section
+%% saving body-2014.tex in directory for recovery of 
+%% material.
+%% The section at the end also contains
+%% some (probably all of the left unused material).
+%%
+%% A summary of edits:
+%% o defined ADT also mathematically, all functions included
+%% o simplified join interface: considering only two trees.
+%%   this was a significant change that affected a lot of code and 
+%%   discussion.  i probably missed some.
+%% o repositioned review of prior work
+%% o deleted unbalanced version
+%% o Using the word ``parametric'' implementation to refer to a functor
+%% o Rewrote the parametric implementation section
+%% o added ``setdifference'' function diff everywhere
+%% o Changed treap intro to talk about random insertions.
+%% o Rewrote treap section, gave full code based on parametric.
+%% o Separate cost spec section, justified by parametric analysis.
+%% o Rewrote augmentation section
+%% o Worked out a direct proof of the union bound.
+%% TODO: Flesh out the join bound and the log-span implementation.
+
+Searching is one of the most important operations in computer science.
+Of the many search data structures that have been designed and are
+used in practice, search trees, more specifically balanced binary
+search trees, occupy a coveted place because of their broad
+applicability to many different sorts of problems.  For example, in
+this book, we rely on binary search trees to implement set and table
+(dictionary) abstract data types
+%(\chref{sets-tables}),
+which are then used in the
+implementation of many algorithms, including for example graph
+algorithms.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[Treaps]
+\label{section:15210:S18:CH12:SEC7:sec:bst::treaps}
+\no{7}
+\unique{15210:S18:CH12:SEC7}
+\parent{...NO.PARENTS...}
+
+Our parametric implementation established an interesting fact: to
+implement the BST ADT efficiently, we only need to provide efficient
+$\cd{split}$ and $\cd{join}$ operations.  In this section, we
+present a data structure called \defn{Treaps} that can support
+$\cd{split}$ and $\cd{join}$ operations in expected logarithmic work
+and span.
+%
+Treaps achieve their efficiency by maintaining BSTs that are
+probabilistically balanced. Of the many balanced BST data structures,
+Treaps are likely the simplest, but, since they are randomized, they
+only guarantee approximate balance with high probability.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[...NO.TITLE...]
+\label{unit:15210:S18:CH12:SEC7:UN1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+To see the idea behind Treaps, let's first discuss how we can map a
+  sequence of keys to a BST. Given $S$, a sequence of unique keys,
+  let's start with an empty BST and insert the keys in $S$ into the
+  BST one by one starting from left to right.  To insert a key $k$, we
+  perform a search for $k$ in the current BST and let $u$ be the leaf
+  where the (unsuccessful) search terminates.  To insert $k$ into the
+  tree, we replace $u$ with a new node with key $k$.
+
+
+
+We can map the sequence $\cseq{8,9,5,6,1,7}$ to a BST by inserting the keys from
+left to right.
+
+\begin{center}
+\includegraphics[width=14cm]{/media/210/bsts/bst5-build.jpg}
+\end{center}
+
+
+What can we say about the height of such a tree? 
+
+
+Note now that the height of the BST will be directly determined by the
+input sequence.  Specifically, the specific order---or
+permutation---in which the keys are inserted will determine the
+height.  For most permutations, the tree will be reasonably well
+balanced because we get an unbalanced tree only in cases where an
+element partitions the following keys unevenly.  Since we have
+many more even partitions for a given set of keys (many ``middle''
+keys), many permutations create balanced trees.
+
+
+Can we take advantage of this observation somehow? 
+
+%
+Recall that the BST ADT does not care about the specific structure of
+the BST but only the set of keys in the tree. We can take advantage of
+this observation by selecting a (uniformly) random permutation of the keys and
+constructing the BST based on this permutation.  Since most
+permutations give us reasonably balanced trees, this approach should
+give us a balanced tree.
+
+
+
+Suppose that we were given the keys in the sequence one by one instead
+of all at once.  Can you think of a way to select a uniformly random
+permutation?
+
+
+Observe now that we can select a uniformly random permutation even if
+we don't have all the keys by assigning a random priority to each key
+as it arrives and building our BST by considering the keys in the
+priority order.  By assigning priorities randomly, we essentially
+guarantee that we always build our tree on a uniformly randomly
+selected permutation.
+%
+This is one of the main ideas behind Treaps: Treaps can be viewed as
+maintaining a BST on a uniformly random permutation of the keys in the
+tree. To achieve this ``imitation of randomly ordered insertions''
+we associate a priority with each key and require the BST to be ``heap
+ordered'' with respect to priorities.
+\end{teachnote}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR2}
+\no{2}
+\unique{15210:S18:CH12:SEC7:UN1:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Idea behind Treaps]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+The idea behind Treaps is to associate a uniformly randomly selected
+priority to each key and maintain a priority order between keys in
+addition to the binary-search-tree order.  The priority order between
+keys resemble the order used in binary heaps, leading to the name
+``Tree Heap'' or ``Treap.''
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR3}
+\no{3}
+\unique{15210:S18:CH12:SEC7:UN1:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{definition}[Treap]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+A Treap is a binary search tree over a set $K$ along with a
+  \defn{priority} for each key given by \[p : \kkk \rightarrow
+  \tyint~,\] that in addition to satisfying the BST property on the
+  keys $K$, satisfies the heap property on the priorities $p(k), k \in
+  K$, i.e., for every internal node $v$ with left and right children
+  $u$ and $w$:
+\[
+p(k(v)) \geq p(k(u)) \mbox{ and } p(k(v)) \geq p(k(w)),
+\]
+where $k(v)$ denotes the key of a node.
+\end{definition}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR4}
+\no{4}
+\unique{15210:S18:CH12:SEC7:UN1:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+The following key-priority pairs $(k,p(k))$,
+\[ (a,3), (b,9), (c, 2), (e,6), (f, 5)~,\] where the keys are ordered
+alphabetically, form the following Treap:
+\begin{center}
+  \includegraphics[width=1.5in]{/media/210/bsts/treap-examp.jpg}
+\end{center}
+since $9$ is larger than $3$ and $6$, and $6$ is larger than $2$ and
+$5$.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR5}
+\no{5}
+\unique{15210:S18:CH12:SEC7:UN1:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{exercise}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+Prove that if the priorities are unique, then there is exactly one tree
+structure that satisfies the Treap properties.
+\end{exercise}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR6}
+\no{6}
+\unique{15210:S18:CH12:SEC7:UN1:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Assigning Priorities]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+So how do we assign priorities?  As we briefly suggested in the
+informal discussion above, it turns out that if the priorities are
+selected uniformly randomly then the tree is guaranteed to be near
+balanced, i.e. $O(\lg |S|)$ height, with high probability.  We will
+show this shortly.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR7}
+\no{7}
+\unique{15210:S18:CH12:SEC7:UN1:GR7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachask}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR7:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR7:AT1}
+\parent{...NO.PARENTS...}
+
+How can we maintain the heap order as we modify the tree?
+\end{teachask}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR8}
+\no{8}
+\unique{15210:S18:CH12:SEC7:UN1:GR8}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR8:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR8:AT1}
+\parent{...NO.PARENTS...}
+
+Based on our parametrized implementation, we can implement the BST ADT
+with Treaps simply by implementing the $\cd{split}$ and $\cd{join}$
+functions.  
+%
+%\dsref{bst::treaps} shows such an implementation.  
+The \pml{} code for such an implementation is given below.
+%
+For the implementation we assume, without loss of generality, that the
+priorities are integers.  We present only the code for $\cd{split}$
+and $\cd{join}$; the rest of the implementation is essentially the
+same as in the parametric implementation.
+% \dsref{bst::parametric}
+%
+The only exception that since the nodes now carry priorities, we will
+need to account for them as we pattern match on nodes and create new
+ones.  In implementing the rest of the functions, there are no
+interesting operations on priorities: they simply follow the key that
+they belong to.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR9}
+\no{9}
+\unique{15210:S18:CH12:SEC7:UN1:GR9}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[Implementing \adt{BST} with Treaps]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR9:AT1:ds:bst::treaps}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR9:AT1}
+\parent{...NO.PARENTS...}
+
+\[
+\begin{array}{ll}
+1 & \cd{type $\tttt$ = Leaf | Node of ($\tttt$ $\times$ $\kkk$ $\times$ $\tyint$ $\times$ $\tttt$)}
+\\
+2 & \cd{let empty = Leaf}
+\\
+3 & \cd{singleton $k$ = Node(Leaf, $k$, randomInt(), Leaf)}
+\\
+4 & \cd{split $t$ $k$ = }
+\\
+5 & ~~\cd{case $t$ }
+\\
+6 & ~~\cd{| Leaf $\Rightarrow$ (Leaf, False, Leaf)}
+\\
+7 & ~~\cd{| Node $(l, k', p', r)$ =}
+\\
+8 & ~~~~~~\cd{case compare $(k, k')$}
+\\
+9 & ~~~~~~\cd{| LESS $\Rightarrow$} %\label{line:bst::treaps::split-less}
+\\
+10 & ~~~~~~~~~~\cd{let $(l', x, r')$ = split $l$ $k$}
+\\
+11 & ~~~~~~~~~~\cd{in $(l', x, \cd{Node}(r', k', p', r))$ end}% \label{line:bst::treaps::splitnode1}}
+\\
+12 & ~~~~~~\cd{| EQUAL $\Rightarrow$ $($$l$, true, $r$$)$}
+\\
+13 & ~~~~~~\cd{| GREATER $\Rightarrow$} %\label{line:bst::treaps::split-greater}
+\\
+14 & ~~~~~~~~~~\cd{let $(l', x, r')$ = split $r$ $k$}
+\\
+15 & ~~~~~~~~~~\cd{in (Node $(l, k', p', l'), x, r'$) end} %\label{line:bst::treaps::splitnode2}
+\\
+16 & \cd{join $t_1$ $t_2$ =}
+\\
+17 & ~~\cd{case $(t_1, t_2)$}
+\\
+18 & ~~\cd{| (Leaf,  _) $\Rightarrow$ $t_2$}
+\\
+19 & ~~\cd{| (_ ,  Leaf) $\Rightarrow$ $t_1$}
+\\
+20 & ~~\cd{| (Node $(l_1, k_1, p_1, r_1)$,  Node $(l_2, k_2, p_2, r_2)$) $\Rightarrow$}
+\\
+21 & ~~~~~~\cd{if ($p_1 > p_2$) then}  %\label{line:bst::treaps::cpri}
+\\
+22 & ~~~~~~~~\cd{Node ($l_1$, $k_1$, $p_1$,  join $r_1$ $t_2$)}
+\\
+23 & ~~~~~~\cd{else}
+\\
+24 & ~~~~~~~~\cd{Node (join $t_1$ $l_2$,  $k_2$, $p_2$, $r_2$)}
+\\
+25 & \cd{end}
+\\
+\end{array}
+\]
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR10}
+\no{10}
+\unique{15210:S18:CH12:SEC7:UN1:GR10}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR10:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR10:AT1}
+\parent{...NO.PARENTS...}
+
+To implement the function $\cd{singleton},$ we rely on a function
+$\cd{randomInt},$ which when called returns a (pseudo-)random number.
+Such functions are broadly provided by programming languages.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR11}
+\no{11}
+\unique{15210:S18:CH12:SEC7:UN1:GR11}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Split]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR11:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR11:AT1}
+\parent{...NO.PARENTS...}
+
+The $\cd{split}$ algorithm recursively traverses the tree from the
+root to the key $k$ splitting along the path, and then when returning
+from the recursive calls, it puts the subtrees back together.  When
+putting back the trees along the path being split through, the
+function does not have to compare priorities 
+%because $\cd{Node}$ on
+%\linereftwo{bst::treaps::splitnode1}{bst::treaps::splitnode2},
+the priority $p'$ is the highest priority in the input tree $T$ and is
+therefore larger than the priorities of either of the subtrees on the
+left and right.  Hence $\cd{split}$ maintains the heap property of
+treaps.
+\end{gram}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR11:AT2}
+\no{2}
+\unique{15210:S18:CH12:SEC7:UN1:GR11:AT2}
+\parent{...NO.PARENTS...}
+
+A $\cd{split}$ operation on a Treap and key~$c$, which is not in the
+Treap.  The $\cd{split}$ traverses the path $\cseq{a,e,b,d}$ turning
+right at $a$ and $b$ 
+%(\lineref{bst::treaps::split-greater} 
+of the Data Structure
+%~\ref{ds:bst::treaps}) 
+and turning left at $e$ and $d$.
+%
+%(\lineref{bst::treaps::split-less}).  
+%
+The pieces are put back together into the two
+resulting trees on the way back up the recursion.
+\begin{center}
+  \includegraphics[width=5.7in]{/media/210/bsts/bstsplit.jpg}
+\end{center}
+%The actual way the trees will be put back together will depend on the
+%balancing scheme.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[Join]
+\label{group:15210:S18:CH12:SEC7:UN1:GR12}
+\no{12}
+\unique{15210:S18:CH12:SEC7:UN1:GR12}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR12:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR12:AT1}
+\parent{...NO.PARENTS...}
+
+Unlike the implementation of $\cd{split}$, the implementation of
+$\cd{join}$$(L,R)$ operates on priorities in order to ensure that the
+resulting Treap satisfies the heap priority of Treaps.  Specifically,
+given two trees, $\cd{join}$ first compares the priorities of the two
+roots, making the larger priority the new root. It then recursively
+joins the Treaps consisting of the other tree and the appropriate side
+of the new root. 
+%
+
+The path from the root to the leftmost node in a BST is called the
+\defn{left spine}, and the path from the root to the rightmost node is
+called the \defn{right spine}.  The function $\cd{join}~t_1~t_2$
+merges the right spine of $t_1$ with the left spine of $t_2$ based on
+the priority order.  This ensures that the priorities are in
+decreasing order down the path.
+\end{gram}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR12:AT2:ex:bst::treap-join}
+\no{2}
+\unique{15210:S18:CH12:SEC7:UN1:GR12:AT2}
+\parent{...NO.PARENTS...}
+
+An illustration of $\cd{join}~t_1~t_2$ on Treaps.  
+%
+If $p(k_1) > p(k_2)$, then the function recurs with
+$\cd{join}~R_1~t_2$ and the result becomes the right child of
+$k_1$.
+\begin{center}
+  \includegraphics[width=15cm]{/media/210/bsts/treap-join.jpg}
+\end{center}
+\end{example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR12:AT3}
+\no{3}
+\unique{15210:S18:CH12:SEC7:UN1:GR12:AT3}
+\parent{...NO.PARENTS...}
+
+An illustration of $\cd{join}$ for Treaps applied to $t_1$ and $t_2$ in
+  more detail.  The right spine of $t_1$ consisting of $(b,9)$,
+  $(d,6)$ and $(e,5)$ is merged by priority with the left spine of
+  $t_2$ consisting of $(h,8)$ and $(g,4)$.  Note that splitting the
+  result with the key $f$ will return the original two trees.
+\begin{center}
+  \includegraphics[width=5.8in]{/media/210/bsts/treap-examp-join.jpg}
+\end{center}
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR13}
+\no{13}
+\unique{15210:S18:CH12:SEC7:UN1:GR13}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR13:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR13:AT1}
+\parent{...NO.PARENTS...}
+
+\begin{lemma}
+\label{thm:treapuniqueness}
+  For a set of keys $S$, if their priorities $p(s) : s \in S$ are unique,
+  then there is exactly one Treap (i.e. shape) for $S$.
+
+\begin{proof} (By induction on size)
+An empty tree is a leaf (base case).  Otherwise, the unique key $k$
+with the highest priority in $S$ must be at the root.  This fixes the
+keys to the left ($\csetf{k' \in S}{k' < k}$) and to the right
+($\csetf{k' \in S}{k' > k}$).  By induction these are unique, so the
+whole tree is unique.
+\end{proof}
+\end{lemma}
+\end{teachnote}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN1:GR14}
+\no{14}
+\unique{15210:S18:CH12:SEC7:UN1:GR14}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[Work of Split and Join]
+\label{atom:15210:S18:CH12:SEC7:UN1:GR14:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN1:GR14:AT1}
+\parent{...NO.PARENTS...}
+
+Let's bound now the work for $\cd{split}$ and $\cd{join}$.  
+%
+Each one does constant work on each recursive call.  
+%
+For $\cd{split}$ each recursive call goes to one of the children, so the
+number of recursive calls is at most the height of $t$.  
+%
+For $\cd{join}$ each recursive call either goes down one level in $t_1$
+or one level in $t_2$.  
+%
+Therefore the number of recursive calls is bounded by the sum of the
+heights of the two trees.  
+%
+Hence the work of $\cd{split}$ $t$ $k$ is $O(h(t))$ and the work of
+$\cd{join}$$(t_1,m,t_2)$ is $O(h(t_1)+h(t_2))$.  
+%
+Thus all that is left to do is to bound the height of a Treap.
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Height Analysis of Treaps]
+\label{unit:15210:S18:CH12:SEC7:UN2}
+\no{2}
+\unique{15210:S18:CH12:SEC7:UN2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN2:GR1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN2:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN2:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN2:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+We can analyze the height of a Treap by relating it to quicksort,
+ which we analyzed before.
+%
+% in \chref{randomized}.
+%
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN2:GR2}
+\no{2}
+\unique{15210:S18:CH12:SEC7:UN2:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN2:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN2:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+{Treap Generating Quicksort}
+The following variant of quick sort generates a treap.
+%
+This algorithm is almost identical to our previous quicksort except that it
+uses $\cd{Node}$ instead of $\cd{append},$ and
+% on \lineref{bst::qsnode},
+%
+$\cd{Leaf}$ instead of an empty sequence in the base case.
+%
+Because it is generating a treap consisting of unique keys, the
+algorithm retains only one key equaling the pivot.
+%
+
+\[
+\begin{array}{ll}
+1 & \cd{qsTree $a$ =}
+\\
+2 & ~~\cd{if $|a| = 0$ then Leaf}
+\\
+3 & ~~\cd{else let}
+\\
+4 & ~~~~\cd{$x$ = the key $k \in a$ for which $p(k)$ is the largest}
+\\
+5 & ~~~~\cd{$b$ = $\cseqf{y \in a}{y < x}$}
+\\
+6 & ~~~~\cd{$c$ = $\cseqf{y \in a}{y > x}$}
+\\
+7 & ~~~~\cd{$(l,r)$ = (qsTree $b$ ) || (qsTree $c$)}
+\\
+8 & ~~\cd{in}
+\\
+9 & ~~~~\cd{Node $(l, x, r)$} %\label{line:bst::qsnode}
+\\
+10 & ~~\cd{end}
+\\
+\end{array}
+\]
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC7:UN2:GR3}
+\no{3}
+\unique{15210:S18:CH12:SEC7:UN2:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC7:UN2:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC7:UN2:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+The tree generated by $\cd{qsTree}(a)$ is the Treap for the sequence
+$a$.  
+%
+This can be seen by induction.  
+%
+It is true for the base case.
+%
+Now assume by induction it is true for the trees returned by the two
+recursive calls.  
+%
+The tree returned by the main call is then also a Treap since the
+pivot $x$ has the highest priority, and therefore is correctly placed
+at the root, the subtrees and in heap order by induction, and because
+the keys in $l$ are less than the pivot, and the keys in $r$ are
+greater than the pivot, the tree has the BST property.
+
+Based on this isomorphism, we can bound the height of a Treap by the
+recursion depth of quicksort.
+%  In \chref{randomized}, 
+% 
+Recall that we proved that if we pick the priorities at random, the
+recursion depth is $O(\lg{n})$ with high probability.  Therefore we
+know that the height of a Treap is $O(\lg{n})$ with high probability.
+\end{gram}
+\end{group}
+\end{unit}
+\end{section}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{section}[Augmenting Trees]
+\label{section:15210:S18:CH12:SEC8}
+\no{8}
+\unique{15210:S18:CH12:SEC8}
+\parent{...NO.PARENTS...}
+
+Thus far in this chapter, the only interesting information that we
+stored in BSTs were keys. While such trees can be useful, we
+sometimes wish to augment trees with more information. 
+%
+In this section, we describe how we might augment BSTs with
+additional information such as key-value pairs, subtree sizes, and
+reduced values in general.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Augmenting with Key-Value Pairs]
+\label{unit:15210:S18:CH12:SEC8:UN3}
+\no{3}
+\unique{15210:S18:CH12:SEC8:UN3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN3:GR1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN3:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachnote}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN3:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN3:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+Can you think of an application where we would want to associate a
+value with each key?
+
+For example, you might want to maintain an address book as a BST keyed
+by the names of your friends and associate each name with a phone
+number or email.  Such a BST would allow you to locate the phone
+number of your friend quickly, while also allowing you to do other
+operations such as joining two address books, and updating entries.
+
+%
+How can we change a BST data structure to associate values with keys?
+\end{teachnote}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN3:GR2}
+\no{2}
+\unique{15210:S18:CH12:SEC8:UN3:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN3:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN3:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+Perhaps the simplest form of augmentation involves storing in the BST
+a key-value pair instead of just a key.
+%
+Implementing BSTs augmented with key-value pairs is relatively
+straightforward by updating the relevant parts of the ADT.
+%
+For example, to accommodate the key, we can change the BST data type
+to a key-value pair, and update the implementation of the functions to
+pass the value around with the key as needed, making sure that a
+key-value pair is never separated.  For functions such as $\cd{find}$
+and $\cd{split}$ that may return the value, we make sure to do so.
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Augmenting with Size]
+\label{unit:15210:S18:CH12:SEC8:UN4}
+\no{4}
+\unique{15210:S18:CH12:SEC8:UN4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN4:GR1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN4:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+As a more complex augmentation, we might want to associate with each
+node in the tree a size field that tells us how large the subtree
+rooted at that node is.
+%
+As a motivating example for this form of augmentation, suppose that we
+wish to extend the BST ADT
+% (\adtref{bst::adt}) 
+with the following
+additional functions.
+%
+\begin{itemize}
+\item Function $\cd{rank}~t~k$ returns the rank of the key $k$ in
+  the tree, i.e., the number of keys in $t$ that are less than or
+  equal to $k$.
+
+\item Function $\cd{select}~T~i$ returns the key with the rank $i$ in $t$.
+
+\end{itemize}
+%
+Such functions arise in many applications.  For example, we can use
+them to implement sequences.
+%
+% the sequence interface discussed in \chref{sequences}. 
+
+If we have a way to count the number of nodes in a subtree, then we
+can easily implement these functions.
+%
+%\algref{bst::augment::size} 
+%
+The algorithm below shows such an implementation by using a size
+operation for computing the size of a tree, written $|t|$ for tree
+$t$.
+%
+%
+With balanced trees such as Treaps, the $\cd{rank}$ and $\cd{select}$
+functions require logarithmic span but linear work, because computing
+the size of a subtree takes linear time in the size of the subtree.
+%
+
+%
+If, however, we augment the tree so that at each node, we store the
+size of the subtree rooted at that node, then work becomes
+logarithmic, because we can find the size of a subtree in constant
+work.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN4:GR2}
+\no{2}
+\unique{15210:S18:CH12:SEC8:UN4:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[Rank]
+\label{atom:15210:S18:CH12:SEC8:UN4:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+\[
+\begin{array}{ll}
+1 & \cd{rank $t$ $k$ =}
+\\
+2 & ~~\cd{case $t$ }
+\\
+3 & ~~\cd{| Leaf $\Rightarrow$ $0$}
+\\
+4 & ~~\cd{| Node $(l,k',r)$ $\Rightarrow$}
+\\
+5 & ~~~~~~\cd{case compare $(k,k')$ }
+\\
+6 & ~~~~~~\cd{| LESS $\Rightarrow$ rank $l$ $k$}
+\\
+7 & ~~~~~~\cd{| EQUAL $\Rightarrow$ $|l|$}
+\\
+8 & ~~~~~~\cd{| GREATER $\Rightarrow$ $|l| + 1 +$ rank $r$ $k$}
+\\
+9 & \cd{select $t$ $i$ =}
+\\
+10 & ~~\cd{case $t$ }
+\\
+11 & ~~\cd{| Leaf $\Rightarrow$ raise exception OutOfRange}
+\\
+12 & ~~\cd{| Node $(l,k,r)$ $\Rightarrow$}
+\\
+13 & ~~~~~~\cd{case compare $(i,|l|)$ of}
+\\
+14 & ~~~~~~~~\cd{LESS $\Rightarrow$ select $l$ $i$}
+\\
+15 & ~~~~~~~~\cd{EQUAL $\Rightarrow$ $k$}
+\\
+16 & ~~~~~~~~\cd{GREATER $\Rightarrow$ select $r$ $(i-|l|-1)$}
+\\
+\end{array}
+\]
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN4:GR3}
+\no{3}
+\unique{15210:S18:CH12:SEC8:UN4:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachask}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN4:GR3:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+Can you implement these functions by using a BST? 
+
+What is the work and span of these functions?
+
+Can we compute size of subtrees more efficiently?
+\end{teachask}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN4:GR4}
+\no{4}
+\unique{15210:S18:CH12:SEC8:UN4:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN4:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+An example BST, where keys are ordered lexicographically and the nodes
+are augmented with the sizes of subtrees.
+%
+The path explored by $\cd{rank (T,n)}$ and $\cd{select (T,4)}$ is
+highlighted.
+
+\begin{center}
+  \includegraphics[width=2.5in]{binary-search-trees/rankSelect.jpg}
+\end{center}
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN4:GR5}
+\no{5}
+\unique{15210:S18:CH12:SEC8:UN4:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{teachask}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN4:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+But how can we maintain the sizes of the subtrees as we perform
+  various operations on the BST such as possibly aggregate insertions,
+  deletions, splits, and joins?
+\end{teachask}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN4:GR6}
+\no{6}
+\unique{15210:S18:CH12:SEC8:UN4:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN4:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN4:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+To implement a size-augmented tree, we need to keep $\cd{size}$ field at
+each node and compute the size of the nodes as they are created.
+%
+In our parametric implementation, we can incorporate the $\cd{size}$
+field by changing the definition of a node and initializing it to $1$,
+when a singleton tree is created. 
+%
+When $\cd{split}$ and $\cd{join}$ functions create a new node, they
+can compute its size by summing the sizes of its children.
+%
+
+In addition to the $\cd{rank}$ and $\cd{select}$ functions, we can
+also define the function $\cd{splitRank}(T,i)$, which splits the
+tree into two by returning the trees $t_1$ and $t_2$ such that $t_1$
+contains all keys with rank less than $i$ and $t_2$ contains all keys
+with rank is greater or equal to $i$. 
+%
+Such a function can be used for example to write divide-and-conquer
+algorithms on imperfectly balanced trees.
+\end{gram}
+\end{group}
+\end{unit}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{unit}[Augmenting with Reduced Values]
+\label{unit:15210:S18:CH12:SEC8:UN5}
+\no{5}
+\unique{15210:S18:CH12:SEC8:UN5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR1}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR1:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR1:AT1}
+\parent{...NO.PARENTS...}
+
+To compute rank-based properties of keys in a BST, we augmented the
+BST so that each node stores the size of its subtree.  More generally,
+we might want to associate with each node a \defn{reduced value} that
+is computed by reducing over the subtree rooted at the node by a user
+specified function.  In general, there is no restriction on how the
+reduced values may be computed, they can be based on keys or
+additional values that the tree is augmented with.
+%
+To compute reduced values, we simply store with every node $u$ of a
+binary search tree, the reduced value of its subtree (i.e. the sum of
+all the reduced values that are descendants of $u$, possibly also the
+value at $u$ itself).
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR2}
+\no{2}
+\unique{15210:S18:CH12:SEC8:UN5:GR2}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR2:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR2:AT1}
+\parent{...NO.PARENTS...}
+
+The following drawing shows a tree with key-value pairs on the left,
+  and the augmented tree on the right, where each node additionally
+  maintains the sum of it subtree.
+\begin{center}
+  \includegraphics[width=4in]{binary-search-trees/augtree.jpg}
+\end{center}
+The sum at the root ($13$) is the sum of all values in the tree ($3 +
+1 + 2 + 2 + 5$).    It is also the sum of the reduced values of its
+two children ($6$ and $5$) and its own value $2$.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR3}
+\no{3}
+\unique{15210:S18:CH12:SEC8:UN5:GR3}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{algorithm}[Treaps with Reduced Values]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR3:AT1:fig:bst::reducedjoin}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR3:AT1}
+\parent{...NO.PARENTS...}
+
+\[
+\begin{array}{ll}
+1 & \cd{(* type of the reduced value, as specified. *)}
+\\
+2 & \cd{type rv = ...                   }
+\\
+3 & \cd{(* associative reducer function, as specified. *)}
+\\
+4 & \cd{$f$(x: rv, y: val, z: rv): rv = ...  }
+\\
+5 & \cd{(* identity for the reducer function, as specified. *)}
+\\
+6 & \cd{$id_f$ : rv = ...                 }
+\\
+7 & \cd{type treap = }
+\\
+8 & ~~~\cd{Leaf }
+\\
+9 & ~\cd{| Node of (Treap $\times$ key $\times$ priority  $\times$ (val $\times$ rv) $\times$ Treap) }
+\\
+10 & \cd{rvOf $t$ =}
+\\
+11 & ~~\cd{case $t$}
+\\
+12 & ~~\cd{| Leaf $\Rightarrow$ $id_f$}
+\\
+13 & ~~\cd{| Node (_,_,_(_,w),_) $\Rightarrow$ w}
+\\
+14 & \cd{mkNode $(l,k,p,v,r)$ = Node ($l$,$k$,$p$,($v$,$f$ (rvOf $l$,$v$,rvOf $r$)),$r$) }
+\\
+15 & \cd{split $t$ $k$ = }
+\\
+16 & ~~\cd{case t }
+\\
+17 & ~~\cd{| Leaf $\Rightarrow$ (Leaf,false,Leaf)}
+\\
+18 & ~~\cd{| Node $(l,k',p',(v',w'),r)$ =}
+\\
+19 & ~~~~~~\cd{case compare $(k,k')$}
+\\
+20 & ~~~~~~\cd{| LESS $\Rightarrow$ }
+\\
+21 & ~~~~~~~~~~\cd{let $(l',x,r')$ = split $l$ $k$}
+\\
+22 & ~~~~~~~~~~\cd{in $(l',x,\cd{mkNode}~(r',k',p',v',r))$ end }
+\\
+23 & ~~~~~~\cd{| EQUAL $\Rightarrow$ $($$l$,true,$r$$)$}
+\\
+24 & ~~~~~~\cd{| GREATER $\Rightarrow$}
+\\
+25 & ~~~~~~~~~~\cd{let $(l',x,r')$ = split $r$ $k$}
+\\
+26 & ~~~~~~~~~~\cd{in (mkNode $(l,k',p',v',l'),x,r'$) end }
+\\
+27 & \cd{join $t_1$ $t_2$ =}
+\\
+28 & ~~\cd{case $(t_1,t_2)$ of}
+\\
+29 & ~~~~\cd{(Leaf, _) $\Rightarrow$ $t_2$}
+\\
+30 & ~~\cd{| (_, Leaf) $\Rightarrow$ $t_1$}
+\\
+31 & ~~\cd{| (Node $(l_1,k_1,p_1,(v_1,w_1),r_1)$, Node $(l_2,k_2,p_2,(v_2,w_2),r_2)$) $\Rightarrow$}
+\\
+32 & ~~~~~~\cd{if $p_1$ > $p_2$) then mkNode
+  ($l_1$,$k_1$,$p_1$,$v_1$,join $r_1$ $t_2$)       } %  \label{line:bst::reducedjoin::cpri} 
+\\
+33 & ~~~~~~\cd{else mkNode (join $t_1$ $l_2$,$k_2$,$v_2$,$r_2$)}
+\\
+\end{array}
+\]
+\end{algorithm}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR4}
+\no{4}
+\unique{15210:S18:CH12:SEC8:UN5:GR4}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR4:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR4:AT1}
+\parent{...NO.PARENTS...}
+
+The value of each reduced value in a tree can be calculated as the sum
+of its two children plus the value stored at the node.  This means
+that we can maintain these reduced values by simply taking the
+``sum'' of three values whenever creating a node.  We can thus change
+a data structure to support reduced values by changing the way we
+create nodes.  In such a data structure, if the function that we use
+for reduction performs constant work, then the work and the span bound
+for the data structure remains unaffected.
+
+As an example, the data structure above
+%
+%\figref{bst::reducedjoin} 
+%
+describes an extension of the parametric implementation of Treaps to
+support reduced values.  The description is parametric in the values
+paired with keys and the function $\cd{f}$ used for reduction.
+%
+The type for Treaps is extended to store the value paired with the key
+as well as the reduced value.  Specifically, in a $\cd{Node},$ the
+first data entry is the value paired by the key and the second is the
+reduced value.
+%
+
+
+To compute reduced values as the structure of the tree changes, the
+implementation relies on an auxiliary function $\cd{mkNode}$ (read
+``make node'') that takes the key-value pair as well as the left and
+right subtrees and computes the reduced value by applying reducer
+function to the values of the left and right subtrees as well as the
+value.
+%
+The only difference in the implementation of $\cd{split}$ and
+$\cd{join}$ functions from the parametric implementations is the use
+of $\cd{mkNode}$ instead of $\cd{Node}.$
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR5}
+\no{5}
+\unique{15210:S18:CH12:SEC8:UN5:GR5}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{example}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR5:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR5:AT1}
+\parent{...NO.PARENTS...}
+
+The following diagram shows an example of splitting an augmented tree.
+\begin{center}
+  \includegraphics[width=5in]{binary-search-trees/augtree-split.jpg}
+\end{center}
+The tree is split by the key $c$, and the reduced values on the
+internal nodes need to be updated.  This only needs to happen along
+the path that created the split, which in this case is $e$, $b$, and
+$d$.  The node for $d$ does not have to be updated since it is a leaf.
+The $\cd{makeNode}$ for $e$ and $b$ are what will update the reduced
+values for those nodes.
+\end{example}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR6}
+\no{6}
+\unique{15210:S18:CH12:SEC8:UN5:GR6}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{gram}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR6:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR6:AT1}
+\parent{...NO.PARENTS...}
+
+We note that this idea can be used with any binary search tree, not
+just Treaps.  We only need to replace the function for creating a node
+so that as it creates the node, it also computes a reduced value for
+the node by summing the reduced values of the children and the value
+of the node itself.
+\end{gram}
+\end{group}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{group}[...NO.TITLE...]
+\label{group:15210:S18:CH12:SEC8:UN5:GR7}
+\no{7}
+\unique{15210:S18:CH12:SEC8:UN5:GR7}
+\parent{...NO.PARENTS...}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{remark}[...NO.TITLE...]
+\label{atom:15210:S18:CH12:SEC8:UN5:GR7:AT1}
+\no{1}
+\unique{15210:S18:CH12:SEC8:UN5:GR7:AT1}
+\parent{...NO.PARENTS...}
+
+In an imperative implementation of binary search trees, when a child
+  node is side affected, the reduced values for the nodes on the path
+  from the modified node to the root must be recomputed.
+\end{remark}
+\end{group}
+\end{unit}
+\end{section}
+\end{chapter}
+
+\end{book}

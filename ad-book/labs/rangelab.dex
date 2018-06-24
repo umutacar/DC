@@ -1,0 +1,50 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+% Course number must be unique in the database
+\coursenumber{15210}
+
+\semester{Spring2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+% Provides book
+% This must be provided
+% The name should be relative to course number.
+\providesbook{S18}
+
+\providesassignment{7}
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{15210-2016}
+\unique{15210S18}
+\authors{Umut A. Acar and Guy Blelloch}
+
+\begin{assignment}
+\title{RangeLab (Written)}
+\duedate{9 March 2018}
+
+\begin{asstproblem}
+  \title{Analysis}
+
+  \begin{questionfr}
+    \points 10
+    \prompt
+    Suppose we augment a binary search tree with a non-constant-time
+    function to compute reduced values. Specifically, suppose the values of our BST
+    are singleton sequences and we augment with \sml{ArraySequence.append}. If the
+    tree is perfectly balanced, how expensive is it to update a key with a new
+    value? (Assume the only change is the value associated with some key. The
+    structure of the tree remains the same: perfectly balanced.) Give your answer
+    as a tight Big-$O$ bound in terms of $n$, the size of the BST.
+    \answer
+    Notice that we pay a cost of $n$ at the root, $n/2$ at the first child,
+    $n/4$ at the second child, and so on. In the worst case, this path has length
+    $O(\log n)$. Therefore the cost of repairing the path is given by the recurrence
+    \[ W(n) = W(n/2) + O(n) \]
+    which solves to $O(n)$.
+  \end{questionfr}
+\end{asstproblem}
+\end{assignment}
+\end{book}

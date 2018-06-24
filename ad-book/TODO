@@ -1,0 +1,22 @@
+TODO
+
+* Reorganize the notes to distinguish between algorithm ideas and
+  algorithms. Algorithm would be spec'ed in SPARC.  Algorithm ideas
+  would be stated in English.
+
+ 
+* BASED ON CONVERSATIONS WITH DANNY
+o We might have gone too far in formalizing the pseudocode. It is good
+but then it becomes difficult to read (set notation for example) and
+creates a barrier in reasoning about the complexity.  We should
+probably eliminate some of these.
+
+o We should introduce a standard pseudo code description for the
+algorithms.
+
+o The  WHILE syntax is clumsy, just use recursion.
+
+
+o update SPARC chapter.  This will be chapter 0 pretty much.
+o update title handling translate to html. 
+o [Consistency] Shortest paths section uses special fonts for problem names.  

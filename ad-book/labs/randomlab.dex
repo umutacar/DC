@@ -1,0 +1,476 @@
+\documentclass{course}
+\title{Parallel and Sequential Algorithms}
+
+\coursenumber{15210}
+\semester{Spring2018}
+\picture{/210/course/air-pavilion.jpg}
+\website{http://www.cs.cmu.edu/~15210}
+
+\providesbook{S18}
+\providesassignment{5}
+
+
+\begin{book}
+\title{Algorithm Design: Parallel and Sequential}
+\label{15210-2016}
+\unique{15210S18}
+\authors{Umut A. Acar and Guy Blelloch}
+
+
+\begin{assignment}
+\title{RandomLab (Written)}
+\duedate{19 February 2018}
+
+\begin{asstproblem}
+\title{Heads? I win. Tails? You lose.}
+
+\begin{questionfr}
+\points 14
+\prompt
+Given some $n$, describe an algorithm which uses expected
+$O(\log n)$ rolls of a fair dice in order to generate a random number. If it
+terminates, your algorithm should output a uniformly random number $x$ in the
+range $0 \leq x < n$. Briefly argue why your algorithm is correct, and why it
+requires only $O(\log n)$ flips in expectation. Do not assume that $n$ is a
+power of 6.
+\answer
+Flip $m = 1 + \lfloor \log_6 n \rfloor$ times, interpreting each roll of $r$
+as $r-1$, generating the base-6 representation of some number. If the
+generated number is less than $n$, return it. If it is greater, repeat the
+process.
+
+The number of flips required is $(1 + \lfloor \log_6 n \rfloor)$ times a
+geometric random variable with probability of success
+$\frac{n}{6^m} \ge \frac{n}{6n} = \frac{1}{6}$, therefore the
+expected number of flips is $6(1+\lfloor \log_6 n \rfloor) \in O(\log n)$.
+\end{questionfr}
+\end{asstproblem}
+
+
+\begin{asstproblem}
+\title{Shuffle!}
+\info
+Consider the following shuffling algorithm based on Quicksort, which returns
+a uniformly random permutation of the input.
+
+% TODO add these to the macro listing
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+
+\[
+\begin{array}{1}
+\cd{fun shuffle $S$ = }
+\\
+~~\cd{if $|S| \leq 1$ then $S$ else}
+\\
+~~\cd{let}
+\\
+~~~~\cd{val $S'$ = $\big\langle (x, \text{flip a coin}) \: :\: x \in S \big\rangle$}
+\\
+~~~~\cd{val $L$ = $\big\langle x : (x, \text{flip}) \in S'\: |\: \text{flip} = \text{tails}\big\rangle$}
+\\
+~~~~\cd{val $R$ = $\big\langle x : (x, \text{flip}) \in S'\: |\: \text{flip} = \text{heads}\big\rangle$}
+\\
+~~\cd{in}
+\\
+~~~~\cd{append (shuffle $L$ || shuffle $R$)}
+\\
+~~\cd{end}
+\end{array}
+\]
+\\
+%\begin{lstlisting}[escapechar=!]
+%fun shuffle !$S$! =
+%  if !$|S| \le 1$! then !$S$! else
+%  let
+%    val !$S'$! = !$\big\langle (x, \text{flip a coin})\: :\: x \in S \big\rangle$!
+%    val !$L$! = !$\big\langle x : (x, \text{flip}) \in S'\: |\: \text{flip} = \text{tails} \big\rangle$!
+%    val !$R$! = !$\big\langle x : (x, \text{flip}) \in S'\: |\: \text{flip} = \text{heads} \big\rangle$!
+%  in
+%    append (shuffle !$L$! || shuffle !$R$!)
+%  end
+%\end{lstlisting}
+We're interested in analyzing the expected work of this algorithm. Because it
+is so similar to Quicksort, we anticipate that it will likely be expected
+$O(|S|\log|S|)$.
+
+
+\begin{questionfr}
+\points 6
+\prompt
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+Justify the following upper bound for $\EE{W(n)}$, the expected
+work of (\sml{shuffle $S$}), where $|S| = n$. You may find it useful to use a
+generalization of Markov's inequality called the Chernoff bound.
+\[ \EE{W(n)} \leq O(n) + \sum_{0 \leq k \leq n} \left(\EE{W(k)} + \EE{W(n-k)}\right) \cdot \Prob{|L| = k} \]
+\answer
+  The work done at one level is linear to the length of the input sequence (i.e. line 4, 5, 6). The recursive work at line 8 depends on the sizes of $L$ and $R$. By definition of expectation, we get the summation across all possible sizes of $L$.
+\end{questionfr}
+
+\begin{questionfr}
+\points 9
+\prompt
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+% \begin{center}\rule{0.5\textwidth}{1pt}\end{center}
+Solving this recurrence directly is messy, due to having to deal with
+binomial distributions. All we really need to do is show that unfortunate sizes
+of $L$ happen with negligible probability. We can do so with a special case of
+the well-known Chernoff bound.
+
+Suppose we have $n$ independent indicator random variables labeled
+$X_i$, $0 \leq i < n$, each of which has
+$\Prob{X_i = 1} = \Prob{X_i = 0} = \frac 1 2$.
+The Chernoff bound gives us the following two results for any
+$0 < d < \textbf{E}\big[\sum_i X_i\big]$:
+\begin{itemize}
+  \item $\textbf{Pr}\Big[ \sum_i X_i \geq \textbf{E}\big[\sum_i X_i\big] + d \Big] \leq e^{- \frac {2 d^2} n}$
+
+  \item $\textbf{Pr}\Big[ \sum_i X_i \leq \textbf{E}\big[\sum_i X_i\big] - d \Big] \leq e^{- \frac {2 d^2} n}$
+\end{itemize}
+
+Carefully choose each $X_i$ and $d$ to show that
+\[ \textbf{Pr}\Big[ |L| \leq \frac n 4\enspace \text{or}\enspace \frac {3n} 4 \leq |L| \Big] \leq 2e^{-\frac {n} {8}} \]
+
+\answer
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+  Let $X_i$ be the indicator that $i$th element in $S$ is paired with tails.
+
+  The length of $L$ is the number of elements paired with tails, which is exactly $\sum_i X_i$.
+
+  Set $d = n/4$. We know that
+  \begin{equation*}
+  \Prob{ |L| \leq \frac n 4 \vee \frac {3n} 4 \leq |L|}
+  =
+  \Prob{ |L| \leq \frac n 4 } + \Prob{ \frac {3n} 4 \leq |L|}
+  \leq
+  e^{-\frac {n} {8}}
+  +
+  e^{-\frac {n} {8}}
+  =
+  2e^{-\frac {n} {8}}
+  \end{equation*}
+\end{questionfr}
+
+\begin{questionfr}
+\points 12
+\prompt
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+We are now ready to simplify the recurrence from Task 5.1. We have two
+scenarios for the size of $L$:
+\begin{itemize}
+  \item ``Good'': when $\frac n 4 < |L| < \frac {3n} 4$.
+  \item ``Bad'': when either $|L| \leq \frac n 4$ or $\frac {3n} 4 \leq |L|$.
+\end{itemize}
+Our simplified recurrence looks like this:
+\[ \EE{W(n)} = \EE{W(n)\:|\:\text{good}} \cdot \Prob{\text{good}}
+              + \EE{W(n)\:|\:\text{bad}} \cdot \Prob{\text{bad}} \]
+
+Show that $$\EE{W(n)} \le \EE{W\left(\frac{n}{4}\right)} + \EE{W\left(\frac{3n}{4}\right)} + O(n).$$ Hints: You may use the fact that $\EE{W(n)\:|\:\text{good}} \leq \EE{W(n/4)} + \EE{W(3n/4)} + O(n).$ Also, you're going to find a {\bf useful} upper bound for $\EE{W(n)\:|\:\text{bad}}$ to solve this problem.
+\answer
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+  \begin{align*}
+    \EE{W(n)} &= \EE{W(n) \mid \text{good}} \cdot \Prob{\text{good}} + \EE{W(n) \mid \text{bad}} \cdot \Prob{\text{bad}}
+    \\& \leq \EE{W(n) \mid \text{good}} \cdot \Prob{\text{good}} + \EE{W(n)} \cdot \Prob{\text{bad}} + O(n) \cdot \Prob{\text{bad}}.
+  \end{align*}
+  Move the term $\EE{W(n)} \cdot \Prob{\text{bad}}$ to the left-hand side,
+  and then divide both sides by $\Prob{\text{good}}$:
+  \begin{align*}
+    \EE{W(n)} &\leq \EE{W(n) \mid \text{good}} + O(n) \cdot \frac{\Prob{\text{bad}}}{\Prob{\text{good}}}
+    \\&= \EE{W(n) \mid \text{good}} + O(n).
+  \end{align*}
+  because $\frac{\Prob{\text{bad}}}{\Prob{\text{good}}} \in O(1)$ from the Chernoff bound.
+  Plug in the bound for $\EE{W(n) \mid \text{good}}$:
+  \begin{align*}
+    \EE{W(n)} &\leq \EE{W(n/4)} + \EE{W(3n/4)} + O(n) + O(n)
+    \\&= \EE{W(n/4)} + \EE{W(3n/4)} + O(n)
+  \end{align*}
+\end{questionfr}
+
+\begin{questionfr}
+\points 10
+\prompt
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+Show that $\EE{W(n)} \in O(n \log n)$ by solving the recurrence from the previous task using the substitution method (you may skip the base case).
+
+\answer
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+  Let the constant in the $O(n)$ term be $c$.
+  We want to prove that $\EE{W(n)} \leq 100cn\log_2 n$
+  when $\EE{W(n')} \leq 100 c n' \log_2 n'$ for $n' < n$.
+  \begin{align*}
+    \EE{W(n)}
+    &\leq \EE{W(n/4)} + \EE{W(3n/4)} + cn
+    \\&\leq 100c(n/4)\log_2(n/4) + 100c(3n/4)\log_2(3n/4) + cn
+    \\&\leq 100cn\log_2 n + (-50c-75\log_2(4/3)c+c)n
+    \\&\leq 100cn\log_2 n
+  \end{align*}
+
+  (favonia: The substitution method is required
+  because the bounds $\EE{W(n) \mid \text{good}}$ and $\EE{W(n) \mid \text{bad}}$
+  relies on the inductive hypothesis used in the substitution method.
+  The tree and the brick method are good at estimating the bound,
+  and they actually work here, but the details are hairy IMO.
+  That said, I recommend taking at most $5$ (half) points off
+  for the tree or the brick method.)
+\end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+\title{Three Smallest}
+\info
+Consider the following code for finding the three smallest elements in a
+sequence, where (\sml{shuffle $S$}) gives a random permutation of $S$:
+
+\[
+\begin{array}{1}
+\cd{fun threeSmallest $S$ = }
+\\
+~~\cd{let}
+\\
+~~~~\cd{fun update $((m_1, m_2, m_3), x)$ =}
+\\
+~~~~~~\cd{if $x > m_3$ then $(m_1, m_2, m_3)$}
+\\
+~~~~~~\cd{else if $x > m_2$ then $(m_1, m_2, x)$}
+\\
+~~~~~~\cd{else if $x > m_1$ then $(m_1, x, m_2)$}
+\\
+~~~~~~\cd{else $(x, m_1, m_2)$}
+\\
+~~\cd{in}
+\\
+~~~~\cd{Seq.iterate update $(\infty, \infty, \infty)$ (shuffle $S$)}
+\\
+~~\cd{end}
+\end{array}
+\]
+%\begin{lstlisting}[escapechar=!]
+%fun threeSmallest (!$S$! : int Seq.t) =
+%  let
+%    fun update !$((m_1, m_2, m_3), x)$! =
+%      if !$x > m_3$! then !$(m_1, m_2, m_3)$!
+%      else if !$x > m_2$! then !$(m_1, m_2, x)$!
+%      else if !$x > m_1$! then !$(m_1, x, m_2)$!
+%      else !$(x, m_1, m_2)$!
+%  in
+%    Seq.iterate update (!$\infty$!, !$\infty$!, !$\infty$!) (shuffle !$S$!)
+%  end
+%\end{lstlisting}
+
+\begin{questionfr}
+\points 12
+\prompt
+Compute the expected number of comparisons this algorithm makes for an input
+sequence $S$ containing no duplicate elements. Give your answer in terms of $n =
+|S|$, and assume $n \geq 3$ for simplicity. Your answer should be \emph{exact}
+(not a Big-$O$ bound). Assume \sml{shuffle} performs no comparisons. Hint: you
+may want to consider the first 3 elements of the sequence separately from the
+rest.
+\answer
+  First, we note that the first comparison is done for all elements, the second one is
+  done only if they are in the top three smallest elements seen so far, and the third is
+  done only if they are in the top two smallest elements seen so far.
+
+  We consider the first three elements in iter and the rest of the sequence separately.
+
+  The first element will be smaller than all of the initial elements, and will
+  therefore use 3 comparisons.
+
+  The second element will be in the lowest two of all elements seen, so it will also use 3
+  comparisons.
+
+  The third element will definitely be in the lowest three elements seen, and will be in the
+  lowest 2 with probability $2/3$.  So, it will use an expected $8/3$ comparisons.
+
+  After this, we note that, if we index from 1, then the $i^{th}$ element will do the
+  first comparison with probability 1, the second with probability $3/i$, and the third
+  one with probability $2/i$.  That is because those are the probabilities of it being in
+  the new lowest 2 and 3 elements, respectively.  So, if we let $X$  be the number of
+  comparisons, then
+
+  $$E[x] = 3 + 3 + 8/3 + \sum_{i=4}^{n}1+\frac{3+2}{i} = \frac{26}{3} + (n-3) + 5(H_n -
+  H_3) = n + 5H_n - 7/2$$
+\end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+\title{Quicksort}
+
+\begin{questionfr}
+\points 9
+\prompt
+Suppose we run the randomized quicksort algorithm from lecture
+on a sequence $S$ of length $n$. The result is the \emph{sorted} sequence $T$.
+What is the probability (in terms of $n$) that $T[{\frac{n}{2}}]$ is compared to
+both $T[{\frac{n}{4}}]$ and $T[{\frac{3n}{4}}]$? For the sake of simplicity, you
+may assume that 4 divides $n$. You also do not need to simplify your answer.
+
+\answer
+  There are three ways that this could happen.  One way is that the element at
+  $\frac{n}{2}$ could be the first pivot chosen of all the pivots between
+  $\frac{n}{4}$ and $\frac{3n}{4}$ inclusive.  This has probability
+  $\frac{1}{3n/4 - n/4 + 1} = \frac{1}{n/2 + 1}$.
+
+  Another way is that the element at $\frac{n}{4}$ is chosen first (in the
+  same range as above), and then either $\frac{n}{2}$ or $\frac{3n}{4}$ is chosen
+  of everything between them.  This case has probability
+  $\frac{1}{n/2 + 1}\frac{2}{n/4+1}$.
+
+  The other way is that the element at $\frac{3n}{4}$ is chosen first (in the
+  same range as above), and then either $\frac{n}{4}$ or $\frac{n}{2}$ is chosen
+  of everything between them. The probability of thise case is the same as that
+  of the previous case, so the total probability is
+  $\frac{1}{n/2 + 1} + 2(\frac{1}{n/2 + 1}\frac{2}{n/4+1})$.
+\end{questionfr}
+\end{asstproblem}
+
+\begin{asstproblem}
+\title{A Tournament}
+\info
+The 15-210 TAs (there are $n$ TAs total) are organizing a
+tournament. However, most of they are too lazy to figure out the tournament bracket ahead of time, except for Umut, who suggests the following strategy:
+
+\begin{enumerate}
+	\item Everyone stands in a circle facing inwards.
+
+  \item Each person flips a fair coin. If they flip tails, they look to their
+  left. If they flip heads, they look to their right.
+
+  \item If two people are looking at one another, they play a game. The winner
+  stays in the circle, and the loser exits the circle.
+
+  \item The remaining people repeat the process until two people remain. These then play a game, and the winner wins the tournament.
+\end{enumerate}
+The TAs think that this will take too long, but you are determined to help Umut prove them wrong.
+
+\begin{questionfr}
+\points 6
+\prompt
+\At the beginning of some round, there are $m$ people
+in the circle. Prove that, in expectation, at least $m/4$ people will exit the
+circle before the next round.
+\answer
+Define an indicator random variable:
+\[ X_i = \begin{cases} 1, &\text{if person $i$ and the person to their right play a game this round} \\ 0, &\text{otherwise} \end{cases} \]
+
+(favonia: Note that this solution is wrong when $m = 2$. $X_i$ should be ``person $i$ \emph{is facing right} and plays a game with their right neighbor this round. You can play a game to your right even if you are facing left when there are only two people.)
+
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+Therefore
+\[\mathbb{E}[\text{\# people leaving circle}] = \mathbb{E}[\text{\# games played this round}] = \mathbb{E}\left[\sum_{i=1}^m X_i \right] = \sum_{i=1}^m \mathbb{E}[X_i]\]
+
+We have $\mathbb{E}[X_i] = \Prob{X_i = 1} = 1/4$ because person $i$ has to flip heads and the other person has to flip tails. Hence the expected number of people leaving the circle is $m/4$.
+\end{questionfr}
+
+\begin{questionfr}
+\points 5
+\prompt
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+
+	Here, we are going to find an upper bound on the probability that the tournament is still going after $k\log_{4/3}(n)$ rounds.
+
+Here is an incorrect derivation of an upper bound for the probability that the tournament is still going after $k\log_{4/3}(n)$ rounds. Identify the {\bf first} mistake in the following derivation and explain why it is incorrect:
+
+Let $X$ be a random variable representing the total number of rounds in the tournament.
+\begin{align}
+	\Prob{X \ge k \log_{4/3}(n)} &\le \frac{\EE{X}}{k \log_{4/3}(n)} & \text{by Markov's Inequality} \\
+	&= \frac{\log_{4/3}(n)}{k \log_{4/3}(n)} \\
+	&= \frac{1}{k}
+\end{align}
+
+\answer
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+	The first mistake is when we assume the consequent, that $\EE{X} = \log_{4/3}(n)$ in the transition from line 1 to line 2. It's true that the expected number of people remaining after $\log_{4/3}(n)$ is 1. However, it is not the same as saying the expected number of rounds until 1 person remains is $\log_{4/3}(n)$.
+\end{questionfr}
+
+\begin{questionfr}
+\points 12
+\prompt
+Find a correct upper bound for the probability that the tournament is still going after $k\log_{4/3}(n)$ rounds. Give your answer in terms of $k$.
+(Hint: your solution should imply that the tournament has $O(\log n)$ rounds
+with high probability. Also, you may want to try using Markov's inequality.)
+
+\answer
+\newcommand{\Prob}[1]{\textbf{Pr}\left[ #1 \right]}
+\newcommand{\EE}[1]{\textbf{E}\left[ #1 \right]}
+Let $S_r$ be the number of people remaining after $r$ rounds.
+After $r$ rounds, $\EE{S_r} \leq (\frac{3}{4})^rn$ because
+\begin{equation*}
+  \EE{S_{r+1}} = \sum_m \EE{S_{r+1} \mid S_r = m} \Prob{S_r = m} \leq \frac34 \sum_m m \cdot \Prob{S_r = m} = \frac34 \EE{S_r}
+\end{equation*}
+By Markov's inequality,
+\begin{align*}
+\Prob{S_r \geq 2} & \leq \frac{\EE{S_r}}{2}\\
+&\leq \frac{1}{2}(\frac{3}{4})^r n\\
+\end{align*}
+so when $r = k\log_{\frac{4}{3}}(n)$,
+\begin{align*}
+\Prob{S_r \geq 2} & \leq \frac{1}{2}(\frac{3}{4})^{k\log_{\frac{4}{3}}(n)} n\\
+&= \frac{1}{2n^{k-1}}
+\end{align*}
+\end{questionfr}
+
+\begin{questionfr}
+\points 2
+\prompt
+
+Rohan is convinced that more people will tend to be eliminated each round if everyone uses identical biased coins (where the probability of flipping heads is \emph{not} $\frac{1}{2}$).\\
+\writtentask{2} Let there be $m$ people in the circle at the beginning of some round. Calculate the number of eliminated people in expectation, if the biased coin has probability of 1/3 of flipping head.
+
+\answer
+Similar to 8.1, the probability of each pair facing each each other is $1/3 \cdot 2/3 = 2/9$. So $2m/9$ people are expected to leave that round.
+\end{questionfr}
+
+\begin{questionfr}
+\points 3
+\prompt
+Prove Rohan either right or wrong. If he's right, give an example of a coin bias which performs better than $\frac 1 2$. If he's wrong, briefly explain why.
+
+\answer
+No, he is wrong. The probability of neighbors facing each other is $p(1-p)$, and $p=\frac{1}{2}$ minimizes the expression.
+\end{questionfr}
+
+% \begin{center}\rule{0.5\textwidth}{1pt}\end{center}
+\begin{questionfr}
+\points 6
+\prompt
+Danny walks by the tournament room and witnesses the chaos. He decides to help out
+his fellow computer scientists by recommending a better strategy: at
+the start of a round with $m$ people, the numbers $1$ through $m$ are randomly
+distributed among the circle. If someone has a larger number than both of their
+neighbors, then they play a game with the neighbor to their right. The winners
+and losers stay and exit the circle as normal.
+
+At the beginning of some round, there are $m$ people
+in the circle. Prove that, in expectation, at least $m/3$ people will exit
+the circle before the next round.
+\answer
+ Since the numbers are randomly distributed among the $m$ people in the circle, then for every person, the probability of getting a number greater than that of the two neighbors is $\frac{1}{3}$. Using linearity of expectation, $m/3$ people will exit the circle.
+\end{questionfr}
+
+\begin{questionfr}
+\points 6
+\prompt
+Note that both Danny's and Umut's tournaments will end in $O(\log n)$ rounds with
+high probability. However, Umut's tournament could technically never end.
+
+Argue that Danny's tournament will end in at most $O(n)$ rounds.
+\answer
+
+At least one person exits the circle at each round.
+
+\end{questionfr}
+\end{asstproblem}
+
+\end{assignment}
+\end{book}
