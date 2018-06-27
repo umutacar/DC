@@ -272,7 +272,7 @@ We use this convention in future figures.
 \end{html}
 
 \begin{definition}[Binary Search Tree (BST)]
-\label{def:bst::bst}
+\label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
 A~\defn{binary search tree} (BST) over a totally ordered set $S$ is a
@@ -301,7 +301,7 @@ i.e. $|S|$.
 \end{definition}
 
 \begin{example}[...NOT.PROVIDED.TITLE...]
-\label{ex:bst}
+\label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
 An example binary search tree over the set of natural numbers
