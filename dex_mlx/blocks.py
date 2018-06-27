@@ -181,10 +181,10 @@ def mk_mlx_str_fields_common (block, convert_title):
   else:
     title_html = mlx.mk_str_title(title)
 
-  title_dex = mlx.mk_str_title_dex(title)
+  title_src = mlx.mk_str_title_src(title)
 
   r = [title_html, \
-       title_dex, \
+       title_src, \
        mlx.mk_str_label(label), \
        mlx.mk_str_parents (parents)]
   return r
@@ -235,7 +235,7 @@ def mk_mlx_str_fields_problem (block, convert_title):
   hint = block.hint
 
   # title  
-  title_dex = mlx.mk_str_title_dex(title)
+  title_src = mlx.mk_str_title_src(title)
   if convert_title: 
     title_html = mlx.mk_str_title(Tex2Html.translate(index+os_utils.TITLE_EXTENSION, title, True))
   else:
@@ -250,14 +250,14 @@ def mk_mlx_str_fields_problem (block, convert_title):
   points = mlx.mk_str_points(points)
 
   # prompt
-  (prompt_html, prompt_dex) = mk_mlx_bodies(index, prompt)
+  (prompt_html, prompt_src) = mk_mlx_bodies(index, prompt)
 
     
   # hint
-  (hint_html, hint_dex) = mk_mlx_hints(index, hint)
+  (hint_html, hint_src) = mk_mlx_hints(index, hint)
 
  
-  fields = [title_html, title_dex, label, points, prompt_dex, prompt_html, hint_dex, hint_html] 
+  fields = [title_html, title_src, label, points, prompt_src, prompt_html, hint_src, hint_html] 
 
   return fields
 
@@ -270,7 +270,7 @@ def mk_mlx_str_fields_solution (block, convert_title):
   explain = block.explain
 
   # title  
-  title_dex = mlx.mk_str_title_dex(title)
+  title_src = mlx.mk_str_title_src(title)
   if convert_title: 
     title_html = mlx.mk_str_title(Tex2Html.translate(index+os_utils.TITLE_EXTENSION, title, True))
   else:
@@ -279,10 +279,10 @@ def mk_mlx_str_fields_solution (block, convert_title):
 
 
   # body
-  (body_html, body_dex) = mk_mlx_bodies(index, body)
+  (body_html, body_src) = mk_mlx_bodies(index, body)
     
   # explain
-  (explain_html, explain_dex) = mk_mlx_explains(index, explain)
+  (explain_html, explain_src) = mk_mlx_explains(index, explain)
 
   # label
   label = mlx.mk_str_label(label)
@@ -290,45 +290,45 @@ def mk_mlx_str_fields_solution (block, convert_title):
   # points
   points = mlx.mk_str_points(points)
  
-  fields = [title_html, title_dex, label, points, body_dex, body_html, explain_dex, explain_html] 
+  fields = [title_html, title_src, label, points, body_src, body_html, explain_src, explain_html] 
 
   return fields
 
 
 def mk_mlx_bodies (index, body):
-  body_dex = mlx.mk_str_body_dex(body)
+  body_src = mlx.mk_str_body_src(body)
   body_html = mlx.mk_str_body(Tex2Html.translate(index+os_utils.BODY_EXTENSION, body, False))
-  return (body_html, body_dex)
+  return (body_html, body_src)
 
 def mk_mlx_explains (index, explain):
   explain_html = mlx.mk_str_explain(Tex2Html.translate(index+os_utils.EXPLAIN_EXTENSION, explain, False))
-  explain_dex = mlx.mk_str_explain_dex(explain)
-  return (explain_html, explain_dex)
+  explain_src = mlx.mk_str_explain_src(explain)
+  return (explain_html, explain_src)
 
 def mk_mlx_hints (index, hint):
-  hint_dex = mlx.mk_str_hint_dex(hint)
+  hint_src = mlx.mk_str_hint_src(hint)
   hint_html = mlx.mk_str_hint(Tex2Html.translate(index+os_utils.HINT_EXTENSION, hint, False))
-  return (hint_html, hint_dex)
+  return (hint_html, hint_src)
 
 def mk_mlx_infos (index, info):
   info_html = mlx.mk_str_info(Tex2Html.translate(index + os_utils.INFO_EXTENSION, info, False))
-  info_dex = mlx.mk_str_info_dex(info)
-  return (info_html, info_dex)
+  info_src = mlx.mk_str_info_src(info)
+  return (info_html, info_src)
 
 def mk_mlx_intros (index, intro):
   intro_html = mlx.mk_str_intro(Tex2Html.translate(index+os_utils.INTRO_EXTENSION, intro, False))
-  intro_dex = mlx.mk_str_intro_dex(intro)
-  return (intro_html, intro_dex)
+  intro_src = mlx.mk_str_intro_src(intro)
+  return (intro_html, intro_src)
 
 def mk_mlx_prompts (index, prompt):
-  prompt_dex = mlx.mk_str_prompt_dex(prompt)
+  prompt_src = mlx.mk_str_prompt_src(prompt)
   prompt_html = mlx.mk_str_prompt(Tex2Html.translate(index+os_utils.PROMPT_EXTENSION, prompt, False))
-  return (prompt_html, prompt_dex)
+  return (prompt_html, prompt_src)
 
 def mk_mlx_titles (index, title):
   title_html = mlx.mk_str_title(Tex2Html.translate(index+os_utils.TITLE_EXTENSION, title, True))
-  title_dex = mlx.mk_str_title_dex(title)
-  return (title_html, title_dex)
+  title_src = mlx.mk_str_title_src(title)
+  return (title_html, title_src)
 
 
 
@@ -394,10 +394,10 @@ class Chapter:
   def to_mlx_string (self):
     picture = mlx.mk_str_picture(self.picture)
     
-    (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
+    (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
 
     fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([picture, intro_html, intro_dex, self.contents])
+    fields.extend([picture, intro_html, intro_src, self.contents])
 
     r = mlx.mk_str_chapter(fields)
     return NEWLINE + r
@@ -465,11 +465,11 @@ class Course:
     provides_section = mlx.mk_str_provides_section(self.provides_section)
     provides_subsection = mlx.mk_str_provides_subsection(self.provides_subsection)
     provides_assignment = mlx.mk_str_provides_assignment(self.provides_assignment)
-    (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
+    (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
     fields = mk_mlx_str_fields_common(self, False)
     fields.extend([course_number, picture, semester, website, \
                    provides_book, provides_chapter, provides_section, provides_subsection, provides_assignment, \
-                   intro_html, intro_dex, self.book])
+                   intro_html, intro_src, self.book])
     r = mlx.mk_str_course(fields)
 #    print 'blocks.course: course:', r
     return NEWLINE + r  + NEWLINE
@@ -674,10 +674,10 @@ class Section:
     return result
 
   def to_mlx_string (self):
-    (intro_html, intro_dex) = mk_mlx_intros (self.index, self.intro)
+    (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
 
     fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([intro_html, intro_dex, self.contents])
+    fields.extend([intro_html, intro_src, self.contents])
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
@@ -750,14 +750,14 @@ class Atom:
   def to_mlx_string (self, atom_name_mlx):
     contents =  self.contents
     if self.translate_to_html: 
-      (contents_html, contents_dex) = mk_mlx_bodies(self.index,  contents)
+      (contents_html, contents_src) = mk_mlx_bodies(self.index,  contents)
     else:
-      contents_dex = mlx.mk_str_body_dex(contents)
+      contents_src = mlx.mk_str_body_src(contents)
       contents_html = mlx.mk_str_body(contents)
 
 
     fields = mk_mlx_str_fields_common(self, True)
-    fields.extend([contents_html, contents_dex])
+    fields.extend([contents_html, contents_src])
     r = mlx.mk_str_block_atom(atom_name_mlx, fields)
     return NEWLINE + r
 
@@ -806,10 +806,10 @@ class Algo:
     
   def to_mlx_string (self):
     contents = NEWLINE.join(self.contents)
-    (title_html, title_dex) = mk_mlx_titles(self.index, self.title)
-    (contents_html, contents_dex) = mk_mlx_bodies(self.index, contents)
+    (title_html, title_src) = mk_mlx_titles(self.index, self.title)
+    (contents_html, contents_src) = mk_mlx_bodies(self.index, contents)
     fields = mk_mlx_str_fields_common(self, True)
-    fields.extend([contents_html, contents_dex])
+    fields.extend([contents_html, contents_src])
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
     return NEWLINE + r
 
@@ -996,24 +996,24 @@ class QuestionFR:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
+    (prompt_html, prompt_src) = mk_mlx_prompts(self.index, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
+    (hint_html, hint_src) = mk_mlx_hints(self.index, self.hint)
 
     # ### BEGIN :DELETE THIS
     # # explain
-    # (explain_html, explain_dex) = mk_mlx_explains(self.index, self.explain)
+    # (explain_html, explain_src) = mk_mlx_explains(self.index, self.explain)
 
     # # solution - @umut - I changed self.solution here to self.ans for the code to compile
-    # field_solution_dex = mlx.mk_str_solution_dex(self.ans)  
+    # field_solution_src = mlx.mk_str_solution_src(self.ans)  
     # field_solution = mlx.mk_str_solution(Tex2Html.translate(self.unique+os_utils.SOLUTION_EXTENSION, self.ans, False))
 
     # ### END:Q DELETE THIS
     
     # put all fields together
-    fields.extend([points, prompt_html, prompt_dex, \
-                   hint_html, hint_dex, self.answers])
+    fields.extend([points, prompt_html, prompt_src, \
+                   hint_html, hint_src, self.answers])
 
     # make the block
     r = mlx.mk_str_question_fr(fields)
@@ -1056,14 +1056,14 @@ class QuestionMA:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
+    (prompt_html, prompt_src) = mk_mlx_prompts(self.index, self.prompt)
 
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
+    (hint_html, hint_src) = mk_mlx_hints(self.index, self.hint)
 
 
-    fields.extend([points, prompt_html, prompt_dex, \
-                   hint_html, hint_dex, \
+    fields.extend([points, prompt_html, prompt_src, \
+                   hint_html, hint_src, \
                    self.selects])
 
     # make the block
@@ -1104,14 +1104,14 @@ class QuestionMC:
     points = mlx.mk_str_points(self.points)
 
     # prompt
-    (prompt_html, prompt_dex) = mk_mlx_prompts(self.index, self.prompt)
+    (prompt_html, prompt_src) = mk_mlx_prompts(self.index, self.prompt)
     
     # hint
-    (hint_html, hint_dex) = mk_mlx_hints(self.index, self.hint)
+    (hint_html, hint_src) = mk_mlx_hints(self.index, self.hint)
 
     # put all fields together
-    fields.extend([points, prompt_html, prompt_dex, \
-                   hint_html, hint_dex, \
+    fields.extend([points, prompt_html, prompt_src, \
+                   hint_html, hint_src, \
                    self.choices])
 
     # make the block

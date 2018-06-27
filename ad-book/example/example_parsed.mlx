@@ -5,11 +5,11 @@
 Parallel and Sequential Algorithms (Fall 2018)
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Parallel and Sequential Algorithms (Fall 2018)
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -49,7 +49,7 @@ S18
 <p>Unlike a traditional introduction to algorithms and data structures, this course puts an emphasis on parallel thinking — i.e., thinking about how algorithms can do multiple things at once instead of one at a time. The course follows up on material learned in 15-122 and 15-150 but goes into significantly more depth on algorithmic issues.</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 15-210 aims to teach methods for designing, analyzing, and programming
 sequential and parallel algorithms and data structures. The emphasis
@@ -67,7 +67,7 @@ about how algorithms can do multiple things at once instead of one at
 a time. The course follows up on material learned in 15-122 and 15-150
 but goes into significantly more depth on algorithmic issues.
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 
 <block name='book'>
 <field name='title'>
@@ -75,11 +75,11 @@ but goes into significantly more depth on algorithmic issues.
 Algorithm Design: Parallel and Sequential (Fall 2019)
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Algorithm Design: Parallel and Sequential (Fall 2019)
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -95,11 +95,11 @@ Umut A. Acar and Guy Blelloch
 Example Chapter: Binary Search Trees
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Example Chapter: Binary Search Trees
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ch:bsts
 </field> <!-- label -->
@@ -114,22 +114,22 @@ ch:bsts
 <p>...NOT.PROVIDED.INTRO...</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 ...NOT.PROVIDED.INTRO...
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='section'>
 <field name='title'>
 <![CDATA[
 Motivation
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Motivation
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -141,7 +141,7 @@ Motivation
 <p>Searching is one of the most important operations in computer science. Of the many search data structures that have been designed and are used in practice, search trees, more specifically balanced binary search trees, occupy a coveted place because of their broad applicability to many different sorts of problems. For example, in this book, we rely on binary search trees to implement set and table (dictionary) abstract data types which are then used in the implementation of many algorithms, including for example graph algorithms.</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 Searching is one of the most important operations in computer science.
 Of the many search data structures that have been designed and are
@@ -155,18 +155,18 @@ which are then used in the
 implementation of many algorithms, including for example graph
 algorithms.
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -179,11 +179,11 @@ algorithms.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -195,7 +195,7 @@ algorithms.
 <p>If we are interested in searching a static or unchanging collection of elements, then we can use a simpler data structure such as sequences. For example, we can use a sequence with the array-based cost specification to implement an efficient search function by representing the collection as a sorted sequence and by using binary search. Such an implementation would yield a logarithmic-work search operation. If, however, we want to support dynamic collections, where for example, we insert new elements and delete existing elements, sequences would require linear work. Binary search trees, or  <span style="color: black"><span><strong><em>BSTs</em></strong></span></span> for short, make it possible to compute with dynamic collections by using insertions, deletions, as well as searches all in logarithmic number of tree operations.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 If we are interested in searching a static or unchanging collection of
 elements, then we can use a simpler data structure such as sequences.
@@ -216,7 +216,7 @@ Binary search trees, or~\defn{BSTs} for short, make it possible to
 compute with dynamic collections by using insertions, deletions, as
 well as searches all in logarithmic number of tree operations.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -225,11 +225,11 @@ well as searches all in logarithmic number of tree operations.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -241,7 +241,7 @@ well as searches all in logarithmic number of tree operations.
 <p>In the traditional treatment of algorithms, which focuses on sequential algorithms, binary search trees revolve around three operations: insertion, deletion, and search. While these operations are important, they are not sufficient for parallelism, since they perform a single update at a time. We therefore consider aggregate update operations, such as union and difference, which can be used to insert and delete (respectively) many elements atonce.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 In the traditional treatment of algorithms, which focuses on
 sequential algorithms, binary search trees revolve around three
@@ -254,7 +254,7 @@ We therefore consider aggregate update operations, such as union and
 difference, which can be used to insert and delete (respectively) many
 elements atonce.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -263,11 +263,11 @@ elements atonce.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -279,7 +279,7 @@ elements atonce.
 <p>The rest of this chapter is organized as follows. We first define binary search trees and present an ADT for them. We then present a parametric implementation of the ADT by using only two operations, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>, which respectively split a tree at a given key and join two trees. Next, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps. Other possible implementation techniques are also described.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The rest of this chapter is organized as follows.  We first define
 binary search trees
@@ -310,7 +310,7 @@ parametric implementation using Treaps.
 Other possible implementation techniques are also described.
 %(\secref{bst::bsts-review})
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -322,11 +322,11 @@ Other possible implementation techniques are also described.
 Preliminaries
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Preliminaries
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 sec:bst::prelim
 </field> <!-- label -->
@@ -338,22 +338,22 @@ sec:bst::prelim
 <p>...NOT.PROVIDED.INTRO...</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 ...NOT.PROVIDED.INTRO...
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -366,11 +366,11 @@ sec:bst::prelim
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -382,7 +382,7 @@ sec:bst::prelim
 <p>We start with some basic definitions and terminology involving rooted and binary search trees. Recall first that a rooted tree is a tree with a distinguished root node. A  <span style="color: black"><span><strong><em>full binary tree</em></strong></span></span> is a rooted tree, where each node is either a  <span style="color: black"><span><strong><em>leaf</em></strong></span></span>, which has no children, or an  <span style="color: black"><span><strong><em>internal node</em></strong></span></span>, which have a left and a right child.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 We start with some basic definitions and terminology involving rooted
 and binary search trees.  Recall first that a rooted tree is a tree
@@ -395,7 +395,7 @@ which have a left and a right child.
 %(\defref{bst::binarytree}).
 %
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='definition'>
@@ -404,11 +404,11 @@ which have a left and a right child.
 Full Binary Tree
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Full Binary Tree
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 def:bst::binarytree
 </field> <!-- label -->
@@ -420,7 +420,7 @@ def:bst::binarytree
 <p>A  <span style="color: black"><span><strong><em>full binary tree</em></strong></span></span> is an ordered rooted tree in which every internal node has exactly two children: the first or the  <span style="color: black"><span><strong><em>left child</em></strong></span></span> and the second or the  <span style="color: black"><span><strong><em>right child</em></strong></span></span>. The  <span style="color: black"><span><strong><em>left subtree</em></strong></span></span> of a node is the subtree rooted at the left child, and the  <span style="color: black"><span><strong><em>right subtree</em></strong></span></span> the one rooted at the right child.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A~\defn{full binary tree} is an ordered rooted tree in which every
 internal node has exactly two children: the first or the~\defn{left
@@ -429,7 +429,7 @@ internal node has exactly two children: the first or the~\defn{left
 The~\defn{left subtree} of a node is the subtree rooted at the left
 child, and the~\defn{right subtree} the one rooted at the right child.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- definition -->
 
 <atom name='gram'>
@@ -438,11 +438,11 @@ child, and the~\defn{right subtree} the one rooted at the right child.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -454,7 +454,7 @@ child, and the~\defn{right subtree} the one rooted at the right child.
 <p>A binary search tree is a full binary tree, where each internal node <span class="math inline">\(u\)</span> has a unique key <span class="math inline">\(k\)</span> such that each node in its left subtree has a key less than <span class="math inline">\(k\)</span> and each node in its right subtree has a key greater that <span class="math inline">\(x\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A binary search tree is a full binary tree, where each internal node
 $u$ has a unique key~$k$ such that each node in its left subtree has a
@@ -462,7 +462,7 @@ key less than $k$ and each node in its right subtree has a key greater
 that $x$.  
 %
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <block name='group'>
@@ -471,11 +471,11 @@ that $x$.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -488,11 +488,11 @@ that $x$.
 Binary Search Tree (BST)
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Binary Search Tree (BST)
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 def:bst::bst
 </field> <!-- label -->
@@ -510,7 +510,7 @@ def:bst::bst
 <p>In the definition, conditions 2 and 3 are referred to as the  <span style="color: black"><span><strong><em>BST property</em></strong></span></span>. We often refer to the elements of <span class="math inline">\(S\)</span> in a BST as keys, and use <span class="math inline">\(\textsf{dom}(T)\)</span> to indicate the domain (keys) in a BST <span class="math inline">\(T\)</span>. The  <span style="color: black"><span><strong><em>size</em></strong></span></span> of a BST is the number of keys in the tree, i.e. <span class="math inline">\(|S|\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A~\defn{binary search tree} (BST) over a totally ordered set $S$ is a
 full binary tree that satisfies the following conditions.
@@ -536,7 +536,7 @@ i.e. $|S|$.
 % \end{array}\right.
 % \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- definition -->
 
 <atom name='example'>
@@ -545,11 +545,11 @@ i.e. $|S|$.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ex:bst
 </field> <!-- label -->
@@ -577,7 +577,7 @@ ex:bst
 <p>In the illustration on the left, the edges are oriented away from the root. They could have also been oriented towards the root. When illustrating binary search trees, we usually replace the directed arcs with undirected edges, leaving the orientation to be implicit. We also draw the left and right subtrees of a node on its left and right respectively. Following this convention, we can draw the tree on the left above as shown an the right. We use this convention in future figures.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 An example binary search tree over the set of natural numbers
 $\{1,3,4,5,6,7,8,9\}$ is shown below.
@@ -620,7 +620,7 @@ shown an the right.
 %
 We use this convention in future figures.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 <block name='subsubsection'>
@@ -629,11 +629,11 @@ We use this convention in future figures.
 Same as the Group Above
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Same as the Group Above
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -646,11 +646,11 @@ Same as the Group Above
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -663,12 +663,12 @@ Same as the Group Above
 <em>Hello!</em>  I am <strong>html</strong> code.
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 <p>
 <em>Hello!</em>  I am <strong>html</strong> code.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- html -->
 
 <atom name='definition'>
@@ -677,11 +677,11 @@ Same as the Group Above
 Binary Search Tree (BST)
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Binary Search Tree (BST)
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 def:bst::bst
 </field> <!-- label -->
@@ -699,7 +699,7 @@ def:bst::bst
 <p>In the definition, conditions 2 and 3 are referred to as the  <span style="color: black"><span><strong><em>BST property</em></strong></span></span>. We often refer to the elements of <span class="math inline">\(S\)</span> in a BST as keys, and use <span class="math inline">\(\textsf{dom}(T)\)</span> to indicate the domain (keys) in a BST <span class="math inline">\(T\)</span>. The  <span style="color: black"><span><strong><em>size</em></strong></span></span> of a BST is the number of keys in the tree, i.e. <span class="math inline">\(|S|\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A~\defn{binary search tree} (BST) over a totally ordered set $S$ is a
 full binary tree that satisfies the following conditions.
@@ -725,7 +725,7 @@ i.e. $|S|$.
 % \end{array}\right.
 % \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- definition -->
 
 <atom name='example'>
@@ -734,11 +734,11 @@ i.e. $|S|$.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ex:bst
 </field> <!-- label -->
@@ -766,7 +766,7 @@ ex:bst
 <p>In the illustration on the left, the edges are oriented away from the root. They could have also been oriented towards the root. When illustrating binary search trees, we usually replace the directed arcs with undirected edges, leaving the orientation to be implicit. We also draw the left and right subtrees of a node on its left and right respectively. Following this convention, we can draw the tree on the left above as shown an the right. We use this convention in future figures.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 An example binary search tree over the set of natural numbers
 $\{1,3,4,5,6,7,8,9\}$ is shown below.
@@ -809,7 +809,7 @@ shown an the right.
 %
 We use this convention in future figures.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 </block> <!-- subsubsection -->
@@ -823,11 +823,11 @@ We use this convention in future figures.
 The BST Abstract Data Type
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 The BST Abstract Data Type
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 sec:bst::adt
 </field> <!-- label -->
@@ -839,22 +839,22 @@ sec:bst::adt
 <p>...NOT.PROVIDED.INTRO...</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 ...NOT.PROVIDED.INTRO...
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -867,11 +867,11 @@ sec:bst::adt
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -883,7 +883,7 @@ sec:bst::adt
 <p>The Abstract Data Type specification below describes an ADT for BSTs parametrized by a totally ordered key set. We briefly describe this ADT and present some examples. As we shall see, the BST ADT can be implemented in many ways. In order to present concrete examples, we assume an implementation but do not specify it.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The Abstract Data Type specification below describes an ADT for BSTs
 parametrized by a totally ordered key set. We briefly describe this
@@ -891,7 +891,7 @@ ADT and present some examples. As we shall see, the BST ADT can be
 implemented in many ways.  In order to present concrete examples, we
 assume an implementation but do not specify it.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='datatype'>
@@ -900,11 +900,11 @@ assume an implementation but do not specify it.
 Binary Search Tree (BST)
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Binary Search Tree (BST)
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 adt:bst::adt
 </field> <!-- label -->
@@ -952,7 +952,7 @@ adt:bst::adt
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 For a universe of totally ordered keys $\kkk$, the BST ADT
 consists of a type $\bstt$ representing a power set of keys and the
@@ -997,7 +997,7 @@ functions whose types are specified as follows.
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- datatype -->
 
 <block name='group'>
@@ -1006,11 +1006,11 @@ functions whose types are specified as follows.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1023,11 +1023,11 @@ functions whose types are specified as follows.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1041,7 +1041,7 @@ functions whose types are specified as follows.
 <p>The functions <span class="math inline">\(\texttt{insert}\)</span> and <span class="math inline">\(\texttt{delete}\)</span> insert and delete a given key into or from the BST.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The ADT supports two constructors: $\cd{empty}$ creates an empty BST
   and $\cd{singleton}$ creates a BST with a single key.
@@ -1053,7 +1053,7 @@ boolean indicating success.
 The functions $\cd{insert}$ and $\cd{delete}$ insert and delete a
 given key into or from the BST.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -1062,11 +1062,11 @@ given key into or from the BST.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1084,7 +1084,7 @@ given key into or from the BST.
 </ul>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Searching in BSTs illustrated.
 
@@ -1114,7 +1114,7 @@ $\cd{false}$
 
 \end{itemize}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='example'>
@@ -1123,11 +1123,11 @@ $\cd{false}$
 Insertion
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Insertion
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1140,7 +1140,7 @@ Insertion
 <p><span class="math inline">\(\texttt{insert}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{6}\)</span> = <img src="/media/210/bsts/bst5.jpg" alt="image" style="width:3cm" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Inserting the key $6$  into the input tree returns a new tree including $6$.
 %
@@ -1153,7 +1153,7 @@ $\rightparen{2cm}$
 =
 \includegraphics[width=3cm]{/media/210/bsts/bst5.jpg}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='example'>
@@ -1162,11 +1162,11 @@ $\rightparen{2cm}$
 Deletion
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Deletion
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1179,7 +1179,7 @@ Deletion
 <p><span class="math inline">\(\texttt{delete}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst5.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{6}\)</span> = <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Deleting the key  $6$ from the input tree returns a tree without it.
 %
@@ -1192,7 +1192,7 @@ $\rightparen{2cm}$
 = 
 \includegraphics[width=3cm]{/media/210/bsts/bst4.jpg}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -1202,11 +1202,11 @@ $\rightparen{2cm}$
 Union
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Union
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1218,7 +1218,7 @@ Union
 <p>The function <span class="math inline">\(\texttt{union}\)</span> takes two BSTs and returns a BST that contains all the keys in them; <span class="math inline">\(\texttt{union}\)</span> is an aggregate insert operation. The function <span class="math inline">\(\texttt{intersection}\)</span> takes two BSTs and returns a BST that contains the keys common in both. The function <span class="math inline">\(\texttt{difference}\)</span> takes two BSTs <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> and returns a BST that contains the keys in <span class="math inline">\(t_1\)</span> that are not in <span class="math inline">\(t_2\)</span>; <span class="math inline">\(\texttt{difference}\)</span> is an aggregate delete operation.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The function $\cd{union}$ takes two BSTs and returns a BST that
 contains all the keys in them; $\cd{union}$ is an aggregate insert
@@ -1231,7 +1231,7 @@ The function $\cd{difference}$ takes two BSTs $t_1$ and $t_2$ and returns
 a BST that contains the keys in $t_1$ that are not in $t_2$;
 $\cd{difference}$ is an aggregate delete operation.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <block name='group'>
@@ -1240,11 +1240,11 @@ $\cd{difference}$ is an aggregate delete operation.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1257,11 +1257,11 @@ $\cd{difference}$ is an aggregate delete operation.
 Split
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Split
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1273,7 +1273,7 @@ Split
 <p>The function <span class="math inline">\(\texttt{split}\)</span> takes a tree <span class="math inline">\(t\)</span> and a key <span class="math inline">\(k\)</span> and splits <span class="math inline">\(t\)</span> into two trees: one consisting of all the keys of <span class="math inline">\(t\)</span> less than <span class="math inline">\(k\)</span>, and another consisting of all the keys of <span class="math inline">\(t\)</span> greater than <span class="math inline">\(k\)</span>. It also returns a Boolean value indicating whether <span class="math inline">\(k\)</span> appears in <span class="math inline">\(t\)</span>. The exact structure of the trees returned by <span class="math inline">\(\texttt{split}\)</span> can differ from one implementation to another: the specification only requires that the resulting trees to be valid BSTs and that they contain the keys less than <span class="math inline">\(k\)</span> and greater than <span class="math inline">\(k\)</span>, leaving their structure otherwise unspecified.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The function $\cd{split}$ takes a tree $t$ and a key $k$ and
 splits $t$ into two trees: one consisting of all the keys of $t$ less
@@ -1288,7 +1288,7 @@ that the resulting trees to be valid BSTs and that they contain the
 keys less than $k$ and greater than $k$, leaving their structure
 otherwise unspecified.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -1297,11 +1297,11 @@ otherwise unspecified.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1319,7 +1319,7 @@ otherwise unspecified.
 </ul>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The function $\cd{split}$ illustrated.
 
@@ -1361,7 +1361,7 @@ $\leftparen{2cm}$
 $\rightparen{2cm}$
 \end{itemize}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -1371,11 +1371,11 @@ $\rightparen{2cm}$
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1388,11 +1388,11 @@ $\rightparen{2cm}$
 Join
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Join
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1404,7 +1404,7 @@ Join
 <p>The function <span class="math inline">\(\texttt{join}\)</span> takes two trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> such that all the keys in <span class="math inline">\(t_1\)</span> are less than the keys in <span class="math inline">\(t_2\)</span>. The function returns a tree that contains all the keys in <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span>. The exact structure of the tree returned by <span class="math inline">\(\texttt{join}\)</span> can differ from one implementation to another: the specification only requires that the resulting tree is a valid BST and that it contains all the keys in the trees joined.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The function $\cd{join}$ takes two trees $t_1$ and $t_2$
 such that all the keys in $t_1$ are less than the keys in $t_2$.  The
@@ -1415,7 +1415,7 @@ from one implementation to another: the specification only requires
 that the resulting tree is a valid BST and that it contains all the
 keys in the trees joined.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -1424,11 +1424,11 @@ keys in the trees joined.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1441,7 +1441,7 @@ keys in the trees joined.
 <p><span class="math inline">\(\texttt{join}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4a.jpg" alt="image" style="width:1cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <span><img src="/media/210/bsts/bst6.jpg" alt="image" style="width:3cm" /></span> <span class="math inline">\(\left.\\[2cm]\right)\)</span> <span class="math inline">\(~~=~~\)</span> <span><img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /></span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The function $\cd{join}$ illustrated.
 
@@ -1458,7 +1458,7 @@ $~~=~~$
 %
 {\includegraphics[width=3cm]{/media/210/bsts/bst4.jpg}}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -1471,11 +1471,11 @@ $~~=~~$
 Implementation via Balancing
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Implementation via Balancing
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 sec:bst::bsts-review
 </field> <!-- label -->
@@ -1487,22 +1487,22 @@ sec:bst::bsts-review
 <p>...NOT.PROVIDED.INTRO...</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 ...NOT.PROVIDED.INTRO...
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1515,11 +1515,11 @@ sec:bst::bsts-review
 The Main Ideas
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 The Main Ideas
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1535,7 +1535,7 @@ The Main Ideas
 </ol>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The key idea behind the implementation of BSTs is to organize the
 keys to facilitate
@@ -1548,7 +1548,7 @@ comparisons along the way, and
   sorted ordering of the keys in the tree by performing constant work.
 \end{enumerate}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <block name='group'>
@@ -1557,11 +1557,11 @@ comparisons along the way, and
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1574,11 +1574,11 @@ comparisons along the way, and
 Searching a Tree
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Searching a Tree
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1590,7 +1590,7 @@ Searching a Tree
 <p>To see how we can search in a tree, consider searching for a key <span class="math inline">\(k\)</span> in a tree <span class="math inline">\(t\)</span> whose root is <span class="math inline">\(r\)</span>. We can start at the root <span class="math inline">\(r\)</span> and if <span class="math inline">\(k\)</span> equals the key at the root, <span class="math inline">\(k(r)\)</span>, then we have found our key, otherwise if <span class="math inline">\(k &lt; k(r)\)</span>, then we know that <span class="math inline">\(k\)</span> cannot appear in the right subtree, so we only need to search the left subtree, and if <span class="math inline">\(k &gt; k(r)\)</span>, then we only have to search the right subtree. Continuing the search, we will either find the key or reach a leaf and conclude that the key is not in the tree. In both cases we have followed a single path through the BST starting at the root.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 To see how we can search in a tree, consider searching for a key $k$
 in a tree $t$ whose root is $r$.
@@ -1605,7 +1605,7 @@ the key or reach a leaf and conclude that the key is not in the tree.
 In both cases we have followed a single path through the BST starting
 at the root.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -1614,11 +1614,11 @@ at the root.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1631,7 +1631,7 @@ at the root.
 <p><img src="/media/210/bsts/bst5-search-7.jpg" alt="image" style="width:3cm" />  <img src="/media/210/bsts/bst5-search-4.jpg" alt="image" style="width:3cm" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A successful search for $7$ and an unsuccessful search for $4$ in the
 given tree.  Search paths are highlighted.
@@ -1644,7 +1644,7 @@ given tree.  Search paths are highlighted.
 \includegraphics[width=3cm]{/media/210/bsts/bst5-search-4.jpg}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -1654,11 +1654,11 @@ given tree.  Search paths are highlighted.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1671,11 +1671,11 @@ given tree.  Search paths are highlighted.
 Operating on Ranges
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Operating on Ranges
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1687,7 +1687,7 @@ Operating on Ranges
 <p>To see how we can operate on a range of keys, note first that each subtree in a binary tree contains all the keys that are within a specific range. We can find such a range by performing a search as described—in fact, a search as described identifies a possibly empty range. Once we find a range of keys, we can operate on them as a group by handling their root. For example, we can move the whole subtree to another location by linking the root to another parent.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 To see how we can operate on a range of keys, note first that each
 subtree in a binary tree contains all the keys that are within a
@@ -1701,7 +1701,7 @@ by handling their root.
 For example, we can move the whole subtree to another location by
 linking the root to another parent.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -1710,11 +1710,11 @@ linking the root to another parent.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1728,7 +1728,7 @@ linking the root to another parent.
 <p><img src="/media/210/bsts/bst5-move-5.jpg" alt="image" style="width:2.5cm" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Consider the tree shown below on the left, we can handle all the keys
 that are less than $8$ by holding the subtree rooted at $5$, the left
@@ -1750,7 +1750,7 @@ resulting tree would not be a valid BST.
 \end{minipage}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -1760,11 +1760,11 @@ resulting tree would not be a valid BST.
 Balancing
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Balancing
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1776,7 +1776,7 @@ Balancing
 <p>By finding a range of keys by traversing a path in the BST, and by moving ranges with constant work, it turns out to be possible to implement all the operations in the BST ADT efficiently as long as the paths traversed are not too long. To guarantee the absence of long paths, we can make sure that the tree remains balanced, i.e., the longest paths have approximately the same length.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 By finding a range of keys by traversing a path in the BST, and by
 moving ranges with constant work, it turns out to be possible to
@@ -1787,7 +1787,7 @@ To guarantee the absence of long paths, we can make sure that the tree
 remains balanced, i.e., the longest paths have approximately the same
 length.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='definition'>
@@ -1796,11 +1796,11 @@ length.
 Perfectly Balanced BSTs
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Perfectly Balanced BSTs
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1812,7 +1812,7 @@ Perfectly Balanced BSTs
 <p>A binary tree is  <span style="color: black"><span><strong><em>perfectly balanced</em></strong></span></span> if it has the minimum possible height. For a binary search tree with <span class="math inline">\(n\)</span> keys, a perfectly balanced tree has height exactly <span class="math inline">\(\lceil \lg (n + 1) \rceil\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A binary tree is~\defn{perfectly balanced} if it has the
 minimum possible height.  
@@ -1820,7 +1820,7 @@ minimum possible height.
 For a binary search tree with $n$ keys, a perfectly balanced tree has
 height exactly $\lceil \lg (n + 1) \rceil$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- definition -->
 
 <atom name='gram'>
@@ -1829,11 +1829,11 @@ height exactly $\lceil \lg (n + 1) \rceil$.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1845,7 +1845,7 @@ height exactly $\lceil \lg (n + 1) \rceil$.
 <p>Ideally we would like to use only perfectly balanced trees. If we never make changes to the tree, we could balance it once and for all. If, however, we want to update the tree by, for example, inserting new keys, then maintaining such perfect balance is costly. In fact, it turns out to be impossible to maintain a perfectly balanced tree while allowing insertions in <span class="math inline">\(O(\lg n)\)</span> work. BST data structures therefore aim to keep approximate balance instead of a perfect one.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Ideally we would like to use only perfectly balanced trees.  
 %
@@ -1861,7 +1861,7 @@ balanced tree while allowing insertions in $O(\lg n)$ work.
 BST data structures therefore aim to keep approximate balance instead
 of a perfect one.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='definition'>
@@ -1870,11 +1870,11 @@ of a perfect one.
 Nearly Balanced BSTs
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Nearly Balanced BSTs
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1887,13 +1887,13 @@ Nearly Balanced BSTs
 n)\)</span>, perhaps in expectation or with high probability.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 We refer to a BST data structure as~\defn{nearly balanced} or simply
 as~\defn{balanced} if all trees with $n$ elements have height $O(\lg
 n)$, perhaps in expectation or with high probability.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- definition -->
 
 <atom name='gram'>
@@ -1902,11 +1902,11 @@ n)$, perhaps in expectation or with high probability.
 Balanced BST Data Structures
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Balanced BST Data Structures
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1927,7 +1927,7 @@ Balanced BST Data Structures
 <p>There are dozens of other balanced BST data structures (e.g. scapegoat trees and skip lists), as well as many that allow larger degrees, including 2–3 trees, brother trees, and B trees.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 There are many balanced BST data structures.  Most either try to
 maintain height balance (the children of a node are about the same
@@ -1967,7 +1967,7 @@ trees and skip lists), as well as many that allow larger degrees,
 including 2--3 trees, brother trees, and B trees.  
 %
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='remark'>
@@ -1976,11 +1976,11 @@ including 2--3 trees, brother trees, and B trees.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -1992,7 +1992,7 @@ including 2--3 trees, brother trees, and B trees.
 <p>Many of the existing BST data structures were developed for sequential computing. Some of these data structures such as Treaps, which we describe here, generalize naturally to parallel computing. But some others, such as data structures that rely on amortization techniques can be challenging to support in the parallel setting.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Many of the existing BST data structures were developed for sequential
 computing.   
@@ -2003,7 +2003,7 @@ generalize naturally to parallel computing.
 But some others, such as data structures that rely on amortization
 techniques can be challenging to support in the parallel setting.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- remark -->
 
 <atom name='teachnote'>
@@ -2012,11 +2012,11 @@ techniques can be challenging to support in the parallel setting.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2029,7 +2029,7 @@ techniques can be challenging to support in the parallel setting.
 <p>It might indeed be worthwhile to discuss the weakness of amortization with respect to persistence. Though this seems a bit advanced for this material. Further thought is needed...</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Bob Harper comment:
 misleading discussion? pages 226-227 the discussion of splay trees,
@@ -2041,7 +2041,7 @@ It might indeed be worthwhile to discuss the weakness of amortization
 with respect to persistence.  Though this seems a bit advanced for
 this material.  Further thought is needed...
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachnote -->
 
 </block> <!-- subsection -->
@@ -2053,11 +2053,11 @@ this material.  Further thought is needed...
 A Parametric Implementation
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 A Parametric Implementation
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 sec:bst::parametric
 </field> <!-- label -->
@@ -2069,7 +2069,7 @@ sec:bst::parametric
 <p>We describe a minimalist implementation of the BST ADT based on two functions, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. Since the implementation depends on just these two functions, we refer to it as a parametric implementation.</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 We describe a minimalist implementation of the BST ADT based on two
 functions, $\cd{split}$ and $\cd{join}$. 
@@ -2077,18 +2077,18 @@ functions, $\cd{split}$ and $\cd{join}$.
 Since the implementation depends on just these two functions, we refer
 to it as a parametric implementation.
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2101,11 +2101,11 @@ to it as a parametric implementation.
 Implementing the BST ADT with <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Implementing the BST ADT with $\cd{split}$ and $\cd{join}$
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ds:bst::parametric
 </field> <!-- label -->
@@ -2206,7 +2206,7 @@ ds:bst::parametric
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 \[
 \begin{array}{ll}
@@ -2301,7 +2301,7 @@ ds:bst::parametric
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- algorithm -->
 
 <atom name='gram'>
@@ -2310,11 +2310,11 @@ ds:bst::parametric
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2329,7 +2329,7 @@ ds:bst::parametric
 <p>The function <span class="math inline">\(\texttt{find}\)</span> is easily implementable with a <span class="math inline">\(\texttt{split}\)</span>, which indicates whether the key used for splitting is found in the tree or not. To implement <span class="math inline">\(\texttt{insert}\)</span> of a key <span class="math inline">\(k\)</span> into a tree, we first <span class="math inline">\(\texttt{split}\)</span> the tree at <span class="math inline">\(k\)</span> and then join the two returned trees along with key <span class="math inline">\(k\)</span> using <span class="math inline">\(\texttt{joinM}.\)</span> To implement <span class="math inline">\(\texttt{delete}\)</span> of a key <span class="math inline">\(k\)</span> from a tree, we first <span class="math inline">\(\texttt{split}\)</span> the tree at <span class="math inline">\(k\)</span> and then join the two returned trees with <span class="math inline">\(\texttt{join}\)</span>. If the key <span class="math inline">\(k\)</span> was found, this gives us a tree that does not contain the <span class="math inline">\(k\)</span>; otherwise we obtain a tree of the same set of keys (though the structure of the tree may be different internally depending on the implementation of <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>).</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The implementation given above assumes that the implementation of
 $\cd{split}$ and $\cd{join}$ are supplied.
@@ -2365,7 +2365,7 @@ the $k$; otherwise we obtain a tree of the same set of keys (though
 the structure of the tree may be different internally depending on the
 implementation of $\cd{split}$ and $\cd{join}$).
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <block name='group'>
@@ -2374,11 +2374,11 @@ implementation of $\cd{split}$ and $\cd{join}$).
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2391,11 +2391,11 @@ implementation of $\cd{split}$ and $\cd{join}$).
 Union
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Union
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2407,7 +2407,7 @@ Union
 <p>The implementation of <span class="math inline">\(\texttt{union}\)</span> uses divide and conquer. The idea is to split both trees at some key <span class="math inline">\(k\)</span>, recursively union the two parts with keys less than <span class="math inline">\(k\)</span>, and the two parts with keys greater than <span class="math inline">\(k\)</span> and then join them. There are different ways to select the key <span class="math inline">\(k\)</span> used to split the tree. One way is to use the key at the root of one of the two trees, for example the first tree, and split the second tree with it; this is the approach take in the parametric implementation.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The implementation of $\cd{union}$ uses divide and conquer.  The idea is
 to split both trees at some key $k$, recursively union the two parts
@@ -2420,7 +2420,7 @@ One way is to use the key at the root of one of the two trees, for
 example the first tree, and split the second tree with it; this is the
 approach take in the parametric implementation.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -2429,11 +2429,11 @@ approach take in the parametric implementation.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 example:tree-union
 </field> <!-- label -->
@@ -2446,7 +2446,7 @@ example:tree-union
 <p><img src="/media/210/bsts/union-dia1.jpg" alt="image" style="width:14cm" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The union of tree $t_1$ and $t_2$ illustrated.
 
@@ -2454,7 +2454,7 @@ The union of tree $t_1$ and $t_2$ illustrated.
   \includegraphics[width=14cm]{/media/210/bsts/union-dia1.jpg}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -2464,11 +2464,11 @@ The union of tree $t_1$ and $t_2$ illustrated.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2481,11 +2481,11 @@ The union of tree $t_1$ and $t_2$ illustrated.
 Intersection
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Intersection
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2499,7 +2499,7 @@ Intersection
 <p>Note that since the trees are BSTs, checking for the intersections of left and right subtrees recursively and is guaranteed to find all shared keys because the <span class="math inline">\(\texttt{split}\)</span> operation places all keys less than and greater than the given key to two separate trees.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The implementation of $\cd{intersection}$ uses a divide-and-conquer
 approach similar to that  of $\cd{union}$.  
@@ -2522,7 +2522,7 @@ left and right subtrees recursively and is guaranteed to find all
 shared keys because the $\cd{split}$ operation places all keys less
 than and greater than the given key to two separate trees.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='exercise'>
@@ -2531,11 +2531,11 @@ than and greater than the given key to two separate trees.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2547,12 +2547,12 @@ than and greater than the given key to two separate trees.
 <p>Prove correct the functions <span class="math inline">\(\texttt{intersection}\)</span>, <span class="math inline">\(\texttt{difference}\)</span>, and <span class="math inline">\(\texttt{union}\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Prove correct the functions $\cd{intersection}$, $\cd{difference}$, and
   $\cd{union}$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- exercise -->
 </block> <!-- group -->
 
@@ -2565,11 +2565,11 @@ Prove correct the functions $\cd{intersection}$, $\cd{difference}$, and
 Cost Specification
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Cost Specification
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 sec:bst::cost
 </field> <!-- label -->
@@ -2581,22 +2581,22 @@ sec:bst::cost
 <p>...NOT.PROVIDED.INTRO...</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 ...NOT.PROVIDED.INTRO...
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2609,11 +2609,11 @@ sec:bst::cost
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2625,7 +2625,7 @@ sec:bst::cost
 <p>There are many ways to implement an efficient data structure that matches our BST ADT, many of these implementation more or less match the same cost specification, with the main difference being whether the bounds are worst-case, expected case (probabilistic), or amortized. These implementations all use balancing techniques to ensure that the depth of the BST remains <span class="math inline">\(O(\lg{n})\)</span>, where <span class="math inline">\(n\)</span> is the number of keys in the tree. For the purposes specifying the costs, we don’t distinguish between worst-case, amortized, and probabilistic bounds, because we can always rely on the existence of an implementation that matches the desired cost specification. When using specific data structures that match the specified bounds in an amortized or randomized sense, we will try to be careful when specifying the bounds.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 There are many ways to implement an efficient data structure that
 matches our BST ADT, many of these implementation more or less match
@@ -2646,7 +2646,7 @@ When using specific data structures that match the specified bounds in
 an amortized or randomized sense, we will try to be careful when
 specifying the bounds.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='costspec'>
@@ -2655,11 +2655,11 @@ specifying the bounds.
 BSTs
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 BSTs
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 cost:bst::costs
 </field> <!-- label -->
@@ -2723,7 +2723,7 @@ cost:bst::costs
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The~\defn{BST} cost specification is defined as follows.  The
   variables $n$ and $m$ are defined as $n = \max{(|t_1|,|t_2|)}$ and
@@ -2785,7 +2785,7 @@ The~\defn{BST} cost specification is defined as follows.  The
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- costspec -->
 
 <atom name='gram'>
@@ -2794,11 +2794,11 @@ The~\defn{BST} cost specification is defined as follows.  The
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2812,7 +2812,7 @@ The~\defn{BST} cost specification is defined as follows.  The
 <p>The cost bounds on <span class="math inline">\(\texttt{union}\)</span>, <span class="math inline">\(\texttt{intersection}\)</span>, and <span class="math inline">\(\texttt{difference}\)</span>, which are similar are more difficult to see.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The cost specification above shows the costs for the BST ADT as can be
 realized by several balanced BST data structures such as Treaps (in
@@ -2833,7 +2833,7 @@ operation and are thus logarithmic in the size of the tree.
 The cost bounds on $\cd{union}$, $\cd{intersection}$, and
 $\cd{difference}$, which are similar are more difficult to see.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -2844,11 +2844,11 @@ $\cd{difference}$, which are similar are more difficult to see.
 Cost of Union, Intersection, and Difference
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Cost of Union, Intersection, and Difference
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2861,11 +2861,11 @@ Cost of Union, Intersection, and Difference
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2877,13 +2877,13 @@ Cost of Union, Intersection, and Difference
 <p>Let’s analyze the cost for <span class="math inline">\(\texttt{union}\)</span> as implemented by the parametric implementation. It is easy to apply a similar analysis to <span class="math inline">\(\texttt{intersection}\)</span> and <span class="math inline">\(\texttt{difference}\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Let's analyze the cost for $\cd{union}$ as implemented by the parametric
 implementation. It is easy to apply a similar analysis to
 $\cd{intersection}$ and $\cd{difference}$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -2892,11 +2892,11 @@ $\cd{intersection}$ and $\cd{difference}$.
 Figuring out the Recurrence
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Figuring out the Recurrence
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2922,7 +2922,7 @@ Figuring out the Recurrence
          &amp; \leq O(\lg n)~. \end{aligned}\]</span> The final inequality holds because <span class="math inline">\(2W_{\mbox{union}}(0,n) = O(1)\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Consider now a call to $\cd{union}$ with parameters
 $t_1$ and $t_2$.  To simplify the analysis, we will make the following
@@ -2957,7 +2957,7 @@ We also have the base case
 \end{align*}
 The final inequality holds because $2W_{\mbox{union}}(0,n) = O(1)$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -2966,11 +2966,11 @@ The final inequality holds because $2W_{\mbox{union}}(0,n) = O(1)$.
 Solving the Recurrence
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Solving the Recurrence
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -2983,7 +2983,7 @@ Solving the Recurrence
 <p><img src="/media/210/bsts/recurtree2.jpg" alt="image" width="4" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 We can draw the recurrence tree showing the work performed by the
 splitting of $t_2$ and by the joining of the results as follows.  For
@@ -2997,7 +2997,7 @@ correspond to the case for $m = 1$.
   \includegraphics[width=4.5]{/media/210/bsts/recurtree2.jpg}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -3006,11 +3006,11 @@ correspond to the case for $m = 1$.
 Brick Method
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Brick Method
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3030,7 +3030,7 @@ Brick Method
 = \frac{1}{1}.\]</span> Thus the total work is asymptotically dominated by the total work of the leaves, which is <span class="math inline">\(O\left({m\lg{n/m}}\right)\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Let's analyze the structure of the recursion tree shown above.
 %
@@ -3085,7 +3085,7 @@ have
 Thus the total work is asymptotically dominated by the total work of
 the leaves, which is $\bigoh{m\lg{n/m}}$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -3094,11 +3094,11 @@ the leaves, which is $\bigoh{m\lg{n/m}}$.
 Direct Derivation
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Direct Derivation
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3144,7 +3144,7 @@ W(n,m) &amp; = &amp;\sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}}
 <p>While the direct method may seem complicated, it is more robust than the brick method, because it can be applied to analyze essentially any algorithm, whereas the Brick method requires establishing a geometric relationship between the cost terms at the levels of the tree.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 We can establish the same fact more precisely.  Let's start by writing
 the total cost by summing over all levels, omitting for simplicity the
@@ -3209,7 +3209,7 @@ algorithm, whereas the Brick method requires establishing a geometric
 relationship between the cost terms at the levels of the tree.
 %
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='gram'>
@@ -3218,11 +3218,11 @@ relationship between the cost terms at the levels of the tree.
 Removing the Assumptions
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Removing the Assumptions
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3247,7 +3247,7 @@ c\cdot 2^i \cdot \lg (n/2^i),\]</span> where we used the fact that the logarithm
 </section>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Of course, in reality, our keys in $t_1$ won't split subtrees of $t_2$
 in half every time.  But it turns out that any unevenness in the
@@ -3298,7 +3298,7 @@ $\cd{intersection}$ and $\cd{difference}$, whose structures are the same
 as $\cd{union}$, except for an additional constant work and span for
 the conditional ($\cd{if}$) expression.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -3310,11 +3310,11 @@ the conditional ($\cd{if}$) expression.
 Treaps
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Treaps
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 sec:bst::treaps
 </field> <!-- label -->
@@ -3326,7 +3326,7 @@ sec:bst::treaps
 <p>Our parametric implementation established an interesting fact: to implement the BST ADT efficiently, we only need to provide efficient <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations. In this section, we present a data structure called  <span style="color: black"><span><strong><em>Treaps</em></strong></span></span> that can support <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations in expected logarithmic work and span. Treaps achieve their efficiency by maintaining BSTs that are probabilistically balanced. Of the many balanced BST data structures, Treaps are likely the simplest, but, since they are randomized, they only guarantee approximate balance with high probability.</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 Our parametric implementation established an interesting fact: to
 implement the BST ADT efficiently, we only need to provide efficient
@@ -3340,18 +3340,18 @@ probabilistically balanced. Of the many balanced BST data structures,
 Treaps are likely the simplest, but, since they are randomized, they
 only guarantee approximate balance with high probability.
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3364,11 +3364,11 @@ only guarantee approximate balance with high probability.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3388,7 +3388,7 @@ only guarantee approximate balance with high probability.
 <p>Observe now that we can select a uniformly random permutation even if we don’t have all the keys by assigning a random priority to each key as it arrives and building our BST by considering the keys in the priority order. By assigning priorities randomly, we essentially guarantee that we always build our tree on a uniformly randomly selected permutation. This is one of the main ideas behind Treaps: Treaps can be viewed as maintaining a BST on a uniformly random permutation of the keys in the tree. To achieve this “imitation of randomly ordered insertions” we associate a priority with each key and require the BST to be “heap ordered” with respect to priorities.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 To see the idea behind Treaps, let's first discuss how we can map a
   sequence of keys to a BST. Given $S$, a sequence of unique keys,
@@ -3451,7 +3451,7 @@ tree. To achieve this ``imitation of randomly ordered insertions''
 we associate a priority with each key and require the BST to be ``heap
 ordered'' with respect to priorities.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachnote -->
 
 <atom name='gram'>
@@ -3460,11 +3460,11 @@ ordered'' with respect to priorities.
 Idea behind Treaps
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Idea behind Treaps
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3476,7 +3476,7 @@ Idea behind Treaps
 <p>The idea behind Treaps is to associate a uniformly randomly selected priority to each key and maintain a priority order between keys in addition to the binary-search-tree order. The priority order between keys resemble the order used in binary heaps, leading to the name “Tree Heap” or “Treap.”</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The idea behind Treaps is to associate a uniformly randomly selected
 priority to each key and maintain a priority order between keys in
@@ -3484,7 +3484,7 @@ addition to the binary-search-tree order.  The priority order between
 keys resemble the order used in binary heaps, leading to the name
 ``Tree Heap'' or ``Treap.''
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='definition'>
@@ -3493,11 +3493,11 @@ keys resemble the order used in binary heaps, leading to the name
 Treap
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Treap
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3510,7 +3510,7 @@ Treap
   K\)</span>, i.e., for every internal node <span class="math inline">\(v\)</span> with left and right children <span class="math inline">\(u\)</span> and <span class="math inline">\(w\)</span>: <span class="math display">\[p(k(v)) \geq p(k(u)) \mbox{ and } p(k(v)) \geq p(k(w)),\]</span> where <span class="math inline">\(k(v)\)</span> denotes the key of a node.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A Treap is a binary search tree over a set $K$ along with
   a~\defn{priority} for each key given by
@@ -3528,7 +3528,7 @@ p(k(v)) \geq p(k(u)) \mbox{ and } p(k(v)) \geq p(k(w)),
 \]
 where $k(v)$ denotes the key of a node.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- definition -->
 
 <atom name='example'>
@@ -3537,11 +3537,11 @@ where $k(v)$ denotes the key of a node.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3555,7 +3555,7 @@ where $k(v)$ denotes the key of a node.
 <p>since <span class="math inline">\(9\)</span> is larger than <span class="math inline">\(3\)</span> and <span class="math inline">\(6\)</span>, and <span class="math inline">\(6\)</span> is larger than <span class="math inline">\(2\)</span> and <span class="math inline">\(5\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The following key-priority pairs $(k,p(k))$,
 \[ (a,3), (b,9), (c, 2), (e,6), (f, 5)~,\] where the keys are ordered
@@ -3566,7 +3566,7 @@ alphabetically, form the following Treap:
 since $9$ is larger than $3$ and $6$, and $6$ is larger than $2$ and
 $5$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='exercise'>
@@ -3575,11 +3575,11 @@ $5$.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3591,12 +3591,12 @@ $5$.
 <p>Prove that if the priorities are unique, then there is exactly one tree structure that satisfies the Treap properties.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Prove that if the priorities are unique, then there is exactly one tree
 structure that satisfies the Treap properties.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- exercise -->
 
 <atom name='gram'>
@@ -3605,11 +3605,11 @@ structure that satisfies the Treap properties.
 Assigning Priorities
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Assigning Priorities
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3621,7 +3621,7 @@ Assigning Priorities
 <p>So how do we assign priorities? As we briefly suggested in the informal discussion above, it turns out that if the priorities are selected uniformly randomly then the tree is guaranteed to be near balanced, i.e. <span class="math inline">\(O(\lg |S|)\)</span> height, with high probability. We will show this shortly.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 So how do we assign priorities?  As we briefly suggested in the
 informal discussion above, it turns out that if the priorities are
@@ -3629,7 +3629,7 @@ selected uniformly randomly then the tree is guaranteed to be near
 balanced, i.e. $O(\lg |S|)$ height, with high probability.  We will
 show this shortly.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='teachask'>
@@ -3638,11 +3638,11 @@ show this shortly.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3654,11 +3654,11 @@ show this shortly.
 <p>How can we maintain the heap order as we modify the tree?</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 How can we maintain the heap order as we modify the tree?
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachask -->
 
 <atom name='gram'>
@@ -3667,11 +3667,11 @@ How can we maintain the heap order as we modify the tree?
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3683,7 +3683,7 @@ How can we maintain the heap order as we modify the tree?
 <p>Based on our parametrized implementation, we can implement the BST ADT with Treaps simply by implementing the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> functions. The SPARC code for such an implementation is given below. For the implementation we assume, without loss of generality, that the priorities are integers. We present only the code for <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>; the rest of the implementation is essentially the same as in the parametric implementation. The only exception that since the nodes now carry priorities, we will need to account for them as we pattern match on nodes and create new ones. In implementing the rest of the functions, there are no interesting operations on priorities: they simply follow the key that they belong to.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Based on our parametrized implementation, we can implement the BST ADT
 with Treaps simply by implementing the $\cd{split}$ and $\cd{join}$
@@ -3704,7 +3704,7 @@ ones.  In implementing the rest of the functions, there are no
 interesting operations on priorities: they simply follow the key that
 they belong to.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='algorithm'>
@@ -3713,11 +3713,11 @@ they belong to.
 Implementing <span><span class="sans-serif">BST</span></span> with Treaps
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Implementing \adt{BST} with Treaps
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ds:bst::treaps
 </field> <!-- label -->
@@ -3782,7 +3782,7 @@ ds:bst::treaps
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 \[
 \begin{array}{ll}
@@ -3841,7 +3841,7 @@ ds:bst::treaps
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- algorithm -->
 
 <atom name='gram'>
@@ -3850,11 +3850,11 @@ ds:bst::treaps
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3866,13 +3866,13 @@ ds:bst::treaps
 <p>To implement the function <span class="math inline">\(\texttt{singleton},\)</span> we rely on a function <span class="math inline">\(\texttt{randomInt},\)</span> which when called returns a (pseudo-)random number. Such functions are broadly provided by programming languages.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 To implement the function $\cd{singleton},$ we rely on a function
 $\cd{randomInt},$ which when called returns a (pseudo-)random number.
 Such functions are broadly provided by programming languages.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <block name='group'>
@@ -3881,11 +3881,11 @@ Such functions are broadly provided by programming languages.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3898,11 +3898,11 @@ Such functions are broadly provided by programming languages.
 Split
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Split
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3914,7 +3914,7 @@ Split
 <p>The <span class="math inline">\(\texttt{split}\)</span> algorithm recursively traverses the tree from the root to the key <span class="math inline">\(k\)</span> splitting along the path, and then when returning from the recursive calls, it puts the subtrees back together. When putting back the trees along the path being split through, the function does not have to compare priorities the priority <span class="math inline">\(p&#39;\)</span> is the highest priority in the input tree <span class="math inline">\(T\)</span> and is therefore larger than the priorities of either of the subtrees on the left and right. Hence <span class="math inline">\(\texttt{split}\)</span> maintains the heap property of treaps.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The $\cd{split}$ algorithm recursively traverses the tree from the
 root to the key $k$ splitting along the path, and then when returning
@@ -3928,7 +3928,7 @@ therefore larger than the priorities of either of the subtrees on the
 left and right.  Hence $\cd{split}$ maintains the heap property of
 treaps.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -3937,11 +3937,11 @@ treaps.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -3954,7 +3954,7 @@ treaps.
 <p><img src="/media/210/bsts/bstsplit.jpg" alt="image" style="width:5.7in" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 A $\cd{split}$ operation on a Treap and key~$c$, which is not in the
 Treap.  The $\cd{split}$ traverses the path $\cseq{a,e,b,d}$ turning
@@ -3974,7 +3974,7 @@ resulting trees on the way back up the recursion.
 %The actual way the trees will be put back together will depend on the
 %balancing scheme.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -3984,11 +3984,11 @@ resulting trees on the way back up the recursion.
 Join
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Join
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4001,11 +4001,11 @@ Join
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4018,7 +4018,7 @@ Join
 <p>The path from the root to the leftmost node in a BST is called the  <span style="color: black"><span><strong><em>left spine</em></strong></span></span>, and the path from the root to the rightmost node is called the  <span style="color: black"><span><strong><em>right spine</em></strong></span></span>. The function <span class="math inline">\(\texttt{join}~t_1~t_2\)</span> merges the right spine of <span class="math inline">\(t_1\)</span> with the left spine of <span class="math inline">\(t_2\)</span> based on the priority order. This ensures that the priorities are in decreasing order down the path.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Unlike the implementation of $\cd{split}$, the implementation of
 $\cd{join}$ operates on priorities in order to ensure that the
@@ -4036,7 +4036,7 @@ $\cd{join}~t_1~t_2$ merges the right spine of $t_1$ with the left
 spine of $t_2$ based on the priority order.  This ensures that the
 priorities are in decreasing order down the path.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -4045,11 +4045,11 @@ priorities are in decreasing order down the path.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ex:bst::treap-join
 </field> <!-- label -->
@@ -4062,7 +4062,7 @@ ex:bst::treap-join
 <p><img src="/media/210/bsts/treap-join.jpg" alt="image" style="width:15cm" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 An illustration of $\cd{join}~t_1~t_2$ on Treaps.  
 %
@@ -4073,7 +4073,7 @@ $k_1$.
   \includegraphics[width=15cm]{/media/210/bsts/treap-join.jpg}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='example'>
@@ -4082,11 +4082,11 @@ $k_1$.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4099,7 +4099,7 @@ $k_1$.
 <p><img src="/media/210/bsts/treap-examp-join.jpg" alt="image" style="width:5.8in" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 An illustration of $\cd{join}$ for Treaps applied to $t_1$ and $t_2$ in
   more detail.  The right spine of $t_1$ consisting of $(b,9)$,
@@ -4110,7 +4110,7 @@ An illustration of $\cd{join}$ for Treaps applied to $t_1$ and $t_2$ in
   \includegraphics[width=5.8in]{/media/210/bsts/treap-examp-join.jpg}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 </block> <!-- group -->
 
@@ -4120,11 +4120,11 @@ An illustration of $\cd{join}$ for Treaps applied to $t_1$ and $t_2$ in
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4137,7 +4137,7 @@ An illustration of $\cd{join}$ for Treaps applied to $t_1$ and $t_2$ in
 <p>(By induction on size) An empty tree is a leaf (base case). Otherwise, the unique key <span class="math inline">\(k\)</span> with the highest priority in <span class="math inline">\(S\)</span> must be at the root. This fixes the keys to the left (<span class="math inline">\(\left\{ k&#39; \in S \;|\; k&#39; &lt; k \right\}\)</span>) and to the right (<span class="math inline">\(\left\{ k&#39; \in S \;|\; k&#39; &gt; k \right\}\)</span>). By induction these are unique, so the whole tree is unique.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 \begin{lemma}
 \label{thm:treapuniqueness}
@@ -4153,7 +4153,7 @@ whole tree is unique.
 \end{proof}
 \end{lemma}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachnote -->
 
 <atom name='gram'>
@@ -4162,11 +4162,11 @@ whole tree is unique.
 Work of Split and Join
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Work of Split and Join
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4178,7 +4178,7 @@ Work of Split and Join
 <p>Let’s bound now the work for <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. Each one does constant work on each recursive call. For <span class="math inline">\(\texttt{split}\)</span> each recursive call goes to one of the children, so the number of recursive calls is at most the height of <span class="math inline">\(t\)</span>. For <span class="math inline">\(\texttt{join}\)</span> each recursive call either goes down one level in <span class="math inline">\(t_1\)</span> or one level in <span class="math inline">\(t_2\)</span>. Therefore the number of recursive calls is bounded by the sum of the heights of the two trees. Hence the work of <span class="math inline">\(\texttt{split}\)</span> <span class="math inline">\(t\)</span> <span class="math inline">\(k\)</span> is <span class="math inline">\(O(h(t))\)</span> and the work of <span class="math inline">\(\texttt{join}\)</span><span class="math inline">\((t_1,m,t_2)\)</span> is <span class="math inline">\(O(h(t_1)+h(t_2))\)</span>. Thus all that is left to do is to bound the height of a Treap.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Let's bound now the work for $\cd{split}$ and $\cd{join}$.  
 %
@@ -4198,7 +4198,7 @@ $\cd{join}$$(t_1,m,t_2)$ is $O(h(t_1)+h(t_2))$.
 %
 Thus all that is left to do is to bound the height of a Treap.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -4209,11 +4209,11 @@ Thus all that is left to do is to bound the height of a Treap.
 Height Analysis of Treaps
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Height Analysis of Treaps
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4226,11 +4226,11 @@ Height Analysis of Treaps
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4242,7 +4242,7 @@ Height Analysis of Treaps
 <p>We can analyze the height of a Treap by relating it to quicksort, which we analyzed before.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 We can analyze the height of a Treap by relating it to quicksort,
  which we analyzed before.
@@ -4250,7 +4250,7 @@ We can analyze the height of a Treap by relating it to quicksort,
 % in \chref{randomized}.
 %
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='algorithm'>
@@ -4259,11 +4259,11 @@ We can analyze the height of a Treap by relating it to quicksort,
 Treap Generating Quicksort
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Treap Generating Quicksort
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4299,7 +4299,7 @@ Treap Generating Quicksort
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The following variant of quick sort generates a treap.
 %
@@ -4340,7 +4340,7 @@ algorithm retains only one key equaling the pivot.
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- algorithm -->
 
 <atom name='gram'>
@@ -4349,11 +4349,11 @@ algorithm retains only one key equaling the pivot.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4366,7 +4366,7 @@ algorithm retains only one key equaling the pivot.
 <p>Based on this isomorphism, we can bound the height of a Treap by the recursion depth of quicksort. Recall that we proved that if we pick the priorities at random, the recursion depth is <span class="math inline">\(O(\lg{n})\)</span> with high probability. Therefore we know that the height of a Treap is <span class="math inline">\(O(\lg{n})\)</span> with high probability.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The tree generated by $\cd{qsTree}(a)$ is the Treap for the sequence
 $a$.  
@@ -4392,7 +4392,7 @@ Recall that we proved that if we pick the priorities at random, the
 recursion depth is $O(\lg{n})$ with high probability.  Therefore we
 know that the height of a Treap is $O(\lg{n})$ with high probability.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -4404,11 +4404,11 @@ know that the height of a Treap is $O(\lg{n})$ with high probability.
 Augmenting Trees
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Augmenting Trees
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4420,7 +4420,7 @@ Augmenting Trees
 <p>Thus far in this chapter, the only interesting information that we stored in BSTs were keys. While such trees can be useful, we sometimes wish to augment trees with more information. In this section, we describe how we might augment BSTs with additional information such as key-value pairs, subtree sizes, and reduced values in general.</p>
 ]]>
 </field> <!-- intro -->
-<field name='intro_raw'>
+<field name='intro_src'>
 <![CDATA[
 Thus far in this chapter, the only interesting information that we
 stored in BSTs were keys. While such trees can be useful, we
@@ -4430,18 +4430,18 @@ In this section, we describe how we might augment BSTs with
 additional information such as key-value pairs, subtree sizes, and
 reduced values in general.
 ]]>
-</field> <!-- intro_raw -->
+</field> <!-- intro_src -->
 <block name='subsection'>
 <field name='title'>
 <![CDATA[
 Augmenting with Key-Value Pairs
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Augmenting with Key-Value Pairs
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4454,11 +4454,11 @@ Augmenting with Key-Value Pairs
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4472,7 +4472,7 @@ Augmenting with Key-Value Pairs
 <p>How can we change a BST data structure to associate values with keys?</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Can you think of an application where we would want to associate a
 value with each key?
@@ -4486,7 +4486,7 @@ operations such as joining two address books, and updating entries.
 %
 How can we change a BST data structure to associate values with keys?
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachnote -->
 
 <atom name='gram'>
@@ -4495,11 +4495,11 @@ How can we change a BST data structure to associate values with keys?
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4511,7 +4511,7 @@ How can we change a BST data structure to associate values with keys?
 <p>Perhaps the simplest form of augmentation involves storing in the BST a key-value pair instead of just a key. Implementing BSTs augmented with key-value pairs is relatively straightforward by updating the relevant parts of the ADT. For example, to accommodate the key, we can change the BST data type to a key-value pair, and update the implementation of the functions to pass the value around with the key as needed, making sure that a key-value pair is never separated. For functions such as <span class="math inline">\(\texttt{find}\)</span> and <span class="math inline">\(\texttt{split}\)</span> that may return the value, we make sure to do so.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Perhaps the simplest form of augmentation involves storing in the BST
 a key-value pair instead of just a key.
@@ -4525,7 +4525,7 @@ pass the value around with the key as needed, making sure that a
 key-value pair is never separated.  For functions such as $\cd{find}$
 and $\cd{split}$ that may return the value, we make sure to do so.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -4536,11 +4536,11 @@ and $\cd{split}$ that may return the value, we make sure to do so.
 Augmenting with Size
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Augmenting with Size
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4553,11 +4553,11 @@ Augmenting with Size
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4576,7 +4576,7 @@ Augmenting with Size
 <p>If, however, we augment the tree so that at each node, we store the size of the subtree rooted at that node, then work becomes logarithmic, because we can find the size of a subtree in constant work.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 As a more complex augmentation, we might want to associate with each
 node in the tree a size field that tells us how large the subtree
@@ -4623,7 +4623,7 @@ size of the subtree rooted at that node, then work becomes
 logarithmic, because we can find the size of a subtree in constant
 work.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='algorithm'>
@@ -4632,11 +4632,11 @@ work.
 Rank
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Rank
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4683,7 +4683,7 @@ Rank
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 \[
 \begin{array}{ll}
@@ -4724,7 +4724,7 @@ Rank
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- algorithm -->
 
 <atom name='teachask'>
@@ -4733,11 +4733,11 @@ Rank
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4751,7 +4751,7 @@ Rank
 <p>Can we compute size of subtrees more efficiently?</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 Can you implement these functions by using a BST? 
 
@@ -4759,7 +4759,7 @@ What is the work and span of these functions?
 
 Can we compute size of subtrees more efficiently?
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachask -->
 
 <atom name='example'>
@@ -4768,11 +4768,11 @@ Can we compute size of subtrees more efficiently?
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4785,7 +4785,7 @@ Can we compute size of subtrees more efficiently?
 <p><img src="/media/210/bsts/rankSelect.jpg" alt="image" style="width:2.5in" /></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 An example BST, where keys are ordered lexicographically and the nodes
 are augmented with the sizes of subtrees.
@@ -4797,7 +4797,7 @@ highlighted.
   \includegraphics[width=2.5in]{/media/210/bsts/rankSelect.jpg}
 \end{center}
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='teachask'>
@@ -4806,11 +4806,11 @@ highlighted.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4822,13 +4822,13 @@ highlighted.
 <p>But how can we maintain the sizes of the subtrees as we perform various operations on the BST such as possibly aggregate insertions, deletions, splits, and joins?</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 But how can we maintain the sizes of the subtrees as we perform
   various operations on the BST such as possibly aggregate insertions,
   deletions, splits, and joins?
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- teachask -->
 
 <atom name='gram'>
@@ -4837,11 +4837,11 @@ But how can we maintain the sizes of the subtrees as we perform
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4854,7 +4854,7 @@ But how can we maintain the sizes of the subtrees as we perform
 <p>In addition to the <span class="math inline">\(\texttt{rank}\)</span> and <span class="math inline">\(\texttt{select}\)</span> functions, we can also define the function <span class="math inline">\(\texttt{splitRank}(T,i)\)</span>, which splits the tree into two by returning the trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> such that <span class="math inline">\(t_1\)</span> contains all keys with rank less than <span class="math inline">\(i\)</span> and <span class="math inline">\(t_2\)</span> contains all keys with rank is greater or equal to <span class="math inline">\(i\)</span>. Such a function can be used for example to write divide-and-conquer algorithms on imperfectly balanced trees.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 To implement a size-augmented tree, we need to keep $\cd{size}$ field at
 each node and compute the size of the nodes as they are created.
@@ -4876,7 +4876,7 @@ with rank is greater or equal to $i$.
 Such a function can be used for example to write divide-and-conquer
 algorithms on imperfectly balanced trees.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 </block> <!-- subsection -->
@@ -4887,11 +4887,11 @@ algorithms on imperfectly balanced trees.
 Augmenting with Reduced Values
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Augmenting with Reduced Values
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4904,11 +4904,11 @@ Augmenting with Reduced Values
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4920,7 +4920,7 @@ Augmenting with Reduced Values
 <p>To compute rank-based properties of keys in a BST, we augmented the BST so that each node stores the size of its subtree. More generally, we might want to associate with each node a  <span style="color: black"><span><strong><em>reduced value</em></strong></span></span> that is computed by reducing over the subtree rooted at the node by a user specified function. In general, there is no restriction on how the reduced values may be computed, they can be based on keys or additional values that the tree is augmented with. To compute reduced values, we simply store with every node <span class="math inline">\(u\)</span> of a binary search tree, the reduced value of its subtree (i.e. the sum of all the reduced values that are descendants of <span class="math inline">\(u\)</span>, possibly also the value at <span class="math inline">\(u\)</span> itself).</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 To compute rank-based properties of keys in a BST, we augmented the
 BST so that each node stores the size of its subtree.  More generally,
@@ -4935,7 +4935,7 @@ binary search tree, the reduced value of its subtree (i.e. the sum of
 all the reduced values that are descendants of $u$, possibly also the
 value at $u$ itself).
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -4944,11 +4944,11 @@ value at $u$ itself).
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -4963,7 +4963,7 @@ value at $u$ itself).
 1 + 2 + 2 + 5\)</span>). It is also the sum of the reduced values of its two children (<span class="math inline">\(6\)</span> and <span class="math inline">\(5\)</span>) and its own value <span class="math inline">\(2\)</span>.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The following drawing shows a tree with key-value pairs on the left,
   and the augmented tree on the right, where each node additionally
@@ -4975,7 +4975,7 @@ The sum at the root ($13$) is the sum of all values in the tree ($3 +
 1 + 2 + 2 + 5$).    It is also the sum of the reduced values of its
 two children ($6$ and $5$) and its own value $2$.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='algorithm'>
@@ -4984,11 +4984,11 @@ two children ($6$ and $5$) and its own value $2$.
 Treaps with Reduced Values
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 Treaps with Reduced Values
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 fig:bst::reducedjoin
 </field> <!-- label -->
@@ -5082,7 +5082,7 @@ fig:bst::reducedjoin
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 \[
 \begin{array}{ll}
@@ -5170,7 +5170,7 @@ fig:bst::reducedjoin
 \end{array}
 \]
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- algorithm -->
 
 <atom name='gram'>
@@ -5179,11 +5179,11 @@ fig:bst::reducedjoin
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -5197,7 +5197,7 @@ fig:bst::reducedjoin
 <p>To compute reduced values as the structure of the tree changes, the implementation relies on an auxiliary function <span class="math inline">\(\texttt{mkNode}\)</span> (read “make node”) that takes the key-value pair as well as the left and right subtrees and computes the reduced value by applying reducer function to the values of the left and right subtrees as well as the value. The only difference in the implementation of <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> functions from the parametric implementations is the use of <span class="math inline">\(\texttt{mkNode}\)</span> instead of <span class="math inline">\(\texttt{Node}.\)</span></p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The value of each reduced value in a tree can be calculated as the sum
 of its two children plus the value stored at the node.  This means
@@ -5234,7 +5234,7 @@ The only difference in the implementation of $\cd{split}$ and
 $\cd{join}$ functions from the parametric implementations is the use
 of $\cd{mkNode}$ instead of $\cd{Node}.$
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='example'>
@@ -5243,11 +5243,11 @@ of $\cd{mkNode}$ instead of $\cd{Node}.$
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -5261,7 +5261,7 @@ of $\cd{mkNode}$ instead of $\cd{Node}.$
 <p>The tree is split by the key <span class="math inline">\(c\)</span>, and the reduced values on the internal nodes need to be updated. This only needs to happen along the path that created the split, which in this case is <span class="math inline">\(e\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(d\)</span>. The node for <span class="math inline">\(d\)</span> does not have to be updated since it is a leaf. The <span class="math inline">\(\texttt{makeNode}\)</span> for <span class="math inline">\(e\)</span> and <span class="math inline">\(b\)</span> are what will update the reduced values for those nodes.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 The following diagram shows an example of splitting an augmented tree.
 \begin{center}
@@ -5274,7 +5274,7 @@ $d$.  The node for $d$ does not have to be updated since it is a leaf.
 The $\cd{makeNode}$ for $e$ and $b$ are what will update the reduced
 values for those nodes.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- example -->
 
 <atom name='gram'>
@@ -5283,11 +5283,11 @@ values for those nodes.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -5299,7 +5299,7 @@ values for those nodes.
 <p>We note that this idea can be used with any binary search tree, not just Treaps. We only need to replace the function for creating a node so that as it creates the node, it also computes a reduced value for the node by summing the reduced values of the children and the value of the node itself.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 We note that this idea can be used with any binary search tree, not
 just Treaps.  We only need to replace the function for creating a node
@@ -5307,7 +5307,7 @@ so that as it creates the node, it also computes a reduced value for
 the node by summing the reduced values of the children and the value
 of the node itself.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- gram -->
 
 <atom name='remark'>
@@ -5316,11 +5316,11 @@ of the node itself.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
-<field name='title_raw'>
+<field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
-</field> <!-- title_raw -->
+</field> <!-- title_src -->
 <field name='label'>
 ...NOT.PROVIDED.LABEL...
 </field> <!-- label -->
@@ -5332,13 +5332,13 @@ of the node itself.
 <p>In an imperative implementation of binary search trees, when a child node is side affected, the reduced values for the nodes on the path from the modified node to the root must be recomputed.</p>
 ]]>
 </field> <!-- body -->
-<field name='body_raw'>
+<field name='body_src'>
 <![CDATA[
 In an imperative implementation of binary search trees, when a child
   node is side affected, the reduced values for the nodes on the path
   from the modified node to the root must be recomputed.
 ]]>
-</field> <!-- body_raw -->
+</field> <!-- body_src -->
 </atom> <!-- remark -->
 
 </block> <!-- subsection -->

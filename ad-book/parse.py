@@ -41,7 +41,8 @@ def main(argv):
   # dex: parser
   command = PYTHON + syntax.SPACE + PARSER + syntax.SPACE + infile_name
   print 'Executing command:', command
-  os.system(command)
+  if os.system(command):
+    print "Fatal Error: command failed! Command = ", command
 
 if __name__ == "__main__":
     main(sys.argv)

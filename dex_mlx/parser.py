@@ -266,7 +266,7 @@ class Parser:
   def mk_parser_text_block (self, target):
     block = pp.SkipTo(target)
     block = tokens.set_key_body(block)
-    block.setDebug()
+#    block.setDebug()
     return block
 
   def mk_parser_picture(self):
@@ -414,43 +414,43 @@ class Parser:
     course = com_course.suppress() + self.mk_parser_text_block (stoppers)
     course = set_text_block_parse_action_single(course)
     course = tokens.set_key_course_number(course)
-    course.setDebug()
+#    course.setDebug()
 
     instance = com_instance.suppress() + self.mk_parser_text_block (stoppers)
     instance = set_text_block_parse_action_single(instance)
     instance = tokens.set_key_instance(instance)
-    instance.setDebug()
+#    instance.setDebug()
 
     
     label = com_label.suppress() + self.mk_parser_text_block (stoppers)
     label = set_text_block_parse_action_single(label)
     label = tokens.set_key_label(label)
-    label.setDebug()
+#    label.setDebug()
 
     folder = com_folder.suppress() + self.mk_parser_text_block (stoppers)
     folder = set_text_block_parse_action_single(folder)
     folder = tokens.set_key_folder(folder)
-    folder.setDebug()
+#    folder.setDebug()
 
     title = com_title.suppress() + self.mk_parser_text_block (stoppers)
     title = set_text_block_parse_action(title)
     title = tokens.set_key_title(title)
-    title.setDebug()
+#    title.setDebug()
 
     points = com_points.suppress() + self.mk_parser_text_block (stoppers)
     points = set_text_block_parse_action_single(points)
     points = tokens.set_key_points(points)
-    points.setDebug()
+#    points.setDebug()
     
     topics = com_topics.suppress() + self.mk_parser_text_block (stoppers)
     topics = set_text_block_parse_action(topics)
     topics = tokens.set_key_topics(topics)
-    topics.setDebug()
+#    topics.setDebug()
 
     prompt = com_prompt.suppress() + self.mk_parser_text_block (stoppers)
     prompt = set_text_block_parse_action(prompt)
     prompt = tokens.set_key_prompt(prompt)
-    prompt.setDebug()
+#    prompt.setDebug()
 
     return (begin, end, course, instance,  label, folder, points,  prompt, title, topics)
     
@@ -578,7 +578,7 @@ class Parser:
    
     problem_set = tokens.set_key_problem_set(problem_set)
     problem_set.setParseAction(self.process_problem_set)
-    problem_set.setDebug()
+#    problem_set.setDebug()
     return problem_set
   
 
@@ -692,7 +692,7 @@ class Parser:
             end
     block = tokens.set_key_subsection(block)
     block.setParseAction(self.process_subsubsection)
-    block.setDebug()
+#    block.setDebug()
     return block
 
   # Make parser for an atom
@@ -1653,6 +1653,8 @@ def main(argv):
     outfile.write(course + NEWLINE + book + NEWLINE)
     outfile.close()
     print 'Parsed code written into file:', outfile_name
+
+  return 0
 
 if __name__ == '__main__':
     main(sys.argv)
