@@ -85,6 +85,7 @@ KW_NO_WEBSITE = KW_NOT_PROVIDED + 'WEBSITE...'
 # These are handled specially
 KW_NO_UNIQUE = '0'  # has to be a number still 
 KW_NO_NO = '0'  # has to be a number still 
+KW_NO_RANK = '0'  # has to be a number still 
 KW_NO_CHAPTER_PROVISION = '1'   # This is the initial for chapter counter
 KW_NO_SECTION_PROVISION = '1'   # This is the initial for section counter
 KW_NO_SUBSECTION_PROVISION = '1'   # This is the initial for subsection counter
@@ -207,6 +208,28 @@ def missing_field(field_body):
 #  print 'missing_field:', field_body[0:50]
   field_body = field_body.strip()
   if KW_NOT_PROVIDED in field_body:
+#    print 'missing_field: True'
+    return True
+  else: 
+#    print 'missing_field: False'
+    return False
+
+def missing_field_unique(field_body):
+#  print 'missing_field: KW_NOT_PROVIDED = ', KW_NOT_PROVIDED
+#  print 'missing_field:', field_body[0:50]
+  field_body = field_body.strip()
+  if KW_NO_UNIQUE == field_body:
+#    print 'missing_field: True'
+    return True
+  else: 
+#    print 'missing_field: False'
+    return False
+
+def missing_field_rank(field_body):
+#  print 'missing_field: KW_NOT_PROVIDED = ', KW_NOT_PROVIDED
+#  print 'missing_field:', field_body[0:50]
+  field_body = field_body.strip()
+  if KW_NO_RANK == field_body:
 #    print 'missing_field: True'
     return True
   else: 
