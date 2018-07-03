@@ -2357,6 +2357,15 @@ In an imperative implementation of binary search trees, when a child
   node is side affected, the reduced values for the nodes on the path
   from the modified node to the root must be recomputed.
 \end{remark}
+
+\begin{remark}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
+This is a duplicate remark: In an imperative implementation of binary search trees, when a child
+  node is side affected, the reduced values for the nodes on the path
+  from the modified node to the root must be recomputed.
+\end{remark}
 \end{subsection}
 \end{section}
 \end{chapter}

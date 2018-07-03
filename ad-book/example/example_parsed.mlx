@@ -192,7 +192,7 @@ algorithms.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>If we are interested in searching a static or unchanging collection of elements, then we can use a simpler data structure such as sequences. For example, we can use a sequence with the array-based cost specification to implement an efficient search function by representing the collection as a sorted sequence and by using binary search. Such an implementation would yield a logarithmic-work search operation. If, however, we want to support dynamic collections, where for example, we insert new elements and delete existing elements, sequences would require linear work. Binary search trees, or <span> </span> for short, make it possible to compute with dynamic collections by using insertions, deletions, as well as searches all in logarithmic number of tree operations.</p>
+<p>If we are interested in searching a static or unchanging collection of elements, then we can use a simpler data structure such as sequences. For example, we can use a sequence with the array-based cost specification to implement an efficient search function by representing the collection as a sorted sequence and by using binary search. Such an implementation would yield a logarithmic-work search operation. If, however, we want to support dynamic collections, where for example, we insert new elements and delete existing elements, sequences would require linear work. Binary search trees, or  <span style="color: black"><span><strong><em>BSTs</em></strong></span></span> for short, make it possible to compute with dynamic collections by using insertions, deletions, as well as searches all in logarithmic number of tree operations.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -276,7 +276,7 @@ elements atonce.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The rest of this chapter is organized as follows. We first define binary search trees and present an ADT for them. We then present a parametric implementation of the ADT by using only two operations, <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>, which respectively split a tree at a given key and join two trees. Next, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps. Other possible implementation techniques are also described.</p>
+<p>The rest of this chapter is organized as follows. We first define binary search trees and present an ADT for them. We then present a parametric implementation of the ADT by using only two operations, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>, which respectively split a tree at a given key and join two trees. Next, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps. Other possible implementation techniques are also described.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -379,7 +379,7 @@ sec:bst::prelim
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>We start with some basic definitions and terminology involving rooted and binary search trees. Recall first that a rooted tree is a tree with a distinguished root node. A <span> </span> is a rooted tree, where each node is either a <span> </span>, which has no children, or an <span> </span>, which have a left and a right child.</p>
+<p>We start with some basic definitions and terminology involving rooted and binary search trees. Recall first that a rooted tree is a tree with a distinguished root node. A  <span style="color: black"><span><strong><em>full binary tree</em></strong></span></span> is a rooted tree, where each node is either a  <span style="color: black"><span><strong><em>leaf</em></strong></span></span>, which has no children, or an  <span style="color: black"><span><strong><em>internal node</em></strong></span></span>, which have a left and a right child.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -417,7 +417,7 @@ def:bst::binarytree
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A <span> </span> is an ordered rooted tree in which every internal node has exactly two children: the first or the <span> </span> and the second or the <span> </span>. The <span> </span> of a node is the subtree rooted at the left child, and the <span> </span> the one rooted at the right child.</p>
+<p>A  <span style="color: black"><span><strong><em>full binary tree</em></strong></span></span> is an ordered rooted tree in which every internal node has exactly two children: the first or the  <span style="color: black"><span><strong><em>left child</em></strong></span></span> and the second or the  <span style="color: black"><span><strong><em>right child</em></strong></span></span>. The  <span style="color: black"><span><strong><em>left subtree</em></strong></span></span> of a node is the subtree rooted at the left child, and the  <span style="color: black"><span><strong><em>right subtree</em></strong></span></span> the one rooted at the right child.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -501,13 +501,13 @@ def:bst::bst
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A <span> </span> (BST) over a totally ordered set <span class="math inline">\(S\)</span> is a full binary tree that satisfies the following conditions.</p>
+<p>A  <span style="color: black"><span><strong><em>binary search tree</em></strong></span></span> (BST) over a totally ordered set <span class="math inline">\(S\)</span> is a full binary tree that satisfies the following conditions.</p>
 <ol>
 <li><p>There is a one-to-one mapping <span class="math inline">\(k(v)\)</span> from internal tree nodes to elements in <span class="math inline">\(S\)</span>.</p></li>
 <li><p>for every <span class="math inline">\(u\)</span> in the left subtree of <span class="math inline">\(v\)</span>, <span class="math inline">\(k(u) &lt; k(v)\)</span></p></li>
 <li><p>for every <span class="math inline">\(u\)</span> in the right subtree of <span class="math inline">\(v\)</span>, <span class="math inline">\(k(u) &gt; k(v)\)</span></p></li>
 </ol>
-<p>In the definition, conditions 2 and 3 are referred to as the <span> </span>. We often refer to the elements of <span class="math inline">\(S\)</span> in a BST as keys, and use <span class="math inline">\({\textsf{dom}(T)}\)</span> to indicate the domain (keys) in a BST <span class="math inline">\(T\)</span>. The <span> </span> of a BST is the number of keys in the tree, i.e. <span class="math inline">\(|S|\)</span>.</p>
+<p>In the definition, conditions 2 and 3 are referred to as the  <span style="color: black"><span><strong><em>BST property</em></strong></span></span>. We often refer to the elements of <span class="math inline">\(S\)</span> in a BST as keys, and use <span class="math inline">\(\textsf{dom}(T)\)</span> to indicate the domain (keys) in a BST <span class="math inline">\(T\)</span>. The  <span style="color: black"><span><strong><em>size</em></strong></span></span> of a BST is the number of keys in the tree, i.e. <span class="math inline">\(|S|\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -559,11 +559,21 @@ ex:bst
 <field name='body'>
 <![CDATA[
 <p>An example binary search tree over the set of natural numbers <span class="math inline">\(\{1,3,4,5,6,7,8,9\}\)</span> is shown below.</p>
-<p><span>ccc</span></p>
-<p><img src="/media/210/bsts/bst2.jpg" alt="image" width="240" /></p>
-<p>&amp; &amp;</p>
-<p><img src="/media/210/bsts/bst3.jpg" alt="image" width="172" /></p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">
+
+<p><img src="/media/210/bsts/bst2.jpg" alt="image" style="width:2.5in" /></p></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">
+
+<p><img src="/media/210/bsts/bst3.jpg" alt="image" style="width:1.8in" /></p></td>
+</tr>
+</tbody>
+</table>
 <p>On the left the <span class="math inline">\(L\)</span> and <span class="math inline">\(R\)</span> indicate the left (first) and right (second) child, respectively. All internal nodes (white) have a key associated with them while the leaves (black) are empty. The keys satisfy the BST property—for every node, the keys in the left subtree are less, and the ones in the right subtree are greater.</p>
+
 <p>In the illustration on the left, the edges are oriented away from the root. They could have also been oriented towards the root. When illustrating binary search trees, we usually replace the directed arcs with undirected edges, leaving the orientation to be implicit. We also draw the left and right subtrees of a node on its left and right respectively. Following this convention, we can draw the tree on the left above as shown an the right. We use this convention in future figures.</p>
 ]]>
 </field> <!-- body -->
@@ -680,13 +690,13 @@ Binary Search Tree (BST)
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A <span> </span> (BST) over a totally ordered set <span class="math inline">\(S\)</span> is a full binary tree that satisfies the following conditions.</p>
+<p>A  <span style="color: black"><span><strong><em>binary search tree</em></strong></span></span> (BST) over a totally ordered set <span class="math inline">\(S\)</span> is a full binary tree that satisfies the following conditions.</p>
 <ol>
 <li><p>There is a one-to-one mapping <span class="math inline">\(k(v)\)</span> from internal tree nodes to elements in <span class="math inline">\(S\)</span>.</p></li>
 <li><p>for every <span class="math inline">\(u\)</span> in the left subtree of <span class="math inline">\(v\)</span>, <span class="math inline">\(k(u) &lt; k(v)\)</span></p></li>
 <li><p>for every <span class="math inline">\(u\)</span> in the right subtree of <span class="math inline">\(v\)</span>, <span class="math inline">\(k(u) &gt; k(v)\)</span></p></li>
 </ol>
-<p>In the definition, conditions 2 and 3 are referred to as the <span> </span>. We often refer to the elements of <span class="math inline">\(S\)</span> in a BST as keys, and use <span class="math inline">\({\textsf{dom}(T)}\)</span> to indicate the domain (keys) in a BST <span class="math inline">\(T\)</span>. The <span> </span> of a BST is the number of keys in the tree, i.e. <span class="math inline">\(|S|\)</span>.</p>
+<p>In the definition, conditions 2 and 3 are referred to as the  <span style="color: black"><span><strong><em>BST property</em></strong></span></span>. We often refer to the elements of <span class="math inline">\(S\)</span> in a BST as keys, and use <span class="math inline">\(\textsf{dom}(T)\)</span> to indicate the domain (keys) in a BST <span class="math inline">\(T\)</span>. The  <span style="color: black"><span><strong><em>size</em></strong></span></span> of a BST is the number of keys in the tree, i.e. <span class="math inline">\(|S|\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -738,11 +748,21 @@ i.e. $|S|$.
 <field name='body'>
 <![CDATA[
 <p>An example binary search tree over the set of natural numbers <span class="math inline">\(\{1,3,4,5,6,7,8,9\}\)</span> is shown below.</p>
-<p><span>ccc</span></p>
-<p><img src="/media/210/bsts/bst2.jpg" alt="image" width="240" /></p>
-<p>&amp; &amp;</p>
-<p><img src="/media/210/bsts/bst3.jpg" alt="image" width="172" /></p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">
+
+<p><img src="/media/210/bsts/bst2.jpg" alt="image" style="width:2.5in" /></p></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">
+
+<p><img src="/media/210/bsts/bst3.jpg" alt="image" style="width:1.8in" /></p></td>
+</tr>
+</tbody>
+</table>
 <p>On the left the <span class="math inline">\(L\)</span> and <span class="math inline">\(R\)</span> indicate the left (first) and right (second) child, respectively. All internal nodes (white) have a key associated with them while the leaves (black) are empty. The keys satisfy the BST property—for every node, the keys in the left subtree are less, and the ones in the right subtree are greater.</p>
+
 <p>In the illustration on the left, the edges are oriented away from the root. They could have also been oriented towards the root. When illustrating binary search trees, we usually replace the directed arcs with undirected edges, leaving the orientation to be implicit. We also draw the left and right subtrees of a node on its left and right respectively. Following this convention, we can draw the tree on the left above as shown an the right. We use this convention in future figures.</p>
 ]]>
 </field> <!-- body -->
@@ -893,27 +913,43 @@ adt:bst::adt
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>For a universe of totally ordered keys <span class="math inline">\({{{\mathbb{K}}}}\)</span>, the BST ADT consists of a type <span class="math inline">\({{{{\mathbb{T}}}}}\)</span> representing a power set of keys and the functions whose types are specified as follows.</p>
+<p>For a universe of totally ordered keys <span class="math inline">\({\mathbb{K}}\)</span>, the BST ADT consists of a type <span class="math inline">\({\mathbb{T}}\)</span> representing a power set of keys and the functions whose types are specified as follows.</p>
 <p><span class="math display">\[\begin{array}{lcl} 
-\texttt{empty} &amp; : &amp;{{{{\mathbb{T}}}}}\\ 
-{\texttt{singleton}} &amp; : &amp; {{{\mathbb{K}}}}{\rightarrow}{{{{\mathbb{T}}}}}\\ 
-{\texttt{find}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{\mathbb{K}}}}{\rightarrow}{{{\mathbb{B}}}}\\ 
-{\texttt{delete}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{\mathbb{K}}}}{\rightarrow}{{{{\mathbb{T}}}}}\\ 
-{\texttt{insert}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{\mathbb{K}}}}{\rightarrow}{{{{\mathbb{T}}}}}\\ 
-{\texttt{intersection}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}\\ 
-{\texttt{difference}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}\\ 
-{\texttt{union}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}\\ 
-{\texttt{split}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{\mathbb{K}}}}{\rightarrow}({{{{\mathbb{T}}}}}\times {{{\mathbb{B}}}}\times {{{{\mathbb{T}}}}}) 
+\texttt{empty} &amp; : &amp;{\mathbb{T}}
 \\ 
-{\texttt{join}} 
-&amp; : &amp; {{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}{\rightarrow}{{{{\mathbb{T}}}}}\end{array}\]</span></p>
+% 
+\texttt{singleton} &amp; : &amp; {\mathbb{K}}\rightarrow{\mathbb{T}}
+\\ 
+% 
+\texttt{find} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow{\mathbb{B}}
+\\ 
+% 
+\texttt{delete} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow{\mathbb{T}}
+\\ 
+\texttt{insert} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow{\mathbb{T}}
+\\ 
+% 
+\texttt{intersection} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
+\\ 
+% 
+\texttt{difference} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
+\\ 
+% 
+\texttt{union} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
+\\ 
+% 
+\texttt{split} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow({\mathbb{T}}\times {\mathbb{B}}\times {\mathbb{T}}) 
+\\ 
+\texttt{join} 
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
+\end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1000,8 +1036,9 @@ functions whose types are specified as follows.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The ADT supports two constructors: <span class="math inline">\({\texttt{empty}}\)</span> creates an empty BST and <span class="math inline">\({\texttt{singleton}}\)</span> creates a BST with a single key. The function <span class="math inline">\({\texttt{find}}\)</span> searches for a given key and returns a boolean indicating success.</p>
-<p>The functions <span class="math inline">\({\texttt{insert}}\)</span> and <span class="math inline">\({\texttt{delete}}\)</span> insert and delete a given key into or from the BST.</p>
+<p>The ADT supports two constructors: <span class="math inline">\(\texttt{empty}\)</span> creates an empty BST and <span class="math inline">\(\texttt{singleton}\)</span> creates a BST with a single key.</p>
+<p>The function <span class="math inline">\(\texttt{find}\)</span> searches for a given key and returns a boolean indicating success.</p>
+<p>The functions <span class="math inline">\(\texttt{insert}\)</span> and <span class="math inline">\(\texttt{delete}\)</span> insert and delete a given key into or from the BST.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1040,9 +1077,10 @@ given key into or from the BST.
 <![CDATA[
 <p>Searching in BSTs illustrated.</p>
 <ul>
-<li><p>Searching for <span class="math inline">\(5\)</span> in the input tree returns <span class="math inline">\({\texttt{true}}.\)</span></p>
-<p><span class="math inline">\({\texttt{find}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span>   <span class="math inline">\({\texttt{5}}\)</span> <span class="math inline">\(~=~\)</span> <span class="math inline">\({\texttt{true}}\)</span></p></li>
-<li><p>Searching for <span class="math inline">\(6\)</span> in the input tree returns <span class="math inline">\({\texttt{false}}.\)</span> <span class="math inline">\({\texttt{find}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span>   <span class="math inline">\({\texttt{6}}\)</span> <span class="math inline">\(~=~\)</span> <span class="math inline">\({\texttt{false}}\)</span></p></li>
+<li><p>Searching for <span class="math inline">\(5\)</span> in the input tree returns <span class="math inline">\(\texttt{true}.\)</span></p>
+<p><span class="math inline">\(\texttt{find}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{5}\)</span> <span class="math inline">\(~=~\)</span> <span class="math inline">\(\texttt{true}\)</span></p></li>
+<li><p>Searching for <span class="math inline">\(6\)</span> in the input tree returns <span class="math inline">\(\texttt{false}.\)</span></p>
+<p><span class="math inline">\(\texttt{find}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{6}\)</span> <span class="math inline">\(~=~\)</span> <span class="math inline">\(\texttt{false}\)</span></p></li>
 </ul>
 ]]>
 </field> <!-- body -->
@@ -1098,7 +1136,8 @@ Insertion
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Inserting the key <span class="math inline">\(6\)</span> into the input tree returns a new tree including <span class="math inline">\(6\)</span>. <span class="math inline">\({\texttt{insert}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span>   <span class="math inline">\({\texttt{6}}\)</span> = <img src="/media/210/bsts/bst5.jpg" alt="image" width="113" /></p>
+<p>Inserting the key <span class="math inline">\(6\)</span> into the input tree returns a new tree including <span class="math inline">\(6\)</span>.</p>
+<p><span class="math inline">\(\texttt{insert}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{6}\)</span> = <img src="/media/210/bsts/bst5.jpg" alt="image" style="width:3cm" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1136,7 +1175,8 @@ Deletion
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Deleting the key <span class="math inline">\(6\)</span> from the input tree returns a tree without it. <span class="math inline">\({\texttt{delete}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst5.jpg" alt="image" width="113" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span>   <span class="math inline">\({\texttt{6}}\)</span> = <img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /></p>
+<p>Deleting the key <span class="math inline">\(6\)</span> from the input tree returns a tree without it.</p>
+<p><span class="math inline">\(\texttt{delete}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst5.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{6}\)</span> = <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1175,7 +1215,7 @@ Union
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The function <span class="math inline">\({\texttt{union}}\)</span> takes two BSTs and returns a BST that contains all the keys in them; <span class="math inline">\({\texttt{union}}\)</span> is an aggregate insert operation. The function <span class="math inline">\({\texttt{intersection}}\)</span> takes two BSTs and returns a BST that contains the keys common in both. The function <span class="math inline">\({\texttt{difference}}\)</span> takes two BSTs <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> and returns a BST that contains the keys in <span class="math inline">\(t_1\)</span> that are not in <span class="math inline">\(t_2\)</span>; <span class="math inline">\({\texttt{difference}}\)</span> is an aggregate delete operation.</p>
+<p>The function <span class="math inline">\(\texttt{union}\)</span> takes two BSTs and returns a BST that contains all the keys in them; <span class="math inline">\(\texttt{union}\)</span> is an aggregate insert operation. The function <span class="math inline">\(\texttt{intersection}\)</span> takes two BSTs and returns a BST that contains the keys common in both. The function <span class="math inline">\(\texttt{difference}\)</span> takes two BSTs <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> and returns a BST that contains the keys in <span class="math inline">\(t_1\)</span> that are not in <span class="math inline">\(t_2\)</span>; <span class="math inline">\(\texttt{difference}\)</span> is an aggregate delete operation.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1230,7 +1270,7 @@ Split
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The function <span class="math inline">\({\texttt{split}}\)</span> takes a tree <span class="math inline">\(t\)</span> and a key <span class="math inline">\(k\)</span> and splits <span class="math inline">\(t\)</span> into two trees: one consisting of all the keys of <span class="math inline">\(t\)</span> less than <span class="math inline">\(k\)</span>, and another consisting of all the keys of <span class="math inline">\(t\)</span> greater than <span class="math inline">\(k\)</span>. It also returns a Boolean value indicating whether <span class="math inline">\(k\)</span> appears in <span class="math inline">\(t\)</span>. The exact structure of the trees returned by <span class="math inline">\({\texttt{split}}\)</span> can differ from one implementation to another: the specification only requires that the resulting trees to be valid BSTs and that they contain the keys less than <span class="math inline">\(k\)</span> and greater than <span class="math inline">\(k\)</span>, leaving their structure otherwise unspecified.</p>
+<p>The function <span class="math inline">\(\texttt{split}\)</span> takes a tree <span class="math inline">\(t\)</span> and a key <span class="math inline">\(k\)</span> and splits <span class="math inline">\(t\)</span> into two trees: one consisting of all the keys of <span class="math inline">\(t\)</span> less than <span class="math inline">\(k\)</span>, and another consisting of all the keys of <span class="math inline">\(t\)</span> greater than <span class="math inline">\(k\)</span>. It also returns a Boolean value indicating whether <span class="math inline">\(k\)</span> appears in <span class="math inline">\(t\)</span>. The exact structure of the trees returned by <span class="math inline">\(\texttt{split}\)</span> can differ from one implementation to another: the specification only requires that the resulting trees to be valid BSTs and that they contain the keys less than <span class="math inline">\(k\)</span> and greater than <span class="math inline">\(k\)</span>, leaving their structure otherwise unspecified.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1270,12 +1310,12 @@ otherwise unspecified.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The function <span class="math inline">\({\texttt{split}}\)</span> illustrated.</p>
+<p>The function <span class="math inline">\(\texttt{split}\)</span> illustrated.</p>
 <ul>
 <li><p>Splitting the input tree at <span class="math inline">\(6\)</span> yields two trees, consisting of the keys less that <span class="math inline">\(6\)</span> and those greater that <span class="math inline">\(6\)</span>, indicating also that <span class="math inline">\(6\)</span> is not in the input tree.</p>
-<p><span class="math inline">\({\texttt{split}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span>   <span class="math inline">\({\texttt{6}}\)</span> <span class="math inline">\(~~=~~\)</span> <span class="math inline">\({\left(\\[1.5cm]\right.}\)</span> <img src="/media/210/bsts/bst4a.jpg" alt="image" width="37" />  , <span class="math inline">\({\texttt{False}}\)</span> ,   <img src="/media/210/bsts/bst4b.jpg" alt="image" width="75" /> <span class="math inline">\({\left.\\[1.5cm]\right)}\)</span></p></li>
+<p><span class="math inline">\(\texttt{split}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{6}\)</span> <span class="math inline">\(~~=~~\)</span> <span class="math inline">\(\left(\\[1.5cm]\right.\)</span> <img src="/media/210/bsts/bst4a.jpg" alt="image" style="width:1cm" />  , <span class="math inline">\(\texttt{False}\)</span> ,   <img src="/media/210/bsts/bst4b.jpg" alt="image" style="width:2cm" /> <span class="math inline">\(\left.\\[1.5cm]\right)\)</span></p></li>
 <li><p>Splitting the input tree at <span class="math inline">\(5\)</span> yields two trees, consisting of the keys less than <span class="math inline">\(5\)</span> and those greater than <span class="math inline">\(5\)</span>, indicating also that <span class="math inline">\(5\)</span> is found in the input tree.</p>
-<p><span class="math inline">\({\texttt{split}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span>   <span class="math inline">\({\texttt{5}}\)</span> <span class="math inline">\(~~=~~\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <span><img src="/media/210/bsts/bst4c.jpg" alt="image" width="26" /></span>  ,  <span class="math inline">\({\texttt{True}}\)</span> ,   <span><img src="/media/210/bsts/bst4b.jpg" alt="image" width="75" /></span> <span class="math inline">\({\left.\\[2cm]\right)}\)</span></p></li>
+<p><span class="math inline">\(\texttt{split}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span>   <span class="math inline">\(\texttt{5}\)</span> <span class="math inline">\(~~=~~\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <span><img src="/media/210/bsts/bst4c.jpg" alt="image" style="width:7mm" /></span>  ,  <span class="math inline">\(\texttt{True}\)</span> ,   <span><img src="/media/210/bsts/bst4b.jpg" alt="image" style="width:2cm" /></span> <span class="math inline">\(\left.\\[2cm]\right)\)</span></p></li>
 </ul>
 ]]>
 </field> <!-- body -->
@@ -1361,7 +1401,7 @@ Join
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The function <span class="math inline">\({\texttt{join}}\)</span> takes two trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> such that all the keys in <span class="math inline">\(t_1\)</span> are less than the keys in <span class="math inline">\(t_2\)</span>. The function returns a tree that contains all the keys in <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span>. The exact structure of the tree returned by <span class="math inline">\({\texttt{join}}\)</span> can differ from one implementation to another: the specification only requires that the resulting tree is a valid BST and that it contains all the keys in the trees joined.</p>
+<p>The function <span class="math inline">\(\texttt{join}\)</span> takes two trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> such that all the keys in <span class="math inline">\(t_1\)</span> are less than the keys in <span class="math inline">\(t_2\)</span>. The function returns a tree that contains all the keys in <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span>. The exact structure of the tree returned by <span class="math inline">\(\texttt{join}\)</span> can differ from one implementation to another: the specification only requires that the resulting tree is a valid BST and that it contains all the keys in the trees joined.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1397,8 +1437,8 @@ keys in the trees joined.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The function <span class="math inline">\({\texttt{join}}\)</span> illustrated.</p>
-<p><span class="math inline">\({\texttt{join}}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <img src="/media/210/bsts/bst4a.jpg" alt="image" width="37" /> <span class="math inline">\({\left.\\[2cm]\right)}\)</span> <span class="math inline">\({\left(\\[2cm]\right.}\)</span> <span><img src="/media/210/bsts/bst6.jpg" alt="image" width="113" /></span> <span class="math inline">\({\left.\\[2cm]\right)}\)</span> <span class="math inline">\(~~=~~\)</span> <span><img src="/media/210/bsts/bst4.jpg" alt="image" width="113" /></span></p>
+<p>The function <span class="math inline">\(\texttt{join}\)</span> illustrated.</p>
+<p><span class="math inline">\(\texttt{join}\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <img src="/media/210/bsts/bst4a.jpg" alt="image" style="width:1cm" /> <span class="math inline">\(\left.\\[2cm]\right)\)</span> <span class="math inline">\(\left(\\[2cm]\right.\)</span> <span><img src="/media/210/bsts/bst6.jpg" alt="image" style="width:3cm" /></span> <span class="math inline">\(\left.\\[2cm]\right)\)</span> <span class="math inline">\(~~=~~\)</span> <span><img src="/media/210/bsts/bst4.jpg" alt="image" style="width:3cm" /></span></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1588,7 +1628,7 @@ at the root.
 <field name='body'>
 <![CDATA[
 <p>A successful search for <span class="math inline">\(7\)</span> and an unsuccessful search for <span class="math inline">\(4\)</span> in the given tree. Search paths are highlighted.</p>
-<p><img src="/media/210/bsts/bst5-search-7.jpg" alt="image" width="113" />  <img src="/media/210/bsts/bst5-search-4.jpg" alt="image" width="113" /></p>
+<p><img src="/media/210/bsts/bst5-search-7.jpg" alt="image" style="width:3cm" />  <img src="/media/210/bsts/bst5-search-4.jpg" alt="image" style="width:3cm" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1684,8 +1724,8 @@ linking the root to another parent.
 <field name='body'>
 <![CDATA[
 <p>Consider the tree shown below on the left, we can handle all the keys that are less than <span class="math inline">\(8\)</span> by holding the subtree rooted at <span class="math inline">\(5\)</span>, the left child of <span class="math inline">\(8\)</span>. For example, we can make <span class="math inline">\(5\)</span> the left child of <span class="math inline">\(9\)</span> and delete <span class="math inline">\(8\)</span> from the tree. Note that if <span class="math inline">\(8\)</span> remains in the tree, the resulting tree would not be a valid BST.</p>
-<p><img src="/media/210/bsts/bst5-search-5.jpg" alt="image" width="113" /></p>
-<p><img src="/media/210/bsts/bst5-move-5.jpg" alt="image" width="94" /></p>
+<p><img src="/media/210/bsts/bst5-search-5.jpg" alt="image" style="width:3cm" /></p>
+<p><img src="/media/210/bsts/bst5-move-5.jpg" alt="image" style="width:2.5cm" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1769,7 +1809,7 @@ Perfectly Balanced BSTs
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A binary tree is <span> </span> if it has the minimum possible height. For a binary search tree with <span class="math inline">\(n\)</span> keys, a perfectly balanced tree has height exactly <span class="math inline">\(\lceil \lg (n + 1) \rceil\)</span>.</p>
+<p>A binary tree is  <span style="color: black"><span><strong><em>perfectly balanced</em></strong></span></span> if it has the minimum possible height. For a binary search tree with <span class="math inline">\(n\)</span> keys, a perfectly balanced tree has height exactly <span class="math inline">\(\lceil \lg (n + 1) \rceil\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1843,7 +1883,7 @@ Nearly Balanced BSTs
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>We refer to a BST data structure as <span> </span> or simply as <span> </span> if all trees with <span class="math inline">\(n\)</span> elements have height <span class="math inline">\(O(\lg 
+<p>We refer to a BST data structure as  <span style="color: black"><span><strong><em>nearly balanced</em></strong></span></span> or simply as  <span style="color: black"><span><strong><em>balanced</em></strong></span></span> if all trees with <span class="math inline">\(n\)</span> elements have height <span class="math inline">\(O(\lg 
 n)\)</span>, perhaps in expectation or with high probability.</p>
 ]]>
 </field> <!-- body -->
@@ -1877,12 +1917,12 @@ Balanced BST Data Structures
 <![CDATA[
 <p>There are many balanced BST data structures. Most either try to maintain height balance (the children of a node are about the same height) or weight balance (the children of a node are about the same size). Here we list a few such data structures:</p>
 <ol>
-<li><p><span> </span> are the earliest nearly balanced BST data structure (1962). It maintains the invariant that the two children of each node differ in height by at most one, which in turn implies approximate balance.</p></li>
-<li><p><span> </span> maintain the invariant that all leaves have a depth that is within a factor of 2 of each other. The depth invariant is ensured by a scheme of coloring the nodes red and black.</p></li>
-<li><p><span> </span> maintain the invariant that the left and right subtrees of a node of size <span class="math inline">\(n\)</span> each have size at least <span class="math inline">\(\alpha n\)</span> for <span class="math inline">\(0 &lt; \alpha \leq 
+<li><p><span style="color: black"><span><strong><em>AVL trees</em></strong></span></span> are the earliest nearly balanced BST data structure (1962). It maintains the invariant that the two children of each node differ in height by at most one, which in turn implies approximate balance.</p></li>
+<li><p><span style="color: black"><span><strong><em>Red-Black trees</em></strong></span></span> maintain the invariant that all leaves have a depth that is within a factor of 2 of each other. The depth invariant is ensured by a scheme of coloring the nodes red and black.</p></li>
+<li><p><span style="color: black"><span><strong><em>Weight balanced (BB[<span class="math inline">\(\alpha\)</span>]) trees</em></strong></span></span> maintain the invariant that the left and right subtrees of a node of size <span class="math inline">\(n\)</span> each have size at least <span class="math inline">\(\alpha n\)</span> for <span class="math inline">\(0 &lt; \alpha \leq 
   1 - \frac{1}{\sqrt{2}}\)</span>. The BB stands for bounded balance, and adjusting <span class="math inline">\(\alpha\)</span> gives a tradeoff between search and update costs.</p></li>
-<li><p><span> </span> associate a random priority with every key and maintain the invariant that the keys are stored in heap order with respect to their priorities (the term “Treap” is short for “tree heap”). Treaps guarantee approximate balance with high-probability.</p></li>
-<li><p><span> </span> are an amortized data structure that does not guarantee approximate balance, but instead guarantees that for any sequence of <span class="math inline">\(m\)</span> insert, find and delete operations each does <span class="math inline">\(O(\lg n)\)</span> amortized work.</p></li>
+<li><p><span style="color: black"><span><strong><em>Treaps</em></strong></span></span> associate a random priority with every key and maintain the invariant that the keys are stored in heap order with respect to their priorities (the term “Treap” is short for “tree heap”). Treaps guarantee approximate balance with high-probability.</p></li>
+<li><p><span style="color: black"><span><strong><em>Splay trees</em></strong></span></span> are an amortized data structure that does not guarantee approximate balance, but instead guarantees that for any sequence of <span class="math inline">\(m\)</span> insert, find and delete operations each does <span class="math inline">\(O(\lg n)\)</span> amortized work.</p></li>
 </ol>
 <p>There are dozens of other balanced BST data structures (e.g. scapegoat trees and skip lists), as well as many that allow larger degrees, including 2–3 trees, brother trees, and B trees.</p>
 ]]>
@@ -2026,7 +2066,7 @@ sec:bst::parametric
 </field> <!-- parents -->
 <field name='intro'>
 <![CDATA[
-<p>We describe a minimalist implementation of the BST ADT based on two functions, <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>. Since the implementation depends on just these two functions, we refer to it as a parametric implementation.</p>
+<p>We describe a minimalist implementation of the BST ADT based on two functions, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. Since the implementation depends on just these two functions, we refer to it as a parametric implementation.</p>
 ]]>
 </field> <!-- intro -->
 <field name='intro_src'>
@@ -2058,7 +2098,7 @@ to it as a parametric implementation.
 <atom name='algorithm'>
 <field name='title'>
 <![CDATA[
-Implementing the BST ADT with <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>
+Implementing the BST ADT with <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
@@ -2075,93 +2115,93 @@ ds:bst::parametric
 <field name='body'>
 <![CDATA[
 <p><span class="math display">\[\begin{array}{ll} 
-1 &amp; {\texttt{type ${{{\mathbb{T}}}}$ = Leaf | Node of (${{{\mathbb{T}}}}$ $\times$ ${{{\mathbb{K}}}}$ $\times$ ${{{\mathbb{T}}}}$)}} 
+1 &amp; \texttt{type ${\mathbb{T}}$ = Leaf | Node of (${\mathbb{T}}$ $\times$ ${\mathbb{K}}$ $\times$ ${\mathbb{T}}$)} 
 \\ 
 &amp; 
 \\ 
-2 &amp; {\texttt{split $t$ $k$ = ... (* as given *)}} 
+2 &amp; \texttt{split $t$ $k$ = ... (* as given *)} 
 \\ 
 &amp; 
 \\ 
-3 &amp; {\texttt{join $t_1$ $t_2$ = ... (* as given *)}} 
+3 &amp; \texttt{join $t_1$ $t_2$ = ... (* as given *)} 
 \\ 
 &amp; 
 \\ 
-4 &amp; {\texttt{joinM $t_1$ $k$ $t_2$ = join $t_1$ (join (singleton $k$) $t_2$)}} 
+4 &amp; \texttt{joinM $t_1$ $k$ $t_2$ = join $t_1$ (join (singleton $k$) $t_2$)} 
 \\ 
 &amp; 
 \\ 
-5 &amp; {\texttt{empty = Leaf}} 
+5 &amp; \texttt{empty = Leaf} 
 \\ 
 &amp; 
 \\ 
-6 &amp; {\texttt{singleton $(k)$ = Node(Leaf,$k$,Leaf)  }} 
+6 &amp; \texttt{singleton $(k)$ = Node(Leaf,$k$,Leaf)  } 
 \\ 
 &amp; 
 \\ 
-7 &amp; {\texttt{find $t$ $k$ = let (_,$v$,_) = split $t$ $k$  in $v$ end }} 
+7 &amp; \texttt{find $t$ $k$ = let (_,$v$,_) = split $t$ $k$  in $v$ end } 
 \\ 
 &amp; 
 \\ 
-8 &amp; {\texttt{delete $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in join $l$ $r$ end}} 
+8 &amp; \texttt{delete $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in join $l$ $r$ end} 
 \\ 
 &amp; 
 \\ 
-9 &amp; {\texttt{insert $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in joinM $l$ $k$ $r$ end }} 
+9 &amp; \texttt{insert $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in joinM $l$ $k$ $r$ end } 
 \\ 
 &amp; 
 \\ 
-10 &amp; {\texttt{intersect $t_1$ $t_2$ =}} 
+10 &amp; \texttt{intersect $t_1$ $t_2$ =} 
 \\ 
-11 &amp; ~~{\texttt{case ($t_1$,$t_2$) }} 
+11 &amp; ~~\texttt{case ($t_1$,$t_2$) } 
 \\ 
-12 &amp; ~~{\texttt{| (Leaf,_) $\Rightarrow$ Leaf}} 
+12 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ Leaf} 
 \\ 
-13 &amp; ~~{\texttt{| (_,Leaf) $\Rightarrow$ Leaf}} 
+13 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ Leaf} 
 \\ 
-14 &amp; ~~{\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ }} 
+14 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ } 
 \\ 
-15 &amp; ~~~~{\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$}} 
+15 &amp; ~~~~\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$} 
 \\ 
-16 &amp; ~~~~~~~{\texttt{$(l,r)$ = (intersect $l_1$ $l_2$) || (intersect $r_1$ $r_2$)}} 
+16 &amp; ~~~~~~~\texttt{$(l,r)$ = (intersect $l_1$ $l_2$) || (intersect $r_1$ $r_2$)} 
 \\ 
-17 &amp; ~~~~{\texttt{in if $b$ then joinM $l$ $k_1$ $r$ else join $l$ $r$ end}} 
-\\ 
-&amp; 
-\\ 
-18 &amp; {\texttt{difference $t_1$ $t_2$ =}} 
-\\ 
-19 &amp; ~~{\texttt{case ($t_1$, $t_2$)}} 
-\\ 
-20 &amp; ~~{\texttt{| (Leaf,_) $\Rightarrow$ Leaf}} 
-\\ 
-21 &amp; ~~{\texttt{| (_,Leaf) $\Rightarrow$ $t_1$}} 
-\\ 
-22 &amp; ~~{\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ }} 
-\\ 
-23 &amp; ~~~~{\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$}} 
-\\ 
-24 &amp; ~~~~~~~~{\texttt{$(l,r)$ = (difference $l_1$ $l_2$) || (difference $r_1$ $r_2$)}} 
-\\ 
-25 &amp; ~~~~{\texttt{in if $b$ then join $l$ $r$ else joinM $L$ $k_1$ $r$ end}} 
+17 &amp; ~~~~\texttt{in if $b$ then joinM $l$ $k_1$ $r$ else join $l$ $r$ end} 
 \\ 
 &amp; 
 \\ 
-26 &amp; {\texttt{union $t_1$ $t_2$ =}} 
+18 &amp; \texttt{difference $t_1$ $t_2$ =} 
 \\ 
-27 &amp; ~~{\texttt{case ($t_1$,$t_2$)}} 
+19 &amp; ~~\texttt{case ($t_1$, $t_2$)} 
 \\ 
-28 &amp; ~~{\texttt{| (Leaf,_) $\Rightarrow$ $t_2$}} 
+20 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ Leaf} 
 \\ 
-29 &amp; ~~{\texttt{| (_,Leaf) $\Rightarrow$ $t_1$}} 
+21 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ $t_1$} 
 \\ 
-30 &amp; ~~{\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$   }} 
+22 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ } 
 \\ 
-31 &amp; ~~~~{\texttt{let $(l_2,\_,r_2)$ = split $t_2$ $k_1$}} 
+23 &amp; ~~~~\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$} 
 \\ 
-32 &amp; ~~~~~~~~{\texttt{$(l,r)$ = (union $l_1$ $l_2$) || (union $r_1$ $r_2$)}} 
+24 &amp; ~~~~~~~~\texttt{$(l,r)$ = (difference $l_1$ $l_2$) || (difference $r_1$ $r_2$)} 
 \\ 
-33 &amp; ~~~~{\texttt{in joinM $l$ $k_1$ $r$ end    }} 
+25 &amp; ~~~~\texttt{in if $b$ then join $l$ $r$ else joinM $L$ $k_1$ $r$ end} 
+\\ 
+&amp; 
+\\ 
+26 &amp; \texttt{union $t_1$ $t_2$ =} 
+\\ 
+27 &amp; ~~\texttt{case ($t_1$,$t_2$)} 
+\\ 
+28 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ $t_2$} 
+\\ 
+29 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ $t_1$} 
+\\ 
+30 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$   } 
+\\ 
+31 &amp; ~~~~\texttt{let $(l_2,\_,r_2)$ = split $t_2$ $k_1$} 
+\\ 
+32 &amp; ~~~~~~~~\texttt{$(l,r)$ = (union $l_1$ $l_2$) || (union $r_1$ $r_2$)} 
+\\ 
+33 &amp; ~~~~\texttt{in joinM $l$ $k_1$ $r$ end    } 
 \\ 
 \end{array}\]</span></p>
 ]]>
@@ -2283,8 +2323,10 @@ ds:bst::parametric
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The implementation given above assumes that the implementation of <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> are supplied. The implementation defines the tree type as consisting of leaves or internal nodes with left and right subtrees and a key. The auxiliary function, <span class="math inline">\({\texttt{joinM}}\)</span> takes two trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> and a “middle” key <span class="math inline">\(k\)</span> that is sandwiched between the two trees—that is <span class="math inline">\(k\)</span> is greater than all the keys in <span class="math inline">\(t_1\)</span> and less than all the keys in <span class="math inline">\(t_2\)</span>—and returns a tree that contains all the keys in <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> as well as <span class="math inline">\(k\)</span>.</p>
-<p>The function <span class="math inline">\({\texttt{find}}\)</span> is easily implementable with a <span class="math inline">\({\texttt{split}}\)</span>, which indicates whether the key used for splitting is found in the tree or not. To implement <span class="math inline">\({\texttt{insert}}\)</span> of a key <span class="math inline">\(k\)</span> into a tree, we first <span class="math inline">\({\texttt{split}}\)</span> the tree at <span class="math inline">\(k\)</span> and then join the two returned trees along with key <span class="math inline">\(k\)</span> using <span class="math inline">\({\texttt{joinM}}.\)</span> To implement <span class="math inline">\({\texttt{delete}}\)</span> of a key <span class="math inline">\(k\)</span> from a tree, we first <span class="math inline">\({\texttt{split}}\)</span> the tree at <span class="math inline">\(k\)</span> and then join the two returned trees with <span class="math inline">\({\texttt{join}}\)</span>. If the key <span class="math inline">\(k\)</span> was found, this gives us a tree that does not contain the <span class="math inline">\(k\)</span>; otherwise we obtain a tree of the same set of keys (though the structure of the tree may be different internally depending on the implementation of <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>).</p>
+<p>The implementation given above assumes that the implementation of <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> are supplied.</p>
+<p>The implementation defines the tree type as consisting of leaves or internal nodes with left and right subtrees and a key.</p>
+<p>The auxiliary function, <span class="math inline">\(\texttt{joinM}\)</span> takes two trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> and a “middle” key <span class="math inline">\(k\)</span> that is sandwiched between the two trees—that is <span class="math inline">\(k\)</span> is greater than all the keys in <span class="math inline">\(t_1\)</span> and less than all the keys in <span class="math inline">\(t_2\)</span>—and returns a tree that contains all the keys in <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> as well as <span class="math inline">\(k\)</span>.</p>
+<p>The function <span class="math inline">\(\texttt{find}\)</span> is easily implementable with a <span class="math inline">\(\texttt{split}\)</span>, which indicates whether the key used for splitting is found in the tree or not. To implement <span class="math inline">\(\texttt{insert}\)</span> of a key <span class="math inline">\(k\)</span> into a tree, we first <span class="math inline">\(\texttt{split}\)</span> the tree at <span class="math inline">\(k\)</span> and then join the two returned trees along with key <span class="math inline">\(k\)</span> using <span class="math inline">\(\texttt{joinM}.\)</span> To implement <span class="math inline">\(\texttt{delete}\)</span> of a key <span class="math inline">\(k\)</span> from a tree, we first <span class="math inline">\(\texttt{split}\)</span> the tree at <span class="math inline">\(k\)</span> and then join the two returned trees with <span class="math inline">\(\texttt{join}\)</span>. If the key <span class="math inline">\(k\)</span> was found, this gives us a tree that does not contain the <span class="math inline">\(k\)</span>; otherwise we obtain a tree of the same set of keys (though the structure of the tree may be different internally depending on the implementation of <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>).</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2362,7 +2404,7 @@ Union
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The implementation of <span class="math inline">\({\texttt{union}}\)</span> uses divide and conquer. The idea is to split both trees at some key <span class="math inline">\(k\)</span>, recursively union the two parts with keys less than <span class="math inline">\(k\)</span>, and the two parts with keys greater than <span class="math inline">\(k\)</span> and then join them. There are different ways to select the key <span class="math inline">\(k\)</span> used to split the tree. One way is to use the key at the root of one of the two trees, for example the first tree, and split the second tree with it; this is the approach take in the parametric implementation.</p>
+<p>The implementation of <span class="math inline">\(\texttt{union}\)</span> uses divide and conquer. The idea is to split both trees at some key <span class="math inline">\(k\)</span>, recursively union the two parts with keys less than <span class="math inline">\(k\)</span>, and the two parts with keys greater than <span class="math inline">\(k\)</span> and then join them. There are different ways to select the key <span class="math inline">\(k\)</span> used to split the tree. One way is to use the key at the root of one of the two trees, for example the first tree, and split the second tree with it; this is the approach take in the parametric implementation.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2401,7 +2443,7 @@ example:tree-union
 <field name='body'>
 <![CDATA[
 <p>The union of tree <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> illustrated.</p>
-<p><img src="/media/210/bsts/union-dia1.jpg" alt="image" width="529" /></p>
+<p><img src="/media/210/bsts/union-dia1.jpg" alt="image" style="width:14cm" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2452,9 +2494,9 @@ Intersection
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The implementation of <span class="math inline">\({\texttt{intersection}}\)</span> uses a divide-and-conquer approach similar to that of <span class="math inline">\({\texttt{union}}\)</span>. As in <span class="math inline">\({\texttt{union}}\)</span>, we split both trees by using the key <span class="math inline">\(k_1\)</span> at the root of the first tree, and compute intersections recursively. We then compute the result by joining the results from the recursive calls and including the key <span class="math inline">\(k_1\)</span> if it is found in both trees.</p>
+<p>The implementation of <span class="math inline">\(\texttt{intersection}\)</span> uses a divide-and-conquer approach similar to that of <span class="math inline">\(\texttt{union}\)</span>. As in <span class="math inline">\(\texttt{union}\)</span>, we split both trees by using the key <span class="math inline">\(k_1\)</span> at the root of the first tree, and compute intersections recursively. We then compute the result by joining the results from the recursive calls and including the key <span class="math inline">\(k_1\)</span> if it is found in both trees.</p>
 <p>How does the implementation accounts for all possible shared keys when we divide the input trees into two and calculate intersections recursively? What if a key on the left matches a key on the right half of the other tree?</p>
-<p>Note that since the trees are BSTs, checking for the intersections of left and right subtrees recursively and is guaranteed to find all shared keys because the <span class="math inline">\({\texttt{split}}\)</span> operation places all keys less than and greater than the given key to two separate trees.</p>
+<p>Note that since the trees are BSTs, checking for the intersections of left and right subtrees recursively and is guaranteed to find all shared keys because the <span class="math inline">\(\texttt{split}\)</span> operation places all keys less than and greater than the given key to two separate trees.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2502,7 +2544,7 @@ than and greater than the given key to two separate trees.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Prove correct the functions <span class="math inline">\({\texttt{intersection}}\)</span>, <span class="math inline">\({\texttt{difference}}\)</span>, and <span class="math inline">\({\texttt{union}}\)</span>.</p>
+<p>Prove correct the functions <span class="math inline">\(\texttt{intersection}\)</span>, <span class="math inline">\(\texttt{difference}\)</span>, and <span class="math inline">\(\texttt{union}\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2626,58 +2668,58 @@ cost:bst::costs
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The <span> </span> cost specification is defined as follows. The variables <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> are defined as <span class="math inline">\(n = \max{(|t_1|,|t_2|)}\)</span> and <span class="math inline">\(m = \min{(|t_1|,|t_2|)}\)</span> when applicable. <span class="math display">\[\begin{array}{l@{\qquad}c@{\qquad}c@{\qquad}} 
+<p>The  <span style="color: black"><span><strong><em>BST</em></strong></span></span> cost specification is defined as follows. The variables <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> are defined as <span class="math inline">\(n = \max{(|t_1|,|t_2|)}\)</span> and <span class="math inline">\(m = \min{(|t_1|,|t_2|)}\)</span> when applicable. <span class="math display">\[\begin{array}{l@{\qquad}c@{\qquad}c@{\qquad}} 
 &amp; \mathbf{Work} &amp; \mathbf{Span} 
 \\  
  
-{\texttt{empty}} 
-&amp; {O\left({1}\right)} 
-&amp; {O\left({1}\right)} 
+\texttt{empty} 
+&amp; O\left({1}\right) 
+&amp; O\left({1}\right) 
 \\  
  
-{\texttt{singleton}}~k 
-&amp; {O\left({1}\right)} 
-&amp; {O\left({1}\right)} 
+\texttt{singleton}~k 
+&amp; O\left({1}\right) 
+&amp; O\left({1}\right) 
 \\  
  
-{\texttt{split}}~t~k 
-&amp; {O\left({\lg{|t|}}\right)} 
-&amp; {O\left({\lg{|t|}}\right)} 
+\texttt{split}~t~k 
+&amp; O\left({\lg{|t|}}\right) 
+&amp; O\left({\lg{|t|}}\right) 
 \\  
  
-{\texttt{join}}~t_1~t_2 
-&amp; {O\left({\lg{\left(|t_1|+|t_2|\right)}}\right)} 
-&amp; {O\left({\lg{\left(|t_1|+|t_2|\right)}}\right)} 
+\texttt{join}~t_1~t_2 
+&amp; O\left({\lg{\left(|t_1|+|t_2|\right)}}\right) 
+&amp; O\left({\lg{\left(|t_1|+|t_2|\right)}}\right) 
 \\  
  
-{\texttt{find}}~t~k 
-&amp; {O\left({\lg{|t|}}\right)} 
-&amp; {O\left({\lg{|t|}}\right)} 
+\texttt{find}~t~k 
+&amp; O\left({\lg{|t|}}\right) 
+&amp; O\left({\lg{|t|}}\right) 
 \\  
  
-{\texttt{insert}}~t~k 
-&amp; {O\left({\lg{|t|}}\right)} 
-&amp; {O\left({\lg{|t|}}\right)} 
+\texttt{insert}~t~k 
+&amp; O\left({\lg{|t|}}\right) 
+&amp; O\left({\lg{|t|}}\right) 
 \\  
  
-{\texttt{delete}}~t~k 
-&amp; {O\left({\lg{|t|}}\right)} 
-&amp; {O\left({\lg{|t|}}\right)} 
+\texttt{delete}~t~k 
+&amp; O\left({\lg{|t|}}\right) 
+&amp; O\left({\lg{|t|}}\right) 
 \\  
  
-{\texttt{intersect}}~t_1~t_2 
-&amp; {O\left({m \cdot \lg{\frac{n+m}{m}}}\right)} 
-&amp; {O\left({\lg{n}}\right)} 
+\texttt{intersect}~t_1~t_2 
+&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right) 
+&amp; O\left({\lg{n}}\right) 
 \\  
  
-{\texttt{difference}}~t_1~t_2 
-&amp; {O\left({m \cdot \lg{\frac{n+m}{m}}}\right)} 
-&amp; {O\left({\lg{n}}\right)} 
+\texttt{difference}~t_1~t_2 
+&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right) 
+&amp; O\left({\lg{n}}\right) 
 \\  
  
-{\texttt{union}}~t_1~t_2 
-&amp; {O\left({m \cdot \lg{\frac{n+m}{m}}}\right)} 
-&amp; {O\left({\lg{n}}\right)} 
+\texttt{union}~t_1~t_2 
+&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right) 
+&amp; O\left({\lg{n}}\right) 
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -2765,7 +2807,9 @@ The~\defn{BST} cost specification is defined as follows.  The
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The cost specification above shows the costs for the BST ADT as can be realized by several balanced BST data structures such as Treaps (in expectation), red-black trees (in the worst case), and splay trees (amortized). As may be expected the cost of <span class="math inline">\({\texttt{empty}}\)</span> and <span class="math inline">\({\texttt{singleton}}\)</span> are constant. For the rest of the operations, we justify the cost bounds by assuming the existence of logarithmic time <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> operations, and by using our parametric implementation described above. The work and span costs of <span class="math inline">\({\texttt{find}}\)</span>, <span class="math inline">\({\texttt{insert}},\)</span> and <span class="math inline">\({\texttt{delete}}\)</span> are determined by the <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> operation and are thus logarithmic in the size of the tree. The cost bounds on <span class="math inline">\({\texttt{union}}\)</span>, <span class="math inline">\({\texttt{intersection}}\)</span>, and <span class="math inline">\({\texttt{difference}}\)</span>, which are similar are more difficult to see.</p>
+<p>The cost specification above shows the costs for the BST ADT as can be realized by several balanced BST data structures such as Treaps (in expectation), red-black trees (in the worst case), and splay trees (amortized). As may be expected the cost of <span class="math inline">\(\texttt{empty}\)</span> and <span class="math inline">\(\texttt{singleton}\)</span> are constant.</p>
+<p>For the rest of the operations, we justify the cost bounds by assuming the existence of logarithmic time <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations, and by using our parametric implementation described above. The work and span costs of <span class="math inline">\(\texttt{find}\)</span>, <span class="math inline">\(\texttt{insert},\)</span> and <span class="math inline">\(\texttt{delete}\)</span> are determined by the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operation and are thus logarithmic in the size of the tree.</p>
+<p>The cost bounds on <span class="math inline">\(\texttt{union}\)</span>, <span class="math inline">\(\texttt{intersection}\)</span>, and <span class="math inline">\(\texttt{difference}\)</span>, which are similar are more difficult to see.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2830,7 +2874,7 @@ Cost of Union, Intersection, and Difference
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Let’s analyze the cost for <span class="math inline">\({\texttt{union}}\)</span> as implemented by the parametric implementation. It is easy to apply a similar analysis to <span class="math inline">\({\texttt{intersection}}\)</span> and <span class="math inline">\({\texttt{difference}}\)</span>.</p>
+<p>Let’s analyze the cost for <span class="math inline">\(\texttt{union}\)</span> as implemented by the parametric implementation. It is easy to apply a similar analysis to <span class="math inline">\(\texttt{intersection}\)</span> and <span class="math inline">\(\texttt{difference}\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2861,14 +2905,14 @@ Figuring out the Recurrence
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Consider now a call to <span class="math inline">\({\texttt{union}}\)</span> with parameters <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span>. To simplify the analysis, we will make the following assumptions:</p>
+<p>Consider now a call to <span class="math inline">\(\texttt{union}\)</span> with parameters <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span>. To simplify the analysis, we will make the following assumptions:</p>
 <ol>
 <li><p><span class="math inline">\(t_1\)</span> is perfectly balanced (i.e., the left and right subtrees of the root have size at most <span class="math inline">\(|t_1|/2\)</span>),</p></li>
 <li><p>each time a key from <span class="math inline">\(t_1\)</span> splits <span class="math inline">\(t_2\)</span>, it splits the tree in exactly in half, and</p></li>
 <li><p><span class="math inline">\(|t_1| &lt; |t_2|\)</span>.</p></li>
 </ol>
 <p>Later we will relax these assumptions.</p>
-<p>Let us define <span class="math inline">\(m = |t_1|\)</span> and <span class="math inline">\(n = |t_2|\)</span> (recall the size of a tree is the number of keys in it). With these assumptions and examining the algorithm we can then write the following recurrence for the work of <span class="math inline">\({\texttt{union}}\)</span>: <span class="math display">\[\begin{aligned}
+<p>Let us define <span class="math inline">\(m = |t_1|\)</span> and <span class="math inline">\(n = |t_2|\)</span> (recall the size of a tree is the number of keys in it). With these assumptions and examining the algorithm we can then write the following recurrence for the work of <span class="math inline">\(\texttt{union}\)</span>: <span class="math display">\[\begin{aligned}
   W_{\mbox{union}}(m, n) &amp;\leq 2W_{\mbox{union}}(m/2,n/2) + W_{\mbox{split}}(n) 
 + W_{\mbox{join}}(n+m) + O(1)\\ 
    &amp; \leq  2W_{\mbox{union}}(m/2, n/2) + O(\lg n)~. \end{aligned}\]</span></p>
@@ -2975,14 +3019,15 @@ Brick Method
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Let’s analyze the structure of the recursion tree shown above. We can find the number of leaves in the tree by examining the work recurrence. Notice that in the recurrence, the tree bottoms out when <span class="math inline">\(m = 1\)</span> and before that, <span class="math inline">\(m\)</span> always gets split in half (remember that <span class="math inline">\(t_1\)</span> is perfectly balanced). The tree <span class="math inline">\(t_2\)</span> does not affects the shape of the recursion tree or the stopping condition. Thus, there are exactly <span class="math inline">\(m\)</span> leaves in the tree. In fact, the recursion can be rewritten as a recursion of the form <span class="math inline">\(W(m) = 2W(m/2) + \ldots \)</span>, which means that there are <span class="math inline">\(m\)</span> leaves.</p>
+<p>Let’s analyze the structure of the recursion tree shown above.</p>
+<p>We can find the number of leaves in the tree by examining the work recurrence. Notice that in the recurrence, the tree bottoms out when <span class="math inline">\(m = 1\)</span> and before that, <span class="math inline">\(m\)</span> always gets split in half (remember that <span class="math inline">\(t_1\)</span> is perfectly balanced). The tree <span class="math inline">\(t_2\)</span> does not affects the shape of the recursion tree or the stopping condition. Thus, there are exactly <span class="math inline">\(m\)</span> leaves in the tree. In fact, the recursion can be rewritten as a recursion of the form <span class="math inline">\(W(m) = 2W(m/2) + \ldots\)</span>, which means that there are <span class="math inline">\(m\)</span> leaves.</p>
 <p>By the same reasoning, we can see that the leaves are <span class="math inline">\((1 + \lg m)\)</span> deep.</p>
 <p>Let’s now determine the size of <span class="math inline">\(t_2\)</span> at the leaves. We have <span class="math inline">\(m\)</span> keys in <span class="math inline">\(t_1\)</span> to start with, and they split <span class="math inline">\(t_2\)</span> evenly all the way down to the level of the leaves (by assumption). Thus, the leaves have all the same size of <span class="math inline">\(\frac{n}{m}\)</span>. Therefore, each leaf adds a <span class="math inline">\(O(\lg (1+\frac{n}{m}))\)</span> term to the work (the <span class="math inline">\(1+\)</span> is needed to deal with the case that <span class="math inline">\(n = m\)</span>). Since there are <span class="math inline">\(m\)</span> leaves, the whole bottom level costs <span class="math display">\[O(m \lg (1+ \frac{n}{m})).\]</span></p>
 <p>We will now prove that the cost at the bottom level is indeed asymptotically the same as the total work. In other words, the tree is leaves-dominated. It is possible to prove that the tree is leaves-dominated by computing the ratio of the work at adjacent levels, i.e., the ratio <span class="math display">\[\frac{2^{i-1}  \lg{n/2^{i-1}}}{2^i  
   \lg{n/2^{i}}} = \frac{1}{2} \frac{\lg{n} - i + 1 }{\lg{n} - i},\]</span> where <span class="math inline">\(i \le \lg{m} &lt; \lg{n}\)</span>. This ratio is less than <span class="math inline">\(1\)</span> for all levels except for the last level, where by taking <span class="math inline">\(i = \lg{n} - 1\)</span> we have <span class="math display">\[\frac{1}{2} \frac{\lg{n} - i +1 }{\lg{n} - i} 
  \le 
  \frac{1}{2} \frac{1}{\lg{n} - \lg{n} +1 + 1}{\lg{n} - \lg{n}+1} 
-= \frac{1}{1}.\]</span> Thus the total work is asymptotically dominated by the total work of the leaves, which is <span class="math inline">\({O\left({m\lg{n/m}}\right)}\)</span>.</p>
+= \frac{1}{1}.\]</span> Thus the total work is asymptotically dominated by the total work of the leaves, which is <span class="math inline">\(O\left({m\lg{n/m}}\right)\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3087,12 +3132,14 @@ W(n,m) &amp; = &amp;\sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}}
 &amp; = &amp; a\,(2^{b+1}-1) -  (b\,2^{b+1} + 1) 
 \\[2mm] 
 &amp; = &amp; a\,2^{b+1}-a - b\,2^{b+1} -1 
+%\\ 
 = 2m (a-b) - a -1 
 \\[2mm] 
 &amp; = &amp; 2m (\lg{n}-\lg{m}) - a -1 
+%\\ 
 = 2m \lg{\frac{n}{m}} - a -1 
 \\[2mm] 
-&amp; = &amp; {O\left({m \, \lg{\frac{n}{m}}}\right)}. 
+&amp; = &amp; O\left({m \, \lg{\frac{n}{m}}}\right). 
 \end{array}\]</span></p>
 <p>While the direct method may seem complicated, it is more robust than the brick method, because it can be applied to analyze essentially any algorithm, whereas the Brick method requires establishing a geometric relationship between the cost terms at the levels of the tree.</p>
 ]]>
@@ -3186,18 +3233,18 @@ Removing the Assumptions
 <![CDATA[
 <p>Of course, in reality, our keys in <span class="math inline">\(t_1\)</span> won’t split subtrees of <span class="math inline">\(t_2\)</span> in half every time. But it turns out that any unevenness in the splitting only helps reduce the work—i.e., the perfect split is the worst case. We won’t go through a rigorous argument, but if we keep the assumption that <span class="math inline">\(t_1\)</span> is perfectly balanced, then the shape of the recursion tree stays the same. What is now different is the cost at each level. Let us try to analyze the cost at level <span class="math inline">\(i\)</span>. At this level, there are <span class="math inline">\(k = 2^i\)</span> nodes in the recursion tree. Say the sizes of <span class="math inline">\(t_2\)</span> at these nodes are <span class="math inline">\(n_1, \dots, n_k\)</span>, where <span class="math inline">\(\sum_j n_j = 
 n\)</span>. Then, the total cost for this level is <span class="math display">\[c \cdot \sum_{j=1}^k \lg (n_j) \;\;\leq\;\; c \cdot \sum_{j=1}^k \lg (n/k) = 
-c\cdot 2^i \cdot \lg (n/2^i),\]</span> where we used the fact that the logarithm function is concave<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. Thus, the tree remains leaf-dominated and the same reasoning shows that the total work is <span class="math inline">\(O(m \lg (1 + \frac{n}{m}))\)</span>.</p>
+c\cdot 2^i \cdot \lg (n/2^i),\]</span> where we used the fact that the logarithm function is concave<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Thus, the tree remains leaf-dominated and the same reasoning shows that the total work is <span class="math inline">\(O(m \lg (1 + \frac{n}{m}))\)</span>.</p>
 <p>Still, in reality, <span class="math inline">\(t_1\)</span> doesn’t have to be perfectly balanced as we assumed. To generalize the analysis, we just need a tree with <span class="math inline">\(O(\lg{m})\)</span> height. Thus, we only need <span class="math inline">\(t_1\)</span> to be approximately balanced.</p>
 <p>Finally, we assumed that <span class="math inline">\(t_1\)</span> is larger that <span class="math inline">\(t_2\)</span>. If it is smaller, then we can reverse the order of arguments, so in this case, there is no loss of generality. If they are the same size, we need to be a bit more precise in our handling of the base case in our summation but this is all.</p>
-<p>We end by remarking that as described, the span of <span class="math inline">\({\texttt{union}}\)</span> is <span class="math inline">\(O(\lg^2 n)\)</span>, but this can be improved to <span class="math inline">\(O(\lg n)\)</span> by changing the algorithm slightly.</p>
-<p>In summary, <span class="math inline">\({\texttt{union}}\)</span> can be implemented in <span class="math display">\[O(m \lg (1 + \tfrac{n}m))\]</span> work and <span class="math display">\[O(\lg n)\]</span> span.</p>
-<p>Essentially the same analysis applies to the functions <span class="math inline">\({\texttt{intersection}}\)</span> and <span class="math inline">\({\texttt{difference}}\)</span>, whose structures are the same as <span class="math inline">\({\texttt{union}}\)</span>, except for an additional constant work and span for the conditional (<span class="math inline">\({\texttt{if}}\)</span>) expression.</p>
-<div class="footnotes">
+<p>We end by remarking that as described, the span of <span class="math inline">\(\texttt{union}\)</span> is <span class="math inline">\(O(\lg^2 n)\)</span>, but this can be improved to <span class="math inline">\(O(\lg n)\)</span> by changing the algorithm slightly.</p>
+<p>In summary, <span class="math inline">\(\texttt{union}\)</span> can be implemented in <span class="math display">\[O(m \lg (1 + \tfrac{n}m))\]</span> work and <span class="math display">\[O(\lg n)\]</span> span.</p>
+<p>Essentially the same analysis applies to the functions <span class="math inline">\(\texttt{intersection}\)</span> and <span class="math inline">\(\texttt{difference}\)</span>, whose structures are the same as <span class="math inline">\(\texttt{union}\)</span>, except for an additional constant work and span for the conditional (<span class="math inline">\(\texttt{if}\)</span>) expression.</p>
+<section class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>This is also known as Jensen’s inequality.<a href="#fnref1">↩</a></p></li>
+<li id="fn1"><p>This is also known as Jensen’s inequality.<a href="#fnref1" class="footnote-back">↩</a></p></li>
 </ol>
-</div>
+</section>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3276,7 +3323,7 @@ sec:bst::treaps
 </field> <!-- parents -->
 <field name='intro'>
 <![CDATA[
-<p>Our parametric implementation established an interesting fact: to implement the BST ADT efficiently, we only need to provide efficient <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> operations. In this section, we present a data structure called <span> </span> that can support <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> operations in expected logarithmic work and span. Treaps achieve their efficiency by maintaining BSTs that are probabilistically balanced. Of the many balanced BST data structures, Treaps are likely the simplest, but, since they are randomized, they only guarantee approximate balance with high probability.</p>
+<p>Our parametric implementation established an interesting fact: to implement the BST ADT efficiently, we only need to provide efficient <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations. In this section, we present a data structure called  <span style="color: black"><span><strong><em>Treaps</em></strong></span></span> that can support <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations in expected logarithmic work and span. Treaps achieve their efficiency by maintaining BSTs that are probabilistically balanced. Of the many balanced BST data structures, Treaps are likely the simplest, but, since they are randomized, they only guarantee approximate balance with high probability.</p>
 ]]>
 </field> <!-- intro -->
 <field name='intro_src'>
@@ -3331,8 +3378,8 @@ only guarantee approximate balance with high probability.
 <field name='body'>
 <![CDATA[
 <p>To see the idea behind Treaps, let’s first discuss how we can map a sequence of keys to a BST. Given <span class="math inline">\(S\)</span>, a sequence of unique keys, let’s start with an empty BST and insert the keys in <span class="math inline">\(S\)</span> into the BST one by one starting from left to right. To insert a key <span class="math inline">\(k\)</span>, we perform a search for <span class="math inline">\(k\)</span> in the current BST and let <span class="math inline">\(u\)</span> be the leaf where the (unsuccessful) search terminates. To insert <span class="math inline">\(k\)</span> into the tree, we replace <span class="math inline">\(u\)</span> with a new node with key <span class="math inline">\(k\)</span>.</p>
-<p>We can map the sequence <span class="math inline">\({\left\langle\, 8,9,5,6,1,7 \,\right\rangle}\)</span> to a BST by inserting the keys from left to right.</p>
-<p><img src="/media/210/bsts/bst5-build.jpg" alt="image" width="529" /></p>
+<p>We can map the sequence <span class="math inline">\(\left\langle\, 8,9,5,6,1,7 \,\right\rangle\)</span> to a BST by inserting the keys from left to right.</p>
+<p><img src="/media/210/bsts/bst5-build.jpg" alt="image" style="width:14cm" /></p>
 <p>What can we say about the height of such a tree?</p>
 <p>Note now that the height of the BST will be directly determined by the input sequence. Specifically, the specific order—or permutation—in which the keys are inserted will determine the height. For most permutations, the tree will be reasonably well balanced because we get an unbalanced tree only in cases where an element partitions the following keys unevenly. Since we have many more even partitions for a given set of keys (many “middle” keys), many permutations create balanced trees.</p>
 <p>Can we take advantage of this observation somehow?</p>
@@ -3459,7 +3506,7 @@ Treap
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A Treap is a binary search tree over a set <span class="math inline">\(K\)</span> along with a <span> </span> for each key given by <span class="math display">\[p : {{{\mathbb{K}}}}\rightarrow  {{\mathbb{Z}}}\]</span> that in addition to satisfying the BST property on the keys <span class="math inline">\(K\)</span>, satisfies the heap property on the priorities <span class="math inline">\(p(k), k \in 
+<p>A Treap is a binary search tree over a set <span class="math inline">\(K\)</span> along with a  <span style="color: black"><span><strong><em>priority</em></strong></span></span> for each key given by <span class="math display">\[p : {\mathbb{K}}\rightarrow  \mathbb{Z}\]</span> that in addition to satisfying the BST property on the keys <span class="math inline">\(K\)</span>, satisfies the heap property on the priorities <span class="math inline">\(p(k), k \in 
   K\)</span>, i.e., for every internal node <span class="math inline">\(v\)</span> with left and right children <span class="math inline">\(u\)</span> and <span class="math inline">\(w\)</span>: <span class="math display">\[p(k(v)) \geq p(k(u)) \mbox{ and } p(k(v)) \geq p(k(w)),\]</span> where <span class="math inline">\(k(v)\)</span> denotes the key of a node.</p>
 ]]>
 </field> <!-- body -->
@@ -3504,7 +3551,7 @@ where $k(v)$ denotes the key of a node.
 <field name='body'>
 <![CDATA[
 <p>The following key-priority pairs <span class="math inline">\((k,p(k))\)</span>, <span class="math display">\[(a,3), (b,9), (c, 2), (e,6), (f, 5)~,\]</span> where the keys are ordered alphabetically, form the following Treap:</p>
-<p><img src="/media/210/bsts/treap-examp.jpg" alt="image" width="192" /></p>
+<p><img src="/media/210/bsts/treap-examp.jpg" alt="image" style="width:2in" /></p>
 <p>since <span class="math inline">\(9\)</span> is larger than <span class="math inline">\(3\)</span> and <span class="math inline">\(6\)</span>, and <span class="math inline">\(6\)</span> is larger than <span class="math inline">\(2\)</span> and <span class="math inline">\(5\)</span>.</p>
 ]]>
 </field> <!-- body -->
@@ -3633,7 +3680,7 @@ How can we maintain the heap order as we modify the tree?
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Based on our parametrized implementation, we can implement the BST ADT with Treaps simply by implementing the <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> functions. The <span>SPARC</span> code for such an implementation is given below. For the implementation we assume, without loss of generality, that the priorities are integers. We present only the code for <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>; the rest of the implementation is essentially the same as in the parametric implementation. The only exception that since the nodes now carry priorities, we will need to account for them as we pattern match on nodes and create new ones. In implementing the rest of the functions, there are no interesting operations on priorities: they simply follow the key that they belong to.</p>
+<p>Based on our parametrized implementation, we can implement the BST ADT with Treaps simply by implementing the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> functions. The SPARC code for such an implementation is given below. For the implementation we assume, without loss of generality, that the priorities are integers. We present only the code for <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>; the rest of the implementation is essentially the same as in the parametric implementation. The only exception that since the nodes now carry priorities, we will need to account for them as we pattern match on nodes and create new ones. In implementing the rest of the functions, there are no interesting operations on priorities: they simply follow the key that they belong to.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3663,7 +3710,7 @@ they belong to.
 <atom name='algorithm'>
 <field name='title'>
 <![CDATA[
-Implementing with Treaps
+Implementing <span><span class="sans-serif">BST</span></span> with Treaps
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
@@ -3680,53 +3727,58 @@ ds:bst::treaps
 <field name='body'>
 <![CDATA[
 <p><span class="math display">\[\begin{array}{ll} 
-1 &amp; {\texttt{type ${{{\mathbb{T}}}}$ = Leaf | Node of (${{{\mathbb{T}}}}$ $\times$ ${{{\mathbb{K}}}}$ $\times$ ${{\mathbb{Z}}}$ $\times$ ${{{\mathbb{T}}}}$)}} 
+1 &amp; \texttt{type ${\mathbb{T}}$ = Leaf | Node of (${\mathbb{T}}$ $\times$ ${\mathbb{K}}$ $\times$ $\mathbb{Z}$ $\times$ ${\mathbb{T}}$)} 
 \\ 
 ~&amp;~ 
 \\ 
-2 &amp; {\texttt{empty = Leaf}} 
+2 &amp; \texttt{empty = Leaf} 
 \\ 
 &amp;\\ 
-3 &amp; {\texttt{singleton $k$ = Node(Leaf, $k$, randomInt(), Leaf)}} 
+3 &amp; \texttt{singleton $k$ = Node(Leaf, $k$, randomInt(), Leaf)} 
 \\ 
 &amp;\\ 
-4 &amp; {\texttt{split $t$ $k$ = }} 
+4 &amp; \texttt{split $t$ $k$ = } 
 \\ 
-5 &amp; ~~{\texttt{case $t$ }} 
+5 &amp; ~~\texttt{case $t$ } 
 \\ 
-6 &amp; ~~{\texttt{| Leaf $\Rightarrow$ (Leaf, False, Leaf)}} 
+6 &amp; ~~\texttt{| Leaf $\Rightarrow$ (Leaf, False, Leaf)} 
 \\ 
-7 &amp; ~~{\texttt{| Node $(l, k&#39;, p&#39;, r)$ =}} 
+7 &amp; ~~\texttt{| Node $(l, k&#39;, p&#39;, r)$ =} 
 \\ 
-8 &amp; ~~~~~~{\texttt{case compare $(k, k&#39;)$}} 
+8 &amp; ~~~~~~\texttt{case compare $(k, k&#39;)$} 
 \\ 
-9 &amp; ~~~~~~{\texttt{| LESS $\Rightarrow$}} \\ 
-10 &amp; ~~~~~~~~~~{\texttt{let $(l&#39;, x, r&#39;)$ = split $l$ $k$}} 
+9 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$} %\label{line:bst::treaps::split-less} 
 \\ 
-11 &amp; ~~~~~~~~~~{\texttt{in $(l&#39;, x, {\texttt{Node}}(r&#39;, k&#39;, p&#39;, r))$ end}}\\ 
-12 &amp; ~~~~~~{\texttt{| EQUAL $\Rightarrow$ $($$l$, true, $r$$)$}} 
+10 &amp; ~~~~~~~~~~\texttt{let $(l&#39;, x, r&#39;)$ = split $l$ $k$} 
 \\ 
-13 &amp; ~~~~~~{\texttt{| GREATER $\Rightarrow$}} \\ 
-14 &amp; ~~~~~~~~~~{\texttt{let $(l&#39;, x, r&#39;)$ = split $r$ $k$}} 
+11 &amp; ~~~~~~~~~~\texttt{in $(l&#39;, x, \texttt{Node}(r&#39;, k&#39;, p&#39;, r))$ end}% \label{line:bst::treaps::splitnode1}} 
 \\ 
-15 &amp; ~~~~~~~~~~{\texttt{in (Node $(l, k&#39;, p&#39;, l&#39;), x, r&#39;$) end}} \\ 
+12 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $($$l$, true, $r$$)$} 
+\\ 
+13 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$} %\label{line:bst::treaps::split-greater} 
+\\ 
+14 &amp; ~~~~~~~~~~\texttt{let $(l&#39;, x, r&#39;)$ = split $r$ $k$} 
+\\ 
+15 &amp; ~~~~~~~~~~\texttt{in (Node $(l, k&#39;, p&#39;, l&#39;), x, r&#39;$) end} %\label{line:bst::treaps::splitnode2} 
+\\ 
 &amp;\\ 
-16 &amp; {\texttt{join $t_1$ $t_2$ =}} 
+16 &amp; \texttt{join $t_1$ $t_2$ =} 
 \\ 
-17 &amp; ~~{\texttt{case $(t_1, t_2)$}} 
+17 &amp; ~~\texttt{case $(t_1, t_2)$} 
 \\ 
-18 &amp; ~~{\texttt{| (Leaf,  _) $\Rightarrow$ $t_2$}} 
+18 &amp; ~~\texttt{| (Leaf,  _) $\Rightarrow$ $t_2$} 
 \\ 
-19 &amp; ~~{\texttt{| (_ ,  Leaf) $\Rightarrow$ $t_1$}} 
+19 &amp; ~~\texttt{| (_ ,  Leaf) $\Rightarrow$ $t_1$} 
 \\ 
-20 &amp; ~~{\texttt{| (Node $(l_1, k_1, p_1, r_1)$,  Node $(l_2, k_2, p_2, r_2)$) $\Rightarrow$}} 
+20 &amp; ~~\texttt{| (Node $(l_1, k_1, p_1, r_1)$,  Node $(l_2, k_2, p_2, r_2)$) $\Rightarrow$} 
 \\ 
-21 &amp; ~~~~~~{\texttt{if ($p_1 &gt; p_2$) then}}  \\ 
-22 &amp; ~~~~~~~~{\texttt{Node ($l_1$, $k_1$, $p_1$,  join $r_1$ $t_2$)}} 
+21 &amp; ~~~~~~\texttt{if ($p_1 &gt; p_2$) then}  %\label{line:bst::treaps::cpri} 
 \\ 
-23 &amp; ~~~~~~{\texttt{else}} 
+22 &amp; ~~~~~~~~\texttt{Node ($l_1$, $k_1$, $p_1$,  join $r_1$ $t_2$)} 
 \\ 
-24 &amp; ~~~~~~~~{\texttt{Node (join $t_1$ $l_2$,  $k_2$, $p_2$, $r_2$)}} 
+23 &amp; ~~~~~~\texttt{else} 
+\\ 
+24 &amp; ~~~~~~~~\texttt{Node (join $t_1$ $l_2$,  $k_2$, $p_2$, $r_2$)} 
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -3811,7 +3863,7 @@ ds:bst::treaps
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>To implement the function <span class="math inline">\({\texttt{singleton}},\)</span> we rely on a function <span class="math inline">\({\texttt{randomInt}},\)</span> which when called returns a (pseudo-)random number. Such functions are broadly provided by programming languages.</p>
+<p>To implement the function <span class="math inline">\(\texttt{singleton},\)</span> we rely on a function <span class="math inline">\(\texttt{randomInt},\)</span> which when called returns a (pseudo-)random number. Such functions are broadly provided by programming languages.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3859,7 +3911,7 @@ Split
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The <span class="math inline">\({\texttt{split}}\)</span> algorithm recursively traverses the tree from the root to the key <span class="math inline">\(k\)</span> splitting along the path, and then when returning from the recursive calls, it puts the subtrees back together. When putting back the trees along the path being split through, the function does not have to compare priorities the priority <span class="math inline">\(p&#39;\)</span> is the highest priority in the input tree <span class="math inline">\(T\)</span> and is therefore larger than the priorities of either of the subtrees on the left and right. Hence <span class="math inline">\({\texttt{split}}\)</span> maintains the heap property of treaps.</p>
+<p>The <span class="math inline">\(\texttt{split}\)</span> algorithm recursively traverses the tree from the root to the key <span class="math inline">\(k\)</span> splitting along the path, and then when returning from the recursive calls, it puts the subtrees back together. When putting back the trees along the path being split through, the function does not have to compare priorities the priority <span class="math inline">\(p&#39;\)</span> is the highest priority in the input tree <span class="math inline">\(T\)</span> and is therefore larger than the priorities of either of the subtrees on the left and right. Hence <span class="math inline">\(\texttt{split}\)</span> maintains the heap property of treaps.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3898,8 +3950,8 @@ treaps.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A <span class="math inline">\({\texttt{split}}\)</span> operation on a Treap and key <span class="math inline">\(c\)</span>, which is not in the Treap. The <span class="math inline">\({\texttt{split}}\)</span> traverses the path <span class="math inline">\({\left\langle\, a,e,b,d \,\right\rangle}\)</span> turning right at <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> of the Data Structure and turning left at <span class="math inline">\(e\)</span> and <span class="math inline">\(d\)</span>. The pieces are put back together into the two resulting trees on the way back up the recursion.</p>
-<p><img src="/media/210/bsts/bstsplit.jpg" alt="image" width="547" /></p>
+<p>A <span class="math inline">\(\texttt{split}\)</span> operation on a Treap and key <span class="math inline">\(c\)</span>, which is not in the Treap. The <span class="math inline">\(\texttt{split}\)</span> traverses the path <span class="math inline">\(\left\langle\, a,e,b,d \,\right\rangle\)</span> turning right at <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> of the Data Structure and turning left at <span class="math inline">\(e\)</span> and <span class="math inline">\(d\)</span>. The pieces are put back together into the two resulting trees on the way back up the recursion.</p>
+<p><img src="/media/210/bsts/bstsplit.jpg" alt="image" style="width:5.7in" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3962,7 +4014,8 @@ Join
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Unlike the implementation of <span class="math inline">\({\texttt{split}}\)</span>, the implementation of <span class="math inline">\({\texttt{join}}\)</span> operates on priorities in order to ensure that the resulting Treap satisfies the heap priority of Treaps. Specifically, given two trees, <span class="math inline">\({\texttt{join}}\)</span> first compares the priorities of the two roots, making the larger priority the new root. It then recursively joins the Treaps consisting of the other tree and the appropriate side of the new root. The path from the root to the leftmost node in a BST is called the <span> </span>, and the path from the root to the rightmost node is called the <span> </span>. The function <span class="math inline">\({\texttt{join}}~t_1~t_2\)</span> merges the right spine of <span class="math inline">\(t_1\)</span> with the left spine of <span class="math inline">\(t_2\)</span> based on the priority order. This ensures that the priorities are in decreasing order down the path.</p>
+<p>Unlike the implementation of <span class="math inline">\(\texttt{split}\)</span>, the implementation of <span class="math inline">\(\texttt{join}\)</span> operates on priorities in order to ensure that the resulting Treap satisfies the heap priority of Treaps. Specifically, given two trees, <span class="math inline">\(\texttt{join}\)</span> first compares the priorities of the two roots, making the larger priority the new root. It then recursively joins the Treaps consisting of the other tree and the appropriate side of the new root.</p>
+<p>The path from the root to the leftmost node in a BST is called the  <span style="color: black"><span><strong><em>left spine</em></strong></span></span>, and the path from the root to the rightmost node is called the  <span style="color: black"><span><strong><em>right spine</em></strong></span></span>. The function <span class="math inline">\(\texttt{join}~t_1~t_2\)</span> merges the right spine of <span class="math inline">\(t_1\)</span> with the left spine of <span class="math inline">\(t_2\)</span> based on the priority order. This ensures that the priorities are in decreasing order down the path.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4005,8 +4058,8 @@ ex:bst::treap-join
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>An illustration of <span class="math inline">\({\texttt{join}}~t_1~t_2\)</span> on Treaps. If <span class="math inline">\(p(k_1) &gt; p(k_2)\)</span>, then the function recurs with <span class="math inline">\({\texttt{join}}~R_1~t_2\)</span> and the result becomes the right child of <span class="math inline">\(k_1\)</span>.</p>
-<p><img src="/media/210/bsts/treap-join.jpg" alt="image" width="566" /></p>
+<p>An illustration of <span class="math inline">\(\texttt{join}~t_1~t_2\)</span> on Treaps. If <span class="math inline">\(p(k_1) &gt; p(k_2)\)</span>, then the function recurs with <span class="math inline">\(\texttt{join}~R_1~t_2\)</span> and the result becomes the right child of <span class="math inline">\(k_1\)</span>.</p>
+<p><img src="/media/210/bsts/treap-join.jpg" alt="image" style="width:15cm" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4042,8 +4095,8 @@ $k_1$.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>An illustration of <span class="math inline">\({\texttt{join}}\)</span> for Treaps applied to <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> in more detail. The right spine of <span class="math inline">\(t_1\)</span> consisting of <span class="math inline">\((b,9)\)</span>, <span class="math inline">\((d,6)\)</span> and <span class="math inline">\((e,5)\)</span> is merged by priority with the left spine of <span class="math inline">\(t_2\)</span> consisting of <span class="math inline">\((h,8)\)</span> and <span class="math inline">\((g,4)\)</span>. Note that splitting the result with the key <span class="math inline">\(f\)</span> will return the original two trees.</p>
-<p><img src="/media/210/bsts/treap-examp-join.jpg" alt="image" width="556" /></p>
+<p>An illustration of <span class="math inline">\(\texttt{join}\)</span> for Treaps applied to <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> in more detail. The right spine of <span class="math inline">\(t_1\)</span> consisting of <span class="math inline">\((b,9)\)</span>, <span class="math inline">\((d,6)\)</span> and <span class="math inline">\((e,5)\)</span> is merged by priority with the left spine of <span class="math inline">\(t_2\)</span> consisting of <span class="math inline">\((h,8)\)</span> and <span class="math inline">\((g,4)\)</span>. Note that splitting the result with the key <span class="math inline">\(f\)</span> will return the original two trees.</p>
+<p><img src="/media/210/bsts/treap-examp-join.jpg" alt="image" style="width:5.8in" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4080,8 +4133,8 @@ An illustration of $\cd{join}$ for Treaps applied to $t_1$ and $t_2$ in
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>[thm:treapuniqueness] For a set of keys <span class="math inline">\(S\)</span>, if their priorities <span class="math inline">\(p(s) : s \in S\)</span> are unique, then there is exactly one Treap (i.e. shape) for <span class="math inline">\(S\)</span>.</p>
-<p>(By induction on size) An empty tree is a leaf (base case). Otherwise, the unique key <span class="math inline">\(k\)</span> with the highest priority in <span class="math inline">\(S\)</span> must be at the root. This fixes the keys to the left (<span class="math inline">\({\left\{ k&#39; \in S \;|\; k&#39; &lt; k \right\}}\)</span>) and to the right (<span class="math inline">\({\left\{ k&#39; \in S \;|\; k&#39; &gt; k \right\}}\)</span>). By induction these are unique, so the whole tree is unique.</p>
+<p><span id="thm:treapuniqueness" label="thm:treapuniqueness">[thm:treapuniqueness]</span> For a set of keys <span class="math inline">\(S\)</span>, if their priorities <span class="math inline">\(p(s) : s \in S\)</span> are unique, then there is exactly one Treap (i.e. shape) for <span class="math inline">\(S\)</span>.</p>
+<p>(By induction on size) An empty tree is a leaf (base case). Otherwise, the unique key <span class="math inline">\(k\)</span> with the highest priority in <span class="math inline">\(S\)</span> must be at the root. This fixes the keys to the left (<span class="math inline">\(\left\{ k&#39; \in S \;|\; k&#39; &lt; k \right\}\)</span>) and to the right (<span class="math inline">\(\left\{ k&#39; \in S \;|\; k&#39; &gt; k \right\}\)</span>). By induction these are unique, so the whole tree is unique.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4122,7 +4175,7 @@ Work of Split and Join
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Let’s bound now the work for <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>. Each one does constant work on each recursive call. For <span class="math inline">\({\texttt{split}}\)</span> each recursive call goes to one of the children, so the number of recursive calls is at most the height of <span class="math inline">\(t\)</span>. For <span class="math inline">\({\texttt{join}}\)</span> each recursive call either goes down one level in <span class="math inline">\(t_1\)</span> or one level in <span class="math inline">\(t_2\)</span>. Therefore the number of recursive calls is bounded by the sum of the heights of the two trees. Hence the work of <span class="math inline">\({\texttt{split}}\)</span> <span class="math inline">\(t\)</span> <span class="math inline">\(k\)</span> is <span class="math inline">\(O(h(t))\)</span> and the work of <span class="math inline">\({\texttt{join}}\)</span><span class="math inline">\((t_1,m,t_2)\)</span> is <span class="math inline">\(O(h(t_1)+h(t_2))\)</span>. Thus all that is left to do is to bound the height of a Treap.</p>
+<p>Let’s bound now the work for <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. Each one does constant work on each recursive call. For <span class="math inline">\(\texttt{split}\)</span> each recursive call goes to one of the children, so the number of recursive calls is at most the height of <span class="math inline">\(t\)</span>. For <span class="math inline">\(\texttt{join}\)</span> each recursive call either goes down one level in <span class="math inline">\(t_1\)</span> or one level in <span class="math inline">\(t_2\)</span>. Therefore the number of recursive calls is bounded by the sum of the heights of the two trees. Hence the work of <span class="math inline">\(\texttt{split}\)</span> <span class="math inline">\(t\)</span> <span class="math inline">\(k\)</span> is <span class="math inline">\(O(h(t))\)</span> and the work of <span class="math inline">\(\texttt{join}\)</span><span class="math inline">\((t_1,m,t_2)\)</span> is <span class="math inline">\(O(h(t_1)+h(t_2))\)</span>. Thus all that is left to do is to bound the height of a Treap.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4219,27 +4272,29 @@ Treap Generating Quicksort
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The following variant of quick sort generates a treap. This algorithm is almost identical to our previous quicksort except that it uses <span class="math inline">\({\texttt{Node}}\)</span> instead of <span class="math inline">\({\texttt{append}},\)</span> and <span class="math inline">\({\texttt{Leaf}}\)</span> instead of an empty sequence in the base case. Because it is generating a treap consisting of unique keys, the algorithm retains only one key equaling the pivot. <span class="math display">\[\begin{array}{ll} 
-1 &amp; {\texttt{qsTree $a$ =}} 
+<p>The following variant of quick sort generates a treap. This algorithm is almost identical to our previous quicksort except that it uses <span class="math inline">\(\texttt{Node}\)</span> instead of <span class="math inline">\(\texttt{append},\)</span> and <span class="math inline">\(\texttt{Leaf}\)</span> instead of an empty sequence in the base case. Because it is generating a treap consisting of unique keys, the algorithm retains only one key equaling the pivot.</p>
+<p><span class="math display">\[\begin{array}{ll} 
+1 &amp; \texttt{qsTree $a$ =} 
 \\ 
-2 &amp; ~~{\texttt{if $|a| = 0$ then Leaf}} 
+2 &amp; ~~\texttt{if $|a| = 0$ then Leaf} 
 \\ 
-3 &amp; ~~{\texttt{else}} 
+3 &amp; ~~\texttt{else} 
 \\ 
-4 &amp; ~~~~{\texttt{let}} 
+4 &amp; ~~~~\texttt{let} 
 \\ 
-5 &amp; ~~~~~~{\texttt{$x$ = the key $k \in a$ for which $p(k)$ is the largest}} 
+5 &amp; ~~~~~~\texttt{$x$ = the key $k \in a$ for which $p(k)$ is the largest} 
 \\ 
-6 &amp; ~~~~~~{\texttt{$b$ = ${\left\langle\, y \in a \;|\; y &lt; x \,\right\rangle}$}} 
+6 &amp; ~~~~~~\texttt{$b$ = $\left\langle\, y \in a \;|\; y &lt; x \,\right\rangle$} 
 \\ 
-7 &amp; ~~~~~~{\texttt{$c$ = ${\left\langle\, y \in a \;|\; y &gt; x \,\right\rangle}$}} 
+7 &amp; ~~~~~~\texttt{$c$ = $\left\langle\, y \in a \;|\; y &gt; x \,\right\rangle$} 
 \\ 
-8 &amp; ~~~~~~{\texttt{$(l,r)$ = (qsTree $b$ ) || (qsTree $c$)}} 
+8 &amp; ~~~~~~\texttt{$(l,r)$ = (qsTree $b$ ) || (qsTree $c$)} 
 \\ 
-9 &amp; ~~~~{\texttt{in}} 
+9 &amp; ~~~~\texttt{in} 
 \\ 
-10 &amp; ~~~~~~{\texttt{Node $(l, x, r)$}} \\ 
-11 &amp; ~~~~{\texttt{end}} 
+10 &amp; ~~~~~~\texttt{Node $(l, x, r)$} %\label{line:bst::qsnode} 
+\\ 
+11 &amp; ~~~~\texttt{end} 
 \\ 
 \end{array}\]</span></p>
 ]]>
@@ -4307,7 +4362,7 @@ algorithm retains only one key equaling the pivot.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The tree generated by <span class="math inline">\({\texttt{qsTree}}(a)\)</span> is the Treap for the sequence <span class="math inline">\(a\)</span>. This can be seen by induction. It is true for the base case. Now assume by induction it is true for the trees returned by the two recursive calls. The tree returned by the main call is then also a Treap since the pivot <span class="math inline">\(x\)</span> has the highest priority, and therefore is correctly placed at the root, the subtrees and in heap order by induction, and because the keys in <span class="math inline">\(l\)</span> are less than the pivot, and the keys in <span class="math inline">\(r\)</span> are greater than the pivot, the tree has the BST property.</p>
+<p>The tree generated by <span class="math inline">\(\texttt{qsTree}(a)\)</span> is the Treap for the sequence <span class="math inline">\(a\)</span>. This can be seen by induction. It is true for the base case. Now assume by induction it is true for the trees returned by the two recursive calls. The tree returned by the main call is then also a Treap since the pivot <span class="math inline">\(x\)</span> has the highest priority, and therefore is correctly placed at the root, the subtrees and in heap order by induction, and because the keys in <span class="math inline">\(l\)</span> are less than the pivot, and the keys in <span class="math inline">\(r\)</span> are greater than the pivot, the tree has the BST property.</p>
 <p>Based on this isomorphism, we can bound the height of a Treap by the recursion depth of quicksort. Recall that we proved that if we pick the priorities at random, the recursion depth is <span class="math inline">\(O(\lg{n})\)</span> with high probability. Therefore we know that the height of a Treap is <span class="math inline">\(O(\lg{n})\)</span> with high probability.</p>
 ]]>
 </field> <!-- body -->
@@ -4453,7 +4508,7 @@ How can we change a BST data structure to associate values with keys?
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Perhaps the simplest form of augmentation involves storing in the BST a key-value pair instead of just a key. Implementing BSTs augmented with key-value pairs is relatively straightforward by updating the relevant parts of the ADT. For example, to accommodate the key, we can change the BST data type to a key-value pair, and update the implementation of the functions to pass the value around with the key as needed, making sure that a key-value pair is never separated. For functions such as <span class="math inline">\({\texttt{find}}\)</span> and <span class="math inline">\({\texttt{split}}\)</span> that may return the value, we make sure to do so.</p>
+<p>Perhaps the simplest form of augmentation involves storing in the BST a key-value pair instead of just a key. Implementing BSTs augmented with key-value pairs is relatively straightforward by updating the relevant parts of the ADT. For example, to accommodate the key, we can change the BST data type to a key-value pair, and update the implementation of the functions to pass the value around with the key as needed, making sure that a key-value pair is never separated. For functions such as <span class="math inline">\(\texttt{find}\)</span> and <span class="math inline">\(\texttt{split}\)</span> that may return the value, we make sure to do so.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4513,10 +4568,12 @@ Augmenting with Size
 <![CDATA[
 <p>As a more complex augmentation, we might want to associate with each node in the tree a size field that tells us how large the subtree rooted at that node is. As a motivating example for this form of augmentation, suppose that we wish to extend the BST ADT with the following additional functions.</p>
 <ul>
-<li><p>Function <span class="math inline">\({\texttt{rank}}~t~k\)</span> returns the rank of the key <span class="math inline">\(k\)</span> in the tree, i.e., the number of keys in <span class="math inline">\(t\)</span> that are less than or equal to <span class="math inline">\(k\)</span>.</p></li>
-<li><p>Function <span class="math inline">\({\texttt{select}}~T~i\)</span> returns the key with the rank <span class="math inline">\(i\)</span> in <span class="math inline">\(t\)</span>.</p></li>
+<li><p>Function <span class="math inline">\(\texttt{rank}~t~k\)</span> returns the rank of the key <span class="math inline">\(k\)</span> in the tree, i.e., the number of keys in <span class="math inline">\(t\)</span> that are less than or equal to <span class="math inline">\(k\)</span>.</p></li>
+<li><p>Function <span class="math inline">\(\texttt{select}~T~i\)</span> returns the key with the rank <span class="math inline">\(i\)</span> in <span class="math inline">\(t\)</span>.</p></li>
 </ul>
-<p>Such functions arise in many applications. For example, we can use them to implement sequences. If we have a way to count the number of nodes in a subtree, then we can easily implement these functions. The algorithm below shows such an implementation by using a size operation for computing the size of a tree, written <span class="math inline">\(|t|\)</span> for tree <span class="math inline">\(t\)</span>. With balanced trees such as Treaps, the <span class="math inline">\({\texttt{rank}}\)</span> and <span class="math inline">\({\texttt{select}}\)</span> functions require logarithmic span but linear work, because computing the size of a subtree takes linear time in the size of the subtree. If, however, we augment the tree so that at each node, we store the size of the subtree rooted at that node, then work becomes logarithmic, because we can find the size of a subtree in constant work.</p>
+<p>Such functions arise in many applications. For example, we can use them to implement sequences.</p>
+<p>If we have a way to count the number of nodes in a subtree, then we can easily implement these functions. The algorithm below shows such an implementation by using a size operation for computing the size of a tree, written <span class="math inline">\(|t|\)</span> for tree <span class="math inline">\(t\)</span>. With balanced trees such as Treaps, the <span class="math inline">\(\texttt{rank}\)</span> and <span class="math inline">\(\texttt{select}\)</span> functions require logarithmic span but linear work, because computing the size of a subtree takes linear time in the size of the subtree.</p>
+<p>If, however, we augment the tree so that at each node, we store the size of the subtree rooted at that node, then work becomes logarithmic, because we can find the size of a subtree in constant work.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4589,39 +4646,39 @@ Rank
 <field name='body'>
 <![CDATA[
 <p><span class="math display">\[\begin{array}{ll} 
-1 &amp; {\texttt{rank $t$ $k$ =}} 
+1 &amp; \texttt{rank $t$ $k$ =} 
 \\ 
-2 &amp; ~~{\texttt{case $t$ }} 
+2 &amp; ~~\texttt{case $t$ } 
 \\ 
-3 &amp; ~~{\texttt{| Leaf $\Rightarrow$ $0$}} 
+3 &amp; ~~\texttt{| Leaf $\Rightarrow$ $0$} 
 \\ 
-4 &amp; ~~{\texttt{| Node $(l,k&#39;,r)$ $\Rightarrow$}} 
+4 &amp; ~~\texttt{| Node $(l,k&#39;,r)$ $\Rightarrow$} 
 \\ 
-5 &amp; ~~~~~~{\texttt{case compare $(k,k&#39;)$ }} 
+5 &amp; ~~~~~~\texttt{case compare $(k,k&#39;)$ } 
 \\ 
-6 &amp; ~~~~~~{\texttt{| LESS $\Rightarrow$ rank $l$ $k$}} 
+6 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$ rank $l$ $k$} 
 \\ 
-7 &amp; ~~~~~~{\texttt{| EQUAL $\Rightarrow$ $|l|$}} 
+7 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $|l|$} 
 \\ 
-8 &amp; ~~~~~~{\texttt{| GREATER $\Rightarrow$ $|l| + 1 +$ rank $r$ $k$}} 
+8 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$ $|l| + 1 +$ rank $r$ $k$} 
 \\ 
 ~&amp;~ 
 \\ 
-9 &amp; {\texttt{select $t$ $i$ =}} 
+9 &amp; \texttt{select $t$ $i$ =} 
 \\ 
-10 &amp; ~~{\texttt{case $t$ }} 
+10 &amp; ~~\texttt{case $t$ } 
 \\ 
-11 &amp; ~~{\texttt{| Leaf $\Rightarrow$ raise exception OutOfRange}} 
+11 &amp; ~~\texttt{| Leaf $\Rightarrow$ raise exception OutOfRange} 
 \\ 
-12 &amp; ~~{\texttt{| Node $(l,k,r)$ $\Rightarrow$}} 
+12 &amp; ~~\texttt{| Node $(l,k,r)$ $\Rightarrow$} 
 \\ 
-13 &amp; ~~~~~~{\texttt{case compare $(i,|l|)$ of}} 
+13 &amp; ~~~~~~\texttt{case compare $(i,|l|)$ of} 
 \\ 
-14 &amp; ~~~~~~~~{\texttt{LESS $\Rightarrow$ select $l$ $i$}} 
+14 &amp; ~~~~~~~~\texttt{LESS $\Rightarrow$ select $l$ $i$} 
 \\ 
-15 &amp; ~~~~~~~~{\texttt{EQUAL $\Rightarrow$ $k$}} 
+15 &amp; ~~~~~~~~\texttt{EQUAL $\Rightarrow$ $k$} 
 \\ 
-16 &amp; ~~~~~~~~{\texttt{GREATER $\Rightarrow$ select $r$ $(i-|l|-1)$}} 
+16 &amp; ~~~~~~~~\texttt{GREATER $\Rightarrow$ select $r$ $(i-|l|-1)$} 
 \\ 
 \end{array}\]</span></p>
 ]]>
@@ -4724,8 +4781,8 @@ Can we compute size of subtrees more efficiently?
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>An example BST, where keys are ordered lexicographically and the nodes are augmented with the sizes of subtrees. The path explored by <span class="math inline">\({\texttt{rank (T,n)}}\)</span> and <span class="math inline">\({\texttt{select (T,4)}}\)</span> is highlighted.</p>
-<p><img src="/media/210/bsts/rankSelect.jpg" alt="image" width="240" /></p>
+<p>An example BST, where keys are ordered lexicographically and the nodes are augmented with the sizes of subtrees. The path explored by <span class="math inline">\(\texttt{rank (T,n)}\)</span> and <span class="math inline">\(\texttt{select (T,4)}\)</span> is highlighted.</p>
+<p><img src="/media/210/bsts/rankSelect.jpg" alt="image" style="width:2.5in" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4793,7 +4850,8 @@ But how can we maintain the sizes of the subtrees as we perform
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>To implement a size-augmented tree, we need to keep <span class="math inline">\({\texttt{size}}\)</span> field at each node and compute the size of the nodes as they are created. In our parametric implementation, we can incorporate the <span class="math inline">\({\texttt{size}}\)</span> field by changing the definition of a node and initializing it to <span class="math inline">\(1\)</span>, when a singleton tree is created. When <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> functions create a new node, they can compute its size by summing the sizes of its children. In addition to the <span class="math inline">\({\texttt{rank}}\)</span> and <span class="math inline">\({\texttt{select}}\)</span> functions, we can also define the function <span class="math inline">\({\texttt{splitRank}}(T,i)\)</span>, which splits the tree into two by returning the trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> such that <span class="math inline">\(t_1\)</span> contains all keys with rank less than <span class="math inline">\(i\)</span> and <span class="math inline">\(t_2\)</span> contains all keys with rank is greater or equal to <span class="math inline">\(i\)</span>. Such a function can be used for example to write divide-and-conquer algorithms on imperfectly balanced trees.</p>
+<p>To implement a size-augmented tree, we need to keep <span class="math inline">\(\texttt{size}\)</span> field at each node and compute the size of the nodes as they are created. In our parametric implementation, we can incorporate the <span class="math inline">\(\texttt{size}\)</span> field by changing the definition of a node and initializing it to <span class="math inline">\(1\)</span>, when a singleton tree is created. When <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> functions create a new node, they can compute its size by summing the sizes of its children.</p>
+<p>In addition to the <span class="math inline">\(\texttt{rank}\)</span> and <span class="math inline">\(\texttt{select}\)</span> functions, we can also define the function <span class="math inline">\(\texttt{splitRank}(T,i)\)</span>, which splits the tree into two by returning the trees <span class="math inline">\(t_1\)</span> and <span class="math inline">\(t_2\)</span> such that <span class="math inline">\(t_1\)</span> contains all keys with rank less than <span class="math inline">\(i\)</span> and <span class="math inline">\(t_2\)</span> contains all keys with rank is greater or equal to <span class="math inline">\(i\)</span>. Such a function can be used for example to write divide-and-conquer algorithms on imperfectly balanced trees.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4859,7 +4917,7 @@ Augmenting with Reduced Values
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>To compute rank-based properties of keys in a BST, we augmented the BST so that each node stores the size of its subtree. More generally, we might want to associate with each node a <span> </span> that is computed by reducing over the subtree rooted at the node by a user specified function. In general, there is no restriction on how the reduced values may be computed, they can be based on keys or additional values that the tree is augmented with. To compute reduced values, we simply store with every node <span class="math inline">\(u\)</span> of a binary search tree, the reduced value of its subtree (i.e. the sum of all the reduced values that are descendants of <span class="math inline">\(u\)</span>, possibly also the value at <span class="math inline">\(u\)</span> itself).</p>
+<p>To compute rank-based properties of keys in a BST, we augmented the BST so that each node stores the size of its subtree. More generally, we might want to associate with each node a  <span style="color: black"><span><strong><em>reduced value</em></strong></span></span> that is computed by reducing over the subtree rooted at the node by a user specified function. In general, there is no restriction on how the reduced values may be computed, they can be based on keys or additional values that the tree is augmented with. To compute reduced values, we simply store with every node <span class="math inline">\(u\)</span> of a binary search tree, the reduced value of its subtree (i.e. the sum of all the reduced values that are descendants of <span class="math inline">\(u\)</span>, possibly also the value at <span class="math inline">\(u\)</span> itself).</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -4900,7 +4958,7 @@ value at $u$ itself).
 <field name='body'>
 <![CDATA[
 <p>The following drawing shows a tree with key-value pairs on the left, and the augmented tree on the right, where each node additionally maintains the sum of it subtree.</p>
-<p><img src="/media/210/bsts/augtree.jpg" alt="image" width="384" /></p>
+<p><img src="/media/210/bsts/augtree.jpg" alt="image" style="width:4in" /></p>
 <p>The sum at the root (<span class="math inline">\(13\)</span>) is the sum of all values in the tree (<span class="math inline">\(3 + 
 1 + 2 + 2 + 5\)</span>). It is also the sum of the reduced values of its two children (<span class="math inline">\(6\)</span> and <span class="math inline">\(5\)</span>) and its own value <span class="math inline">\(2\)</span>.</p>
 ]]>
@@ -4940,85 +4998,86 @@ fig:bst::reducedjoin
 <field name='body'>
 <![CDATA[
 <p><span class="math display">\[\begin{array}{ll} 
-1 &amp; {\texttt{(* type of the reduced value, as specified. *)}} 
+1 &amp; \texttt{(* type of the reduced value, as specified. *)} 
 \\ 
-2 &amp; {\texttt{type rv = ...                   }} 
-\\ 
-~&amp;~ 
-\\ 
-3 &amp; {\texttt{(* associative reducer function, as specified. *)}} 
-\\ 
-4 &amp; {\texttt{$f$(x: rv, y: val, z: rv): rv = ...  }} 
+2 &amp; \texttt{type rv = ...                   } 
 \\ 
 ~&amp;~ 
 \\ 
-5 &amp; {\texttt{(* identity for the reducer function, as specified. *)}} 
+3 &amp; \texttt{(* associative reducer function, as specified. *)} 
 \\ 
-6 &amp; {\texttt{$id_f$ : rv = ...                 }} 
-\\ 
-~&amp;~ 
-\\ 
-7 &amp; {\texttt{type treap = }} 
-\\ 
-8 &amp; ~~~{\texttt{Leaf }} 
-\\ 
-9 &amp; ~{\texttt{| Node of (Treap $\times$ key $\times$ priority  $\times$ (val $\times$ rv) $\times$ Treap) }} 
+4 &amp; \texttt{$f$(x: rv, y: val, z: rv): rv = ...  } 
 \\ 
 ~&amp;~ 
 \\ 
-10 &amp; {\texttt{rvOf $t$ =}} 
+5 &amp; \texttt{(* identity for the reducer function, as specified. *)} 
 \\ 
-11 &amp; ~~{\texttt{case $t$}} 
-\\ 
-12 &amp; ~~{\texttt{| Leaf $\Rightarrow$ $id_f$}} 
-\\ 
-13 &amp; ~~{\texttt{| Node (_,_,_(_,w),_) $\Rightarrow$ w}} 
+6 &amp; \texttt{$id_f$ : rv = ...                 } 
 \\ 
 ~&amp;~ 
 \\ 
-14 &amp; {\texttt{mkNode $(l,k,p,v,r)$ = Node ($l$,$k$,$p$,($v$,$f$ (rvOf $l$,$v$,rvOf $r$)),$r$) }} 
+7 &amp; \texttt{type treap = } 
+\\ 
+8 &amp; ~~~\texttt{Leaf } 
+\\ 
+9 &amp; ~\texttt{| Node of (Treap $\times$ key $\times$ priority  $\times$ (val $\times$ rv) $\times$ Treap) } 
 \\ 
 ~&amp;~ 
 \\ 
-15 &amp; {\texttt{split $t$ $k$ = }} 
+10 &amp; \texttt{rvOf $t$ =} 
 \\ 
-16 &amp; ~~{\texttt{case t }} 
+11 &amp; ~~\texttt{case $t$} 
 \\ 
-17 &amp; ~~{\texttt{| Leaf $\Rightarrow$ (Leaf,false,Leaf)}} 
+12 &amp; ~~\texttt{| Leaf $\Rightarrow$ $id_f$} 
 \\ 
-18 &amp; ~~{\texttt{| Node $(l,k&#39;,p&#39;,(v&#39;,w&#39;),r)$ =}} 
-\\ 
-19 &amp; ~~~~~~{\texttt{case compare $(k,k&#39;)$}} 
-\\ 
-20 &amp; ~~~~~~{\texttt{| LESS $\Rightarrow$ }} 
-\\ 
-21 &amp; ~~~~~~~~~~{\texttt{let $(l&#39;,x,r&#39;)$ = split $l$ $k$}} 
-\\ 
-22 &amp; ~~~~~~~~~~{\texttt{in $(l&#39;,x,{\texttt{mkNode}}~(r&#39;,k&#39;,p&#39;,v&#39;,r))$ end }} 
-\\ 
-23 &amp; ~~~~~~{\texttt{| EQUAL $\Rightarrow$ $($$l$,true,$r$$)$}} 
-\\ 
-24 &amp; ~~~~~~{\texttt{| GREATER $\Rightarrow$}} 
-\\ 
-25 &amp; ~~~~~~~~~~{\texttt{let $(l&#39;,x,r&#39;)$ = split $r$ $k$}} 
-\\ 
-26 &amp; ~~~~~~~~~~{\texttt{in (mkNode $(l,k&#39;,p&#39;,v&#39;,l&#39;),x,r&#39;$) end }} 
+13 &amp; ~~\texttt{| Node (_,_,_(_,w),_) $\Rightarrow$ w} 
 \\ 
 ~&amp;~ 
 \\ 
-27 &amp; {\texttt{join $t_1$ $t_2$ =}} 
+14 &amp; \texttt{mkNode $(l,k,p,v,r)$ = Node ($l$,$k$,$p$,($v$,$f$ (rvOf $l$,$v$,rvOf $r$)),$r$) } 
 \\ 
-28 &amp; ~~{\texttt{case $(t_1,t_2)$ of}} 
+~&amp;~ 
 \\ 
-29 &amp; ~~~~{\texttt{(Leaf, _) $\Rightarrow$ $t_2$}} 
+15 &amp; \texttt{split $t$ $k$ = } 
 \\ 
-30 &amp; ~~{\texttt{| (_, Leaf) $\Rightarrow$ $t_1$}} 
+16 &amp; ~~\texttt{case t } 
 \\ 
-31 &amp; ~~{\texttt{| (Node $(l_1,k_1,p_1,(v_1,w_1),r_1)$, Node $(l_2,k_2,p_2,(v_2,w_2),r_2)$) $\Rightarrow$}} 
+17 &amp; ~~\texttt{| Leaf $\Rightarrow$ (Leaf,false,Leaf)} 
 \\ 
-32 &amp; ~~~~~~{\texttt{if $p_1$ &gt; $p_2$) then mkNode 
-  ($l_1$,$k_1$,$p_1$,$v_1$,join $r_1$ $t_2$)       }} \\ 
-33 &amp; ~~~~~~{\texttt{else mkNode (join $t_1$ $l_2$,$k_2$,$v_2$,$r_2$)}} 
+18 &amp; ~~\texttt{| Node $(l,k&#39;,p&#39;,(v&#39;,w&#39;),r)$ =} 
+\\ 
+19 &amp; ~~~~~~\texttt{case compare $(k,k&#39;)$} 
+\\ 
+20 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$ } 
+\\ 
+21 &amp; ~~~~~~~~~~\texttt{let $(l&#39;,x,r&#39;)$ = split $l$ $k$} 
+\\ 
+22 &amp; ~~~~~~~~~~\texttt{in $(l&#39;,x,\texttt{mkNode}~(r&#39;,k&#39;,p&#39;,v&#39;,r))$ end } 
+\\ 
+23 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $($$l$,true,$r$$)$} 
+\\ 
+24 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$} 
+\\ 
+25 &amp; ~~~~~~~~~~\texttt{let $(l&#39;,x,r&#39;)$ = split $r$ $k$} 
+\\ 
+26 &amp; ~~~~~~~~~~\texttt{in (mkNode $(l,k&#39;,p&#39;,v&#39;,l&#39;),x,r&#39;$) end } 
+\\ 
+~&amp;~ 
+\\ 
+27 &amp; \texttt{join $t_1$ $t_2$ =} 
+\\ 
+28 &amp; ~~\texttt{case $(t_1,t_2)$ of} 
+\\ 
+29 &amp; ~~~~\texttt{(Leaf, _) $\Rightarrow$ $t_2$} 
+\\ 
+30 &amp; ~~\texttt{| (_, Leaf) $\Rightarrow$ $t_1$} 
+\\ 
+31 &amp; ~~\texttt{| (Node $(l_1,k_1,p_1,(v_1,w_1),r_1)$, Node $(l_2,k_2,p_2,(v_2,w_2),r_2)$) $\Rightarrow$} 
+\\ 
+32 &amp; ~~~~~~\texttt{if $p_1$ &gt; $p_2$) then mkNode 
+  ($l_1$,$k_1$,$p_1$,$v_1$,join $r_1$ $t_2$)       } %  \label{line:bst::reducedjoin::cpri}  
+\\ 
+33 &amp; ~~~~~~\texttt{else mkNode (join $t_1$ $l_2$,$k_2$,$v_2$,$r_2$)} 
 \\ 
 \end{array}\]</span></p>
 ]]>
@@ -5134,8 +5193,8 @@ fig:bst::reducedjoin
 <field name='body'>
 <![CDATA[
 <p>The value of each reduced value in a tree can be calculated as the sum of its two children plus the value stored at the node. This means that we can maintain these reduced values by simply taking the “sum” of three values whenever creating a node. We can thus change a data structure to support reduced values by changing the way we create nodes. In such a data structure, if the function that we use for reduction performs constant work, then the work and the span bound for the data structure remains unaffected.</p>
-<p>As an example, the data structure above describes an extension of the parametric implementation of Treaps to support reduced values. The description is parametric in the values paired with keys and the function <span class="math inline">\({\texttt{f}}\)</span> used for reduction. The type for Treaps is extended to store the value paired with the key as well as the reduced value. Specifically, in a <span class="math inline">\({\texttt{Node}},\)</span> the first data entry is the value paired by the key and the second is the reduced value.</p>
-<p>To compute reduced values as the structure of the tree changes, the implementation relies on an auxiliary function <span class="math inline">\({\texttt{mkNode}}\)</span> (read “make node”) that takes the key-value pair as well as the left and right subtrees and computes the reduced value by applying reducer function to the values of the left and right subtrees as well as the value. The only difference in the implementation of <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> functions from the parametric implementations is the use of <span class="math inline">\({\texttt{mkNode}}\)</span> instead of <span class="math inline">\({\texttt{Node}}.\)</span></p>
+<p>As an example, the data structure above describes an extension of the parametric implementation of Treaps to support reduced values. The description is parametric in the values paired with keys and the function <span class="math inline">\(\texttt{f}\)</span> used for reduction. The type for Treaps is extended to store the value paired with the key as well as the reduced value. Specifically, in a <span class="math inline">\(\texttt{Node},\)</span> the first data entry is the value paired by the key and the second is the reduced value.</p>
+<p>To compute reduced values as the structure of the tree changes, the implementation relies on an auxiliary function <span class="math inline">\(\texttt{mkNode}\)</span> (read “make node”) that takes the key-value pair as well as the left and right subtrees and computes the reduced value by applying reducer function to the values of the left and right subtrees as well as the value. The only difference in the implementation of <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> functions from the parametric implementations is the use of <span class="math inline">\(\texttt{mkNode}\)</span> instead of <span class="math inline">\(\texttt{Node}.\)</span></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -5198,8 +5257,8 @@ of $\cd{mkNode}$ instead of $\cd{Node}.$
 <field name='body'>
 <![CDATA[
 <p>The following diagram shows an example of splitting an augmented tree.</p>
-<p><img src="/media/210/bsts/augtree-split.jpg" alt="image" width="480" /></p>
-<p>The tree is split by the key <span class="math inline">\(c\)</span>, and the reduced values on the internal nodes need to be updated. This only needs to happen along the path that created the split, which in this case is <span class="math inline">\(e\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(d\)</span>. The node for <span class="math inline">\(d\)</span> does not have to be updated since it is a leaf. The <span class="math inline">\({\texttt{makeNode}}\)</span> for <span class="math inline">\(e\)</span> and <span class="math inline">\(b\)</span> are what will update the reduced values for those nodes.</p>
+<p><img src="/media/210/bsts/augtree-split.jpg" alt="image" style="width:5in" /></p>
+<p>The tree is split by the key <span class="math inline">\(c\)</span>, and the reduced values on the internal nodes need to be updated. This only needs to happen along the path that created the split, which in this case is <span class="math inline">\(e\)</span>, <span class="math inline">\(b\)</span>, and <span class="math inline">\(d\)</span>. The node for <span class="math inline">\(d\)</span> does not have to be updated since it is a leaf. The <span class="math inline">\(\texttt{makeNode}\)</span> for <span class="math inline">\(e\)</span> and <span class="math inline">\(b\)</span> are what will update the reduced values for those nodes.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -5276,6 +5335,37 @@ of the node itself.
 <field name='body_src'>
 <![CDATA[
 In an imperative implementation of binary search trees, when a child
+  node is side affected, the reduced values for the nodes on the path
+  from the modified node to the root must be recomputed.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- remark -->
+
+<atom name='remark'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>This is a duplicate remark: In an imperative implementation of binary search trees, when a child node is side affected, the reduced values for the nodes on the path from the modified node to the root must be recomputed.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This is a duplicate remark: In an imperative implementation of binary search trees, when a child
   node is side affected, the reduced values for the nodes on the path
   from the modified node to the root must be recomputed.
 ]]>

@@ -82,6 +82,7 @@ but goes into significantly more depth on algorithmic issues.
 
 
 \begin{section}[Motivation]
+\label{sec:bst::motivation}
 
 %% \begin{teachask}
 %% Can't we use sequences for searching? 
@@ -94,7 +95,7 @@ search trees, occupy a coveted place because of their broad
 applicability to many different sorts of problems.  For example, in
 this book, we rely on binary search trees to implement set and table
 (dictionary) abstract data types
-%(\chref{sets-tables}),
+(\chref{sets-tables}),
 which are then used in the
 implementation of many algorithms, including for example graph
 algorithms.
@@ -136,20 +137,19 @@ elements atonce.
 \end{gram}
 
 \begin{gram}
+In this section (\secref{bst::motivation}), we covered motivation.
 The rest of this chapter is organized as follows.  We first define
-binary search trees
-%(\secref{bst::prelim})
-and present an ADT for them.
-%(\secref{bst::adt}). 
+binary search trees (\secref{bst::prelim}) and present an ADT for
+them.  (\secref{bst::adt}).
 %
 We then present a parametric implementation of the ADT
-%(\secref{bst::parametric})
+(\secref{bst::parametric})
 by using only two operations, $\cd{split}$
 and $\cd{join}$, which respectively split a tree at a given key and
 join two trees.
 %
-%In \secref{bst::cost},
-Next, we present a cost specification based on the
+In \secref{bst::cost},
+we present a cost specification based on the
 parametric implementation, which achieves strong bounds as long as the
 $\cd{split}$ and $\cd{join}$ operations have logarithmic work and
 span.
@@ -159,11 +159,10 @@ ADT to the problem of implementing just the functions $\cd{split}$
 and $\cd{join}$.  
 %
 We finish the chapter by presenting a specific instance of the
-parametric implementation using Treaps.
-%(\secref{bst::treaps}).
+parametric implementation using Treaps (\secref{bst::treaps}).
 %
-Other possible implementation techniques are also described.
-%(\secref{bst::bsts-review})
+Other possible implementation techniques are also described
+(\secref{bst::bsts-review})
 \end{gram}
 \end{subsection}
 \end{section}

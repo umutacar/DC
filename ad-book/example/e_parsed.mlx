@@ -131,14 +131,14 @@ Motivation
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+sec:bst::motivation
 </field> <!-- label -->
 <field name='parents'>
 ...NOT.PROVIDED.PARENTS...
 </field> <!-- parents -->
 <field name='intro'>
 <![CDATA[
-<p>Searching is one of the most important operations in computer science. Of the many search data structures that have been designed and are used in practice, search trees, more specifically balanced binary search trees, occupy a coveted place because of their broad applicability to many different sorts of problems. For example, in this book, we rely on binary search trees to implement set and table (dictionary) abstract data types which are then used in the implementation of many algorithms, including for example graph algorithms.</p>
+<p>Searching is one of the most important operations in computer science. Of the many search data structures that have been designed and are used in practice, search trees, more specifically balanced binary search trees, occupy a coveted place because of their broad applicability to many different sorts of problems. For example, in this book, we rely on binary search trees to implement set and table (dictionary) abstract data types (Chapter <a href="#ch:sets-tables" data-reference-type="ref" data-reference="ch:sets-tables">[ch:sets-tables]</a>), which are then used in the implementation of many algorithms, including for example graph algorithms.</p>
 ]]>
 </field> <!-- intro -->
 <field name='intro_src'>
@@ -150,7 +150,7 @@ search trees, occupy a coveted place because of their broad
 applicability to many different sorts of problems.  For example, in
 this book, we rely on binary search trees to implement set and table
 (dictionary) abstract data types
-%(\chref{sets-tables}),
+(\chref{sets-tables}),
 which are then used in the
 implementation of many algorithms, including for example graph
 algorithms.
@@ -192,7 +192,7 @@ algorithms.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>If we are interested in searching a static or unchanging collection of elements, then we can use a simpler data structure such as sequences. For example, we can use a sequence with the array-based cost specification to implement an efficient search function by representing the collection as a sorted sequence and by using binary search. Such an implementation would yield a logarithmic-work search operation. If, however, we want to support dynamic collections, where for example, we insert new elements and delete existing elements, sequences would require linear work. Binary search trees, or <span> </span> for short, make it possible to compute with dynamic collections by using insertions, deletions, as well as searches all in logarithmic number of tree operations.</p>
+<p>If we are interested in searching a static or unchanging collection of elements, then we can use a simpler data structure such as sequences. For example, we can use a sequence with the array-based cost specification to implement an efficient search function by representing the collection as a sorted sequence and by using binary search. Such an implementation would yield a logarithmic-work search operation. If, however, we want to support dynamic collections, where for example, we insert new elements and delete existing elements, sequences would require linear work. Binary search trees, or  <span style="color: black"><span><strong><em>BSTs</em></strong></span></span> for short, make it possible to compute with dynamic collections by using insertions, deletions, as well as searches all in logarithmic number of tree operations.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -276,25 +276,24 @@ elements atonce.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The rest of this chapter is organized as follows. We first define binary search trees and present an ADT for them. We then present a parametric implementation of the ADT by using only two operations, <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>, which respectively split a tree at a given key and join two trees. Next, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\({\texttt{split}}\)</span> and <span class="math inline">\({\texttt{join}}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps. Other possible implementation techniques are also described.</p>
+<p>In this section (Section <a href="#sec:bst::motivation" data-reference-type="ref" data-reference="sec:bst::motivation">[sec:bst::motivation]</a>), we covered motivation. The rest of this chapter is organized as follows. We first define binary search trees (Section <a href="#sec:bst::prelim" data-reference-type="ref" data-reference="sec:bst::prelim">[sec:bst::prelim]</a>) and present an ADT for them. (Section <a href="#sec:bst::adt" data-reference-type="ref" data-reference="sec:bst::adt">[sec:bst::adt]</a>). We then present a parametric implementation of the ADT (Section <a href="#sec:bst::parametric" data-reference-type="ref" data-reference="sec:bst::parametric">[sec:bst::parametric]</a>) by using only two operations, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>, which respectively split a tree at a given key and join two trees. In Section <a href="#sec:bst::cost" data-reference-type="ref" data-reference="sec:bst::cost">[sec:bst::cost]</a>, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps (Section <a href="#sec:bst::treaps" data-reference-type="ref" data-reference="sec:bst::treaps">[sec:bst::treaps]</a>). Other possible implementation techniques are also described (Section <a href="#sec:bst::bsts-review" data-reference-type="ref" data-reference="sec:bst::bsts-review">[sec:bst::bsts-review]</a>)</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+In this section (\secref{bst::motivation}), we covered motivation.
 The rest of this chapter is organized as follows.  We first define
-binary search trees
-%(\secref{bst::prelim})
-and present an ADT for them.
-%(\secref{bst::adt}). 
+binary search trees (\secref{bst::prelim}) and present an ADT for
+them.  (\secref{bst::adt}).
 %
 We then present a parametric implementation of the ADT
-%(\secref{bst::parametric})
+(\secref{bst::parametric})
 by using only two operations, $\cd{split}$
 and $\cd{join}$, which respectively split a tree at a given key and
 join two trees.
 %
-%In \secref{bst::cost},
-Next, we present a cost specification based on the
+In \secref{bst::cost},
+we present a cost specification based on the
 parametric implementation, which achieves strong bounds as long as the
 $\cd{split}$ and $\cd{join}$ operations have logarithmic work and
 span.
@@ -304,11 +303,10 @@ ADT to the problem of implementing just the functions $\cd{split}$
 and $\cd{join}$.  
 %
 We finish the chapter by presenting a specific instance of the
-parametric implementation using Treaps.
-%(\secref{bst::treaps}).
+parametric implementation using Treaps (\secref{bst::treaps}).
 %
-Other possible implementation techniques are also described.
-%(\secref{bst::bsts-review})
+Other possible implementation techniques are also described
+(\secref{bst::bsts-review})
 ]]>
 </field> <!-- body_src -->
 </atom> <!-- gram -->
