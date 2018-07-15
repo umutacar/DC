@@ -45,12 +45,13 @@ def init (latex_preamble_file):
   global Tex2Html
 
   INDEX = 0
-  latex_postamble = r'\end{document}' + '\n'
+
+  preamble_file = open(latex_preamble_file, 'r')
+  preamble = preamble_file.read ()
 
   Tex2Html = latex2html.Latex2Html(\
                  TMP_DIR, \
-                 latex_preamble_file, \
-                 latex_postamble)
+                 preamble)
 
 
 def new_index ():
