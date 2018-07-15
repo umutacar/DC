@@ -51,7 +51,7 @@ def init (latex_preamble_file):
 
   Tex2Html = latex2html.Latex2Html(\
                  TMP_DIR, \
-                 latex_preamble)
+                 preamble)
 
 
 def new_index ():

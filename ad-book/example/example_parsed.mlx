@@ -914,40 +914,40 @@ adt:bst::adt
 <field name='body'>
 <![CDATA[
 <p>For a universe of totally ordered keys <span class="math inline">\({\mathbb{K}}\)</span>, the BST ADT consists of a type <span class="math inline">\({\mathbb{T}}\)</span> representing a power set of keys and the functions whose types are specified as follows.</p>
-<p><span class="math display">\[\begin{array}{lcl} 
+<p><span class="math display">\[\begin{array}{lcl}  
 \texttt{empty} &amp; : &amp;{\mathbb{T}}
-\\ 
-% 
+\\  
+%  
 \texttt{singleton} &amp; : &amp; {\mathbb{K}}\rightarrow{\mathbb{T}}
-\\ 
-% 
-\texttt{find} 
+\\  
+%  
+\texttt{find}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow{\mathbb{B}}
-\\ 
-% 
-\texttt{delete} 
+\\  
+%  
+\texttt{delete}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow{\mathbb{T}}
-\\ 
-\texttt{insert} 
+\\  
+\texttt{insert}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow{\mathbb{T}}
-\\ 
-% 
-\texttt{intersection} 
+\\  
+%  
+\texttt{intersection}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
-\\ 
-% 
-\texttt{difference} 
+\\  
+%  
+\texttt{difference}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
-\\ 
-% 
-\texttt{union} 
+\\  
+%  
+\texttt{union}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
-\\ 
-% 
-\texttt{split} 
-&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow({\mathbb{T}}\times {\mathbb{B}}\times {\mathbb{T}}) 
-\\ 
-\texttt{join} 
+\\  
+%  
+\texttt{split}  
+&amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{K}}\rightarrow({\mathbb{T}}\times {\mathbb{B}}\times {\mathbb{T}})  
+\\  
+\texttt{join}  
 &amp; : &amp; {\mathbb{T}}\rightarrow{\mathbb{T}}\rightarrow{\mathbb{T}}
 \end{array}\]</span></p>
 ]]>
@@ -1883,7 +1883,7 @@ Nearly Balanced BSTs
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>We refer to a BST data structure as  <span style="color: black"><span><strong><em>nearly balanced</em></strong></span></span> or simply as  <span style="color: black"><span><strong><em>balanced</em></strong></span></span> if all trees with <span class="math inline">\(n\)</span> elements have height <span class="math inline">\(O(\lg 
+<p>We refer to a BST data structure as  <span style="color: black"><span><strong><em>nearly balanced</em></strong></span></span> or simply as  <span style="color: black"><span><strong><em>balanced</em></strong></span></span> if all trees with <span class="math inline">\(n\)</span> elements have height <span class="math inline">\(O(\lg  
 n)\)</span>, perhaps in expectation or with high probability.</p>
 ]]>
 </field> <!-- body -->
@@ -1919,7 +1919,7 @@ Balanced BST Data Structures
 <ol>
 <li><p><span style="color: black"><span><strong><em>AVL trees</em></strong></span></span> are the earliest nearly balanced BST data structure (1962). It maintains the invariant that the two children of each node differ in height by at most one, which in turn implies approximate balance.</p></li>
 <li><p><span style="color: black"><span><strong><em>Red-Black trees</em></strong></span></span> maintain the invariant that all leaves have a depth that is within a factor of 2 of each other. The depth invariant is ensured by a scheme of coloring the nodes red and black.</p></li>
-<li><p><span style="color: black"><span><strong><em>Weight balanced (BB[<span class="math inline">\(\alpha\)</span>]) trees</em></strong></span></span> maintain the invariant that the left and right subtrees of a node of size <span class="math inline">\(n\)</span> each have size at least <span class="math inline">\(\alpha n\)</span> for <span class="math inline">\(0 &lt; \alpha \leq 
+<li><p><span style="color: black"><span><strong><em>Weight balanced (BB[<span class="math inline">\(\alpha\)</span>]) trees</em></strong></span></span> maintain the invariant that the left and right subtrees of a node of size <span class="math inline">\(n\)</span> each have size at least <span class="math inline">\(\alpha n\)</span> for <span class="math inline">\(0 &lt; \alpha \leq  
   1 - \frac{1}{\sqrt{2}}\)</span>. The BB stands for bounded balance, and adjusting <span class="math inline">\(\alpha\)</span> gives a tradeoff between search and update costs.</p></li>
 <li><p><span style="color: black"><span><strong><em>Treaps</em></strong></span></span> associate a random priority with every key and maintain the invariant that the keys are stored in heap order with respect to their priorities (the term “Treap” is short for “tree heap”). Treaps guarantee approximate balance with high-probability.</p></li>
 <li><p><span style="color: black"><span><strong><em>Splay trees</em></strong></span></span> are an amortized data structure that does not guarantee approximate balance, but instead guarantees that for any sequence of <span class="math inline">\(m\)</span> insert, find and delete operations each does <span class="math inline">\(O(\lg n)\)</span> amortized work.</p></li>
@@ -2114,95 +2114,95 @@ ds:bst::parametric
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p><span class="math display">\[\begin{array}{ll} 
-1 &amp; \texttt{type ${\mathbb{T}}$ = Leaf | Node of (${\mathbb{T}}$ $\times$ ${\mathbb{K}}$ $\times$ ${\mathbb{T}}$)} 
-\\ 
-&amp; 
-\\ 
-2 &amp; \texttt{split $t$ $k$ = ... (* as given *)} 
-\\ 
-&amp; 
-\\ 
-3 &amp; \texttt{join $t_1$ $t_2$ = ... (* as given *)} 
-\\ 
-&amp; 
-\\ 
-4 &amp; \texttt{joinM $t_1$ $k$ $t_2$ = join $t_1$ (join (singleton $k$) $t_2$)} 
-\\ 
-&amp; 
-\\ 
-5 &amp; \texttt{empty = Leaf} 
-\\ 
-&amp; 
-\\ 
-6 &amp; \texttt{singleton $(k)$ = Node(Leaf,$k$,Leaf)  } 
-\\ 
-&amp; 
-\\ 
-7 &amp; \texttt{find $t$ $k$ = let (_,$v$,_) = split $t$ $k$  in $v$ end } 
-\\ 
-&amp; 
-\\ 
-8 &amp; \texttt{delete $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in join $l$ $r$ end} 
-\\ 
-&amp; 
-\\ 
-9 &amp; \texttt{insert $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in joinM $l$ $k$ $r$ end } 
-\\ 
-&amp; 
-\\ 
-10 &amp; \texttt{intersect $t_1$ $t_2$ =} 
-\\ 
-11 &amp; ~~\texttt{case ($t_1$,$t_2$) } 
-\\ 
-12 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ Leaf} 
-\\ 
-13 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ Leaf} 
-\\ 
-14 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ } 
-\\ 
-15 &amp; ~~~~\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$} 
-\\ 
-16 &amp; ~~~~~~~\texttt{$(l,r)$ = (intersect $l_1$ $l_2$) || (intersect $r_1$ $r_2$)} 
-\\ 
-17 &amp; ~~~~\texttt{in if $b$ then joinM $l$ $k_1$ $r$ else join $l$ $r$ end} 
-\\ 
-&amp; 
-\\ 
-18 &amp; \texttt{difference $t_1$ $t_2$ =} 
-\\ 
-19 &amp; ~~\texttt{case ($t_1$, $t_2$)} 
-\\ 
-20 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ Leaf} 
-\\ 
-21 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ $t_1$} 
-\\ 
-22 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ } 
-\\ 
-23 &amp; ~~~~\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$} 
-\\ 
-24 &amp; ~~~~~~~~\texttt{$(l,r)$ = (difference $l_1$ $l_2$) || (difference $r_1$ $r_2$)} 
-\\ 
-25 &amp; ~~~~\texttt{in if $b$ then join $l$ $r$ else joinM $L$ $k_1$ $r$ end} 
-\\ 
-&amp; 
-\\ 
-26 &amp; \texttt{union $t_1$ $t_2$ =} 
-\\ 
-27 &amp; ~~\texttt{case ($t_1$,$t_2$)} 
-\\ 
-28 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ $t_2$} 
-\\ 
-29 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ $t_1$} 
-\\ 
-30 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$   } 
-\\ 
-31 &amp; ~~~~\texttt{let $(l_2,\_,r_2)$ = split $t_2$ $k_1$} 
-\\ 
-32 &amp; ~~~~~~~~\texttt{$(l,r)$ = (union $l_1$ $l_2$) || (union $r_1$ $r_2$)} 
-\\ 
-33 &amp; ~~~~\texttt{in joinM $l$ $k_1$ $r$ end    } 
-\\ 
+<p><span class="math display">\[\begin{array}{ll}  
+1 &amp; \texttt{type ${\mathbb{T}}$ = Leaf | Node of (${\mathbb{T}}$ $\times$ ${\mathbb{K}}$ $\times$ ${\mathbb{T}}$)}  
+\\  
+&amp;  
+\\  
+2 &amp; \texttt{split $t$ $k$ = ... (* as given *)}  
+\\  
+&amp;  
+\\  
+3 &amp; \texttt{join $t_1$ $t_2$ = ... (* as given *)}  
+\\  
+&amp;  
+\\  
+4 &amp; \texttt{joinM $t_1$ $k$ $t_2$ = join $t_1$ (join (singleton $k$) $t_2$)}  
+\\  
+&amp;  
+\\  
+5 &amp; \texttt{empty = Leaf}  
+\\  
+&amp;  
+\\  
+6 &amp; \texttt{singleton $(k)$ = Node(Leaf,$k$,Leaf)  }  
+\\  
+&amp;  
+\\  
+7 &amp; \texttt{find $t$ $k$ = let (_,$v$,_) = split $t$ $k$  in $v$ end }  
+\\  
+&amp;  
+\\  
+8 &amp; \texttt{delete $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in join $l$ $r$ end}  
+\\  
+&amp;  
+\\  
+9 &amp; \texttt{insert $t$ $k$ = let $(l,\_,r)$ = split $t$ $k$ in joinM $l$ $k$ $r$ end }  
+\\  
+&amp;  
+\\  
+10 &amp; \texttt{intersect $t_1$ $t_2$ =}  
+\\  
+11 &amp; ~~\texttt{case ($t_1$,$t_2$) }  
+\\  
+12 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ Leaf}  
+\\  
+13 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ Leaf}  
+\\  
+14 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ }  
+\\  
+15 &amp; ~~~~\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$}  
+\\  
+16 &amp; ~~~~~~~\texttt{$(l,r)$ = (intersect $l_1$ $l_2$) || (intersect $r_1$ $r_2$)}  
+\\  
+17 &amp; ~~~~\texttt{in if $b$ then joinM $l$ $k_1$ $r$ else join $l$ $r$ end}  
+\\  
+&amp;  
+\\  
+18 &amp; \texttt{difference $t_1$ $t_2$ =}  
+\\  
+19 &amp; ~~\texttt{case ($t_1$, $t_2$)}  
+\\  
+20 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ Leaf}  
+\\  
+21 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ $t_1$}  
+\\  
+22 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$ }  
+\\  
+23 &amp; ~~~~\texttt{let $(l_2,b,r_2)$ = split $t_2$ $k_1$}  
+\\  
+24 &amp; ~~~~~~~~\texttt{$(l,r)$ = (difference $l_1$ $l_2$) || (difference $r_1$ $r_2$)}  
+\\  
+25 &amp; ~~~~\texttt{in if $b$ then join $l$ $r$ else joinM $L$ $k_1$ $r$ end}  
+\\  
+&amp;  
+\\  
+26 &amp; \texttt{union $t_1$ $t_2$ =}  
+\\  
+27 &amp; ~~\texttt{case ($t_1$,$t_2$)}  
+\\  
+28 &amp; ~~\texttt{| (Leaf,_) $\Rightarrow$ $t_2$}  
+\\  
+29 &amp; ~~\texttt{| (_,Leaf) $\Rightarrow$ $t_1$}  
+\\  
+30 &amp; ~~\texttt{| (Node $(l_1,k_1,r_1)$,_) $\Rightarrow$   }  
+\\  
+31 &amp; ~~~~\texttt{let $(l_2,\_,r_2)$ = split $t_2$ $k_1$}  
+\\  
+32 &amp; ~~~~~~~~\texttt{$(l,r)$ = (union $l_1$ $l_2$) || (union $r_1$ $r_2$)}  
+\\  
+33 &amp; ~~~~\texttt{in joinM $l$ $k_1$ $r$ end    }  
+\\  
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -2668,58 +2668,58 @@ cost:bst::costs
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The  <span style="color: black"><span><strong><em>BST</em></strong></span></span> cost specification is defined as follows. The variables <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> are defined as <span class="math inline">\(n = \max{(|t_1|,|t_2|)}\)</span> and <span class="math inline">\(m = \min{(|t_1|,|t_2|)}\)</span> when applicable. <span class="math display">\[\begin{array}{l@{\qquad}c@{\qquad}c@{\qquad}} 
-&amp; \mathbf{Work} &amp; \mathbf{Span} 
-\\  
- 
-\texttt{empty} 
-&amp; O\left({1}\right) 
-&amp; O\left({1}\right) 
-\\  
- 
-\texttt{singleton}~k 
-&amp; O\left({1}\right) 
-&amp; O\left({1}\right) 
-\\  
- 
-\texttt{split}~t~k 
-&amp; O\left({\lg{|t|}}\right) 
-&amp; O\left({\lg{|t|}}\right) 
-\\  
- 
-\texttt{join}~t_1~t_2 
-&amp; O\left({\lg{\left(|t_1|+|t_2|\right)}}\right) 
-&amp; O\left({\lg{\left(|t_1|+|t_2|\right)}}\right) 
-\\  
- 
-\texttt{find}~t~k 
-&amp; O\left({\lg{|t|}}\right) 
-&amp; O\left({\lg{|t|}}\right) 
-\\  
- 
-\texttt{insert}~t~k 
-&amp; O\left({\lg{|t|}}\right) 
-&amp; O\left({\lg{|t|}}\right) 
-\\  
- 
-\texttt{delete}~t~k 
-&amp; O\left({\lg{|t|}}\right) 
-&amp; O\left({\lg{|t|}}\right) 
-\\  
- 
-\texttt{intersect}~t_1~t_2 
-&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right) 
-&amp; O\left({\lg{n}}\right) 
-\\  
- 
-\texttt{difference}~t_1~t_2 
-&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right) 
-&amp; O\left({\lg{n}}\right) 
-\\  
- 
-\texttt{union}~t_1~t_2 
-&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right) 
-&amp; O\left({\lg{n}}\right) 
+<p>The  <span style="color: black"><span><strong><em>BST</em></strong></span></span> cost specification is defined as follows. The variables <span class="math inline">\(n\)</span> and <span class="math inline">\(m\)</span> are defined as <span class="math inline">\(n = \max{(|t_1|,|t_2|)}\)</span> and <span class="math inline">\(m = \min{(|t_1|,|t_2|)}\)</span> when applicable. <span class="math display">\[\begin{array}{l@{\qquad}c@{\qquad}c@{\qquad}}  
+&amp; \mathbf{Work} &amp; \mathbf{Span}  
+\\   
+  
+\texttt{empty}  
+&amp; O\left({1}\right)  
+&amp; O\left({1}\right)  
+\\   
+  
+\texttt{singleton}~k  
+&amp; O\left({1}\right)  
+&amp; O\left({1}\right)  
+\\   
+  
+\texttt{split}~t~k  
+&amp; O\left({\lg{|t|}}\right)  
+&amp; O\left({\lg{|t|}}\right)  
+\\   
+  
+\texttt{join}~t_1~t_2  
+&amp; O\left({\lg{\left(|t_1|+|t_2|\right)}}\right)  
+&amp; O\left({\lg{\left(|t_1|+|t_2|\right)}}\right)  
+\\   
+  
+\texttt{find}~t~k  
+&amp; O\left({\lg{|t|}}\right)  
+&amp; O\left({\lg{|t|}}\right)  
+\\   
+  
+\texttt{insert}~t~k  
+&amp; O\left({\lg{|t|}}\right)  
+&amp; O\left({\lg{|t|}}\right)  
+\\   
+  
+\texttt{delete}~t~k  
+&amp; O\left({\lg{|t|}}\right)  
+&amp; O\left({\lg{|t|}}\right)  
+\\   
+  
+\texttt{intersect}~t_1~t_2  
+&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right)  
+&amp; O\left({\lg{n}}\right)  
+\\   
+  
+\texttt{difference}~t_1~t_2  
+&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right)  
+&amp; O\left({\lg{n}}\right)  
+\\   
+  
+\texttt{union}~t_1~t_2  
+&amp; O\left({m \cdot \lg{\frac{n+m}{m}}}\right)  
+&amp; O\left({\lg{n}}\right)  
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -2913,13 +2913,13 @@ Figuring out the Recurrence
 </ol>
 <p>Later we will relax these assumptions.</p>
 <p>Let us define <span class="math inline">\(m = |t_1|\)</span> and <span class="math inline">\(n = |t_2|\)</span> (recall the size of a tree is the number of keys in it). With these assumptions and examining the algorithm we can then write the following recurrence for the work of <span class="math inline">\(\texttt{union}\)</span>: <span class="math display">\[\begin{aligned}
-  W_{\mbox{union}}(m, n) &amp;\leq 2W_{\mbox{union}}(m/2,n/2) + W_{\mbox{split}}(n) 
-+ W_{\mbox{join}}(n+m) + O(1)\\ 
-   &amp; \leq  2W_{\mbox{union}}(m/2, n/2) + O(\lg n)~. \end{aligned}\]</span></p>
+  W_{\mbox{union}}(m, n) &amp;\leq 2W_{\mbox{union}}(m/2,n/2) + W_{\mbox{split}}(n)  
++ W_{\mbox{join}}(n+m) + O(1)\\  
+   &amp; \leq  2W_{\mbox{union}}(m/2, n/2) + O(\lg n)~.  \end{aligned}\]</span></p>
 <p>The size for join is the sum of the two sizes, <span class="math inline">\(m+n\)</span>, but since <span class="math inline">\(m \leq n\)</span>, <span class="math inline">\(O(\lg (n + m))\)</span> is equivalent to <span class="math inline">\(O(\lg n)\)</span>. We also have the base case <span class="math display">\[\begin{aligned}
-  W_{\mbox{union}}(1, n) &amp; \leq 2W_{\mbox{union}}(0,n/2) + W_{\mbox{split}}(n) 
-+ W_{\mbox{join}}(n) + O(1)\\ 
-         &amp; \leq O(\lg n)~. \end{aligned}\]</span> The final inequality holds because <span class="math inline">\(2W_{\mbox{union}}(0,n) = O(1)\)</span>.</p>
+  W_{\mbox{union}}(1, n) &amp; \leq 2W_{\mbox{union}}(0,n/2) + W_{\mbox{split}}(n)  
++ W_{\mbox{join}}(n) + O(1)\\  
+         &amp; \leq O(\lg n)~.  \end{aligned}\]</span> The final inequality holds because <span class="math inline">\(2W_{\mbox{union}}(0,n) = O(1)\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3023,10 +3023,10 @@ Brick Method
 <p>We can find the number of leaves in the tree by examining the work recurrence. Notice that in the recurrence, the tree bottoms out when <span class="math inline">\(m = 1\)</span> and before that, <span class="math inline">\(m\)</span> always gets split in half (remember that <span class="math inline">\(t_1\)</span> is perfectly balanced). The tree <span class="math inline">\(t_2\)</span> does not affects the shape of the recursion tree or the stopping condition. Thus, there are exactly <span class="math inline">\(m\)</span> leaves in the tree. In fact, the recursion can be rewritten as a recursion of the form <span class="math inline">\(W(m) = 2W(m/2) + \ldots\)</span>, which means that there are <span class="math inline">\(m\)</span> leaves.</p>
 <p>By the same reasoning, we can see that the leaves are <span class="math inline">\((1 + \lg m)\)</span> deep.</p>
 <p>Let’s now determine the size of <span class="math inline">\(t_2\)</span> at the leaves. We have <span class="math inline">\(m\)</span> keys in <span class="math inline">\(t_1\)</span> to start with, and they split <span class="math inline">\(t_2\)</span> evenly all the way down to the level of the leaves (by assumption). Thus, the leaves have all the same size of <span class="math inline">\(\frac{n}{m}\)</span>. Therefore, each leaf adds a <span class="math inline">\(O(\lg (1+\frac{n}{m}))\)</span> term to the work (the <span class="math inline">\(1+\)</span> is needed to deal with the case that <span class="math inline">\(n = m\)</span>). Since there are <span class="math inline">\(m\)</span> leaves, the whole bottom level costs <span class="math display">\[O(m \lg (1+ \frac{n}{m})).\]</span></p>
-<p>We will now prove that the cost at the bottom level is indeed asymptotically the same as the total work. In other words, the tree is leaves-dominated. It is possible to prove that the tree is leaves-dominated by computing the ratio of the work at adjacent levels, i.e., the ratio <span class="math display">\[\frac{2^{i-1}  \lg{n/2^{i-1}}}{2^i  
-  \lg{n/2^{i}}} = \frac{1}{2} \frac{\lg{n} - i + 1 }{\lg{n} - i},\]</span> where <span class="math inline">\(i \le \lg{m} &lt; \lg{n}\)</span>. This ratio is less than <span class="math inline">\(1\)</span> for all levels except for the last level, where by taking <span class="math inline">\(i = \lg{n} - 1\)</span> we have <span class="math display">\[\frac{1}{2} \frac{\lg{n} - i +1 }{\lg{n} - i} 
- \le 
- \frac{1}{2} \frac{1}{\lg{n} - \lg{n} +1 + 1}{\lg{n} - \lg{n}+1} 
+<p>We will now prove that the cost at the bottom level is indeed asymptotically the same as the total work. In other words, the tree is leaves-dominated. It is possible to prove that the tree is leaves-dominated by computing the ratio of the work at adjacent levels, i.e., the ratio <span class="math display">\[\frac{2^{i-1}  \lg{n/2^{i-1}}}{2^i   
+  \lg{n/2^{i}}} = \frac{1}{2} \frac{\lg{n} - i + 1 }{\lg{n} - i},\]</span> where <span class="math inline">\(i \le \lg{m} &lt; \lg{n}\)</span>. This ratio is less than <span class="math inline">\(1\)</span> for all levels except for the last level, where by taking <span class="math inline">\(i = \lg{n} - 1\)</span> we have <span class="math display">\[\frac{1}{2} \frac{\lg{n} - i +1 }{\lg{n} - i}  
+ \le  
+ \frac{1}{2} \frac{1}{\lg{n} - \lg{n} +1 + 1}{\lg{n} - \lg{n}+1}  
 = \frac{1}{1}.\]</span> Thus the total work is asymptotically dominated by the total work of the leaves, which is <span class="math inline">\(O\left({m\lg{n/m}}\right)\)</span>.</p>
 ]]>
 </field> <!-- body -->
@@ -3107,39 +3107,39 @@ Direct Derivation
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>We can establish the same fact more precisely. Let’s start by writing the total cost by summing over all levels, omitting for simplicity the constant factors, and assuming that <span class="math inline">\(n = 2^a\)</span> and <span class="math inline">\(m = 2^b\)</span>, <span class="math display">\[W(n,m) = \sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}}.\]</span> We can rewrite this sum as <span class="math display">\[\sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}} =  
-\lg{n}\sum_{i = 0}^{b}{2^i} - \sum_{i = 0}^{b}{i\,2^i}. 
-= a\sum_{i = 0}^{b}{2^i} - \sum_{i = 0}^{b}{i\,2^i}.\]</span> Let’s now focus on the second term. Note that <span class="math display">\[\sum_{i = 0}^{b}{i\,2^i}  
-= 
-\sum_{i = 0}^{b}{\sum_{j=i}^{b}2^j}  
-= 
-\sum_{i = 0}^{b}{\left(\sum_{j=0}^{b}{2^j} - \sum_{k=0}^{i-1}2^k\right). }\]</span> Substituting the closed form for each inner summation and simplifying leads to <span class="math display">\[\begin{array}{ll} 
-= &amp; \sum_{i = 0}^{b}{\left( (2^{b+1}-1) - (2^{i}-1) \right)}. 
-\\[2mm] 
-= &amp;  (b+1) (2^{b+1}-1) - \sum_{i = 0}^{b}{(2^{i}-1)} 
-\\[2mm] 
-= &amp;  (b+1) (2^{b+1}-1) - \left( 2^{b+1}-1 - (b+1) \right) 
-\\[2mm] 
-= &amp;  (b+1) (2^{b+1}-1) - \left( 2^{b+1}-1 - (b+1) \right) 
-\\[2mm] 
-= &amp;  b\,2^{b+1} + 1. 
+<p>We can establish the same fact more precisely. Let’s start by writing the total cost by summing over all levels, omitting for simplicity the constant factors, and assuming that <span class="math inline">\(n = 2^a\)</span> and <span class="math inline">\(m = 2^b\)</span>, <span class="math display">\[W(n,m) = \sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}}.\]</span> We can rewrite this sum as <span class="math display">\[\sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}} =   
+\lg{n}\sum_{i = 0}^{b}{2^i} - \sum_{i = 0}^{b}{i\,2^i}.  
+= a\sum_{i = 0}^{b}{2^i} - \sum_{i = 0}^{b}{i\,2^i}.\]</span> Let’s now focus on the second term. Note that <span class="math display">\[\sum_{i = 0}^{b}{i\,2^i}   
+=  
+\sum_{i = 0}^{b}{\sum_{j=i}^{b}2^j}   
+=  
+\sum_{i = 0}^{b}{\left(\sum_{j=0}^{b}{2^j} - \sum_{k=0}^{i-1}2^k\right). }\]</span> Substituting the closed form for each inner summation and simplifying leads to <span class="math display">\[\begin{array}{ll}  
+= &amp; \sum_{i = 0}^{b}{\left( (2^{b+1}-1) - (2^{i}-1) \right)}.  
+\\[2mm]  
+= &amp;  (b+1) (2^{b+1}-1) - \sum_{i = 0}^{b}{(2^{i}-1)}  
+\\[2mm]  
+= &amp;  (b+1) (2^{b+1}-1) - \left( 2^{b+1}-1 - (b+1) \right)  
+\\[2mm]  
+= &amp;  (b+1) (2^{b+1}-1) - \left( 2^{b+1}-1 - (b+1) \right)  
+\\[2mm]  
+= &amp;  b\,2^{b+1} + 1.  
 \end{array}\]</span></p>
-<p>Let’s now go back and plug this into the original work bound and simplify <span class="math display">\[\begin{array}{lll} 
-W(n,m) &amp; = &amp;\sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}} 
-\\[2mm] 
-&amp; = &amp; a\sum_{i = 0}^{b}{2^i} - \sum_{i = 0}^{b}{i\,2^i} 
-\\[2mm] 
-&amp; = &amp; a\,(2^{b+1}-1) -  (b\,2^{b+1} + 1) 
-\\[2mm] 
-&amp; = &amp; a\,2^{b+1}-a - b\,2^{b+1} -1 
-%\\ 
-= 2m (a-b) - a -1 
-\\[2mm] 
-&amp; = &amp; 2m (\lg{n}-\lg{m}) - a -1 
-%\\ 
-= 2m \lg{\frac{n}{m}} - a -1 
-\\[2mm] 
-&amp; = &amp; O\left({m \, \lg{\frac{n}{m}}}\right). 
+<p>Let’s now go back and plug this into the original work bound and simplify <span class="math display">\[\begin{array}{lll}  
+W(n,m) &amp; = &amp;\sum_{i = 0}^{b}{2^i \lg{\frac{n}{2^i}}}  
+\\[2mm]  
+&amp; = &amp; a\sum_{i = 0}^{b}{2^i} - \sum_{i = 0}^{b}{i\,2^i}  
+\\[2mm]  
+&amp; = &amp; a\,(2^{b+1}-1) -  (b\,2^{b+1} + 1)  
+\\[2mm]  
+&amp; = &amp; a\,2^{b+1}-a - b\,2^{b+1} -1  
+%\\  
+= 2m (a-b) - a -1  
+\\[2mm]  
+&amp; = &amp; 2m (\lg{n}-\lg{m}) - a -1  
+%\\  
+= 2m \lg{\frac{n}{m}} - a -1  
+\\[2mm]  
+&amp; = &amp; O\left({m \, \lg{\frac{n}{m}}}\right).  
 \end{array}\]</span></p>
 <p>While the direct method may seem complicated, it is more robust than the brick method, because it can be applied to analyze essentially any algorithm, whereas the Brick method requires establishing a geometric relationship between the cost terms at the levels of the tree.</p>
 ]]>
@@ -3231,8 +3231,8 @@ Removing the Assumptions
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>Of course, in reality, our keys in <span class="math inline">\(t_1\)</span> won’t split subtrees of <span class="math inline">\(t_2\)</span> in half every time. But it turns out that any unevenness in the splitting only helps reduce the work—i.e., the perfect split is the worst case. We won’t go through a rigorous argument, but if we keep the assumption that <span class="math inline">\(t_1\)</span> is perfectly balanced, then the shape of the recursion tree stays the same. What is now different is the cost at each level. Let us try to analyze the cost at level <span class="math inline">\(i\)</span>. At this level, there are <span class="math inline">\(k = 2^i\)</span> nodes in the recursion tree. Say the sizes of <span class="math inline">\(t_2\)</span> at these nodes are <span class="math inline">\(n_1, \dots, n_k\)</span>, where <span class="math inline">\(\sum_j n_j = 
-n\)</span>. Then, the total cost for this level is <span class="math display">\[c \cdot \sum_{j=1}^k \lg (n_j) \;\;\leq\;\; c \cdot \sum_{j=1}^k \lg (n/k) = 
+<p>Of course, in reality, our keys in <span class="math inline">\(t_1\)</span> won’t split subtrees of <span class="math inline">\(t_2\)</span> in half every time. But it turns out that any unevenness in the splitting only helps reduce the work—i.e., the perfect split is the worst case. We won’t go through a rigorous argument, but if we keep the assumption that <span class="math inline">\(t_1\)</span> is perfectly balanced, then the shape of the recursion tree stays the same. What is now different is the cost at each level. Let us try to analyze the cost at level <span class="math inline">\(i\)</span>. At this level, there are <span class="math inline">\(k = 2^i\)</span> nodes in the recursion tree. Say the sizes of <span class="math inline">\(t_2\)</span> at these nodes are <span class="math inline">\(n_1, \dots, n_k\)</span>, where <span class="math inline">\(\sum_j n_j =  
+n\)</span>. Then, the total cost for this level is <span class="math display">\[c \cdot \sum_{j=1}^k \lg (n_j) \;\;\leq\;\; c \cdot \sum_{j=1}^k \lg (n/k) =  
 c\cdot 2^i \cdot \lg (n/2^i),\]</span> where we used the fact that the logarithm function is concave<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>. Thus, the tree remains leaf-dominated and the same reasoning shows that the total work is <span class="math inline">\(O(m \lg (1 + \frac{n}{m}))\)</span>.</p>
 <p>Still, in reality, <span class="math inline">\(t_1\)</span> doesn’t have to be perfectly balanced as we assumed. To generalize the analysis, we just need a tree with <span class="math inline">\(O(\lg{m})\)</span> height. Thus, we only need <span class="math inline">\(t_1\)</span> to be approximately balanced.</p>
 <p>Finally, we assumed that <span class="math inline">\(t_1\)</span> is larger that <span class="math inline">\(t_2\)</span>. If it is smaller, then we can reverse the order of arguments, so in this case, there is no loss of generality. If they are the same size, we need to be a bit more precise in our handling of the base case in our summation but this is all.</p>
@@ -3506,7 +3506,7 @@ Treap
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>A Treap is a binary search tree over a set <span class="math inline">\(K\)</span> along with a  <span style="color: black"><span><strong><em>priority</em></strong></span></span> for each key given by <span class="math display">\[p : {\mathbb{K}}\rightarrow  \mathbb{Z}\]</span> that in addition to satisfying the BST property on the keys <span class="math inline">\(K\)</span>, satisfies the heap property on the priorities <span class="math inline">\(p(k), k \in 
+<p>A Treap is a binary search tree over a set <span class="math inline">\(K\)</span> along with a  <span style="color: black"><span><strong><em>priority</em></strong></span></span> for each key given by <span class="math display">\[p : {\mathbb{K}}\rightarrow  \mathbb{Z}\]</span> that in addition to satisfying the BST property on the keys <span class="math inline">\(K\)</span>, satisfies the heap property on the priorities <span class="math inline">\(p(k), k \in  
   K\)</span>, i.e., for every internal node <span class="math inline">\(v\)</span> with left and right children <span class="math inline">\(u\)</span> and <span class="math inline">\(w\)</span>: <span class="math display">\[p(k(v)) \geq p(k(u)) \mbox{ and } p(k(v)) \geq p(k(w)),\]</span> where <span class="math inline">\(k(v)\)</span> denotes the key of a node.</p>
 ]]>
 </field> <!-- body -->
@@ -3726,59 +3726,59 @@ ds:bst::treaps
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p><span class="math display">\[\begin{array}{ll} 
-1 &amp; \texttt{type ${\mathbb{T}}$ = Leaf | Node of (${\mathbb{T}}$ $\times$ ${\mathbb{K}}$ $\times$ $\mathbb{Z}$ $\times$ ${\mathbb{T}}$)} 
-\\ 
-~&amp;~ 
-\\ 
-2 &amp; \texttt{empty = Leaf} 
-\\ 
-&amp;\\ 
-3 &amp; \texttt{singleton $k$ = Node(Leaf, $k$, randomInt(), Leaf)} 
-\\ 
-&amp;\\ 
-4 &amp; \texttt{split $t$ $k$ = } 
-\\ 
-5 &amp; ~~\texttt{case $t$ } 
-\\ 
-6 &amp; ~~\texttt{| Leaf $\Rightarrow$ (Leaf, False, Leaf)} 
-\\ 
-7 &amp; ~~\texttt{| Node $(l, k&#39;, p&#39;, r)$ =} 
-\\ 
-8 &amp; ~~~~~~\texttt{case compare $(k, k&#39;)$} 
-\\ 
-9 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$} %\label{line:bst::treaps::split-less} 
-\\ 
-10 &amp; ~~~~~~~~~~\texttt{let $(l&#39;, x, r&#39;)$ = split $l$ $k$} 
-\\ 
-11 &amp; ~~~~~~~~~~\texttt{in $(l&#39;, x, \texttt{Node}(r&#39;, k&#39;, p&#39;, r))$ end}% \label{line:bst::treaps::splitnode1}} 
-\\ 
-12 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $($$l$, true, $r$$)$} 
-\\ 
-13 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$} %\label{line:bst::treaps::split-greater} 
-\\ 
-14 &amp; ~~~~~~~~~~\texttt{let $(l&#39;, x, r&#39;)$ = split $r$ $k$} 
-\\ 
-15 &amp; ~~~~~~~~~~\texttt{in (Node $(l, k&#39;, p&#39;, l&#39;), x, r&#39;$) end} %\label{line:bst::treaps::splitnode2} 
-\\ 
-&amp;\\ 
-16 &amp; \texttt{join $t_1$ $t_2$ =} 
-\\ 
-17 &amp; ~~\texttt{case $(t_1, t_2)$} 
-\\ 
-18 &amp; ~~\texttt{| (Leaf,  _) $\Rightarrow$ $t_2$} 
-\\ 
-19 &amp; ~~\texttt{| (_ ,  Leaf) $\Rightarrow$ $t_1$} 
-\\ 
-20 &amp; ~~\texttt{| (Node $(l_1, k_1, p_1, r_1)$,  Node $(l_2, k_2, p_2, r_2)$) $\Rightarrow$} 
-\\ 
-21 &amp; ~~~~~~\texttt{if ($p_1 &gt; p_2$) then}  %\label{line:bst::treaps::cpri} 
-\\ 
-22 &amp; ~~~~~~~~\texttt{Node ($l_1$, $k_1$, $p_1$,  join $r_1$ $t_2$)} 
-\\ 
-23 &amp; ~~~~~~\texttt{else} 
-\\ 
-24 &amp; ~~~~~~~~\texttt{Node (join $t_1$ $l_2$,  $k_2$, $p_2$, $r_2$)} 
+<p><span class="math display">\[\begin{array}{ll}  
+1 &amp; \texttt{type ${\mathbb{T}}$ = Leaf | Node of (${\mathbb{T}}$ $\times$ ${\mathbb{K}}$ $\times$ $\mathbb{Z}$ $\times$ ${\mathbb{T}}$)}  
+\\  
+~&amp;~  
+\\  
+2 &amp; \texttt{empty = Leaf}  
+\\  
+&amp;\\  
+3 &amp; \texttt{singleton $k$ = Node(Leaf, $k$, randomInt(), Leaf)}  
+\\  
+&amp;\\  
+4 &amp; \texttt{split $t$ $k$ = }  
+\\  
+5 &amp; ~~\texttt{case $t$ }  
+\\  
+6 &amp; ~~\texttt{| Leaf $\Rightarrow$ (Leaf, False, Leaf)}  
+\\  
+7 &amp; ~~\texttt{| Node $(l, k&#39;, p&#39;, r)$ =}  
+\\  
+8 &amp; ~~~~~~\texttt{case compare $(k, k&#39;)$}  
+\\  
+9 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$} %\label{line:bst::treaps::split-less}  
+\\  
+10 &amp; ~~~~~~~~~~\texttt{let $(l&#39;, x, r&#39;)$ = split $l$ $k$}  
+\\  
+11 &amp; ~~~~~~~~~~\texttt{in $(l&#39;, x, \texttt{Node}(r&#39;, k&#39;, p&#39;, r))$ end}% \label{line:bst::treaps::splitnode1}}  
+\\  
+12 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $($$l$, true, $r$$)$}  
+\\  
+13 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$} %\label{line:bst::treaps::split-greater}  
+\\  
+14 &amp; ~~~~~~~~~~\texttt{let $(l&#39;, x, r&#39;)$ = split $r$ $k$}  
+\\  
+15 &amp; ~~~~~~~~~~\texttt{in (Node $(l, k&#39;, p&#39;, l&#39;), x, r&#39;$) end} %\label{line:bst::treaps::splitnode2}  
+\\  
+&amp;\\  
+16 &amp; \texttt{join $t_1$ $t_2$ =}  
+\\  
+17 &amp; ~~\texttt{case $(t_1, t_2)$}  
+\\  
+18 &amp; ~~\texttt{| (Leaf,  _) $\Rightarrow$ $t_2$}  
+\\  
+19 &amp; ~~\texttt{| (_ ,  Leaf) $\Rightarrow$ $t_1$}  
+\\  
+20 &amp; ~~\texttt{| (Node $(l_1, k_1, p_1, r_1)$,  Node $(l_2, k_2, p_2, r_2)$) $\Rightarrow$}  
+\\  
+21 &amp; ~~~~~~\texttt{if ($p_1 &gt; p_2$) then}  %\label{line:bst::treaps::cpri}  
+\\  
+22 &amp; ~~~~~~~~\texttt{Node ($l_1$, $k_1$, $p_1$,  join $r_1$ $t_2$)}  
+\\  
+23 &amp; ~~~~~~\texttt{else}  
+\\  
+24 &amp; ~~~~~~~~\texttt{Node (join $t_1$ $l_2$,  $k_2$, $p_2$, $r_2$)}  
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -4273,29 +4273,29 @@ Treap Generating Quicksort
 <field name='body'>
 <![CDATA[
 <p>The following variant of quick sort generates a treap. This algorithm is almost identical to our previous quicksort except that it uses <span class="math inline">\(\texttt{Node}\)</span> instead of <span class="math inline">\(\texttt{append},\)</span> and <span class="math inline">\(\texttt{Leaf}\)</span> instead of an empty sequence in the base case. Because it is generating a treap consisting of unique keys, the algorithm retains only one key equaling the pivot.</p>
-<p><span class="math display">\[\begin{array}{ll} 
-1 &amp; \texttt{qsTree $a$ =} 
-\\ 
-2 &amp; ~~\texttt{if $|a| = 0$ then Leaf} 
-\\ 
-3 &amp; ~~\texttt{else} 
-\\ 
-4 &amp; ~~~~\texttt{let} 
-\\ 
-5 &amp; ~~~~~~\texttt{$x$ = the key $k \in a$ for which $p(k)$ is the largest} 
-\\ 
-6 &amp; ~~~~~~\texttt{$b$ = $\left\langle\, y \in a \;|\; y &lt; x \,\right\rangle$} 
-\\ 
-7 &amp; ~~~~~~\texttt{$c$ = $\left\langle\, y \in a \;|\; y &gt; x \,\right\rangle$} 
-\\ 
-8 &amp; ~~~~~~\texttt{$(l,r)$ = (qsTree $b$ ) || (qsTree $c$)} 
-\\ 
-9 &amp; ~~~~\texttt{in} 
-\\ 
-10 &amp; ~~~~~~\texttt{Node $(l, x, r)$} %\label{line:bst::qsnode} 
-\\ 
-11 &amp; ~~~~\texttt{end} 
-\\ 
+<p><span class="math display">\[\begin{array}{ll}  
+1 &amp; \texttt{qsTree $a$ =}  
+\\  
+2 &amp; ~~\texttt{if $|a| = 0$ then Leaf}  
+\\  
+3 &amp; ~~\texttt{else}  
+\\  
+4 &amp; ~~~~\texttt{let}  
+\\  
+5 &amp; ~~~~~~\texttt{$x$ = the key $k \in a$ for which $p(k)$ is the largest}  
+\\  
+6 &amp; ~~~~~~\texttt{$b$ = $\left\langle\, y \in a \;|\; y &lt; x \,\right\rangle$}  
+\\  
+7 &amp; ~~~~~~\texttt{$c$ = $\left\langle\, y \in a \;|\; y &gt; x \,\right\rangle$}  
+\\  
+8 &amp; ~~~~~~\texttt{$(l,r)$ = (qsTree $b$ ) || (qsTree $c$)}  
+\\  
+9 &amp; ~~~~\texttt{in}  
+\\  
+10 &amp; ~~~~~~\texttt{Node $(l, x, r)$} %\label{line:bst::qsnode}  
+\\  
+11 &amp; ~~~~\texttt{end}  
+\\  
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -4645,41 +4645,41 @@ Rank
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p><span class="math display">\[\begin{array}{ll} 
-1 &amp; \texttt{rank $t$ $k$ =} 
-\\ 
-2 &amp; ~~\texttt{case $t$ } 
-\\ 
-3 &amp; ~~\texttt{| Leaf $\Rightarrow$ $0$} 
-\\ 
-4 &amp; ~~\texttt{| Node $(l,k&#39;,r)$ $\Rightarrow$} 
-\\ 
-5 &amp; ~~~~~~\texttt{case compare $(k,k&#39;)$ } 
-\\ 
-6 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$ rank $l$ $k$} 
-\\ 
-7 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $|l|$} 
-\\ 
-8 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$ $|l| + 1 +$ rank $r$ $k$} 
-\\ 
-~&amp;~ 
-\\ 
-9 &amp; \texttt{select $t$ $i$ =} 
-\\ 
-10 &amp; ~~\texttt{case $t$ } 
-\\ 
-11 &amp; ~~\texttt{| Leaf $\Rightarrow$ raise exception OutOfRange} 
-\\ 
-12 &amp; ~~\texttt{| Node $(l,k,r)$ $\Rightarrow$} 
-\\ 
-13 &amp; ~~~~~~\texttt{case compare $(i,|l|)$ of} 
-\\ 
-14 &amp; ~~~~~~~~\texttt{LESS $\Rightarrow$ select $l$ $i$} 
-\\ 
-15 &amp; ~~~~~~~~\texttt{EQUAL $\Rightarrow$ $k$} 
-\\ 
-16 &amp; ~~~~~~~~\texttt{GREATER $\Rightarrow$ select $r$ $(i-|l|-1)$} 
-\\ 
+<p><span class="math display">\[\begin{array}{ll}  
+1 &amp; \texttt{rank $t$ $k$ =}  
+\\  
+2 &amp; ~~\texttt{case $t$ }  
+\\  
+3 &amp; ~~\texttt{| Leaf $\Rightarrow$ $0$}  
+\\  
+4 &amp; ~~\texttt{| Node $(l,k&#39;,r)$ $\Rightarrow$}  
+\\  
+5 &amp; ~~~~~~\texttt{case compare $(k,k&#39;)$ }  
+\\  
+6 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$ rank $l$ $k$}  
+\\  
+7 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $|l|$}  
+\\  
+8 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$ $|l| + 1 +$ rank $r$ $k$}  
+\\  
+~&amp;~  
+\\  
+9 &amp; \texttt{select $t$ $i$ =}  
+\\  
+10 &amp; ~~\texttt{case $t$ }  
+\\  
+11 &amp; ~~\texttt{| Leaf $\Rightarrow$ raise exception OutOfRange}  
+\\  
+12 &amp; ~~\texttt{| Node $(l,k,r)$ $\Rightarrow$}  
+\\  
+13 &amp; ~~~~~~\texttt{case compare $(i,|l|)$ of}  
+\\  
+14 &amp; ~~~~~~~~\texttt{LESS $\Rightarrow$ select $l$ $i$}  
+\\  
+15 &amp; ~~~~~~~~\texttt{EQUAL $\Rightarrow$ $k$}  
+\\  
+16 &amp; ~~~~~~~~\texttt{GREATER $\Rightarrow$ select $r$ $(i-|l|-1)$}  
+\\  
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -4959,7 +4959,7 @@ value at $u$ itself).
 <![CDATA[
 <p>The following drawing shows a tree with key-value pairs on the left, and the augmented tree on the right, where each node additionally maintains the sum of it subtree.</p>
 <p><img src="/media/210/bsts/augtree.jpg" alt="image" style="width:4in" /></p>
-<p>The sum at the root (<span class="math inline">\(13\)</span>) is the sum of all values in the tree (<span class="math inline">\(3 + 
+<p>The sum at the root (<span class="math inline">\(13\)</span>) is the sum of all values in the tree (<span class="math inline">\(3 +  
 1 + 2 + 2 + 5\)</span>). It is also the sum of the reduced values of its two children (<span class="math inline">\(6\)</span> and <span class="math inline">\(5\)</span>) and its own value <span class="math inline">\(2\)</span>.</p>
 ]]>
 </field> <!-- body -->
@@ -4997,88 +4997,88 @@ fig:bst::reducedjoin
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p><span class="math display">\[\begin{array}{ll} 
-1 &amp; \texttt{(* type of the reduced value, as specified. *)} 
-\\ 
-2 &amp; \texttt{type rv = ...                   } 
-\\ 
-~&amp;~ 
-\\ 
-3 &amp; \texttt{(* associative reducer function, as specified. *)} 
-\\ 
-4 &amp; \texttt{$f$(x: rv, y: val, z: rv): rv = ...  } 
-\\ 
-~&amp;~ 
-\\ 
-5 &amp; \texttt{(* identity for the reducer function, as specified. *)} 
-\\ 
-6 &amp; \texttt{$id_f$ : rv = ...                 } 
-\\ 
-~&amp;~ 
-\\ 
-7 &amp; \texttt{type treap = } 
-\\ 
-8 &amp; ~~~\texttt{Leaf } 
-\\ 
-9 &amp; ~\texttt{| Node of (Treap $\times$ key $\times$ priority  $\times$ (val $\times$ rv) $\times$ Treap) } 
-\\ 
-~&amp;~ 
-\\ 
-10 &amp; \texttt{rvOf $t$ =} 
-\\ 
-11 &amp; ~~\texttt{case $t$} 
-\\ 
-12 &amp; ~~\texttt{| Leaf $\Rightarrow$ $id_f$} 
-\\ 
-13 &amp; ~~\texttt{| Node (_,_,_(_,w),_) $\Rightarrow$ w} 
-\\ 
-~&amp;~ 
-\\ 
-14 &amp; \texttt{mkNode $(l,k,p,v,r)$ = Node ($l$,$k$,$p$,($v$,$f$ (rvOf $l$,$v$,rvOf $r$)),$r$) } 
-\\ 
-~&amp;~ 
-\\ 
-15 &amp; \texttt{split $t$ $k$ = } 
-\\ 
-16 &amp; ~~\texttt{case t } 
-\\ 
-17 &amp; ~~\texttt{| Leaf $\Rightarrow$ (Leaf,false,Leaf)} 
-\\ 
-18 &amp; ~~\texttt{| Node $(l,k&#39;,p&#39;,(v&#39;,w&#39;),r)$ =} 
-\\ 
-19 &amp; ~~~~~~\texttt{case compare $(k,k&#39;)$} 
-\\ 
-20 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$ } 
-\\ 
-21 &amp; ~~~~~~~~~~\texttt{let $(l&#39;,x,r&#39;)$ = split $l$ $k$} 
-\\ 
-22 &amp; ~~~~~~~~~~\texttt{in $(l&#39;,x,\texttt{mkNode}~(r&#39;,k&#39;,p&#39;,v&#39;,r))$ end } 
-\\ 
-23 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $($$l$,true,$r$$)$} 
-\\ 
-24 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$} 
-\\ 
-25 &amp; ~~~~~~~~~~\texttt{let $(l&#39;,x,r&#39;)$ = split $r$ $k$} 
-\\ 
-26 &amp; ~~~~~~~~~~\texttt{in (mkNode $(l,k&#39;,p&#39;,v&#39;,l&#39;),x,r&#39;$) end } 
-\\ 
-~&amp;~ 
-\\ 
-27 &amp; \texttt{join $t_1$ $t_2$ =} 
-\\ 
-28 &amp; ~~\texttt{case $(t_1,t_2)$ of} 
-\\ 
-29 &amp; ~~~~\texttt{(Leaf, _) $\Rightarrow$ $t_2$} 
-\\ 
-30 &amp; ~~\texttt{| (_, Leaf) $\Rightarrow$ $t_1$} 
-\\ 
-31 &amp; ~~\texttt{| (Node $(l_1,k_1,p_1,(v_1,w_1),r_1)$, Node $(l_2,k_2,p_2,(v_2,w_2),r_2)$) $\Rightarrow$} 
-\\ 
-32 &amp; ~~~~~~\texttt{if $p_1$ &gt; $p_2$) then mkNode 
-  ($l_1$,$k_1$,$p_1$,$v_1$,join $r_1$ $t_2$)       } %  \label{line:bst::reducedjoin::cpri}  
-\\ 
-33 &amp; ~~~~~~\texttt{else mkNode (join $t_1$ $l_2$,$k_2$,$v_2$,$r_2$)} 
-\\ 
+<p><span class="math display">\[\begin{array}{ll}  
+1 &amp; \texttt{(* type of the reduced value, as specified. *)}  
+\\  
+2 &amp; \texttt{type rv = ...                   }  
+\\  
+~&amp;~  
+\\  
+3 &amp; \texttt{(* associative reducer function, as specified. *)}  
+\\  
+4 &amp; \texttt{$f$(x: rv, y: val, z: rv): rv = ...  }  
+\\  
+~&amp;~  
+\\  
+5 &amp; \texttt{(* identity for the reducer function, as specified. *)}  
+\\  
+6 &amp; \texttt{$id_f$ : rv = ...                 }  
+\\  
+~&amp;~  
+\\  
+7 &amp; \texttt{type treap = }  
+\\  
+8 &amp; ~~~\texttt{Leaf }  
+\\  
+9 &amp; ~\texttt{| Node of (Treap $\times$ key $\times$ priority  $\times$ (val $\times$ rv) $\times$ Treap) }  
+\\  
+~&amp;~  
+\\  
+10 &amp; \texttt{rvOf $t$ =}  
+\\  
+11 &amp; ~~\texttt{case $t$}  
+\\  
+12 &amp; ~~\texttt{| Leaf $\Rightarrow$ $id_f$}  
+\\  
+13 &amp; ~~\texttt{| Node (_,_,_(_,w),_) $\Rightarrow$ w}  
+\\  
+~&amp;~  
+\\  
+14 &amp; \texttt{mkNode $(l,k,p,v,r)$ = Node ($l$,$k$,$p$,($v$,$f$ (rvOf $l$,$v$,rvOf $r$)),$r$) }  
+\\  
+~&amp;~  
+\\  
+15 &amp; \texttt{split $t$ $k$ = }  
+\\  
+16 &amp; ~~\texttt{case t }  
+\\  
+17 &amp; ~~\texttt{| Leaf $\Rightarrow$ (Leaf,false,Leaf)}  
+\\  
+18 &amp; ~~\texttt{| Node $(l,k&#39;,p&#39;,(v&#39;,w&#39;),r)$ =}  
+\\  
+19 &amp; ~~~~~~\texttt{case compare $(k,k&#39;)$}  
+\\  
+20 &amp; ~~~~~~\texttt{| LESS $\Rightarrow$ }  
+\\  
+21 &amp; ~~~~~~~~~~\texttt{let $(l&#39;,x,r&#39;)$ = split $l$ $k$}  
+\\  
+22 &amp; ~~~~~~~~~~\texttt{in $(l&#39;,x,\texttt{mkNode}~(r&#39;,k&#39;,p&#39;,v&#39;,r))$ end }  
+\\  
+23 &amp; ~~~~~~\texttt{| EQUAL $\Rightarrow$ $($$l$,true,$r$$)$}  
+\\  
+24 &amp; ~~~~~~\texttt{| GREATER $\Rightarrow$}  
+\\  
+25 &amp; ~~~~~~~~~~\texttt{let $(l&#39;,x,r&#39;)$ = split $r$ $k$}  
+\\  
+26 &amp; ~~~~~~~~~~\texttt{in (mkNode $(l,k&#39;,p&#39;,v&#39;,l&#39;),x,r&#39;$) end }  
+\\  
+~&amp;~  
+\\  
+27 &amp; \texttt{join $t_1$ $t_2$ =}  
+\\  
+28 &amp; ~~\texttt{case $(t_1,t_2)$ of}  
+\\  
+29 &amp; ~~~~\texttt{(Leaf, _) $\Rightarrow$ $t_2$}  
+\\  
+30 &amp; ~~\texttt{| (_, Leaf) $\Rightarrow$ $t_1$}  
+\\  
+31 &amp; ~~\texttt{| (Node $(l_1,k_1,p_1,(v_1,w_1),r_1)$, Node $(l_2,k_2,p_2,(v_2,w_2),r_2)$) $\Rightarrow$}  
+\\  
+32 &amp; ~~~~~~\texttt{if $p_1$ &gt; $p_2$) then mkNode  
+  ($l_1$,$k_1$,$p_1$,$v_1$,join $r_1$ $t_2$)       } %  \label{line:bst::reducedjoin::cpri}   
+\\  
+33 &amp; ~~~~~~\texttt{else mkNode (join $t_1$ $l_2$,$k_2$,$v_2$,$r_2$)}  
+\\  
 \end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
@@ -5335,37 +5335,6 @@ of the node itself.
 <field name='body_src'>
 <![CDATA[
 In an imperative implementation of binary search trees, when a child
-  node is side affected, the reduced values for the nodes on the path
-  from the modified node to the root must be recomputed.
-]]>
-</field> <!-- body_src -->
-</atom> <!-- remark -->
-
-<atom name='remark'>
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-...NOT.PROVIDED.LABEL...
-</field> <!-- label -->
-<field name='parents'>
-...NOT.PROVIDED.PARENTS...
-</field> <!-- parents -->
-<field name='body'>
-<![CDATA[
-<p>This is a duplicate remark: In an imperative implementation of binary search trees, when a child node is side affected, the reduced values for the nodes on the path from the modified node to the root must be recomputed.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-This is a duplicate remark: In an imperative implementation of binary search trees, when a child
   node is side affected, the reduced values for the nodes on the path
   from the modified node to the root must be recomputed.
 ]]>
