@@ -2,7 +2,7 @@
 \documentclass{course}
 \title{Parallel and Sequential Algorithms (Fall 2018)}
 \coursenumber{15210}
-\picture{/210/course/air-pavilion.jpg}
+\picture{210/course/air-pavilion.jpg}
 \providesbook{S18}
 \provideschapter{21}
 \providessection{1}
@@ -38,7 +38,7 @@ but goes into significantly more depth on algorithmic issues.
 \picture{/210/bsts/abstract-tree.jpg}
 ...NOT.PROVIDED.INTRO...
 \begin{section}[Motivation]
-\label{...NOT.PROVIDED.LABEL...}
+\label{sec:motivation}
 \parent{...NOT.PROVIDED.PARENTS...}
 
 Searching is one of the most important operations in computer science.
@@ -100,7 +100,11 @@ elements atonce.
 \label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
-The rest of this chapter is organized as follows.  We first define
+In this section (\secref{motivation}), we motivated the topic.
+%
+The rest of this chapter is organized as follows. 
+%
+ We first define
 binary search trees
 (\secref{bst::prelim})
 and present an ADT for them.

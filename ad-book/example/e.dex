@@ -5,7 +5,7 @@
 \coursenumber{15210}
 
 \semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
+\picture{210/course/air-pavilion.jpg}
 \website{http://www.cs.cmu.edu/~15210}
 
 % Provides book
@@ -82,7 +82,7 @@ but goes into significantly more depth on algorithmic issues.
 
 
 \begin{section}[Motivation]
-
+\label{sec:motivation}
 %% \begin{teachask}
 %% Can't we use sequences for searching? 
 %% \end{teachask}
@@ -136,7 +136,11 @@ elements atonce.
 \end{gram}
 
 \begin{gram}
-The rest of this chapter is organized as follows.  We first define
+In this section (\secref{motivation}), we motivated the topic.
+%
+The rest of this chapter is organized as follows. 
+%
+ We first define
 binary search trees
 (\secref{bst::prelim})
 and present an ADT for them.

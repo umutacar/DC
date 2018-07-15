@@ -20,7 +20,7 @@ Parallel and Sequential Algorithms (Fall 2018)
 15210
 </field> <!-- coursenumber -->
 <field name='picture'>
-/210/course/air-pavilion.jpg
+210/course/air-pavilion.jpg
 </field> <!-- picture -->
 <field name='semester'>
 Spring 2018
@@ -131,7 +131,7 @@ Motivation
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+sec:motivation
 </field> <!-- label -->
 <field name='parents'>
 ...NOT.PROVIDED.PARENTS...
@@ -276,12 +276,16 @@ elements atonce.
 </field> <!-- parents -->
 <field name='body'>
 <![CDATA[
-<p>The rest of this chapter is organized as follows. We first define binary search trees (Section <a href="#sec:bst::prelim" data-reference-type="ref" data-reference="sec:bst::prelim">[sec:bst::prelim]</a>) and present an ADT for them. (Section <a href="#sec:bst::adt" data-reference-type="ref" data-reference="sec:bst::adt">[sec:bst::adt]</a>). We then present a parametric implementation of the ADT (Section <a href="#sec:bst::parametric" data-reference-type="ref" data-reference="sec:bst::parametric">[sec:bst::parametric]</a>) by using only two operations, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>, which respectively split a tree at a given key and join two trees. In Section <a href="#sec:bst::cost" data-reference-type="ref" data-reference="sec:bst::cost">[sec:bst::cost]</a>, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps (Section <a href="#sec:bst::treaps" data-reference-type="ref" data-reference="sec:bst::treaps">[sec:bst::treaps]</a>). Other possible implementation techniques are also described (Section <a href="#sec:bst::bsts-review" data-reference-type="ref" data-reference="sec:bst::bsts-review">[sec:bst::bsts-review]</a>)</p>
+<p>In this section (Section <a href="#sec:motivation" data-reference-type="ref" data-reference="sec:motivation">[sec:motivation]</a>), we motivated the topic. The rest of this chapter is organized as follows. We first define binary search trees (Section <a href="#sec:bst::prelim" data-reference-type="ref" data-reference="sec:bst::prelim">[sec:bst::prelim]</a>) and present an ADT for them. (Section <a href="#sec:bst::adt" data-reference-type="ref" data-reference="sec:bst::adt">[sec:bst::adt]</a>). We then present a parametric implementation of the ADT (Section <a href="#sec:bst::parametric" data-reference-type="ref" data-reference="sec:bst::parametric">[sec:bst::parametric]</a>) by using only two operations, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>, which respectively split a tree at a given key and join two trees. In Section <a href="#sec:bst::cost" data-reference-type="ref" data-reference="sec:bst::cost">[sec:bst::cost]</a>, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps (Section <a href="#sec:bst::treaps" data-reference-type="ref" data-reference="sec:bst::treaps">[sec:bst::treaps]</a>). Other possible implementation techniques are also described (Section <a href="#sec:bst::bsts-review" data-reference-type="ref" data-reference="sec:bst::bsts-review">[sec:bst::bsts-review]</a>)</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-The rest of this chapter is organized as follows.  We first define
+In this section (\secref{motivation}), we motivated the topic.
+%
+The rest of this chapter is organized as follows. 
+%
+ We first define
 binary search trees
 (\secref{bst::prelim})
 and present an ADT for them.
