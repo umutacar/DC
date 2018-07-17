@@ -1,90 +1,4 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<block name="course">
-<field name="title">
-<![CDATA[
-Parallel and Sequential Algorithms (Fall 2018)
-]]>
-</field> 
-<field name="title_src">
-<![CDATA[
-Parallel and Sequential Algorithms (Fall 2018)
-]]>
-</field> 
-<field name="unique">course15210</field><field name="label">course15210</field> 
-<field name="parents">
-...NOT.PROVIDED.PARENTS...
-</field> 
-<field name="rank">0</field><field name="coursenumber">
-15210
-</field> 
-<field name="picture">
-210/course/air-pavilion.jpg
-</field> 
-<field name="semester">
-Spring 2018
-</field> 
-<field name="website">
-http://www.cs.cmu.edu/~15210
-</field> 
-<field name="providesbook">
-S18
-</field> 
-<field name="provideschapter">
-21
-</field> 
-<field name="providessection">
-1
-</field> 
-<field name="providessubsection">
-1
-</field> 
-<field name="providesassignment">
-1
-</field> 
-<field name="intro">
-<![CDATA[
-<p>15-210 aims to teach methods for designing, analyzing, and programming sequential and parallel algorithms and data structures. The emphasis is on teaching fundamental concepts applicable across a wide variety of problem domains, and transferable across a reasonably broad set of programming languages and computer architectures. This course also includes a significant programming component in which students will program concrete examples from domains such as engineering, scientific computing, graphics, data mining, and information retrieval (web search).</p>
-<p>Unlike a traditional introduction to algorithms and data structures, this course puts an emphasis on parallel thinking — i.e., thinking about how algorithms can do multiple things at once instead of one at a time. The course follows up on material learned in 15-122 and 15-150 but goes into significantly more depth on algorithmic issues.</p>
-]]>
-</field> 
-<field name="intro_src">
-<![CDATA[
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues.
-]]>
-</field> 
-
-<block name="book">
-<field name="title">
-<![CDATA[
-Algorithm Design: Parallel and Sequential (Fall 2019)
-]]>
-</field> 
-<field name="title_src">
-<![CDATA[
-Algorithm Design: Parallel and Sequential (Fall 2019)
-]]>
-</field> 
-<field name="unique">course15210:semesterSpring 2018</field><field name="label">course15210:semesterSpring 2018</field> 
-<field name="parents">
-...NOT.PROVIDED.PARENTS...
-</field> 
-<field name="rank">0</field><field name="authors">
-Umut A. Acar and Guy Blelloch
-</field> 
 <block name="chapter">
 <field name="title">
 <![CDATA[
@@ -96,13 +10,13 @@ Example Chapter: Binary Search Trees
 Example Chapter: Binary Search Trees
 ]]>
 </field> 
-<field name="unique">course15210:semesterSpring 2018:chapter21</field><field name="label">
+<field name="label">
 ch:bsts
 </field> 
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="rank">21</field><field name="picture">
+<field name="picture">
 /210/bsts/abstract-tree.jpg
 </field> 
 <field name="intro">
@@ -126,13 +40,13 @@ Motivation
 Motivation
 ]]>
 </field> 
-<field name="unique">course15210:semesterSpring 2018:chapter21:section1</field><field name="label">
+<field name="label">
 sec:motivation
 </field> 
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="rank">1</field><field name="intro">
+<field name="intro">
 <![CDATA[
 <p>Searching is one of the most important operations in computer science. Of the many search data structures that have been designed and are used in practice, search trees, more specifically balanced binary search trees, occupy a coveted place because of their broad applicability to many different sorts of problems. For example, in this book, we rely on binary search trees to implement set and table (dictionary) abstract data types (Chapter <a href="#ch:sets-tables" data-reference-type="ref" data-reference="ch:sets-tables">[ch:sets-tables]</a>), which are then used in the implementation of many algorithms, including for example graph algorithms.</p>
 ]]>
@@ -163,11 +77,13 @@ algorithms.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> 
-<field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1</field><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1</field> 
+<field name="label">
+...NOT.PROVIDED.LABEL...
+</field> 
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="rank">1</field><block name="subsubsection"><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection1</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="rank">1</field><field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection1</field><block name="group"><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection1:group1</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="rank">1</field><field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection1:group1</field><atom name="gram">
+<block name="subsubsection"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><block name="group"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><atom name="gram">
 <field name="title">
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -178,11 +94,13 @@ algorithms.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> 
-<field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection1:group1:atom1</field><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection1:group1:atom1</field> 
+<field name="label">
+...NOT.PROVIDED.LABEL...
+</field> 
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="rank">1</field><field name="body">
+<field name="body">
 <![CDATA[
 <p>If we are interested in searching a static or unchanging collection of elements, then we can use a simpler data structure such as sequences. For example, we can use a sequence with the array-based cost specification to implement an efficient search function by representing the collection as a sorted sequence and by using binary search. Such an implementation would yield a logarithmic-work search operation. If, however, we want to support dynamic collections, where for example, we insert new elements and delete existing elements, sequences would require linear work. Binary search trees, or  <span style="color: black"><span><strong><em>BSTs</em></strong></span></span> for short, make it possible to compute with dynamic collections by using insertions, deletions, as well as searches all in logarithmic number of tree operations.</p>
 ]]>
@@ -211,7 +129,7 @@ well as searches all in logarithmic number of tree operations.
 </field> 
 </atom> 
 
-</block></block><block name="subsubsection"><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection2</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="rank">2</field><field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection2</field><block name="group"><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection2:group1</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="rank">1</field><field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection2:group1</field><atom name="gram">
+</block></block><block name="subsubsection"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><block name="group"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><atom name="gram">
 <field name="title">
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -222,11 +140,13 @@ well as searches all in logarithmic number of tree operations.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> 
-<field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection2:group1:atom1</field><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection2:group1:atom1</field> 
+<field name="label">
+...NOT.PROVIDED.LABEL...
+</field> 
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="rank">1</field><field name="body">
+<field name="body">
 <![CDATA[
 <p>In the traditional treatment of algorithms, which focuses on sequential algorithms, binary search trees revolve around three operations: insertion, deletion, and search. While these operations are important, they are not sufficient for parallelism, since they perform a single update at a time. We therefore consider aggregate update operations, such as union and difference, which can be used to insert and delete (respectively) many elements atonce.</p>
 ]]>
@@ -247,7 +167,7 @@ elements atonce.
 </field> 
 </atom> 
 
-</block></block><block name="subsubsection"><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection3</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="rank">3</field><field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection3</field><block name="group"><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection3:group1</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="rank">1</field><field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection3:group1</field><atom name="gram">
+</block></block><block name="subsubsection"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><block name="group"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><atom name="gram">
 <field name="title">
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -258,11 +178,13 @@ elements atonce.
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> 
-<field name="unique">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection3:group1:atom1</field><field name="label">course15210:semesterSpring 2018:chapter21:section1:subsection1:subsubsection3:group1:atom1</field> 
+<field name="label">
+...NOT.PROVIDED.LABEL...
+</field> 
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="rank">1</field><field name="body">
+<field name="body">
 <![CDATA[
 <p>In this section (Section <a href="#sec:motivation" data-reference-type="ref" data-reference="sec:motivation">[sec:motivation]</a>), we motivated the topic. The rest of this chapter is organized as follows. We first define binary search trees (Section <a href="#sec:bst::prelim" data-reference-type="ref" data-reference="sec:bst::prelim">[sec:bst::prelim]</a>) and present an ADT for them. (Section <a href="#sec:bst::adt" data-reference-type="ref" data-reference="sec:bst::adt">[sec:bst::adt]</a>). We then present a parametric implementation of the ADT (Section <a href="#sec:bst::parametric" data-reference-type="ref" data-reference="sec:bst::parametric">[sec:bst::parametric]</a>) by using only two operations, <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>, which respectively split a tree at a given key and join two trees. In Section <a href="#sec:bst::cost" data-reference-type="ref" data-reference="sec:bst::cost">[sec:bst::cost]</a>, we present a cost specification based on the parametric implementation, which achieves strong bounds as long as the <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span> operations have logarithmic work and span. As a result, we are able to reduce the problem of implementing the BST ADT to the problem of implementing just the functions <span class="math inline">\(\texttt{split}\)</span> and <span class="math inline">\(\texttt{join}\)</span>. We finish the chapter by presenting a specific instance of the parametric implementation using Treaps (Section <a href="#sec:bst::treaps" data-reference-type="ref" data-reference="sec:bst::treaps">[sec:bst::treaps]</a>). Other possible implementation techniques are also described (Section <a href="#sec:bst::bsts-review" data-reference-type="ref" data-reference="sec:bst::bsts-review">[sec:bst::bsts-review]</a>)</p>
 ]]>
@@ -305,7 +227,5 @@ Other possible implementation techniques are also described
 </atom> 
 
 </block></block></block> 
-</block> 
-</block> 
 </block> 
 </block>
