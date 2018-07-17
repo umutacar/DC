@@ -74,14 +74,14 @@ def main(argv):
   os.system(command)
 
 
-  # elaborate mlx
-  command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + parsed_infile_mlx + syntax.SPACE + outfile_mlx_elaborated
-  print 'Executing command:', command
-  os.system(command)
+  # # elaborate mlx
+  # command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + parsed_infile_mlx + syntax.SPACE + outfile_mlx_elaborated
+  # print 'Executing command:', command
+  # os.system(command)
 
-  # rename and copy to Desktop
-  os_utils.mv_file_to(outfile_mlx_elaborated, outfile_mlx)  
-  os_utils.cp_file_to(outfile_mlx, '~/Desktop/')  
+  # # rename and copy to Desktop
+  # os_utils.mv_file_to(outfile_mlx_elaborated, outfile_mlx)  
+  # os_utils.cp_file_to(outfile_mlx, '~/Desktop/')  
 
   # cd to starting directory
   os.chdir(root_dir)

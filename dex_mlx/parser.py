@@ -1372,17 +1372,20 @@ class Parser:
     #self.exp_chapter.setDebug()
     self.exp_chapters = self.mk_blocks (self.exp_chapter, 'exp_chapter') 
 
-    # dex book
-    self.exp_book = self.mk_parser_book()
+    # # dex book
+    # self.exp_book = self.mk_parser_book()
 
-    # dex course
-    self.exp_course = self.mk_parser_course()
+    # # dex course
+    # self.exp_course = self.mk_parser_course()
 
-    # document 
-    # IMPORTANT: book is not nested inside a course
-    # See book parser for details.
+    # # document 
+    # # IMPORTANT: book is not nested inside a course
+    # # See book parser for details.
 
-    self.document = self.exp_course + self.exp_book + kw_string_end | self.exp_pset + kw_string_end
+    # self.document = self.exp_course + self.exp_book + kw_string_end | self.exp_pset + kw_string_end
+
+    self.document = self.exp_chapter + kw_string_end | self.exp_pset + kw_string_end
+
 
     # Various modifiers
     self.document = self.document.ignore(latex_comment)
