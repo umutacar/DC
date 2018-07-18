@@ -16,9 +16,6 @@ ch:intro
 <field name="parents">
 ...NOT.PROVIDED.PARENTS...
 </field> 
-<field name="picture">
-./media/la-tour-aux-rideaux.jpg
-</field> 
 <field name="intro">
 <![CDATA[
 <p>This chapter presents a brief overview of the methodology followed in this book.</p>
@@ -33,12 +30,12 @@ this book.
 <block name="section">
 <field name="title">
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Overview
 ]]>
 </field> 
 <field name="title_src">
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Overview
 ]]>
 </field> 
 <field name="label">

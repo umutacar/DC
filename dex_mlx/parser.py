@@ -585,7 +585,6 @@ class Parser:
   # Parser for chapter
   def mk_parser_chapter (self):
     (begin, end, title, label, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
-    picture = self.mk_parser_picture ()
 
     begin_section = mk_parser_begin(dex.SECTION)
     # intro is the part up to the first section
@@ -603,7 +602,6 @@ class Parser:
     chapter = begin + \
               title + \
               (label & parents) + \
-              picture + \
               intro + \
               contents + \
               end
