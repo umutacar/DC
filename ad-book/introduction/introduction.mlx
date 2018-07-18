@@ -2156,7 +2156,7 @@ Why do we think this distinction is important?
 \\  
 ~~~~\left\langle\,  \,\right\rangle  
 \\  
-~~\texttt{else}~\texttt{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))  
+~~\texttt{else}~\mathit{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))  
 \end{array}\]</span></p>
 <p>In the algorithm, <span class="math inline">\(f\)</span> is the comparison function and <span class="math inline">\(s\)</span> is the input sequence. The algorithm uses a function (<span class="math inline">\(\texttt{insert}~f~x~s\)</span>) that takes the comparison function <span class="math inline">\(f\)</span>, an element <span class="math inline">\(x\)</span>, and a sequence <span class="math inline">\(s\)</span> sorted by <span class="math inline">\(f\)</span>, and inserts <span class="math inline">\(x\)</span> in the appropriate place. Inserting into a sorted sequence is itself an algorithmic problem, since we are not specifying how it is implemented, but just specifying its functionality. We might also be given a cost specification for <span class="math inline">\(\texttt{insert}\)</span>, e.g., for a sequence of length <span class="math inline">\(n\)</span> the cost of <span class="math inline">\(\texttt{insert}\)</span> should be <span class="math inline">\(O(n)\)</span> work and <span class="math inline">\(O(\log n)\)</span> span. Given this cost we can determine the overall asymptotic cost of <span class="math inline">\(\texttt{sort}\)</span> using our composition rules described in the last section. Since the code uses <span class="math inline">\(\texttt{insert}\)</span> sequentially and since there are <span class="math inline">\(n\)</span> inserts, the algorithm <span class="math inline">\(\texttt{insSort}\)</span> has <span class="math inline">\(n \times O(n) =  
 O(n^2)\)</span> work and <span class="math inline">\(n \times O(\log n) = O(n \log n)\)</span> span.</p>
@@ -2171,13 +2171,13 @@ the classic insertion sort algorithm as follows.
 
 \[
 \begin{array}{l}
-\mathit{insSort}~f~s =
+\cdfun{insSort}~f~s =
 \\ 
 ~~\cd{if}~|s| = 0~\cd{then} 
 \\
 ~~~~\cseq{}
 \\
-~~\cd{else}~\cd{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))
+~~\cd{else}~\cdfun{insert}~f~s[0]~(\cdfun{insSort}~f~(s[1,...,n-1]))
 \end{array}
 \]
 

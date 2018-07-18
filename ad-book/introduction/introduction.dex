@@ -842,13 +842,13 @@ the classic insertion sort algorithm as follows.
 
 \[
 \begin{array}{l}
-\mathit{insSort}~f~s =
+\cdfun{insSort}~f~s =
 \\ 
 ~~\cd{if}~|s| = 0~\cd{then} 
 \\
 ~~~~\cseq{}
 \\
-~~\cd{else}~\cd{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))
+~~\cd{else}~\cdfun{insert}~f~s[0]~(\cdfun{insSort}~f~(s[1,...,n-1]))
 \end{array}
 \]
 
