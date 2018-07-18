@@ -34,11 +34,11 @@ computers, including both sequentially and in parallel.
 For example, you might want to find the stortest path from where you
 are now to the nearest caf\'e by using your computer.
 %
-Your primary concern is probably that your answer is correct (e.g. you
-might be unhappy to find yourself in a pharmacy instead of a
-nice caf\'e). 
+The primary concerns will likely include correctness (the path found
+indeed should end at the nearest caf\'e), 
 %
-However, you also care that you get the answer reasonably quickly.
+efficiency (that your computer consumed a relatively small amount of
+energy), and performance (the answer was computed reasonable quickly).
 %
 
 This book covers different aspects of problem solving with computers
@@ -56,16 +56,16 @@ such as
 
 We are concerned both with 
 %
-parallel algorithms (algorithms that are correct and efficient on
-modern parallel computers)
+parallel algorithms (algorithms that can perform multiple actions at
+the same time)
 %
 and 
 %
-sequential algorithms (ones that are correct and efficient on
-sequential computers).
+sequential algorithms (algorithms that perform a single action at a
+time).
 %
-However, in our approach, sequential and parallel algorithms are not
-that different.  
+In our approach, however, sequential and parallel algorithms are not
+particularly different.
 %
 %In the rest of this chapter we discuss why it is important to study
 %parallelism, why it is important to separate interfaces from
@@ -451,7 +451,7 @@ ideal machine.
 \end{gram}
 
 \begin{example}[...NOT.PROVIDED.TITLE...]
-\label{ex:intro::mergesortcost}
+\label{ex:intro::mergesort-cost}
 \parent{...NOT.PROVIDED.PARENTS...}
 
 As an example, consider the parallel $\cd{mergeSort}$ algorithm for
@@ -656,7 +656,7 @@ an optimal sequential algorithm that solves the same problem.
 \parent{...NOT.PROVIDED.PARENTS...}
 
 The parallel $\cd{mergeSort}$ function described in
-\exref{mergesortcost} is work efficient since it does $O(n \log n)$
+\exref{intro::mergesort-cost} is work efficient since it does $O(n \log n)$
 work, which optimal time for comparison based sorting.  In this course
 we will try to develop work-efficient or close to work-efficient
 algorithms.
@@ -681,7 +681,8 @@ different levels of abstraction, such as the cost and the
 implementation  of the solution.
 
 In this book, we are usually interested in two distinct classes of
-problems: algorithms problems and data structures problems.
+problems: algorithms or algorithmic problems and data structures
+problems.
 \end{gram}
 
 \begin{gram}[Algorithm Specification]
@@ -815,9 +816,9 @@ Since we allow specifying algorithms and data structures, we can
 distinguish between algorithms problems and data-structure problems.
 %
 
-An~\defn{algorithms problem} requires designing an algorithm that
-satisfies the given algorithm specification and cost specification if
-any.
+An~\defn{algorithmic problem} or an~\defn{algorithms problem}
+requires designing an algorithm that satisfies the given algorithm
+specification and cost specification if any.
 %
 
 A~\defn{data-structures problem} requires meeting an ADT
@@ -826,7 +827,7 @@ support the desired operations with the required efficiency specified
 by the cost specification.
 %
 
-The difference between an algorithms problem and a data-structures
+The difference between an algorithmic problem and a data-structures
 problem is that the latter involves designing a data structure and a
 collection of algorithms, one for each operation, that operate on that
 data structure.
@@ -854,12 +855,17 @@ an~\defn{implementation}.
 The term~\defn{algorithm} refers to an implementation that solves an
 algorithms problem and the term~\defn{data structure} to
 refer to an implementation that solves a data-structures problem.
-%
-We note that while the distinction between problems and algorithms is
-common in the literature, the distinction between abstract data types
-and data structures is less so.
-%
+%%
 \end{gram}
+
+\begin{note}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
+The distinction between problems and algorithms is common in the
+literature but the distinction between abstract data types and data
+structures is less so.
+\end{note}
 
 \begin{teachnote}[...NOT.PROVIDED.TITLE...]
 \label{...NOT.PROVIDED.LABEL...}
@@ -879,25 +885,24 @@ the classic insertion sort algorithm as follows.
 
 \[
 \begin{array}{l}
-\cd{insSort}~f~s =
+\mathit{insSort}~f~s =
 \\ 
 ~~\cd{if}~|s| = 0~\cd{then} 
 \\
 ~~~~\cseq{}
 \\
-~~\cd{else}~\cd{insert}~f~s[0]~(\cd{insSort}~f~(s[1,...,n-1]))
+~~\cd{else}~\cd{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))
 \end{array}
 \]
 
 
 In the algorithm, $f$ is the comparison function and $s$ is the input
-sequence.  
-%
+sequence. %
 The algorithm uses a function ($\cd{insert}~f~x~s$) that
 takes the comparison function $f$, an element $x$, and a sequence $s$
 sorted by $f$, and inserts $x$ in the appropriate place.  
 %
-Inserting into a sorted sequence is itself an algorithms problem,
+Inserting into a sorted sequence is itself an algorithmic problem,
 since we are not specifying how it is implemented, but just specifying
 its functionality.  
 %
