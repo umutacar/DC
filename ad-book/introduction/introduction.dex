@@ -1,61 +1,12 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{1}
-\providessection{1}
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues.
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
-
-
-
 \begin{chapter}[Introduction]
 \label{ch:intro}
-
-\picture{./media/la-tour-aux-rideaux.jpg}
-
 
 This chapter presents a brief overview of the methodology followed in
 this book. 
 
+\begin{section}[Overview]
 
-\begin{section}[Introduction]
-
-This section presents an overview of the approach taken in this book.
-
-\begin{unit}[Introduction]
+\begin{subsection}
 \begin{teachnote}
 TODO:Updates needed to deemphasize parallelism.
 % Guy: I intentionally try not to emphasize parallelism in the opening
@@ -64,56 +15,53 @@ TODO:Updates needed to deemphasize parallelism.
 \end{teachnote}
 
 \begin{gram} 
-This book aims to present techniques for problem solving using 
-today's parallel computers.
+This book aims to present techniques for problem solving using today's
+computers, including both sequentially and in parallel.
 %
 For example, you might want to find the stortest path from where you
 are now to the nearest caf\'e by using your computer.
 %
-Your primary concern is probably that your answer is correct (e.g. you
-might be unhappy to find yourself in a pharmacy instead of a
-nice caf\'e). 
+The primary concerns will likely include correctness (the path found
+indeed should end at the nearest caf\'e), 
 %
-However, you also care that you get the answer reasonably quickly
-(e.g., it would not be useful if your computer took hours instead of
-seconds or perhaps minutes).
+efficiency (that your computer consumed a relatively small amount of
+energy), and performance (the answer was computed reasonable quickly).
 %
 
 This book covers different aspects of problem solving with computers
 such as 
 \begin{itemize}
 \item defining precisely the problem you want to solve,
-\item learning the different techniques that can be used to solve
-  a problem and about designing algorithms using these techniques,
-\item designing abstract data types that can be used in
-  algorithms and data structures that implement these types, and
+\item learning the different algorithm-design techniques for solving problems
+\item designing abstract data types and the data structures that
+  implement them,
 %
-\item analyzing the cost of  algorithms and comparing them based
-  on their cost.
+\item analyzing the cost of algorithms and data structures and
+  comparing them based on their cost.
 %
 \end{itemize}
 
 We are concerned both with 
 %
-parallel algorithms (algorithms that are correct and efficient on
-modern parallel computers)
+parallel algorithms (algorithms that can perform multiple actions at
+the same time)
 %
 and 
 %
-sequential algorithms (ones that are correct and efficient on
-sequential computers).
+sequential algorithms (algorithms that perform a single action at a
+time).
 %
-However, in our approach, sequential and parallel algorithms are not
-that different.  
+In our approach, however, sequential and parallel algorithms are not
+particularly different.
 %
 %In the rest of this chapter we discuss why it is important to study
 %parallelism, why it is important to separate interfaces from
 %implementations, and outline some algorithm-design techniques.
 \end{gram}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Parallelism]
+\begin{subsection}[Parallelism]
 
 \begin{gram}
 The term ``parallelism'' or ``parallel computing'' refers to the
@@ -464,10 +412,10 @@ continue studying this subject.
 
 %% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Work and Span]
+\begin{subsection}[Work and Span]
 
 \begin{gram}
 This section describes the two measures---work and span---that we use
@@ -538,7 +486,7 @@ ideal machine.
 %
 
 \begin{example}
-\label{ex:intro::mergesortcost}
+\label{ex:intro::mergesort-cost}
 As an example, consider the parallel $\cd{mergeSort}$ algorithm for
 sorting a sequence of length $n$.  The work is the same as the
 sequential time, which you might know is
@@ -709,17 +657,17 @@ an optimal sequential algorithm that solves the same problem.
 
 \begin{example}
 The parallel $\cd{mergeSort}$ function described in
-\exref{mergesortcost} is work efficient since it does $O(n \log n)$
+\exref{intro::mergesort-cost} is work efficient since it does $O(n \log n)$
 work, which optimal time for comparison based sorting.  In this course
 we will try to develop work-efficient or close to work-efficient
 algorithms.
 \end{example}
 \end{group}
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Specification, Problem, Implementation]
+\begin{subsection}[Specification, Problem, Implementation]
 
 \begin{gram}
 Problem solving in computer science requires reasoning precisely about
@@ -731,7 +679,8 @@ different levels of abstraction, such as the cost and the
 implementation  of the solution.
 
 In this book, we are usually interested in two distinct classes of
-problems: algorithms problems and data structures problems.
+problems: algorithms or algorithmic problems and data structures
+problems.
 \end{gram}
 
 \begin{gram}[Algorithm Specification]
@@ -837,9 +786,9 @@ Since we allow specifying algorithms and data structures, we can
 distinguish between algorithms problems and data-structure problems.
 %
 
-An~\defn{algorithms problem} requires designing an algorithm that
-satisfies the given algorithm specification and cost specification if
-any.
+An~\defn{algorithmic problem} or an~\defn{algorithms problem}
+requires designing an algorithm that satisfies the given algorithm
+specification and cost specification if any.
 %
 
 A~\defn{data-structures problem} requires meeting an ADT
@@ -848,7 +797,7 @@ support the desired operations with the required efficiency specified
 by the cost specification.
 %
 
-The difference between an algorithms problem and a data-structures
+The difference between an algorithmic problem and a data-structures
 problem is that the latter involves designing a data structure and a
 collection of algorithms, one for each operation, that operate on that
 data structure.
@@ -870,12 +819,16 @@ an~\defn{implementation}.
 The term~\defn{algorithm} refers to an implementation that solves an
 algorithms problem and the term~\defn{data structure} to
 refer to an implementation that solves a data-structures problem.
-%
-We note that while the distinction between problems and algorithms is
-common in the literature, the distinction between abstract data types
-and data structures is less so.
-%
+%%
 \end{gram}
+
+
+\begin{note}
+The distinction between problems and algorithms is common in the
+literature but the distinction between abstract data types and data
+structures is less so.
+\end{note}
+
 
 \begin{teachnote}
 Why do we think this distinction is important?
@@ -889,25 +842,24 @@ the classic insertion sort algorithm as follows.
 
 \[
 \begin{array}{l}
-\cd{insSort}~f~s =
+\mathit{insSort}~f~s =
 \\ 
 ~~\cd{if}~|s| = 0~\cd{then} 
 \\
 ~~~~\cseq{}
 \\
-~~\cd{else}~\cd{insert}~f~s[0]~(\cd{insSort}~f~(s[1,...,n-1]))
+~~\cd{else}~\cd{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))
 \end{array}
 \]
 
 
 In the algorithm, $f$ is the comparison function and $s$ is the input
-sequence.  
-%
+sequence. %
 The algorithm uses a function ($\cd{insert}~f~x~s$) that
 takes the comparison function $f$, an element $x$, and a sequence $s$
 sorted by $f$, and inserts $x$ in the appropriate place.  
 %
-Inserting into a sorted sequence is itself an algorithms problem,
+Inserting into a sorted sequence is itself an algorithmic problem,
 since we are not specifying how it is implemented, but just specifying
 its functionality.  
 %
@@ -964,8 +916,8 @@ compare are solving the same problem, because subtle differences in
 the problem specification can make a significant difference in how
 efficiently that problem can be solved.
 \end{remark}
-\end{unit}
+\end{subsection}
 
 \end{section}
 \end{chapter}
-\end{book}
+%\end{book}

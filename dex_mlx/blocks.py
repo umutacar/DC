@@ -377,7 +377,6 @@ class Chapter:
   def __init__(self, toks):
     self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
-    self.picture = tokens.get_picture(toks)
     self.intro = tokens.get_intro(toks)
     self.contents = tokens.get_contents(toks)
 
@@ -385,20 +384,17 @@ class Chapter:
     return self.label
 
   def to_string (self): 
-    contents = dex.mk_str_picture(self.picture)  + NEWLINE + \
-               self.intro + NEWLINE + \
+    contents = self.intro + NEWLINE + \
                self.contents
 
     result = mk_str_generic (dex.CHAPTER, self.title, self.label, self.parents, contents)
     return result
 
   def to_mlx_string (self):
-    picture = mlx.mk_str_picture(self.picture)
-    
     (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
 
     fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([picture, intro_html, intro_src, self.contents])
+    fields.extend([intro_html, intro_src, self.contents])
 
     r = mlx.mk_str_chapter(fields)
     return NEWLINE + r
