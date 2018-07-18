@@ -1,61 +1,14 @@
-%% \documentclass{course}
-%% \title{Parallel and Sequential Algorithms}
-
-%% % Course number must be unique in the database
-%% \coursenumber{15210}
-
-%% \semester{Spring 2018}
-%% \picture{/210/course/air-pavilion.jpg}
-%% \website{http://www.cs.cmu.edu/~15210}
-
-%% % Provides book
-%% % This must be provided
-%% % The name should be relative to course number.
-%% \providesbook{S18}
-
-%% % Start counting chapters from 
-%% % This is optional. Will start counting at 1.
-%% \provideschapter{1}
-%% \providessection{1}
-
-%% 15-210 aims to teach methods for designing, analyzing, and programming
-%% sequential and parallel algorithms and data structures. The emphasis
-%% is on teaching fundamental concepts applicable across a wide variety
-%% of problem domains, and transferable across a reasonably broad set of
-%% programming languages and computer architectures. This course also
-%% includes a significant programming component in which students will
-%% program concrete examples from domains such as engineering, scientific
-%% computing, graphics, data mining, and information retrieval (web
-%% search).
-
-%% Unlike a traditional introduction to algorithms and data structures,
-%% this course puts an emphasis on parallel thinking — i.e., thinking
-%% about how algorithms can do multiple things at once instead of one at
-%% a time. The course follows up on material learned in 15-122 and 15-150
-%% but goes into significantly more depth on algorithmic issues.
-
-
-%% \begin{book}
-%% \title{Algorithm Design: Parallel and Sequential}
-%% \authors{Umut A. Acar and Guy Blelloch}
-
-
-
 \begin{chapter}[Introduction]
 \label{ch:intro}
 
 \picture{./media/la-tour-aux-rideaux.jpg}
 
-
 This chapter presents a brief overview of the methodology followed in
 this book. 
 
+\begin{section}[Overview]
 
-\begin{section}[Introduction]
-
-This section presents an overview of the approach taken in this book.
-
-\begin{unit}[Introduction]
+\begin{subsection}
 \begin{teachnote}
 TODO:Updates needed to deemphasize parallelism.
 % Guy: I intentionally try not to emphasize parallelism in the opening
@@ -64,8 +17,8 @@ TODO:Updates needed to deemphasize parallelism.
 \end{teachnote}
 
 \begin{gram} 
-This book aims to present techniques for problem solving using 
-today's parallel computers.
+This book aims to present techniques for problem solving using today's
+computers, including both sequentially and in parallel.
 %
 For example, you might want to find the stortest path from where you
 are now to the nearest caf\'e by using your computer.
@@ -74,22 +27,19 @@ Your primary concern is probably that your answer is correct (e.g. you
 might be unhappy to find yourself in a pharmacy instead of a
 nice caf\'e). 
 %
-However, you also care that you get the answer reasonably quickly
-(e.g., it would not be useful if your computer took hours instead of
-seconds or perhaps minutes).
+However, you also care that you get the answer reasonably quickly.
 %
 
 This book covers different aspects of problem solving with computers
 such as 
 \begin{itemize}
 \item defining precisely the problem you want to solve,
-\item learning the different techniques that can be used to solve
-  a problem and about designing algorithms using these techniques,
-\item designing abstract data types that can be used in
-  algorithms and data structures that implement these types, and
+\item learning the different algorithm-design techniques for solving problems
+\item designing abstract data types and the data structures that
+  implement them,
 %
-\item analyzing the cost of  algorithms and comparing them based
-  on their cost.
+\item analyzing the cost of algorithms and data structures and
+  comparing them based on their cost.
 %
 \end{itemize}
 
@@ -111,9 +61,9 @@ that different.
 %implementations, and outline some algorithm-design techniques.
 \end{gram}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Parallelism]
+\begin{subsection}[Parallelism]
 
 \begin{gram}
 The term ``parallelism'' or ``parallel computing'' refers to the
@@ -464,10 +414,10 @@ continue studying this subject.
 
 %% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Work and Span]
+\begin{subsection}[Work and Span]
 
 \begin{gram}
 This section describes the two measures---work and span---that we use
@@ -716,10 +666,10 @@ algorithms.
 \end{example}
 \end{group}
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Specification, Problem, Implementation]
+\begin{subsection}[Specification, Problem, Implementation]
 
 \begin{gram}
 Problem solving in computer science requires reasoning precisely about
@@ -964,7 +914,7 @@ compare are solving the same problem, because subtle differences in
 the problem specification can make a significant difference in how
 efficiently that problem can be solved.
 \end{remark}
-\end{unit}
+\end{subsection}
 
 \end{section}
 \end{chapter}

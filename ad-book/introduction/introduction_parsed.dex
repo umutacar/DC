@@ -6,23 +6,31 @@
 \picture{./media/la-tour-aux-rideaux.jpg}
 This chapter presents a brief overview of the methodology followed in
 this book.
-\begin{section}[Introduction]
+\begin{section}[...NOT.PROVIDED.TITLE...]
 \label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
-This section presents an overview of the approach taken in this book.
+...NOT.PROVIDED.INTRO...
+\begin{subsection}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{unit}[Introduction]
-\begin{teachnote}
+\begin{teachnote}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 TODO:Updates needed to deemphasize parallelism.
 % Guy: I intentionally try not to emphasize parallelism in the opening
 % two paragraphs because most of the ideas transend parallel vs sequential.
 % The whole next section is on parallelism.
 \end{teachnote}
 
-\begin{gram} 
-This book aims to present techniques for problem solving using 
-today's parallel computers.
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
+This book aims to present techniques for problem solving using today's
+computers, including both sequentially and in parallel.
 %
 For example, you might want to find the stortest path from where you
 are now to the nearest caf\'e by using your computer.
@@ -31,22 +39,19 @@ Your primary concern is probably that your answer is correct (e.g. you
 might be unhappy to find yourself in a pharmacy instead of a
 nice caf\'e). 
 %
-However, you also care that you get the answer reasonably quickly
-(e.g., it would not be useful if your computer took hours instead of
-seconds or perhaps minutes).
+However, you also care that you get the answer reasonably quickly.
 %
 
 This book covers different aspects of problem solving with computers
 such as 
 \begin{itemize}
 \item defining precisely the problem you want to solve,
-\item learning the different techniques that can be used to solve
-  a problem and about designing algorithms using these techniques,
-\item designing abstract data types that can be used in
-  algorithms and data structures that implement these types, and
+\item learning the different algorithm-design techniques for solving problems
+\item designing abstract data types and the data structures that
+  implement them,
 %
-\item analyzing the cost of  algorithms and comparing them based
-  on their cost.
+\item analyzing the cost of algorithms and data structures and
+  comparing them based on their cost.
 %
 \end{itemize}
 
@@ -67,26 +72,34 @@ that different.
 %parallelism, why it is important to separate interfaces from
 %implementations, and outline some algorithm-design techniques.
 \end{gram}
+\end{subsection}
 
-\end{unit}
+\begin{subsection}[Parallelism]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{unit}[Parallelism]
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{gram}
 The term ``parallelism'' or ``parallel computing'' refers to the
 ability to run multiple computations (tasks) at the same time.
 %
 \end{gram}
 
-\begin{teachask}
+\begin{teachask}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Why should we care about parallelism?  
 %
-Do we even have parallel computers today? 
+Do we even have parallel computers today?
 \end{teachask}
-%
 
-%
 \begin{gram}[Parallel Hardware]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Today parallelism is available in all computer systems, and at many
 different scales starting with parallelism in the nano-circuits that
 implement individual instructions, and working the way up to parallel
@@ -164,19 +177,21 @@ important in the last decade, catapulting parallelism to the forefront
 of computing.
 \end{gram}
 
+\begin{teachask}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-
-\begin{teachask}
 Can you think of consequences of these developments in hardware?  
 
 Answer:
 These developments in hardware make the specification, the design, and
 the implementation of parallel algorithms an important topic.
-
 \end{teachask}
 
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{example}
 As is historically popular in explaining algorithms, we can establish
 an analogy between parallel algorithms and cooking.  As in a kitchen
 with multiple cooks, in parallel algorithms you can do things in
@@ -190,7 +205,10 @@ possible.  Obviously, you also need more resources, e.g., each cook
 might need their own kitchen utensils.
 \end{example}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 One way to quantify the advantages or parallelism is to compare
 its performance to sequential computation.
 %
@@ -206,9 +224,10 @@ the sequential algorithm ranges from approximately 12 (minimum
 spanning tree) to approximately 32 (sorting).
 \end{gram}
 
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{ex:intro::example-runs}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{example}
-  \label{ex:intro::example-runs}
 Sample timings (reported in seconds) for some algorithms.
   \begin{center}
   \begin{tabular}{l  c c c}
@@ -228,14 +247,18 @@ Sample timings (reported in seconds) for some algorithms.
   \end{center}
 \end{example}
 
+\begin{teachask}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{teachask}
 But why after all, do we have to do anything differently to take
-advantage of parallelism?  
+advantage of parallelism?
 \end{teachask}
 
 \begin{gram}[Challenges of Parallel Software]
 \label{intro::parallelism::software-challenges}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 It would be convenient to use sequential algorithms on parallel
 computers, but this does not work well because parallel computing
 requires a different way of organizing the computation.
@@ -249,18 +272,10 @@ underlying dependencies in the computation and avoid creating
 unnecessary dependencies.
 \end{gram}
 
-%% \begin{example}
-%% Suppose that you want to run many searches on a database of student
-%% records.  To improve your search time, you decide to sort the records
-%% by the student name so that you can use a fast binary search algorithm
-%% to find each student.  Since the binary search has to wait for the
-%% sort to complete, you cannot sort and search in parallel.  You can
-%% however perform all the searches in parallel.   You can also sort in
-%% parallel by using a parallel sorting algorithm, as we will describe
-%% in this book.
-%% \end{example}
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{example}
 Going back to our cooking example, suppose that we want to make a
 frittata in our kitchen with 4 cooks.
 %
@@ -280,8 +295,10 @@ the eggs cannot be fisked before they are broken, etc.
 %
 \end{example}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
 \label{gr:intro::parallelism::software-challenge}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 An important challenge is therefore to design algorithms that minimize
 the dependencies so that more can be run in parallel.
 %
@@ -342,91 +359,16 @@ when not due to dependencies.
 There is much more to learn about parallelism, and we hope you
 continue studying this subject.
 \end{gram}
+\end{subsection}
 
-%% \begin{checkpoint}
+\begin{subsection}[Work and Span]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-%% \begin{questionma}
-%% \points 10
-%% \prompt Which of the following hold for the current state of the art
-%% in computing.
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-%% \select There are not many parallel computers today.
-
-%% \select* There are different sorts of parallel hardware readily
-%% available to everyday consumers today.
-%% \explain Discussed in the unit above.
-
-%% \select Parallel hardware is available today but expensive. 
-
-%% \select* There are different forms of parallelism ranging from small
-%% scale (involing just a few processors) to large scale (involving
-%% thousands even millions of processors).
-
-%% \explain Discussed in the unit above.
-%% \end{questionma}
-
-%% \begin{questionmc}
-%% \points 10
-
-%% \prompt What can be said about parallel software today?
-
-%% \choice Nearly all software is sequential.
-%% \explain Much software today is sequential but many are not.
-
-%% \choice Parallel software is everywhere and easy to develop.
-%% \explain Parallel software is common but not easy to develop.
-
-%% \choice* Parallel software is quite widespread but it is not easy to
-%% develop.  
-%% \explain Parallel software is indeed quite widespread and it
-%% is not easy to develop.
-
-%% \choice Parallel software is difficult to develop and is typically
-%% used very specific domains areas such as scientific computing.
-
-%% \end{questionmc}
-
-%% \begin{questionfr}[Advantages of Parallelism]
-%% \points 10
-%% \prompt
-%% What are the two advantages of parallelism over sequential
-%% computation.  
-
-%% \begin{answer}
-%% \begin{enumerate}
-%% \item Speed: a parallel algorithm using $P$ processors can be as much
-%%   as $P$ times faster than sequential.
-%% \item Energy efficiency: when computing sequentially, speeding a
-%%   computation by a factor of two requires eight times as much energy.
-%%   Using parallelism, it is theoretically the same, though in practice
-%%   today. there are overheads.
-%% \end{enumerate}
-
-%% \end{answer}
-%% \end{questionfr}
-
-
-%% \begin{questionfr}[Essence of Parallelism]
-%% \points 10
-%% \prompt
-%% When designing a parallel algorithm, we have to be careful in
-%% identifying the computations that can be performed in parallel.  What
-%% is the key property of such computations? 
-
-%% \begin{answer}
-%% They have to be independent, that is one cannot use data that is
-%% generated by the other.
-%% \end{answer}
-%% \end{questionfr}
-
-%% \end{checkpoint}
-
-\end{unit}
-
-
-\begin{unit}[Work and Span]
-
-\begin{gram}
 This section describes the two measures---work and span---that we use
 to analyze algorithms.  Together these measures capture both the
 sequential time and the parallelism available in an algorithm.
@@ -436,8 +378,14 @@ for example the big-O notation.
 %
 \end{gram}
 
-\begin{group}
+\begin{group}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 \begin{gram}[Work]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 The~\defn{work} of an algorithm corresponds to the total number of
 primitive operations performed by an algorithm.  If running on a
 sequential machine, it corresponds to the sequential time.
@@ -458,7 +406,10 @@ possible.
 %
 \end{gram}
 
-\begin{example}
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 A fully sequential algorithm, where each operation depends on prior
 operations leaves no room for parallelism.
 %
@@ -472,19 +423,26 @@ complete them in order.
 \end{example}
 \end{group}
 
-\begin{teachask}
+\begin{teachask}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Can you come up with an example where perfect speedup is not possible?
 \end{teachask}
-%
 
-\begin{teachnote}
+\begin{teachnote}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 For example, when cooking a frittata, you cannot cook the egg that is
 not broken, nor can we add the eggs to the pan until the vegetables
 are sauteed.
 \end{teachnote}
 
-
 \begin{gram}[Span]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 The second measure,~\defn{span}, enables analyzing to what extent the
 work of an algorithm can be divided among processors.  The~\defn{span}
 of an algorithm basically corresponds to the longest sequence of
@@ -492,10 +450,11 @@ dependences in the computation.  It can be thought of as the time an
 algorithm would take if we had an unlimited number of processors on an
 ideal machine.
 \end{gram}
-%
 
-\begin{example}
+\begin{example}[...NOT.PROVIDED.TITLE...]
 \label{ex:intro::mergesortcost}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 As an example, consider the parallel $\cd{mergeSort}$ algorithm for
 sorting a sequence of length $n$.  The work is the same as the
 sequential time, which you might know is
@@ -518,9 +477,10 @@ $\lg^2(10^6) < 500.$
 %
 \end{example}
 
-
 \begin{gram}[Parallel Time]
-%As we shall see in \secref{design::scheduling}, 
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Even though work and span, are abstract measures of real costs, they
 can be used to predict the run-time on any number of processors.
 %
@@ -528,16 +488,24 @@ Specifically, if for an algorithm the work dominates, i.e., is much
 larger than, span, then we expect the algorithm to deliver good
 speedups.
 \end{gram}
-%
 
-\begin{group}
-\begin{exercise}
+\begin{group}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
+\begin{exercise}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 How would you expect the parallel mergesort algorithm, $\cd{mergeSort}$,
 mentioned in the example above to perform as we increase the number of
 processors dedicated to running it?
 \end{exercise}
 
-\begin{solution}
+\begin{solution}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Recall that the work of parallel merge sort is $O(n\lg{n})$, whereas
 the span is $O(\lg^2{n})$.  
 %
@@ -551,17 +519,25 @@ the number of processors.
 %
 We should note that in practice, speedups tend to be more conservative
 due to natural overheads of parallel execution and due to other
-factors such as the memory subsystem that can limit parallelism. 
+factors such as the memory subsystem that can limit parallelism.
 \end{solution}
 \end{group}
 
+\begin{teachask}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{teachask}
 How do we calculate the work and span of an algorithm?
 \end{teachask}
 
-\begin{group}
+\begin{group}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 \begin{definition}[Work and Span]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 We calculate the work and span of algorithms in a very
 simple way that just involves composing costs across subcomputations.
 %
@@ -596,7 +572,10 @@ for the cost of (parallel or sequential) composition.
 \end{center}
 \end{definition}
 
-\begin{note}
+\begin{note}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 The intuition behind the definition of work and span is that work
 simply adds, whether we perform computations sequentially or in
 parallel.  The span, however, only depends on the span of the maximum
@@ -608,8 +587,10 @@ required; time, however, is determined only by the slowest
 computation.
 \end{note}
 
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{example}
 Suppose that we have $30$ eggs to cook using $3$ cooks.  Whether all
 $3$ cooks to do the cooking or just one, the total work remains
 unchanged: $30$ eggs need to be cooked.
@@ -634,11 +615,13 @@ $150$ that we would need with just one cook.
 How do we actually realize the greedy schedule?  In this case, this is
 simple, all we have to do is divide the eggs equally between our
 cooks.
-
 \end{example}
 \end{group}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 If algorithm $A$ has less work than algorithm $B$, but has greater
 span then which algorithm is better?  In analyzing sequential
 algorithms there is only one measure so it is clear when one algorithm
@@ -656,15 +639,23 @@ large improvement in span.
 %
 \end{gram}
 
-\begin{group}
+\begin{group}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 \begin{definition}[Work Efficiency]
 \label{def:intro::work-efficiency}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 We say that a parallel algorithm is~\defn{(asymptotically) work
   efficient}, if the work is asymptotically the same as the time for
 an optimal sequential algorithm that solves the same problem.
-\end{definition} 
+\end{definition}
 
-\begin{example}
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 The parallel $\cd{mergeSort}$ function described in
 \exref{mergesortcost} is work efficient since it does $O(n \log n)$
 work, which optimal time for comparison based sorting.  In this course
@@ -672,13 +663,16 @@ we will try to develop work-efficient or close to work-efficient
 algorithms.
 \end{example}
 \end{group}
+\end{subsection}
 
-\end{unit}
+\begin{subsection}[Specification, Problem, Implementation]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
 
-\begin{unit}[Specification, Problem, Implementation]
-
-\begin{gram}
 Problem solving in computer science requires reasoning precisely about
 problems being studied and the properties of solutions.
 %
@@ -692,6 +686,9 @@ problems: algorithms problems and data structures problems.
 \end{gram}
 
 \begin{gram}[Algorithm Specification]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 We specify an algorithm by describing what is expected of the
 algorithm via an~\defn{algorithm specification}.
 %
@@ -700,13 +697,19 @@ respect to a given comparison function as follows.
 \end{gram}
 
 \begin{definition}[Comparison Sort]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Given a sequence $A$ of $n$ elements taken from a totally ordered set
 with comparison operator $\leq$, return a comparison-sorting algorithm
 sequence $B$ containing the same elements but such that $B[i] \leq
 B[j]$ for $0 \leq i < j < n$.
 \end{definition}
 
-\begin{note}
+\begin{note}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 The specification describes~\defn{what} the algorithm should do but it
 does not describe~\defn{how} it achieves what is asked.
 %
@@ -715,7 +718,10 @@ many algorithms that meet a specification.
 %
 \end{note}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 A crucial property of any algorithm is its resource requirements or
 its~\defn{cost}.
 %
@@ -729,12 +735,18 @@ $O(n \log{n})$ work and $O(\log^2{n})$ span.
 \end{gram}
 
 \begin{costspec}[Comparison Sort: Efficient \& Parallel]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Assuming the comparison function $<$ does constant work, the cost for
 parallel comparison sorting a sequence of length $n$ is $O(n \log n)$
 work and $O(\log^2 n)$ span.
 \end{costspec}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 There can be many cost specifications for sorting.  For example, if we
 are not interested in parallelism, we can specify $O(n \log{n})$ work
 but no bounds on the span. There is another cost specification below
@@ -746,14 +758,18 @@ specification is preferable.
 \end{gram}
 
 \begin{costspec}[Comparison Sort: Inefficient but Parallel]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Assuming the comparison function $<$ does constant work, the cost for
 parallel comparison sorting a sequence of length $n$ is $O(n^2)$ work
 and $O(\log n)$ span.
 \end{costspec}
-%
-
 
 \begin{gram}[Data Structure Specification]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 We specify a data structure by describing what is expected of the data
 structure via an~\defn{Abstract Data Type (ADT) specification}.
 %
@@ -766,6 +782,9 @@ specification.
 \end{gram}
 
 \begin{datatype}[Priority Queue]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 A priority queue consists of a priority queue type and supports three
 operations on values of this type.  The operation $\cd{empty}$ returns
 an empty queue.  The operation $\cd{insert}$ inserts a given value with
@@ -774,8 +793,10 @@ $\cd{removeMin}$ removes the value with the smallest priority from the
 queue and returns it.
 \end{datatype}
 
-%
 \begin{costspec}[Priority Queue: Basic]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 The work and span of a priority queue operations are as follows.
 \begin{itemize}
 \item $\cd{create}$: $O(1)$, $O(1)$.
@@ -784,9 +805,10 @@ The work and span of a priority queue operations are as follows.
 \end{itemize}
 \end{costspec}
 
-
 \begin{gram}[Problem]
-%
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 A~\defn{problem} requires meeting an algorithm or an ADT specification
 and a corresponding cost specification.
 %
@@ -811,7 +833,10 @@ collection of algorithms, one for each operation, that operate on that
 data structure.
 \end{gram}
 
-\begin{note}
+\begin{note}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 When we consider problems, it is usually clear from the context
 whether we are talking about algorithms or data structures.
 %
@@ -821,6 +846,9 @@ corresponding problem respectively.
 \end{note}
 
 \begin{gram}[Implementation]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 We can solve an algorithms or a data-structures problem by presenting
 an~\defn{implementation}.  
 %
@@ -834,11 +862,17 @@ and data structures is less so.
 %
 \end{gram}
 
-\begin{teachnote}
+\begin{teachnote}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Why do we think this distinction is important?
 \end{teachnote}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 We describe an algorithm by using the pseudo-code notation based on
 \pml, the language  used in this book.  For example, we can specify
 the classic insertion sort algorithm as follows.
@@ -880,7 +914,10 @@ inserts, the algorithm $\cd{insSort}$ has $n \times O(n) =
 O(n^2)$ work and $n \times O(\log n) = O(n \log n)$ span.
 \end{gram}
 
-\begin{gram}
+\begin{gram}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Similarly, we can specify a data structure by specifying the data type
 used by the implementation, and the algorithms for each operation.
 %
@@ -891,9 +928,10 @@ as a collection of algorithms that operate on the same organization
 of the data.
 \end{gram}
 
-
 \begin{remark}[On the importance of specification]
-%
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 Several reasons underline the importance of distinguishing between
 specification and implementation.  
 
@@ -921,6 +959,6 @@ compare are solving the same problem, because subtle differences in
 the problem specification can make a significant difference in how
 efficiently that problem can be solved.
 \end{remark}
-\end{unit}
+\end{subsection}
 \end{section}
 \end{chapter}
