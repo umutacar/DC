@@ -1,43 +1,43 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
+%% \documentclass{course}
+%% \title{Parallel and Sequential Algorithms}
 
-% Course number must be unique in the database
-\coursenumber{15210}
+%% % Course number must be unique in the database
+%% \coursenumber{15210}
 
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
+%% \semester{Spring 2018}
+%% \picture{/210/course/air-pavilion.jpg}
+%% \website{http://www.cs.cmu.edu/~15210}
 
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
+%% % Provides book
+%% % This must be provided
+%% % The name should be relative to course number.
+%% \providesbook{S18}
 
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{1}
-\providessection{1}
+%% % Start counting chapters from 
+%% % This is optional. Will start counting at 1.
+%% \provideschapter{1}
+%% \providessection{1}
 
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
+%% 15-210 aims to teach methods for designing, analyzing, and programming
+%% sequential and parallel algorithms and data structures. The emphasis
+%% is on teaching fundamental concepts applicable across a wide variety
+%% of problem domains, and transferable across a reasonably broad set of
+%% programming languages and computer architectures. This course also
+%% includes a significant programming component in which students will
+%% program concrete examples from domains such as engineering, scientific
+%% computing, graphics, data mining, and information retrieval (web
+%% search).
 
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues.
+%% Unlike a traditional introduction to algorithms and data structures,
+%% this course puts an emphasis on parallel thinking — i.e., thinking
+%% about how algorithms can do multiple things at once instead of one at
+%% a time. The course follows up on material learned in 15-122 and 15-150
+%% but goes into significantly more depth on algorithmic issues.
 
 
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
+%% \begin{book}
+%% \title{Algorithm Design: Parallel and Sequential}
+%% \authors{Umut A. Acar and Guy Blelloch}
 
 
 
@@ -968,4 +968,4 @@ efficiently that problem can be solved.
 
 \end{section}
 \end{chapter}
-\end{book}
+%\end{book}
