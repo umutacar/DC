@@ -16,17 +16,14 @@ ch:bsts
 <field name='parents'>
 ...NOT.PROVIDED.PARENTS...
 </field> <!-- parents -->
-<field name='picture'>
-/210/bsts/abstract-tree.jpg
-</field> <!-- picture -->
 <field name='intro'>
 <![CDATA[
-<p>...NOT.PROVIDED.INTRO...</p>
+
 ]]>
 </field> <!-- intro -->
 <field name='intro_src'>
 <![CDATA[
-...NOT.PROVIDED.INTRO...
+\picture{/210/bsts/abstract-tree.jpg}
 ]]>
 </field> <!-- intro_src -->
 <block name='section'>
@@ -225,6 +222,90 @@ Other possible implementation techniques are also described
 ]]>
 </field> <!-- body_src -->
 </atom> <!-- gram -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ex:bst
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>An example binary search tree over the set of natural numbers <span class="math inline">\(\{1,3,4,5,6,7,8,9\}\)</span> is shown below.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">
+
+<p><img src="/media/210/bsts/bst2.jpg" alt="image" style="width:2.5in" /></p></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">
+
+<p><img src="/media/210/bsts/bst3.jpg" alt="image" style="width:1.8in" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>On the left the <span class="math inline">\(L\)</span> and <span class="math inline">\(R\)</span> indicate the left (first) and right (second) child, respectively. All internal nodes (white) have a key associated with them while the leaves (black) are empty. The keys satisfy the BST property—for every node, the keys in the left subtree are less, and the ones in the right subtree are greater.</p>
+
+<p>In the illustration on the left, the edges are oriented away from the root. They could have also been oriented towards the root. When illustrating binary search trees, we usually replace the directed arcs with undirected edges, leaving the orientation to be implicit. We also draw the left and right subtrees of a node on its left and right respectively. Following this convention, we can draw the tree on the left above as shown an the right. We use this convention in future figures.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An example binary search tree over the set of natural numbers
+$\{1,3,4,5,6,7,8,9\}$ is shown below.
+
+\begin{tabular}{ccc}
+\vspace*{0in}
+\begin{minipage}[t]{2.5in}
+\vspace*{0in}
+\includegraphics[width=2.5in]{/media/210/bsts/bst2.jpg}
+\end{minipage}
+%
+& \quad\quad\quad &
+%
+\vspace*{0in}
+\begin{minipage}[t]{2.5in}
+\vspace*{0in}
+\includegraphics[width=1.8in]{/media/210/bsts/bst3.jpg}
+\end{minipage}
+\end{tabular}
+On the left the $L$ and $R$ indicate the left (first) and right
+(second) child, respectively.  All internal nodes (white) have a key
+associated with them while the leaves (black) are empty.  The keys
+satisfy the BST property---for every node, the keys in the left
+subtree are less, and the ones in the right subtree are greater. 
+
+
+\smallskip 
+
+In the illustration on the left, the edges are oriented away from the
+root. They could have also been oriented towards the root.
+%
+When illustrating binary search trees, we usually replace the directed
+arcs with undirected edges, leaving the orientation to be implicit.
+%
+We also draw the left and right subtrees of a node on its left and
+right respectively.
+%
+Following this convention, we can draw the tree on the left above as
+shown an the right.
+%
+We use this convention in future figures.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
 
 </block> <!-- subsection -->
 </block> <!-- section -->

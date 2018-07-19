@@ -4,7 +4,6 @@
 \parent{...NOT.PROVIDED.PARENTS...}
 
 \picture{/210/bsts/abstract-tree.jpg}
-...NOT.PROVIDED.INTRO...
 \begin{section}[Motivation]
 \label{sec:motivation}
 \parent{...NOT.PROVIDED.PARENTS...}
@@ -100,6 +99,52 @@ parametric implementation using Treaps (\secref{bst::treaps}).
 Other possible implementation techniques are also described
 (\secref{bst::bsts-review})
 \end{gram}
+
+\begin{example}[...NOT.PROVIDED.TITLE...]
+\label{ex:bst}
+\parent{...NOT.PROVIDED.PARENTS...}
+
+An example binary search tree over the set of natural numbers
+$\{1,3,4,5,6,7,8,9\}$ is shown below.
+
+\begin{tabular}{ccc}
+\vspace*{0in}
+\begin{minipage}[t]{2.5in}
+\vspace*{0in}
+\includegraphics[width=2.5in]{/media/210/bsts/bst2.jpg}
+\end{minipage}
+%
+& \quad\quad\quad &
+%
+\vspace*{0in}
+\begin{minipage}[t]{2.5in}
+\vspace*{0in}
+\includegraphics[width=1.8in]{/media/210/bsts/bst3.jpg}
+\end{minipage}
+\end{tabular}
+On the left the $L$ and $R$ indicate the left (first) and right
+(second) child, respectively.  All internal nodes (white) have a key
+associated with them while the leaves (black) are empty.  The keys
+satisfy the BST property---for every node, the keys in the left
+subtree are less, and the ones in the right subtree are greater. 
+
+
+\smallskip 
+
+In the illustration on the left, the edges are oriented away from the
+root. They could have also been oriented towards the root.
+%
+When illustrating binary search trees, we usually replace the directed
+arcs with undirected edges, leaving the orientation to be implicit.
+%
+We also draw the left and right subtrees of a node on its left and
+right respectively.
+%
+Following this convention, we can draw the tree on the left above as
+shown an the right.
+%
+We use this convention in future figures.
+\end{example}
 \end{subsection}
 \end{section}
 \end{chapter}
