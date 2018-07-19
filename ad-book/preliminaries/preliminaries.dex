@@ -1,48 +1,5 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{2}
-\providessection{1}
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues. 
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
-
 \begin{chapter}[Preliminaries]
 \label{ch:preliminaries}
-
-\picture{./media/latelier-rouge.jpg}
 
 This chapter presents an overview of basic mathematical definitions
 used throughout the book.
@@ -56,12 +13,12 @@ More details can be found in standard texts.
 %
 
 \begin{section}[Sets and Relations]
-\label{sec:preliminaries::sets}
+\label{sec:preliminaries_sets}
 
 This section presents a review of some basic definitions on sets and
 relations.
 
-\begin{unit}[Sets]
+\begin{subsection}[Sets]
 \begin{gram}
 A~\defn{set} is a collection of distinct objects.  The objects that
 are contained in a set, are called~\defn{members} or
@@ -113,7 +70,7 @@ A \times B = \cset{(a,b) : a \in A, b \in B}.
 \end{definition}
 
 \begin{example}
-\label{ex:prelim::cartesian}
+\label{ex:prelim_cartesian}
 The Cartesian product of $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$ is
 \[
 \begin{array}{lll}
@@ -315,10 +272,10 @@ and
 %% \end{checkpoint}
 
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Relations]
-\label{unit:preliminaries::relations}
+\begin{subsection}[Relations]
+\label{subsection:preliminaries_relations}
 
 
 \begin{definition}[Relation]
@@ -345,7 +302,7 @@ mapping is also called a~\defn{function}.
 
 
 \begin{example}
-\label{ex:prelim::sequencesdef}
+\label{ex:prelim_sequencesdef}
 Consider the sets $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$.
 
 The set:
@@ -392,17 +349,17 @@ is, however, not a sequence since there is a gap in the domain.
 
 %% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 \end{section}
 
 %% 
 \begin{section}[Graph Theory]
-\label{sec:preliminaries::graph-theory}
+\label{sec:preliminaries_graph-theory}
 
 This section reviews the basic graph theory definitions and
 terminology that we use in this book.
 
-\begin{unit}[Basic Definitions]
+\begin{subsection}[Basic Definitions]
 
 \begin{teachnote}
 TODO
@@ -427,7 +384,7 @@ where
 In a digraph, each arc is an ordered pair $e = (u,v)$.  A digraph can
 have~\defn{self loops} $(u,u)$.  
 %
-%\exref{preliminaries::graphs::examples} shows a digraph with $4$
+%\exref{preliminaries_graphs_examples} shows a digraph with $4$
 %vertices and $4$ arcs.
 \end{note}
 
@@ -448,7 +405,7 @@ cannot have self loops since $\{v,v\} = \{v\} \not\in \binom{V}{2}$.
 
 
 \begin{example}
-\label{ex:preliminaries::graphs::examples}
+\label{ex:preliminaries_graphs_examples}
 An example directed graph with $4$ vertices:
 
 \includegraphics[width=2in]{./media/directed1.jpg} 
@@ -630,9 +587,9 @@ vertex when averaged across vertices, although some vertices could have high
 degree.  Therefore, the emphasis in the design of graph algorithms, at least for
 this book, is typically on algorithms that work well for sparse graphs.
 \end{definition}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Weighted Graphs] 
+\begin{subsection}[Weighted Graphs] 
 \begin{gram}
 Many applications of graphs require associating weights or other
 values with the edges of a graph.  
@@ -655,7 +612,7 @@ or a capacity, or the strength of a relationship.
 \end{gram}
 
 \begin{example}
-%\label{ex:graph-theory::wgraph}
+%\label{ex:graph-theory_wgraph}
 An example directed weighted graph.
 
 \begin{center}
@@ -669,9 +626,9 @@ As it may be expected, basic terminology on graphs defined above
 straightforwardly extend to weighted graphs.
 \end{remark}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Subgraphs]
+\begin{subsection}[Subgraphs]
 
 \begin{gram}
 When working with graphs, we sometimes wish to refer to parts of a
@@ -741,9 +698,9 @@ The subgraph of $G = (V,E)$ induced by $E' \subseteq E$ is a graph $H
 = (V',E')$ where $V' = \cup_{e \in E} e$.
 \end{definition}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Connectivity]
+\begin{subsection}[Connectivity]
 
 \begin{gram}
 Recall that in a graph (either directed or undirected) a vertex $v$ is
@@ -753,7 +710,7 @@ reachable from all other vertices.
 \end{gram}
 
 \begin{example}
-\label{ex:gc::two-graphs}
+\label{ex:gc_two-graphs}
 Two example graphs shown. The first in connected; the second is not.
 
 \begin{tabular}{c}
@@ -798,9 +755,9 @@ and
 %
 $\cset{\vname{e},\vname{f}}$.
 \end{note}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Graph Partition]
+\begin{subsection}[Graph Partition]
 
 \begin{gram}
 Recall that a partition of a set $A$ is a set $P$ of non-empty subsets
@@ -837,25 +794,25 @@ One way to partition a graph is to make each connected component a
 block. In such a partition, there are no cut edges between the
 partitions.
 \end{definition}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Trees]
+\begin{subsection}[Trees]
 
 \begin{definition}[Tree]
 An undirected graph is a~\defn{tree} if it does not have cycles and it is
 connected.  A~\defn{rooted tree} is a tree with a distinguished root
 node that can be used to access all other nodes.
 %
-%\defref{prelim::rootedtree}).  
+%\defref{prelim_rootedtree}).  
 %
 An example of a rooted tree along with
 the associated terminology is given in below.
-% \exref{prelim::rootedtree}.
+% \exref{prelim_rootedtree}.
 \end{definition}
 
 
 \begin{definition}[Rooted Trees]
-\label{def:prelim::rootedtree}
+\label{def:prelim_rootedtree}
 A~\defn{rooted tree} is a directed graph such that
 \begin{enumerate}
 \item 
@@ -913,7 +870,7 @@ which the out edges (children) of each node are ordered.
 \end{definition}
 
 \begin{example}
-\label{ex:prelim::rootedtree}
+\label{ex:prelim_rootedtree}
 An example rooted tree follows.
 \begin{center}
   \includegraphics[width=2in]{./media/rootedtree.jpg}
@@ -935,9 +892,9 @@ subtree rooted at $D$ & : & the rooted tree consisting of $D$, $F$, $G$ and $H$
 \end{center}
 \end{example}
 
-\end{unit}
+\end{subsection}
 \end{section}
 
 \end{chapter}
-\end{book}
+
 

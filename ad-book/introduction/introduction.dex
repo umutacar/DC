@@ -485,7 +485,7 @@ ideal machine.
 \end{gram}
 %
 
-\begin{example}
+\begin{example}[Parallel Merge Sort]
 \label{ex:intro::mergesort-cost}
 As an example, consider the parallel $\cd{mergeSort}$ algorithm for
 sorting a sequence of length $n$.  The work is the same as the
