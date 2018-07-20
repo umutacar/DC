@@ -1,49 +1,5 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{3}
-\providessection{1}
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues.
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
-
-
 \begin{chapter}[SPARC: A Strict Language for Parallel Computing]
-
-\picture{./media/dora-maar-seated.jpg}
-
+\label{ch:language}
 
 This chapter presents \pml{}: a parallel functional language used
 throughout the book for specifying algorithms.
@@ -61,7 +17,7 @@ introduce additional syntax as needed in the rest of the book.
 \begin{section}[Introduction]
 This section briefly describes lambda calculus.
 
-\begin{unit}[Lambda Calculus]
+\begin{subsection}[Lambda Calculus]
 
 \begin{gram}
 As with most functional programming languages, the ML class of
@@ -178,7 +134,7 @@ to know if andt when an expression is evaluated.
 %
 We therefore only use call-by-value. 
 \end{important}
-\end{unit}
+\end{subsection}
 \end{section}
 
 \begin{section}[The SPARC Language]
@@ -197,7 +153,7 @@ costs,~\defn{cost semantics}.
 Here we describe the syntax of \pml{} and present an informal
 description of its operational semantics. 
 %
-%We will talk about cost semantics in \chref{analysis}.
+We will cover the cost semantics of \pml in \chref{analysis}.
 %
 While we focus primarily on the core subset of \pml, we also describe
 some~\defn{syntactic sugar} that makes it easier to read or write code
@@ -210,7 +166,7 @@ specifying the behavior of our algorithms.
 We therefore do not present careful account of \pml's type system.
 
 
-\begin{unit}[Syntax and Semantics of SPARC]
+\begin{subsection}[Syntax and Semantics of SPARC]
 
 \begin{gram}
 The definition below shows the syntax of \pml{}.
@@ -982,7 +938,6 @@ the tree.
 
 
 \begin{remark}~\\
-%\begin{minipage}[t]{3.5in}
 The definition
 \[
 \cfn{x}{(\cfn{y}{f(x,y)})}
@@ -995,19 +950,12 @@ The definition
   (1900-1982), who developed the idea.  It has nothing to do with the
   popular dish from Southern Asia, although that might be an easy way
   to remember the term.
-%\end{minipage}
-%% %
-%% \begin{notesonly}
-%% \begin{minipage}[t]{2.2in}
-%% \vspace*{0in}
-%% \includegraphics[width=2.2in]{introduction/curry}
-%% \end{minipage}
-%% \end{notesonly}
+
 \end{remark}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Derived Syntax for Loops]
+\begin{subsection}[Derived Syntax for Loops]
 
 \begin{gram}
 \pml{} does not have explicit syntax for loops but loops can be
@@ -1128,12 +1076,12 @@ to the following code.
 \end{array}
 \]
 \end{example}
-\end{unit}
+\end{subsection}
 \end{section}
 
 \begin{section}[Functional Algorithms]
 
-\begin{unit}[Effects and Purity]
+\begin{subsection}[Effects and Purity]
 \begin{gram}
 Many parallel algorithms are~\defn{purely functional}.  To understand
 what this means, let's review first what it means for an algorithm to
@@ -1328,10 +1276,10 @@ The techniques that we describe thus are applicable to  imperative
 programming languages as  well.
 \end{remark}
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Race Conditions]
+\begin{subsection}[Race Conditions]
 
 
 \begin{definition}[Race conditions]
@@ -1533,9 +1481,8 @@ What are all the different outcomes of the example given above?
 % There are many including jumbled characters such as $\cstr{leight}$.
 %\end{solution}
 
-\end{unit}
+\end{subsection}
 
 \end{section}
 
 \end{chapter}
-\end{book}

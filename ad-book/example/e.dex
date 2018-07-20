@@ -60,7 +60,7 @@ implementation of many algorithms, including for example graph
 algorithms.
 
  \begin{subsection}
-
+\label{sec:motivation}
 \begin{gram}
 If we are interested in searching a static or unchanging collection of
 elements, then we can use a simpler data structure such as sequences.
@@ -173,9 +173,392 @@ shown an the right.
 We use this convention in future figures.
 \end{example}
 
+\begin{example}
+\label{ex:bst}
+An example binary search tree over the set of natural numbers
+$\{1,3,4,5,6,7,8,9\}$ is shown below.
+
+\begin{tabular}{ccc}
+\vspace*{0in}
+\begin{minipage}[t]{2.5in}
+\vspace*{0in}
+\includegraphics[width=2.5in]{/media/210/bsts/bst2.jpg}
+\end{minipage}
+%
+& \quad\quad\quad &
+%
+\vspace*{0in}
+\begin{minipage}[t]{2.5in}
+\vspace*{0in}
+\includegraphics[width=1.8in]{/media/210/bsts/bst3.jpg}
+\end{minipage}
+\end{tabular}
+On the left the $L$ and $R$ indicate the left (first) and right
+(second) child, respectively.  All internal nodes (white) have a key
+associated with them while the leaves (black) are empty.  The keys
+satisfy the BST property---for every node, the keys in the left
+subtree are less, and the ones in the right subtree are greater. 
+
+
+\smallskip 
+
+In the illustration on the left, the edges are oriented away from the
+root. They could have also been oriented towards the root.
+%
+When illustrating binary search trees, we usually replace the directed
+arcs with undirected edges, leaving the orientation to be implicit.
+%
+We also draw the left and right subtrees of a node on its left and
+right respectively.
+%
+Following this convention, we can draw the tree on the left above as
+shown an the right.
+%
+We use this convention in future figures.
+\end{example}
+
 \end{subsection}
 \end{section}
 
+\begin{section}[Sets and Relations]
+\label{sec:preliminaries_sets}
+
+This section presents a review of some basic definitions on sets and
+relations.
+
+\begin{subsection}[Sets]
+\begin{gram}
+A~\defn{set} is a collection of distinct objects.  The objects that
+are contained in a set, are called~\defn{members} or
+the~\defn{elements} of the set.  The elements of a set must be
+distinct: a set may not contain the same element more than once. The
+set that contains no elements is called the~\defn{empty set} and is
+denoted by $\{\}$ or $\emptyset$.
+\end{gram}
+
+\begin{gram}[Specification]
+Sets can be specified intentionally, by mathematically describing
+their members.
+%
+For example, the set of natural numbers, traditionally written as
+$\tynat$, can be specified~\defn{intentionally} as the set of all
+nonnegative integral numbers.
+%
+Sets can also be specified~\defn{extensionally} by listing their members.
+For example, the set $\tynat = \{0, 1, 2, \ldots\}.$
+%
+We say that an element $x$ is a {\em member of} $A$, written $x \in
+A$, if $x$ is in $A$.  
+%
+More generally, sets can be specified using~\defn{set comprehensions},
+which offer a compact and precise way to define sets by mixing
+intentional and extensional notation.
+\end{gram}
+
+\begin{definition}[Union and Intersection]
+For two sets $A$ and $B$, the~\defn{union} $A \cup B$ is defined as
+the set containing all the elements of $A$ and $B$.  Symmetrically,
+their~\defn{intersection}, $A \cap B$ is the defined as the set
+containing the elements that are member of both $A$ and $B$.
+% 
+We say that $A$ and $B$ are~\defn{disjoint} if their intersection is
+the empty set, i.e., $A \cap B = \emptyset$.
+%
+\end{definition}
+
+\begin{group}
+\begin{definition}[Cartesian Product]
+Consider two sets~$A$ and~$B$.  The~\defn{Cartesian product $A \times
+  B$} is the set of all ordered pairs $(a,b)$ where $a \in A$ and $b
+\in B$, i.e.,
+%
+\[
+A \times B = \cset{(a,b) : a \in A, b \in B}.
+\]
+\end{definition}
+
+\begin{example}
+\label{ex:prelim_cartesian}
+The Cartesian product of $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$ is
+\[
+\begin{array}{lll}
+A \times B = & \{ & (0,a),(0,b),(1,a),(1,b),
+\\
+             &    & (2,a),(2,b),(3,a),(3,b) 
+\\
+             & \}.
+\end{array}
+\]
+\end{example}
+\end{group}
+
+\begin{group}
+\begin{definition}[Set Partition]
+Given a set $A$, a partition of $A$ is a set $P$ of non-empty subsets
+of $A$ such that each element of $P$ is in exactly one subset in $P$.
+%
+We refer to each element of $P$ as a~\defn{block} or a~\defn{part} and
+the set $P$ as a~\defn{partition} of $A$.
+%
+More precisely, $P$ is a partition of $A$ if the following conditions
+hold:
+\begin{itemize}
+\item if $B \in P$, then $B \not= \emptyset$,
+\item if $A = \bigcup_{B \in P}{B}$, and
+\item if $B, C \in P$, then $B = C$ or $B \cap C = \emptyset$.
+\end{itemize}
+\end{definition}
+
+\begin{example}
+If $A = \{1, 2, 3, 4, 5, 6 \}$ then $P = \{ \{1,3,5\}, \{2, 4, 6\} \}$
+is a partition of $A$.  The set $\{1,3,5\}$ is a block.
+
+The set $Q = \{ \{1,3,5,6\}, \{2, 4, 6\} \}$ is a not partition of
+$A$, because the element $6$ is contained in any of the blocks.
+\end{example}
+\end{group}
+
+\begin{group}
+\begin{definition}[Kleene Operators]
+For any set $\Sigma$, its~\defn{Kleene star} $\Sigma^*$ is the set of
+all possible strings consisting of members of $\Sigma$, including the
+empty string.
+
+For any set $\Sigma$, its~\defn{Kleene plus} $\Sigma^+$ is the set of
+all possible strings consisting of members $\Sigma$, excluding the
+empty string.
+\end{definition}
+
+\begin{example}
+Given $\Sigma = \{\texttt{a},\texttt{b}\}$,
+\[
+\begin{array}{rl}
+\Sigma^* 
+%
+= 
+%
+\{
+&
+\str{}, 
+%
+\\
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+%
+\\
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+%
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}},
+\str{\texttt{abb}},
+\\
+& \str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, \str{\texttt{bbb}},
+\\
+%
+&
+\ldots
+\\
+\} &
+\end{array}
+\]
+%
+and
+%
+\[
+\begin{array}{rl}
+\Sigma^+ 
+%
+= 
+%
+\{
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+\\
+%
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+%
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}}, \str{\texttt{abb}}, 
+\\
+&
+\str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, 
+\str{\texttt{bbb}},
+\\
+%
+& \ldots
+\\
+\} & 
+\\
+\end{array}
+\]
+\end{example}
+\end{group}
+
+%% \begin{checkpoint}
+
+%% \begin{questionma}
+%% \points 10
+%% \prompt Which one of the following are well-defined sets? 
+%% \select[1]
+%% $\{1, 2, 3\}$
+%% \select[0]
+%% $\{1, 1, 2, 3\}$
+%% \select[1]
+%% Sets of all sets that are not members of themselves.
+%% \explain
+%% This set plays the key role in Russel's paradox.
+
+%% \select[1]
+%% $\{'i', 'am', 'new'\}$
+
+%% \select[1]
+%% $\{'i', 'am', 'also', 'new'\}$
+%% \end{questionma}
+
+%% %% \begin{questionma}
+%% %% \points 10
+%% %% \prompt Which one of the following are well-defined sets? 
+%% %% \select*
+%% %% $\{1, 2, 3\}$
+%% %% \select[0]
+%% %% $\{1, 1, 2, 3\}$
+%% %% \select*
+%% %% Sets of all sets that are not members of themselves.
+%% %% \explain
+%% %% This is called Russel's paradox.
+
+%% %% \end{questionma}
+
+%% % This is an example of free-answer quesition with 
+%% % simple or flat answers
+%% \begin{questionfr}
+%% \points 10
+%% \prompt Let $A$ be a set of natural numbers of size $n$.  How many
+%% unique numbers are there in $A$. 
+%% \hint Definition of sets.
+
+%% \answer[10] A sets consists of unique elements.  Thus there are exactly
+%% $n$ numbers.
+
+%% \end{questionfr}
+
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt Prove that $A \cap (B \cup C) = (A \cap B) \cup (A \cap C)$
+%% \begin{answer}[10]
+%% Let $x$ be an element on the left side, then we know that $x \in A$
+%% and that $x \in B$ or $x \in C$.  This means that $x$ is a member of
+%% one of the two sets being unioned on the right. 
+
+%% Conversely, let $x$ be an element on the right hand side, then we know
+%% that $x \in A$ and $x \in B$ or $x \in C$.  In either case $x \in A
+%% \cap (B \cup C)$.
+%% \end{answer}
+%% \begin{answer}[10]
+%% This is one of the two distributive laws of sets: which are
+%% \begin{eqnarray}
+%% A \cap (B \cup C) & = (A \cap B) \cup (A \cap C)
+%% \\
+%% A \cup (B \cap C) & = (A \cup B) \cap (A \cup C)
+%% \end{eqnarray}
+%% \end{answer}
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt List all the partitions of the set $\{1, 2, 3 \}$.
+%% \answer
+%% \end{questionfr}
+
+%% \end{checkpoint}
+
+
+\end{subsection}
+
+\begin{subsection}[Relations]
+\label{subsection:preliminaries_relations}
+
+
+\begin{definition}[Relation]
+A~\defn{(binary)~\defn{relation} from a set~$A$ to set~$B$} is a
+subset of the Cartesian product of~$A$ and~$B$.  
+%
+For a relation~$R \subseteq A \times B$, 
+\begin{itemize}
+\item the set~$\cset{a : (a,b) \in
+  R}$ is referred to as the~\defn{domain} of $R$, and 
+\item 
+the set~$\cset{b
+  : (a,b) \in R}$ is referred to as the~\defn{range} of $R$.
+\end{itemize} 
+\end{definition}
+
+
+\begin{definition}[Function]
+A~\defn{mapping from $A$ to $B$} is a relation $R \subset A \times B$
+such that $|R| = |\mbox{domain}(R)|$, i.e., for every $a$ in the
+domain of $R$ there is only one $b$ such that $(a,b) \in R$.  A
+mapping is also called a~\defn{function}.
+\end{definition}
+
+
+\begin{example}
+\label{ex:prelim_sequencesdef}
+Consider the sets $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$.
+
+The set:
+\[X = \cset{(0,a),(0,b),(1,b),(3,a)}\]
+is a relation from $A$ to $B$ since $X \subset A \times B$, but not a mapping (function) since $0$
+is repeated.   
+
+The set
+\[Y = \cset{(0,a),(1,b),(3,a)}\]
+is both a relation and a function from $A$ to $B$ since each element
+only appears once on the left.  
+
+The domain of $Y$ is $\cset{0,1,3}$ and the range is $\cset{a,b}$.  It
+is, however, not a sequence since there is a gap in the domain.
+
+\end{example}
+
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt 
+%% How many functions are there from from the set $\{1, 2, 3\}$ to $\{a, b\}$.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt 
+%% How many relations are there from from the set $\{1, 2, 3\}$ to $\{a, b\}$.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt 
+%% Let $f(\cdot): A \ra B$, i.e., $f(\cdot)$ is a function from the set
+%% $A$ to $B$.  We can define the inverse function, typically written
+%% $f^{-1} (\cdot)$ as a function from $B$ to $A$ such that $f^{-1}(f(x))
+%% = x$ for all $x \in A$.  Does such the inverse of a function always
+%% exist?  Prove or disprove.
+%% \answer
+%% \end{questionfr}
+
+
+%% \end{checkpoint}
+
+\end{subsection}
+\end{section}
 
 \end{chapter}
 
