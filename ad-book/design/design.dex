@@ -1,48 +1,6 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{5}
-\providessection{1}
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental conceopts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues. 
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
-
 \begin{chapter}[Algorithm Design Techniques]
 \label{ch:design}
 
-\picture{./media/new-york-with-moon.jpg}
 
 One of the most difficult and probably most important tasks for any
 practitioner of computer-science is designing their own algorithms.
@@ -361,19 +319,19 @@ be useful.
 \end{itemize}
 \end{remark}
 
-\begin{checkpoint}
+%% \begin{checkpoint}
 
-\begin{questionfr}
-\points 10
+%% \begin{questionfr}
+%% \points 10
 
-\prompt
-Describe a brute-force algorithm for deciding whether an integer $n$
-is composite (not prime).   
+%% \prompt
+%% Describe a brute-force algorithm for deciding whether an integer $n$
+%% is composite (not prime).   
 
-\answer
+%% \answer
 
-\end{questionfr}
-\end{checkpoint}
+%% \end{questionfr}
+%% \end{checkpoint}
 \end{unit}
 \end{section}
 
@@ -1625,30 +1583,30 @@ S(n) &=  O(\log{n}).
 \end{align*}
 \end{gram}
 
-\begin{checkpoint}
+%% \begin{checkpoint}
 
-\begin{questionfr}[Ranking sequences]
-\points 10
-\prompt
+%% \begin{questionfr}[Ranking sequences]
+%% \points 10
+%% \prompt
 
-  Given a sequence of $n$ natural numbers and and a rank $r < n$, you
-  want to find the element of the sequence with the given rank. For
-  example if the input is $\cseq{1,3,2,4}$ and you are asked to find
-  the element with rank $0$ then the answer is $1$ because $1$ is the
-  element with rank $0$, i.e., the smallest element.
+%%   Given a sequence of $n$ natural numbers and and a rank $r < n$, you
+%%   want to find the element of the sequence with the given rank. For
+%%   example if the input is $\cseq{1,3,2,4}$ and you are asked to find
+%%   the element with rank $0$ then the answer is $1$ because $1$ is the
+%%   element with rank $0$, i.e., the smallest element.
 
-\begin{itemize}
-\item Using the contraction technique, design an algorithm for finding
-  the element of the sequence with a given rank.
+%% \begin{itemize}
+%% \item Using the contraction technique, design an algorithm for finding
+%%   the element of the sequence with a given rank.
 
-\item Analyze the worst-case work and span of your algorithm.
+%% \item Analyze the worst-case work and span of your algorithm.
 
-\item Analyze the best-case work and span of your algorithm.
-\end{itemize}
-\answer
-\end{questionfr}
+%% \item Analyze the best-case work and span of your algorithm.
+%% \end{itemize}
+%% \answer
+%% \end{questionfr}
 
-\end{checkpoint}
+%% \end{checkpoint}
 
 \end{unit}
 \end{section}
@@ -1785,7 +1743,7 @@ other.
 \end{unit}
 \end{section}
 \end{chapter}
-\end{book}
+
 
 
 %% \clearpage

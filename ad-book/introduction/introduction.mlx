@@ -1027,12 +1027,12 @@ ideal machine.
 </block></block><block name="subsubsection"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><block name="group"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><atom name="example">
 <field name="title">
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Parallel Merge Sort
 ]]>
 </field> 
 <field name="title_src">
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Parallel Merge Sort
 ]]>
 </field> 
 <field name="label">
