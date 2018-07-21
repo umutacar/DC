@@ -50,14 +50,6 @@ def process_block_begin (this_block, toks):
 def process_block_end (this_block, toks):
   return toks
 
-def process_book(process_label, toks): 
-  print "book matched:"
-#  print "toks:", toks
-
-  book = blocks.Book(toks)
-  r = book.to_mlx_string()
-  return r
-
 def process_chapter(process_label, toks): 
   print "chapter_matched:"
 #  print "toks:", toks
@@ -65,19 +57,6 @@ def process_chapter(process_label, toks):
   chapter = blocks.Chapter(toks)
   r = chapter.to_mlx_string()
   return r
-
-def process_course(process_label, toks): 
-  print "course matched:"
-#  print "toks:", toks
-
-  course = blocks.Course(toks)
-  print "course number:", course.number
-
-# TODO
-#  blocks.init_latex2html(course.number)
-
-#  r = course.to_mlx_string()
-  return course
 
 def process_group (toks): 
   print 'group matched:'
@@ -246,9 +225,7 @@ def process_algo (toks):
 
 def parse (process_algo, \
            process_atom, \
-           process_book, \
            process_chapter, \
-           process_course, \
            process_group, \
            process_problem_fr, \
            process_problem_ma, \
@@ -301,9 +278,7 @@ def parse (process_algo, \
              process_answer, \
              process_choice, \
              process_select, \
-             process_book, \
              process_chapter, \
-             process_course, \
              process_group, \
              process_problem_fr, \
              process_problem_ma, \
@@ -358,9 +333,7 @@ def main(argv):
   result = parse (
              process_algo, \
              process_atom, \
-             process_book, \
              process_chapter, \
-             process_course, \
              process_group, \
              process_problem_fr, \
              process_problem_ma, \

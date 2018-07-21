@@ -341,37 +341,6 @@ def mk_mlx_titles (index, title):
 ######################################################################
 ## BEGIN: string converters
 
-## Books
-class Book:
-  def __init__(self, toks):
-    self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common(toks)
-    self.authors = tokens.get_authors(toks)
-    self.contents = tokens.get_contents(toks)
-#    print 'book.contents = ', self.contents
-
-  def mk_label (self):
-    return self.label
-
-  def to_string (self): 
-    contents = self.contents.strip ()
-    result = dex.mk_str_begin(dex.BOOK) + NEWLINE + \
-             dex.mk_str_title(self.title) + NEWLINE + \
-             dex.mk_str_label(self.label)  + NEWLINE + \
-             dex.mk_str_parents (self.parents) + NEWLINE + \
-             dex.mk_str_authors(self.authors) + NEWLINE +  NEWLINE + \
-             contents + NEWLINE + \
-             dex.mk_str_end(dex.BOOK)
-    return result
-  
-  def to_mlx_string (self):
-    authors = mlx.mk_str_authors(self.authors)
-    fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([authors, self.contents])
-    r = mlx.mk_str_book(fields)
-#    print 'book.to_mlx_string:', r
-    return NEWLINE + r
-
 ## Chapters
 class Chapter:
   def __init__(self, toks):
@@ -398,78 +367,6 @@ class Chapter:
 
     r = mlx.mk_str_chapter(fields)
     return NEWLINE + r
-
-## Course
-class Course:
-  def __init__(self, toks):
-    self.index = new_index ()
-    (self.title, self.label, self.parents) = extract_common (toks)
-    self.picture = tokens.get_picture(toks)
-    self.provides_book = tokens.get_provides_book(toks)
-    self.provides_chapter = tokens.get_provides_chapter(toks)
-    self.provides_section = tokens.get_provides_section(toks)
-    self.provides_subsection = tokens.get_provides_subsection(toks)
-    self.provides_assignment = tokens.get_provides_assignment(toks)
-    # intro
-    self.intro = tokens.get_joker(toks)
-    self.intro = self.intro.strip()
-
-    self.number = tokens.get_course_number(toks)
-    self.semester = tokens.get_semester(toks)
-    self.website = tokens.get_website(toks)
-  
-    # self.book is None by default
-    self.book = None
-
-    # Set course no to be its number    
-    self.no = self.number
-
-  def to_string (self): 
-    # in DEX, book is not part of a course.
-#
-# Books don't have labels and parents
-#             dex.mk_str_label(self.label)  + NEWLINE + \
-#             dex.mk_str_parents (self.parents) + NEWLINE + NEWLINE + \
-
-    result = NEWLINE + \
-             dex.mk_str_document_class() + NEWLINE + \
-             dex.mk_str_title(self.title) + NEWLINE + \
-             dex.mk_str_course_number(self.number)  + NEWLINE + \
-             dex.mk_str_picture(self.picture)  + NEWLINE + \
-             dex.mk_str_provides_book(self.provides_book)  + NEWLINE + \
-             dex.mk_str_provides_chapter(self.provides_chapter)  + NEWLINE + \
-             dex.mk_str_provides_section(self.provides_section)  + NEWLINE + \
-             dex.mk_str_provides_subsection(self.provides_subsection)  + NEWLINE + \
-             dex.mk_str_provides_assignment(self.provides_assignment) + NEWLINE + \
-             dex.mk_str_semester(self.semester)  + NEWLINE + \
-             dex.mk_str_website(self.website)    + NEWLINE + \
-             self.intro
-
-    return result
-
-   ## INVARIANT requires self.book to be set
-  def to_mlx_string (self):
-    # TODO raise exception here
-    if self.book == None:
-      print 'Fatal Error.  Book must be set.'
-
-    course_number = mlx.mk_str_course_number(self.number)
-    picture = mlx.mk_str_picture(self.picture)
-    semester = mlx.mk_str_semester(self.semester)
-    website = mlx.mk_str_website(self.website)
-    provides_book = mlx.mk_str_provides_book(self.provides_book)
-    provides_chapter = mlx.mk_str_provides_chapter(self.provides_chapter)
-    provides_section = mlx.mk_str_provides_section(self.provides_section)
-    provides_subsection = mlx.mk_str_provides_subsection(self.provides_subsection)
-    provides_assignment = mlx.mk_str_provides_assignment(self.provides_assignment)
-    (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
-    fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([course_number, picture, semester, website, \
-                   provides_book, provides_chapter, provides_section, provides_subsection, provides_assignment, \
-                   intro_html, intro_src, self.book])
-    r = mlx.mk_str_course(fields)
-#    print 'blocks.course: course:', r
-    return NEWLINE + r  + NEWLINE
 
 ## Group
 class Group:
@@ -1153,12 +1050,6 @@ def atom_to_string(name, toks):
   print '        matched atom', name, '[', block.title, '].'
   return block.to_string()
 
-def book_to_string(toks): 
-  # Book is wrapped in a group, so unwray
-  block = Book(toks)
-  print 'matched book', '[', block.title, '].'
-  return block.to_string()
-
 def chapter_to_string(toks): 
   print 'matched chapter.'
   block = Chapter(toks)
@@ -1168,11 +1059,6 @@ def chapter_to_string(toks):
 def choice_to_string(toks): 
   print '          matched choice.'
   block = Choice(toks)
-  return block.to_string()
-
-def course_to_string(toks): 
-  print 'matched course.'
-  block = Course(toks)
   return block.to_string()
 
 def group_to_string(toks): 

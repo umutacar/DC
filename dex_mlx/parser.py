@@ -151,12 +151,10 @@ parser_math_block = kw_dollar + pp.Word(pp.printables) + kw_dollar
 
 # inline answer, using "ans" throughout to distinguish
 com_answer = pp.Literal(dex.COM_ANSWER)
-com_authors = pp.Literal(dex.COM_AUTHORS).suppress()
 com_body = pp.Literal(dex.COM_BODY)
 # begin is used in pp.Skip so cannot bu suppresed it seems
 com_begin = pp.Literal(COM_BEGIN)
 com_course = pp.Literal(dex.COM_COURSE).suppress()
-com_course_number = pp.Literal(dex.COM_COURSE_NUMBER).suppress()
 com_duedate = pp.Literal(dex.COM_DUEDATE).suppress()
 com_document_class = pp.Literal(dex.COM_DOCUMENT_CLASS)
 com_end = pp.Literal(COM_END)
@@ -166,25 +164,16 @@ com_hint = pp.Literal(dex.COM_HINT)
 com_instance = pp.Literal(dex.COM_INSTANCE)
 com_label = pp.Literal(dex.COM_LABEL)
 com_parents = pp.Literal(dex.COM_PARENTS).suppress()
-com_picture = pp.Literal(dex.COM_PICTURE).suppress()
 #  Used in pp.Skip, so this probably can't be suppressed 
 com_points = pp.Literal(dex.COM_POINTS)
 #  Used in pp.Skip, so this probably can't be suppressed 
 com_prompt = pp.Literal(dex.COM_PROMPT)
 com_info = pp.Literal(dex.COM_INFO)
-com_provides_book = pp.Literal(dex.COM_PROVIDES_BOOK).suppress()
-com_provides_chapter = pp.Literal(dex.COM_PROVIDES_CHAPTER).suppress()
-com_provides_assignment = pp.Literal(dex.COM_PROVIDES_ASSIGNMENT).suppress()
-com_provides_section = pp.Literal(dex.COM_PROVIDES_SECTION).suppress()
-com_provides_subsection = pp.Literal(dex.COM_PROVIDES_SUBSECTION).suppress()
-com_semester = pp.Literal(dex.COM_SEMESTER).suppress()
 #com_solution = pp.Literal(dex.COM_SOLUTION)
 com_title = pp.Literal(dex.COM_TITLE)
 com_topics = pp.Literal(dex.COM_TOPICS)
-com_website = pp.Literal(dex.COM_WEBSITE).suppress()
 com_begin_problemfr = pp.Literal(mk_str_begin(dex.PROBLEM_FR))
 com_begin_problemmc = pp.Literal(mk_str_begin(dex.PROBLEM_MC))
-
 
 
 # These have to be keywords because otherwise
@@ -268,65 +257,6 @@ class Parser:
     block = tokens.set_key_body(block)
 #    block.setDebug()
     return block
-
-  def mk_parser_picture(self):
-    # picture
-    picture = com_picture + mk_parser_arg(exp_phrase_gram_latex)
-    picture = tokens.set_key_picture(picture)
-#    picture.setDebug()
-    return picture
-
-  def mk_parser_provides_book(self):
-    # picture
-    provides = com_provides_book + mk_parser_arg(exp_number)
-    provides = com_provides_book + mk_parser_arg(exp_phrase_gram_latex)
-    provides = tokens.set_key_provides_book(provides)
-#    picture.setDebug()
-    return provides
-
-  def mk_parser_provides_chapter(self):
-    # picture
-    provides = com_provides_chapter + mk_parser_arg(exp_number)
-    provides = pp.Optional(com_provides_chapter + mk_parser_arg(exp_number))
-    provides = tokens.set_key_provides_chapter(provides)
-#    picture.setDebug()
-    return provides
-
-  def mk_parser_provides_section(self):
-    # picture
-    provides = com_provides_section + mk_parser_arg(exp_number)
-    provides = pp.Optional(com_provides_section + mk_parser_arg(exp_number))
-    provides = tokens.set_key_provides_section(provides)
-#    picture.setDebug()
-    return provides
-
-  def mk_parser_provides_subsection(self):
-    # picture
-    provides = com_provides_subsection + mk_parser_arg(exp_number)
-    provides = pp.Optional(com_provides_subsection + mk_parser_arg(exp_number))
-    provides = tokens.set_key_provides_subsection(provides)
-#    picture.setDebug()
-    return provides
-
-  def mk_parser_provides_assignment(self):
-    provides = com_provides_assignment + mk_parser_arg(exp_number)
-    provides = pp.Optional(com_provides_assignment + mk_parser_arg(exp_number))
-    provides = tokens.set_key_provides_assignment(provides)
-    return provides
-
-  def mk_parser_semester(self):
-    # semester
-    semester = com_semester + mk_parser_arg(exp_phrase_latex)
-    semester = tokens.set_key_semester(semester)
-#    semester.setDebug()
-    return semester
-
-  def mk_parser_website(self):
-    # website
-    website = com_website + mk_parser_arg(exp_phrase_latex)
-    website = tokens.set_key_website(website)
-#    website.setDebug()
-    return website
 
   def mk_parser_lp (self): 
     label = pp.Optional(exp_label)
@@ -454,109 +384,6 @@ class Parser:
 
     return (begin, end, course, instance,  label, folder, points,  prompt, title, topics)
     
-  
-  # Parser for course
-  def mk_parser_course (self):
-    document_class = com_document_class
-
-    # Make it a group to provide uniform access with optional titles
-    title_latex = tokens.set_key_title(pp.Group(exp_title_latex))
-    title = com_title + mk_parser_arg(title_latex)
-
-    (label, parents) = self.mk_parser_lp()
- 
-    # course number
-    number = tokens.set_key_course_number(exp_number)
-#    arg_course_number_curly = mk_parser_arg(dash_separated_number)
-    arg_course_number_curly = mk_parser_arg(number)
-    course_number = com_course_number + arg_course_number_curly
-
-    about = self.mk_parser_text_block(com_begin)
-    about = pp.Optional(about)
-    about = set_text_block_parse_action_single(about)
-    about = tokens.set_key_joker(about)
-#    about.setDebug()
-
-    picture = self.mk_parser_picture ()
-    pb = self.mk_parser_provides_book ()
-    pc = self.mk_parser_provides_chapter ()
-    ps = self.mk_parser_provides_section ()
-    pu = self.mk_parser_provides_subsection ()
-    pa = self.mk_parser_provides_assignment ()
-
-    semester = self.mk_parser_semester ()
-    website = self.mk_parser_website ()
-
-    ## IMPORTANT: book is not nested inside of a course  
-    ## This enables matching a course before a book.
-    ## This makes it possible to set things like labels
-    ## more effectively during elaboration.
-    ##
-    contents =  tokens.set_key_contents(self.exp_book)
-
-    if self.course_label_on: 
-      course =  document_class + \
-                title + \
-                (label & parents) + \
-                (course_number & \
-                 picture & \
-                 pb & pc & ps & pu & pa & \
-                 semester & \
-                 website) + \
-                 about 
-
-    else: 
-      course =  document_class + \
-                title + \
-                (parents) + \
-                (course_number & \
-                 picture & \
-                 pb & pc & ps & pu & pa & \
-                 semester & \
-                 website) + \
-                 about 
-
-    course.setParseAction(self.process_course)
-    return course
-
-  # Parser for book
-  def mk_parser_book (self):
-    book_begin = mk_parser_begin(dex.BOOK)
-    book_begin = book_begin.setParseAction(curry(self.process_block_begin,Block.BOOK))
-
-    book_end = mk_parser_end(dex.BOOK)
-    book_end = book_end.setParseAction(curry(self.process_block_end,Block.BOOK))
-
-    # Make it a group to provide uniform access with optional titles
-    title_latex = tokens.set_key_title(pp.Group(exp_title_latex))
-#    title_latex = tokens.set_key_title(exp_title_latex)
-    title = com_title + mk_parser_arg(title_latex)
-
-    (label, parents) = self.mk_parser_lp()
-#    label.setDebug()
-#    no.setDebug()
-#    parents.setDebug()
-
-
-    exp_authors_keyed = tokens.set_key_authors(exp_authors)
-    authors = com_authors + mk_parser_arg(exp_authors_keyed)
-
-    contents = tokens.set_key_contents(self.exp_chapters)
-
-    # Wrap it inside a group so that the 
-    # course can assign a contents key it without updating the book contents
-    book = book_begin + \
-           title + \
-           (label & parents) + \
-           authors + \
-           contents + \
-           book_end
-
-    book = tokens.set_key_chapter(book)
-
-    book.setParseAction(self.process_book)
-    return book
-
   # Parser for problem_sets
   def mk_parser_problem_set (self):
     (begin, end, course, instance, label, folder, points,  prompt, title, topics) = self.mk_parsers_common_pset (dex.PROBLEM_SET, Block.PROBLEM_SET)
@@ -580,11 +407,13 @@ class Parser:
     problem_set.setParseAction(self.process_problem_set)
 #    problem_set.setDebug()
     return problem_set
-  
 
   # Parser for chapter
   def mk_parser_chapter (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
+    (begin, end, title, _, parents) = self.mk_parsers_common (dex.CHAPTER, Block.CHAPTER)
+
+    label = exp_label
+    label = tokens.set_key_label(label)
 
     begin_section = mk_parser_begin(dex.SECTION)
     # intro is the part up to the first section
@@ -1165,9 +994,7 @@ class Parser:
                process_answer, \
                process_choice, \
                process_select, \
-               process_book, \
                process_chapter, \
-               process_course, \
                process_group, \
                process_problem_fr, \
                process_problem_ma, \
@@ -1215,8 +1042,6 @@ class Parser:
     self.process_atom_teach_ask = process_atom_teach_ask
     self.process_atom_teach_note = process_atom_teach_note
 
-    self.process_book = process_book
-    self.process_course = process_course
     self.process_group = process_group
     self.process_chapter = process_chapter
     self.process_problem_fr = process_problem_fr
@@ -1370,18 +1195,6 @@ class Parser:
     #self.exp_chapter.setDebug()
     self.exp_chapters = self.mk_blocks (self.exp_chapter, 'exp_chapter') 
 
-    # # dex book
-    # self.exp_book = self.mk_parser_book()
-
-    # # dex course
-    # self.exp_course = self.mk_parser_course()
-
-    # # document 
-    # # IMPORTANT: book is not nested inside a course
-    # # See book parser for details.
-
-    # self.document = self.exp_course + self.exp_book + kw_string_end | self.exp_pset + kw_string_end
-
     self.document = self.exp_chapter + kw_string_end | self.exp_pset + kw_string_end
 
 
@@ -1408,9 +1221,8 @@ def mk_uniform_parser (\
                        process_answer, \
                        process_choice, \
                        process_select, \
-                       process_book, \
                        process_chapter, \
-                       process_course, process_group, \
+                       process_group, \
                        process_problem_fr, \
                        process_problem_ma, \
                        process_problem_mc, \
@@ -1454,9 +1266,7 @@ def mk_uniform_parser (\
                         process_answer, \
                         process_choice, \
                         process_select, \
-                        process_book, \
                         process_chapter, \
-                        process_course, \
                         process_group, \
                         process_problem_fr, \
                         process_problem_ma, \
@@ -1486,8 +1296,8 @@ def parse (parents_optional, titles_optional, \
            process_answer, \
            process_choice, \
            process_select, \
-           process_book,  \
-           process_chapter, process_course, process_group, \
+           process_chapter, \
+           process_group, \
            process_problem_fr, process_problem_ma, process_problem_mc, \
            process_problem_group, \
            process_problem_set, \
@@ -1506,9 +1316,7 @@ def parse (parents_optional, titles_optional, \
                              process_answer, \
                              process_choice, \
                              process_select, \
-                             process_book, \
                              process_chapter, \
-                             process_course, \
                              process_group, \
                              process_problem_fr, \
                              process_problem_ma, \
@@ -1627,9 +1435,7 @@ def main(argv):
              blocks.answer_to_string, \
              blocks.choice_to_string, \
              blocks.select_to_string, \
-             blocks.book_to_string, \
              blocks.chapter_to_string, \
-             blocks.course_to_string, \
              blocks.group_to_string, \
              blocks.problem_fr_to_string, \
              blocks.problem_ma_to_string, \
