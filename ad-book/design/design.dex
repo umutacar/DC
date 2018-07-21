@@ -19,7 +19,7 @@ algorithm.
 %
 
 \begin{section}[Reduction]
-\begin{unit}[Reduction]
+\begin{subsection}[Reduction]
 \begin{gram}
 Sometimes the easiest approach to solving a problem is to reduce it to
 another problem for which known algorithms exist. More precisely, to
@@ -87,13 +87,9 @@ Reduction is a powerful technique and can allow us to solve a problem
 by reducing it to another problem, which might appear very different
 or even unrelated.
 %
-%% In
-%% \chref{genome}, for example, we reduce a problem on strings of
-%% characters to one on graphs.
-%% %
 For example, we might be able to reduce a problem on strings such as
 that of finding the shortest superstring of a set of strings to a
-graph problem.
+graph problem (e.g, \chref{genome}.
 %
 
 Reduction technique can also be used ``in the other direction'' to
@@ -106,12 +102,12 @@ In particular, if we know (or conjecture) that problem $A$ is hard
 hard.  Indeed the theory of NP-complete problems is based on this
 idea.
 \end{remark}
-\end{unit}
+\end{subsection}
 \end{section}
 
 
 \begin{section}[Brute Force] 
-\begin{unit}[Brute Force] 
+\begin{subsection}[Brute Force] 
 
 \begin{gram}
 The brute-force technique involves enumerating all possible solutions,
@@ -332,7 +328,7 @@ be useful.
 
 %% \end{questionfr}
 %% \end{checkpoint}
-\end{unit}
+\end{subsection}
 \end{section}
 
 
@@ -346,7 +342,7 @@ strengthening, that allows us to apply divide-and-conquer to a wider
 variety of problems.
 
 
-\begin{unit}[Divide and Conquer]
+\begin{subsection}[Divide and Conquer]
 
 \begin{gram}
 Divide and conquer is one of the most important algorithm-design
@@ -555,9 +551,9 @@ follows.
 \end{array} 
 \]
 \end{algorithm}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Merge Sort]
+\begin{subsection}[Merge Sort]
 
 \begin{gram}
 In this section, we consider the comparison sorting problem and the
@@ -676,9 +672,9 @@ We will study quick sort in greater detail.
 %
 %\ref{}
 \end{remark}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Sequence Scan]
+\begin{subsection}[Sequence Scan]
 
 \begin{gram}[Intuition for Scan with Divide and Conquer]
 To develop some intuition on how to we can design a divide-and-conquer
@@ -773,9 +769,9 @@ S(n) & = & S(n/2) + O(1) & \in & O(\log n).
 Although this is much better than $O(n^2)$ work, we can do better by
 using another design technique called contraction.
 \end{gram}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Euclidean Traveling Salesperson Problem]
+\begin{subsection}[Euclidean Traveling Salesperson Problem]
 
 \begin{gram}
 We now turn to another example of divide and conquer. In this example,
@@ -821,10 +817,9 @@ length at most $(1+\varepsilon)$ times the length of the best tour.
 \end{gram}
 
 \begin{note}
-% ref{genome}
-In this course, we cover another approximation algorithm for a metric
-variant of TSP that is based on Minimum Spanning Trees (MST).  That
-approximation algorithm gives a constant-approximation guarantee.
+In \chref{genome}, we cover another approximation algorithm for a
+metric variant of TSP that is based on Minimum Spanning Trees (MST).
+That approximation algorithm gives a constant-approximation guarantee.
 \end{note}
 
 \begin{gram}[Intuition for a Divide and Conquer Algorithm for eTSP]
@@ -1052,9 +1047,9 @@ matched.  This is because there can be an unmatched open parenthesis
 on one side that matches a close parenthesis on the other.
 \end{teachnote}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Divide and Conquer with Reduce]
+\begin{subsection}[Divide and Conquer with Reduce]
 
 \begin{gram}
 Many divide-and-conquer algorithms have the following structure, where
@@ -1114,7 +1109,7 @@ It also does not work for divide-and-conquer algorithms that split
 more than two ways, or make more than two recursive calls.
 \end{important}
 
-\end{unit}
+\end{subsection}
 \end{section}
 
 
@@ -1126,7 +1121,7 @@ and applies it to several problems.
 %
 
 
-\begin{unit}[Contraction]
+\begin{subsection}[Contraction]
 
 
 \begin{gram}
@@ -1372,9 +1367,9 @@ S(n) = S(n/2) + 1.
 \]
 This recurrence solves tot $O(\log{n})$.
 \end{gram}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Scan with Contraction]
+\begin{subsection}[Scan with Contraction]
 
 \begin{gram}
 We describe how to implement the $\cd{scan}$ sequence primitive
@@ -1608,11 +1603,11 @@ S(n) &=  O(\log{n}).
 
 %% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 \end{section}
 
 \begin{section}[Dynamic Programming]
-\begin{unit}[Dynamic Programming]
+\begin{subsection}[Dynamic Programming]
 \begin{gram}[Dynamic Programming]
  Like divide and conquer, dynamic programming divides the problem into
  smaller subproblems, solves the subproblems, and combines the
@@ -1621,13 +1616,13 @@ S(n) &=  O(\log{n}).
  becomes important to store the solutions in a data structure that
  facilitates quick re-use as needed. 
 \end{gram}
-\end{unit}
+\end{subsection}
 
 \end{section}
 
 \begin{section}[Other Techniques]
 
-\begin{unit}[Greedy]
+\begin{subsection}[Greedy]
 \begin{gram}[Greedy]
  For a problem on size $n$ use
   some approach to find the ``best'' element by some greedy metric,
@@ -1639,10 +1634,10 @@ S(n) &=  O(\log{n}).
 %    Give a set of elements, on each step remove at least one element by making
 %    a locally optimal decision based on some criteria.
 % \end{definition}
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Randomization]
+\begin{subsection}[Randomization]
 
 
 \begin{gram}
@@ -1699,10 +1694,10 @@ $S(n) = \Theta(\lg^2{n})$.
 The assumption we made about pivot dividing the sequence into two
 equal halves in unrealistic. 
 %
-%As discussed  in \chref{randomization}, 
 We can analyze the
 ``expected work'' and ``expected span'' of randomized algorithm more
-precisely by using probabilistic analysis techniques.
+precisely by using probabilistic analysis techniques later in
+\chref{randomization}. 
 %
 \end{example}
 
@@ -1740,7 +1735,7 @@ apparent, as we attempt to get past each other but make the same
 decisions, the symmetry is eventually broken---or we run into each
 other.
 \end{example}
-\end{unit}
+\end{subsection}
 \end{section}
 \end{chapter}
 

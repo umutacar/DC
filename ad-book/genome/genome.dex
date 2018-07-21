@@ -1,44 +1,3 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{7}
-\providessection{1}
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental conceopts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues. 
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
-
 \begin{chapter}[Genome Sequencing]
 \label{ch:genome}
 
@@ -90,7 +49,7 @@ genome.
 This section reviews some basic terminology behind genomes and the
 genome sequencing problem.
 
-\begin{unit}[Basic Definitions]
+\begin{subsection}[Basic Definitions]
 
 \begin{definition}[Nucleotide]
 A nucleotide is the basic building block of nucleic acid polymers such
@@ -143,27 +102,27 @@ bodies and its deeper understanding will likely lead to insights into
 the nature of life.
 \end{remark}
 
-\begin{checkpoint}
-\begin{questionfr}
-\points 10
-\prompt What is the difference between a nucleoite and a nucleic acid?
-\answer 
-% A nucleic acid consists of many necleoutides.
-\end{questionfr}
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt What is the difference between a nucleoite and a nucleic acid?
+%% \answer 
+%% % A nucleic acid consists of many necleoutides.
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt How long is the human genome?
-\answer Human genome consist of over 3 Billion base pairs.
-\explain
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt How long is the human genome?
+%% \answer Human genome consist of over 3 Billion base pairs.
+%% \explain
+%% \end{questionfr}
 
 
-\end{checkpoint}
+%% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Sequencing Methods]
+\begin{subsection}[Sequencing Methods]
 
 
 \begin{teachask}
@@ -325,57 +284,57 @@ to know if repeated fragments are actual repetitions in the sequence
 or if they are a product of the method itself.
 %
 \end{remark}
-\begin{checkpoint}
+%% \begin{checkpoint}
 
-\begin{questionfr}
-\points 10
-\prompt
- How large are the nucleic acids that can be ``read'' easily in
-a lab today?
-\answer
-It is possible to read molecules up to 1000 nucleotides.
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
- How large are the nucleic acids that can be ``read'' easily in
-a lab today?
-\answer
-It is possible to read molecules up to 1000 nucleotides.
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt How does the primer walking technique work? 
-\answer It works by sequencing a molecule in small chunks by starting
-with a primer molecule that can be used to start reading the chunk. To
-start the process, primers can be constructed.  Once the process
-starts it can be iterated because the last chunk serves as a primer
-for the next.
-\explain
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt Is primer walking parallel?
-\answer The technique is sequential because it requires a primer.
-\explain
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt How does the shotgun method differ from primer walking?
-\answer The difference is that in the shotgun method, we make copies
-of the original molecule.  This allows us to assemble the results from
-independent readings together.
-\explain
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%%  How large are the nucleic acids that can be ``read'' easily in
+%% a lab today?
+%% \answer
+%% It is possible to read molecules up to 1000 nucleotides.
+%% \end{questionfr}
 
 
-\end{checkpoint}
-\end{unit}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%%  How large are the nucleic acids that can be ``read'' easily in
+%% a lab today?
+%% \answer
+%% It is possible to read molecules up to 1000 nucleotides.
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt How does the primer walking technique work? 
+%% \answer It works by sequencing a molecule in small chunks by starting
+%% with a primer molecule that can be used to start reading the chunk. To
+%% start the process, primers can be constructed.  Once the process
+%% starts it can be iterated because the last chunk serves as a primer
+%% for the next.
+%% \explain
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt Is primer walking parallel?
+%% \answer The technique is sequential because it requires a primer.
+%% \explain
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt How does the shotgun method differ from primer walking?
+%% \answer The difference is that in the shotgun method, we make copies
+%% of the original molecule.  This allows us to assemble the results from
+%% independent readings together.
+%% \explain
+%% \end{questionfr}
+
+
+%% \end{checkpoint}
+\end{subsection}
 \end{section}
 
 \begin{section}[Genome Sequencing Problem]
@@ -383,7 +342,7 @@ independent readings together.
 This section formulates the genome sequencing problem as an
 algorithmic problem.
 
-\begin{unit}[Defining the Problem]
+\begin{subsection}[Defining the Problem]
 
 \begin{gram}
 Recall that the using the Shotgun Method, we can construct and sequence
@@ -624,39 +583,39 @@ account.
 Fortunately, the basic approach described here can be generalized to
 deal with these issues.
 \end{remark}
-\begin{checkpoint}
+%% \begin{checkpoint}
 
 
-\begin{questionfr}
-\points 10
+%% \begin{questionfr}
+%% \points 10
 
-\prompt Let $s$ be a string of size $n$ in $\Sigma^+$, where $\Sigma =
-\{a, c, g, t \}.$  Imagine cutting $s$ into fragments and constructing
-the shortest superstring $r$ of these fragments.  How many possible
-shortest superstrings are there?  
-\answer
-The shortest string is no longer that $n$... So we have  a sum...
+%% \prompt Let $s$ be a string of size $n$ in $\Sigma^+$, where $\Sigma =
+%% \{a, c, g, t \}.$  Imagine cutting $s$ into fragments and constructing
+%% the shortest superstring $r$ of these fragments.  How many possible
+%% shortest superstrings are there?  
+%% \answer
+%% The shortest string is no longer that $n$... So we have  a sum...
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
+%% \begin{questionfr}
+%% \points 10
 
-\prompt
-Let $s$ be a large string and consider the string $r = ss$, i.e., $r$~is
-obtained by concatenating $s$ with itself.  Suppose that we apply the
-Shotgun Method to $r$, can we construct it back?  
+%% \prompt
+%% Let $s$ be a large string and consider the string $r = ss$, i.e., $r$~is
+%% obtained by concatenating $s$ with itself.  Suppose that we apply the
+%% Shotgun Method to $r$, can we construct it back?  
 
-\answer
-Seems unlikely. 
-\explain
+%% \answer
+%% Seems unlikely. 
+%% \explain
 
-\end{questionfr}
+%% \end{questionfr}
 
 
-\end{checkpoint}
+%% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 \end{section}
 \begin{section}[Algorithms]
 
@@ -667,7 +626,7 @@ The algorithms are derived by using consider three algorithm-design
 techniques: brute-force, ...
 
 
-\begin{unit}[Brute Force]
+\begin{subsection}[Brute Force]
 
 \begin{gram}
 Designing algorithms may appear to be an intimidating task, because it
@@ -720,9 +679,9 @@ could apply the brute force method directly.
 In fact we can't even apply it to two strings each of length $100$.
 
 \end{gram}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Understanding the Structure of the Problem]
+\begin{subsection}[Understanding the Structure of the Problem]
 
 \begin{gram}
 To improve over the brute force-algorithm described above, let's take
@@ -867,49 +826,49 @@ In this case, it is also the overall shortest superstring.
 \end{example}
 
 
-\begin{checkpoint}
-\begin{questionfr}[Start positions of snippets]
-\points 10
-\prompt
-Consider the set of snippets for a genome sequence, and let
-$s$ be a superstring of the snippets, such that each
-snippet is contained in the superstring as substring.  Prove than no
-two snippets can start at the same position in $s$.  
-\answer
-\end{questionfr}
+%% \begin{checkpoint}
+%% \begin{questionfr}[Start positions of snippets]
+%% \points 10
+%% \prompt
+%% Consider the set of snippets for a genome sequence, and let
+%% $s$ be a superstring of the snippets, such that each
+%% snippet is contained in the superstring as substring.  Prove than no
+%% two snippets can start at the same position in $s$.  
+%% \answer
+%% \end{questionfr}
 
-\begin{questionfr}[End positions of snippets]
-\points 10
-\prompt
-Consider the set of snippets for a genome sequence, and let
-$s$ be a superstring of the snippets, such that each
-snippet is contained in the superstring as substring.  Prove than no
-two snippets can end at the same position in $s$.  
-\answer
-\end{questionfr}
+%% \begin{questionfr}[End positions of snippets]
+%% \points 10
+%% \prompt
+%% Consider the set of snippets for a genome sequence, and let
+%% $s$ be a superstring of the snippets, such that each
+%% snippet is contained in the superstring as substring.  Prove than no
+%% two snippets can end at the same position in $s$.  
+%% \answer
+%% \end{questionfr}
 
-\begin{questionfr}[Substring Check]
-\points 10
-\prompt
-Given a string $s$ of length $n$, and a string $t$ of
-length $m$: design an algorithm that checks whether $s$ is a
-substring of $t$, and analyze the work and span of your
-algorithms.
-\answer
+%% \begin{questionfr}[Substring Check]
+%% \points 10
+%% \prompt
+%% Given a string $s$ of length $n$, and a string $t$ of
+%% length $m$: design an algorithm that checks whether $s$ is a
+%% substring of $t$, and analyze the work and span of your
+%% algorithms.
+%% \answer
 
-%%
-%% Answer: Start at every position in $t$ and check for overlap. 
-%%  Work: $O(nm)$ Span: $log(m) + log(n)$. 
-%%
-
-
-\end{questionfr}
+%% %%
+%% %% Answer: Start at every position in $t$ and check for overlap. 
+%% %%  Work: $O(nm)$ Span: $log(m) + log(n)$. 
+%% %%
 
 
-\end{checkpoint}
-\end{unit}
+%% \end{questionfr}
 
-\begin{unit}[Brute Force Reloaded]
+
+%% \end{checkpoint}
+\end{subsection}
+
+\begin{subsection}[Brute Force Reloaded]
 
 \begin{gram}
 We will now design better algorithms by applying the observations from
@@ -1130,58 +1089,58 @@ Later instances of that computation can then be recalled via lookup
 instead of re-computing every time it is needed. 
 \end{remark}
 
-\begin{checkpoint}
+%% \begin{checkpoint}
 
-\begin{questionfr}[String concatenation]
-\points 10
-\prompt
-  You are given a set of strings $s_1, \ldots, s_n$ and a target
-  string $t$.
+%% \begin{questionfr}[String concatenation]
+%% \points 10
+%% \prompt
+%%   You are given a set of strings $s_1, \ldots, s_n$ and a target
+%%   string $t$.
 
-Use the brute-force technique to come up with an algorithm that
-gives you a subset of the strings and the specific order in which they
-can be concatenated to obtain the target string.
-%
-Analyze the work and spane of your algorithm.
+%% Use the brute-force technique to come up with an algorithm that
+%% gives you a subset of the strings and the specific order in which they
+%% can be concatenated to obtain the target string.
+%% %
+%% Analyze the work and spane of your algorithm.
 
-\answer
-\explain
-\end{questionfr}
-
-
-\begin{questionfr}[Compact String concatenation]
-\points 10
-\prompt
-You are given a set of strings $s_1, \ldots, s_n$ and
-another target string $t$.  
-%
-Use the brute-force technique to design an algorithm that gives you a
-subset of the strings and the specific order in which they can be
-concatenated while removing overlaps to obtain the target string.  For
-example if you concatenate "parallel" and "elision", you will get
-"parallelision".  Analyze the work and the span of your algorithm.
-
-\answer
-\explain
-\end{questionfr}
-
-\begin{questionfr}[Improved Overlap Finding]
-\points 10
-\prompt
-Recall that we have used a brute-force algorithm for finding the
-overlap between two strings. Can you improve on this algorithm? 
-
-\answer
-%% It should be possible.  Have not thought about it carefully.
-\explain
-\end{questionfr}
+%% \answer
+%% \explain
+%% \end{questionfr}
 
 
-\end{checkpoint}
-\end{unit}
+%% \begin{questionfr}[Compact String concatenation]
+%% \points 10
+%% \prompt
+%% You are given a set of strings $s_1, \ldots, s_n$ and
+%% another target string $t$.  
+%% %
+%% Use the brute-force technique to design an algorithm that gives you a
+%% subset of the strings and the specific order in which they can be
+%% concatenated while removing overlaps to obtain the target string.  For
+%% example if you concatenate "parallel" and "elision", you will get
+%% "parallelision".  Analyze the work and the span of your algorithm.
+
+%% \answer
+%% \explain
+%% \end{questionfr}
+
+%% \begin{questionfr}[Improved Overlap Finding]
+%% \points 10
+%% \prompt
+%% Recall that we have used a brute-force algorithm for finding the
+%% overlap between two strings. Can you improve on this algorithm? 
+
+%% \answer
+%% %% It should be possible.  Have not thought about it carefully.
+%% \explain
+%% \end{questionfr}
 
 
-\begin{unit}[Shortest Superstrings by Algorithmic Reduction]
+%% \end{checkpoint}
+\end{subsection}
+
+
+\begin{subsection}[Shortest Superstrings by Algorithmic Reduction]
 
 \begin{gram}
 Another fundamental technique in algorithm design is to reduce one
@@ -1368,24 +1327,24 @@ The reduction above has to try all sources.  It is actually reducing
 to the TSP with start problem.
 \end{teachnote}
 
-\begin{checkpoint}
-\begin{questionfr}[Hamiltonian cycle with start]
-\points 10
-\prompt
+%% \begin{checkpoint}
+%% \begin{questionfr}[Hamiltonian cycle with start]
+%% \points 10
+%% \prompt
 
-Prove using the reduction technique that if the TSP problem in
-NP-hard, then so is the problem of finding the shortest Hamiltonian
-cycle that starts and ends at a specified vertex.
+%% Prove using the reduction technique that if the TSP problem in
+%% NP-hard, then so is the problem of finding the shortest Hamiltonian
+%% cycle that starts and ends at a specified vertex.
 
-\answer
-\explain
-\end{questionfr}
+%% \answer
+%% \explain
+%% \end{questionfr}
 
-\end{checkpoint}
+%% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Greedy Algorithm]
+\begin{subsection}[Greedy Algorithm]
 %\label{sec:genome::greedy}
 
 \begin{gram}
@@ -1649,81 +1608,81 @@ called~\defn{constant-factor approximation algorithms}.
 %
 \end{gram}
 
-\begin{checkpoint}
-\begin{questionfr}[Containted Strings]
-\points 10
-\prompt
-  In the greedy algorithm \cd{greedyApproxSS}
-%  (\algref{genome::greedySS}), 
-we remove ${x,y}$ from the set of strings but do not remove any
-strings from $s$ that are contained within $xy = \cd{join}(x,y)$.
-Prove that there cannot be any such strings.  
-\answer 
-\explain
-\end{questionfr}
+%% \begin{checkpoint}
+%% \begin{questionfr}[Contained Strings]
+%% \points 10
+%% \prompt
+%%   In the greedy algorithm \cd{greedyApproxSS}
+%% %  (\algref{genome::greedySS}), 
+%% we remove ${x,y}$ from the set of strings but do not remove any
+%% strings from $s$ that are contained within $xy = \cd{join}(x,y)$.
+%% Prove that there cannot be any such strings.  
+%% \answer 
+%% \explain
+%% \end{questionfr}
 
 
-\begin{questionfr}[Correctness of the Greedy Algorithm]
-\points 10
-\prompt
-Prove that algorithm $\cd{greedyApproxSS}$
-% (\algref{genome::greedySS})
-returns a string that is a superstring of all original strings.
-\answer
-\explain
-\end{questionfr}
+%% \begin{questionfr}[Correctness of the Greedy Algorithm]
+%% \points 10
+%% \prompt
+%% Prove that algorithm $\cd{greedyApproxSS}$
+%% % (\algref{genome::greedySS})
+%% returns a string that is a superstring of all original strings.
+%% \answer
+%% \explain
+%% \end{questionfr}
 
-\begin{questionfr}[Exactness of Greedy Approximation]
-\points 10
-\prompt
-Give an example input for which $\cd{greedyApproxSS}$
-%(\algref{genome::greedySS}) 
-does not return the shortest superstring.
-\answer
-\explain
-\end{questionfr}
-
-
-\begin{questionfr}[Improved Greedy Algorithm]
-\points 10
-\prompt
-Improve the greedy algorithm's cost bounds by presenting a more
-efficient implementation.
-\answer
-\explain
-\end{questionfr}
-
-\begin{questionfr}[Generous Grandmother]
-\points 10
-\prompt
-Your rich grandmother enjoys collecting precious items, such as
-jewelry and gold-plated souvenirs.  
-%
-When you visit her for Spring break (instead of going to Cancun), she
-is very pleased and decides to reward you. She gives you a bag and a
-scale and instructs you to take anything you want as long as the bag
-does not hold any more than 10 pounds.  Delighted by the surprising
-(based on your parents' stories of their childhood) generosity of your
-grandmother, you also realize that your grandmother forgot to take the
-price tags off the items, which gives you an idea about the value of
-these items.
+%% \begin{questionfr}[Exactness of Greedy Approximation]
+%% \points 10
+%% \prompt
+%% Give an example input for which $\cd{greedyApproxSS}$
+%% %(\algref{genome::greedySS}) 
+%% does not return the shortest superstring.
+%% \answer
+%% \explain
+%% \end{questionfr}
 
 
-First, design a brute force algorithm for selecting the items to take
-away with you. Is your algorithm optimal? What is the work and span of
-your algorithm?
+%% \begin{questionfr}[Improved Greedy Algorithm]
+%% \points 10
+%% \prompt
+%% Improve the greedy algorithm's cost bounds by presenting a more
+%% efficient implementation.
+%% \answer
+%% \explain
+%% \end{questionfr}
 
-Next, design a greedy algorithm for selecting the items to take away
-with you.  Why is your algorithm greedy?  Is your greedy algorithm
-optimal? What is the work and span of your greedy algorithm?
+%% \begin{questionfr}[Generous Grandmother]
+%% \points 10
+%% \prompt
+%% Your rich grandmother enjoys collecting precious items, such as
+%% jewelry and gold-plated souvenirs.  
+%% %
+%% When you visit her for Spring break (instead of going to Cancun), she
+%% is very pleased and decides to reward you. She gives you a bag and a
+%% scale and instructs you to take anything you want as long as the bag
+%% does not hold any more than 10 pounds.  Delighted by the surprising
+%% (based on your parents' stories of their childhood) generosity of your
+%% grandmother, you also realize that your grandmother forgot to take the
+%% price tags off the items, which gives you an idea about the value of
+%% these items.
 
-\answer
-\explain
-\end{questionfr}
 
-\end{checkpoint}
+%% First, design a brute force algorithm for selecting the items to take
+%% away with you. Is your algorithm optimal? What is the work and span of
+%% your algorithm?
 
-\end{unit}
+%% Next, design a greedy algorithm for selecting the items to take away
+%% with you.  Why is your algorithm greedy?  Is your greedy algorithm
+%% optimal? What is the work and span of your greedy algorithm?
+
+%% \answer
+%% \explain
+%% \end{questionfr}
+
+%% \end{checkpoint}
+
+\end{subsection}
 
 \end{section}
 
@@ -1747,7 +1706,7 @@ simple abstractions that we used in this chapter.
 This section discusses some of the complexities of genome sequencing
 that we have not addressed.
 
-\begin{unit}[Abstraction versus Reality]
+\begin{subsection}[Abstraction versus Reality]
 
 \begin{gram}
 Often when abstracting a problem we can abstract away some key aspects
@@ -1785,9 +1744,8 @@ previous paragraph.  In particular the SS method allowing for errors
 can be used to generate strings up to the length of the repeats, and
 the double barreled method can put them together.
 \end{gram}
-\end{unit}
+\end{subsection}
 \end{section}
 
 \end{chapter}
 
-\end{book}
