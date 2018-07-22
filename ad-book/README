@@ -37,7 +37,8 @@ TODO: consistency in codes.  treat numbers and math operators and \cd{} both par
 
    code is intended by ~~ in math mode. should be ~~~  
 
-4 models/:
+
+5 models/:
   models.tex
 
    code is intended by ~~ in math mode. should be ~~~  
@@ -49,7 +50,29 @@ TODO: consistency in codes.  treat numbers and math operators and \cd{} both par
   TODO: We don't talk about worst-case, average case, expected case,
   etc forms of analysis.  This seems like a big omission.
 
-5 Algorithm Design Techniques
+5 sequences
+
+  This used to be chapter 8.  It should be moved up front.
+
+  It should also be rewritten.
+
+  Sequences: This chapter is very heavy on notation.  
+  There should be a much better way to do this.
+
+  sequences.dex
+ 
+  the following files are deprecated but kept temporarily. the
+  sequences.dex file consists of these in that order.
+
+  code is intended by ~~ in math mode. should be ~~~  
+
+  semantics.dex
+  comprehensions.dex
+  cost.dex
+  primes.dex
+
+
+6 Algorithm Design Techniques
   design.dex
   This section was rewritten but would probably require more work.
 
@@ -64,7 +87,7 @@ TODO: consistency in codes.  treat numbers and math operators and \cd{} both par
   You can use divide-and-conquer etc.
 
 
-6 Recurrences
+7 Recurrences
   recurrences.dex
 
    code is intended by ~~ in math mode. should be ~~~  
@@ -72,25 +95,11 @@ TODO: consistency in codes.  treat numbers and math operators and \cd{} both par
   TODO: Probably need a chapter on writing recurrences
   TODO: we can place a ref to a cross chapter atom here
 
-7 Genome Sequencing
+8 Genome Sequencing
   genome.dex
 
    code is intended by ~~ in math mode. should be ~~~  
 
-8 Sequences: This chapter is very heavy on notation.  
-  There should be a much better way to do this.
-
-  sequences.dex
- 
-  the following files are deprecated but kept temporarily. the
-  sequences.dex file consists of these in that order.
-
-  code is intended by ~~ in math mode. should be ~~~  
-
-  semantics.dex
-  comprehensions.dex
-  cost.dex
-  primes.dex
 
 9 MCSS
   mcss.dex
