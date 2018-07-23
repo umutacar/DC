@@ -73,7 +73,6 @@ def main(argv):
   print 'Executing command:', command
   os.system(command)
 
-
   # elaborate mlx
   command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + parsed_infile_mlx + syntax.SPACE + outfile_mlx_elaborated
   print 'Executing command:', command

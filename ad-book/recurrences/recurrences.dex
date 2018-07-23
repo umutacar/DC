@@ -1,45 +1,6 @@
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{6}
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues. 
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\authors{Umut A. Acar and Guy Blelloch}
-
 \begin{chapter}[Recurrences]
-\picture{./media/print-gallery.jpg}
+\label{ch:recurrences}
+
 
 This chapter covers the methods for solving recurrences.
 
@@ -62,7 +23,7 @@ In this chapter, we review the three main methods for solving
 recurrences: the ``Tree Method'', the ``Brick Method'', and the
 ``Substitution Method.''
 
-\begin{unit}[Introduction]
+\begin{subsection}[Introduction]
 
 
 
@@ -189,12 +150,12 @@ calculations but they usually don't matter, becaue they change the
 closed-form solution by a constant factor.
 \end{gram}
 
-\end{unit}
+\end{subsection}
 
 
 
 
-\begin{unit}[The Tree Method]
+\begin{subsection}[The Tree Method]
 
 
 \begin{definition}[Tree Method]
@@ -400,9 +361,9 @@ Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ \lg{nm}$ using the tree method.
 
 \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 
-\begin{unit}[The Brick Method]
+\begin{subsection}[The Brick Method]
 
 \begin{gram}
 The~\defn{brick method} is a variant of the tree method.
@@ -517,103 +478,103 @@ bricks.
 \end{description}
 \end{definition}
 
-\begin{checkpoint}
+%% \begin{checkpoint}
 
-\begin{questionfr}
-\points 10
+%% \begin{questionfr}
+%% \points 10
 
-\prompt Derive the brick method from the tree method.
+%% \prompt Derive the brick method from the tree method.
 
-\answer
-\end{questionfr}
+%% \answer
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n) = W(n/2) + n$ using the brick method.
-\answer
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n) = 3(n/2) + n$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $S(n) = 2S(n/4) + n$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n) = 2W(n/4) + n^2$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n) = 2W(n/2) + n\lg{n}$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $S(n) = 2S(\sqrt{n}) +\lg{n}$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n) = W(n/3) + W(n/4) + n$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $S(n) = \max{S(n/3), S(n/4)} + \lg{n}$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ nm$ using the brick method.
-\answer
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ n^2m$ using the brick method.
-\answer
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = W(n/2) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
 
 
-\begin{questionfr}
-\points 10
-\prompt
-Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ \lg{nm}$ using the brick method.
-\answer
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 3(n/2) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = 2S(n/4) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 2W(n/4) + n^2$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 2W(n/2) + n\lg{n}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = 2S(\sqrt{n}) +\lg{n}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = W(n/3) + W(n/4) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = \max{S(n/3), S(n/4)} + \lg{n}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ nm$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ n^2m$ using the brick method.
+%% \answer
+%% \end{questionfr}
 
 
-\end{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ \lg{nm}$ using the brick method.
+%% \answer
+%% \end{questionfr}
 
 
-\end{unit}
+%% \end{checkpoint}
 
 
-\begin{unit}[Substitution Method]
+\end{subsection}
+
+
+\begin{subsection}[Substitution Method]
 
 \begin{gram}
 The tree method can be used to find the closed form solution to many
@@ -684,21 +645,21 @@ We will prove the following theorem using (strong) induction on $n$.
   0$ as long as $n > 1$.
 
 \end{example}
-\begin{checkpoint}
+%% \begin{checkpoint}
 
-\begin{questionfr}
-\points 10
-\prompt 
-Show that $W(n) = 2W(n/2) + \lg{n} \in O(n)$ by using tree of
-substitution method.
-\answer 
-\end{questionfr}
-\end{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt 
+%% Show that $W(n) = 2W(n/2) + \lg{n} \in O(n)$ by using tree of
+%% substitution method.
+%% \answer 
+%% \end{questionfr}
+%% \end{checkpoint}
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Master Method]
+\begin{subsection}[Master Method]
 \begin{gram}
 You might have learned about the~\defn{master method} for solving
 recurrences.  
@@ -711,12 +672,11 @@ to special cases of leaves dominated, balanced, and root dominated of
 the brick method.
 \end{gram}
 
-\end{unit}
+\end{subsection}
 
 
 \end{section}
 \end{chapter}
-\end{book}
 
 
 

@@ -2,54 +2,9 @@
 %% TODO: 1) complete the chapter.
 %% 2) Add some brick questions (leaves dominated etc)
 %%
-\documentclass{course}
-\title{Parallel and Sequential Algorithms}
-
-% Course number must be unique in the database
-\coursenumber{15210}
-
-\semester{Spring 2018}
-\picture{/210/course/air-pavilion.jpg}
-\website{http://www.cs.cmu.edu/~15210}
-
-% Provides book
-% This must be provided
-% The name should be relative to course number.
-\providesbook{S18}
-
-% Start counting chapters from 
-% This is optional. Will start counting at 1.
-\provideschapter{4}
-
-
-15-210 aims to teach methods for designing, analyzing, and programming
-sequential and parallel algorithms and data structures. The emphasis
-is on teaching fundamental concepts applicable across a wide variety
-of problem domains, and transferable across a reasonably broad set of
-programming languages and computer architectures. This course also
-includes a significant programming component in which students will
-program concrete examples from domains such as engineering, scientific
-computing, graphics, data mining, and information retrieval (web
-search).
-
-Unlike a traditional introduction to algorithms and data structures,
-this course puts an emphasis on parallel thinking — i.e., thinking
-about how algorithms can do multiple things at once instead of one at
-a time. The course follows up on material learned in 15-122 and 15-150
-but goes into significantly more depth on algorithmic issues. 
-
-
-\begin{book}
-\title{Algorithm Design: Parallel and Sequential}
-\label{15210-2016}
-\unique{15210S18}
-\authors{Umut A. Acar and Guy Blelloch}
-
 
 \begin{chapter}[Analysis of Algorithms]
-%\unique{2}
-\picture{./media/nafea-faa-ipoipo.jpg}
-
+\label{ch:analysis}
 This chapter describes asymptotic notation and cost models that we use
 for analyzing the resource consumption of algorithms.
 
@@ -58,7 +13,7 @@ for analyzing the resource consumption of algorithms.
 
 This section describes the basic framework for algorithm analysis.
 
-\begin{unit}[Abstraction and Analysis]
+\begin{subsection}[Abstraction and Analysis]
 
 \begin{gram}[Algorithm Analysis]
 The term~\defn{algorithm analysis} refers to mathematical analysis of
@@ -97,16 +52,16 @@ asymptotic analysis.
 %% which involves for example reasoning about the effects of scheduling.
 \end{gram}
 
-\begin{checkpoint}
-\begin{questionfr}
-\points 10
-\prompt
-Why do we need the two levels of abstraction?
-\answer 
-See the discussion above.
-\end{questionfr}
-\end{checkpoint}
-\end{unit}
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Why do we need the two levels of abstraction?
+%% \answer 
+%% See the discussion above.
+%% \end{questionfr}
+%% \end{checkpoint}
+\end{subsection}
 \end{section}
 
 \begin{section}[Asymptotic Complexity]
@@ -114,7 +69,7 @@ See the discussion above.
 
 This section reviews the basic terminology on asymptotic complexity. 
 
-\begin{unit}[Asymptotic Dominance]
+\begin{subsection}[Asymptotic Dominance]
 
 \begin{gram}
 When analyzing algorithms, we are usually interested in
@@ -285,76 +240,76 @@ dominates and thus grows faster than the function $g(\cdot)$.
 \end{itemize}
 \end{example}
 
-\begin{checkpoint}
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $n^2$ grows faster than $2n^2 + 10n$.
-\answer
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $n^2$ grows faster than $2n^2 + 10n$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $n^2$ grows faster than $2n\lg{n} + 10\lg^4{n}$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $n^2$ grows faster than $2n\lg{n} + 10\lg^4{n}$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $n\lg{n}$ grows faster than $5n\lg{n} + 6n$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $n\lg{n}$ grows faster than $5n\lg{n} + 6n$.
+%% \answer
 
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:  $O(n\lg^3{n})$ grows faster than $5n\lg^2{n} + 6n\lg{n}$.
-\answer
-
-\end{questionfr}
+%% \end{questionfr}
 
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove: $O(\sqrt{n})$ grows faster than $7\lg^2{n} + 6\lg{n}$. 
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:  $O(n\lg^3{n})$ grows faster than $5n\lg^2{n} + 6n\lg{n}$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-$f(n) + g(n)$ grows faster than $\max{}(f(n), g(n)).$
-\]
-\answer
 
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove: $O(\sqrt{n})$ grows faster than $7\lg^2{n} + 6\lg{n}$. 
+%% \answer
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
-g(n)$ for any $n$, 
-$f(n) - g(n)$ grows faster than $\minof{}(f(n), g(n))$.
-\]
-\answer
+%% \end{questionfr}
 
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% $f(n) + g(n)$ grows faster than $\max{}(f(n), g(n)).$
+%% \]
+%% \answer
 
-\end{checkpoint}
-\end{unit}
+%% \end{questionfr}
 
-\begin{unit}[Upper bounds and Big-Oh: $O(\cdot)$]
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
+%% g(n)$ for any $n$, 
+%% $f(n) - g(n)$ grows faster than $\minof{}(f(n), g(n))$.
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+%% \end{checkpoint}
+\end{subsection}
+
+\begin{subsection}[Upper bounds and Big-Oh: $O(\cdot)$]
 %[Upper bounds and the Big-Oh: $O(\cdot)$]
 
 \begin{gram}
@@ -422,93 +377,93 @@ Can you illustrate graphically when $g(n) \in O(f(n))$?  Show
 different cases by considering different functions.
 \end{exercise}
 
-\begin{checkpoint}
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $2n^2 + 10n \in O(n^2)$.
-\answer
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $2n^2 + 10n \in O(n^2)$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $2n\lg{n} + 10\lg^4{n} \in O(n^2)$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $2n\lg{n} + 10\lg^4{n} \in O(n^2)$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $5n\lg{n} + 6n \in O(n\lg{n})$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $5n\lg{n} + 6n \in O(n\lg{n})$.
+%% \answer
 
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $5n\lg^2{n} + 6n\lg{n} \in O(n\lg^3{n})$.
-\answer
-
-\end{questionfr}
+%% \end{questionfr}
 
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $7\lg^2{n} + 6\lg{n} \in O(\sqrt{n})$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $5n\lg^2{n} + 6n\lg{n} \in O(n\lg^3{n})$.
+%% \answer
 
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-\max{}(f(n), g(n)) = O(f(n) + g(n)).
-\]
-\answer
-
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
-g(n)$ for any $n$ 
-\[
-\minof{}(f(n), g(n)) = O(f(n) - g(n)).
-\]
-\answer
-
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-f(n) * g(n) = O(f(n)) * O(g(n)).
-\]
-\answer
-
-\end{questionfr}
+%% \end{questionfr}
 
 
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $7\lg^2{n} + 6\lg{n} \in O(\sqrt{n})$.
+%% \answer
 
-\end{checkpoint}
+%% \end{questionfr}
 
-\end{unit}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = O(f(n) + g(n)).
+%% \]
+%% \answer
 
-\begin{unit}[Lower bounds and Omega: $\Omega(\cdot)$]
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
+%% g(n)$ for any $n$ 
+%% \[
+%% \minof{}(f(n), g(n)) = O(f(n) - g(n)).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% f(n) * g(n) = O(f(n)) * O(g(n)).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+
+
+%% \end{checkpoint}
+
+\end{subsection}
+
+\begin{subsection}[Lower bounds and Omega: $\Omega(\cdot)$]
 
 \begin{gram}
 Given a function $f(n)$, the asymptotic notation $\Omega(f(n))$
@@ -548,105 +503,105 @@ The following lower bounds hold for the function $f(\cdot)$.
 \end{itemize}
 \end{example}
 
-\begin{checkpoint}
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $2n^2 + 10n \in \Omega(n^2)$.
-\answer
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $2n^2 + 10n \in \Omega(n^2)$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $2n\lg{n} + 10\lg^4{n} \in \Omega(n^2)$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $2n\lg{n} + 10\lg^4{n} \in \Omega(n^2)$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove: $5n\lg{n} + 6n \in \Omega(n\lg{n})$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove: $5n\lg{n} + 6n \in \Omega(n\lg{n})$.
+%% \answer
 
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $5n\lg^2{n} + 6n\lg{n} \in \Omega(n\lg{n})$.
-\answer
-
-\end{questionfr}
+%% \end{questionfr}
 
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $7\lg^2{n} + 6\lg{n} \in O(\lg{n})$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $5n\lg^2{n} + 6n\lg{n} \in \Omega(n\lg{n})$.
+%% \answer
 
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-\maxof{}(f(n), g(n)) = \Omega(f(n) + g(n)).
-\]
-\answer
-
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-\max{}(f(n), g(n)) = \Omega(\minof{}(f(n), g(n))).
-\]
-\answer
-
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
-g(n)$ for any $n$ 
-\[
-\minof{}(f(n), g(n)) = \Omega(f(n) - g(n)).
-\]
-\answer
-
-\end{questionfr}
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-f(n) * g(n) = \Omega(f(n)) * O(g(n)).
-\]
-\answer
-
-\end{questionfr}
+%% \end{questionfr}
 
 
-\end{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $7\lg^2{n} + 6\lg{n} \in O(\lg{n})$.
+%% \answer
 
-\end{unit}
+%% \end{questionfr}
 
-\begin{unit}[Tight bounds and Theta: $\Theta(\cdot)$]
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \maxof{}(f(n), g(n)) = \Omega(f(n) + g(n)).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = \Omega(\minof{}(f(n), g(n))).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
+%% g(n)$ for any $n$ 
+%% \[
+%% \minof{}(f(n), g(n)) = \Omega(f(n) - g(n)).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% f(n) * g(n) = \Omega(f(n)) * O(g(n)).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+
+%% \end{checkpoint}
+
+\end{subsection}
+
+\begin{subsection}[Tight bounds and Theta: $\Theta(\cdot)$]
 
 \begin{gram}
 The asymptotic expression $\Theta(f(n))$ is the set of all functions
@@ -684,90 +639,90 @@ The following lower bounds hold for the function $f(\cdot)$.
 
 \end{group}
 
-\begin{checkpoint}
-\begin{questionfr}
-\points 10
-\prompt
-Prove that $2n^2 + 10n \in \Theta(n^2)$.
-\answer
+%% \begin{checkpoint}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove that $2n^2 + 10n \in \Theta(n^2)$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $2n\lg{n} + 10\lg^4{n} \in \Theta(n^2)$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $2n\lg{n} + 10\lg^4{n} \in \Theta(n^2)$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove: $5n\lg{n} + 6n \in \Theta(n\lg{n})$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove: $5n\lg{n} + 6n \in \Theta(n\lg{n})$.
+%% \answer
 
-\end{questionfr}
-
-
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $4n\lg^4{n} + 6n\lg{n} \in \Theta(n\lg^4{n})$.
-\answer
-
-\end{questionfr}
+%% \end{questionfr}
 
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove $7\lg^2{n} + 6\lg{n} \in \Theta(\lg^2{n})$.
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $4n\lg^4{n} + 6n\lg{n} \in \Theta(n\lg^4{n})$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-\max{}(f(n), g(n)) = \Theta(f(n) + g(n)).
-\]
-\answer
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove $7\lg^2{n} + 6\lg{n} \in \Theta(\lg^2{n})$.
+%% \answer
 
-\end{questionfr}
+%% \end{questionfr}
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-\max{}(f(n), g(n)) = \Theta(\min{}(f(n), g(n))).
-\]
-\answer
 
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = \Theta(f(n) + g(n)).
+%% \]
+%% \answer
 
-\begin{questionfr}
-\points 10
-\prompt
-Prove or disprove:
-for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
-\[
-f(n) * g(n) = \Theta(f(n)) * O(g(n)).
-\]
-\answer
+%% \end{questionfr}
 
-\end{questionfr}
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = \Theta(\min{}(f(n), g(n))).
+%% \]
+%% \answer
 
-\end{checkpoint}
-\end{unit}
+%% \end{questionfr}
 
-\begin{unit}[Important conventions]
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% f(n) * g(n) = \Theta(f(n)) * O(g(n)).
+%% \]
+%% \answer
+
+%% \end{questionfr}
+
+%% \end{checkpoint}
+\end{subsection}
+
+\begin{subsection}[Important conventions]
 
 \begin{gram}
 When using asymyptotic notations, we follow some standard conventions
@@ -817,7 +772,7 @@ Note that the ``subset'' interpretation of equality is a
 generalization of its set-membership interpretation.
 \end{itemize}
 \end{gram}
-\end{unit}
+\end{subsection}
 \end{section}
 
 
@@ -840,7 +795,7 @@ about the mapping of an algorithm to a lower level machine model,
 which can be difficult, especially for parallel algorithms.
 
 
-\begin{unit}[Machine versus Language Models]
+\begin{subsection}[Machine versus Language Models]
 
 
 \begin{gram}
@@ -968,10 +923,10 @@ calculus can be used to model many languages.
 \end{remark}
 
 
-\end{unit}
+\end{subsection}
 
 
-\begin{unit}[Machine-based cost models]
+\begin{subsection}[Machine-based cost models]
 
 \begin{definition}[Machine-Based Cost Model]
 A~\defn{machine-based (cost) model} takes a machine model and defines the
@@ -1127,9 +1082,9 @@ refined.
 
 %% \begin{quiz}
 %% \end{quiz}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[The Work-Span Model]
+\begin{subsection}[The Work-Span Model]
 
 \begin{gram}
 In this book, we use a language-based cost model to analyze parallel
@@ -1195,7 +1150,7 @@ we sometimes drop the subscript, giving $W(n) = O(n \log n)$.
 
 
 %% \begin{gram}
-%% The definition below specifies the work and span of expressions in \PML,
+%% The definition below specifies the work and span of expressions in \PML{},
 %% our language for describing algorithms.
 %% %
 %% In the definition and throughout this beek, we write~$W(e)$ for the
@@ -1205,16 +1160,16 @@ we sometimes drop the subscript, giving $W(n) = O(n \log n)$.
 %% measured as in units of time. 
 %% %
 %% As common in language-based models, the definition follows the
-%% definition expressions for \PML (\chref{language}). 
+%% definition expressions for \PML{} (\chref{language}). 
 %% %
 %% We make one simplifying assumption in the presentation: instead of
 %% considering general bindings, we only consider the case where a single
 %% variable is bound to the value of the expression.
 %% \end{gram}
 
-\begin{definition}[\PML Cost Model]
+\begin{definition}[\PML{} Cost Model]
 \label{def:analysis::pml-cost-model}
-The work and span of \PML expressionsare defined below.
+The work and span of \PML{} expressions are defined below.
 %
 In the definition and throughout this book, we write~$W(e)$ for the
 work of the expression and~$S(e)$ for its span. 
@@ -1223,9 +1178,7 @@ Both work and span are cost functions that map an expression to a cost
 measured as in units of time. 
 %
 As common in language-based models, the definition follows the
-definition expressions for \PML.
-%
-% (\chref{language}). 
+definition expressions for \PML{} (\chref{language}). 
 %
 We make one simplifying assumption in the presentation: instead of
 considering general bindings, we only consider the case where a single
@@ -1347,7 +1300,7 @@ themselves other expressions (e.g., function application).  Note that
 this is an instance of the rule $e_1~\mbox{op}~e_2$, where
 \mbox{op} is a plus operation.
 %
-In \PML, we evaluate this expressions by first evaluating $e_1$ and
+In \PML{}, we evaluate this expressions by first evaluating $e_1$ and
 then $e_2$ and then computing the sum.  The work of the expressions is
 therefore
 \[
@@ -1379,11 +1332,11 @@ S(\cd{let}~y = f(x)~\cd{in}~g(y)~\cd{end}) & = & 1 + S(f(x)) + S(g(y))
 
 
 \begin{teachask}
-In \PML, when are expressions evaluated in parallel?
+In \PML{}, when are expressions evaluated in parallel?
 \end{teachask}
 
 \begin{gram}
-In \PML, we use the notation $(e_1\ ||\ e_2)$ to mean that the two
+In \PML{}, we use the notation $(e_1\ ||\ e_2)$ to mean that the two
 expressions are evaluated in parallel.  The result is a pair of values
 containing the two results. 
 %
@@ -1416,7 +1369,7 @@ be simplified to $1 + S(\cd{fib}(7))$.
 \begin{remark}
 Since in this book we are assuming purely functional programs, it is
 always safe to run things in parallel if there is no explicit sequencing.
-Since in \PML, we evaluate~$e_1$ and~$e_2$ sequentially, the span of
+Since in \PML{}, we evaluate~$e_1$ and~$e_2$ sequentially, the span of
 the expression is calculated in the same way:
 \[
 S(e_1 + e_2) = S(e_1) + S(e_2) + 1.
@@ -1424,7 +1377,7 @@ S(e_1 + e_2) = S(e_1) + S(e_2) + 1.
 Note that this does not mean that the span and the work of the
 expressions are the same!
 
-Since \PML is purely functional language, we could have in fact
+Since \PML{} is purely functional language, we could have in fact
 evaluated $e_1$ and $e_2$ in parallel, wait for the to complete and
 perform the summation.  In this case the span of would have been
 \[
@@ -1472,9 +1425,9 @@ $\cd{map}$.   Therefore, for ML code you can use the rules:
    \[S(\mbox{\tt map } f\ \cseq{s_0, \ldots, s_{n-1}}) = 1 + \max{}_{i=0}^{n-1} S(f(s_i)) \]
 
 \end{teachnote}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Parallelism]
+\begin{subsection}[Parallelism]
 
 \begin{definition}[Average Parallelism]
 Parallelism, sometimes called \defn{average parallelism}, is
@@ -1566,7 +1519,7 @@ Among the algorithm that have the same work as the best sequential
 time we will try to achieve the greatest parallelism.
 \end{note}
 
-\end{unit}
+\end{subsection}
 \end{section}
 
 \begin{section}[Scheduling]
@@ -1583,7 +1536,7 @@ This section describes the scheduling problem and briefly reviews one
 particular technique called greedy scheduling.
 
 
-\begin{unit}[Scheduling Problem]
+\begin{subsection}[Scheduling Problem]
 
 \begin{group}
 \begin{gram}
@@ -1637,9 +1590,9 @@ minimizing space usage is also important.
 \begin{teachask}
 Can you think of a scheduling algorithm?
 \end{teachask}
-\end{unit}
+\end{subsection}
 
-\begin{unit}[Greedy Scheduling]
+\begin{subsection}[Greedy Scheduling]
 
 \begin{definition}[Greedy Scheduler]
 We say that a scheduler is~\defn{greedy} if whenever there is a
@@ -1779,8 +1732,8 @@ cost of memory operations.  By moving a job we might have to move data
 along with it; the cost of such data movement could be large.
 \end{remark}
 
-\end{unit}
+\end{subsection}
 \end{section}
 
 \end{chapter}
-\end{book}
+
