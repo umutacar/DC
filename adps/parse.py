@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 import re
 import sys
 import os
@@ -14,7 +14,7 @@ PYTHON = 'python'
 ## REQUIRES LATEX_PREAMBLE file, see below
 
 MTL_HOME = os.environ['MTL_HOME']
-DEX_DIR =  MTL_HOME + '/dex_mlx/'
+DEX_DIR =  MTL_HOME + '/dex/'
 
 ## END: Fix your username / path here.
 ######################################################################

@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 ## IMPORTANT:
-## This is a copy of ~/mtl/dex_mlx/mlxdex.py
+## This is a copy of ~/mtl/dex/mlxdex.py
 ## It should always be maintained as such.
 
 import re
@@ -27,9 +27,9 @@ MLX_EXTENSION = '.mlx'
 MTL_HOME = os.environ['MTL_HOME']
 DIDEROT_HOME = os.environ['DIDEROT_HOME']
 
-DEX_DIR =  MTL_HOME + '/dex_mlx/'
+DEX_DIR =  MTL_HOME + '/dex/'
 MLX_DIR =  DIDEROT_HOME + '/mlx/'
-LATEX_PREAMBLE_FILE =  MTL_HOME + '/ad-book/latex_preamble/preamble.tex'
+LATEX_PREAMBLE_FILE =  MTL_HOME + '/adps/latex_preamble/preamble.tex'
 
 ## END: Fix your username / path here.
 ######################################################################
