@@ -8,11 +8,8 @@
 
 
 TODO: treatment of strings is ridiculous.  The same code, e.g.,
-\cstr{x} yields different quotes based on the contens x.  See
+\cstr{x} yields different quotes based on the context.  See
 sequences/ chapter for same examples.
-
-TODO: I was not consistent with the use of Problem atoms for defining
-problems. I sometimes used definitions. This should be fixed.
 
 
 ----------------------------------------------------------------------
@@ -21,7 +18,7 @@ Chapters
 TODO: IMAGES.  Many need to be turned to jpg.
 TODO: Upload design techniques
 TODO: Upload sequences
-TODO: consistency in codes.  treat numbers and math operators and \cd{} both parenthesis as math.
+TODO: consistency in code syntax.  treat function names as math variables and use mathit consistently. 
 
 1 introduction/: Intro: done but check
   all = introduction.dex

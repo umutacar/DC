@@ -20,3 +20,7 @@ o The  WHILE syntax is clumsy, just use recursion.
 o update SPARC chapter.  This will be chapter 0 pretty much.
 o update title handling translate to html. 
 o [Consistency] Shortest paths section uses special fonts for problem names.  
+
+* I was not consistent with the use of Problem atoms for defining
+problems. I sometimes used definitions. This should be fixed.
+
