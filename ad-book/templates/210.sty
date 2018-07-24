@@ -18,7 +18,7 @@
 %\usepackage{subfig}    % allows for \ContinuedFloat
 %\usepackage[mathcal]{euscript}  % symbols for reduce etc.
 \usepackage{environ}   % A better command for defining environments, used
-\usepackage{soul}      % Striking out, used
+%\usepackage{soul}      % Striking out, used
 \usepackage{ifthen}    % used
 \usepackage{amssymb}   % used
 \usepackage{amsfonts}  % not used
@@ -35,7 +35,7 @@
   linkcolor=MidnightBlue,
   urlcolor=Red
 ]{hyperref}
-\usepackage{fancyhdr}   % allows changing of headers/footers, used
+%\usepackage{fancyhdr}   % allows changing of headers/footers, used
 \usepackage{relsize}    % change font sizes, e.g. \larger, not used
 
 \usepackage{csquotes}    % for quotes
@@ -782,53 +782,3 @@
 
 %\begin{document}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% BEGIN: Diderot Environments
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% \newenvironment{chapter}[1][\unskip]
-%% {
-%% %\chapter{#1}  
-%% }
-%% { 
-%% }
-
-%% \newenvironment{section}[1][\unskip]
-%% {
-%% \section{#1}  
-%% }
-%% { 
-%% }
-
-
-\newenvironment{subsection}[1][\unskip]
-{
-subsection{#1}  
-}
-{ 
-}
-
-\newenvironment{subsubsection}[1][\unskip]
-{
-\subsubsection{#1}  
-}
-{ 
-}
-
-\newenvironment{group}[1][\unskip]
-{
-\subsubsubsection*{#1}  
-}
-{ 
-}
-
-\newenvironment{gram}[1][\unskip]
-{
-\textbf{#1}  
-}
-{ 
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% END: Diderot Environments
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
