@@ -166,7 +166,7 @@ def texify_end(line):
   return None
 
 def texify_line(line):
-  line = line.strip()
+  line = line.rstrip('\n')
 #  print line
  
   # Begin chapter

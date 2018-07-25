@@ -4,6 +4,11 @@
 This chapter presents a brief overview of the methodology followed in
 this book. 
 
+\begin{lstlisting}[numbers=left]
+fun f (x): 
+  lambda x: x+1
+\end{lstlisting}
+
 \begin{section}[Overview]
 
 \begin{subsection}
