@@ -2,12 +2,8 @@
 
 * book.tex can be used to generate pdf by including the relevant
   chapter's *TeX* source.  The TeX source can be obtained from the DeX
-  source by the script ./texify.py
+  source by the script ./texify.py (see below)
 
-  ./texify.py is not a complete or thoroughly tested script.  The
-  usual workflo has be to test by uploading to the website, though I
-  believe we should do more local development because it is faster.  I
-  therefore intend to develop texify further.
 
 * book-pandoc.tex can be used to generate an html or pdf via pandoc.
   The command is something like this
@@ -18,8 +14,20 @@
 
   book.html can then be viewed in the browser.
 
-  Note that book-pandoc.tex should be edited to include the relevat
-  TeX file.
+  I expect thath this will be a good quick way to test how math will
+  look on Diderot.  Math is rendered using mathjax, which doesn't have
+  full latex compatibility.  It sometimes requires trial and error to
+  get things look right but it is usually fine.
+
+* Generating TeX from DeX using texify.
+
+  The files book.tex and book-pandoc.tex should be edited to include
+  the relevat TeX file (chapter).  ./texify.py is not a complete or
+  thoroughly tested script.  The usual workflow has been to test by
+  uploading to the website, though I believe we should do more local
+  development because it is faster.  I therefore intend to develop
+  texify.py further.
+
 
 * Each directory is a chapter of the book
 
