@@ -10,10 +10,13 @@ This is it.
 
 \begin{section}[Overview]
 
-\begin{skip}[Skip this atom]
-Skip this.
-\end{skip}
+\begin{gram}[Skip this atom]
+We will skip this atom
+\end{gram}
 
+\begin{gram}[Follows a skipped atom]
+This atom follows an atom that will be deleted by skipping.
+\end{gram}
 
 \begin{subsection}
 \begin{teachnote}
