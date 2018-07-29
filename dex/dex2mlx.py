@@ -3,7 +3,9 @@
 ##
 ## Translate dex to mlx
 ## Assumes that the dex has been converted to the core language. 
-## This requires running the parser twice.
+##
+## This requires running the parser once and using its output 
+## (instead of the original file) to translate to MLX.
 
 import os
 import re

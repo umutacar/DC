@@ -36,7 +36,8 @@ def main(argv):
   (path, infile_name) = os.path.split(infile_name) 
 
   # cd to path
-  os.chdir(path)
+  if path is not '':
+    os.chdir(path)
 
   # dex: parser
   command = PYTHON + syntax.SPACE + PARSER + syntax.SPACE + infile_name

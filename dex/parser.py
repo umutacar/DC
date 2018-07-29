@@ -448,13 +448,11 @@ class Parser:
     
     begin_subsection = mk_parser_begin(dex.SUBSECTION)
     # intro is the part up to the first subsection
-    intro = self.mk_parser_text_block(begin_subsection | end)
+    intro = self.mk_parser_text_block(begin_subsection | self.begin_any_atom_or_group | end)
     intro = pp.Optional(intro)
     intro = set_text_block_parse_action_single(intro)
     intro = tokens.set_key_intro(intro)
-#    about.setDebug()
-
-
+#    intro.setDebug()
 
     contents = self.exp_elements + self.exp_subsections
     set_parse_action_list_to_text(contents)
