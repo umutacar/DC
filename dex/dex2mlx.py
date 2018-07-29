@@ -3,7 +3,9 @@
 ##
 ## Translate dex to mlx
 ## Assumes that the dex has been converted to the core language. 
-## This requires running the parser twice.
+##
+## This requires running the parser once and using its output 
+## (instead of the original file) to translate to MLX.
 
 import os
 import re
@@ -270,6 +272,7 @@ def parse (process_algo, \
              curry(process_atom, dex.PROOF, mlx.PROOF), \
              curry(process_atom, dex.PROPOSITION, mlx.PROPOSITION), \
              curry(process_atom, dex.REMARK, mlx.REMARK), \
+             curry(process_atom, dex.SKIP, mlx.SKIP), \
              curry(process_atom, dex.SOLUTION, mlx.SOLUTION), \
              curry(process_atom, dex.SYNTAX, mlx.SYNTAX), \
              curry(process_atom, dex.TEACH_ASK, mlx.TEACH_ASK), \

@@ -53,7 +53,8 @@ def main(argv):
   (path, infile_name) = os.path.split(infile_name) 
 
   # cd to path
-  os.chdir(path)
+  if path is not '': 
+    os.chdir(path)
 
   # create the various file names
   (infile_name_first, infile_ext) = infile_name.split (syntax.PERIOD) 

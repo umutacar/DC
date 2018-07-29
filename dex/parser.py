@@ -242,6 +242,7 @@ class Parser:
              mk_parser_begin(dex.PROOF) | \
              mk_parser_begin(dex.PROPOSITION) | \
              mk_parser_begin(dex.REMARK) | \
+             mk_parser_begin(dex.SKIP) | \
              mk_parser_begin(dex.SOLUTION) | \
              mk_parser_begin(dex.SYNTAX) | \
              mk_parser_begin(dex.TEACH_ASK) | \
@@ -447,13 +448,11 @@ class Parser:
     
     begin_subsection = mk_parser_begin(dex.SUBSECTION)
     # intro is the part up to the first subsection
-    intro = self.mk_parser_text_block(begin_subsection | end)
+    intro = self.mk_parser_text_block(begin_subsection | self.begin_any_atom_or_group | end)
     intro = pp.Optional(intro)
     intro = set_text_block_parse_action_single(intro)
     intro = tokens.set_key_intro(intro)
-#    about.setDebug()
-
-
+#    intro.setDebug()
 
     contents = self.exp_elements + self.exp_subsections
     set_parse_action_list_to_text(contents)
@@ -986,6 +985,7 @@ class Parser:
                process_atom_proof, \
                process_atom_proposition, \
                process_atom_remark, \
+               process_atom_skip, \
                process_atom_solution, \
                process_atom_syntax, \
                process_atom_teach_ask, \
@@ -1037,6 +1037,7 @@ class Parser:
     self.process_atom_proposition = process_atom_proposition
     self.process_atom_proof = process_atom_proof
     self.process_atom_remark = process_atom_remark
+    self.process_atom_skip = process_atom_skip
     self.process_atom_solution = process_atom_solution
     self.process_atom_syntax = process_atom_syntax
     self.process_atom_teach_ask = process_atom_teach_ask
@@ -1102,6 +1103,7 @@ class Parser:
     self.atom_proof = self.mk_parser_atom(dex.PROOF,  process_atom_proof)
     self.atom_proposition = self.mk_parser_atom(dex.PROPOSITION,  process_atom_proposition)
     self.atom_remark = self.mk_parser_atom(dex.REMARK, process_atom_remark)
+    self.atom_skip = self.mk_parser_atom(dex.SKIP, process_atom_skip)
     self.atom_solution = self.mk_parser_atom(dex.SOLUTION, process_atom_solution)
     self.atom_syntax = self.mk_parser_atom(dex.SYNTAX, process_atom_syntax)
     self.atom_teach_ask = self.mk_parser_atom(dex.TEACH_ASK, process_atom_teach_ask)
@@ -1130,6 +1132,7 @@ class Parser:
                     self.atom_proposition | \
                     self.atom_remark | \
                     self.atom_solution | \
+                    self.atom_skip | \
                     self.atom_syntax | \
                     self.atom_teach_ask | \
                     self.atom_teach_note | \
@@ -1258,6 +1261,7 @@ def mk_uniform_parser (\
                         curry(process_atom, dex.PROOF), \
                         curry(process_atom, dex.PROPOSITION), \
                         curry(process_atom, dex.REMARK), \
+                        curry(process_atom, dex.SKIP), \
                         curry(process_atom, dex.SOLUTION), \
                         curry(process_atom, dex.SYNTAX), \
                         curry(process_atom, dex.TEACH_ASK), \

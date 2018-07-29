@@ -4,12 +4,19 @@
 This chapter presents a brief overview of the methodology followed in
 this book. 
 
-\begin{lstlisting}[numbers=left]
-fun f (x): 
-  lambda x: x+1
-\end{lstlisting}
+\begin{gram}
+This is it.
+\end{gram}
 
 \begin{section}[Overview]
+
+\begin{gram}[Skip this atom]
+We will skip this atom
+\end{gram}
+
+\begin{gram}[Follows a skipped atom]
+This atom follows an atom that will be deleted by skipping.
+\end{gram}
 
 \begin{subsection}
 \begin{teachnote}
@@ -18,6 +25,47 @@ TODO:Updates needed to deemphasize parallelism.
 % two paragraphs because most of the ideas transend parallel vs sequential.
 % The whole next section is on parallelism.
 \end{teachnote}
+
+%% \begin{gram}[This will be a shard 1]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 2]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 3]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 4]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 5]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 6]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 7]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 8]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 9]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
+%% \begin{gram}[This will be a shard 10]
+%% This atom (Gram) used to be in the book.  Now it is a shard.
+%% \end{gram}
+
 
 \begin{gram} 
 This book aims to present techniques for problem solving using today's
