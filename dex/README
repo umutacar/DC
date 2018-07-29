@@ -3,14 +3,23 @@
 
 ** Setup:
    For the scripts here you have to make the directory visible to python.
-   bash$ export PYTHONPATH=/Users/umut/r/diderot/diderot
 
-   You can then use commands like this:
-   $ python dex2dil.py unit-upload-test1.exp
+    MTL_HOME is the parent of this directory.
 
-   this will convert the file to a dil file.  You can then use various
-   dil facilities on this file such as elaboration and loading it into
-   the database.
+    export MTL_HOME=/Users/umut/MeTaL
+    export DIDEROT_HOME=/Users/umut/lambdabricks/src
+
+    export PYTHONPATH=$MTL_HOME:$DIDEROT_HOME
+
+
+## The main file to use here is mlxdex.py 
+   This converts a dex file to an mlx file that can be loaded onto
+   diderot.
+ 
+   This file uses two scripts:
+   1) MTL_HOME/dex/parser.py
+   1) MTL_HOME/dex/dex2mlx.py
+   
 
 ** Scripts
   *** parser.py
@@ -18,8 +27,12 @@
   This parser is built to self-check (a bit) by comparing its output
   with its output on parsed files.
 
-  > python parse.py dex_file 
-  Parse the file.  This is used to build the elaborate.py and dex2dil.
+  > python parser.py dex_file 
+  Parse the file and convert it to the core language.  
+
+  Core language has more basic features.  
+
+  This file is also used to build  dex2dil.
 
   It takes several arguments. These are set to common values that we
   expect but can be configured.
@@ -53,9 +66,9 @@
   As difference you should see mostly white space
   
 
-  ** dex2mtl.py
+  ** dex2mlx.py
 
-  > python dex2mtl.py  dex_file_parsed
+  > python dex2mlx.py  dex_file_parsed
 
   Important: assumes that the file is already converted to the core
   language
