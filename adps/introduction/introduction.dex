@@ -4,8 +4,16 @@
 This chapter presents a brief overview of the methodology followed in
 this book. 
 
+\begin{gram}
+This is it.
+\end{gram}
 
 \begin{section}[Overview]
+
+\begin{skip}[Skip this atom]
+Skip this.
+\end{skip}
+
 
 \begin{subsection}
 \begin{teachnote}
