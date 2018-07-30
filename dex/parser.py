@@ -9,6 +9,7 @@ from functools import partial as curry
 
 import pyparsing as pp 
 
+import pervasives.os_utils as os_utils
 from pervasives.parser import *
 from pervasives.syntax import *
 
@@ -1393,35 +1394,13 @@ def process_block_end (this_block, toks):
 
   return toks
 
-def main(argv):
-  parents_optional = True
-  titles_optional = True
-  course_label_on = False
-
-  if len(sys.argv) < 2: 
-    print 'Usage: dex_parser inputfile [course_label_on = False]'
-    sys.exit()
-  elif len(sys.argv) == 2:
-    course_label_on = False
-  elif len(sys.argv) == 3:
-    print 'course_label_on = ',  sys.argv[2]
-    course_label_on = (sys.argv[2] == KW_TRUE)
-  else:
-    print 'Usage: dex_parser inputfile [course_label_on = False]'
-    sys.exit()
-
-  print 'Executing:', sys.argv[0], str(sys.argv[1]), \
-                      'course_label_on = ', course_label_on, \
-                      'titles_optional = ', titles_optional,\
-                      'parents_optional = ', parents_optional
-
-
-  infile_name = sys.argv[1]
+def main (infile_name, course_label_on, parents_optional, titles_optional):
   # drop path stuff
-  (path, infile_name) = os.path.split(infile_name) 
-  print 'infile_name:', infile_name
-  (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
-  outfile_name = infile_name_first + '_parsed' + PERIOD + infile_ext
+  (path, infile_name_file) = os.path.split(infile_name) 
+  print 'infile_name:', infile_name_file
+  outfile_name = os_utils.mk_file_name_derivative(infile_name, os_utils.CORE)
+
+#  outfile_name = infile_name_first + UNDERSCORE + osutils.CORE + PERIOD + infile_ext
 
   infile = open(infile_name, 'r')
   outfile = open(outfile_name, 'w')
@@ -1467,5 +1446,33 @@ def main(argv):
 
   return 0
 
+
+def main_script(argv):
+  parents_optional = True
+  titles_optional = True
+  course_label_on = False
+
+  if len(sys.argv) < 2: 
+    print 'Usage: dex_parser inputfile [course_label_on = False]'
+    sys.exit()
+  elif len(sys.argv) == 2:
+    course_label_on = False
+  elif len(sys.argv) == 3:
+    print 'course_label_on = ',  sys.argv[2]
+    course_label_on = (sys.argv[2] == KW_TRUE)
+  else:
+    print 'Usage: dex_parser inputfile [course_label_on = False]'
+    sys.exit()
+
+  print 'Executing:', sys.argv[0], str(sys.argv[1]), \
+                      'course_label_on = ', course_label_on, \
+                      'titles_optional = ', titles_optional,\
+                      'parents_optional = ', parents_optional
+
+
+  result = main (infile_name, course_label_on, parents_optional, titles_optional)
+
+  return result
+
 if __name__ == '__main__':
-    main(sys.argv)
+    main_stript(sys.argv)

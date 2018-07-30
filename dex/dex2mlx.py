@@ -370,7 +370,73 @@ def main(argv):
   mlx_file.close()
   print "mlx code written into file:", mlx_file_name
 
+
+def main(infile_name, latex_preamble_name):
+  print "infile_name:", infile_name
+  print "latex_preamble_name:", latex_preamble_name
+
+  # (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
+  # lxfile_name = infile_name_first + os_utils.MLX_EXTENSION
+  mlx_file_name = os_utils.mk_file_name_ext(infile_name, os_utils.MLX_EXTENSION)
+  print "mlx_file_name:", mlx_file_name
+  infile = open(infile_name, 'r')
+  mlx_file = open(mlx_file_name, 'w')
+
+  data = infile.read ()
+
+  blocks.init(latex_preamble_name)
+
+  result = parse (
+             process_algo, \
+             process_atom, \
+             process_chapter, \
+             process_group, \
+             process_problem_fr, \
+             process_problem_ma, \
+             process_problem_mc, \
+             process_problem_group, \
+             process_problem_set, \
+             process_section, \
+             process_subsection, data)
+
+
+  if len(result) == 2:
+    ## Write output
+    # The result consists of a course block and a book
+    course_block = result[0]
+  #  print 'dex2mlx: course_block:', course_block
+    book = result[1]
+  #  print 'dex2mlx: book:', book
+    course_block.book = book
+    result = MLX_PREAMBLE + course_block.to_mlx_string ()
+
+  #  book = NEWLINE.join(result[1:])
+  #  contents = course + NEWLINE + book  
+  #  mlx_file.write(contents)
+  elif len(result) == 1:
+    result = MLX_PREAMBLE + result[0]
+  else:
+    print "Fatal Error: Unknown Input."
+    exit(1)
+
+  mlx_file.write(result)
+  mlx_file.close()
+  print "mlx code written into file:", mlx_file_name
+  return 0
+
+def main_script(argv):
+
+  print 'Executing:', sys.argv[0], str(sys.argv)
+  if len(sys.argv) != 3: 
+    print 'Usage: dex2mlx inputfile latex_preamble'
+    sys.exit()
+
+  infile_name = sys.argv[1]
+  latex_preamble_name = sys.argv[2]
+
+  main(infile_name, latex_preamble_name)
+
 if __name__ == "__main__":
-    main(sys.argv)
+    main_script(sys.argv)
 ## END Mainline
 ######################################################################
