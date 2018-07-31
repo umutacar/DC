@@ -1447,7 +1447,9 @@ def main (infile_name, course_label_on, parents_optional, titles_optional):
   return 0
 
 
-def main_script(argv):
+
+
+if __name__ == '__main__':
   parents_optional = True
   titles_optional = True
   course_label_on = False
@@ -1474,5 +1476,3 @@ def main_script(argv):
 
   return result
 
-if __name__ == '__main__':
-    main_stript(sys.argv)
