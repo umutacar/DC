@@ -585,9 +585,8 @@ class Section:
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
-
   def to_tex_string (self):
-    result = self.contents
+    result = tex.mk_block_section(self.title, self.label, self.contents)
     return result
 
 ## Subsection
@@ -615,7 +614,7 @@ class Subsection:
     return NEWLINE + r
 
   def to_tex_string (self):
-    result = self.contents
+    result = tex.mk_block_subsection(self.title, self.label, self.contents)
     return result
 
 ## Subsubsection
@@ -643,8 +642,9 @@ class Subsubsection:
     return NEWLINE + r
 
   def to_tex_string (self):
-    result = self.contents
+    result = tex.mk_block_subsubsection(self.title, self.label, self.contents)
     return result
+
 
 ## Atom
 class Atom:
@@ -678,7 +678,8 @@ class Atom:
     return NEWLINE + r
 
   def to_tex_string (self, tex_name):
-    result = self.contents
+#    print 'atom.to_tex_string:', tex_name, 'title:', self.title, 'contents:', self.contents
+    result = tex.mk_block_atom(tex_name, self.title, self.label, self.contents)
     return result
 
 ## Algo(rithm)

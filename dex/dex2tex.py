@@ -112,15 +112,9 @@ def process_subsubsection(toks):
 
 # convert an atom to mlx
 def process_atom (atom_name_dex, atom_name_tex, toks):
-  print 'atom matched:', atom_name_dex
+  print 'atom matched:', atom_name_dex, 'tex_name: ', atom_name_tex
 
-  # Should we translate body to html? 
-  # Yes, unless it is the HTML atom.
-  translate_to_html = True
-  if atom_name_dex == dex.PARAGRAPH_HTML:
-    translate_to_html = False
-
-  atom = blocks.Atom(atom_name_dex, translate_to_html, toks)
+  atom = blocks.Atom(atom_name_dex, False, toks)
   r = atom.to_tex_string(atom_name_tex)
   return r
 
@@ -294,9 +288,8 @@ def parse (process_algo, \
 ## BEGIN Mainline
 
 
-def main(infile_name, latex_preamble_name):
+def main(infile_name):
   print "infile_name:", infile_name
-  print "latex_preamble_name:", latex_preamble_name
 
   # (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
   # lxfile_name = infile_name_first + os_utils.TEX_EXTENSION
@@ -306,8 +299,6 @@ def main(infile_name, latex_preamble_name):
   tex_file = open(tex_file_name, 'w')
 
   data = infile.read ()
-
-  blocks.init(latex_preamble_name)
 
   result = parse (
              process_algo, \
@@ -336,13 +327,12 @@ def main(infile_name, latex_preamble_name):
 
 if __name__ == "__main__":
   print 'Executing:', sys.argv[0], str(sys.argv)
-  if len(sys.argv) != 3: 
-    print 'Usage: dex2mlx inputfile latex_preamble'
+  if len(sys.argv) != 2: 
+    print 'Usage: dex2tex inputfile'
     sys.exit()
 
   infile_name = sys.argv[1]
-  latex_preamble_name = sys.argv[2]
 
-  main(infile_name, latex_preamble_name)
+  main(infile_name)
 ## END Mainline
 ######################################################################

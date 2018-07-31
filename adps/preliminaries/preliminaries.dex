@@ -18,7 +18,13 @@ More details can be found in standard texts.
 This section presents a review of some basic definitions on sets and
 relations.
 
+
 \begin{subsection}[Sets]
+
+\begin{gram}[Shard]
+This atom will be shard.
+\end{gram}
+
 \begin{gram}
 A~\defn{set} is a collection of distinct objects.  The objects that
 are contained in a set, are called~\defn{members} or

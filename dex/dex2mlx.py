@@ -126,7 +126,7 @@ def process_subsubsection(toks):
 
 # convert an atom to mlx
 def process_atom (atom_name_dex, atom_name_mlx, toks):
-  print 'atom matched:', atom_name_dex
+  print 'atom matched:', atom_name_dex, 'mlx_name: ', atom_name_mlx
 
   # Should we translate body to html? 
   # Yes, unless it is the HTML atom.

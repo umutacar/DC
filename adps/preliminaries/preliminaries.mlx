@@ -82,6 +82,35 @@ Sets
 <block name="subsubsection"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><block name="group"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><atom name="gram">
 <field name="title">
 <![CDATA[
+Shard
+]]>
+</field> 
+<field name="title_src">
+<![CDATA[
+Shard
+]]>
+</field> 
+<field name="label">
+...NOT.PROVIDED.LABEL...
+</field> 
+<field name="parents">
+...NOT.PROVIDED.PARENTS...
+</field> 
+<field name="body">
+<![CDATA[
+<p>This atom will be shard.</p>
+]]>
+</field> 
+<field name="body_src">
+<![CDATA[
+This atom will be shard.
+]]>
+</field> 
+</atom> 
+
+</block></block><block name="subsubsection"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><block name="group"><field name="label">...NOT.PROVIDED.LABEL...</field><field name="parents">...NOT.PROVIDED.PARENTS...</field><field name="title">...NOT.PROVIDED.TITLE...</field><field name="title_src">...NOT.PROVIDED.TITLE...</field><field name="unique">0</field><atom name="gram">
+<field name="title">
+<![CDATA[
 ...NOT.PROVIDED.TITLE...
 ]]>
 </field> 
