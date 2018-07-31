@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+
+# 
+# Runs the parser with the specified filename
+# and translates the code into the core language
+# filename_core.dex 
+
 import re
 import sys
 import os
@@ -9,7 +15,7 @@ import parser
 def main(argv):
   print 'Executing:', sys.argv[0], str(sys.argv)
   if len(sys.argv) != 2: 
-    print 'Usage: parser inputfile'
+    print 'Usage: parse inputfile'
     sys.exit()
 
   # get current working directory
@@ -24,10 +30,10 @@ def main(argv):
     os.chdir(path)
 
   # dex: parser
-  command = PYTHON + syntax.SPACE + PARSER + syntax.SPACE + infile_name
-  print 'Executing command:', command
-  if os.system(command):
-    print "Fatal Error: command failed! Command = ", command
+  parents_optional = True
+  titles_optional = True
+  parser.main(infile_name, parents_optional, titles_optional)
+
 
 if __name__ == "__main__":
     main(sys.argv)
