@@ -1,8 +1,14 @@
 #!/usr/bin/env python
 
-## IMPORTANT:
-## This is a copy of ~/mtl/dex_mlx/mlxdex.py
-## It should always be maintained as such.
+# Translates dex to mlx.  
+# # It requires acces to MTL and MLX directories.
+#   and the scripts within.
+#   These are defined by environment variables
+#   MTL_HOME and DIDEROT_HOME.
+#
+# # It assumes a fixed latex preamble as defined by the 
+#   global variable LATEX_PREAMBLE_FILE
+
 
 import re
 import sys
@@ -21,6 +27,7 @@ MLX_EXTENSION = '.mlx'
 
 ######################################################################
 ## BEGIN: Fix various files
+## REQUIRES MTL_HOME environment variable
 ## REQUIRES DIDEROT_HOME environment variable
 ## REQUIRES LATEX_PREAMBLE file, see below
 

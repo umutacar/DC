@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 
-## IMPORTANT:
-## This is a "direct" implementation of mlxdex that can be used
-## to generate a standalone binary
+
+# Translates dex to mlx, taking in a latex_preamble_file
+# as an argument.
+#
+# A direct implemenation which requires 
+# dex and mlx packages to be accessible (via PYTHONPATH)
+#
 
 import re
 import sys
