@@ -244,12 +244,10 @@ def parse (process_algo, \
   uniques_optional = True
   parents_optional = True
   titles_optional = True
-  course_label_on = True
 
   parser = dex_parser.Parser (\
              parents_optional, \
              titles_optional, \
-             course_label_on, \
              process_block_begin, \
              process_block_end, \
              process_algo, \

@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
 # Translates dex to mlx.  
+# A slightly different implementation of mlxdex_direct.py
+#
 # # It requires acces to MTL and MLX directories.
 #   and the scripts within.
 #   These are defined by environment variables
@@ -65,10 +67,10 @@ def main(argv):
 
   # create the various file names
   (infile_name_first, infile_ext) = infile_name.split (syntax.PERIOD) 
-  parsed_infile = os_utils.mk_file_name_derivative(infile_name, os_utils.PARSED)
-  parsed_infile_mlx = os_utils.mk_file_name_ext(parsed_infile, os_utils.MLX_EXTENSION)
+  core_infile = os_utils.mk_file_name_derivative(infile_name, os_utils.CORE)
+  core_infile_mlx = os_utils.mk_file_name_ext(core_infile, os_utils.MLX_EXTENSION)
   outfile_mlx = os_utils.mk_file_name_ext(infile_name, os_utils.MLX_EXTENSION)
-  outfile_mlx_elaborated = os_utils.mk_file_name_derivative(parsed_infile_mlx, os_utils.ELABORATED)
+  outfile_mlx_elaborated = os_utils.mk_file_name_derivative(core_infile_mlx, os_utils.ELABORATED)
 
    # convert dex to core dex by using the parser
   command = PYTHON + syntax.SPACE + DEX_PARSER + syntax.SPACE + infile_name
@@ -76,13 +78,13 @@ def main(argv):
   os.system(command)
 
   # convert core dex to mlx
-  command = PYTHON + syntax.SPACE + DEX_2_MLX + syntax.SPACE + parsed_infile + syntax.SPACE + LATEX_PREAMBLE_FILE
+  command = PYTHON + syntax.SPACE + DEX_2_MLX + syntax.SPACE + core_infile + syntax.SPACE + LATEX_PREAMBLE_FILE
   print 'Executing command:', command
   os.system(command)
 
 
   # elaborate mlx
-  command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + parsed_infile_mlx + syntax.SPACE + outfile_mlx_elaborated
+  command = PYTHON + syntax.SPACE + MLX_ELABORATE + syntax.SPACE + core_infile_mlx + syntax.SPACE + outfile_mlx_elaborated
   print 'Executing command:', command
   os.system(command)
 

@@ -14,8 +14,8 @@ import os
 
 import pervasives.syntax as syntax
 import pervasives.os_utils as os_utils
-import dex.parser
-import dex.dex2mlx
+import parser
+import dex2mlx
 import mlx.elaborate
 
 ## Some constants
@@ -41,16 +41,16 @@ def main(infile_name, latex_preamble_file):
   outfile_mlx_elaborated = os_utils.mk_file_name_derivative(core_infile_mlx, os_utils.ELABORATED)
 
    # convert dex to core dex by using the parser
-  dex.parser.main(infile_name, False, True, True)
+  parser.main(infile_name, True, True)
   print 'Translating', infile_name, 'to core language.'
 
   # convert core dex to mlx
-  dex.dex2mlx.main(core_infile, latex_preamble_file)
   print 'Translating to mlx'
+  dex2mlx.main(core_infile, latex_preamble_file)
 
    # elaborate mlx
-  mlx.elaborate.main(core_infile_mlx, outfile_mlx_elaborated)
   print 'Elaborating mlx', core_infile_mlx
+  mlx.elaborate.main(core_infile_mlx, outfile_mlx_elaborated)
 
   # rename and copy to Desktop
   os_utils.mv_file_to(outfile_mlx_elaborated, outfile_mlx)  
