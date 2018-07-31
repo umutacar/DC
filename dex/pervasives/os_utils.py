@@ -13,6 +13,7 @@ XML_EXTENSION = 'xml'
 
 # Common file derivatives
 BEAMED = '_beamed'
+CORE = 'core'
 DECORATED = 'decd'
 ELABORATED = 'eld'
 # File name creation
