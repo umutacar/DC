@@ -963,7 +963,6 @@ class Parser:
   def __init__(self, \
                parents_optional, \
                titles_optional, \
-               course_label_on, \
                process_block_begin, \
                process_block_end, \
                process_algo,
@@ -1009,7 +1008,6 @@ class Parser:
 
     self.parents_optional = parents_optional
     self.titles_optional = titles_optional
-    self.course_label_on = course_label_on
 
     self.process_block_begin = process_block_begin              
     self.process_block_end = process_block_end              
@@ -1217,7 +1215,6 @@ class Parser:
 
 def mk_uniform_parser (\
                        parents_optional, titles_optional, \
-                       course_label_on, \
                        process_block_begin, \
                        process_block_end, \
                        process_algo, \
@@ -1239,7 +1236,6 @@ def mk_uniform_parser (\
   parser = Parser (\
                         parents_optional, \
                         titles_optional, \
-                        course_label_on, \
                         process_block_begin, \
                         process_block_end, \
                         process_algo, \
@@ -1293,7 +1289,6 @@ def mk_uniform_parser (\
 ## Begin: Parser function
 
 def parse (parents_optional, titles_optional, \
-           course_label_on, \
            process_block_begin, \
            process_block_end, \
            process_algo,  \
@@ -1313,7 +1308,6 @@ def parse (parents_optional, titles_optional, \
 
   parser = mk_uniform_parser(\
                              parents_optional, titles_optional, \
-                             course_label_on, \
                              process_block_begin, \
                              process_block_end, \
                              process_algo, \
@@ -1394,7 +1388,7 @@ def process_block_end (this_block, toks):
 
   return toks
 
-def main (infile_name, course_label_on, parents_optional, titles_optional):
+def main (infile_name, parents_optional, titles_optional):
   # drop path stuff
   (path, infile_name_file) = os.path.split(infile_name) 
   print 'infile_name:', infile_name_file
@@ -1410,7 +1404,6 @@ def main (infile_name, course_label_on, parents_optional, titles_optional):
   result = parse (\
              parents_optional, \
              titles_optional, \
-             course_label_on, \
              process_block_begin, \
              process_block_end, \
              blocks.algo_to_string, \
@@ -1452,28 +1445,23 @@ def main (infile_name, course_label_on, parents_optional, titles_optional):
 if __name__ == '__main__':
   parents_optional = True
   titles_optional = True
-  course_label_on = False
 
   if len(sys.argv) < 2: 
-    print 'Usage: dex_parser inputfile [course_label_on = False]'
+    print 'Usage: dex_parser inputfile'
     sys.exit()
   elif len(sys.argv) == 2:
     course_label_on = False
-  elif len(sys.argv) == 3:
-    print 'course_label_on = ',  sys.argv[2]
-    course_label_on = (sys.argv[2] == KW_TRUE)
   else:
-    print 'Usage: dex_parser inputfile [course_label_on = False]'
+    print 'Usage: dex_parser inputfile'
     sys.exit()
 
   infile_name = str(sys.argv[1])
   print 'Executing:', sys.argv[0], infile_name, \
-                      'course_label_on = ', course_label_on, \
                       'titles_optional = ', titles_optional,\
                       'parents_optional = ', parents_optional
 
 
-  main (infile_name, course_label_on, parents_optional, titles_optional)
+  main (infile_name, parents_optional, titles_optional)
 
 
 
