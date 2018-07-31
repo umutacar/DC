@@ -1466,13 +1466,14 @@ if __name__ == '__main__':
     print 'Usage: dex_parser inputfile [course_label_on = False]'
     sys.exit()
 
-  print 'Executing:', sys.argv[0], str(sys.argv[1]), \
+  infile_name = str(sys.argv[1])
+  print 'Executing:', sys.argv[0], infile_name, \
                       'course_label_on = ', course_label_on, \
                       'titles_optional = ', titles_optional,\
                       'parents_optional = ', parents_optional
 
 
-  result = main (infile_name, course_label_on, parents_optional, titles_optional)
+  main (infile_name, course_label_on, parents_optional, titles_optional)
 
-  return result
+
 
