@@ -3,7 +3,7 @@
 # 
 # Runs the parser with the specified filename
 # and translates the code into the core language
-# filename_core.dex 
+# filenameo_core.dex 
 
 import re
 import sys
@@ -33,7 +33,7 @@ def main(argv):
   parents_optional = True
   titles_optional = True
   parser.main(infile_name, parents_optional, titles_optional)
-
+  os.chdir(root_dir)
 
 if __name__ == "__main__":
     main(sys.argv)

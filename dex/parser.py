@@ -1,5 +1,8 @@
 ######################################################################
 ## dex/parser.py
+##
+## Provides the "main" function which parses the given 
+## dex and translates into to the core language. 
 ######################################################################
 
 import os
@@ -1394,8 +1397,6 @@ def main (infile_name, parents_optional, titles_optional):
   print 'infile_name:', infile_name_file
   outfile_name = os_utils.mk_file_name_derivative(infile_name, os_utils.CORE)
 
-#  outfile_name = infile_name_first + UNDERSCORE + osutils.CORE + PERIOD + infile_ext
-
   infile = open(infile_name, 'r')
   outfile = open(outfile_name, 'w')
   data = infile.read ()
@@ -1441,27 +1442,21 @@ def main (infile_name, parents_optional, titles_optional):
 
 
 
+# if __name__ == '__main__':
+#   parents_optional = True
+#   titles_optional = True
 
-if __name__ == '__main__':
-  parents_optional = True
-  titles_optional = True
+#   if len(sys.argv) != 2: 
+#     print 'Usage: parser inputfile'
+#     sys.exit()
 
-  if len(sys.argv) < 2: 
-    print 'Usage: dex_parser inputfile'
-    sys.exit()
-  elif len(sys.argv) == 2:
-    course_label_on = False
-  else:
-    print 'Usage: dex_parser inputfile'
-    sys.exit()
-
-  infile_name = str(sys.argv[1])
-  print 'Executing:', sys.argv[0], infile_name, \
-                      'titles_optional = ', titles_optional,\
-                      'parents_optional = ', parents_optional
+#   infile_name = str(sys.argv[1])
+#   print 'Executing:', sys.argv[0], infile_name, \
+#                       'titles_optional = ', titles_optional,\
+#                       'parents_optional = ', parents_optional
 
 
-  main (infile_name, parents_optional, titles_optional)
+#   main (infile_name, parents_optional, titles_optional)
 
 
 
