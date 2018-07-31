@@ -434,6 +434,6 @@ if __name__ == "__main__":
   infile_name = sys.argv[1]
   latex_preamble_name = sys.argv[2]
 
-  main(sys.argv)
+  main(infile_name, latex_preamble_name)
 ## END Mainline
 ######################################################################
