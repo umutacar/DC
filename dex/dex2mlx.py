@@ -424,8 +424,8 @@ def main(infile_name, latex_preamble_name):
   print "mlx code written into file:", mlx_file_name
   return 0
 
-def main_script(argv):
 
+if __name__ == "__main__":
   print 'Executing:', sys.argv[0], str(sys.argv)
   if len(sys.argv) != 3: 
     print 'Usage: dex2mlx inputfile latex_preamble'
@@ -434,9 +434,6 @@ def main_script(argv):
   infile_name = sys.argv[1]
   latex_preamble_name = sys.argv[2]
 
-  main(infile_name, latex_preamble_name)
-
-if __name__ == "__main__":
-    main_script(sys.argv)
+  main(sys.argv)
 ## END Mainline
 ######################################################################
