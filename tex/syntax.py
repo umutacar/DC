@@ -100,6 +100,21 @@ def mk_label(label):
   result = COM_LABEL + mk_str_arg(label)
   return result
 
+def mk_heading_generic_begin(name, title):
+  if valid_title (title):
+    title = title
+  else:
+    title = ''
+  result = \
+    COM_BEGIN + mk_str_arg(name) + mk_str_opt_arg(title) + NEWLINE 
+  return result 
+
+def mk_heading_generic_end(name, title):
+  result = 
+    COM_END + mk_str_arg(name)
+  return result 
+
+
 def mk_heading_chapter(title):
   if valid_title (title):
     title = title
@@ -160,8 +175,10 @@ def mk_block_atom (name, title, label, contents):
     title = name.capitalize()
 
   result = \
-    mk_heading_paragraph(title) + NEWLINE + \
-    contents.lstrip()
+    mk_heading_generic_begin(name, title) + NEWLINE + \
+    contents.lstrip() + NEWLINE + \
+    mk_heading_generic_end(name)
+
   return result
 
 def mk_block_chapter (title, label, intro, contents):

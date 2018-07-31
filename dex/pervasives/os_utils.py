@@ -21,6 +21,7 @@ ELABORATED = 'eld'
 ELABORATED_0 = 'ed_0'
 ELABORATED_1 = 'ed_1'
 LOADED = 'loaded'
+PANDOC = 'pandoc'
 PARSED = 'parsed'
 STRICT = 'strict'
 

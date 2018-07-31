@@ -24,7 +24,7 @@ import syntax as dex
 import tokens as tokens
 
 import mlx.syntax as mlx
-import tex.syntax as tex
+import pex.syntax as pex
 
 import latex.latex2html as latex2html
 import string
@@ -370,9 +370,15 @@ class Chapter:
     r = mlx.mk_str_chapter(fields)
     return NEWLINE + r
 
+  def to_pex_string (self):
+    result = pex.mk_block_chapter(self.title, self.label, self.intro, self.contents)
+    return result
+
   def to_tex_string (self):
     result = tex.mk_block_chapter(self.title, self.label, self.intro, self.contents)
     return result
+
+
 
 ## Group
 class Group:
@@ -406,6 +412,10 @@ class Group:
 
     r = mlx.mk_str_group(fields)
     return NEWLINE + r
+
+  def to_pex_string (self):
+    result = pex.mk_block_group (self.contents)
+    return result
 
   def to_tex_string (self):
     result = tex.mk_block_group (self.contents)
@@ -585,6 +595,10 @@ class Section:
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
+  def to_pex_string (self):
+    result = pex.mk_block_section(self.title, self.label, self.contents)
+    return result
+
   def to_tex_string (self):
     result = tex.mk_block_section(self.title, self.label, self.contents)
     return result
@@ -613,6 +627,10 @@ class Subsection:
     r = mlx.mk_str_subsection(fields)
     return NEWLINE + r
 
+  def to_pex_string (self):
+    result = pex.mk_block_subsection(self.title, self.label, self.contents)
+    return result
+
   def to_tex_string (self):
     result = tex.mk_block_subsection(self.title, self.label, self.contents)
     return result
@@ -640,6 +658,10 @@ class Subsubsection:
     fields.extend([contents])
     r = mlx.mk_str_subsubsection(fields)
     return NEWLINE + r
+
+  def to_pex_string (self):
+    result = pex.mk_block_subsubsection(self.title, self.label, self.contents)
+    return result
 
   def to_tex_string (self):
     result = tex.mk_block_subsubsection(self.title, self.label, self.contents)
@@ -676,6 +698,11 @@ class Atom:
     fields.extend([contents_html, contents_src])
     r = mlx.mk_str_block_atom(atom_name_mlx, fields)
     return NEWLINE + r
+
+  def to_pex_string (self, tex_name):
+#    print 'atom.to_tex_string:', tex_name, 'title:', self.title, 'contents:', self.contents
+    result = pex.mk_block_atom(tex_name, self.title, self.label, self.contents)
+    return result
 
   def to_tex_string (self, tex_name):
 #    print 'atom.to_tex_string:', tex_name, 'title:', self.title, 'contents:', self.contents
@@ -733,6 +760,10 @@ class Algo:
     fields.extend([contents_html, contents_src])
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
     return NEWLINE + r
+
+  def to_pex_string (self):
+    result = self.contents
+    return result
 
   def to_tex_string (self):
     result = self.contents
