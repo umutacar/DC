@@ -231,31 +231,31 @@ def parse (process_algo, \
              process_block_begin, \
              process_block_end, \
              process_algo, \
-             curry(process_atom, dex.ALGORITHM, tex.ALGORITHM), \
-             curry(process_atom, dex.CODE, tex.CODE), \
-             curry(process_atom, dex.COROLLARY, tex.COROLLARY), \
-             curry(process_atom, dex.COST_SPEC, tex.COST_SPEC), \
-             curry(process_atom, dex.DATASTR, tex.DATASTR), \
-             curry(process_atom, dex.DATATYPE, tex.DATATYPE), \
-             curry(process_atom, dex.DEFINITION, tex.DEFINITION), \
-             curry(process_atom, dex.EXAMPLE, tex.EXAMPLE), \
-             curry(process_atom, dex.EXERCISE, tex.EXERCISE), \
-             curry(process_atom, dex.HINT, tex.HINT), \
-             curry(process_atom, dex.IMPORTANT, tex.IMPORTANT), \
-             curry(process_atom, dex.LEMMA, tex.LEMMA), \
-             curry(process_atom, dex.NOTE, tex.NOTE), \
-             curry(process_atom, dex.PARAGRAPH, tex.PARAGRAPH), \
-             curry(process_atom, dex.PARAGRAPH_HTML, tex.PARAGRAPH_HTML), \
-             curry(process_atom, dex.PROBLEM, tex.PROBLEM), \
-             curry(process_atom, dex.PROOF, tex.PROOF), \
-             curry(process_atom, dex.PROPOSITION, tex.PROPOSITION), \
-             curry(process_atom, dex.REMARK, tex.REMARK), \
-             curry(process_atom, dex.SKIP, tex.SKIP), \
-             curry(process_atom, dex.SOLUTION, tex.SOLUTION), \
-             curry(process_atom, dex.SYNTAX, tex.SYNTAX), \
-             curry(process_atom, dex.TEACH_ASK, tex.TEACH_ASK), \
-             curry(process_atom, dex.TEACH_NOTE, tex.TEACH_NOTE), \
-             curry(process_atom, dex.THEOREM, tex.THEOREM), \
+             curry(process_atom, dex.ALGORITHM, tex.ALGORITHM_), \
+             curry(process_atom, dex.CODE, tex.CODE_), \
+             curry(process_atom, dex.COROLLARY, tex.COROLLARY_), \
+             curry(process_atom, dex.COST_SPEC, tex.COST_SPEC_), \
+             curry(process_atom, dex.DATASTR, tex.DATASTR_), \
+             curry(process_atom, dex.DATATYPE, tex.DATATYPE_), \
+             curry(process_atom, dex.DEFINITION, tex.DEFINITION_), \
+             curry(process_atom, dex.EXAMPLE, tex.EXAMPLE_), \
+             curry(process_atom, dex.EXERCISE, tex.EXERCISE_), \
+             curry(process_atom, dex.HINT, tex.HINT_), \
+             curry(process_atom, dex.IMPORTANT, tex.IMPORTANT_), \
+             curry(process_atom, dex.LEMMA, tex.LEMMA_), \
+             curry(process_atom, dex.NOTE, tex.NOTE_), \
+             curry(process_atom, dex.PARAGRAPH, tex.PARAGRAPH_), \
+             curry(process_atom, dex.PARAGRAPH_HTML, tex.PARAGRAPH_HTML_), \
+             curry(process_atom, dex.PROBLEM, tex.PROBLEM_), \
+             curry(process_atom, dex.PROOF, tex.PROOF_), \
+             curry(process_atom, dex.PROPOSITION, tex.PROPOSITION_), \
+             curry(process_atom, dex.REMARK, tex.REMARK_), \
+             curry(process_atom, dex.SKIP, tex.SKIP_), \
+             curry(process_atom, dex.SOLUTION, tex.SOLUTION_), \
+             curry(process_atom, dex.SYNTAX, tex.SYNTAX_), \
+             curry(process_atom, dex.TEACH_ASK, tex.TEACH_ASK_), \
+             curry(process_atom, dex.TEACH_NOTE, tex.TEACH_NOTE_), \
+             curry(process_atom, dex.THEOREM, tex.THEOREM_), \
              process_answer, \
              process_choice, \
              process_select, \
