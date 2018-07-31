@@ -24,6 +24,8 @@ import syntax as dex
 import tokens as tokens
 
 import mlx.syntax as mlx
+import tex.syntax as tex
+
 import latex.latex2html as latex2html
 import string
 
@@ -368,6 +370,10 @@ class Chapter:
     r = mlx.mk_str_chapter(fields)
     return NEWLINE + r
 
+  def to_tex_string (self):
+    result = tex.mk_block_chapter(self.title, self.label, self.intro, self.contents)
+    return result
+
 ## Group
 class Group:
   def __init__(self, toks):
@@ -400,6 +406,10 @@ class Group:
 
     r = mlx.mk_str_group(fields)
     return NEWLINE + r
+
+  def to_tex_string (self):
+    result = tex.mk_block_group (self.contents)
+    return result
 
 
 ## Checkpoint
@@ -575,6 +585,11 @@ class Section:
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
+
+  def to_tex_string (self):
+    result = self.contents
+    return result
+
 ## Subsection
 class Subsection:
   def __init__(self, toks):
@@ -598,6 +613,10 @@ class Subsection:
     fields.extend([contents])
     r = mlx.mk_str_subsection(fields)
     return NEWLINE + r
+
+  def to_tex_string (self):
+    result = self.contents
+    return result
 
 ## Subsubsection
 class Subsubsection:
@@ -623,6 +642,9 @@ class Subsubsection:
     r = mlx.mk_str_subsubsection(fields)
     return NEWLINE + r
 
+  def to_tex_string (self):
+    result = self.contents
+    return result
 
 ## Atom
 class Atom:
@@ -654,6 +676,10 @@ class Atom:
     fields.extend([contents_html, contents_src])
     r = mlx.mk_str_block_atom(atom_name_mlx, fields)
     return NEWLINE + r
+
+  def to_tex_string (self, tex_name):
+    result = self.contents
+    return result
 
 ## Algo(rithm)
 class Algo:
@@ -707,6 +733,9 @@ class Algo:
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
     return NEWLINE + r
 
+  def to_tex_string (self):
+    result = self.contents
+    return result
 
 ## Answers
 class Answer:
@@ -727,6 +756,7 @@ class Answer:
     fields = mk_mlx_str_fields_solution(self, True)
     r = mlx.mk_str_answer(fields)
     return NEWLINE + r
+
 
 ## Choices
 class Choice:
