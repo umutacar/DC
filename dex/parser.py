@@ -36,10 +36,28 @@ def elements_to_section (toks):
   if len(toks) > 0:
 #    print 'elements_to_section:', toks
     contents = NEWLINE.join(toks.asList()).strip()
+#    print 'elements_to_section:', contents
 
+    # make subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsubsection(tokens)
+    subsubsection = block.to_string()
+#    print 'elements_to_section: subsubsection', subsubsection
+
+    # make subsection
+    contents = subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsection(tokens)
+    subsection = block.to_string()
+#    print 'elements_to_section: subsection', subsection
+
+    # make section
+    contents = subsection
     tokens = mk_unmarked_block (contents)
     block = blocks.Section(tokens)
-    result = block.to_string()
+    section = block.to_string()
+
+    result = section
     return result
   else:
     return toks
@@ -49,15 +67,24 @@ def elements_to_subsection (toks):
   # There may be no elements in that case return
   if len(toks) > 0:
     contents = NEWLINE.join(toks.asList()).strip()
-  #  print 'elements_to_section:', contents
 
+    # make subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsubsection(tokens)
+    subsubsection = block.to_string()
+#    print 'elements_to_subsection: subsubsection', subsubsection
+
+    # make subsection
+    contents = subsubsection
     tokens = mk_unmarked_block (contents)
     block = blocks.Subsection(tokens)
-    result = block.to_string()
+    subsection = block.to_string()
+#    print 'elements_to_subsection: subsection', subsection
+
+    result = subsection
     return result
   else:
     return toks
-
 
 # Place elements (atoms) under a section
 def elements_to_subsubsection (toks):
@@ -525,24 +552,6 @@ class Parser:
     section.setParseAction(self.process_section)
     return section
 
-
-  # Parser for group
-  def mk_parser_group (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
-
-    contents = self.exp_atoms
-    contents = tokens.set_key_group_contents(contents)
- #   contents.setDebug()
-    group = begin + \
-            title + \
-            (label & parents) + \
-            contents + \
-            end
-    group.setParseAction(self.process_group)
-    group = tokens.set_key_group(group)
-
-    return group
-
   # Parser for subsection
   def mk_parser_subsection (self):
     (begin, end, title, label, parents) = self.mk_parsers_common (dex.SUBSECTION, Block.SUBSECTION)
@@ -587,6 +596,23 @@ class Parser:
     block.setParseAction(self.process_subsubsection)
 #    block.setDebug()
     return block
+
+  # Parser for group
+  def mk_parser_group (self):
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
+
+    contents = self.exp_atoms
+    contents = tokens.set_key_group_contents(contents)
+ #   contents.setDebug()
+    group = begin + \
+            title + \
+            (label & parents) + \
+            contents + \
+            end
+    group.setParseAction(self.process_group)
+    group = tokens.set_key_group(group)
+
+    return group
 
   # Make parser for an atom
   def mk_parser_atom (self, atom_name, process_atom):
