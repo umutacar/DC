@@ -247,6 +247,7 @@ def parse (process_algo, \
              curry(process_atom, dex.NOTE, pex.NOTE_), \
              curry(process_atom, dex.PARAGRAPH, pex.PARAGRAPH_), \
              curry(process_atom, dex.PARAGRAPH_HTML, pex.PARAGRAPH_HTML_), \
+             curry(process_atom, dex.PREAMBLE, pex.PREAMBLE_), \
              curry(process_atom, dex.PROBLEM, pex.PROBLEM_), \
              curry(process_atom, dex.PROOF, pex.PROOF_), \
              curry(process_atom, dex.PROPOSITION, pex.PROPOSITION_), \
