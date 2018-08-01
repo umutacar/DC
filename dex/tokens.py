@@ -49,6 +49,7 @@ KEY_NO = 'KEY_NO'
 KEY_PARENTS = 'KEY_PARENTS'
 KEY_PICTURE = 'KEY_PICTURE'
 KEY_POINTS = 'KEY_POINTS'
+KEY_PREAMBLE = 'KEY_PREAMBLE'
 KEY_PROBLEM = 'KEY_PROBLEM'
 KEY_PROBLEM_SET = 'KEY_PROBLEM_SET'
 KEY_QUESTION = 'KEY_QUESTION'
@@ -250,6 +251,10 @@ def set_key_picture(parser):
 
 def set_key_points(parser):
   parser = parser.setName(KEY_POINTS).setResultsName(KEY_POINTS)
+  return parser
+
+def set_key_preamble(parser):
+  parser = parser.setName(KEY_PREAMBLE).setResultsName(KEY_PREAMBLE)
   return parser
 
 def set_key_problem(parser):
@@ -566,6 +571,13 @@ def get_points(toks):
     result = toks[KEY_POINTS]
   except KeyError:
     result = KW_NO_POINTS
+  return sanitize(result)
+
+def get_preamble(toks):
+  try:
+    result = toks[KEY_PREAMBLE]
+  except KeyError:
+    result = KW_NO_PREAMBLE
   return sanitize(result)
 
 def get_points_opt(toks):

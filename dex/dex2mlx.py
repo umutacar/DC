@@ -266,6 +266,7 @@ def parse (process_algo, \
              curry(process_atom, dex.NOTE, mlx.NOTE), \
              curry(process_atom, dex.PARAGRAPH, mlx.PARAGRAPH), \
              curry(process_atom, dex.PARAGRAPH_HTML, mlx.PARAGRAPH_HTML), \
+             curry(process_atom, dex.PREAMBLE, mlx.PREAMBLE), \
              curry(process_atom, dex.PROBLEM, mlx.PROBLEM), \
              curry(process_atom, dex.PROOF, mlx.PROOF), \
              curry(process_atom, dex.PROPOSITION, mlx.PROPOSITION), \

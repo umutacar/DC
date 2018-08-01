@@ -8,8 +8,9 @@
 #   These are defined by environment variables
 #   MTL_HOME and DIDEROT_HOME.
 #
-# # It assumes a fixed latex preamble as defined by the 
-#   global variable LATEX_PREAMBLE_FILE
+# # It uses a fixed latex preamble as defined by the 
+#   global variable LATEX_PREAMBLE_FILE, which can also 
+#   be set by passing an additional argument
 
 
 import re
@@ -37,7 +38,7 @@ MTL_HOME = os.environ['MTL_HOME']
 DIDEROT_HOME = os.environ['DIDEROT_HOME']
 DEX_DIR =  MTL_HOME + '/dex/'
 MLX_DIR =  DIDEROT_HOME + '/mlx/'
-LATEX_PREAMBLE_FILE =  MTL_HOME + '/adps/latex_preamble/preamble.tex'
+LATEX_PREAMBLE_FILE =  '/Users/umut/diderot/algobook/latex_preamble/preamble.tex'
 
 ## END: Fix your username / path here.
 ######################################################################
@@ -49,16 +50,26 @@ MLX_ELABORATE = MLX_DIR + 'elaborate.py'
 
 def main(argv):
   print 'Executing:', sys.argv[0], str(sys.argv)
-  if len(sys.argv) != 2: 
-    print 'Usage: publish.py inputfile'
+  if len(sys.argv) == 2:
+    infile_name = sys.argv[1]
+    latex_preamble_file = LATEX_PREAMBLE_FILE 
+  elif len(sys.argv) == 3: 
+    infile_name = sys.argv[1]
+    latex_preamble_file = sys.argv[2]
+  else:
+    print 'Usage: mlxdex.py inputfile [latex_preamble_file =', LATEX_PREAMBLE_FILE, ']'
     sys.exit()
 
 
-  # get current working directory
+  # get current working directory 
   root_dir = os.getcwd()
+  latex_preamble_file = root_dir + syntax.SLASH + root_dir
 
+
+  print 'Executing:', sys.argv[0], infile_name, latex_preamble_file
+
+  
   # get the file and its path
-  infile_name = sys.argv[1]
   (path, infile_name) = os.path.split(infile_name) 
 
   # cd to path
