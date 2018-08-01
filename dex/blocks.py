@@ -1135,7 +1135,7 @@ def subsection_to_string(toks):
 
 def subsubsection_to_string(toks): 
   block = Subsubsection(toks)
-  print '    matched subsubsection', '[', block.title, '].'
+  print '      matched subsubsection', '[', block.title, '].'
   return block.to_string()
 
 def question_fr_to_string(toks): 

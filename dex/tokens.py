@@ -68,9 +68,11 @@ KEY_SELECTS = 'KEY_SELECTS'
 KEY_SEMESTER = 'KEY_SEMESTER'
 KEY_SOLUTION = 'KEY_SOLUTION'
 KEY_SOLUTION_DEX = 'KEY_SOLUTION_DEX'
+KEY_SUBSECTION = 'KEY_SUBSECTION'
+KEY_SUBSUBSECTION = 'KEY_SUBSUBSECTION'
 KEY_TITLE = 'KEY_TITLE'
 KEY_TOPICS = 'KEY_TOPICS'
-KEY_SUBSECTION = 'KEY_SUBSECTION'
+
 KEY_UNIQUE = 'KEY_UNIQUE'
 KEY_WEBSITE = 'KEY_WEBSITE'
 
@@ -343,6 +345,10 @@ def set_key_unique(parser):
 
 def set_key_subsection(parser):
   parser = parser.setName(KEY_SUBSECTION).setResultsName(KEY_SUBSECTION)
+  return parser
+
+def set_key_subsubsection(parser):
+  parser = parser.setName(KEY_SUBSUBSECTION).setResultsName(KEY_SUBSUBSECTION)
   return parser
 
 def set_key_website(parser):
