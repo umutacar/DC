@@ -148,7 +148,7 @@ def mk_heading_paragraph(title):
     title = title
   else:
     title = ''
-  result = COM_PARAGRAPH + mk_str_arg(title)
+  result = COM_PARAGRAPH + mk_str_arg(title + PERIOD)
   return result 
 
 ######################################################################

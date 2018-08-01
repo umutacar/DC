@@ -43,4 +43,23 @@
   and then 
   > sudo python get-pip.py
 
-* 
+* Install pandoc 
+  https://pandoc.org/installing.html
+
+* Now you should be able to run various examples
+  
+  $ cd MeTaL
+
+  Parse an example DeX file.
+  $ python ./dex/pexify.py examples/introduction.dex   
+
+  Tranlate to pandoc-friendly TeX, i.e., pex.
+  This will output the file examples/introduction_pandoc.tex
+  
+  You can now convert this to PDF
+  $ pdflatex examples/book.tex
+  
+  The file book.tex includes examples/introduction_pandoc.tex
+
+  Tranlate to MLX
+  $ python ./dex/mlxdex.py examples/introduction.dex 
