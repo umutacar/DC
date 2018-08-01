@@ -8,8 +8,9 @@
 #   These are defined by environment variables
 #   MTL_HOME and DIDEROT_HOME.
 #
-# # It assumes a fixed latex preamble as defined by the 
-#   global variable LATEX_PREAMBLE_FILE
+# # It uses a fixed latex preamble as defined by the 
+#   global variable LATEX_PREAMBLE_FILE, which can also 
+#   be set by passing an additional argument
 
 
 import re

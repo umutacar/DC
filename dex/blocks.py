@@ -574,22 +574,19 @@ class Section:
   def __init__(self, toks):
     self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
-    self.intro = tokens.get_intro(toks)
     self.contents = tokens.get_contents(toks) 
 
   def mk_label (self): 
     return self.label
 
   def to_string (self): 
-    contents = self.intro + NEWLINE + self.contents
+    contents = self.contents
     result = mk_str_generic (dex.SECTION, self.title, self.label, self.parents, contents)
     return result
 
   def to_mlx_string (self):
-    (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
-
     fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([intro_html, intro_src, self.contents])
+    fields.extend([self.contents])
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
 
