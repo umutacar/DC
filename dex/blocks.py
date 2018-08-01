@@ -348,34 +348,32 @@ class Chapter:
   def __init__(self, toks):
     self.index = new_index ()
     (self.title, self.label, self.parents) = extract_common(toks)
-    self.intro = tokens.get_intro(toks)
+    self.preamble = tokens.get_preamble(toks)
     self.contents = tokens.get_contents(toks)
 
   def mk_label (self):
     return self.label
 
   def to_string (self): 
-    contents = self.intro + NEWLINE + \
+    contents = self.preamble + NEWLINE + \
                self.contents
 
     result = mk_str_generic (dex.CHAPTER, self.title, self.label, self.parents, contents)
     return result
 
   def to_mlx_string (self):
-    (intro_html, intro_src) = mk_mlx_intros (self.index, self.intro)
-
     fields = mk_mlx_str_fields_common(self, False)
-    fields.extend([intro_html, intro_src, self.contents])
+    fields.extend([self.preamble, self.contents])
 
     r = mlx.mk_str_chapter(fields)
     return NEWLINE + r
 
   def to_pex_string (self):
-    result = pex.mk_block_chapter(self.title, self.label, self.intro, self.contents)
+    result = pex.mk_block_chapter(self.title, self.label, self.preamble, self.contents)
     return result
 
   def to_tex_string (self):
-    result = tex.mk_block_chapter(self.title, self.label, self.intro, self.contents)
+    result = tex.mk_block_chapter(self.title, self.label, self.preamble, self.contents)
     return result
 
 

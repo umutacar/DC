@@ -242,6 +242,7 @@ class Parser:
              mk_parser_begin(dex.NOTE) | \
              mk_parser_begin(dex.PARAGRAPH) | \
              mk_parser_begin(dex.PARAGRAPH_HTML) | \
+             mk_parser_begin(dex.PREAMBLE) | \
              mk_parser_begin(dex.PROBLEM) | \
              mk_parser_begin(dex.PROOF) | \
              mk_parser_begin(dex.PROPOSITION) | \
@@ -421,12 +422,12 @@ class Parser:
     label = tokens.set_key_label(label)
 
     begin_section = mk_parser_begin(dex.SECTION)
-    # intro is the part up to the first section
-    intro = self.mk_parser_text_block(begin_section | self.begin_any_atom_or_group | end)
-    intro = pp.Optional(intro)
-    intro = set_text_block_parse_action_single(intro)
-    intro = tokens.set_key_intro(intro)
+
+    preamble = self.atom_preamble
+    # process_atom should be set
+    preamble = tokens.set_key_preamble(preamble)
 #    about.setDebug()
+
 
     contents = self.exp_elements + self.exp_sections
     set_parse_action_list_to_text(contents)
@@ -436,7 +437,7 @@ class Parser:
     chapter = begin + \
               title + \
               (label & parents) + \
-              intro + \
+              preamble + \
               contents + \
               end
  
@@ -984,6 +985,7 @@ class Parser:
                process_atom_note, \
                process_atom_paragraph, \
                process_atom_paragraph_html, \
+               process_atom_preamble, \
                process_atom_problem, \
                process_atom_proof, \
                process_atom_proposition, \
@@ -1035,6 +1037,7 @@ class Parser:
     self.process_atom_note = process_atom_note
     self.process_atom_paragraph = process_atom_paragraph
     self.process_atom_paragraph_html = process_atom_paragraph_html
+    self.process_atom_preamble = process_atom_preamble
     self.process_atom_problem = process_atom_problem
     self.process_atom_proposition = process_atom_proposition
     self.process_atom_proof = process_atom_proof
@@ -1101,6 +1104,7 @@ class Parser:
     self.atom_note = self.mk_parser_atom(dex.NOTE, process_atom_note)
     self.atom_paragraph = self.mk_parser_atom(dex.PARAGRAPH, process_atom_paragraph)
     self.atom_paragraph_html = self.mk_parser_atom(dex.PARAGRAPH_HTML, process_atom_paragraph_html)
+    self.atom_preamble = self.mk_parser_atom(dex.PREAMBLE, process_atom_preamble)
     self.atom_problem = self.mk_parser_atom(dex.PROBLEM, process_atom_problem)
     self.atom_proof = self.mk_parser_atom(dex.PROOF,  process_atom_proof)
     self.atom_proposition = self.mk_parser_atom(dex.PROPOSITION,  process_atom_proposition)
@@ -1257,6 +1261,7 @@ def mk_uniform_parser (\
                         curry(process_atom, dex.NOTE), \
                         curry(process_atom, dex.PARAGRAPH), \
                         curry(process_atom, dex.PARAGRAPH_HTML), \
+                        curry(process_atom, dex.PREAMBLE), \
                         curry(process_atom, dex.PROBLEM), \
                         curry(process_atom, dex.PROOF), \
                         curry(process_atom, dex.PROPOSITION), \
