@@ -1,3 +1,4 @@
+######################################################################
 # INSTALLATION
 
 * Install python, python 2.7.10 should work
@@ -46,20 +47,35 @@
 * Install pandoc 
   https://pandoc.org/installing.html
 
+######################################################################
+# EXAMPLES
+
 * Now you should be able to run various examples
   
-  $ cd MeTaL
+  $ cd MeTaL/examples
 
-  Parse an example DeX file.
-  $ python ./dex/pexify.py examples/introduction.dex   
+  - Parse an example DeX file.
 
-  Tranlate to pandoc-friendly TeX, i.e., pex.
-  This will output the file examples/introduction_pandoc.tex
+    $ python ../dex/parse.py introduction.dex   
+
+  - Tranlate to pandoc-friendly TeX, i.e., pex.
+
+    $ python ../dex/pexify.py introduction.dex   
+
+    This will output the file introduction_pandoc.tex
   
-  You can now convert this to PDF
-  $ pdflatex examples/book.tex
-  
-  The file book.tex includes examples/introduction_pandoc.tex
+  - You can now convert this to PDF
 
-  Tranlate to MLX
-  $ python ./dex/mlxdex.py examples/introduction.dex 
+    $ pdflatex book.tex
+  
+    The file book.tex includes introduction_pandoc.tex
+  
+  - Generate html
+    $ make book.html
+
+    This will generate book.html which you can view in your browser
+
+  - Tranlate to MLX
+    $ python ../dex/mlxdex.py introduction.dex
+
+    This can be uploaded to diderot 
