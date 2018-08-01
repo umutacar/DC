@@ -25,7 +25,7 @@
 	> source venv/bin/activate
 
   * install software for diderot
-  > pip install -r src/requirements.txt 
+  > pip install -r requirements.txt 
 
   this will install bunch of packages that we use
 
