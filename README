@@ -78,4 +78,4 @@
   - Tranlate to MLX
     $ python ../dex/mlxdex.py introduction.dex
 
-    This can be uploaded to diderot 
+    The resulting file introduction.mlx can be uploadod to Diderot.
