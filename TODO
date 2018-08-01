@@ -1,3 +1,17 @@
+
+######################################################################
+## Short Term
+
+# We have two branches: 
+
+  * opt: this has the optimized section strictification. Merge after
+    some more testing.
+
+  * master
+
+######################################################################
+## High level thoughts
+
 o I have been looking at ODT (Open Document Format) and DocBook.  ODT
 is huge and complex, at least for my resources right now.  I am
 wondering if Docbook can be a reasonable starting point instead.  The
