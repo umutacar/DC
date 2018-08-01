@@ -1,2 +1,161 @@
 o IMPORTANT: the module pervasives/ must match that inside the diderot
 project.  This is how the two communicate
+
+# INSTALLATION
+* First install python, python 2.7.10 should work
+* Then install pip
+  on mac: this should work
+  > sudo easy_install pip
+
+
+* Install virtual environment
+  > sudo pip install virtualenv
+
+* note: it is said that you should never use sudo with pip (i think
+there are exceptions like when installing virtual env)
+
+* Setup virtual environment for the project
+  > virtualenv venv
+
+* now populate virtual environment
+  * use python 2.7
+  > virtualenv -p /usr/bin/python2.7 venv/
+
+  * activate
+	> source venv/bin/activate
+
+  * install software for diderot
+  > pip install -r src/requirements.txt 
+
+  this will install bunch of packages that we use
+
+  If the above fails with an error like this
+  There was a problem confirming the ssl certificate: [SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:590) - skipping
+
+  $ curl https://bootstrap.pypa.io/get-pip.py | python
+
+
+  If the above fails with something like this:
+
+  > pip install --upgrade -r requirements.txt
+
+  if that also fails try
+  > curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py 
+  and then 
+  > sudo python get-pip.py
+* install google cloud sdk: https://cloud.google.com/sdk/install
+
+  We will need to make you an editor of the project
+	Now you should have access to the repository.
+	Now set up your default configuration.
+	
+  $gcloud auth application-default login
+  
+  Use your proper gmail account which Umut has approved you of on google cloud.
+
+* Your google cloud home is this:
+
+https://console.cloud.google.com/
+
+You will able to find various cloud information there. For example,
+the database instance for your branch.
+
+
+* install cloudsql: 
+  Go to 
+  https://cloud.google.com/sql/docs/postgres/sql-proxy
+  and download cloud_sql file
+
+o Set up your environment variables in your bashrc/bash_profile/zshrc:
+export DIDEROT_HOME=path-to-diderot-repo/src
+export PYTHONPATH=$DIDEROT_HOME:$PYTHONPATH
+export DB_NAME='postgres'
+export DB_USER='postgres'
+export DB_PASSWORD='reuilly-15213'
+# This sets your DB_CONN to database instance-name
+export DB_CONN='diderot-cmu-test:us-east1:<INSTANCE-NAME>'
+export DIDEROT_STATIC_URL='https://storage.googleapis.com/diderot-cmu-test/static_files/'
+export DIDEROT_MEDIA_URL='https://storage.googleapis.com/diderot-cmu-test/media-files/'
+export DIDEROT_MEDIA_BUCKET='diderot-cmu-test'
+	
+o Now you should be able use the proxy to connect to the database.
+  Run the cloud_sql_proxy to connect to the database with
+  something like the following.  You will have to replace the instance
+  string with the right identifier.
+
+  $./cloud_sql_proxy -instances=diderot-cmu:us-east4:diderot-postgres=tcp:5432
+
+  Here are more details:
+
+  * open a shell, the settings should be as above.  now activate your virtual environment
+
+  * run cloud_sql as follows
+
+    $ ./cloud_sql_proxy -instances=$DB_CONN=tcp:5432
+
+  (If you get the following error: "listen tcp 127.0.0.1:5432: bind: address already in use"
+  You probably need to stop the local postgres server. See README_POSTGRES)
+
+  * Let the cloud sql running.  Now open another terminal, setting should be as above in 1) and activate your virtual enviroment.  Now you should be able to run 
+
+   $ python manage.py runserver
+
+  * Go to localhost on your browser. Diderot should run locally but should be connected to the remote server.
+
+* You can create a super user in the dabatase that gives you access to all data in there.  Be careful this is a super user account and has the rights to make destructive changes.
+
+  > python manage.py createsuperuser
+
+o You might need to set your DJANGO_SETTINGS_MODULE enviroment
+variable for certain operations such as django-admin collectstatic
+
+Example;
+export DJANGO_SETTINGS_MODULE='config.settings_gcloud'
+
+[Stop here]
+
+o Create a standalone executable
+pip install pyinstaller
+pyinstaller --onefile --windowed file.py
+
+
+
+[Don't install postgress.  You will work directly with the cloud sql]
+
+
+o install postgres. 
+  see README-postgres.
+  
+o populate database
+  create superuser
+  > cd diderot/
+  > python manage.py createsuperuser
+
+  populate database
+  > cd dex
+  > python publish.py seq.dex
+  
+  now start server
+  > cd diderot
+  > python manage.py runserver
+  and open your browser at the given url
+
+** USE
+o python path should contain diderot, e.g., 
+export PYTHONPATH=/Users/umut/diderot/diderot
+
+o First activate virtual environment
+o if you want to run the server make sure that 
+  printenv DJANGO_SETTINGS_MODULE
+  returns nothing
+  some scripts set this.  you have to start with a fresh shell where this is not set.
+
+o superuser: umuts, umut@cs.cmu.edu, umut1234
+
+** HACKING
+
+Important: DIL is independent of DEX and can be run independently of
+DEX.  But DEX is not independent of DIL.  It shares various
+definitions (pervasives) with DIL and it uses DIL.syntax for
+translation into it.
+
