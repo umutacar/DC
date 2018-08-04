@@ -61,12 +61,17 @@ def main(infile_name, latex_preamble_file):
 
 if __name__ == "__main__":
   print 'Executing:', sys.argv[0], str(sys.argv)
+  latex_preamble_file = None
   if len(sys.argv) != 3: 
-    print 'Usage: mlxdex.py inputfile latex_preamble_file'
-    sys.exit()
+    try: 
+      latex_preamble_file = os.environ['DIDEROT_LATEX_PREAMBLE']
+    except KeyError:
+      print 'Usage: mlxdex.py inputfile latex_preamble_file'
+      sys.exit()
 
 
   infile_name = sys.argv[1]
-  latex_preamble_file = sys.argv[2]
+  if latex_preamble_file is None:
+    latex_preamble_file = sys.argv[2]
   
   main(infile_name, latex_preamble_file)

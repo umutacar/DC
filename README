@@ -47,9 +47,12 @@
 * Install pandoc 
   https://pandoc.org/installing.html
 
-* Set up your MTL_HOME environment veriablo
+* Set up your METAL_HOME environment veriablo
   For example, 
-  export MTL_HOME=/Users/umut/MeTaL
+  export METAL_HOME=/Users/umut/MeTaL
+
+* Set up your LATEX_PREAMBLE enviroment variable
+  export DIDEROT_LATEX_PREAMBLE=/Users/umut/diderot/algobook/latex_preamble/preamble.tex
 
 ######################################################################
 # EXAMPLES

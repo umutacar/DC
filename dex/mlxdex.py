@@ -4,6 +4,7 @@
 # as an argument.
 #
 # Requires dex and mlx packages to be accessible (via PYTHONPATH)
+#
 
 import re
 import sys
@@ -43,10 +44,6 @@ def main(infile_name, latex_preamble_file):
   print 'Translating to mlx'
   dex2mlx.main(core_infile, latex_preamble_file)
 
-
-  print 'Elaborating mlx', core_infile_mlx
-  mlx.elaborate.main(core_infile_mlx, outfile_mlx_elaborated)
-
   # rename and copy to Desktop
   os_utils.mv_file_to(core_infile_mlx, outfile_mlx)  
   print 'mlxdex completed.  Output is in', outfile_mlx
@@ -56,11 +53,17 @@ def main(infile_name, latex_preamble_file):
 
 if __name__ == "__main__":
   print 'Executing:', sys.argv[0], str(sys.argv)
+  
+  latex_preamble_file = None
   if len(sys.argv) != 3: 
-    print 'Usage: mlxdex.py inputfile latex_preamble_file'
-    sys.exit()
+    try: 
+      latex_preamble_file = os.environ['DIDEROT_LATEX_PREAMBLE']
+    except KeyError:
+      print 'Usage: mlxdex.py inputfile latex_preamble_file'
+      sys.exit()
 
   infile_name = sys.argv[1]
-  latex_preamble_file = sys.argv[2]
+  if latex_preamble_file is None:
+    latex_preamble_file = sys.argv[2]
   
   main(infile_name, latex_preamble_file)
