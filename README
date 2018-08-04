@@ -47,6 +47,10 @@
 * Install pandoc 
   https://pandoc.org/installing.html
 
+* Set up your MTL_HOME environment veriablo
+  For example, 
+  export MTL_HOME=/Users/umut/MeTaL
+
 ######################################################################
 # EXAMPLES
 
@@ -76,6 +80,6 @@
     This will generate book.html which you can view in your browser
 
   - Tranlate to MLX
-    $ python ../dex/mlxdex.py introduction.dex
+    $ python ../dex/mlxdex_direct.py introduction.dex
 
     The resulting file introduction.mlx can be uploadod to Diderot.
