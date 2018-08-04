@@ -3,8 +3,6 @@
 # Translates dex to mlx, taking in a latex_preamble_file
 # as an argument.
 #
-# Requires dex and mlx packages to be accessible (via PYTHONPATH)
-#
 
 import re
 import sys

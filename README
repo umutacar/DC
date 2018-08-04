@@ -83,6 +83,6 @@
     This will generate book.html which you can view in your browser
 
   - Tranlate to MLX
-    $ python ../dex/mlxdex_direct.py introduction.dex
+    $ python ../dex/mlxdex.py introduction.dex
 
     The resulting file introduction.mlx can be uploadod to Diderot.
