@@ -1,12 +1,15 @@
 #!/usr/bin/env python
-
-
-# Translates dex to mlx, taking in a latex_preamble_file
-# as an argument.
 #
-# A direct implemenation which requires 
-# dex and mlx packages to be accessible (via PYTHONPATH)
+# Translates dex to strict mlx, taking in a latex_preamble_file as an
+# argument. latex_preamble_file can also be supplied by an environment
+# variable.
 #
+# Note: in addition to the MeTaL environment, this alse requires
+# the mlx package (of diderot) to be available in the pythonpath. 
+#
+# Note that diderot's beamer does not require strictification anymore.
+# So this is mostly here for historical reasons.
+
 
 import re
 import sys
