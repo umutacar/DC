@@ -1,3 +1,7 @@
-# IMPORTANT: the module pervasives/ must match that inside the diderot
-project.  This is how the two communicate
+# IMPORTANT: 
+the module pervasives/ must match that inside the diderot
+project plus it should contain diderot/mlx/syntax.py as mlx_syntax.py.  
+
+This is how the two communicate.
+  
 

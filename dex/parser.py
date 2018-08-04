@@ -24,6 +24,82 @@ import tokens as tokens
 ######################################################################
 ## BEGIN Globals
 
+# unmarked block 
+# has no title, no label, and no parents
+def mk_unmarked_block(contents):
+  toks = {tokens.KEY_CONTENTS: contents}
+  return toks
+
+# Place elements (atoms) under a section
+def elements_to_section (toks):
+  # There may be no elements in that case return
+  if len(toks) > 0:
+#    print 'elements_to_section:', toks
+    contents = NEWLINE.join(toks.asList()).strip()
+#    print 'elements_to_section:', contents
+
+    # make subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsubsection(tokens)
+    subsubsection = block.to_string()
+#    print 'elements_to_section: subsubsection', subsubsection
+
+    # make subsection
+    contents = subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsection(tokens)
+    subsection = block.to_string()
+#    print 'elements_to_section: subsection', subsection
+
+    # make section
+    contents = subsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Section(tokens)
+    section = block.to_string()
+
+    result = section
+    return result
+  else:
+    return toks
+
+# Place elements (atoms) under a section
+def elements_to_subsection (toks):
+  # There may be no elements in that case return
+  if len(toks) > 0:
+    contents = NEWLINE.join(toks.asList()).strip()
+
+    # make subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsubsection(tokens)
+    subsubsection = block.to_string()
+#    print 'elements_to_subsection: subsubsection', subsubsection
+
+    # make subsection
+    contents = subsubsection
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsection(tokens)
+    subsection = block.to_string()
+#    print 'elements_to_subsection: subsection', subsection
+
+    result = subsection
+    return result
+  else:
+    return toks
+
+# Place elements (atoms) under a section
+def elements_to_subsubsection (toks):
+  # There may be no elements in that case return
+  if len(toks) > 0:
+    contents = NEWLINE.join(toks.asList()).strip()
+#    print 'elements_to_subsubsection:', contents
+
+    tokens = mk_unmarked_block (contents)
+    block = blocks.Subsubsection(tokens)
+    result = block.to_string()
+    return result
+  else:
+    return toks
+
 
 # Translate a simple answer to an answer
 def simple_answer_to_answer(toks):
@@ -428,8 +504,14 @@ class Parser:
     preamble = tokens.set_key_preamble(preamble)
 #    about.setDebug()
 
+    # this parse action overwrites that of elements, tok is therefore a list
+    elements = self.exp_elements
+    elements.setParseAction(elements_to_section)
+#    elements.setDebug()
 
-    contents = self.exp_elements + self.exp_sections
+    contents = elements + self.exp_sections
+#    contents.setDebug()
+    
     set_parse_action_list_to_text(contents)
     contents = tokens.set_key_contents(contents)
 #    contents = contents.setDebug()
@@ -453,7 +535,11 @@ class Parser:
     
     begin_subsection = mk_parser_begin(dex.SUBSECTION)
 
-    contents = self.exp_elements + self.exp_subsections
+    # this parse action overwrites that of elements, tok is therefore a list
+    elements = self.exp_elements
+    elements.setParseAction(elements_to_subsection)
+
+    contents = elements + self.exp_subsections
     set_parse_action_list_to_text(contents)
     contents = tokens.set_key_contents(contents)
 
@@ -466,31 +552,23 @@ class Parser:
     section.setParseAction(self.process_section)
     return section
 
-
-  # Parser for group
-  def mk_parser_group (self):
-    (begin, end, title, label, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
-
-    contents = self.exp_atoms
-    contents = tokens.set_key_group_contents(contents)
- #   contents.setDebug()
-    group = begin + \
-            title + \
-            (label & parents) + \
-            contents + \
-            end
-    group.setParseAction(self.process_group)
-    group = tokens.set_key_group(group)
-
-    return group
-
   # Parser for subsection
   def mk_parser_subsection (self):
     (begin, end, title, label, parents) = self.mk_parsers_common (dex.SUBSECTION, Block.SUBSECTION)
 
-    contents = self.exp_elements + self.exp_subsubsections
+
+    elements = self.exp_elements
+    elements.setParseAction(elements_to_subsubsection)
+
+
+    # this parse action overwrites that of elements, tok is therefore a list
+    contents = elements + self.exp_subsubsections
     set_parse_action_list_to_text(contents)
     contents = tokens.set_key_contents(contents)
+
+#    contents = self.exp_elements + self.exp_subsubsections
+#    set_parse_action_list_to_text(contents)
+#    contents = tokens.set_key_contents(contents)
     
     subsection = begin + \
            title + \
@@ -514,10 +592,27 @@ class Parser:
             (label & parents) +\
             contents + \
             end
-    block = tokens.set_key_subsection(block)
+    block = tokens.set_key_subsubsection(block)
     block.setParseAction(self.process_subsubsection)
 #    block.setDebug()
     return block
+
+  # Parser for group
+  def mk_parser_group (self):
+    (begin, end, title, label, parents) = self.mk_parsers_common (dex.GROUP, Block.GROUP)
+
+    contents = self.exp_atoms
+    contents = tokens.set_key_group_contents(contents)
+ #   contents.setDebug()
+    group = begin + \
+            title + \
+            (label & parents) + \
+            contents + \
+            end
+    group.setParseAction(self.process_group)
+    group = tokens.set_key_group(group)
+
+    return group
 
   # Make parser for an atom
   def mk_parser_atom (self, atom_name, process_atom):
@@ -1171,7 +1266,9 @@ class Parser:
 
     # a subsection element is an atom or a  group
     self.exp_elements = pp.ZeroOrMore(self.exp_atom | self.exp_group)
+    # contents is the elements
     set_parse_action_list_to_text(self.exp_elements)
+#    self.exp_elements = tokens.set_key_contents(self.exp_elements)
 
     # problem_set expressions
     self.exp_pset = self.mk_parser_problem_set()
