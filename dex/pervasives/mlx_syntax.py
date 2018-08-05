@@ -2,7 +2,7 @@
 ## mlx/syntax.py
 ######################################################################
 
-from pervasives.parser import *
+from parser import *
  
 CDATA_BEGIN = '<![CDATA['
 CDATA_END = ']]>'

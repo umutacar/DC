@@ -1,0 +1,19 @@
+# This is for python3
+
+# Virtual environment set up has changed in python3
+  Info: https://docs.python.org/3/tutorial/venv.html
+
+  Set up
+  $ python3 -m venv tutorial-env
+
+# Status:
+  Translation to 3 in progress.
+  One common need is to hand translate 
+  from . import xyz 
+  to 
+  import xyz
+
+  Translated  to python 3
+  ./pervasives/* 
+  ./dex3/syntax.py, blocks.py,  parser.py, parse.py 
+

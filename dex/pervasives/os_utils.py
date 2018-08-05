@@ -1,6 +1,6 @@
 import sys    
 import os
-from pervasives.syntax import *
+from syntax import *
 
 # Common file extensions
 DEX_EXTENSION = 'dex'

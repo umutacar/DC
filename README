@@ -32,6 +32,11 @@
   If the above fails with an error like this
   There was a problem confirming the ssl certificate: [SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:590) - skipping
 
+  update pip: 
+  $ pip install --upgrade pip
+ 
+  that should work if not try:
+
   $ curl https://bootstrap.pypa.io/get-pip.py | python
 
 

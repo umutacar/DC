@@ -1,0 +1,82 @@
+# Grammar [TODO: Complete this]: 
+
+  A document is structured into blocks which can be nested as defined.
+  A block can be a course, book, chapter, section, unit, atom,
+  problem.  Atoms are special in the sense that they cannot be nested.
+
+  You can visualize this as a set of "lego" blocks.
+
+  document ::= course
+  course ::=  title + book + 
+  chapters ::= title + sections +  
+  section ::= atoms + quiz
+  quiz ::= problems
+  problem ::= problem_mc
+
+  An important point: book is not nested inside of a course.  This is
+  important because we want to match a course before we match a book.
+  This enables us to set important information such as labels and such
+  before parsing the book, making it possible for us to do elaboration
+  more simply.  For the purposes of DIL however, the book is nested
+  inside of a course.
+
+
+# Parser:
+
+  result is returned in a token dictionary created by pyparsing.  
+  
+  the dictionary is keyed by keys and maps to strings.  There is a
+  one-to-one correspondence between keys and components.
+
+  the parser.py script parses a dex file.  it is configured to be used
+  for parsing elaborated and unelaborated dex files.
+
+  ## Overall design:
+
+    ### parser is controlled by a few flags that determine whether
+        lables, nos, parents, and titles are optional or not.  For
+        parsing the surface files these should all be optional.  But
+        after elaboration, we prabably want a different thing.  Such
+        as all no's should be there and everyone should have a label.
+
+    #### elaborator makes sure that the generated files has all the
+         fields even if they may be missing in the source.  for these,
+         it places default that are controlled by the
+         pervasives/syntax, such KW_NO_TITLE etc.
+
+  Problems:
+    * Multichoice problems: choices are returned as lists.
+
+
+  ## Parser structure
+  
+  ### process_begin_block and process_end_block specify actions to be
+  performed at the beginning of each block.
+ 
+  ### Parser invariants:
+
+  result is returned in a token dictionary created by pyparsing.  
+  
+  the dictionary is keyed by keys and maps to strings.  There is a
+  one-to-one correspondence between keys and components.
+
+
+  ### Problems:
+
+    * Multichoice problems: choices are returned as lists. such as
+  (choice, text), (choice*, text) and so on.
+
+  ### Keyword versus literal
+
+    Keyword prevents prefix matches.  this is important in \choice and
+  \choice* .  it might also be important more generally.  but we are
+  not disciplined about this.
+
+
+
+# Elaboration:
+
+  I wanted to return the choices as a list by placing a parseaction on
+  choices but this does not work.  I think the data structure gets
+  mangled up.  Bit it work, if i leave it as it is and then convert it
+  to  a list when i use it.
