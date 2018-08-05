@@ -4,7 +4,50 @@
   Info: https://docs.python.org/3/tutorial/venv.html
 
   Set up
-  $ python3 -m venv tutorial-env
+  $ python3 -m venv venv3
+
+
+# If you are using python3 and python2 on the same computer you have
+  to be careful about paths.
+
+  I added the following to venv3/bin/activate
+
+  This will have to be customized for your setup.  The basic idea is
+  to make sure that python2 and python3 each get their own libraries,
+  because they are not always compatible.
+
+
+  This goes inside deactivate ()
+
+    # Umut
+    # BEGIN: reset pythonpath
+    if [ -n "${_OLD_PYTHONPATH:-}" ] ; then
+        PYTHONPATH="${_OLD_PYTHONPATH:-}"
+        export PYTHONPATH
+        unset _OLD_PYTHONPATH
+    fi
+    # END: reset pythonpath
+
+
+
+And this goes an the end 
+# Umut
+# BEGIN: Set our python to python3
+PYTHON3_MODULES=/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/
+
+_OLD_PYTHONPATH="${PYTHONPATH:-}"
+PYTHONPATH="$PYTHON3_MODULES:${PYTHONPATH:-}"
+export _OLD_PYTHONPATH
+export PYTHONPATH
+
+# END: Set our python to python3
+
+
+# Another important point, might be best to run pip as follows 
+
+  $ python -m pip
+
+  this makes sure that you are running the right pip. 
 
 # Status:
   Translation to 3 in progress.
