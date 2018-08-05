@@ -1490,7 +1490,7 @@ def main (infile_name, parents_optional, titles_optional):
   # drop path stuff
   (path, infile_name_file) = os.path.split(infile_name) 
   print 'infile_name:', infile_name_file
-  outfile_name = os_utils.mk_file_name_derivative(infile_name, os_utils.CORE)
+  outfile_name = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
 
   infile = open(infile_name, 'r')
   outfile = open(outfile_name, 'w')

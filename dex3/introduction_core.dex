@@ -14,12 +14,22 @@ this book.
 \label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
+\begin{subsection}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
+\begin{subsubsection}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 \begin{gram}[...NOT.PROVIDED.TITLE...]
 \label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
 This is it.
 \end{gram}
+\end{subsubsection}
+\end{subsection}
 \end{section}
 \begin{section}[Overview]
 \label{...NOT.PROVIDED.LABEL...}
@@ -29,12 +39,17 @@ This is it.
 \label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
+\begin{subsubsection}[...NOT.PROVIDED.TITLE...]
+\label{...NOT.PROVIDED.LABEL...}
+\parent{...NOT.PROVIDED.PARENTS...}
+
 \begin{gram}[...NOT.PROVIDED.TITLE...]
 \label{...NOT.PROVIDED.LABEL...}
 \parent{...NOT.PROVIDED.PARENTS...}
 
 Here
 \end{gram}
+\end{subsubsection}
 \end{subsection}
 \begin{subsection}[...NOT.PROVIDED.TITLE...]
 \label{...NOT.PROVIDED.LABEL...}
