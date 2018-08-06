@@ -18,10 +18,10 @@ def main(infile_name):
 
   # create the various file names
   (infile_name_first, infile_ext) = infile_name_file.split (syntax.PERIOD) 
-  core_infile = os_utils.mk_file_name_derivative(infile_name, os_utils.CORE)
+  core_infile = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
   core_infile_tex = os_utils.mk_file_name_ext(core_infile, os_utils.TEX_EXTENSION)
 
-  outfile_first = os_utils.mk_file_name_derivative(infile_name, os_utils.PANDOC)
+  outfile_first = os_utils.mk_file_name_derivative(infile_name_file, os_utils.PANDOC)
   outfile_tex = os_utils.mk_file_name_ext(outfile_first, os_utils.TEX_EXTENSION)
 
    # convert dex to core dex by using the parser

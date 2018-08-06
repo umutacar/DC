@@ -41,21 +41,21 @@ def process_block_end (this_block, toks):
   return toks
 
 def process_chapter(process_label, toks): 
-  print "chapter_matched:"
+  print("chapter_matched:")
 
   chapter = blocks.Chapter(toks)
   r = chapter.to_pex_string()
   return r
 
 def process_group (toks): 
-  print 'group matched:'
+  print('group matched:')
 
   group = blocks.Group(toks)
   r = group.to_pex_string()
   return r
 
 def process_problem_group (toks): 
-  print 'problemgroup matched:'
+  print('problemgroup matched:')
 
   block = blocks.ProblemGroup(toks)
   r = block.to_pex_string()
@@ -64,7 +64,7 @@ def process_problem_group (toks):
 
 
 def process_problem_set (toks): 
-  print 'problem_set matched:'
+  print('problem_set matched:')
 
   problem_set = blocks.ProblemSet(toks)
   r = problem_set.to_pex_string()
@@ -72,7 +72,7 @@ def process_problem_set (toks):
   return r
 
 def process_assignment (toks): 
-  print 'assignment matched:'
+  print('assignment matched:')
 
   asst = blocks.Assignment(toks)
   r = asst.to_pex_string()
@@ -80,14 +80,14 @@ def process_assignment (toks):
   return r
 
 def process_asstproblem (toks):
-  print "asstproblem matched:"
+  print("asstproblem matched:")
 
   problem = blocks.AsstProblem(toks)
   r = problem.to_pex_string()
   return r
 
 def process_section(process_label, toks): 
-  print "section_matched:"
+  print("section_matched:")
 #  print "toks:", toks
 
   section = blocks.Section(toks)
@@ -96,7 +96,7 @@ def process_section(process_label, toks):
 
 # convert subsection to tex
 def process_subsection(toks): 
-  print "subsection_matched."
+  print("subsection_matched.")
 #  print "toks:", toks
   subsection = blocks.Subsection(toks)
   r = subsection.to_pex_string()
@@ -105,7 +105,7 @@ def process_subsection(toks):
 
 # convert subsection to  tex 
 def process_subsubsection(toks): 
-  print "subsubsection_matched."
+  print("subsubsection_matched.")
 #  print "toks:", toks
   subsubsection = blocks.Subsubsection(toks)
   r = subsubsection.to_pex_string()
@@ -113,7 +113,7 @@ def process_subsubsection(toks):
 
 # convert an atom to tex
 def process_atom (atom_name_dex, atom_name_tex, toks):
-  print 'atom matched:', atom_name_dex, 'tex_name: ', atom_name_tex
+  print('atom matched:', atom_name_dex, 'tex_name: ', atom_name_tex)
 
   atom = blocks.Atom(atom_name_dex, False, toks)
   r = atom.to_pex_string(atom_name_tex)
@@ -121,14 +121,14 @@ def process_atom (atom_name_dex, atom_name_tex, toks):
 
 
 def process_problem_fr (toks): 
-  print 'problem_fr matched'
+  print('problem_fr matched')
 
   problem = blocks.ProblemFR(toks)
   r = problem.to_pex_string()
   return r
 
 def process_problem_ma (toks): 
-  print 'problem_ma matched.'
+  print('problem_ma matched.')
 
   problem = blocks.ProblemMA(toks)
   r = problem.to_pex_string()
@@ -137,7 +137,7 @@ def process_problem_ma (toks):
 
 
 def process_problem_mc (toks): 
-  print 'problem_mc matched.'
+  print('problem_mc matched.')
 
   problem = blocks.ProblemMC(toks)
   r = problem.to_pex_string()
@@ -145,14 +145,14 @@ def process_problem_mc (toks):
 
 
 def process_question_fr (toks): 
-  print 'question_fr matched'
+  print('question_fr matched')
 
   problem = blocks.QuestionFR(toks)
   r = problem.to_pex_string()
   return r
 
 def process_question_ma (toks): 
-  print 'question_ma matched.'
+  print('question_ma matched.')
 
   problem = blocks.QuestionMA(toks)
   r = problem.to_pex_string()
@@ -161,7 +161,7 @@ def process_question_ma (toks):
 
 
 def process_question_mc (toks): 
-  print 'question_mc matched.'
+  print('question_mc matched.')
 
   problem = blocks.QuestionMC(toks)
   r = problem.to_pex_string()
@@ -170,14 +170,14 @@ def process_question_mc (toks):
 
 # convert a answer to tex, bogus probably, TODO
 def process_answer ( toks):
-  print 'answer matched.'
+  print('answer matched.')
   answer = blocks.Answer(toks)
   r = answer.to_pex_string()
   return r
 
 # convert a choice to tex
 def process_choice ( toks):
-  print 'choice matched.'
+  print('choice matched.')
 
   choice = blocks.Choice(toks)
   r = choice.to_pex_string()
@@ -185,7 +185,7 @@ def process_choice ( toks):
 
 # convert a select to tex
 def process_select ( toks):
-  print 'select matched.'
+  print('select matched.')
 
   select = blocks.Select(toks)
   r = select.to_pex_string()
@@ -193,7 +193,7 @@ def process_select ( toks):
 
 # convert an algo to tex
 def process_algo (toks):
-  print 'algo matched:'
+  print('algo matched:')
 
   algo = blocks.Algo(toks)
   r = algo.to_pex_string()
@@ -276,8 +276,8 @@ def parse (process_algo, \
   try:
     result = parser.document.parseString(data)
   except pp.ParseException as pe:
-    print "Parse Exception:", pe.line
-    print(' '*(pe.col-1) + '^')
+    print("Parse Exception:", pe.line)
+    print((' '*(pe.col-1) + '^'))
     print(pe)
 
   return result
@@ -291,12 +291,12 @@ def parse (process_algo, \
 
 
 def main(infile_name):
-  print "infile_name:", infile_name
+  print("infile_name:", infile_name)
 
   # (infile_name_first, infile_ext) = infile_name.split(PERIOD) 
   # lxfile_name = infile_name_first + os_utils.TEX_EXTENSION
   tex_file_name = os_utils.mk_file_name_ext(infile_name, os_utils.TEX_EXTENSION)
-  print "tex_file_name:", tex_file_name
+  print("tex_file_name:", tex_file_name)
   infile = open(infile_name, 'r')
   tex_file = open(tex_file_name, 'w')
 
@@ -318,19 +318,19 @@ def main(infile_name):
   if len(result) == 1:
     result = result[0]
   else:
-    print "Fatal Error: Unknown Input."
+    print("Fatal Error: Unknown Input.")
     exit(1)
 
   tex_file.write(result)
   tex_file.close()
-  print "LaTeX code written into file:", tex_file_name
+  print("LaTeX code written into file:", tex_file_name)
   return 0
 
 
 if __name__ == "__main__":
-  print 'Executing:', sys.argv[0], str(sys.argv)
+  print('Executing:', sys.argv[0], str(sys.argv))
   if len(sys.argv) != 2: 
-    print 'Usage: dex2pex inputfile'
+    print('Usage: dex2pex inputfile')
     sys.exit()
 
   infile_name = sys.argv[1]
