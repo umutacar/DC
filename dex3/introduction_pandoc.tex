@@ -1,29 +1,47 @@
 \chapter{Introduction}
 
-\paragraph{Preamble}
+\paragraph{Preamble.}
 This chapter presents a brief overview of the methodology followed in
 this book.
-\paragraph{}
-This is it.
-\section{Overview}
+\section{}
 
-\paragraph{}
-Here
 \subsection{}
 
-\paragraph{Teaching note}
+\subsubsection{}
+
+\paragraph{.}
+This is it.
+
+
+
+\section{Overview}
+
+\subsection{}
+
+\subsubsection{}
+
+\paragraph{.}
+Here
+
+
+
+\subsection{}
+
+\subsubsection{}
+
+\paragraph{Teaching note.}
 TODO:Updates needed to deemphasize parallelism.
 % Guy: I intentionally try not to emphasize parallelism in the opening
 % two paragraphs because most of the ideas transend parallel vs sequential.
 % The whole next section is on parallelism.
 
-\paragraph{Skip}
+\paragraph{Skip.}
 TODO:Updates needed to deemphasize parallelism.
 % Guy: I intentionally try not to emphasize parallelism in the opening
 % two paragraphs because most of the ideas transend parallel vs sequential.
 % The whole next section is on parallelism.
 
-\paragraph{}
+\paragraph{.}
 This book aims to present techniques for problem solving using today's
 computers, including both sequentially and in parallel.
 %
@@ -71,17 +89,19 @@ particularly different.
 
 \subsection{Parallelism}
 
-\paragraph{}
+\subsubsection{}
+
+\paragraph{.}
 The term ``parallelism'' or ``parallel computing'' refers to the
 ability to run multiple computations (tasks) at the same time.
 %
 
-\paragraph{Teaching question}
+\paragraph{Teaching question.}
 Why should we care about parallelism?  
 %
 Do we even have parallel computers today?
 
-\paragraph{Parallel Hardware}
+\paragraph{Parallel Hardware.}
 Today parallelism is available in all computer systems, and at many
 different scales starting with parallelism in the nano-circuits that
 implement individual instructions, and working the way up to parallel
@@ -158,14 +178,14 @@ These two factors---time and energy---have become increasingly
 important in the last decade, catapulting parallelism to the forefront
 of computing.
 
-\paragraph{Teaching question}
+\paragraph{Teaching question.}
 Can you think of consequences of these developments in hardware?  
 
 Answer:
 These developments in hardware make the specification, the design, and
 the implementation of parallel algorithms an important topic.
 
-\paragraph{Example}
+\paragraph{Example.}
 As is historically popular in explaining algorithms, we can establish
 an analogy between parallel algorithms and cooking.  As in a kitchen
 with multiple cooks, in parallel algorithms you can do things in
@@ -178,7 +198,7 @@ overheads, for example, the work has to be divided as evenly as
 possible.  Obviously, you also need more resources, e.g., each cook
 might need their own kitchen utensils.
 
-\paragraph{}
+\paragraph{.}
 One way to quantify the advantages or parallelism is to compare
 its performance to sequential computation.
 %
@@ -193,7 +213,7 @@ that the~\defn{speedup} for the parallel 32 core version relative to
 the sequential algorithm ranges from approximately 12 (minimum
 spanning tree) to approximately 32 (sorting).
 
-\paragraph{Example}
+\paragraph{Example.}
 Sample timings (reported in seconds) for some algorithms.
   \begin{center}
   \begin{tabular}{l  c c c}
@@ -212,11 +232,11 @@ Sample timings (reported in seconds) for some algorithms.
   \end{tabular}
   \end{center}
 
-\paragraph{Teaching question}
+\paragraph{Teaching question.}
 But why after all, do we have to do anything differently to take
 advantage of parallelism?
 
-\paragraph{Challenges of Parallel Software}
+\paragraph{Challenges of Parallel Software.}
 It would be convenient to use sequential algorithms on parallel
 computers, but this does not work well because parallel computing
 requires a different way of organizing the computation.
@@ -229,7 +249,7 @@ Thus when designing a parallel algorithm, we have to identify the
 underlying dependencies in the computation and avoid creating
 unnecessary dependencies.
 
-\paragraph{Example}
+\paragraph{Example.}
 Going back to our cooking example, suppose that we want to make a
 frittata in our kitchen with 4 cooks.
 %
@@ -248,7 +268,7 @@ vegetables cannot be sauteed before they are washed and chopped
 the eggs cannot be fisked before they are broken, etc.
 %
 
-\paragraph{}
+\paragraph{.}
 An important challenge is therefore to design algorithms that minimize
 the dependencies so that more can be run in parallel.
 %
@@ -313,7 +333,9 @@ continue studying this subject.
 
 \subsection{Work and Span}
 
-\paragraph{}
+\subsubsection{}
+
+\paragraph{.}
 This section describes the two measures---work and span---that we use
 to analyze algorithms.  Together these measures capture both the
 sequential time and the parallelism available in an algorithm.
@@ -323,7 +345,7 @@ for example the big-O notation.
 %
 
 
-\paragraph{Work}
+\paragraph{Work.}
 The~\defn{work} of an algorithm corresponds to the total number of
 primitive operations performed by an algorithm.  If running on a
 sequential machine, it corresponds to the sequential time.
@@ -343,7 +365,7 @@ have~\defn{perfect speedup}.  Perfect speedup, however, is not always
 possible.
 %
 
-\paragraph{Example}
+\paragraph{Example.}
 A fully sequential algorithm, where each operation depends on prior
 operations leaves no room for parallelism.
 %
@@ -355,15 +377,15 @@ More generally, when executing an algorithm in parallel, we cannot
 break dependencies, if a task depends on another task, we have to
 complete them in order.
 
-\paragraph{Teaching question}
+\paragraph{Teaching question.}
 Can you come up with an example where perfect speedup is not possible?
 
-\paragraph{Teaching note}
+\paragraph{Teaching note.}
 For example, when cooking a frittata, you cannot cook the egg that is
 not broken, nor can we add the eggs to the pan until the vegetables
 are sauteed.
 
-\paragraph{Span}
+\paragraph{Span.}
 The second measure,~\defn{span}, enables analyzing to what extent the
 work of an algorithm can be divided among processors.  The~\defn{span}
 of an algorithm basically corresponds to the longest sequence of
@@ -371,7 +393,7 @@ dependences in the computation.  It can be thought of as the time an
 algorithm would take if we had an unlimited number of processors on an
 ideal machine.
 
-\paragraph{Example: Parallel Merge Sort}
+\paragraph{Example: Parallel Merge Sort.}
 As an example, consider the parallel $\cd{mergeSort}$ algorithm for
 sorting a sequence of length $n$.  The work is the same as the
 sequential time, which you might know is
@@ -393,7 +415,7 @@ span is
 $\lg^2(10^6) < 500.$
 %
 
-\paragraph{Parallel Time}
+\paragraph{Parallel Time.}
 Even though work and span, are abstract measures of real costs, they
 can be used to predict the run-time on any number of processors.
 %
@@ -402,12 +424,12 @@ larger than, span, then we expect the algorithm to deliver good
 speedups.
 
 
-\paragraph{Exercise}
+\paragraph{Exercise.}
 How would you expect the parallel mergesort algorithm, $\cd{mergeSort}$,
 mentioned in the example above to perform as we increase the number of
 processors dedicated to running it?
 
-\paragraph{Solution}
+\paragraph{Solution.}
 Recall that the work of parallel merge sort is $O(n\lg{n})$, whereas
 the span is $O(\lg^2{n})$.  
 %
@@ -423,11 +445,11 @@ We should note that in practice, speedups tend to be more conservative
 due to natural overheads of parallel execution and due to other
 factors such as the memory subsystem that can limit parallelism.
 
-\paragraph{Teaching question}
+\paragraph{Teaching question.}
 How do we calculate the work and span of an algorithm?
 
 
-\paragraph{Definition: Work and Span}
+\paragraph{Definition: Work and Span.}
 We calculate the work and span of algorithms in a very
 simple way that just involves composing costs across subcomputations.
 %
@@ -461,7 +483,7 @@ for the cost of (parallel or sequential) composition.
 \end{tabular}
 \end{center}
 
-\paragraph{Note}
+\paragraph{Note.}
 The intuition behind the definition of work and span is that work
 simply adds, whether we perform computations sequentially or in
 parallel.  The span, however, only depends on the span of the maximum
@@ -472,7 +494,7 @@ computations are performed serially or in parallel, energy is equally
 required; time, however, is determined only by the slowest
 computation.
 
-\paragraph{Example}
+\paragraph{Example.}
 Suppose that we have $30$ eggs to cook using $3$ cooks.  Whether all
 $3$ cooks to do the cooking or just one, the total work remains
 unchanged: $30$ eggs need to be cooked.
@@ -498,7 +520,7 @@ How do we actually realize the greedy schedule?  In this case, this is
 simple, all we have to do is divide the eggs equally between our
 cooks.
 
-\paragraph{}
+\paragraph{.}
 If algorithm $A$ has less work than algorithm $B$, but has greater
 span then which algorithm is better?  In analyzing sequential
 algorithms there is only one measure so it is clear when one algorithm
@@ -516,12 +538,12 @@ large improvement in span.
 %
 
 
-\paragraph{Definition: Work Efficiency}
+\paragraph{Definition: Work Efficiency.}
 We say that a parallel algorithm is~\defn{(asymptotically) work
   efficient}, if the work is asymptotically the same as the time for
 an optimal sequential algorithm that solves the same problem.
 
-\paragraph{Example}
+\paragraph{Example.}
 The parallel $\cd{mergeSort}$ function described in
 \exref{intro::mergesort-cost} is work efficient since it does $O(n \log n)$
 work, which optimal time for comparison based sorting.  In this course
@@ -532,7 +554,9 @@ algorithms.
 
 \subsection{Specification, Problem, Implementation}
 
-\paragraph{}
+\subsubsection{}
+
+\paragraph{.}
 Problem solving in computer science requires reasoning precisely about
 problems being studied and the properties of solutions.
 %
@@ -545,20 +569,20 @@ In this book, we are usually interested in two distinct classes of
 problems: algorithms or algorithmic problems and data structures
 problems.
 
-\paragraph{Algorithm Specification}
+\paragraph{Algorithm Specification.}
 We specify an algorithm by describing what is expected of the
 algorithm via an~\defn{algorithm specification}.
 %
 For example, we can specify a sorting algorithm for sequences with
 respect to a given comparison function as follows.
 
-\paragraph{Definition: Comparison Sort}
+\paragraph{Definition: Comparison Sort.}
 Given a sequence $A$ of $n$ elements taken from a totally ordered set
 with comparison operator $\leq$, return a comparison-sorting algorithm
 sequence $B$ containing the same elements but such that $B[i] \leq
 B[j]$ for $0 \leq i < j < n$.
 
-\paragraph{Note}
+\paragraph{Note.}
 The specification describes~\defn{what} the algorithm should do but it
 does not describe~\defn{how} it achieves what is asked.
 %
@@ -566,7 +590,7 @@ This is intentional---and is exactly the point---because there can be
 many algorithms that meet a specification.
 %
 
-\paragraph{}
+\paragraph{.}
 A crucial property of any algorithm is its resource requirements or
 its~\defn{cost}.
 %
@@ -578,12 +602,12 @@ We specify the cost of class of algorithms with a~\defn{cost
 states that a particular class of parallel sorting algorithms performs
 $O(n \log{n})$ work and $O(\log^2{n})$ span.
 
-\paragraph{Cost specification: Comparison Sort: Efficient \& Parallel}
+\paragraph{Cost specification: Comparison Sort: Efficient \& Parallel.}
 Assuming the comparison function $<$ does constant work, the cost for
 parallel comparison sorting a sequence of length $n$ is $O(n \log n)$
 work and $O(\log^2 n)$ span.
 
-\paragraph{}
+\paragraph{.}
 There can be many cost specifications for sorting.  For example, if we
 are not interested in parallelism, we can specify $O(n \log{n})$ work
 but no bounds on the span. There is another cost specification below
@@ -593,12 +617,12 @@ We usually care more about work and thus would prefer the first cost
 specification; there might, however, be cases where the second
 specification is preferable.
 
-\paragraph{Cost specification: Comparison Sort: Inefficient but Parallel}
+\paragraph{Cost specification: Comparison Sort: Inefficient but Parallel.}
 Assuming the comparison function $<$ does constant work, the cost for
 parallel comparison sorting a sequence of length $n$ is $O(n^2)$ work
 and $O(\log n)$ span.
 
-\paragraph{Data Structure Specification}
+\paragraph{Data Structure Specification.}
 We specify a data structure by describing what is expected of the data
 structure via an~\defn{Abstract Data Type (ADT) specification}.
 %
@@ -609,7 +633,7 @@ For example, we can specify a priority queue ADT and give it a cost
 specification. 
 %
 
-\paragraph{Datatype: Priority Queue}
+\paragraph{Datatype: Priority Queue.}
 A priority queue consists of a priority queue type and supports three
 operations on values of this type.  The operation $\cd{empty}$ returns
 an empty queue.  The operation $\cd{insert}$ inserts a given value with
@@ -617,7 +641,7 @@ a priority into the queue and returns the queue.  The operation
 $\cd{removeMin}$ removes the value with the smallest priority from the
 queue and returns it.
 
-\paragraph{Cost specification: Priority Queue: Basic}
+\paragraph{Cost specification: Priority Queue: Basic.}
 The work and span of a priority queue operations are as follows.
 \begin{itemize}
 \item $\cd{create}$: $O(1)$, $O(1)$.
@@ -625,7 +649,7 @@ The work and span of a priority queue operations are as follows.
 \item $\cd{removeMin}$: $O(\log{n})$, $O(\log{n})$.
 \end{itemize}
 
-\paragraph{Problem}
+\paragraph{Problem.}
 A~\defn{problem} requires meeting an algorithm or an ADT specification
 and a corresponding cost specification.
 %
@@ -649,7 +673,7 @@ problem is that the latter involves designing a data structure and a
 collection of algorithms, one for each operation, that operate on that
 data structure.
 
-\paragraph{Note}
+\paragraph{Note.}
 When we consider problems, it is usually clear from the context
 whether we are talking about algorithms or data structures.
 %
@@ -657,7 +681,7 @@ In such cases, we use the simpler terms~\defn{specification}
 and~\defn{problem} to refer to the algorithm/ADT specification and the
 corresponding problem respectively.
 
-\paragraph{Implementation}
+\paragraph{Implementation.}
 We can solve an algorithms or a data-structures problem by presenting
 an~\defn{implementation}.  
 %
@@ -666,15 +690,15 @@ algorithms problem and the term~\defn{data structure} to
 refer to an implementation that solves a data-structures problem.
 %%
 
-\paragraph{Note}
+\paragraph{Note.}
 The distinction between problems and algorithms is common in the
 literature but the distinction between abstract data types and data
 structures is less so.
 
-\paragraph{Teaching note}
+\paragraph{Teaching note.}
 Why do we think this distinction is important?
 
-\paragraph{}
+\paragraph{.}
 We describe an algorithm by using the pseudo-code notation based on
 \pml, the language  used in this book.  For example, we can specify
 the classic insertion sort algorithm as follows.
@@ -714,7 +738,7 @@ Since the code uses $\cd{insert}$ sequentially and since there are $n$
 inserts, the algorithm $\cd{insSort}$ has $n \times O(n) =
 O(n^2)$ work and $n \times O(\log n) = O(n \log n)$ span.
 
-\paragraph{}
+\paragraph{.}
 Similarly, we can specify a data structure by specifying the data type
 used by the implementation, and the algorithms for each operation.
 %
@@ -724,7 +748,7 @@ this data structure.  In other words, a data structure can be viewed
 as a collection of algorithms that operate on the same organization
 of the data.
 
-\paragraph{Remark: On the importance of specification}
+\paragraph{Remark: On the importance of specification.}
 Several reasons underline the importance of distinguishing between
 specification and implementation.  
 
