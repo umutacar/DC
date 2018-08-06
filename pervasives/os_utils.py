@@ -1,6 +1,6 @@
 import sys    
 import os
-from syntax import *
+from .syntax import *
 
 # Common file extensions
 DEX_EXTENSION = 'dex'
@@ -63,14 +63,14 @@ def reset_stdout():
 ## BEGIN: Run commands
 
 def run_command(command):
-  print 'Executing command:', command
+  print('Executing command:', command)
   result = os.system(command)
   if result:
-    print 'Command did not complete successfully.\n Offending command was:\n', command
+    print('Command did not complete successfully.\n Offending command was:\n', command)
     exit()
 
 def run_command_no_check(command):
-  print 'Executing command:', command
+  print('Executing command:', command)
   result = os.system(command)
 
 def rm_file (filename):

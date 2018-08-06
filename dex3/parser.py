@@ -103,22 +103,22 @@ def elements_to_subsubsection (toks):
 
 # Translate a simple answer to an answer
 def simple_answer_to_answer(toks):
-  print 'simple_ans_to_answer:', toks
+  print('simple_ans_to_answer:', toks)
   # ans is a list o point (optional) and  body string
   ans = tokens.get_ans(toks)
-  print 'ans:', ans
+  print('ans:', ans)
   explain = tokens.get_explain(toks)
-  print 'explain:', explain
+  print('explain:', explain)
   # points is optional
   points = tokens.get_points_opt(ans)
-  print 'simple_ans_to_answer: points = ', points
+  print('simple_ans_to_answer: points = ', points)
   body = tokens.get_body(ans)
-  print 'simple_ans_to_answer: body = ', body
+  print('simple_ans_to_answer: body = ', body)
   block = blocks.Answer({tokens.KEY_POINTS:points, \
                          tokens.KEY_BODY:body, \
                          tokens.KEY_EXPLAIN:explain})
   result = block.to_string()
-  print 'simple_ans_to_answer: result = ', result
+  print('simple_ans_to_answer: result = ', result)
   return result
 
 # Translate a simple choice to choice
@@ -1428,8 +1428,8 @@ def parse (parents_optional, titles_optional, \
   try:
     result = parser.document.parseString(data)
   except pp.ParseException as pe:
-    print "Parse Exception:", pe.line
-    print(' '*(pe.col-1) + '^')
+    print("Parse Exception:", pe.line)
+    print((' '*(pe.col-1) + '^'))
     print(pe)
 
   return result
@@ -1489,7 +1489,7 @@ def process_block_end (this_block, toks):
 def main (infile_name, parents_optional, titles_optional):
   # drop path stuff
   (path, infile_name_file) = os.path.split(infile_name) 
-  print 'infile_name:', infile_name_file
+  print('infile_name:', infile_name_file)
   outfile_name = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
 
   infile = open(infile_name, 'r')
@@ -1525,13 +1525,13 @@ def main (infile_name, parents_optional, titles_optional):
     problem_set = result[0]
     outfile.write(problem_set + NEWLINE)
     outfile.close()
-    print 'Parsed code written into file:', outfile_name
+    print('Parsed code written into file:', outfile_name)
   else:
     course = result[0]
     book = result[1]
     outfile.write(course + NEWLINE + book + NEWLINE)
     outfile.close()
-    print 'Parsed code written into file:', outfile_name
+    print('Parsed code written into file:', outfile_name)
 
   return 0
 

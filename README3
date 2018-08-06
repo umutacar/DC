@@ -1,0 +1,172 @@
+# This is for python3
+
+# Virtual environment set up has changed in python3
+  Info: https://docs.python.org/3/tutorial/venv.html
+
+  Set up
+  $ python3 -m venv venv3
+
+
+# If you are using python3 and python2 on the same computer you have
+  to be careful about paths.
+
+  I added the following to venv3/bin/activate
+
+  This will have to be customized for your setup.  The basic idea is
+  to make sure that python2 and python3 each get their own libraries,
+  because they are not always compatible.
+
+
+  This goes inside deactivate ()
+
+    # Umut
+    # BEGIN: reset pythonpath
+    if [ -n "${_OLD_PYTHONPATH:-}" ] ; then
+        PYTHONPATH="${_OLD_PYTHONPATH:-}"
+        export PYTHONPATH
+        unset _OLD_PYTHONPATH
+    fi
+    # END: reset pythonpath
+
+
+
+And this goes an the end 
+# Umut
+# BEGIN: Set our python to python3
+PYTHON3_MODULES=/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/
+
+_OLD_PYTHONPATH="${PYTHONPATH:-}"
+PYTHONPATH="$PYTHON3_MODULES:${PYTHONPATH:-}"
+export _OLD_PYTHONPATH
+export PYTHONPATH
+
+# END: Set our python to python3
+
+
+# Another important point, might be best to run pip as follows 
+
+  $ python -m pip
+
+  this makes sure that you are running the right pip. 
+
+# Status:
+  Translation to 3 in progress.
+  One common need is to hand translate 
+  from . import xyz 
+  to 
+  import xyz
+
+  Translated  to python 3
+  ./pervasives/* 
+  ./dex3/syntax.py, blocks.py,  parser.py, parse.py 
+
+
+
+# Generating executables
+$  python -m pip install pyinstaller
+
+$ pyinstaller --onefile <your_script_name>.py
+
+
+######################################################################
+# venv3/bin/activate example:
+#
+# This file must be used with "source bin/activate" *from bash*
+# you cannot run it directly
+
+deactivate () {
+    # reset old environment variables
+    if [ -n "${_OLD_VIRTUAL_PATH:-}" ] ; then
+        PATH="${_OLD_VIRTUAL_PATH:-}"
+        export PATH
+        unset _OLD_VIRTUAL_PATH
+    fi
+    if [ -n "${_OLD_VIRTUAL_PYTHONHOME:-}" ] ; then
+        PYTHONHOME="${_OLD_VIRTUAL_PYTHONHOME:-}"
+        export PYTHONHOME
+        unset _OLD_VIRTUAL_PYTHONHOME
+    fi
+
+    # Umut
+    # BEGIN: reset pythonpath
+    if [ -n "${_OLD_PYTHONPATH:-}" ] ; then
+        PYTHONPATH="${_OLD_PYTHONPATH:-}"
+        export PYTHONPATH
+        unset _OLD_PYTHONPATH
+    fi
+    # END: reset pythonpath
+
+    # This should detect bash and zsh, which have a hash command that must
+    # be called to get it to forget past commands.  Without forgetting
+    # past commands the $PATH changes we made may not be respected
+    if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
+        hash -r
+    fi
+
+    if [ -n "${_OLD_VIRTUAL_PS1:-}" ] ; then
+        PS1="${_OLD_VIRTUAL_PS1:-}"
+        export PS1
+        unset _OLD_VIRTUAL_PS1
+    fi
+
+    unset VIRTUAL_ENV
+    if [ ! "$1" = "nondestructive" ] ; then
+    # Self destruct!
+        unset -f deactivate
+    fi
+}
+
+# unset irrelevant variables
+deactivate nondestructive
+
+VIRTUAL_ENV="/Users/umut/MeTaL/venv3"
+export VIRTUAL_ENV
+
+_OLD_VIRTUAL_PATH="$PATH"
+PATH="$VIRTUAL_ENV/bin:$PATH"
+export PATH
+
+# unset PYTHONHOME if set
+# this will fail if PYTHONHOME is set to the empty string (which is bad anyway)
+# could use `if (set -u; : $PYTHONHOME) ;` in bash
+if [ -n "${PYTHONHOME:-}" ] ; then
+    _OLD_VIRTUAL_PYTHONHOME="${PYTHONHOME:-}"
+    unset PYTHONHOME
+fi
+
+if [ -z "${VIRTUAL_ENV_DISABLE_PROMPT:-}" ] ; then
+    _OLD_VIRTUAL_PS1="${PS1:-}"
+    if [ "x(venv3) " != x ] ; then
+	PS1="(venv3) ${PS1:-}"
+    else
+    if [ "`basename \"$VIRTUAL_ENV\"`" = "__" ] ; then
+        # special case for Aspen magic directories
+        # see http://www.zetadev.com/software/aspen/
+        PS1="[`basename \`dirname \"$VIRTUAL_ENV\"\``] $PS1"
+    else
+        PS1="(`basename \"$VIRTUAL_ENV\"`)$PS1"
+    fi
+    fi
+    export PS1
+fi
+
+# This should detect bash and zsh, which have a hash command that must
+# be called to get it to forget past commands.  Without forgetting
+# past commands the $PATH changes we made may not be respected
+if [ -n "${BASH:-}" -o -n "${ZSH_VERSION:-}" ] ; then
+    hash -r
+fi
+
+# Umut
+# BEGIN: Set our python to python3
+PYTHON3_MODULES=/Library/Frameworks/Python.framework/Versions/3.7/lib/python3.7/
+
+_OLD_PYTHONPATH="${PYTHONPATH:-}"
+#PYTHONPATH="$PYTHON3_MODULES:${PYTHONPATH:-}"
+PYTHONPATH="$PYTHON3_MODULES:${METAL_HOME:-}"
+export _OLD_PYTHONPATH
+export PYTHONPATH
+
+# END: Set our python to python3
+
+######################################################################

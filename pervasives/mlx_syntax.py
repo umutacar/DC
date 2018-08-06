@@ -2,7 +2,8 @@
 ## mlx/syntax.py
 ######################################################################
 
-from parser import *
+from .parser import *
+from functools import reduce
  
 CDATA_BEGIN = '<![CDATA['
 CDATA_END = ']]>'
@@ -163,7 +164,7 @@ def mk_cdata(body):
   return CDATA_BEGIN + NEWLINE + body.strip() + NEWLINE + CDATA_END
 
 def mk_str_block_atom(name, fields):
-  print 'mk_str_block_atom:', name
+  print('mk_str_block_atom:', name)
 #  print 'mk_str_block_generic:', fields
   begin = mk_str_begin_atom(name)
   end = mk_str_end_atom(name)  
@@ -171,7 +172,7 @@ def mk_str_block_atom(name, fields):
   return begin + NEWLINE + result + NEWLINE + end
 
 def mk_str_block_generic(name, fields):
-  print 'mk_str_block_generic:', name
+  print('mk_str_block_generic:', name)
 #  print 'mk_str_block_generic:', fields
   begin = mk_str_begin_block(name)
   end = mk_str_end_block(name)  

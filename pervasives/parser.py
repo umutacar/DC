@@ -6,7 +6,7 @@
 
 import re
 import pyparsing as pp 
-from syntax import *
+from .syntax import *
 
 
 ######################################################################

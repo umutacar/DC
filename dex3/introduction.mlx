@@ -1,0 +1,2572 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block name='chapter'>
+<field name='title'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:intro
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='preamble'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>This chapter presents a brief overview of the methodology followed in this book.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter presents a brief overview of the methodology followed in
+this book.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- preamble -->
+<block name='section'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsubsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>This is it.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This is it.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+</block> <!-- subsubsection -->
+
+</block> <!-- subsection -->
+</block> <!-- section -->
+
+<block name='section'>
+<field name='title'>
+<![CDATA[
+Overview
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Overview
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsubsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Here</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Here
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+</block> <!-- subsubsection -->
+
+</block> <!-- subsection -->
+
+<block name='subsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsubsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='teachnote'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>TODO:Updates needed to deemphasize parallelism.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+TODO:Updates needed to deemphasize parallelism.
+% Guy: I intentionally try not to emphasize parallelism in the opening
+% two paragraphs because most of the ideas transend parallel vs sequential.
+% The whole next section is on parallelism.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachnote -->
+
+<atom name='skip'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>TODO:Updates needed to deemphasize parallelism.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+TODO:Updates needed to deemphasize parallelism.
+% Guy: I intentionally try not to emphasize parallelism in the opening
+% two paragraphs because most of the ideas transend parallel vs sequential.
+% The whole next section is on parallelism.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- skip -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>This book aims to present techniques for problem solving using today’s computers, including both sequentially and in parallel. For example, you might want to find the stortest path from where you are now to the nearest café by using your computer. The primary concerns will likely include correctness (the path found indeed should end at the nearest café), efficiency (that your computer consumed a relatively small amount of energy), and performance (the answer was computed reasonable quickly).</p>
+<p>This book covers different aspects of problem solving with computers such as</p>
+<ul>
+<li><p>defining precisely the problem you want to solve,</p></li>
+<li><p>learning the different algorithm-design techniques for solving problems</p></li>
+<li><p>designing abstract data types and the data structures that implement them,</p></li>
+<li><p>analyzing the cost of algorithms and data structures and comparing them based on their cost.</p></li>
+</ul>
+<p>We are concerned both with parallel algorithms (algorithms that can perform multiple actions at the same time) and sequential algorithms (algorithms that perform a single action at a time). In our approach, however, sequential and parallel algorithms are not particularly different.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This book aims to present techniques for problem solving using today's
+computers, including both sequentially and in parallel.
+%
+For example, you might want to find the stortest path from where you
+are now to the nearest caf\'e by using your computer.
+%
+The primary concerns will likely include correctness (the path found
+indeed should end at the nearest caf\'e), 
+%
+efficiency (that your computer consumed a relatively small amount of
+energy), and performance (the answer was computed reasonable quickly).
+%
+
+This book covers different aspects of problem solving with computers
+such as 
+\begin{itemize}
+\item defining precisely the problem you want to solve,
+\item learning the different algorithm-design techniques for solving problems
+\item designing abstract data types and the data structures that
+  implement them,
+%
+\item analyzing the cost of algorithms and data structures and
+  comparing them based on their cost.
+%
+\end{itemize}
+
+We are concerned both with 
+%
+parallel algorithms (algorithms that can perform multiple actions at
+the same time)
+%
+and 
+%
+sequential algorithms (algorithms that perform a single action at a
+time).
+%
+In our approach, however, sequential and parallel algorithms are not
+particularly different.
+%
+%In the rest of this chapter we discuss why it is important to study
+%parallelism, why it is important to separate interfaces from
+%implementations, and outline some algorithm-design techniques.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+</block> <!-- subsubsection -->
+
+</block> <!-- subsection -->
+
+<block name='subsection'>
+<field name='title'>
+<![CDATA[
+Parallelism
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Parallelism
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsubsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The term “parallelism” or “parallel computing” refers to the ability to run multiple computations (tasks) at the same time.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The term ``parallelism'' or ``parallel computing'' refers to the
+ability to run multiple computations (tasks) at the same time.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='teachask'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Why should we care about parallelism? Do we even have parallel computers today?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Why should we care about parallelism?  
+%
+Do we even have parallel computers today?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachask -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Parallel Hardware
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Parallel Hardware
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Today parallelism is available in all computer systems, and at many different scales starting with parallelism in the nano-circuits that implement individual instructions, and working the way up to parallel systems that occupy large data centers. Since the early 2000s hardware manufacturers have been placing multiple processing units, often called “cores”, onto a single chip. These cores can be general purpose processors, or more special purpose processors, such as those found in  <span style="color: black"><span><strong><em>Graphics Processing Units</em></strong></span></span> (GPUs). Each core can run in parallel with the others.</p>
+<p>At the larger scale many such parallel chips or computers can be connected by a network and used together to solve large problems. For example, when you perform a simple search on the Internet, you engage a data center with thousands of computers in some part of the world, likely near your geographic location. Many of these computers (perhaps as many as hundreds, if not thousands) take up your query and sift through data to give you an accurate response as quickly as possible.</p>
+<p>There are several reasons for why such parallel systems and thus parallelism has become so prevalent.</p>
+<p>First, parallelism is simply faster than sequential computing (where only one computation can be run at a time). For example, an Internet search is not quite effective if it cannot be completed at “interactive speeds”, e.g., completing under a second. Similarly, a weather-forecast simulation is essentially useless if it cannot be completed in time.</p>
+<p>The second reason is efficiency in terms of energy usage. As it turns out, performing a computation twice as fast sequentially requires eight times as much energy. Precisely speaking, energy consumption is a cubic function of clock frequency (speed). With parallelism we don’t need more energy to speed up a computation. For example, to perform a computation in half the time, we need to divide the computation into two parallel sub-computations, perform them in parallel and combine their results. This can require as little as half the time as the sequential computation while consuming the same amount of energy. In reality, there are some overheads and we will need more energy, for example, to divide the computation and combine the results. Such overheads are usually small, e.g., constant fraction over sequential computation, but can be larger.</p>
+<p>These two factors—time and energy—have become increasingly important in the last decade, catapulting parallelism to the forefront of computing.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Today parallelism is available in all computer systems, and at many
+different scales starting with parallelism in the nano-circuits that
+implement individual instructions, and working the way up to parallel
+systems that occupy large data centers.  Since the early 2000s
+hardware manufacturers have been placing multiple processing units,
+often called ``cores'', onto a single chip.  These cores can be
+general purpose processors, or more special purpose processors, such as
+those found in~\defn{Graphics Processing Units} (GPUs).  Each core can
+run in parallel with the others.  
+
+At the larger scale many such parallel chips or computers can be
+connected by a network and used together to solve large problems.  For
+example, when you perform a simple search on the Internet, you engage
+a data center with thousands of computers in some part of the world,
+likely near your geographic location.
+%
+Many of these computers (perhaps as many as hundreds, if not
+thousands) take up your query and sift through data to give you an
+accurate response as quickly as possible.
+
+
+%% \begin{teachask}
+%% Do you know how many computers are engaged in answering a typical web
+%% search? 
+%% \end{teachask}
+%% %
+
+%% \begin{teachask}
+%% What is the advantage of using a parallel algorithm instead of a
+%% sequential one?
+%% \end{teachask}
+
+
+%% \begin{teachask}
+%% Do you know how much energy it takes to run a computation twice as
+%% fast using a sequential computer (one line of computation)? 
+%% \end{teachask}
+
+There are several reasons for why such parallel systems and thus
+parallelism has become so prevalent.
+%
+
+
+First, parallelism is simply faster than sequential computing (where
+only one computation can be run at a time).
+%
+For example, an Internet search is not quite effective if it cannot be
+completed at ``interactive speeds'', e.g., completing under a second.
+%
+Similarly, a weather-forecast simulation is essentially useless if it
+cannot be completed in time.
+
+The second reason is efficiency in terms of energy usage.
+%
+As it turns out, performing a computation twice as fast sequentially
+requires eight times as much energy.  
+%
+Precisely speaking, energy
+consumption is a cubic function of clock frequency (speed).  With
+parallelism we don't need more energy to speed up a computation. 
+%
+For example, to perform a computation in half the time, we need to
+divide the computation into two parallel sub-computations, perform
+them in parallel and combine their results.  This can require as
+little as half the time as the sequential computation while consuming
+the same amount of energy.
+%
+In reality, there are some overheads and we will need more energy, for
+example, to divide the computation and combine the results.
+Such overheads are usually small, e.g., constant fraction over
+sequential computation, but can be larger. 
+
+These two factors---time and energy---have become increasingly
+important in the last decade, catapulting parallelism to the forefront
+of computing.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='teachask'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Can you think of consequences of these developments in hardware?</p>
+<p>Answer: These developments in hardware make the specification, the design, and the implementation of parallel algorithms an important topic.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Can you think of consequences of these developments in hardware?  
+
+Answer:
+These developments in hardware make the specification, the design, and
+the implementation of parallel algorithms an important topic.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachask -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>As is historically popular in explaining algorithms, we can establish an analogy between parallel algorithms and cooking. As in a kitchen with multiple cooks, in parallel algorithms you can do things in parallel for faster turnaround time. For example, if you want to prepare 3 dishes with a team of cooks you can do so by asking each cook to prepare one. Doing so will often be faster that using one cook. But there are some overheads, for example, the work has to be divided as evenly as possible. Obviously, you also need more resources, e.g., each cook might need their own kitchen utensils.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+As is historically popular in explaining algorithms, we can establish
+an analogy between parallel algorithms and cooking.  As in a kitchen
+with multiple cooks, in parallel algorithms you can do things in
+parallel for faster turnaround time.  For example, if you want to
+prepare 3 dishes with a team of cooks you can do so by asking each
+cook to prepare one.
+%
+Doing so will often be faster that using one cook.  But there are some
+overheads, for example, the work has to be divided as evenly as
+possible.  Obviously, you also need more resources, e.g., each cook
+might need their own kitchen utensils.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>One way to quantify the advantages or parallelism is to compare its performance to sequential computation. The example below illustrates the sort of performance improvements that can achieved today. These times are on a 32 core commodity server machine. In the table, the sequential timings use sequential algorithms while the parallel timings use parallel algorithms. Notice that the  <span style="color: black"><span><strong><em>speedup</em></strong></span></span> for the parallel 32 core version relative to the sequential algorithm ranges from approximately 12 (minimum spanning tree) to approximately 32 (sorting).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+One way to quantify the advantages or parallelism is to compare
+its performance to sequential computation.
+%
+The example below illustrates the sort of performance improvements
+that can achieved today.  
+%
+%
+These times are on a 32 core commodity
+server machine.  In the table, the sequential timings use sequential
+algorithms while the parallel timings use parallel algorithms.  Notice
+that the~\defn{speedup} for the parallel 32 core version relative to
+the sequential algorithm ranges from approximately 12 (minimum
+spanning tree) to approximately 32 (sorting).
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ex:intro::example-runs
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Sample timings (reported in seconds) for some algorithms.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Application</strong></td>
+<td style="text-align: center;"><strong>Sequential</strong></td>
+<td style="text-align: center;"><strong>Parallel</strong></td>
+<td style="text-align: center;"><strong>Parallel</strong></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><strong>P = 1</strong></td>
+<td style="text-align: center;"><strong>P = 32</strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Sort <span class="math inline">\(10^7\)</span> strings</td>
+<td style="text-align: center;">2.9</td>
+<td style="text-align: center;">2.9</td>
+<td style="text-align: center;">.095</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Remove duplicates for <span class="math inline">\(10^7\)</span> strings</td>
+<td style="text-align: center;">.66</td>
+<td style="text-align: center;">1.0</td>
+<td style="text-align: center;">.038</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Minimum spanning tree for <span class="math inline">\(10^7\)</span> edges</td>
+<td style="text-align: center;">1.6</td>
+<td style="text-align: center;">2.5</td>
+<td style="text-align: center;">.14</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Breadth first search for <span class="math inline">\(10^7\)</span> edges</td>
+<td style="text-align: center;">.82</td>
+<td style="text-align: center;">1.2</td>
+<td style="text-align: center;">.046</td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Sample timings (reported in seconds) for some algorithms.
+  \begin{center}
+  \begin{tabular}{l  c c c}
+    \toprule
+    \textbf{Application} & \textbf{Sequential} & \textbf{Parallel} &
+    \textbf{Parallel}
+\\
+     & & \textbf{P = 1} & \textbf{P = 32}
+\\
+    \midrule
+    Sort $10^7$ strings &        2.9 &  2.9 &  .095\\
+    Remove duplicates for $10^7$ strings &      .66 &  1.0 & .038\\
+    Minimum spanning tree for $10^7$ edges    &    1.6 & 2.5  & .14\\
+    Breadth first search for $10^7$ edges  &   .82  & 1.2 &  .046\\
+    \bottomrule
+  \end{tabular}
+  \end{center}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+
+<atom name='teachask'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>But why after all, do we have to do anything differently to take advantage of parallelism?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+But why after all, do we have to do anything differently to take
+advantage of parallelism?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachask -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Challenges of Parallel Software
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Challenges of Parallel Software
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+intro::parallelism::software-challenges
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>It would be convenient to use sequential algorithms on parallel computers, but this does not work well because parallel computing requires a different way of organizing the computation. The fundamental difference between sequential and parallel computation is that in the latter certain computations will be performed at the same time but this is possible only if the computations are actually  <span style="color: black"><span><strong><em>independent</em></strong></span></span>, i.e., do not depend on each other. Thus when designing a parallel algorithm, we have to identify the underlying dependencies in the computation and avoid creating unnecessary dependencies.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+It would be convenient to use sequential algorithms on parallel
+computers, but this does not work well because parallel computing
+requires a different way of organizing the computation.
+%
+The fundamental difference between sequential and parallel computation
+is that in the latter certain computations will be performed at the
+same time but this is possible only if the computations are actually~\defn{independent}, i.e., do not depend on each other.
+%
+Thus when designing a parallel algorithm, we have to identify the
+underlying dependencies in the computation and avoid creating
+unnecessary dependencies.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Going back to our cooking example, suppose that we want to make a frittata in our kitchen with 4 cooks. Making a frittata is not easy. It involves cleaning and chopping vegetables, beating eggs, sauteeing, as well as baking. For the frittata to be good, the cooks must follow a specific receipe and pay attention to the dependencies between various tasks. For example, vegetables cannot be sauteed before they are washed and chopped the eggs cannot be fisked before they are broken, etc.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Going back to our cooking example, suppose that we want to make a
+frittata in our kitchen with 4 cooks.
+%
+Making a frittata is not easy.
+%
+It involves cleaning and chopping vegetables, beating eggs,
+sauteeing, as well as baking.
+%
+For the frittata to be good, the cooks must follow a specific receipe
+and pay attention to the dependencies between various tasks.
+%
+For example,
+%
+vegetables cannot be sauteed before they are washed and chopped
+%
+the eggs cannot be fisked before they are broken, etc.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+gr:intro::parallelism::software-challenge
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>An important challenge is therefore to design algorithms that minimize the dependencies so that more can be run in parallel. This design challenge is a primary focus of this book.</p>
+<p>Another important challenge concerns the coding and usage of a parallel algorithm in the real world. The many forms of parallelism, ranging from small to large scale, and from general to special purpose, have led to many different programming languages and system for coding parallel algorithms. These different programming languages and systems often target a particular kind of hardware, and even a particular kind of problem domain. For example, there are separate systems for coding parallel numerical algorithms on shared memory hardware, for coding graphics algorithms on Graphical Processing Units (GPUs), and for coding data-analytics software on a distributed system. Each such system tends to have its own programming interface, its own cost model, and its own optimizations, making it practically impossible to take a parallel algorithm and code it once and for all for all possible applications. As it turns out, one can easily spend weeks or even months optimizing a parallel sorting algorithm on specific parallel hardware, such as a GPU.</p>
+<p>Maximizing speedup by coding and optimizing an algorithm is not the goal of this book. Instead, our goal is to cover general design principles for parallel algorithms that can be applied in essentially all parallel systems, from the data center to the multicore chips on mobile phones. We will learn to think about parallelism at a high-level, learning general techniques for designing parallel algorithms and data structures, and learning how to approximately analyze their costs. The focus is on understanding when things can run in parallel, and when not due to dependencies. There is much more to learn about parallelism, and we hope you continue studying this subject.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An important challenge is therefore to design algorithms that minimize
+the dependencies so that more can be run in parallel.
+%
+This design challenge is a primary focus of this book. 
+
+Another important challenge concerns the coding and usage of a
+parallel algorithm in the real world.
+%
+The many forms of parallelism, ranging from small to large scale, and
+from general to special purpose, have led to many different programming
+languages and system for coding parallel algorithms.
+%
+These different programming languages and systems often target a
+particular kind of hardware, and even a particular kind of problem
+domain.  
+%
+For example, there are separate systems for coding parallel numerical
+algorithms on shared memory hardware, for coding graphics algorithms
+on Graphical Processing Units (GPUs), and for coding data-analytics
+software on a distributed system.
+%
+Each such system tends to have its own programming interface, its own
+cost model, and its own optimizations, making it practically
+impossible to take a parallel algorithm and code it once and for all
+for all possible applications.
+%
+As it turns out, one can easily spend weeks or even months optimizing a
+parallel sorting algorithm on specific parallel hardware, such as a GPU.
+%% For example, it is unlikely that unoptimized code can obtain the
+%% speedups discussed in \exref{intro::example-runs}.
+%% %
+
+
+%% The diversity of parallel hardware and software makes it difficult to
+%% learn both the high-level ideas of developing parallel algorithms and
+%% the optimization techniques required to achieve efficiency on a variety
+%% of different machines.
+%% %
+%% For example, would a particular parallel sorting algorithm be
+%% theoretically efficient on a large-scale system? How about on a small
+%% scale system?  What would be needed to implement an optimized parallel
+%% sorting algorithm for a GPU?
+
+Maximizing speedup by coding and optimizing an algorithm is not the
+goal of this book.
+%
+Instead, our goal is to cover general design principles for parallel
+algorithms that can be applied in essentially all parallel systems,
+from the data center to the multicore chips on mobile phones.
+%
+We will learn to think about parallelism at a high-level, learning
+general techniques for designing parallel algorithms and data
+structures, and learning how to approximately analyze their costs.
+%
+The focus is on understanding when things can run in parallel, and
+when not due to dependencies.  
+%
+There is much more to learn about parallelism, and we hope you
+continue studying this subject.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+</block> <!-- subsubsection -->
+
+</block> <!-- subsection -->
+
+<block name='subsection'>
+<field name='title'>
+<![CDATA[
+Work and Span
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Work and Span
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsubsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>This section describes the two measures—work and span—that we use to analyze algorithms. Together these measures capture both the sequential time and the parallelism available in an algorithm. We typically analyze both of these asymptotically, using for example the big-O notation.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This section describes the two measures---work and span---that we use
+to analyze algorithms.  Together these measures capture both the
+sequential time and the parallelism available in an algorithm.
+%
+We typically analyze both of these asymptotically, using
+for example the big-O notation.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Work
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Work
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The  <span style="color: black"><span><strong><em>work</em></strong></span></span> of an algorithm corresponds to the total number of primitive operations performed by an algorithm. If running on a sequential machine, it corresponds to the sequential time. On a parallel machine, however, work can be divided among multiple processors and thus does not necessarily correspond to time.</p>
+<p>The interesting question is to what extent can the work be divided and performed in parallel. Ideally we would like to divide the work evenly. If we had <span class="math inline">\(W\)</span> work and <span class="math inline">\(P\)</span> processors to work on it in parallel, then even division would give each processor <span class="math inline">\(\frac{W}{P}\)</span> fraction of the work, and hence the total time would be <span class="math inline">\(\frac{W}{P}\)</span>. An algorithm that achieves such ideal division is said to have  <span style="color: black"><span><strong><em>perfect speedup</em></strong></span></span>. Perfect speedup, however, is not always possible.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{work} of an algorithm corresponds to the total number of
+primitive operations performed by an algorithm.  If running on a
+sequential machine, it corresponds to the sequential time.
+%
+On a parallel machine, however, work can be divided among multiple
+processors and thus does not necessarily correspond to time.
+%
+
+The interesting question is to what extent can the work be divided and
+performed in parallel.  Ideally we would like to divide the work
+evenly.  If we had $W$ work and $P$ processors to work on it in
+parallel, then even division would give each processor $\frac{W}{P}$
+fraction of the work, and hence the total time would be $\frac{W}{P}$.
+%
+An algorithm that achieves such ideal division is said to
+have~\defn{perfect speedup}.  Perfect speedup, however, is not always
+possible.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>A fully sequential algorithm, where each operation depends on prior operations leaves no room for parallelism. We can only take advantage of one processor and the time would not be improved at all by adding more.</p>
+<p>More generally, when executing an algorithm in parallel, we cannot break dependencies, if a task depends on another task, we have to complete them in order.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A fully sequential algorithm, where each operation depends on prior
+operations leaves no room for parallelism.
+%
+We can only take advantage of one processor and the time would not be
+improved at all by adding more.  
+%
+
+More generally, when executing an algorithm in parallel, we cannot
+break dependencies, if a task depends on another task, we have to
+complete them in order.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+</block> <!-- group -->
+
+<atom name='teachask'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Can you come up with an example where perfect speedup is not possible?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Can you come up with an example where perfect speedup is not possible?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachask -->
+
+<atom name='teachnote'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>For example, when cooking a frittata, you cannot cook the egg that is not broken, nor can we add the eggs to the pan until the vegetables are sauteed.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For example, when cooking a frittata, you cannot cook the egg that is
+not broken, nor can we add the eggs to the pan until the vegetables
+are sauteed.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachnote -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Span
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Span
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The second measure,  <span style="color: black"><span><strong><em>span</em></strong></span></span>, enables analyzing to what extent the work of an algorithm can be divided among processors. The  <span style="color: black"><span><strong><em>span</em></strong></span></span> of an algorithm basically corresponds to the longest sequence of dependences in the computation. It can be thought of as the time an algorithm would take if we had an unlimited number of processors on an ideal machine.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The second measure,~\defn{span}, enables analyzing to what extent the
+work of an algorithm can be divided among processors.  The~\defn{span}
+of an algorithm basically corresponds to the longest sequence of
+dependences in the computation.  It can be thought of as the time an
+algorithm would take if we had an unlimited number of processors on an
+ideal machine.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+Parallel Merge Sort
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Parallel Merge Sort
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ex:intro::mergesort-cost
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>As an example, consider the parallel <span class="math inline">\(\texttt{mergeSort}\)</span> algorithm for sorting a sequence of length <span class="math inline">\(n\)</span>. The work is the same as the sequential time, which you might know is <span class="math display">\[W(n) = O(n \lg{n}).\]</span> We will see that the span for <span class="math inline">\(\texttt{mergeSort}\)</span> is <span class="math display">\[S(n) = O(\lg^2{n}).\]</span></p>
+<p>Thus, when sorting a million keys and ignoring constant factors, work is <span class="math inline">\(10^6\lg (10^6) &gt; 10^7\)</span>, and span is <span class="math inline">\(\lg^2(10^6) &lt; 500.\)</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+As an example, consider the parallel $\cd{mergeSort}$ algorithm for
+sorting a sequence of length $n$.  The work is the same as the
+sequential time, which you might know is
+\[
+W(n) = O(n \lg{n}).
+\] 
+%
+%In Chapter~\ref{ch:divide-and-conquer} 
+We will see that the span for
+$\cd{mergeSort}$ is
+\[
+S(n) = O(\lg^2{n}).
+\]
+
+Thus, when  sorting a million keys and ignoring constant factors, 
+work is $10^6\lg (10^6) > 10^7$, and 
+%
+span is 
+$\lg^2(10^6) < 500.$
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Parallel Time
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Parallel Time
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Even though work and span, are abstract measures of real costs, they can be used to predict the run-time on any number of processors. Specifically, if for an algorithm the work dominates, i.e., is much larger than, span, then we expect the algorithm to deliver good speedups.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Even though work and span, are abstract measures of real costs, they
+can be used to predict the run-time on any number of processors.
+%
+Specifically, if for an algorithm the work dominates, i.e., is much
+larger than, span, then we expect the algorithm to deliver good
+speedups.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='exercise'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>How would you expect the parallel mergesort algorithm, <span class="math inline">\(\texttt{mergeSort}\)</span>, mentioned in the example above to perform as we increase the number of processors dedicated to running it?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+How would you expect the parallel mergesort algorithm, $\cd{mergeSort}$,
+mentioned in the example above to perform as we increase the number of
+processors dedicated to running it?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Recall that the work of parallel merge sort is <span class="math inline">\(O(n\lg{n})\)</span>, whereas the span is <span class="math inline">\(O(\lg^2{n})\)</span>. Since span is much smaller than the work, we would expect to get good (close to perfect) speedups when using a small to moderate number of processors, e.g., couple of tens or hundreds, because the work term will dominate. We would expect for example the running time to halve when we double the number of processors. We should note that in practice, speedups tend to be more conservative due to natural overheads of parallel execution and due to other factors such as the memory subsystem that can limit parallelism.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Recall that the work of parallel merge sort is $O(n\lg{n})$, whereas
+the span is $O(\lg^2{n})$.  
+%
+Since span is much smaller than the work, we would expect to get good
+(close to perfect) speedups when using a small to moderate number of
+processors, e.g., couple of tens or hundreds, because the work term
+will dominate.
+%
+We would expect for example the running time to halve when we double
+the number of processors.
+%
+We should note that in practice, speedups tend to be more conservative
+due to natural overheads of parallel execution and due to other
+factors such as the memory subsystem that can limit parallelism.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- solution -->
+</block> <!-- group -->
+
+<atom name='teachask'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>How do we calculate the work and span of an algorithm?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+How do we calculate the work and span of an algorithm?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachask -->
+
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Work and Span
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Work and Span
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>We calculate the work and span of algorithms in a very simple way that just involves composing costs across subcomputations. Basically we assume that sub-computations are either composed sequentially (one must be performed after the other) or in parallel (they can be performed at the same time). We then calculate the work as the sum of the work of the subcomputations and the span as the sum of the span of sequential subcomputations or maximum of the work of the parallel subcomputations. More concretely, given two subcomputations with work <span class="math inline">\(W_1\)</span> and <span class="math inline">\(W_2\)</span> and span <span class="math inline">\(S_1\)</span> and <span class="math inline">\(S_2\)</span>, we can calculate the work and the span of their sequential and parallel composition as follows. In calculating the overall work and span, the unit cost <span class="math inline">\(1\)</span> accounts for the cost of (parallel or sequential) composition.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;"><strong><span class="math inline">\(W\)</span> (Work)</strong></th>
+<th style="text-align: center;"><strong><span class="math inline">\(S\)</span> (span)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Sequential composition</strong></td>
+<td style="text-align: center;"><span class="math inline">\(1 + W_1 + W_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1 + S_1+ S_2\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Parallel composition</strong></td>
+<td style="text-align: center;"><span class="math inline">\(1 + W_1 + W_2\)</span></td>
+<td style="text-align: center;"><span class="math inline">\(1 + \max(S_1, S_2)\)</span></td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We calculate the work and span of algorithms in a very
+simple way that just involves composing costs across subcomputations.
+%
+Basically we assume that sub-computations are either composed
+sequentially (one must be performed after the other) or in parallel
+(they can be performed at the same time).
+%
+We then calculate the work as the sum of the work of the
+subcomputations and the span as the sum of the span of sequential
+subcomputations or maximum of the work of the parallel
+subcomputations.
+%
+More concretely, given two subcomputations with work $W_1$ and $W_2$
+and span $S_1$ and $S_2$, we can calculate the work and the span of
+their sequential and parallel composition as follows.
+%
+In calculating the overall work and span, the unit cost $1$ accounts
+for the cost of (parallel or sequential) composition.
+
+
+\begin{center}
+\renewcommand{\arraystretch}{1.5}
+\begin{tabular}{lcc}
+\toprule
+                          &  \bf $W$ (Work) & \bf $S$ (span)\\
+\midrule
+\bf Sequential composition & $1 + W_1 + W_2$ & $1 + S_1+ S_2$\\
+\midrule
+\bf Parallel composition   & $1 + W_1 + W_2$ & $1 + \max(S_1, S_2)$\\
+\bottomrule
+\end{tabular}
+\end{center}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+
+<atom name='note'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The intuition behind the definition of work and span is that work simply adds, whether we perform computations sequentially or in parallel. The span, however, only depends on the span of the maximum of the two parallel computations. It might help to think of work as the total energy consumed by a computation and span as the minimum possible time that the computation requires. Regardless of whether computations are performed serially or in parallel, energy is equally required; time, however, is determined only by the slowest computation.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The intuition behind the definition of work and span is that work
+simply adds, whether we perform computations sequentially or in
+parallel.  The span, however, only depends on the span of the maximum
+of the two parallel computations.  It might help to think of work as
+the total energy consumed by a computation and span as the minimum
+possible time that the computation requires.  Regardless of whether
+computations are performed serially or in parallel, energy is equally
+required; time, however, is determined only by the slowest
+computation.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- note -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Suppose that we have <span class="math inline">\(30\)</span> eggs to cook using <span class="math inline">\(3\)</span> cooks. Whether all <span class="math inline">\(3\)</span> cooks to do the cooking or just one, the total work remains unchanged: <span class="math inline">\(30\)</span> eggs need to be cooked. Assuming that cooking an egg takes <span class="math inline">\(5\)</span> minutes, the total work therefore is <span class="math inline">\(150\)</span> minutes. The span of this job corresponds to the longest sequence of dependences that we must follow. Since we can, in principle, cook all the eggs at the same time, span is 5 minutes.</p>
+<p>Given that we have <span class="math inline">\(3\)</span> cooks, how much time do we actually need? The greedy scheduling principle tells us that we need no more that <span class="math inline">\(150/3 + 5 = 55\)</span> minutes. That is almost a factor <span class="math inline">\(3\)</span> speedup over the <span class="math inline">\(150\)</span> that we would need with just one cook.</p>
+<p>How do we actually realize the greedy schedule? In this case, this is simple, all we have to do is divide the eggs equally between our cooks.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Suppose that we have $30$ eggs to cook using $3$ cooks.  Whether all
+$3$ cooks to do the cooking or just one, the total work remains
+unchanged: $30$ eggs need to be cooked.
+%
+Assuming that cooking an egg takes $5$ minutes, the total work
+therefore is $150$ minutes.
+%
+The span of this job corresponds to the longest sequence of
+dependences that we must follow.
+%
+Since we can, in principle, cook all the eggs at the same time, 
+span is 5 minutes.
+%
+
+Given that we have $3$ cooks, how much time do we actually need?
+%
+The greedy scheduling principle tells us that we need no more that
+$150/3 + 5 = 55$ minutes. That is almost a factor $3$ speedup over the
+$150$ that we would need with just one cook. 
+%
+
+How do we actually realize the greedy schedule?  In this case, this is
+simple, all we have to do is divide the eggs equally between our
+cooks.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+</block> <!-- group -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>If algorithm <span class="math inline">\(A\)</span> has less work than algorithm <span class="math inline">\(B\)</span>, but has greater span then which algorithm is better? In analyzing sequential algorithms there is only one measure so it is clear when one algorithm is asymptotically better than another, but now we have two measures. In general the work is more important than the span. This is because the work reflects the total cost of the computation (the processor-time product). Therefore typically the goal is to first reduce the work and then reduce the span by designing asymptotically work-efficient algorithms that perform no work than the best sequential algorithm for the same problem. However, sometimes it is worth giving up a little in work to gain a large improvement in span.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+If algorithm $A$ has less work than algorithm $B$, but has greater
+span then which algorithm is better?  In analyzing sequential
+algorithms there is only one measure so it is clear when one algorithm
+is asymptotically better than another, but now we have two measures.
+In general the work is more important than the span.  
+%
+This is because the work reflects the total cost of the computation
+(the processor-time product).  Therefore typically the goal is to
+first reduce the work and then reduce the span by designing
+asymptotically work-efficient algorithms that perform no work
+than the best sequential algorithm for the same problem. 
+%
+However, sometimes it is worth giving up a little in work to gain a
+large improvement in span.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Work Efficiency
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Work Efficiency
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+def:intro::work-efficiency
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>We say that a parallel algorithm is  <span style="color: black"><span><strong><em>(asymptotically) work efficient</em></strong></span></span>, if the work is asymptotically the same as the time for an optimal sequential algorithm that solves the same problem.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We say that a parallel algorithm is~\defn{(asymptotically) work
+  efficient}, if the work is asymptotically the same as the time for
+an optimal sequential algorithm that solves the same problem.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The parallel <span class="math inline">\(\texttt{mergeSort}\)</span> function described in Example <a href="#ex:intro::mergesort-cost" data-reference-type="ref" data-reference="ex:intro::mergesort-cost">[ex:intro::mergesort-cost]</a> is work efficient since it does <span class="math inline">\(O(n \log n)\)</span> work, which optimal time for comparison based sorting. In this course we will try to develop work-efficient or close to work-efficient algorithms.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The parallel $\cd{mergeSort}$ function described in
+\exref{intro::mergesort-cost} is work efficient since it does $O(n \log n)$
+work, which optimal time for comparison based sorting.  In this course
+we will try to develop work-efficient or close to work-efficient
+algorithms.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+</block> <!-- group -->
+
+</block> <!-- subsubsection -->
+
+</block> <!-- subsection -->
+
+<block name='subsection'>
+<field name='title'>
+<![CDATA[
+Specification, Problem, Implementation
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Specification, Problem, Implementation
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<block name='subsubsection'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Problem solving in computer science requires reasoning precisely about problems being studied and the properties of solutions. To facilitate such reasoning, we define problems by specifying them and describe the desired properties of solutions at different levels of abstraction, such as the cost and the implementation of the solution.</p>
+<p>In this book, we are usually interested in two distinct classes of problems: algorithms or algorithmic problems and data structures problems.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Problem solving in computer science requires reasoning precisely about
+problems being studied and the properties of solutions.
+%
+To facilitate such reasoning,  we define problems by
+specifying them and describe the desired properties of solutions at
+different levels of abstraction, such as the cost and the
+implementation  of the solution.
+
+In this book, we are usually interested in two distinct classes of
+problems: algorithms or algorithmic problems and data structures
+problems.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Algorithm Specification
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Algorithm Specification
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>We specify an algorithm by describing what is expected of the algorithm via an  <span style="color: black"><span><strong><em>algorithm specification</em></strong></span></span>. For example, we can specify a sorting algorithm for sequences with respect to a given comparison function as follows.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We specify an algorithm by describing what is expected of the
+algorithm via an~\defn{algorithm specification}.
+%
+For example, we can specify a sorting algorithm for sequences with
+respect to a given comparison function as follows.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Comparison Sort
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Comparison Sort
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Given a sequence <span class="math inline">\(A\)</span> of <span class="math inline">\(n\)</span> elements taken from a totally ordered set with comparison operator <span class="math inline">\(\leq\)</span>, return a comparison-sorting algorithm sequence <span class="math inline">\(B\)</span> containing the same elements but such that <span class="math inline">\(B[i] \leq  
+B[j]\)</span> for <span class="math inline">\(0 \leq i &lt; j &lt; n\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a sequence $A$ of $n$ elements taken from a totally ordered set
+with comparison operator $\leq$, return a comparison-sorting algorithm
+sequence $B$ containing the same elements but such that $B[i] \leq
+B[j]$ for $0 \leq i < j < n$.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+
+<atom name='note'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The specification describes  <span style="color: black"><span><strong><em>what</em></strong></span></span> the algorithm should do but it does not describe  <span style="color: black"><span><strong><em>how</em></strong></span></span> it achieves what is asked. This is intentional—and is exactly the point—because there can be many algorithms that meet a specification.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The specification describes~\defn{what} the algorithm should do but it
+does not describe~\defn{how} it achieves what is asked.
+%
+This is intentional---and is exactly the point---because there can be
+many algorithms that meet a specification.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- note -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>A crucial property of any algorithm is its resource requirements or its  <span style="color: black"><span><strong><em>cost</em></strong></span></span>. For example, of the many ways algorithms for sorting a sequence, we may prefer some over the others. We specify the cost of class of algorithms with a  <span style="color: black"><span><strong><em>cost specification</em></strong></span></span>. For example, the following cost specification states that a particular class of parallel sorting algorithms performs <span class="math inline">\(O(n \log{n})\)</span> work and <span class="math inline">\(O(\log^2{n})\)</span> span.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A crucial property of any algorithm is its resource requirements or
+its~\defn{cost}.
+%
+For example, of the many ways algorithms for sorting a sequence, we
+may prefer some over the others.  
+%
+We specify the cost of class of algorithms with a~\defn{cost
+  specification}.  For example, the following cost specification
+states that a particular class of parallel sorting algorithms performs
+$O(n \log{n})$ work and $O(\log^2{n})$ span.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='costspec'>
+<field name='title'>
+<![CDATA[
+Comparison Sort: Efficient &amp; Parallel
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Comparison Sort: Efficient \& Parallel
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Assuming the comparison function <span class="math inline">\(&lt;\)</span> does constant work, the cost for parallel comparison sorting a sequence of length <span class="math inline">\(n\)</span> is <span class="math inline">\(O(n \log n)\)</span> work and <span class="math inline">\(O(\log^2 n)\)</span> span.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Assuming the comparison function $<$ does constant work, the cost for
+parallel comparison sorting a sequence of length $n$ is $O(n \log n)$
+work and $O(\log^2 n)$ span.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- costspec -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>There can be many cost specifications for sorting. For example, if we are not interested in parallelism, we can specify <span class="math inline">\(O(n \log{n})\)</span> work but no bounds on the span. There is another cost specification below that requires even smaller span but allows for more work. We usually care more about work and thus would prefer the first cost specification; there might, however, be cases where the second specification is preferable.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+There can be many cost specifications for sorting.  For example, if we
+are not interested in parallelism, we can specify $O(n \log{n})$ work
+but no bounds on the span. There is another cost specification below
+that requires even smaller span but allows for more work.
+%
+We usually care more about work and thus would prefer the first cost
+specification; there might, however, be cases where the second
+specification is preferable.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='costspec'>
+<field name='title'>
+<![CDATA[
+Comparison Sort: Inefficient but Parallel
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Comparison Sort: Inefficient but Parallel
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Assuming the comparison function <span class="math inline">\(&lt;\)</span> does constant work, the cost for parallel comparison sorting a sequence of length <span class="math inline">\(n\)</span> is <span class="math inline">\(O(n^2)\)</span> work and <span class="math inline">\(O(\log n)\)</span> span.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Assuming the comparison function $<$ does constant work, the cost for
+parallel comparison sorting a sequence of length $n$ is $O(n^2)$ work
+and $O(\log n)$ span.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- costspec -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Data Structure Specification
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Data Structure Specification
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>We specify a data structure by describing what is expected of the data structure via an  <span style="color: black"><span><strong><em>Abstract Data Type (ADT) specification</em></strong></span></span>. As with algorithms, we usually give cost specifications to data structures. For example, we can specify a priority queue ADT and give it a cost specification.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We specify a data structure by describing what is expected of the data
+structure via an~\defn{Abstract Data Type (ADT) specification}.
+%
+As with algorithms, we usually give cost specifications to data
+structures.
+%
+For example, we can specify a priority queue ADT and give it a cost
+specification. 
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='datatype'>
+<field name='title'>
+<![CDATA[
+Priority Queue
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Priority Queue
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>A priority queue consists of a priority queue type and supports three operations on values of this type. The operation <span class="math inline">\(\texttt{empty}\)</span> returns an empty queue. The operation <span class="math inline">\(\texttt{insert}\)</span> inserts a given value with a priority into the queue and returns the queue. The operation <span class="math inline">\(\texttt{removeMin}\)</span> removes the value with the smallest priority from the queue and returns it.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A priority queue consists of a priority queue type and supports three
+operations on values of this type.  The operation $\cd{empty}$ returns
+an empty queue.  The operation $\cd{insert}$ inserts a given value with
+a priority into the queue and returns the queue.  The operation
+$\cd{removeMin}$ removes the value with the smallest priority from the
+queue and returns it.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- datatype -->
+
+<atom name='costspec'>
+<field name='title'>
+<![CDATA[
+Priority Queue: Basic
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Priority Queue: Basic
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The work and span of a priority queue operations are as follows.</p>
+<ul>
+<li><p><span class="math inline">\(\texttt{create}\)</span>: <span class="math inline">\(O(1)\)</span>, <span class="math inline">\(O(1)\)</span>.</p></li>
+<li><p><span class="math inline">\(\texttt{insert}\)</span>: <span class="math inline">\(O(\log{n})\)</span>, <span class="math inline">\(O(\log{n})\)</span>.</p></li>
+<li><p><span class="math inline">\(\texttt{removeMin}\)</span>: <span class="math inline">\(O(\log{n})\)</span>, <span class="math inline">\(O(\log{n})\)</span>.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The work and span of a priority queue operations are as follows.
+\begin{itemize}
+\item $\cd{create}$: $O(1)$, $O(1)$.
+\item $\cd{insert}$: $O(\log{n})$, $O(\log{n})$.
+\item $\cd{removeMin}$: $O(\log{n})$, $O(\log{n})$.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- costspec -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Problem
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Problem
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>A  <span style="color: black"><span><strong><em>problem</em></strong></span></span> requires meeting an algorithm or an ADT specification and a corresponding cost specification. Since we allow specifying algorithms and data structures, we can distinguish between algorithms problems and data-structure problems.</p>
+<p>An  <span style="color: black"><span><strong><em>algorithmic problem</em></strong></span></span> or an  <span style="color: black"><span><strong><em>algorithms problem</em></strong></span></span> requires designing an algorithm that satisfies the given algorithm specification and cost specification if any.</p>
+<p>A  <span style="color: black"><span><strong><em>data-structures problem</em></strong></span></span> requires meeting an ADT specification by designing a data structure that can support the desired operations with the required efficiency specified by the cost specification.</p>
+<p>The difference between an algorithmic problem and a data-structures problem is that the latter involves designing a data structure and a collection of algorithms, one for each operation, that operate on that data structure.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{problem} requires meeting an algorithm or an ADT specification
+and a corresponding cost specification.
+%
+Since we allow specifying algorithms and data structures, we can
+distinguish between algorithms problems and data-structure problems.
+%
+
+An~\defn{algorithmic problem} or an~\defn{algorithms problem}
+requires designing an algorithm that satisfies the given algorithm
+specification and cost specification if any.
+%
+
+A~\defn{data-structures problem} requires meeting an ADT
+specification by designing a data structure that can
+support the desired operations with the required efficiency specified
+by the cost specification.
+%
+
+The difference between an algorithmic problem and a data-structures
+problem is that the latter involves designing a data structure and a
+collection of algorithms, one for each operation, that operate on that
+data structure.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='note'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>When we consider problems, it is usually clear from the context whether we are talking about algorithms or data structures. In such cases, we use the simpler terms  <span style="color: black"><span><strong><em>specification</em></strong></span></span> and  <span style="color: black"><span><strong><em>problem</em></strong></span></span> to refer to the algorithm/ADT specification and the corresponding problem respectively.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When we consider problems, it is usually clear from the context
+whether we are talking about algorithms or data structures.
+%
+In such cases, we use the simpler terms~\defn{specification}
+and~\defn{problem} to refer to the algorithm/ADT specification and the
+corresponding problem respectively.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- note -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Implementation
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Implementation
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>We can solve an algorithms or a data-structures problem by presenting an  <span style="color: black"><span><strong><em>implementation</em></strong></span></span>. The term  <span style="color: black"><span><strong><em>algorithm</em></strong></span></span> refers to an implementation that solves an algorithms problem and the term  <span style="color: black"><span><strong><em>data structure</em></strong></span></span> to refer to an implementation that solves a data-structures problem.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can solve an algorithms or a data-structures problem by presenting
+an~\defn{implementation}.  
+%
+The term~\defn{algorithm} refers to an implementation that solves an
+algorithms problem and the term~\defn{data structure} to
+refer to an implementation that solves a data-structures problem.
+%%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='note'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>The distinction between problems and algorithms is common in the literature but the distinction between abstract data types and data structures is less so.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The distinction between problems and algorithms is common in the
+literature but the distinction between abstract data types and data
+structures is less so.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- note -->
+
+<atom name='teachnote'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Why do we think this distinction is important?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Why do we think this distinction is important?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- teachnote -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>We describe an algorithm by using the pseudo-code notation based on SPARC, the language used in this book. For example, we can specify the classic insertion sort algorithm as follows.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\mathit{insSort}~f~s =  
+\\   
+~~\texttt{if}~|s| = 0~\texttt{then}   
+\\  
+~~~~\left\langle\,  \,\right\rangle  
+\\  
+~~\texttt{else}~\mathit{insert}~f~s[0]~(\mathit{insSort}~f~(s[1,...,n-1]))  
+\end{array}\]</span></p>
+<p>In the algorithm, <span class="math inline">\(f\)</span> is the comparison function and <span class="math inline">\(s\)</span> is the input sequence. The algorithm uses a function (<span class="math inline">\(\texttt{insert}~f~x~s\)</span>) that takes the comparison function <span class="math inline">\(f\)</span>, an element <span class="math inline">\(x\)</span>, and a sequence <span class="math inline">\(s\)</span> sorted by <span class="math inline">\(f\)</span>, and inserts <span class="math inline">\(x\)</span> in the appropriate place. Inserting into a sorted sequence is itself an algorithmic problem, since we are not specifying how it is implemented, but just specifying its functionality. We might also be given a cost specification for <span class="math inline">\(\texttt{insert}\)</span>, e.g., for a sequence of length <span class="math inline">\(n\)</span> the cost of <span class="math inline">\(\texttt{insert}\)</span> should be <span class="math inline">\(O(n)\)</span> work and <span class="math inline">\(O(\log n)\)</span> span. Given this cost we can determine the overall asymptotic cost of <span class="math inline">\(\texttt{sort}\)</span> using our composition rules described in the last section. Since the code uses <span class="math inline">\(\texttt{insert}\)</span> sequentially and since there are <span class="math inline">\(n\)</span> inserts, the algorithm <span class="math inline">\(\texttt{insSort}\)</span> has <span class="math inline">\(n \times O(n) =  
+O(n^2)\)</span> work and <span class="math inline">\(n \times O(\log n) = O(n \log n)\)</span> span.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We describe an algorithm by using the pseudo-code notation based on
+\pml, the language  used in this book.  For example, we can specify
+the classic insertion sort algorithm as follows.
+%
+
+\[
+\begin{array}{l}
+\cdfun{insSort}~f~s =
+\\ 
+~~\cd{if}~|s| = 0~\cd{then} 
+\\
+~~~~\cseq{}
+\\
+~~\cd{else}~\cdfun{insert}~f~s[0]~(\cdfun{insSort}~f~(s[1,...,n-1]))
+\end{array}
+\]
+
+
+In the algorithm, $f$ is the comparison function and $s$ is the input
+sequence. %
+The algorithm uses a function ($\cd{insert}~f~x~s$) that
+takes the comparison function $f$, an element $x$, and a sequence $s$
+sorted by $f$, and inserts $x$ in the appropriate place.  
+%
+Inserting into a sorted sequence is itself an algorithmic problem,
+since we are not specifying how it is implemented, but just specifying
+its functionality.  
+%
+We might also be given a cost specification for $\cd{insert}$, e.g., for
+a sequence of length $n$ the cost of $\cd{insert}$ should be $O(n)$
+work and $O(\log n)$ span.  
+%
+Given this cost we can determine the overall asymptotic cost of
+$\cd{sort}$ using our composition rules described in the last section.
+%
+Since the code uses $\cd{insert}$ sequentially and since there are $n$
+inserts, the algorithm $\cd{insSort}$ has $n \times O(n) =
+O(n^2)$ work and $n \times O(\log n) = O(n \log n)$ span.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Similarly, we can specify a data structure by specifying the data type used by the implementation, and the algorithms for each operation. For example, we can implement a priority queue with a binary heap data structure and describe each operation as an algorithm that operates on this data structure. In other words, a data structure can be viewed as a collection of algorithms that operate on the same organization of the data.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Similarly, we can specify a data structure by specifying the data type
+used by the implementation, and the algorithms for each operation.
+%
+For example, we can implement a priority queue with a binary heap data
+structure and describe each operation as an algorithm that operates on
+this data structure.  In other words, a data structure can be viewed
+as a collection of algorithms that operate on the same organization
+of the data.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+<atom name='remark'>
+<field name='title'>
+<![CDATA[
+On the importance of specification
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+On the importance of specification
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='parents'>
+...NOT.PROVIDED.PARENTS...
+</field> <!-- parents -->
+<field name='body'>
+<![CDATA[
+<p>Several reasons underline the importance of distinguishing between specification and implementation.</p>
+<p>First, we want to be able to use a specification without knowing the details of an implementation that matches that specification. In many cases the specification of a problem is quite simple, but an efficient algorithm or data structure that solves it, i.e., the implementation, is complicated. Specifications allow us abstract from implementation details.</p>
+<p>Second, we want to be able to change or improve implementations over time. As long as each implementation matches the same specification, and the user relied only on the specification, then he or she can continue using the new implementation without worrying about their code breaking.</p>
+<p>Third, when we compare the performance of different algorithms or data structures it is important that we are not comparing apples with oranges. We have to make sure the algorithms we compare are solving the same problem, because subtle differences in the problem specification can make a significant difference in how efficiently that problem can be solved.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Several reasons underline the importance of distinguishing between
+specification and implementation.  
+
+First, we want to be able to use a specification without knowing the
+details of an implementation that matches that specification.
+%
+In many cases the specification of a problem is quite simple, but an
+efficient algorithm or data structure that solves it, i.e., the
+implementation, is complicated.  
+%
+Specifications allow us abstract from implementation details.
+%
+
+Second, we want to be able to change or improve implementations over
+time.  As long as each implementation matches the same specification,
+and the user relied only on the specification, then he or she can
+continue using the new implementation without worrying about their
+code breaking. 
+%
+
+Third, when we compare the performance of different
+algorithms or data structures it is important that we are not
+comparing apples with oranges.  We have to make sure the algorithms we
+compare are solving the same problem, because subtle differences in
+the problem specification can make a significant difference in how
+efficiently that problem can be solved.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- remark -->
+
+</block> <!-- subsubsection -->
+
+</block> <!-- subsection -->
+</block> <!-- section -->
+</block> <!-- chapter -->
