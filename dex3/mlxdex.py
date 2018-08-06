@@ -3,6 +3,7 @@
 # Translates dex to mlx, taking in a latex_preamble_file
 # as an argument.
 #
+# latex_preamble can also be specified via an environment variable.
 
 import re
 import sys
