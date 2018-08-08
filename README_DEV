@@ -1,3 +1,7 @@
 # IMPORTANT: the module pervasives/ must match that inside the diderot
 project.  This is how the two communicate
 
+
+# Create a standalone executable
+pip install pyinstaller
+pyinstaller --onefile --windowed file.py
