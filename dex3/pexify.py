@@ -25,14 +25,14 @@ def main(infile_name):
   outfile_tex = os_utils.mk_file_name_ext(outfile_first, os_utils.TEX_EXTENSION)
 
    # convert dex to core dex by using the parser
-  print 'Translating', infile_name, 'to core language.'
+  print('Translating', infile_name, 'to core language.')
   parser.main(infile_name, True, True)
-  print 'Done.'
+  print('Done.')
 
   # convert core dex to LaTeX
-  print 'Now, Translating to pandoc-friendly LaTeX.'
+  print('Now, Translating to pandoc-friendly LaTeX.')
   dex2pex.main(core_infile)
-  print 'Done.'
+  print('Done.')
 
   # rename and copy to Desktop
   os_utils.mv_file_to(core_infile_tex, outfile_tex)  
@@ -41,15 +41,15 @@ def main(infile_name):
   os_utils.mv_file_to(core_infile, '/tmp')  
 
 
-  print 'pexify completed.  Output is in', outfile_tex
+  print('pexify completed.  Output is in', outfile_tex)
 
   # cd to starting directory
   os.chdir(root_dir)
 
 if __name__ == "__main__":
-  print 'Executing:', sys.argv[0], str(sys.argv)
+  print('Executing:', sys.argv[0], str(sys.argv))
   if len(sys.argv) != 2: 
-    print 'Usage: pexify inputfile'
+    print('Usage: pexify inputfile')
     sys.exit()
 
   infile_name = sys.argv[1]

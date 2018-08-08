@@ -23,7 +23,7 @@ import pervasives.os_utils as os_utils
 import syntax as dex
 import tokens as tokens
 
-import mlx.syntax as mlx
+import pervasives.mlx_syntax as mlx
 import pex.syntax as pex
 
 import latex.latex2html as latex2html
@@ -99,15 +99,15 @@ def extract_common_problem(toks):
 
 def extract_common_solution(toks):
   body = tokens.get_body(toks)
-  print 'body:', body
+  print('body:', body)
   explain = tokens.get_explain(toks) 
-  print 'explain:', explain
+  print('explain:', explain)
   label = label_to_string_force(toks)
-  print 'label', label
+  print('label', label)
   points = tokens.get_points_opt(toks) 
-  print 'points', points
+  print('points', points)
   title = tokens.get_title(toks)
-  print 'title', title
+  print('title', title)
   return (body, explain, label, points, title)
 
 def extract_problem_group (toks):
@@ -449,11 +449,11 @@ class ProblemGroup:
   def __init__(self, toks):
     self.index = new_index ()
     (self.title, self.label, self.points, self.prompt, self.topics) = extract_problem_group(toks)
-    print "title = ", self.title
-    print "label = ", self.label
-    print "points = ", self.points
-    print "prompt = ", self.prompt
-    print "topics = ", self.topics            
+    print("title = ", self.title)
+    print("label = ", self.label)
+    print("points = ", self.points)
+    print("prompt = ", self.prompt)
+    print("topics = ", self.topics)            
 
     self.contents = tokens.get_contents(toks) 
 
@@ -490,15 +490,15 @@ class ProblemSet:
   def __init__(self, toks):
     self.index = new_index ()
     (self.course_number, self.instance, self.folder, self.title, self.label, self.parents,  self.points, self.prompt, self.topics) = extract_problem_set(toks)
-    print "course number = ", self.course_number
-    print "title = ", self.title
-    print "label = ", self.label
-    print "parents = ", self.parents
-    print "instance = ", self.instance
-    print "folder = ", self.folder
-    print "points = ", self.points
-    print "prompt = ", self.prompt
-    print "topics = ", self.topics            
+    print("course number = ", self.course_number)
+    print("title = ", self.title)
+    print("label = ", self.label)
+    print("parents = ", self.parents)
+    print("instance = ", self.instance)
+    print("folder = ", self.folder)
+    print("points = ", self.points)
+    print("prompt = ", self.prompt)
+    print("topics = ", self.topics)            
     
     self.contents = tokens.get_contents(toks) 
 
@@ -529,7 +529,7 @@ class ProblemSet:
 
   def to_mlx_string (self):
     contents = self.contents.strip()
-    print 'problemset.to_mlx_string: title: ', self.title
+    print('problemset.to_mlx_string: title: ', self.title)
 
     fields = mk_mlx_str_fields_problem_set(self)
     r = mlx.mk_str_problem_set(fields)
@@ -729,7 +729,7 @@ class Algo:
   def elaborate_contents (self): 
 #    print '** matched algo.'
 #    print 'contents:', self.contents
-    contents = map(lambda x:self.indent_line(x), self.contents)
+    contents = [self.indent_line(x) for x in self.contents]
     contents = EMPTY_STRING.join(contents)
     contents = \
       KW_TEX_BEGIN_ENUMERATE + NEWLINE + \
@@ -774,9 +774,9 @@ class Answer:
     return self.label
 
   def to_string (self): 
-    print "Answer.to_string"
+    print("Answer.to_string")
     result = mk_str_generic_solution (dex.ANSWER, self)
-    print 'answer:', result
+    print('answer:', result)
     return result
 
   def to_mlx_string (self): 
@@ -795,9 +795,9 @@ class Choice:
     return self.label
 
   def to_string (self): 
-    print "Choice.to_string"
+    print("Choice.to_string")
     result = mk_str_generic_solution (dex.CHOICE, self)
-    print 'choice:', result
+    print('choice:', result)
     return result
 
   def to_mlx_string (self): 
@@ -815,9 +815,9 @@ class Select:
     return self.label
 
   def to_string (self): 
-    print "Select.to_string"
+    print("Select.to_string")
     result = mk_str_generic_solution (dex.SELECT, self)
-    print 'select:', result
+    print('select:', result)
     return result
 
 
@@ -1082,16 +1082,16 @@ class QuestionMC:
 
 def answer_to_string(toks): 
   block = Answer(toks)
-  print '        matched answer'
+  print('        matched answer')
   return block.to_string()
 
 def algo_to_string(toks): 
   block = Algo(toks)
-  print '        matched algo', '[', block.title, '].'
+  print('        matched algo', '[', block.title, '].')
   return block.to_string()
 
 def assignment_to_string(toks):
-  print '      matched assignment.'
+  print('      matched assignment.')
   block = Assignment(toks)
   return block.to_string()
 
@@ -1104,87 +1104,87 @@ def atom_to_string(name, toks):
     translate_to_html = True
 
   block = Atom(name, translate_to_html, toks)
-  print '        matched atom', name, '[', block.title, '].'
+  print('        matched atom', name, '[', block.title, '].')
   return block.to_string()
 
 def chapter_to_string(toks): 
-  print 'matched chapter.'
+  print('matched chapter.')
   block = Chapter(toks)
-  print 'matched chapter', '[', block.title, '].'
+  print('matched chapter', '[', block.title, '].')
   return block.to_string()
 
 def choice_to_string(toks): 
-  print '          matched choice.'
+  print('          matched choice.')
   block = Choice(toks)
   return block.to_string()
 
 def group_to_string(toks): 
   block = Group(toks)
-  print '      matched group', '[', block.title, '].'
+  print('      matched group', '[', block.title, '].')
   return block.to_string()
 
 def section_to_string(toks): 
   block = Section(toks)
-  print '  matched section', '[', block.title, '].'
+  print('  matched section', '[', block.title, '].')
   return block.to_string()
 
 def subsection_to_string(toks): 
   block = Subsection(toks)
-  print '    matched subsection', '[', block.title, '].'
+  print('    matched subsection', '[', block.title, '].')
   return block.to_string()
 
 def subsubsection_to_string(toks): 
   block = Subsubsection(toks)
-  print '      matched subsubsection', '[', block.title, '].'
+  print('      matched subsubsection', '[', block.title, '].')
   return block.to_string()
 
 def question_fr_to_string(toks): 
-  print '        matched question_fr.'
+  print('        matched question_fr.')
   block = QuestionFR(toks)
   return block.to_string()
 
 def question_ma_to_string(toks): 
-  print '        matched question_ma.'
+  print('        matched question_ma.')
   block = QuestionMA(toks)
   return block.to_string()
 
 def question_mc_to_string(toks): 
-  print '        matched question_mc.'
+  print('        matched question_mc.')
   block = QuestionMC(toks)
   return block.to_string()
 
 def problem_fr_to_string(toks): 
-  print '        matched problem_fr.'
+  print('        matched problem_fr.')
   block = ProblemFR(toks)
   return block.to_string()
 
 def problem_ma_to_string(toks): 
-  print '        matched problem_ma.'
+  print('        matched problem_ma.')
   block = ProblemMA(toks)
   return block.to_string()
 
 def problem_mc_to_string(toks): 
-  print '        matched problem_mc.'
+  print('        matched problem_mc.')
   block = ProblemMC(toks)
   return block.to_string()
 
 def checkpoint_to_string(toks): 
-  print '      matched checkpoint.'
+  print('      matched checkpoint.')
   block = Checkpoint(toks)
   return block.to_string()
 
 def problem_group_to_string(toks): 
-  print '      matched problem_group.'
+  print('      matched problem_group.')
   block = ProblemGroup(toks)
   return block.to_string()
 
 def problem_set_to_string(toks): 
-  print '      matched problem_set.'
+  print('      matched problem_set.')
   block = ProblemSet(toks)
   return block.to_string()
 
 def select_to_string(toks): 
-  print '          matched select.'
+  print('          matched select.')
   block = Select(toks)
   return block.to_string()
 
