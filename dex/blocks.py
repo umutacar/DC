@@ -23,7 +23,7 @@ import pervasives.os_utils as os_utils
 import syntax as dex
 import tokens as tokens
 
-import pervasives.mlx_syntax as mlx
+import mlx.syntax as mlx
 import pex.syntax as pex
 
 import latex.latex2html as latex2html

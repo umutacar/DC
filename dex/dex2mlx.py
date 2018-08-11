@@ -16,7 +16,8 @@ import pyparsing as pp
 import pervasives.os_utils as os_utils
 from pervasives.parser import *
 from pervasives.syntax import *
-import pervasives.mlx_syntax as mlx
+
+import mlx.syntax as mlx
 
 import syntax as dex
 import parser as dex_parser

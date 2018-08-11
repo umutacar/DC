@@ -1,8 +1,8 @@
 # IMPORTANT: 
-the module pervasives/ must match that inside the diderot
-project plus it should contain diderot/mlx/syntax.py as mlx_syntax.py.  
+1) the module pervasives/ must match that inside the diderot
+2) the module mlx should containt syntax.py and this should be identical to that from diderot.
 
-This is how the two communicate.
+This is how MeTaL and Diderot communicate.
   
 
 
