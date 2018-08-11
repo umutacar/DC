@@ -9,3 +9,13 @@ This is how MeTaL and Diderot communicate.
 # Create a standalone executable
 pip install pyinstaller
 pyinstaller --onefile --windowed file.py
+
+
+# Note
+
+  I (Umut) was able to port MeTaL to python3 without much difficulty.
+  The code for ported dex/ directory is in dex3
+  See README3.
+
+  I think we are not going to switch to python3 at the moment.  So I
+  am not going to maintain this codebase.
