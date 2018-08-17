@@ -48,6 +48,7 @@ LATEXMLPOST = 'latexmlpost -pmml --javascript=LaTeXML-maybeMathJax.js'
 
 PATTERN_HTML_PARAGRAPH = re.compile(r'<p>(?P<contents>.*)</p>\n*')
 
+LATEX_DOCUMENT_HEADER = r'\documentclass{article}'
 LATEX_BEGIN_DOCUMENT = r'\begin{document}'
 LATEX_END_DOCUMENT = r'\end{document}'
 
@@ -126,6 +127,7 @@ def latex_to_html (tmp_dir,  unique, preamble, contents, match_single_paragraph)
   latex_file_name = tmp_dir + r'/' + unique + syntax.PERIOD + os_utils.LATEX_EXTENSION 
   latex_file = open(latex_file_name, 'w')
 
+  latex_file.write(LATEX_DOCUMENT_HEADER + '\n')
   latex_file.write(preamble + '\n')
   latex_file.write(LATEX_BEGIN_DOCUMENT + '\n')
   latex_file.write(contents + '\n')
