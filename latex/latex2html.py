@@ -142,6 +142,7 @@ def latex_to_html (tmp_dir,  unique, preamble, contents, match_single_paragraph)
 
   html_file = open(html_file_name, 'r')  
   result = html_file.read ()
+  result = result.strip()
   if match_single_paragraph:
     m = PATTERN_HTML_PARAGRAPH.match(result)
     if m: 
