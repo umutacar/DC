@@ -1364,6 +1364,7 @@ def mk_uniform_parser (\
                         curry(process_atom, dex.SKIP), \
                         curry(process_atom, dex.SOLUTION), \
                         curry(process_atom, dex.SYNTAX), \
+                        curry(process_atom, dex.TASK), \
                         curry(process_atom, dex.TEACH_ASK), \
                         curry(process_atom, dex.TEACH_NOTE), \
                         curry(process_atom, dex.THEOREM), \

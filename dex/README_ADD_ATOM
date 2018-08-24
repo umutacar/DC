@@ -18,7 +18,10 @@ For example we assume you are adding new_atom
    2.1 create self.process_atom_new_atom
    2.2 create self.atom_new_atom
    2.3 extend self_exp_atom
-
+   2.4 extend def mk_uniform_parser  
+3. extend dex2mlx.py
+   def parse
+   
 3. extend def mk_parser_begin_any_atom_or_group
 
 ** diderot/mlx/syntax.py
