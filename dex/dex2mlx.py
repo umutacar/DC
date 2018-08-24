@@ -275,6 +275,7 @@ def parse (process_algo, \
              curry(process_atom, dex.SKIP, mlx.SKIP), \
              curry(process_atom, dex.SOLUTION, mlx.SOLUTION), \
              curry(process_atom, dex.SYNTAX, mlx.SYNTAX), \
+             curry(process_atom, dex.TASK, mlx.TASK), \
              curry(process_atom, dex.TEACH_ASK, mlx.TEACH_ASK), \
              curry(process_atom, dex.TEACH_NOTE, mlx.TEACH_NOTE), \
              curry(process_atom, dex.THEOREM, mlx.THEOREM), \

@@ -326,6 +326,7 @@ class Parser:
              mk_parser_begin(dex.SKIP) | \
              mk_parser_begin(dex.SOLUTION) | \
              mk_parser_begin(dex.SYNTAX) | \
+             mk_parser_begin(dex.TASK) | \
              mk_parser_begin(dex.TEACH_ASK) | \
              mk_parser_begin(dex.TEACH_NOTE) | \
              mk_parser_begin(dex.THEOREM) 
@@ -1081,6 +1082,7 @@ class Parser:
                process_atom_skip, \
                process_atom_solution, \
                process_atom_syntax, \
+               process_atom_task, \
                process_atom_teach_ask, \
                process_atom_teach_note, \
                process_atom_theorem, \
@@ -1133,6 +1135,7 @@ class Parser:
     self.process_atom_skip = process_atom_skip
     self.process_atom_solution = process_atom_solution
     self.process_atom_syntax = process_atom_syntax
+    self.process_atom_task = process_atom_task
     self.process_atom_teach_ask = process_atom_teach_ask
     self.process_atom_teach_note = process_atom_teach_note
 
@@ -1200,6 +1203,7 @@ class Parser:
     self.atom_skip = self.mk_parser_atom(dex.SKIP, process_atom_skip)
     self.atom_solution = self.mk_parser_atom(dex.SOLUTION, process_atom_solution)
     self.atom_syntax = self.mk_parser_atom(dex.SYNTAX, process_atom_syntax)
+    self.atom_task = self.mk_parser_atom(dex.TASK, process_atom_task)
     self.atom_teach_ask = self.mk_parser_atom(dex.TEACH_ASK, process_atom_teach_ask)
     self.atom_teach_note = self.mk_parser_atom(dex.TEACH_NOTE, process_atom_teach_note)
     self.atom_theorem = self.mk_parser_atom(dex.THEOREM, process_atom_theorem)
@@ -1228,6 +1232,7 @@ class Parser:
                     self.atom_solution | \
                     self.atom_skip | \
                     self.atom_syntax | \
+                    self.atom_task | \
                     self.atom_teach_ask | \
                     self.atom_teach_note | \
                     self.atom_theorem
@@ -1359,6 +1364,7 @@ def mk_uniform_parser (\
                         curry(process_atom, dex.SKIP), \
                         curry(process_atom, dex.SOLUTION), \
                         curry(process_atom, dex.SYNTAX), \
+                        curry(process_atom, dex.TASK), \
                         curry(process_atom, dex.TEACH_ASK), \
                         curry(process_atom, dex.TEACH_NOTE), \
                         curry(process_atom, dex.THEOREM), \
