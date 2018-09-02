@@ -22,7 +22,57 @@ DEX_EXTENSION = '.dex'
 MLX_EXTENSION = '.mlx'
 
 
-def main(infile_name, latex_preamble_file):
+# Take dex string and latex preamble (also a string)
+# and translate to mlx
+def dex_string_to_mlx (dex_string, latex_preamble):
+
+  print '**BEGIN: dex_string_to_mlx'
+#  print '**latex_preamble:', latex_preamble
+   # convert dex to core dex by using the parser
+  print 'Translating to the core language.'
+  dex_core_string = parser.translate_to_core (dex_string, True, True)
+
+  # convert core dex to mlx
+  print 'Translating to mlx'
+  mlx_string = dex2mlx.dex_string_to_mlx(dex_core_string, latex_preamble)
+
+  print '**END: dex_string_to_mlx'
+  
+  return mlx_string
+
+# Same functionality as main below, used for verification purposes
+# only.
+
+def main_(infile_name, latex_preamble_file_name):
+  # get current working directory
+  root_dir = os.getcwd()
+
+  # get the file and its path
+  (path, infile_name_file) = os.path.split(infile_name) 
+
+  # create the various file names
+  (infile_name_first, infile_ext) = infile_name_file.split (syntax.PERIOD) 
+  core_infile = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
+  core_infile_mlx = os_utils.mk_file_name_ext(core_infile, os_utils.MLX_EXTENSION)
+  outfile_mlx = os_utils.mk_file_name_ext(infile_name_file, os_utils.MLX_EXTENSION)
+
+  infile = open(infile_name, 'r')
+  latex_preamble_file = open(latex_preamble_file_name, 'r')
+  mlx_outfile = open(outfile_mlx, 'w')
+
+  data = infile.read ()
+  latex_preamble = latex_preamble_file.read ()
+
+  result = dex_string_to_mlx(data, latex_preamble)
+
+  mlx_outfile.write(result)
+  mlx_outfile.close()
+
+  # cd to starting directory
+  os.chdir(root_dir)
+
+
+def main (infile_name, latex_preamble_file):
   # get current working directory
   root_dir = os.getcwd()
 

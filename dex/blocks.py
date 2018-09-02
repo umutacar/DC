@@ -38,22 +38,22 @@ TMP_DIR = r'/tmp'
 ## Where latex files are
 LATEX_FILES_DIR = './latex/latex_files/'
 
+## Are we translating titles to html?
+IS_TRANSLATING_TITLES = True
+
 # Default latex-to-html generator is None
 Tex2Html = None
 
 INDEX = 0
 
-def init (latex_preamble_file):
+def init (latex_preamble):
   global Tex2Html
 
   INDEX = 0
 
-  preamble_file = open(latex_preamble_file, 'r')
-  preamble = preamble_file.read ()
-
   Tex2Html = latex2html.Latex2Html(\
                  TMP_DIR, \
-                 preamble)
+                 latex_preamble)
 
 
 def new_index ():
@@ -362,7 +362,7 @@ class Chapter:
     return result
 
   def to_mlx_string (self):
-    fields = mk_mlx_str_fields_common(self, False)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([self.preamble, self.contents])
 
     r = mlx.mk_str_chapter(fields)
@@ -404,7 +404,7 @@ class Group:
 
   def to_mlx_string (self):
 #    print 'group: self.contents:', self.contents
-    fields = mk_mlx_str_fields_common(self, True)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     if self.contents:
       fields.extend([self.contents])
 
@@ -438,7 +438,7 @@ class Checkpoint:
     contents = self.contents.strip()
 #    print 'checkpoint.to_mlx_string: contens: ', contents
 
-    fields = mk_mlx_str_fields_common(self, False)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([contents])
     r = mlx.mk_str_checkpoint(fields)
     return NEWLINE + r
@@ -562,7 +562,7 @@ class Assignment:
   def to_mlx_string (self):
     contents = self.contents.strip()
 
-    fields = mk_mlx_str_fields_common(self, False)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     duedate = mlx.mk_str_duedate (self.duedate.strip())
     fields.extend([duedate, contents])
     r = mlx.mk_str_assignment(fields)
@@ -585,7 +585,7 @@ class Section:
     return result
 
   def to_mlx_string (self):
-    fields = mk_mlx_str_fields_common(self, False)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([self.contents])
     r = mlx.mk_str_section(fields)
     return NEWLINE + r
@@ -617,7 +617,7 @@ class Subsection:
 
   def to_mlx_string (self):
     contents = self.contents + NEWLINE + self.checkpoint
-    fields = mk_mlx_str_fields_common(self, False)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([contents])
     r = mlx.mk_str_subsection(fields)
     return NEWLINE + r
@@ -649,7 +649,7 @@ class Subsubsection:
 
   def to_mlx_string (self):
     contents = self.contents + NEWLINE + self.checkpoint
-    fields = mk_mlx_str_fields_common(self, False)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([contents])
     r = mlx.mk_str_subsubsection(fields)
     return NEWLINE + r
@@ -689,7 +689,7 @@ class Atom:
       contents_html = mlx.mk_str_body(contents)
 
 
-    fields = mk_mlx_str_fields_common(self, True)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([contents_html, contents_src])
     r = mlx.mk_str_block_atom(atom_name_mlx, fields)
     return NEWLINE + r
@@ -751,7 +751,7 @@ class Algo:
     contents = NEWLINE.join(self.contents)
     (title_html, title_src) = mk_mlx_titles(self.index, self.title)
     (contents_html, contents_src) = mk_mlx_bodies(self.index, contents)
-    fields = mk_mlx_str_fields_common(self, True)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
     fields.extend([contents_html, contents_src])
     r = mlx.mk_str_atom(mlx.ALGORITHM, fields)
     return NEWLINE + r
@@ -941,7 +941,7 @@ class QuestionFR:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self, True)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
 
     # points
     points = mlx.mk_str_points(self.points)
@@ -1001,7 +1001,7 @@ class QuestionMA:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self, True)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
 
     # points
     points = mlx.mk_str_points(self.points)
@@ -1049,7 +1049,7 @@ class QuestionMC:
 
   def to_mlx_string (self): 
     # Common fields
-    fields = mk_mlx_str_fields_common(self, True)
+    fields = mk_mlx_str_fields_common(self, IS_TRANSLATING_TITLES)
 
     # points
     points = mlx.mk_str_points(self.points)
