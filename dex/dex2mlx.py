@@ -265,6 +265,7 @@ def parse (process_algo, \
              curry(process_atom, dex.IMPORTANT, mlx.IMPORTANT), \
              curry(process_atom, dex.LEMMA, mlx.LEMMA), \
              curry(process_atom, dex.NOTE, mlx.NOTE), \
+             curry(process_atom, dex.PAGE, mlx.PAGE), \
              curry(process_atom, dex.PARAGRAPH, mlx.PARAGRAPH), \
              curry(process_atom, dex.PARAGRAPH_HTML, mlx.PARAGRAPH_HTML), \
              curry(process_atom, dex.PREAMBLE, mlx.PREAMBLE), \
@@ -273,6 +274,7 @@ def parse (process_algo, \
              curry(process_atom, dex.PROPOSITION, mlx.PROPOSITION), \
              curry(process_atom, dex.REMARK, mlx.REMARK), \
              curry(process_atom, dex.SKIP, mlx.SKIP), \
+             curry(process_atom, dex.SLIDE, mlx.SLIDE), \
              curry(process_atom, dex.SOLUTION, mlx.SOLUTION), \
              curry(process_atom, dex.SYNTAX, mlx.SYNTAX), \
              curry(process_atom, dex.TASK, mlx.TASK), \
@@ -308,10 +310,11 @@ def parse (process_algo, \
 
 
 ######################################################################
-## Begin: dex_string_to_mlx
+## BEGIN Mainline
 
 # Take a dex string and a latex preamble string and 
 # convert the tex string to mlx.
+
 def dex_string_to_mlx (dex_string, latex_preamble):
 
   blocks.init(latex_preamble)
@@ -352,13 +355,6 @@ def dex_string_to_mlx (dex_string, latex_preamble):
 
   return result
 
-
-## End: dex_string_to_mlx
-######################################################################
-
-######################################################################
-## BEGIN Mainline
-
 def main(infile_name, latex_preamble_name):
   print "infile_name:", infile_name
   print "latex_preamble_name:", latex_preamble_name
@@ -380,6 +376,7 @@ def main(infile_name, latex_preamble_name):
   mlx_file.close()
   print "mlx code written into file:", mlx_file_name
   return 0
+
 
 if __name__ == "__main__":
   print 'Executing:', sys.argv[0], str(sys.argv)

@@ -22,6 +22,7 @@ DEX_EXTENSION = '.dex'
 MLX_EXTENSION = '.mlx'
 
 
+
 # Take dex string and latex preamble (also a string)
 # and translate to mlx
 def dex_string_to_mlx (dex_string, latex_preamble):
@@ -40,7 +41,35 @@ def dex_string_to_mlx (dex_string, latex_preamble):
   
   return mlx_string
 
-# Same functionality as main below, used for verification purposes
+def main(infile_name, latex_preamble_file):
+  # get current working directory
+  root_dir = os.getcwd()
+
+  # get the file and its path
+  (path, infile_name_file) = os.path.split(infile_name) 
+
+  # create the various file names
+  (infile_name_first, infile_ext) = infile_name_file.split (syntax.PERIOD) 
+  core_infile = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
+  core_infile_mlx = os_utils.mk_file_name_ext(core_infile, os_utils.MLX_EXTENSION)
+  outfile_mlx = os_utils.mk_file_name_ext(infile_name_file, os_utils.MLX_EXTENSION)
+
+   # convert dex to core dex by using the parser
+  parser.main(infile_name, True, True)
+  print 'Translating', infile_name, 'to core language.'
+
+  # convert core dex to mlx
+  print 'Translating to mlx'
+  dex2mlx.main(core_infile, latex_preamble_file)
+
+  # rename and copy to Desktop
+  os_utils.mv_file_to(core_infile_mlx, outfile_mlx)  
+  print 'mlxdex completed.  Output is in', outfile_mlx
+
+  # cd to starting directory
+  os.chdir(root_dir)
+
+# Same functionality as main above, used for verification purposes
 # only.
 
 def main_(infile_name, latex_preamble_file_name):
@@ -67,35 +96,6 @@ def main_(infile_name, latex_preamble_file_name):
 
   mlx_outfile.write(result)
   mlx_outfile.close()
-
-  # cd to starting directory
-  os.chdir(root_dir)
-
-
-def main (infile_name, latex_preamble_file):
-  # get current working directory
-  root_dir = os.getcwd()
-
-  # get the file and its path
-  (path, infile_name_file) = os.path.split(infile_name) 
-
-  # create the various file names
-  (infile_name_first, infile_ext) = infile_name_file.split (syntax.PERIOD) 
-  core_infile = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
-  core_infile_mlx = os_utils.mk_file_name_ext(core_infile, os_utils.MLX_EXTENSION)
-  outfile_mlx = os_utils.mk_file_name_ext(infile_name_file, os_utils.MLX_EXTENSION)
-
-   # convert dex to core dex by using the parser
-  parser.main(infile_name, True, True)
-  print 'Translating', infile_name, 'to core language.'
-
-  # convert core dex to mlx
-  print 'Translating to mlx'
-  dex2mlx.main(core_infile, latex_preamble_file)
-
-  # rename and copy to Desktop
-  os_utils.mv_file_to(core_infile_mlx, outfile_mlx)  
-  print 'mlxdex completed.  Output is in', outfile_mlx
 
   # cd to starting directory
   os.chdir(root_dir)

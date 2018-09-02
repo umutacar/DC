@@ -316,6 +316,7 @@ class Parser:
              mk_parser_begin(dex.IMPORTANT) | \
              mk_parser_begin(dex.LEMMA) | \
              mk_parser_begin(dex.NOTE) | \
+             mk_parser_begin(dex.PAGE) | \
              mk_parser_begin(dex.PARAGRAPH) | \
              mk_parser_begin(dex.PARAGRAPH_HTML) | \
              mk_parser_begin(dex.PREAMBLE) | \
@@ -324,6 +325,7 @@ class Parser:
              mk_parser_begin(dex.PROPOSITION) | \
              mk_parser_begin(dex.REMARK) | \
              mk_parser_begin(dex.SKIP) | \
+             mk_parser_begin(dex.SLIDE) | \
              mk_parser_begin(dex.SOLUTION) | \
              mk_parser_begin(dex.SYNTAX) | \
              mk_parser_begin(dex.TASK) | \
@@ -1072,6 +1074,7 @@ class Parser:
                process_atom_important, \
                process_atom_lemma, \
                process_atom_note, \
+               process_atom_page, \
                process_atom_paragraph, \
                process_atom_paragraph_html, \
                process_atom_preamble, \
@@ -1080,6 +1083,7 @@ class Parser:
                process_atom_proposition, \
                process_atom_remark, \
                process_atom_skip, \
+               process_atom_slide, \
                process_atom_solution, \
                process_atom_syntax, \
                process_atom_task, \
@@ -1125,6 +1129,7 @@ class Parser:
     self.process_atom_important = process_atom_important
     self.process_atom_lemma = process_atom_lemma
     self.process_atom_note = process_atom_note
+    self.process_atom_page = process_atom_page
     self.process_atom_paragraph = process_atom_paragraph
     self.process_atom_paragraph_html = process_atom_paragraph_html
     self.process_atom_preamble = process_atom_preamble
@@ -1133,6 +1138,7 @@ class Parser:
     self.process_atom_proof = process_atom_proof
     self.process_atom_remark = process_atom_remark
     self.process_atom_skip = process_atom_skip
+    self.process_atom_slide = process_atom_slide
     self.process_atom_solution = process_atom_solution
     self.process_atom_syntax = process_atom_syntax
     self.process_atom_task = process_atom_task
@@ -1193,6 +1199,7 @@ class Parser:
     self.atom_important = self.mk_parser_atom(dex.IMPORTANT, process_atom_important)
     self.atom_lemma = self.mk_parser_atom(dex.LEMMA, process_atom_lemma)
     self.atom_note = self.mk_parser_atom(dex.NOTE, process_atom_note)
+    self.atom_page = self.mk_parser_atom(dex.PAGE, process_atom_page)
     self.atom_paragraph = self.mk_parser_atom(dex.PARAGRAPH, process_atom_paragraph)
     self.atom_paragraph_html = self.mk_parser_atom(dex.PARAGRAPH_HTML, process_atom_paragraph_html)
     self.atom_preamble = self.mk_parser_atom(dex.PREAMBLE, process_atom_preamble)
@@ -1201,6 +1208,7 @@ class Parser:
     self.atom_proposition = self.mk_parser_atom(dex.PROPOSITION,  process_atom_proposition)
     self.atom_remark = self.mk_parser_atom(dex.REMARK, process_atom_remark)
     self.atom_skip = self.mk_parser_atom(dex.SKIP, process_atom_skip)
+    self.atom_slide = self.mk_parser_atom(dex.SLIDE, process_atom_slide)
     self.atom_solution = self.mk_parser_atom(dex.SOLUTION, process_atom_solution)
     self.atom_syntax = self.mk_parser_atom(dex.SYNTAX, process_atom_syntax)
     self.atom_task = self.mk_parser_atom(dex.TASK, process_atom_task)
@@ -1223,6 +1231,7 @@ class Parser:
                     self.atom_important | \
                     self.atom_lemma | \
                     self.atom_note | \
+                    self.atom_page | \
                     self.atom_paragraph | \
                     self.atom_paragraph_html | \
                     self.atom_problem | \
@@ -1231,6 +1240,7 @@ class Parser:
                     self.atom_remark | \
                     self.atom_solution | \
                     self.atom_skip | \
+                    self.atom_slide | \
                     self.atom_syntax | \
                     self.atom_task | \
                     self.atom_teach_ask | \
@@ -1354,6 +1364,7 @@ def mk_uniform_parser (\
                         curry(process_atom, dex.IMPORTANT), \
                         curry(process_atom, dex.LEMMA), \
                         curry(process_atom, dex.NOTE), \
+                        curry(process_atom, dex.PAGE), \
                         curry(process_atom, dex.PARAGRAPH), \
                         curry(process_atom, dex.PARAGRAPH_HTML), \
                         curry(process_atom, dex.PREAMBLE), \
@@ -1362,6 +1373,7 @@ def mk_uniform_parser (\
                         curry(process_atom, dex.PROPOSITION), \
                         curry(process_atom, dex.REMARK), \
                         curry(process_atom, dex.SKIP), \
+                        curry(process_atom, dex.SLIDE), \
                         curry(process_atom, dex.SOLUTION), \
                         curry(process_atom, dex.SYNTAX), \
                         curry(process_atom, dex.TASK), \
@@ -1492,15 +1504,7 @@ def process_block_end (this_block, toks):
 
   return toks
 
-def main (infile_name, parents_optional, titles_optional):
-  # drop path stuff
-  (path, infile_name_file) = os.path.split(infile_name) 
-  print 'infile_name:', infile_name_file
-  outfile_name = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
-
-  infile = open(infile_name, 'r')
-  outfile = open(outfile_name, 'w')
-  data = infile.read ()
+def translate_to_core (dex_string, parents_optional, titles_optional):
 
   # both labels and numbers are optional
   result = parse (\
@@ -1524,20 +1528,35 @@ def main (infile_name, parents_optional, titles_optional):
              blocks.section_to_string, \
              blocks.subsection_to_string, \
              blocks.subsubsection_to_string, \
-             data)
+             dex_string)
 
   # The result consists of a course and a book
   if len(result) == 1:
     problem_set = result[0]
-    outfile.write(problem_set + NEWLINE)
-    outfile.close()
-    print 'Parsed code written into file:', outfile_name
+    result = problem_set + NEWLINE
   else:
     course = result[0]
     book = result[1]
-    outfile.write(course + NEWLINE + book + NEWLINE)
-    outfile.close()
-    print 'Parsed code written into file:', outfile_name
+    result = course + NEWLINE + book + NEWLINE
+
+  return result
+
+
+def main (infile_name, parents_optional, titles_optional):
+  # drop path stuff
+  (path, infile_name_file) = os.path.split(infile_name) 
+  print 'infile_name:', infile_name_file
+  outfile_name = os_utils.mk_file_name_derivative(infile_name_file, os_utils.CORE)
+
+  infile = open(infile_name, 'r')
+  outfile = open(outfile_name, 'w')
+
+  data = infile.read ()
+  result = translate_to_core(data, parents_optional, titles_optional)
+   
+  outfile.write(result)
+  outfile.close()
+  print 'Parsed code written into file:', outfile_name
 
   return 0
 
