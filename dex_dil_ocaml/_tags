@@ -1,4 +1,4 @@
 true: annot, bin_annot, thread
-true: package(core,getopt)
+true: package(core,getopt,menhirLib,str)
 true: use_menhir, explain
 true: optimize(3)
