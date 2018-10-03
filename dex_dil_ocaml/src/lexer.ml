@@ -2,8 +2,8 @@ open Core
 
 let lex lines =
   let lines = ref lines in
-  let begin_matcher = Str.regexp {|\\begin\{\([a-z]*\)\}\(\[\(.*\)\]\)?|} in
-  let end_matcher = Str.regexp {|\\end\{\([a-z]*\)\}\(\[\(.*\)\]\)?|} in
+  let begin_matcher = Str.regexp "\\\\begin\\{\\([a-z]*\\)\\}\\(\\[\\(.*\\)\\]\\)?" in
+  let end_matcher = Str.regexp "\\\\end\\{\\([a-z]*\\)\\}\\(\\[\\(.*\\)\\]\\)?" in
   let rec next () = match !lines with
       [] -> Parser.EOF
     | l::ls -> lines := ls;
