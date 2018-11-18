@@ -16,7 +16,7 @@ datatype token = Identifier of string
 
 
 # The grammar
-
+```
 word = non_space^+
 
 // latex env's
@@ -60,3 +60,5 @@ paragraph = paragraph_str  [atom | subparagraph]^+
 subsubsection = subsubsection_str [atom | paragraph | subparagraph]^+
 subsection = subsection_str [atom | paragraph | subparagraph]^+ subsubsection^*
 section ..
+
+```
