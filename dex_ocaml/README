@@ -1,3 +1,20 @@
+# Background on Lexing and Parsing
+
+This is from the Dragon book on compilers.  (The book is pretty hard
+to read because they don't use types and rely instead of English
+descriptions.)
+
+Some terminology:
+
+*Token* is the abstract data type through which lexer and
+parser communicate.  For exaple, an identifier is a token, so in an integer etc.
+
+datatype token = Identifier of string
+               | Integer of string
+
+*Lexeme* is the string that matches the token, that is the string in the above type.
+
+
 # The grammar
 
 word = non_space^+
