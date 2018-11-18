@@ -59,7 +59,7 @@ datatype token = Identifier of string
 
 ## Parser
 
-  On te parsing side, we should use yacc.
+  On the parsing side, we should use yacc.
 	
 # Background on Parsing
 
