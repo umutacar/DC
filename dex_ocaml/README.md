@@ -59,11 +59,38 @@ datatype token = Identifier of string
 
 ## Parser
 
-  On the parsing side, we should use yacc.
-	
+  On the parsing side, we should use yacc or menhir probably menhir.
+
+  Menhir is an LR(1) parser.
+
+  
+
+
 # Background on Parsing
 
+LR(1) is a form of shift-reduce parser.
 
+Shift reduce parser is a bottom up parser.  It operates as follows.
+
+* Given a string (input) I, look in I for patterns that match the RHS
+  of a production of the form nonterminal -> pattern, e.g.,
+  A -> abc
+
+* [Reduce] If there is a match replace patter with the nonterminal, LHS of the production.
+
+* Continue.
+
+One way to implement a shift reduce parser is to use a stack.
+
+* Initially stack contains $ (bottom)
+
+* If the top of the stack matches a RHS of a production rule, reduce
+  and replace the matched pannern with the LHS nonterminal
+
+* If not, then shift the next character (left to right order) onto the stack.
+
+	
+  
 
 # The grammar
 ```
