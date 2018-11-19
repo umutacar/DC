@@ -89,6 +89,9 @@ One way to implement a shift reduce parser is to use a stack.
 
 * If not, then shift the next character (left to right order) onto the stack.
 
+It turns out that the stack algorithm is consistent with a rightmost derivation of the string starting from the start sting.  That is we can derive the string by applying the productions to the rightmost nonterminal....
+
+
 	
   
 
