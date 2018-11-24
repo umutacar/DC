@@ -11,8 +11,8 @@ let n_chars = ref 0
 let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'				
-let p_o_curly = '\{'
-let p_c_curly = '\}' 											
+let p_o_curly = '{'
+let p_c_curly = '}' 											
 												 
 let p_chapter = '\\' "chapter"
 let p_section = '\\' "section"
@@ -30,15 +30,11 @@ let p_e_example = '\\' "end{example}"
 let p_b_group = '\\' "begin{group}"				
 let p_e_group = '\\' "end{group}"		
 
-let p_word = [^ ' ' '\n' '\t']+
+
+let p_word = [^ ' ' '\n' '\t' '{' '}']+
 (** END PATTERNS *)			
-rule count  = parse
-| '\n'    {incr n_lines ; printf "line\n"; count lexbuf}
-| _       {incr n_chars ; count lexbuf}
-| eof     {()}
 
-
-and token = parse
+rule token = parse
 | p_space
 		{printf " "; token lexbuf}		
 | p_newline
@@ -82,7 +78,7 @@ and token = parse
   	{printf "%s" end_group; token lexbuf}
 
 | p_word as word
-		{printf "word(%s)" word; token lexbuf}
+		{printf "_%s_" word; token lexbuf}
 
 | eof
 		{()} 		
