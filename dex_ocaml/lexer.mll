@@ -13,15 +13,21 @@ rule count  = parse
 | eof     {()}
 
 
+and token = parse
+| '\\' "begin{definition}"  {printf "atom definition\n"; token lexbuf}
+| _                     {token lexbuf}
+| eof     {()} 		
+		
 {
 let main () =
 	let args = Sys.argv in
     if Array.length args = 2 then
       let filename = Sys.argv.(1) in
-			let ic = open_in filename in
+			(* let ic = open_in filename in *)
+			let ic = In_channel.create filename in
       let lexbuf = Lexing.from_channel ic in
-      count lexbuf;
-  		Printf.printf "# lines = %d, # chars = %d\n" !n_lines !n_chars			
+      token lexbuf;
+  		printf "Completed lexing\n"
     else
-      print_string "Usage: lexer <filename>\n";;
+      printf "Usage: lexer <filename>\n";;
 }
