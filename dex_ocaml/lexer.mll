@@ -12,6 +12,13 @@ let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'				
 
+let p_chapter = '\\' "chapter"
+let p_section = '\\' "section"
+let p_subsection = '\\' "subsection"
+let p_subsubsection = '\\' "subsubsection"
+let p_paragraph = '\\' "paragraph"												
+let p_subparagraph = '\\' "subparagraph"												
+		
 let p_b_definition = '\\' "begin{definition}"				
 let p_e_definition = '\\' "end{definition}"
 
@@ -37,6 +44,19 @@ and token = parse
 | p_tab
 		{printf "\t"; token lexbuf}		
 
+| p_chapter as heading
+  	{printf "%s" heading; token lexbuf}		
+| p_section as heading
+  	{printf "%s" heading; token lexbuf}		
+| p_subsection as heading
+  	{printf "%s" heading; token lexbuf}
+| p_subsubsection as heading
+  	{printf "%s" heading; token lexbuf}
+| p_paragraph as heading
+  	{printf "%s" heading; token lexbuf}				
+| p_subparagraph as heading
+  	{printf "%s" heading; token lexbuf}
+		
 | p_b_definition as begin_atom
   	{printf "%s" begin_atom; token lexbuf}		
 | p_e_definition as end_atom
