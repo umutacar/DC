@@ -11,7 +11,9 @@ let n_chars = ref 0
 let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'				
-
+let p_o_curly = '\{'
+let p_c_curly = '\}' 											
+												 
 let p_chapter = '\\' "chapter"
 let p_section = '\\' "section"
 let p_subsection = '\\' "subsection"
@@ -42,8 +44,14 @@ and token = parse
 | p_newline
 		{printf "\n"; token lexbuf}
 | p_tab
-		{printf "\t"; token lexbuf}		
+		{printf "\t"; token lexbuf}
 
+| p_o_curly
+		{printf "{"; token lexbuf}				
+| p_c_curly
+		{printf "}"; token lexbuf}				
+
+		
 | p_chapter as heading
   	{printf "%s" heading; token lexbuf}		
 | p_section as heading
