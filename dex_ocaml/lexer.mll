@@ -12,7 +12,9 @@ let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'				
 let p_o_curly = '{'
-let p_c_curly = '}' 											
+let p_c_curly = '}'
+let p_o_sq_bracket = '['
+let p_c_sq_bracket = ']' 													
 												 
 let p_chapter = '\\' "chapter"
 let p_section = '\\' "section"
@@ -31,7 +33,7 @@ let p_b_group = '\\' "begin{group}"
 let p_e_group = '\\' "end{group}"		
 
 
-let p_word = [^ ' ' '\n' '\t' '{' '}']+
+let p_word = [^ ' ' '\n' '\t' '{' '}' '[' ']']+
 (** END PATTERNS *)			
 
 rule token = parse
@@ -47,6 +49,12 @@ rule token = parse
 | p_c_curly
 		{printf "}"; token lexbuf}				
 
+
+| p_o_sq_bracket
+		{printf "["; token lexbuf}				
+| p_c_sq_bracket
+		{printf "]"; token lexbuf}				
+		
 		
 | p_chapter as heading
   	{printf "%s" heading; token lexbuf}		
