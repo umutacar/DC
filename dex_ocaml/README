@@ -2,3 +2,6 @@
 $ ocamllex lexer.mll
 $ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
 $ lexer.native
+
+# Commands for building using ocamlbuild
+$ ocamlbuild -use-ocamlfind -quiet top.native

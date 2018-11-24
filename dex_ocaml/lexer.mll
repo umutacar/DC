@@ -24,6 +24,4 @@ let main () =
   		Printf.printf "# lines = %d, # chars = %d\n" !n_lines !n_chars			
     else
       print_string "Usage: lexer <filename>\n";;
-
-let _ = main ()
 }
