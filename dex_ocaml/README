@@ -1,0 +1,4 @@
+#  Commands for hand compiling
+$ ocamllex lexer.mll
+$ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
+$ lexer.native
