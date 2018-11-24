@@ -1,7 +1,19 @@
-#  Commands for hand compiling
+# Lexer
+
+We are going to breat the text into fragments by
+* \begin{atom} \end{atom}
+where stuff is diderot stuff like atoms and groups
+
+* \begin{group} \end{group}
+
+
+# OCAML 
+
+## Commands for building using ocamlbuild
+$ ocamlbuild -use-ocamlfind -quiet top.native
+
+##  Commands for hand compiling
 $ ocamllex lexer.mll
 $ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
 $ lexer.native
 
-# Commands for building using ocamlbuild
-$ ocamlbuild -use-ocamlfind -quiet top.native

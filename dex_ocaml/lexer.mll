@@ -14,9 +14,23 @@ rule count  = parse
 
 
 and token = parse
-| '\\' "begin{definition}"  {printf "atom definition\n"; token lexbuf}
-| _                     {token lexbuf}
-| eof     {()} 		
+| "\n\n"
+		{printf "breaker \n"; token lexbuf}
+		
+| '\\' "begin{definition}"
+  	{printf "begin atom: definition\n"; token lexbuf}
+| '\\' "end{definition}"
+  	{printf "end atom: definition\n"; token lexbuf}
+
+| '\\' "begin{group}"
+  	{printf "begin group\n"; token lexbuf}		
+| '\\' "end{group}"
+  	{printf "end group\n"; token lexbuf}		
+| _
+		{token lexbuf}
+
+| eof
+		{()} 		
 		
 {
 let main () =
