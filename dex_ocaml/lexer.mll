@@ -14,20 +14,25 @@ rule count  = parse
 
 
 and token = parse
-| "\n\n"
-		{printf "breaker \n"; token lexbuf}
+| ' '
+		{printf " "; token lexbuf}		
+| '\n'
+		{printf "\n"; token lexbuf}
+| '\t'
+		{printf "\t"; token lexbuf}		
 		
-| '\\' "begin{definition}"
-  	{printf "begin atom: definition\n"; token lexbuf}
-| '\\' "end{definition}"
-  	{printf "end atom: definition\n"; token lexbuf}
+| '\\' "begin{definition}" as begin_atom
+  	{printf "%s" begin_atom; token lexbuf}
+| '\\' "end{definition}" as end_atom
+  	{printf "%s" end_atom; token lexbuf}
 
-| '\\' "begin{group}"
-  	{printf "begin group\n"; token lexbuf}		
-| '\\' "end{group}"
-  	{printf "end group\n"; token lexbuf}		
-| _
-		{token lexbuf}
+| '\\' "begin{group}" as begin_group
+  	{printf "%s" begin_group; token lexbuf}		
+| '\\' "end{group}" as end_group
+  	{printf "%s" end_group; token lexbuf}
+
+| [^ ' ' '\n' '\t']+
+		{printf "word"; token lexbuf}
 
 | eof
 		{()} 		

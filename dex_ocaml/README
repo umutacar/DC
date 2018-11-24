@@ -1,10 +1,10 @@
 # Lexer
 
-We are going to breat the text into fragments by
-* \begin{atom} \end{atom}
-where stuff is diderot stuff like atoms and groups
-
-* \begin{group} \end{group}
+We are going to breat the text into tokens consisting of
+- white space
+- latex headings
+-  \begin{atom} \end{atom}
+- \begin{group} \end{group}
 
 
 # OCAML 
