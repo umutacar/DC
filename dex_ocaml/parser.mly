@@ -51,21 +51,20 @@ white_spaces:
 | white_spaces white_space {}		
 ;		
 	
-/* word is a word also possibly bracketed */
-/* todo: allow for space within brackets*/
-word:
+/* a box is the basic unit of composition */
+box:
 	WORD  {}
-| O_CURLY white_spaces word white_spaces C_CURLY {}
-| O_SQ_BRACKET white_spaces word white_spaces C_SQ_BRACKET {}
+| O_CURLY white_spaces box white_spaces C_CURLY {}
+| O_SQ_BRACKET white_spaces box white_spaces C_SQ_BRACKET {}
 ;	
 
-words:
-  word { }
-| words benign_spaces word { }
+boxes:
+  box { }
+| boxes benign_spaces box { }
 ;
 
 line:
-  benign_spaces words benign_spaces NEWLINE {}
+  benign_spaces boxes benign_spaces NEWLINE {}
 ;		
 		
 /* paragraph */
@@ -81,22 +80,40 @@ paragraphs:
 
 chapter_heading:
   HEADING_CHAPTER O_CURLY C_CURLY { }
-| HEADING_CHAPTER O_CURLY words C_CURLY {}
+| HEADING_CHAPTER O_CURLY boxes C_CURLY {}
 ;
 
 section_heading:
   HEADING_SECTION O_CURLY C_CURLY {}
-| HEADING_SECTION O_CURLY words C_CURLY {}
+| HEADING_SECTION O_CURLY boxes C_CURLY {}
 ;
 
 env_b_definition:
   ENV_B_DEFINITION { }
-| ENV_B_DEFINITION O_SQ_BRACKET white_spaces words white_spaces O_SQ_BRACKET {}
+| ENV_B_DEFINITION O_SQ_BRACKET white_spaces boxes white_spaces O_SQ_BRACKET {}
 ;
 
-	
-	
+env_e_definition:
+  ENV_E_DEFINITION { }
 
+env_b_example:
+  ENV_B_EXAMPLE { }
+| ENV_B_EXAMPLE O_SQ_BRACKET white_spaces boxes white_spaces O_SQ_BRACKET {}
+;
+
+env_e_example:
+  ENV_E_EXAMPLE { }
+;
+
+env_b_group:
+  ENV_B_GROUP { }
+| ENV_B_GROUP O_SQ_BRACKET white_spaces boxes white_spaces O_SQ_BRACKET {}
+;
+
+env_e_group:
+  ENV_E_GROUP { }
+
+		
 chapter:
 | chapter_heading  EOF {}		
 | chapter_heading white_spaces blocks white_spaces EOF {}
@@ -119,8 +136,22 @@ blocks:
 ;
 
 block:
+	atom {}
+| group {}
+;			
+			
+group:
+  env_b_group white_spaces atoms env_e_group {}
+;
+
+atoms:
+	atom {}
+| atoms white_spaces atom {  }
+;
+	
+atom:
 | paragraph		 {}
-|	env_b_definition white_spaces paragraphs  ENV_E_DEFINITION    { }
-| ENV_B_EXAMPLE paragraphs  ENV_E_EXAMPLE    { }
+|	env_b_definition white_spaces paragraphs  env_e_definition    { }
+| env_b_example paragraphs  env_e_example    { }
 ;
 
