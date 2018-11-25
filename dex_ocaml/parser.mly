@@ -7,7 +7,7 @@ let parse_error s = printf "Parse Error: %s" s
 %token SPACE TAB NEWLINE
 
 %token <string> WORD
-	
+
 %token O_CURLY C_CURLY	
 %token O_SQ_BRACKET C_SQ_BRACKET
 
@@ -40,22 +40,23 @@ benign_spaces:
 ;		
 
 /* white space */
-white_space:
+ws:
 	SPACE {}
 |	TAB {}
 | NEWLINE {}		
 ;
-white_spaces:
+
+wss:
   {}
-| white_space {}
-| white_spaces white_space {}		
+| ws {}
+| wss ws {}		
 ;		
 	
 /* a box is the basic unit of composition */
 box:
 	WORD  {}
-| O_CURLY white_spaces box white_spaces C_CURLY {}
-| O_SQ_BRACKET white_spaces box white_spaces C_SQ_BRACKET {}
+| O_CURLY wss box wss C_CURLY {}
+| O_SQ_BRACKET wss box wss C_SQ_BRACKET {}
 ;	
 
 boxes:
@@ -75,7 +76,7 @@ paragraph:
 
 paragraphs:
 | paragraph	{}
-| paragraphs benign_spaces NEWLINE white_spaces paragraph {}
+| paragraphs benign_spaces NEWLINE wss paragraph {}
 ;
 
 chapter_heading:
@@ -90,7 +91,7 @@ section_heading:
 
 env_b_definition:
   ENV_B_DEFINITION { }
-| ENV_B_DEFINITION O_SQ_BRACKET white_spaces boxes white_spaces O_SQ_BRACKET {}
+| ENV_B_DEFINITION O_SQ_BRACKET wss boxes wss C_SQ_BRACKET {}
 ;
 
 env_e_definition:
@@ -98,7 +99,7 @@ env_e_definition:
 
 env_b_example:
   ENV_B_EXAMPLE { }
-| ENV_B_EXAMPLE O_SQ_BRACKET white_spaces boxes white_spaces O_SQ_BRACKET {}
+| ENV_B_EXAMPLE O_SQ_BRACKET wss boxes wss C_SQ_BRACKET {}
 ;
 
 env_e_example:
@@ -107,7 +108,7 @@ env_e_example:
 
 env_b_group:
   ENV_B_GROUP { }
-| ENV_B_GROUP O_SQ_BRACKET white_spaces boxes white_spaces O_SQ_BRACKET {}
+| ENV_B_GROUP O_SQ_BRACKET wss boxes wss C_SQ_BRACKET {}
 ;
 
 env_e_group:
@@ -116,8 +117,8 @@ env_e_group:
 		
 chapter:
 | chapter_heading  EOF {}		
-| chapter_heading white_spaces blocks white_spaces EOF {}
-| chapter_heading white_spaces blocks sections EOF {}
+| chapter_heading wss blocks wss EOF {}
+| chapter_heading wss blocks sections EOF {}
 ;		
 		
 sections:
@@ -132,7 +133,7 @@ section:
 
 blocks:
 	block {}
-| blocks white_spaces block {  }
+| blocks wss block {  }
 ;
 
 block:
@@ -141,17 +142,18 @@ block:
 ;			
 			
 group:
-  env_b_group white_spaces atoms env_e_group {}
+  env_b_group wss atoms wss env_e_group {}
 ;
 
 atoms:
 	atom {}
-| atoms white_spaces atom {  }
+| atoms wss atom {  }
 ;
 	
 atom:
 | paragraph		 {}
-|	env_b_definition white_spaces paragraphs  env_e_definition    { }
-| env_b_example paragraphs  env_e_example    { }
+|	env_b_definition wss paragraphs wss  env_e_definition    { }
+|	env_b_definition wss error wss  env_e_definition    { }
+| env_b_example wss paragraphs wss  env_e_example    { }
 ;
 
