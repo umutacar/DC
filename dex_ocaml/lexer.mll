@@ -1,9 +1,7 @@
 {
 open Core
 open Printf
-
-let n_lines = ref 0
-let n_chars = ref 0
+open Parser
 
 }
 
@@ -38,69 +36,58 @@ let p_word = [^ ' ' '\n' '\t' '{' '}' '[' ']']+
 
 rule token = parse
 | p_space
-		{printf " "; token lexbuf}		
+		{printf " "; SPACE}		
 | p_newline
-		{printf "\n"; token lexbuf}
+		{printf "\n"; NEWLINE}
 | p_tab
-		{printf "\t"; token lexbuf}
+		{printf "\t"; TAB}
 
 | p_o_curly
-		{printf "{"; token lexbuf}				
+		{printf "{"; O_CURLY}				
 | p_c_curly
-		{printf "}"; token lexbuf}				
+		{printf "}"; C_CURLY}				
 
 
 | p_o_sq_bracket
-		{printf "["; token lexbuf}				
+		{printf "["; O_SQ_BRACKET}				
 | p_c_sq_bracket
-		{printf "]"; token lexbuf}				
+		{printf "]"; C_SQ_BRACKET}				
 		
 		
 | p_chapter as heading
-  	{printf "%s" heading; token lexbuf}		
+  	{printf "%s" heading; HEADING_CHAPTER}		
 | p_section as heading
-  	{printf "%s" heading; token lexbuf}		
+  	{printf "%s" heading; HEADING_SECTION}		
 | p_subsection as heading
-  	{printf "%s" heading; token lexbuf}
+  	{printf "%s" heading; HEADING_SUBSECTION}
 | p_subsubsection as heading
-  	{printf "%s" heading; token lexbuf}
+  	{printf "%s" heading; HEADING_SUBSUBSECTION}
 | p_paragraph as heading
-  	{printf "%s" heading; token lexbuf}				
+  	{printf "%s" heading; HEADING_PARAGRAPH}				
 | p_subparagraph as heading
-  	{printf "%s" heading; token lexbuf}
+  	{printf "%s" heading; HEADING_SUBPARAGRAPH}
 		
 | p_b_definition as begin_atom
-  	{printf "%s" begin_atom; token lexbuf}		
+  	{printf "%s" begin_atom; ENV_B_DEFINITION}		
 | p_e_definition as end_atom
-  	{printf "%s" end_atom; token lexbuf}
+  	{printf "%s" end_atom; ENV_E_DEFINITION}
 
 
 | p_b_example as begin_atom
-  	{printf "%s" begin_atom; token lexbuf}		
+  	{printf "%s" begin_atom; ENV_B_EXAMPLE}		
 | p_e_example as end_atom
-  	{printf "%s" end_atom; token lexbuf}
+  	{printf "%s" end_atom; ENV_E_EXAMPLE}
 
 | p_b_group as begin_group
-  	{printf "%s" begin_group; token lexbuf}		
+  	{printf "%s" begin_group; ENV_B_GROUP}		
 | p_e_group as end_group
-  	{printf "%s" end_group; token lexbuf}
+  	{printf "%s" end_group; ENV_E_GROUP}
 
 | p_word as word
-		{printf "_%s_" word; token lexbuf}
+		{printf "_%s_" word; WORD (word)}
 
 | eof
-		{()} 		
+		{EOF} 		
 		
 {
-let main () =
-	let args = Sys.argv in
-    if Array.length args = 2 then
-      let filename = Sys.argv.(1) in
-			(* let ic = open_in filename in *)
-			let ic = In_channel.create filename in
-      let lexbuf = Lexing.from_channel ic in
-      token lexbuf;
-  		printf "Completed lexing\n"
-    else
-      printf "Usage: lexer <filename>\n";;
 }

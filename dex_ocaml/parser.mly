@@ -29,6 +29,11 @@ chapter:
 | blocks sections {}
 ;		
 		
+sections:
+         {}   	
+| b = block bs = blocks {  }
+;
+
 blocks:
          {}   	
 | b = block bs = blocks {  }
@@ -39,6 +44,6 @@ block:
 | ENV_B_EXAMPLE c = contents  ENV_E_EXAMPLE    { }
 ;
 
-contents
+contents:
      {}
-| w = WORD b = body {}
+| w = WORD c = contents {}

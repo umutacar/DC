@@ -1,0 +1,2380 @@
+"lexer.mll" 5 41 45 "lexer.mll" 5 41 52
+type(
+  int Core.ref
+)
+ident(
+  def n_lines "lexer.mll" 6 61 61 "lexer.ml" 1 0 -1
+)
+"lexer.mll" 5 41 55 "lexer.mll" 5 41 58
+type(
+  int -> int Core.ref
+)
+ident(
+  int_ref Core.ref "src/core_pervasives.mli" 1034 42057 42057 "src/core_pervasives.mli" 1034 42057 42101
+)
+"lexer.mll" 5 41 59 "lexer.mll" 5 41 60
+type(
+  int
+)
+"lexer.mll" 5 41 55 "lexer.mll" 5 41 60
+type(
+  int Core.ref
+)
+"lexer.mll" 6 61 65 "lexer.mll" 6 61 72
+type(
+  int Core.ref
+)
+ident(
+  def n_chars "lexer.ml" 11 99 99 "lexer.ml" 1 0 -1
+)
+"lexer.mll" 6 61 75 "lexer.mll" 6 61 78
+type(
+  int -> int Core.ref
+)
+ident(
+  int_ref Core.ref "src/core_pervasives.mli" 1034 42057 42057 "src/core_pervasives.mli" 1034 42057 42101
+)
+"lexer.mll" 6 61 79 "lexer.mll" 6 61 80
+type(
+  int
+)
+"lexer.mll" 6 61 75 "lexer.mll" 6 61 80
+type(
+  int Core.ref
+)
+"lexer.ml" 11 99 103 "lexer.ml" 11 99 121
+type(
+  Lexing.lex_tables
+)
+ident(
+  def __ocaml_lex_tables "lexer.ml" 343 22045 22045 "lexer.ml" 1 0 -1
+)
+"lexer.ml" 13 146 149 "lexer.ml" 28 1196 1209
+type(
+  string
+)
+"lexer.ml" 30 1234 1237 "lexer.ml" 45 2284 2297
+type(
+  string
+)
+"lexer.ml" 47 2322 2325 "lexer.ml" 62 3372 3385
+type(
+  string
+)
+"lexer.ml" 64 3408 3411 "lexer.ml" 195 12578 12615
+type(
+  string
+)
+"lexer.ml" 197 12638 12641 "lexer.ml" 328 21808 21845
+type(
+  string
+)
+"lexer.ml" 330 21872 21875 "lexer.ml" 330 21872 21877
+type(
+  string
+)
+"lexer.ml" 332 21907 21910 "lexer.ml" 332 21907 21912
+type(
+  string
+)
+"lexer.ml" 334 21942 21945 "lexer.ml" 334 21942 21947
+type(
+  string
+)
+"lexer.ml" 336 21975 21978 "lexer.ml" 336 21975 21980
+type(
+  string
+)
+"lexer.ml" 338 22008 22011 "lexer.ml" 338 22008 22013
+type(
+  string
+)
+"lexer.ml" 340 22035 22038 "lexer.ml" 340 22035 22040
+type(
+  string
+)
+"lexer.ml" 11 99 124 "lexer.ml" 341 22042 22043
+type(
+  Lexing.lex_tables
+)
+"lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  def token "lexer.ml" 343 22045 22045 "lexer.ml" 1 0 -1
+)
+"lexer.ml" 343 22045 22059 "lexer.ml" 343 22045 22065
+type(
+  Lexing.lexbuf
+)
+ident(
+  def lexbuf "lexer.ml" 344 22068 22071 "lexer.ml" 344 22068 22101
+)
+"lexer.ml" 344 22068 22071 "lexer.ml" 344 22068 22092
+type(
+  Lexing.lexbuf -> int -> unit
+)
+ident(
+  int_ref __ocaml_lex_token_rec "lexer.ml" 345 22102 22106 "lexer.ml" 345 22102 22127
+)
+"lexer.ml" 344 22068 22093 "lexer.ml" 344 22068 22099
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 343 22045 22059 "lexer.ml" 343 22045 22065
+)
+"lexer.ml" 344 22068 22100 "lexer.ml" 344 22068 22101
+type(
+  int
+)
+"lexer.ml" 344 22068 22071 "lexer.ml" 344 22068 22101
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.ml" 345 22102 22106 "lexer.ml" 345 22102 22127
+type(
+  Lexing.lexbuf -> int -> unit
+)
+ident(
+  def __ocaml_lex_token_rec "lexer.ml" 343 22045 22045 "lexer.ml" 1 0 -1
+)
+"lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+type(
+  Lexing.lexbuf
+)
+ident(
+  def lexbuf "lexer.ml" 345 22102 22135 "lexer.ml" 518 25985 26037
+)
+"lexer.ml" 345 22102 22135 "lexer.ml" 345 22102 22152
+type(
+  int
+)
+ident(
+  def __ocaml_lex_state "lexer.ml" 346 22155 22157 "lexer.ml" 518 25985 26037
+)
+"lexer.ml" 346 22155 22163 "lexer.ml" 346 22155 22176
+type(
+  Lexing.lex_tables -> int -> Lexing.lexbuf -> int
+)
+ident(
+  int_ref Stdlib.Lexing.engine "lexing.mli" 175 6756 6756 "lexing.mli" 175 6756 6803
+)
+"lexer.ml" 346 22155 22177 "lexer.ml" 346 22155 22195
+type(
+  Lexing.lex_tables
+)
+ident(
+  int_ref __ocaml_lex_tables "lexer.ml" 11 99 103 "lexer.ml" 11 99 121
+)
+"lexer.ml" 346 22155 22196 "lexer.ml" 346 22155 22213
+type(
+  int
+)
+ident(
+  int_ref __ocaml_lex_state "lexer.ml" 345 22102 22135 "lexer.ml" 345 22102 22152
+)
+"lexer.ml" 346 22155 22214 "lexer.ml" 346 22155 22220
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 346 22155 22163 "lexer.ml" 346 22155 22220
+call(
+  stack
+)
+type(
+  int
+)
+"lexer.ml" 347 22226 22234 "lexer.ml" 347 22226 22235
+type(
+  int
+)
+"lexer.mll" 41 22256 22259 "lexer.mll" 41 22256 22265
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 41 22256 22266 "lexer.mll" 41 22256 22269
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 41 22256 22259 "lexer.mll" 41 22256 22269
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 41 22256 22271 "lexer.mll" 41 22256 22276
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 41 22256 22277 "lexer.mll" 41 22256 22283
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 41 22256 22271 "lexer.mll" 41 22256 22283
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 41 22256 22258 "lexer.mll" 41 22256 22284
+type(
+  unit
+)
+"lexer.ml" 352 22303 22307 "lexer.ml" 352 22303 22308
+type(
+  int
+)
+"lexer.mll" 43 22329 22332 "lexer.mll" 43 22329 22338
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 43 22329 22339 "lexer.mll" 43 22329 22343
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 43 22329 22332 "lexer.mll" 43 22329 22343
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 43 22329 22345 "lexer.mll" 43 22329 22350
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 43 22329 22351 "lexer.mll" 43 22329 22357
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 43 22329 22345 "lexer.mll" 43 22329 22357
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 43 22329 22331 "lexer.mll" 43 22329 22358
+type(
+  unit
+)
+"lexer.ml" 357 22377 22381 "lexer.ml" 357 22377 22382
+type(
+  int
+)
+"lexer.mll" 45 22403 22406 "lexer.mll" 45 22403 22412
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 45 22403 22413 "lexer.mll" 45 22403 22417
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 45 22403 22406 "lexer.mll" 45 22403 22417
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 45 22403 22419 "lexer.mll" 45 22403 22424
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 45 22403 22425 "lexer.mll" 45 22403 22431
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 45 22403 22419 "lexer.mll" 45 22403 22431
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 45 22403 22405 "lexer.mll" 45 22403 22432
+type(
+  unit
+)
+"lexer.ml" 362 22451 22455 "lexer.ml" 362 22451 22456
+type(
+  int
+)
+"lexer.mll" 48 22477 22480 "lexer.mll" 48 22477 22486
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 48 22477 22487 "lexer.mll" 48 22477 22490
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 48 22477 22480 "lexer.mll" 48 22477 22490
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 48 22477 22492 "lexer.mll" 48 22477 22497
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 48 22477 22498 "lexer.mll" 48 22477 22504
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 48 22477 22492 "lexer.mll" 48 22477 22504
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 48 22477 22479 "lexer.mll" 48 22477 22505
+type(
+  unit
+)
+"lexer.ml" 367 22524 22528 "lexer.ml" 367 22524 22529
+type(
+  int
+)
+"lexer.mll" 50 22550 22553 "lexer.mll" 50 22550 22559
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 50 22550 22560 "lexer.mll" 50 22550 22563
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 50 22550 22553 "lexer.mll" 50 22550 22563
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 50 22550 22565 "lexer.mll" 50 22550 22570
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 50 22550 22571 "lexer.mll" 50 22550 22577
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 50 22550 22565 "lexer.mll" 50 22550 22577
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 50 22550 22552 "lexer.mll" 50 22550 22578
+type(
+  unit
+)
+"lexer.ml" 372 22597 22601 "lexer.ml" 372 22597 22602
+type(
+  int
+)
+"lexer.mll" 54 22623 22626 "lexer.mll" 54 22623 22632
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 54 22623 22633 "lexer.mll" 54 22623 22636
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 54 22623 22626 "lexer.mll" 54 22623 22636
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 54 22623 22638 "lexer.mll" 54 22623 22643
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 54 22623 22644 "lexer.mll" 54 22623 22650
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 54 22623 22638 "lexer.mll" 54 22623 22650
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 54 22623 22625 "lexer.mll" 54 22623 22651
+type(
+  unit
+)
+"lexer.ml" 377 22670 22674 "lexer.ml" 377 22670 22675
+type(
+  int
+)
+"lexer.mll" 56 22696 22699 "lexer.mll" 56 22696 22705
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 56 22696 22706 "lexer.mll" 56 22696 22709
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 56 22696 22699 "lexer.mll" 56 22696 22709
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 56 22696 22711 "lexer.mll" 56 22696 22716
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 56 22696 22717 "lexer.mll" 56 22696 22723
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 56 22696 22711 "lexer.mll" 56 22696 22723
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 56 22696 22698 "lexer.mll" 56 22696 22724
+type(
+  unit
+)
+"lexer.ml" 382 22743 22747 "lexer.ml" 382 22743 22748
+type(
+  int
+)
+"lexer.mll" 59 22773 22788 "lexer.mll" 59 22773 22795
+type(
+  string
+)
+ident(
+  def heading "lexer.mll" 60 22922 22925 "lexer.mll" 60 22922 22960
+)
+"lexer.ml" 387 22813 22815 "lexer.ml" 387 22813 22832
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 387 22813 22833 "lexer.ml" 387 22813 22839
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 387 22813 22840 "lexer.ml" 387 22813 22846
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 387 22813 22840 "lexer.ml" 387 22813 22867
+type(
+  int
+)
+"lexer.ml" 387 22813 22869 "lexer.ml" 387 22813 22875
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 387 22813 22869 "lexer.ml" 387 22813 22896
+type(
+  int
+)
+"lexer.ml" 387 22813 22897 "lexer.ml" 387 22813 22898
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 387 22813 22899 "lexer.ml" 387 22813 22900
+type(
+  int
+)
+"lexer.ml" 387 22813 22868 "lexer.ml" 387 22813 22901
+type(
+  int
+)
+"lexer.ml" 387 22813 22815 "lexer.ml" 387 22813 22901
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 60 22922 22926 "lexer.mll" 60 22922 22932
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 60 22922 22933 "lexer.mll" 60 22922 22937
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 60 22922 22938 "lexer.mll" 60 22922 22945
+type(
+  string
+)
+ident(
+  int_ref heading "lexer.mll" 59 22773 22788 "lexer.mll" 59 22773 22795
+)
+"lexer.mll" 60 22922 22926 "lexer.mll" 60 22922 22945
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 60 22922 22947 "lexer.mll" 60 22922 22952
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 60 22922 22953 "lexer.mll" 60 22922 22959
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 60 22922 22947 "lexer.mll" 60 22922 22959
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 60 22922 22925 "lexer.mll" 60 22922 22960
+type(
+  unit
+)
+"lexer.ml" 383 22752 22752 "lexer.mll" 60 22922 22960
+type(
+  unit
+)
+"lexer.ml" 392 22979 22983 "lexer.ml" 392 22979 22984
+type(
+  int
+)
+"lexer.mll" 61 23009 23024 "lexer.mll" 61 23009 23031
+type(
+  string
+)
+ident(
+  def heading "lexer.mll" 62 23158 23161 "lexer.mll" 62 23158 23196
+)
+"lexer.ml" 397 23049 23051 "lexer.ml" 397 23049 23068
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 397 23049 23069 "lexer.ml" 397 23049 23075
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 397 23049 23076 "lexer.ml" 397 23049 23082
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 397 23049 23076 "lexer.ml" 397 23049 23103
+type(
+  int
+)
+"lexer.ml" 397 23049 23105 "lexer.ml" 397 23049 23111
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 397 23049 23105 "lexer.ml" 397 23049 23132
+type(
+  int
+)
+"lexer.ml" 397 23049 23133 "lexer.ml" 397 23049 23134
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 397 23049 23135 "lexer.ml" 397 23049 23136
+type(
+  int
+)
+"lexer.ml" 397 23049 23104 "lexer.ml" 397 23049 23137
+type(
+  int
+)
+"lexer.ml" 397 23049 23051 "lexer.ml" 397 23049 23137
+type(
+  string
+)
+"lexer.mll" 62 23158 23162 "lexer.mll" 62 23158 23168
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 62 23158 23169 "lexer.mll" 62 23158 23173
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 62 23158 23174 "lexer.mll" 62 23158 23181
+type(
+  string
+)
+ident(
+  int_ref heading "lexer.mll" 61 23009 23024 "lexer.mll" 61 23009 23031
+)
+"lexer.mll" 62 23158 23162 "lexer.mll" 62 23158 23181
+type(
+  Base.unit
+)
+"lexer.mll" 62 23158 23183 "lexer.mll" 62 23158 23188
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 62 23158 23189 "lexer.mll" 62 23158 23195
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 62 23158 23183 "lexer.mll" 62 23158 23195
+type(
+  unit
+)
+"lexer.mll" 62 23158 23161 "lexer.mll" 62 23158 23196
+type(
+  unit
+)
+"lexer.ml" 393 22988 22988 "lexer.mll" 62 23158 23196
+type(
+  unit
+)
+"lexer.ml" 402 23215 23219 "lexer.ml" 402 23215 23220
+type(
+  int
+)
+"lexer.mll" 63 23245 23263 "lexer.mll" 63 23245 23270
+type(
+  string
+)
+ident(
+  def heading "lexer.mll" 64 23398 23401 "lexer.mll" 64 23398 23436
+)
+"lexer.ml" 407 23288 23290 "lexer.ml" 407 23288 23307
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 407 23288 23308 "lexer.ml" 407 23288 23314
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 407 23288 23315 "lexer.ml" 407 23288 23321
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 407 23288 23315 "lexer.ml" 407 23288 23342
+type(
+  int
+)
+"lexer.ml" 407 23288 23344 "lexer.ml" 407 23288 23350
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 407 23288 23344 "lexer.ml" 407 23288 23371
+type(
+  int
+)
+"lexer.ml" 407 23288 23372 "lexer.ml" 407 23288 23373
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 407 23288 23374 "lexer.ml" 407 23288 23376
+type(
+  int
+)
+"lexer.ml" 407 23288 23343 "lexer.ml" 407 23288 23377
+type(
+  int
+)
+"lexer.ml" 407 23288 23290 "lexer.ml" 407 23288 23377
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 64 23398 23402 "lexer.mll" 64 23398 23408
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 64 23398 23409 "lexer.mll" 64 23398 23413
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 64 23398 23414 "lexer.mll" 64 23398 23421
+type(
+  string
+)
+ident(
+  int_ref heading "lexer.mll" 63 23245 23263 "lexer.mll" 63 23245 23270
+)
+"lexer.mll" 64 23398 23402 "lexer.mll" 64 23398 23421
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 64 23398 23423 "lexer.mll" 64 23398 23428
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 64 23398 23429 "lexer.mll" 64 23398 23435
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 64 23398 23423 "lexer.mll" 64 23398 23435
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 64 23398 23401 "lexer.mll" 64 23398 23436
+type(
+  unit
+)
+"lexer.ml" 403 23224 23224 "lexer.mll" 64 23398 23436
+type(
+  unit
+)
+"lexer.ml" 412 23455 23459 "lexer.ml" 412 23455 23461
+type(
+  int
+)
+"lexer.mll" 65 23486 23507 "lexer.mll" 65 23486 23514
+type(
+  string
+)
+ident(
+  def heading "lexer.mll" 66 23642 23645 "lexer.mll" 66 23642 23680
+)
+"lexer.ml" 417 23532 23534 "lexer.ml" 417 23532 23551
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 417 23532 23552 "lexer.ml" 417 23532 23558
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 417 23532 23559 "lexer.ml" 417 23532 23565
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 417 23532 23559 "lexer.ml" 417 23532 23586
+type(
+  int
+)
+"lexer.ml" 417 23532 23588 "lexer.ml" 417 23532 23594
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 417 23532 23588 "lexer.ml" 417 23532 23615
+type(
+  int
+)
+"lexer.ml" 417 23532 23616 "lexer.ml" 417 23532 23617
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 417 23532 23618 "lexer.ml" 417 23532 23620
+type(
+  int
+)
+"lexer.ml" 417 23532 23587 "lexer.ml" 417 23532 23621
+type(
+  int
+)
+"lexer.ml" 417 23532 23534 "lexer.ml" 417 23532 23621
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 66 23642 23646 "lexer.mll" 66 23642 23652
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 66 23642 23653 "lexer.mll" 66 23642 23657
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 66 23642 23658 "lexer.mll" 66 23642 23665
+type(
+  string
+)
+ident(
+  int_ref heading "lexer.mll" 65 23486 23507 "lexer.mll" 65 23486 23514
+)
+"lexer.mll" 66 23642 23646 "lexer.mll" 66 23642 23665
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 66 23642 23667 "lexer.mll" 66 23642 23672
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 66 23642 23673 "lexer.mll" 66 23642 23679
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 66 23642 23667 "lexer.mll" 66 23642 23679
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 66 23642 23645 "lexer.mll" 66 23642 23680
+type(
+  unit
+)
+"lexer.ml" 413 23465 23465 "lexer.mll" 66 23642 23680
+type(
+  unit
+)
+"lexer.ml" 422 23699 23703 "lexer.ml" 422 23699 23705
+type(
+  int
+)
+"lexer.mll" 67 23730 23747 "lexer.mll" 67 23730 23754
+type(
+  string
+)
+ident(
+  def heading "lexer.mll" 68 23882 23885 "lexer.mll" 68 23882 23920
+)
+"lexer.ml" 427 23772 23774 "lexer.ml" 427 23772 23791
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 427 23772 23792 "lexer.ml" 427 23772 23798
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 427 23772 23799 "lexer.ml" 427 23772 23805
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 427 23772 23799 "lexer.ml" 427 23772 23826
+type(
+  int
+)
+"lexer.ml" 427 23772 23828 "lexer.ml" 427 23772 23834
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 427 23772 23828 "lexer.ml" 427 23772 23855
+type(
+  int
+)
+"lexer.ml" 427 23772 23856 "lexer.ml" 427 23772 23857
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 427 23772 23858 "lexer.ml" 427 23772 23860
+type(
+  int
+)
+"lexer.ml" 427 23772 23827 "lexer.ml" 427 23772 23861
+type(
+  int
+)
+"lexer.ml" 427 23772 23774 "lexer.ml" 427 23772 23861
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 68 23882 23886 "lexer.mll" 68 23882 23892
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 68 23882 23893 "lexer.mll" 68 23882 23897
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 68 23882 23898 "lexer.mll" 68 23882 23905
+type(
+  string
+)
+ident(
+  int_ref heading "lexer.mll" 67 23730 23747 "lexer.mll" 67 23730 23754
+)
+"lexer.mll" 68 23882 23886 "lexer.mll" 68 23882 23905
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 68 23882 23907 "lexer.mll" 68 23882 23912
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 68 23882 23913 "lexer.mll" 68 23882 23919
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 68 23882 23907 "lexer.mll" 68 23882 23919
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 68 23882 23885 "lexer.mll" 68 23882 23920
+type(
+  unit
+)
+"lexer.ml" 423 23709 23709 "lexer.mll" 68 23882 23920
+type(
+  unit
+)
+"lexer.ml" 432 23939 23943 "lexer.ml" 432 23939 23945
+type(
+  int
+)
+"lexer.mll" 69 23970 23990 "lexer.mll" 69 23970 23997
+type(
+  string
+)
+ident(
+  def heading "lexer.mll" 70 24125 24128 "lexer.mll" 70 24125 24163
+)
+"lexer.ml" 437 24015 24017 "lexer.ml" 437 24015 24034
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 437 24015 24035 "lexer.ml" 437 24015 24041
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 437 24015 24042 "lexer.ml" 437 24015 24048
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 437 24015 24042 "lexer.ml" 437 24015 24069
+type(
+  int
+)
+"lexer.ml" 437 24015 24071 "lexer.ml" 437 24015 24077
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 437 24015 24071 "lexer.ml" 437 24015 24098
+type(
+  int
+)
+"lexer.ml" 437 24015 24099 "lexer.ml" 437 24015 24100
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 437 24015 24101 "lexer.ml" 437 24015 24103
+type(
+  int
+)
+"lexer.ml" 437 24015 24070 "lexer.ml" 437 24015 24104
+type(
+  int
+)
+"lexer.ml" 437 24015 24017 "lexer.ml" 437 24015 24104
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 70 24125 24129 "lexer.mll" 70 24125 24135
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 70 24125 24136 "lexer.mll" 70 24125 24140
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 70 24125 24141 "lexer.mll" 70 24125 24148
+type(
+  string
+)
+ident(
+  int_ref heading "lexer.mll" 69 23970 23990 "lexer.mll" 69 23970 23997
+)
+"lexer.mll" 70 24125 24129 "lexer.mll" 70 24125 24148
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 70 24125 24150 "lexer.mll" 70 24125 24155
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 70 24125 24156 "lexer.mll" 70 24125 24162
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 70 24125 24150 "lexer.mll" 70 24125 24162
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 70 24125 24128 "lexer.mll" 70 24125 24163
+type(
+  unit
+)
+"lexer.ml" 433 23949 23949 "lexer.mll" 70 24125 24163
+type(
+  unit
+)
+"lexer.ml" 442 24182 24186 "lexer.ml" 442 24182 24188
+type(
+  int
+)
+"lexer.mll" 72 24213 24233 "lexer.mll" 72 24213 24243
+type(
+  string
+)
+ident(
+  def begin_atom "lexer.mll" 73 24371 24374 "lexer.mll" 73 24371 24412
+)
+"lexer.ml" 447 24261 24263 "lexer.ml" 447 24261 24280
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 447 24261 24281 "lexer.ml" 447 24261 24287
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 447 24261 24288 "lexer.ml" 447 24261 24294
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 447 24261 24288 "lexer.ml" 447 24261 24315
+type(
+  int
+)
+"lexer.ml" 447 24261 24317 "lexer.ml" 447 24261 24323
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 447 24261 24317 "lexer.ml" 447 24261 24344
+type(
+  int
+)
+"lexer.ml" 447 24261 24345 "lexer.ml" 447 24261 24346
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 447 24261 24347 "lexer.ml" 447 24261 24349
+type(
+  int
+)
+"lexer.ml" 447 24261 24316 "lexer.ml" 447 24261 24350
+type(
+  int
+)
+"lexer.ml" 447 24261 24263 "lexer.ml" 447 24261 24350
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 73 24371 24375 "lexer.mll" 73 24371 24381
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 73 24371 24382 "lexer.mll" 73 24371 24386
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 73 24371 24387 "lexer.mll" 73 24371 24397
+type(
+  string
+)
+ident(
+  int_ref begin_atom "lexer.mll" 72 24213 24233 "lexer.mll" 72 24213 24243
+)
+"lexer.mll" 73 24371 24375 "lexer.mll" 73 24371 24397
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 73 24371 24399 "lexer.mll" 73 24371 24404
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 73 24371 24405 "lexer.mll" 73 24371 24411
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 73 24371 24399 "lexer.mll" 73 24371 24411
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 73 24371 24374 "lexer.mll" 73 24371 24412
+type(
+  unit
+)
+"lexer.ml" 443 24192 24192 "lexer.mll" 73 24371 24412
+type(
+  unit
+)
+"lexer.ml" 452 24431 24435 "lexer.ml" 452 24431 24437
+type(
+  int
+)
+"lexer.mll" 74 24462 24482 "lexer.mll" 74 24462 24490
+type(
+  string
+)
+ident(
+  def end_atom "lexer.mll" 75 24618 24621 "lexer.mll" 75 24618 24657
+)
+"lexer.ml" 457 24508 24510 "lexer.ml" 457 24508 24527
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 457 24508 24528 "lexer.ml" 457 24508 24534
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 457 24508 24535 "lexer.ml" 457 24508 24541
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 457 24508 24535 "lexer.ml" 457 24508 24562
+type(
+  int
+)
+"lexer.ml" 457 24508 24564 "lexer.ml" 457 24508 24570
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 457 24508 24564 "lexer.ml" 457 24508 24591
+type(
+  int
+)
+"lexer.ml" 457 24508 24592 "lexer.ml" 457 24508 24593
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 457 24508 24594 "lexer.ml" 457 24508 24596
+type(
+  int
+)
+"lexer.ml" 457 24508 24563 "lexer.ml" 457 24508 24597
+type(
+  int
+)
+"lexer.ml" 457 24508 24510 "lexer.ml" 457 24508 24597
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 75 24618 24622 "lexer.mll" 75 24618 24628
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 75 24618 24629 "lexer.mll" 75 24618 24633
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 75 24618 24634 "lexer.mll" 75 24618 24642
+type(
+  string
+)
+ident(
+  int_ref end_atom "lexer.mll" 74 24462 24482 "lexer.mll" 74 24462 24490
+)
+"lexer.mll" 75 24618 24622 "lexer.mll" 75 24618 24642
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 75 24618 24644 "lexer.mll" 75 24618 24649
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 75 24618 24650 "lexer.mll" 75 24618 24656
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 75 24618 24644 "lexer.mll" 75 24618 24656
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 75 24618 24621 "lexer.mll" 75 24618 24657
+type(
+  unit
+)
+"lexer.ml" 453 24441 24441 "lexer.mll" 75 24618 24657
+type(
+  unit
+)
+"lexer.ml" 462 24676 24680 "lexer.ml" 462 24676 24682
+type(
+  int
+)
+"lexer.mll" 78 24707 24724 "lexer.mll" 78 24707 24734
+type(
+  string
+)
+ident(
+  def begin_atom "lexer.mll" 79 24862 24865 "lexer.mll" 79 24862 24903
+)
+"lexer.ml" 467 24752 24754 "lexer.ml" 467 24752 24771
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 467 24752 24772 "lexer.ml" 467 24752 24778
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 467 24752 24779 "lexer.ml" 467 24752 24785
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 467 24752 24779 "lexer.ml" 467 24752 24806
+type(
+  int
+)
+"lexer.ml" 467 24752 24808 "lexer.ml" 467 24752 24814
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 467 24752 24808 "lexer.ml" 467 24752 24835
+type(
+  int
+)
+"lexer.ml" 467 24752 24836 "lexer.ml" 467 24752 24837
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 467 24752 24838 "lexer.ml" 467 24752 24840
+type(
+  int
+)
+"lexer.ml" 467 24752 24807 "lexer.ml" 467 24752 24841
+type(
+  int
+)
+"lexer.ml" 467 24752 24754 "lexer.ml" 467 24752 24841
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 79 24862 24866 "lexer.mll" 79 24862 24872
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 79 24862 24873 "lexer.mll" 79 24862 24877
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 79 24862 24878 "lexer.mll" 79 24862 24888
+type(
+  string
+)
+ident(
+  int_ref begin_atom "lexer.mll" 78 24707 24724 "lexer.mll" 78 24707 24734
+)
+"lexer.mll" 79 24862 24866 "lexer.mll" 79 24862 24888
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 79 24862 24890 "lexer.mll" 79 24862 24895
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 79 24862 24896 "lexer.mll" 79 24862 24902
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 79 24862 24890 "lexer.mll" 79 24862 24902
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 79 24862 24865 "lexer.mll" 79 24862 24903
+type(
+  unit
+)
+"lexer.ml" 463 24686 24686 "lexer.mll" 79 24862 24903
+type(
+  unit
+)
+"lexer.ml" 472 24922 24926 "lexer.ml" 472 24922 24928
+type(
+  int
+)
+"lexer.mll" 80 24953 24970 "lexer.mll" 80 24953 24978
+type(
+  string
+)
+ident(
+  def end_atom "lexer.mll" 81 25106 25109 "lexer.mll" 81 25106 25145
+)
+"lexer.ml" 477 24996 24998 "lexer.ml" 477 24996 25015
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 477 24996 25016 "lexer.ml" 477 24996 25022
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 477 24996 25023 "lexer.ml" 477 24996 25029
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 477 24996 25023 "lexer.ml" 477 24996 25050
+type(
+  int
+)
+"lexer.ml" 477 24996 25052 "lexer.ml" 477 24996 25058
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 477 24996 25052 "lexer.ml" 477 24996 25079
+type(
+  int
+)
+"lexer.ml" 477 24996 25080 "lexer.ml" 477 24996 25081
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 477 24996 25082 "lexer.ml" 477 24996 25084
+type(
+  int
+)
+"lexer.ml" 477 24996 25051 "lexer.ml" 477 24996 25085
+type(
+  int
+)
+"lexer.ml" 477 24996 24998 "lexer.ml" 477 24996 25085
+type(
+  string
+)
+"lexer.mll" 81 25106 25110 "lexer.mll" 81 25106 25116
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 81 25106 25117 "lexer.mll" 81 25106 25121
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 81 25106 25122 "lexer.mll" 81 25106 25130
+type(
+  string
+)
+ident(
+  int_ref end_atom "lexer.mll" 80 24953 24970 "lexer.mll" 80 24953 24978
+)
+"lexer.mll" 81 25106 25110 "lexer.mll" 81 25106 25130
+type(
+  Base.unit
+)
+"lexer.mll" 81 25106 25132 "lexer.mll" 81 25106 25137
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 81 25106 25138 "lexer.mll" 81 25106 25144
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 81 25106 25132 "lexer.mll" 81 25106 25144
+type(
+  unit
+)
+"lexer.mll" 81 25106 25109 "lexer.mll" 81 25106 25145
+type(
+  unit
+)
+"lexer.ml" 473 24932 24932 "lexer.mll" 81 25106 25145
+type(
+  unit
+)
+"lexer.ml" 482 25164 25168 "lexer.ml" 482 25164 25170
+type(
+  int
+)
+"lexer.mll" 83 25195 25210 "lexer.mll" 83 25195 25221
+type(
+  string
+)
+ident(
+  def begin_group "lexer.mll" 84 25349 25352 "lexer.mll" 84 25349 25391
+)
+"lexer.ml" 487 25239 25241 "lexer.ml" 487 25239 25258
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 487 25239 25259 "lexer.ml" 487 25239 25265
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 487 25239 25266 "lexer.ml" 487 25239 25272
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 487 25239 25266 "lexer.ml" 487 25239 25293
+type(
+  int
+)
+"lexer.ml" 487 25239 25295 "lexer.ml" 487 25239 25301
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 487 25239 25295 "lexer.ml" 487 25239 25322
+type(
+  int
+)
+"lexer.ml" 487 25239 25323 "lexer.ml" 487 25239 25324
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 487 25239 25325 "lexer.ml" 487 25239 25327
+type(
+  int
+)
+"lexer.ml" 487 25239 25294 "lexer.ml" 487 25239 25328
+type(
+  int
+)
+"lexer.ml" 487 25239 25241 "lexer.ml" 487 25239 25328
+type(
+  string
+)
+"lexer.mll" 84 25349 25353 "lexer.mll" 84 25349 25359
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 84 25349 25360 "lexer.mll" 84 25349 25364
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 84 25349 25365 "lexer.mll" 84 25349 25376
+type(
+  string
+)
+ident(
+  int_ref begin_group "lexer.mll" 83 25195 25210 "lexer.mll" 83 25195 25221
+)
+"lexer.mll" 84 25349 25353 "lexer.mll" 84 25349 25376
+type(
+  Base.unit
+)
+"lexer.mll" 84 25349 25378 "lexer.mll" 84 25349 25383
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 84 25349 25384 "lexer.mll" 84 25349 25390
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 84 25349 25378 "lexer.mll" 84 25349 25390
+type(
+  unit
+)
+"lexer.mll" 84 25349 25352 "lexer.mll" 84 25349 25391
+type(
+  unit
+)
+"lexer.ml" 483 25174 25174 "lexer.mll" 84 25349 25391
+type(
+  unit
+)
+"lexer.ml" 492 25410 25414 "lexer.ml" 492 25410 25416
+type(
+  int
+)
+"lexer.mll" 85 25441 25456 "lexer.mll" 85 25441 25465
+type(
+  string
+)
+ident(
+  def end_group "lexer.mll" 86 25593 25596 "lexer.mll" 86 25593 25633
+)
+"lexer.ml" 497 25483 25485 "lexer.ml" 497 25483 25502
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 497 25483 25503 "lexer.ml" 497 25483 25509
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 497 25483 25510 "lexer.ml" 497 25483 25516
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 497 25483 25510 "lexer.ml" 497 25483 25537
+type(
+  int
+)
+"lexer.ml" 497 25483 25539 "lexer.ml" 497 25483 25545
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 497 25483 25539 "lexer.ml" 497 25483 25566
+type(
+  int
+)
+"lexer.ml" 497 25483 25567 "lexer.ml" 497 25483 25568
+type(
+  int -> int -> int
+)
+ident(
+  int_ref Core.( + ) "src/core_pervasives.mli" 212 8365 8365 "src/core_pervasives.mli" 212 8365 8411
+)
+"lexer.ml" 497 25483 25569 "lexer.ml" 497 25483 25571
+type(
+  int
+)
+"lexer.ml" 497 25483 25538 "lexer.ml" 497 25483 25572
+type(
+  int
+)
+"lexer.ml" 497 25483 25485 "lexer.ml" 497 25483 25572
+type(
+  string
+)
+"lexer.mll" 86 25593 25597 "lexer.mll" 86 25593 25603
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 86 25593 25604 "lexer.mll" 86 25593 25608
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 86 25593 25609 "lexer.mll" 86 25593 25618
+type(
+  string
+)
+ident(
+  int_ref end_group "lexer.mll" 85 25441 25456 "lexer.mll" 85 25441 25465
+)
+"lexer.mll" 86 25593 25597 "lexer.mll" 86 25593 25618
+type(
+  Base.unit
+)
+"lexer.mll" 86 25593 25620 "lexer.mll" 86 25593 25625
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 86 25593 25626 "lexer.mll" 86 25593 25632
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 86 25593 25620 "lexer.mll" 86 25593 25632
+type(
+  unit
+)
+"lexer.mll" 86 25593 25596 "lexer.mll" 86 25593 25633
+type(
+  unit
+)
+"lexer.ml" 493 25420 25420 "lexer.mll" 86 25593 25633
+type(
+  unit
+)
+"lexer.ml" 502 25652 25656 "lexer.ml" 502 25652 25658
+type(
+  int
+)
+"lexer.mll" 88 25683 25695 "lexer.mll" 88 25683 25699
+type(
+  string
+)
+ident(
+  def word "lexer.mll" 89 25819 25821 "lexer.mll" 89 25819 25855
+)
+"lexer.ml" 507 25717 25719 "lexer.ml" 507 25717 25736
+type(
+  Lexing.lexbuf -> int -> int -> string
+)
+ident(
+  int_ref Stdlib.Lexing.sub_lexeme "lexing.mli" 157 6236 6236 "lexing.mli" 157 6236 6283
+)
+"lexer.ml" 507 25717 25737 "lexer.ml" 507 25717 25743
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 507 25717 25744 "lexer.ml" 507 25717 25750
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 507 25717 25744 "lexer.ml" 507 25717 25771
+type(
+  int
+)
+"lexer.ml" 507 25717 25772 "lexer.ml" 507 25717 25778
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 507 25717 25772 "lexer.ml" 507 25717 25798
+type(
+  int
+)
+"lexer.ml" 507 25717 25719 "lexer.ml" 507 25717 25798
+call(
+  stack
+)
+type(
+  string
+)
+"lexer.mll" 89 25819 25822 "lexer.mll" 89 25819 25828
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format ->
+  string -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 89 25819 25829 "lexer.mll" 89 25819 25835
+type(
+  (string -> Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 89 25819 25836 "lexer.mll" 89 25819 25840
+type(
+  string
+)
+ident(
+  int_ref word "lexer.mll" 88 25683 25695 "lexer.mll" 88 25683 25699
+)
+"lexer.mll" 89 25819 25822 "lexer.mll" 89 25819 25840
+call(
+  stack
+)
+type(
+  Base.unit
+)
+"lexer.mll" 89 25819 25842 "lexer.mll" 89 25819 25847
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 89 25819 25848 "lexer.mll" 89 25819 25854
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.mll" 89 25819 25842 "lexer.mll" 89 25819 25854
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.mll" 89 25819 25821 "lexer.mll" 89 25819 25855
+type(
+  unit
+)
+"lexer.ml" 503 25662 25662 "lexer.mll" 89 25819 25855
+type(
+  unit
+)
+"lexer.ml" 512 25874 25878 "lexer.ml" 512 25874 25880
+type(
+  int
+)
+"lexer.mll" 92 25901 25903 "lexer.mll" 92 25901 25907
+type(
+  unit
+)
+"lexer.ml" 517 25926 25930 "lexer.ml" 517 25926 25947
+type(
+  int
+)
+ident(
+  def __ocaml_lex_state "lexer.ml" 517 25926 25951 "lexer.ml" 518 25985 26037
+)
+"lexer.ml" 517 25926 25951 "lexer.ml" 517 25926 25957
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 517 25926 25951 "lexer.ml" 517 25926 25976
+type(
+  Lexing.lexbuf -> unit
+)
+"lexer.ml" 517 25926 25977 "lexer.ml" 517 25926 25983
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 517 25926 25951 "lexer.ml" 517 25926 25983
+call(
+  stack
+)
+type(
+  unit
+)
+"lexer.ml" 518 25985 25991 "lexer.ml" 518 25985 26012
+type(
+  Lexing.lexbuf -> int -> unit
+)
+ident(
+  int_ref __ocaml_lex_token_rec "lexer.ml" 345 22102 22106 "lexer.ml" 345 22102 22127
+)
+"lexer.ml" 518 25985 26013 "lexer.ml" 518 25985 26019
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.ml" 345 22102 22128 "lexer.ml" 345 22102 22134
+)
+"lexer.ml" 518 25985 26020 "lexer.ml" 518 25985 26037
+type(
+  int
+)
+ident(
+  int_ref __ocaml_lex_state "lexer.ml" 517 25926 25930 "lexer.ml" 517 25926 25947
+)
+"lexer.ml" 518 25985 25991 "lexer.ml" 518 25985 26037
+call(
+  tail
+)
+type(
+  unit
+)
+"lexer.ml" 517 25926 25951 "lexer.ml" 518 25985 26037
+type(
+  unit
+)
+"lexer.ml" 346 22155 22157 "lexer.ml" 518 25985 26037
+type(
+  unit
+)
+"lexer.mll" 95 26062 26066 "lexer.mll" 95 26062 26070
+type(
+  unit -> Base.unit
+)
+ident(
+  def main "lexer.mll" 105 26357 26397 "lexer.ml" 1 0 -1
+)
+"lexer.mll" 95 26062 26071 "lexer.mll" 95 26062 26073
+type(
+  unit
+)
+"lexer.mll" 96 26076 26081 "lexer.mll" 96 26076 26085
+type(
+  string array
+)
+ident(
+  def args "lexer.mll" 97 26100 26104 "lexer.mll" 105 26357 26397
+)
+"lexer.mll" 96 26076 26088 "lexer.mll" 96 26076 26096
+type(
+  string array
+)
+ident(
+  int_ref Core.Sys.argv "src/core_sys.mli" 8 248 248 "src/core_sys.mli" 8 248 271
+)
+"lexer.mll" 97 26100 26107 "lexer.mll" 97 26100 26119
+type(
+  string Core.Array.t -> int
+)
+ident(
+  int_ref Core.Array.length "src/container_intf.ml" 172 6695 6697 "src/container_intf.ml" 172 6695 6723
+)
+"lexer.mll" 97 26100 26120 "lexer.mll" 97 26100 26124
+type(
+  string Core.Array.t
+)
+ident(
+  int_ref args "lexer.mll" 96 26076 26081 "lexer.mll" 96 26076 26085
+)
+"lexer.mll" 97 26100 26107 "lexer.mll" 97 26100 26124
+call(
+  stack
+)
+type(
+  int
+)
+"lexer.mll" 97 26100 26125 "lexer.mll" 97 26100 26126
+type(
+  int -> int -> bool
+)
+ident(
+  int_ref Core.( = ) "src/core_pervasives.mli" 37 1168 1168 "src/core_pervasives.mli" 37 1168 1212
+)
+"lexer.mll" 97 26100 26127 "lexer.mll" 97 26100 26128
+type(
+  int
+)
+"lexer.mll" 97 26100 26107 "lexer.mll" 97 26100 26128
+type(
+  bool
+)
+"lexer.mll" 98 26134 26144 "lexer.mll" 98 26134 26152
+type(
+  string
+)
+ident(
+  def filename "lexer.mll" 100 26209 26212 "lexer.mll" 103 26316 26347
+)
+"lexer.mll" 98 26134 26155 "lexer.mll" 98 26134 26163
+type(
+  string Core.Array.t
+)
+ident(
+  int_ref Core.Sys.argv "src/core_sys.mli" 8 248 248 "src/core_sys.mli" 8 248 271
+)
+"lexer.mll" 98 26134 26165 "lexer.mll" 98 26134 26166
+type(
+  int
+)
+"lexer.mll" 98 26134 26155 "lexer.mll" 98 26134 26167
+type(
+  string
+)
+"lexer.mll" 100 26209 26216 "lexer.mll" 100 26209 26218
+type(
+  Core.In_channel.t
+)
+ident(
+  def ic "lexer.mll" 101 26251 26257 "lexer.mll" 103 26316 26347
+)
+"lexer.mll" 100 26209 26221 "lexer.mll" 100 26209 26238
+type(
+  ?binary:Base.bool -> Base.string -> Core.In_channel.t
+)
+ident(
+  int_ref Core.In_channel.create "src/in_channel.mli" 24 621 621 "src/in_channel.mli" 24 621 687
+)
+"lexer.mll" 100 26209 26239 "lexer.mll" 100 26209 26247
+type(
+  Base.string
+)
+ident(
+  int_ref filename "lexer.mll" 98 26134 26144 "lexer.mll" 98 26134 26152
+)
+"lexer.mll" 100 26209 26221 "lexer.mll" 100 26209 26247
+call(
+  stack
+)
+type(
+  Core.In_channel.t
+)
+"lexer.mll" 101 26251 26261 "lexer.mll" 101 26251 26267
+type(
+  Lexing.lexbuf
+)
+ident(
+  def lexbuf "lexer.mll" 102 26296 26302 "lexer.mll" 103 26316 26347
+)
+"lexer.mll" 101 26251 26270 "lexer.mll" 101 26251 26289
+type(
+  Stdlib.in_channel -> Lexing.lexbuf
+)
+ident(
+  int_ref Stdlib.Lexing.from_channel "lexing.mli" 78 3247 3247 "lexing.mli" 78 3247 3286
+)
+"lexer.mll" 101 26251 26290 "lexer.mll" 101 26251 26292
+type(
+  Core.In_channel.t
+)
+ident(
+  int_ref ic "lexer.mll" 100 26209 26216 "lexer.mll" 100 26209 26218
+)
+"lexer.mll" 101 26251 26270 "lexer.mll" 101 26251 26292
+call(
+  stack
+)
+type(
+  Lexing.lexbuf
+)
+"lexer.mll" 102 26296 26302 "lexer.mll" 102 26296 26307
+type(
+  Lexing.lexbuf -> unit
+)
+ident(
+  int_ref token "lexer.ml" 343 22045 22053 "lexer.ml" 343 22045 22058
+)
+"lexer.mll" 102 26296 26308 "lexer.mll" 102 26296 26314
+type(
+  Lexing.lexbuf
+)
+ident(
+  int_ref lexbuf "lexer.mll" 101 26251 26261 "lexer.mll" 101 26251 26267
+)
+"lexer.mll" 102 26296 26302 "lexer.mll" 102 26296 26314
+call(
+  stack
+)
+type(
+  unit
+)
+"lexer.mll" 103 26316 26320 "lexer.mll" 103 26316 26326
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 103 26316 26327 "lexer.mll" 103 26316 26347
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 103 26316 26320 "lexer.mll" 103 26316 26347
+call(
+  tail
+)
+type(
+  Base.unit
+)
+"lexer.mll" 102 26296 26302 "lexer.mll" 103 26316 26347
+type(
+  Base.unit
+)
+"lexer.mll" 101 26251 26257 "lexer.mll" 103 26316 26347
+type(
+  Base.unit
+)
+"lexer.mll" 100 26209 26212 "lexer.mll" 103 26316 26347
+type(
+  Base.unit
+)
+"lexer.mll" 98 26134 26140 "lexer.mll" 103 26316 26347
+type(
+  Base.unit
+)
+"lexer.mll" 105 26357 26363 "lexer.mll" 105 26357 26369
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format -> Base.unit
+)
+ident(
+  int_ref Core.Printf.printf "src/printf.ml" 10 231 235 "src/printf.ml" 10 231 241
+)
+"lexer.mll" 105 26357 26370 "lexer.mll" 105 26357 26397
+type(
+  (Base.unit, Stdio.Out_channel.t, Base.unit) Base.format
+)
+"lexer.mll" 105 26357 26363 "lexer.mll" 105 26357 26397
+call(
+  tail
+)
+type(
+  Base.unit
+)
+"lexer.mll" 97 26100 26104 "lexer.mll" 105 26357 26397
+type(
+  Base.unit
+)
+"lexer.mll" 96 26076 26077 "lexer.mll" 105 26357 26397
+type(
+  Base.unit
+)
