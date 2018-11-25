@@ -1,5 +1,6 @@
 %{
 open Printf
+let parse_error s = printf "Parse Error: %s" s
 %}	
 
 %token EOF
@@ -33,7 +34,8 @@ benign_space:
 |	TAB {}
 ;
 benign_spaces:
-  benign_space {}
+  {}
+| benign_space {}
 | benign_space benign_spaces {}		
 ;		
 
@@ -44,35 +46,37 @@ white_space:
 | NEWLINE {}		
 ;
 white_spaces:
-  white_space {}
-| white_space white_spaces {}		
+  {}
+| white_space {}
+| white_spaces white_space {}		
 ;		
 	
 /* word is a word also possibly bracketed */
 /* todo: allow for space within brackets*/
 word:
-	WORD {}
-| O_CURLY word C_CURLY {}
-| O_CURLY error C_CURLY {}		
-| O_SQ_BRACKET word C_SQ_BRACKET {}
-| O_SQ_BRACKET error C_SQ_BRACKET {}
+	WORD  {}
+| O_CURLY white_spaces word white_spaces C_CURLY {}
+| O_SQ_BRACKET white_spaces word white_spaces C_SQ_BRACKET {}
 ;	
 
 words:
   word { }
-| word words { }		
-| word benign_spaces words { }
+| words benign_spaces word { }
 ;
+
+line:
+  benign_spaces words benign_spaces NEWLINE {}
+;		
 		
-/* A plain paragraph */
-plain_paragraph:
-| words NEWLINE NEWLINE { }
-| words NEWLINE plain_paragraph { } 		
+/* paragraph */
+paragraph:
+| line { } 
+| paragraph line { } 		
 ;		
 
-plain_paragraphs:
-| plain_paragraph   		{}
-| plain_paragraph plain_paragraphs {}
+paragraphs:
+| paragraph	{}
+| paragraphs benign_spaces NEWLINE white_spaces paragraph {}
 ;
 
 chapter_heading:
@@ -87,9 +91,8 @@ section_heading:
 
 chapter:
 | chapter_heading  EOF {}		
-| chapter_heading blocks EOF {}
-| chapter_heading error EOF {}		
-| chapter_heading blocks sections EOF {}
+| chapter_heading white_spaces blocks white_spaces EOF {}
+| chapter_heading white_spaces blocks sections EOF {}
 ;		
 		
 sections:
@@ -103,12 +106,13 @@ section:
   
 
 blocks:
-  block blocks {  }
+	block {}
+| block blocks {  }
 ;
 
 block:
-| plain_paragraph		 {}
-|	ENV_B_DEFINITION plain_paragraphs  ENV_E_DEFINITION    { }
-| ENV_B_EXAMPLE plain_paragraphs  ENV_E_EXAMPLE    { }
+| paragraph		 {}
+|	ENV_B_DEFINITION paragraphs  ENV_E_DEFINITION    { }
+| ENV_B_EXAMPLE paragraphs  ENV_E_EXAMPLE    { }
 ;
 
