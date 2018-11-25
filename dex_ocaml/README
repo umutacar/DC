@@ -1,3 +1,8 @@
+# TODO
+- Design a principled way to deal with whitespace
+- Design a principled way to deal with empty cases in multi-instances, e.g., paragraphs should it allow zero paragraphs, etc
+
+
 # Overview
 
 The basic idea I am following here is to parse the document superficially, so superficially that we only want to care about what we need to identify blocks.  The rest, we treat them as blobs of text.
