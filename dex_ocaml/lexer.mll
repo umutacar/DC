@@ -31,16 +31,12 @@ let p_b_group = '\\' "begin{group}"
 let p_e_group = '\\' "end{group}"		
 
 
-let p_word = [^ ' ' '\n' '\t' '{' '}' '[' ']']+
+let p_word = [^ '\n' '{' '}' '[' ']']+
 (** END PATTERNS *)			
 
 rule token = parse
-| p_space
-		{printf " "; SPACE}		
 | p_newline
 		{printf "\n"; NEWLINE}
-| p_tab
-		{printf "\t"; TAB}
 
 | p_o_curly
 		{printf "{"; O_CURLY}				

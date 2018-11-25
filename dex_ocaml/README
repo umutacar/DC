@@ -1,4 +1,6 @@
 # TODO
+- The problem with the whitespace business is that it kills existing parsers.  The current parsers are all LR(1) variants, which means that they can only lookahead one token at a time.  This becomes a problem when taking whitespace into account, because we usually want to allow multiple whitespaces.
+
 - Design a principled way to deal with whitespace
 - Design a principled way to deal with empty cases in multi-instances, e.g., paragraphs should it allow zero paragraphs, etc
 

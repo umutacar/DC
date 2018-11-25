@@ -3,6 +3,7 @@ open Printf
 let parse_error s = printf "Parse Error: %s" s
 %}	
 
+
 %token EOF
 %token SPACE TAB NEWLINE
 
@@ -23,49 +24,34 @@ let parse_error s = printf "Parse Error: %s" s
 %token ENV_B_DEFINITION ENV_E_DEFINITION
 %token ENV_B_EXAMPLE ENV_E_EXAMPLE
 
-
+	
 %start chapter
 %type <unit> chapter
 %%
 
-/* begin spaces = whitespaces without NEWLINE */
-benign_space:
-	SPACE {}
-|	TAB {}
-;
-benign_spaces:
+newlines:
   {}
-| benign_space {}
-| benign_space benign_spaces {}		
-;		
-
-/* white space */
-ws:
-	SPACE {}
-|	TAB {}
-| NEWLINE {}		
+|	nnewlines {}
 ;
-
-wss:
-  {}
-| ws {}
-| wss ws {}		
-;		
-	
+			
+nnewlines:
+  NEWLINE {}
+|	nnewlines NEWLINE {}	
+;
 /* a box is the basic unit of composition */
 box:
-	WORD  {}
-| O_CURLY wss box wss C_CURLY {}
-| O_SQ_BRACKET wss box wss C_SQ_BRACKET {}
+  WORD  {}
+| O_CURLY boxes C_CURLY {}
+| O_SQ_BRACKET boxes C_SQ_BRACKET {}
 ;	
 
 boxes:
-  box { }
-| boxes benign_spaces box { }
+  {}
+| boxes box { }
 ;
 
 line:
-  benign_spaces boxes benign_spaces NEWLINE {}
+  box boxes NEWLINE {}
 ;		
 		
 /* paragraph */
@@ -76,30 +62,26 @@ paragraph:
 
 paragraphs:
 | paragraph	{}
-| paragraphs benign_spaces NEWLINE wss paragraph {}
+| paragraphs nnewlines paragraph {}
 ;
 
 chapter_heading:
-  HEADING_CHAPTER O_CURLY C_CURLY { }
-| HEADING_CHAPTER O_CURLY boxes C_CURLY {}
+ HEADING_CHAPTER O_CURLY boxes C_CURLY {}
 ;
 
 section_heading:
-  HEADING_SECTION O_CURLY C_CURLY {}
-| HEADING_SECTION O_CURLY boxes C_CURLY {}
+ HEADING_SECTION O_CURLY boxes C_CURLY {}
 ;
 
 env_b_definition:
-  ENV_B_DEFINITION { }
-| ENV_B_DEFINITION O_SQ_BRACKET wss boxes wss C_SQ_BRACKET {}
+ ENV_B_DEFINITION O_SQ_BRACKET boxes C_SQ_BRACKET {}
 ;
 
 env_e_definition:
   ENV_E_DEFINITION { }
 
 env_b_example:
-  ENV_B_EXAMPLE { }
-| ENV_B_EXAMPLE O_SQ_BRACKET wss boxes wss C_SQ_BRACKET {}
+ ENV_B_EXAMPLE O_SQ_BRACKET boxes C_SQ_BRACKET {}
 ;
 
 env_e_example:
@@ -107,37 +89,28 @@ env_e_example:
 ;
 
 env_b_group:
-  ENV_B_GROUP { }
-| ENV_B_GROUP O_SQ_BRACKET wss boxes wss C_SQ_BRACKET {}
+ ENV_B_GROUP O_SQ_BRACKET boxes C_SQ_BRACKET {}
 ;
 
 env_e_group:
   ENV_E_GROUP { }
 
-		
 chapter:
-| chapter_heading wss  EOF {}		
-| chapter_heading wss blocks wss EOF {}
-| chapter_heading wss sections wss EOF {}		
-| chapter_heading wss error wss EOF {}		
-| chapter_heading wss blocks wss sections wss EOF {}
-| chapter_heading wss error wss sections wss  EOF {}		
-| chapter_heading wss blocks wss error wss  EOF {}		
+  chapter_heading nnewlines blocks newlines sections newlines EOF {}
+|	chapter_heading nnewlines sections newlines EOF {}	
 ;		
-		
-sections:
-  section {}
-| sections wss section {}
-;
 
 section:
-  section_heading {}
-| section_heading wss blocks {}		
-  
+  section_heading nnewlines blocks {}		
+	
+sections:
+| section {}
+| sections newlines section {}
+;
 
 blocks:
-	block {}
-| blocks wss block {  }
+|	block {}
+| blocks nnewlines block {  }
 ;
 
 block:
@@ -146,18 +119,19 @@ block:
 ;			
 			
 group:
-  env_b_group wss atoms wss env_e_group {}
+  env_b_group nnewlines atoms nnewlines env_e_group {}
 ;
 
 atoms:
-	atom {}
-| atoms wss atom {  }
+ {}		
+|	atom {}
+| atoms newlines atom {  }
 ;
 	
 atom:
 | paragraph		 {}
-|	env_b_definition wss paragraphs wss  env_e_definition    { }
-|	env_b_definition wss error wss  env_e_definition    { }
-| env_b_example wss paragraphs wss  env_e_example    { }
+|	env_b_definition nnewlines paragraphs newlines  env_e_definition    { }
+|	env_b_definition nnewlines error newlines  env_e_definition    { }
+| env_b_example nnewlines paragraphs newlines  env_e_example    { }
 ;
 
