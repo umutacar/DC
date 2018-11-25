@@ -85,7 +85,7 @@ rule token = parse
 
 | p_word as word
 		{printf "_%s_" word; WORD (word)}
-
+		
 | eof
 		{EOF} 		
 		

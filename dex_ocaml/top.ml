@@ -13,9 +13,9 @@ let main () =
 			let ic = In_channel.create filename in
 			try 
         let lexbuf = Lexing.from_channel ic in
-				while true do
-					Parser.chapter Lexer.token lexbuf
-				done
-					
+		  	Parser.chapter Lexer.token lexbuf
       with End_of_file -> exit 0
-let _ = Printexc.print main ()
+    else
+      printf "Usage: top <filename>\n";;			
+					
+let _ = main ()
