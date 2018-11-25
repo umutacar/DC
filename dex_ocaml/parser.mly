@@ -89,6 +89,14 @@ section_heading:
 | HEADING_SECTION O_CURLY words C_CURLY {}
 ;
 
+env_b_definition:
+  ENV_B_DEFINITION { }
+| ENV_B_DEFINITION O_SQ_BRACKET white_spaces words white_spaces O_SQ_BRACKET {}
+;
+
+	
+	
+
 chapter:
 | chapter_heading  EOF {}		
 | chapter_heading white_spaces blocks white_spaces EOF {}
@@ -107,12 +115,12 @@ section:
 
 blocks:
 	block {}
-| block blocks {  }
+| blocks white_spaces block {  }
 ;
 
 block:
 | paragraph		 {}
-|	ENV_B_DEFINITION paragraphs  ENV_E_DEFINITION    { }
+|	env_b_definition white_spaces paragraphs  ENV_E_DEFINITION    { }
 | ENV_B_EXAMPLE paragraphs  ENV_E_EXAMPLE    { }
 ;
 
