@@ -116,19 +116,23 @@ env_e_group:
 
 		
 chapter:
-| chapter_heading  EOF {}		
+| chapter_heading wss  EOF {}		
 | chapter_heading wss blocks wss EOF {}
-| chapter_heading wss blocks sections EOF {}
+| chapter_heading wss sections wss EOF {}		
+| chapter_heading wss error wss EOF {}		
+| chapter_heading wss blocks wss sections wss EOF {}
+| chapter_heading wss error wss sections wss  EOF {}		
+| chapter_heading wss blocks wss error wss  EOF {}		
 ;		
 		
 sections:
   section {}
-| section sections {}
+| sections wss section {}
 ;
 
 section:
   section_heading {}
-| section_heading blocks {}		
+| section_heading wss blocks {}		
   
 
 blocks:
