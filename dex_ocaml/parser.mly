@@ -6,7 +6,7 @@ let parse_error s = printf "Parse Error: %s" s
 
 %token EOF
 %token SPACE TAB NEWLINE
-%token CRITICAL
+%token SEPARATOR
 
 %token <string> WORD
 
@@ -45,12 +45,12 @@ boxes:
 
 /* paragraph */
 paragraph:
-  box boxes CRITICAL
+  box boxes SEPARATOR
 ;		
 
 paragraphs:
 | paragraph	{}
-| paragraphs CRITICAL paragraph {}
+| paragraphs SEPARATOR paragraph {}
 ;
 
 chapter_heading:
@@ -84,21 +84,21 @@ env_e_group:
   ENV_E_GROUP { }
 
 chapter:
-  chapter_heading CRITICAL blocks CRITICAL sections EOF {}
-|	chapter_heading nnewlines sections newlines EOF {}	
+  chapter_heading SEPARATOR blocks SEPARATOR sections EOF {}
+|	chapter_heading SEPARATOR sections SEPARATOR EOF {}	
 ;		
 
 section:
-  section_heading nnewlines blocks {}		
+  section_heading SEPARATOR blocks {}		
 	
 sections:
 | section {}
-| sections newlines section {}
+| sections section {}
 ;
 
 blocks:
 |	block {}
-| blocks nnewlines block {  }
+| blocks SEPARATOR block {  }
 ;
 
 block:
@@ -107,19 +107,18 @@ block:
 ;			
 			
 group:
-  env_b_group nnewlines atoms nnewlines env_e_group {}
+  env_b_group atoms env_e_group {}
 ;
 
 atoms:
  {}		
 |	atom {}
-| atoms newlines atom {  }
+| atoms atom {  }
 ;
 	
 atom:
 | paragraph		 {}
-|	env_b_definition nnewlines paragraphs newlines  env_e_definition    { }
-|	env_b_definition nnewlines error newlines  env_e_definition    { }
-| env_b_example nnewlines paragraphs newlines  env_e_example    { }
+|	env_b_definition paragraphs  env_e_definition    { }
+| env_b_example paragraphs  env_e_example    { }
 ;
 

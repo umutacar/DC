@@ -9,7 +9,7 @@ open Parser
 let __ocaml_lex_tables = {
   Lexing.lex_base =
    "\000\000\237\255\003\000\004\000\251\255\252\255\253\255\254\255\
-    \002\000\007\000\009\000\255\255\021\000\016\000\013\000\020\000\
+    \002\000\007\000\009\000\011\000\021\000\016\000\013\000\020\000\
     \049\000\027\000\042\000\064\000\058\000\065\000\069\000\070\000\
     \078\000\091\000\073\000\124\000\187\000\194\000\215\000\199\000\
     \240\000\220\000\251\000\244\000\005\001\004\001\009\001\015\001\
@@ -26,7 +26,7 @@ let __ocaml_lex_tables = {
     \123\000\239\255";
   Lexing.lex_backtrk =
    "\255\255\255\255\017\000\017\000\255\255\255\255\255\255\255\255\
-    \019\000\017\000\255\255\255\255\017\000\017\000\017\000\017\000\
+    \019\000\017\000\255\255\000\000\017\000\017\000\017\000\017\000\
     \017\000\017\000\017\000\017\000\017\000\017\000\005\000\017\000\
     \017\000\017\000\017\000\017\000\017\000\006\000\017\000\017\000\
     \017\000\017\000\017\000\017\000\017\000\017\000\017\000\007\000\
@@ -43,7 +43,7 @@ let __ocaml_lex_tables = {
     \255\255\255\255";
   Lexing.lex_default =
    "\002\000\000\000\002\000\002\000\000\000\000\000\000\000\000\000\
-    \255\255\002\000\255\255\000\000\002\000\002\000\002\000\002\000\
+    \255\255\002\000\255\255\255\255\002\000\002\000\002\000\002\000\
     \002\000\002\000\002\000\002\000\002\000\002\000\002\000\002\000\
     \002\000\002\000\002\000\002\000\002\000\002\000\002\000\002\000\
     \002\000\002\000\002\000\002\000\002\000\002\000\002\000\002\000\
@@ -61,10 +61,10 @@ let __ocaml_lex_tables = {
   Lexing.lex_trans =
    "\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\000\
     \000\000\009\000\008\000\010\000\011\000\255\255\255\255\000\000\
-    \009\000\010\000\010\000\011\000\000\000\000\000\000\000\255\255\
+    \009\000\010\000\010\000\011\000\010\000\011\000\000\000\255\255\
     \000\000\000\000\255\255\000\000\000\000\000\000\255\255\255\255\
     \009\000\000\000\010\000\000\000\000\000\255\255\000\000\009\000\
-    \000\000\010\000\000\000\000\000\000\000\000\000\000\000\000\000\
+    \000\000\010\000\000\000\010\000\000\000\000\000\000\000\000\000\
     \000\000\000\000\000\000\000\000\255\255\000\000\000\000\000\000\
     \000\000\000\000\000\000\255\255\000\000\000\000\000\000\000\000\
     \000\000\000\000\000\000\000\000\255\255\000\000\000\000\000\000\
@@ -171,10 +171,10 @@ let __ocaml_lex_tables = {
   Lexing.lex_check =
    "\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\255\
     \255\255\000\000\000\000\008\000\008\000\002\000\003\000\255\255\
-    \009\000\009\000\010\000\010\000\255\255\255\255\255\255\014\000\
+    \009\000\009\000\010\000\010\000\011\000\011\000\255\255\014\000\
     \255\255\255\255\013\000\255\255\255\255\255\255\015\000\012\000\
     \000\000\255\255\008\000\255\255\255\255\017\000\255\255\009\000\
-    \255\255\010\000\255\255\255\255\255\255\255\255\255\255\255\255\
+    \255\255\010\000\255\255\011\000\255\255\255\255\255\255\255\255\
     \255\255\255\255\255\255\255\255\018\000\255\255\255\255\255\255\
     \255\255\255\255\255\255\016\000\255\255\255\255\255\255\255\255\
     \255\255\255\255\255\255\255\255\020\000\255\255\255\255\255\255\
@@ -298,171 +298,171 @@ and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =
   match Lexing.engine __ocaml_lex_tables __ocaml_lex_state lexbuf with
       | 0 ->
 let
-# 40 "lexer.mll"
+# 41 "lexer.mll"
                 x
 # 304 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 41 "lexer.mll"
-  (printf "%s" x; token lexbuf)
+# 42 "lexer.mll"
+  (printf "CRITICAL: BEGIN%sEND" x; token lexbuf)
 # 308 "lexer.ml"
 
   | 1 ->
-# 44 "lexer.mll"
+# 45 "lexer.mll"
   (printf "{"; token lexbuf)
 # 313 "lexer.ml"
 
   | 2 ->
-# 46 "lexer.mll"
+# 47 "lexer.mll"
   (printf "}"; token lexbuf)
 # 318 "lexer.ml"
 
   | 3 ->
-# 49 "lexer.mll"
+# 50 "lexer.mll"
   (printf "["; token lexbuf)
 # 323 "lexer.ml"
 
   | 4 ->
-# 51 "lexer.mll"
+# 52 "lexer.mll"
   (printf "]"; token lexbuf)
 # 328 "lexer.ml"
 
   | 5 ->
 let
-# 54 "lexer.mll"
+# 55 "lexer.mll"
                heading
 # 334 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 8) in
-# 55 "lexer.mll"
-   (printf "%s" heading; token lexbuf)
+# 56 "lexer.mll"
+   (printf "\nchapter heading: %s" heading; token lexbuf)
 # 338 "lexer.ml"
 
   | 6 ->
 let
-# 56 "lexer.mll"
+# 57 "lexer.mll"
                heading
 # 344 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 8) in
-# 57 "lexer.mll"
-   (printf "%s" heading; token lexbuf)
+# 58 "lexer.mll"
+   (printf "\nsection heading: %s" heading; token lexbuf)
 # 348 "lexer.ml"
 
   | 7 ->
 let
-# 58 "lexer.mll"
+# 59 "lexer.mll"
                   heading
 # 354 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 11) in
-# 59 "lexer.mll"
+# 60 "lexer.mll"
    (printf "%s" heading; token lexbuf)
 # 358 "lexer.ml"
 
   | 8 ->
 let
-# 60 "lexer.mll"
+# 61 "lexer.mll"
                      heading
 # 364 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 14) in
-# 61 "lexer.mll"
+# 62 "lexer.mll"
    (printf "%s" heading; token lexbuf)
 # 368 "lexer.ml"
 
   | 9 ->
 let
-# 62 "lexer.mll"
+# 63 "lexer.mll"
                  heading
 # 374 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 10) in
-# 63 "lexer.mll"
+# 64 "lexer.mll"
    (printf "%s" heading; token lexbuf)
 # 378 "lexer.ml"
 
   | 10 ->
 let
-# 64 "lexer.mll"
+# 65 "lexer.mll"
                     heading
 # 384 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 13) in
-# 65 "lexer.mll"
+# 66 "lexer.mll"
    (printf "%s" heading; token lexbuf)
 # 388 "lexer.ml"
 
   | 11 ->
 let
-# 67 "lexer.mll"
+# 68 "lexer.mll"
                     begin_atom
 # 394 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 18) in
-# 68 "lexer.mll"
-   (printf "%s" begin_atom; token lexbuf)
+# 69 "lexer.mll"
+   (printf "\natom: %s" begin_atom; token lexbuf)
 # 398 "lexer.ml"
 
   | 12 ->
 let
-# 69 "lexer.mll"
+# 70 "lexer.mll"
                     end_atom
 # 404 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 16) in
-# 70 "lexer.mll"
+# 71 "lexer.mll"
    (printf "%s" end_atom; token lexbuf)
 # 408 "lexer.ml"
 
   | 13 ->
 let
-# 73 "lexer.mll"
+# 74 "lexer.mll"
                  begin_atom
 # 414 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 15) in
-# 74 "lexer.mll"
-   (printf "%s" begin_atom; token lexbuf)
+# 75 "lexer.mll"
+   (printf "\natom: %s" begin_atom; token lexbuf)
 # 418 "lexer.ml"
 
   | 14 ->
 let
-# 75 "lexer.mll"
+# 76 "lexer.mll"
                  end_atom
 # 424 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 13) in
-# 76 "lexer.mll"
+# 77 "lexer.mll"
    (printf "%s" end_atom; token lexbuf)
 # 428 "lexer.ml"
 
   | 15 ->
 let
-# 78 "lexer.mll"
+# 79 "lexer.mll"
                begin_group
 # 434 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 13) in
-# 79 "lexer.mll"
-   (printf "%s" begin_group; token lexbuf)
+# 80 "lexer.mll"
+   (printf "\ngroup: %s" begin_group; token lexbuf)
 # 438 "lexer.ml"
 
   | 16 ->
 let
-# 80 "lexer.mll"
+# 81 "lexer.mll"
                end_group
 # 444 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos (lexbuf.Lexing.lex_start_pos + 11) in
-# 81 "lexer.mll"
+# 82 "lexer.mll"
    (printf "%s" end_group; token lexbuf)
 # 448 "lexer.ml"
 
   | 17 ->
 let
-# 83 "lexer.mll"
+# 84 "lexer.mll"
             word
 # 454 "lexer.ml"
 = Lexing.sub_lexeme lexbuf lexbuf.Lexing.lex_start_pos lexbuf.Lexing.lex_curr_pos in
-# 84 "lexer.mll"
+# 85 "lexer.mll"
   (printf "_%s_" word; token lexbuf)
 # 458 "lexer.ml"
 
   | 18 ->
-# 87 "lexer.mll"
+# 88 "lexer.mll"
   ()
 # 463 "lexer.ml"
 
   | 19 ->
-# 90 "lexer.mll"
+# 91 "lexer.mll"
     (token lexbuf)
 # 468 "lexer.ml"
 
@@ -471,7 +471,7 @@ let
 
 ;;
 
-# 92 "lexer.mll"
+# 93 "lexer.mll"
  
 let main () =
 	let args = Sys.argv in

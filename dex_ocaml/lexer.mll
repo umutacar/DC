@@ -9,7 +9,7 @@ open Parser
 let p_space = ' '
 let p_newline = '\n'
 (* Critical space, two newlines *)
-let p_critical = [' ', '\t']* '\n' [' ', '\t']* '\n' 		
+let p_separator = [' ' '\t']* '\n' ([' ',] '\t']* ['\n'])+ 		
 let p_tab = '\t'				
 let p_o_curly = '{'
 let p_c_curly = '}'
@@ -37,8 +37,8 @@ let p_word = [^ '\n' '{' '}' '[' ']']+
 (** END PATTERNS *)			
 
 rule token = parse
-| p_critical
-		{printf "\n"; CRITICAL}
+| p_separator as x
+		{printf "%s" x; SEPARATOR}
 
 | p_o_curly
 		{printf "{"; O_CURLY}				
