@@ -21,7 +21,7 @@ type(
   unit -> Base.unit
 )
 ident(
-  int_ref Lexer.main "lexer.mll" 95 26062 26066 "lexer.mll" 95 26062 26070
+  int_ref Lexer.main "lexer.mll" 93 22908 22912 "lexer.mll" 93 22908 22916
 )
 "top.ml" 9 98 124 "top.ml" 9 98 126
 type(

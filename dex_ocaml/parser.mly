@@ -6,6 +6,7 @@ let parse_error s = printf "Parse Error: %s" s
 
 %token EOF
 %token SPACE TAB NEWLINE
+%token CRITICAL
 
 %token <string> WORD
 
@@ -29,15 +30,7 @@ let parse_error s = printf "Parse Error: %s" s
 %type <unit> chapter
 %%
 
-newlines:
-  {}
-|	nnewlines {}
-;
-			
-nnewlines:
-  NEWLINE {}
-|	nnewlines NEWLINE {}	
-;
+
 /* a box is the basic unit of composition */
 box:
   WORD  {}
@@ -50,19 +43,14 @@ boxes:
 | boxes box { }
 ;
 
-line:
-  box boxes NEWLINE {}
-;		
-		
 /* paragraph */
 paragraph:
-| line { } 
-| paragraph line { } 		
+  box boxes CRITICAL
 ;		
 
 paragraphs:
 | paragraph	{}
-| paragraphs nnewlines paragraph {}
+| paragraphs CRITICAL paragraph {}
 ;
 
 chapter_heading:
@@ -96,7 +84,7 @@ env_e_group:
   ENV_E_GROUP { }
 
 chapter:
-  chapter_heading nnewlines blocks newlines sections newlines EOF {}
+  chapter_heading CRITICAL blocks CRITICAL sections EOF {}
 |	chapter_heading nnewlines sections newlines EOF {}	
 ;		
 

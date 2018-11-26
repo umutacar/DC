@@ -1,1 +1,1 @@
-lexer.ml: Array Core In_channel Lexing Printf Sys
+lexer.ml: Array Core In_channel Lexing Parser Printf Sys
