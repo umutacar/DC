@@ -53,13 +53,7 @@ boxes:
 | boxes box { }
 ;
 
-sq_boxes:
-  {}
-|	word boxes { }
-|	sq_box boxes { }
-;
-
-curly_boxes:
+boxes_start_no_sq:
   {}
 |	word boxes { }
 |	curly_box boxes { }
@@ -74,12 +68,20 @@ section_heading:
  HEADING_SECTION curly_box {}
 ;
 
+env_b_definition_sq:
+  ENV_B_DEFINITION sq_box {}
+;
+
 env_b_definition:
- ENV_B_DEFINITION sq_box {}
+  ENV_B_DEFINITION {}
 ;
 
 env_e_definition:
   ENV_E_DEFINITION { }
+
+env_b_example_sq:
+ ENV_B_EXAMPLE sq_box {}
+;
 
 env_b_example:
  ENV_B_EXAMPLE sq_box {}
@@ -87,6 +89,10 @@ env_b_example:
 
 env_e_example:
   ENV_E_EXAMPLE { }
+;
+
+env_b_group_sq:
+ ENV_B_GROUP sq_box {}
 ;
 
 env_b_group:
@@ -130,7 +136,9 @@ atoms:
 ;
 	
 atom:
-	env_b_definition curly_boxes env_e_definition   { }
-| env_b_example curly_boxes  env_e_example    { }
+|	env_b_definition boxes_start_no_sq env_e_definition   { }
+|	env_b_definition_sq boxes env_e_definition   { }
+| env_b_example boxes_start_no_sq  env_e_example    { }
+| env_b_example_sq boxes env_e_example    { }
 ;
 
