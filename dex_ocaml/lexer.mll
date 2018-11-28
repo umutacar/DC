@@ -3,6 +3,19 @@ open Core
 open Printf
 open Parser
 
+let sections_list = 
+  [
+   ("chapter", HEADING_CHAPTER),
+   ("section", HEADING_SECTION),
+   ("subsection", HEADING_SUBSECTION),
+   ("subsubsection", HEADING_SUBSUBSECTION),
+   ("paragraph", HEADING_PARAGRAPH),
+   ("subparagraph", HEADING_SUBPARAGRAPH)
+  ]
+
+let sections_table = Hashtbl.create 20                
+let _ = List.iter (fun (kw, tok) -> Hashtbl.add sections_table kw tok) sections_list
+
 }
 
 (** BEGIN: PATTERNS *)	
