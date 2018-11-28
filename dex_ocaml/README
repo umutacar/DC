@@ -1,5 +1,7 @@
 # JOURNAL
 
+- [Nov 28] Working on parameterizing the parser so that we can deal with many different kinds of env tokens and such
+ 
 - [Nov 28] The idea of splitting text into square, curly, and plain boxes ([], {}, rest) seem to work.
 
 - [Thanksgiving Break] 
