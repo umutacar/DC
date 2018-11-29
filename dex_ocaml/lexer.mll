@@ -13,7 +13,7 @@ let sections_list =
    ("subparagraph", HEADING_SUBPARAGRAPH)
   ]
 
-let sections_table = Hashtbl.create 20                
+let sections_table = Hashtbl.create ()
 let _ = List.iter (fun (kw, tok) -> Hashtbl.add sections_table kw tok) sections_list
 
 }
