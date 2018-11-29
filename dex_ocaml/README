@@ -1,5 +1,47 @@
 # JOURNAL
 
+- [Nov 30] I am now investigating whether it would be possible to extend our definiton of words so to include whitespaces. The idea is to tokenize the input at special chars 
+
+\ { } [ ] 
+
+and to include into the tokens all the white space including newlines.
+
+I don't currently see any problem with this.  But we will be playing with it more.
+
+
+- [Nov 30] The approach of splitting text into curly and square boxes has a problem:  it becomes difficult if not impossible to reconstruct the text back.  For example, we can have 
+[something ]
+\{ something else\}
+now when we parse, we lose the spacing and the spacing might matter
+
+  I think I need an more elementary method....
+
+  Next I would like to try the following:
+  Look for patterns of the form 
+  \section{....}
+  or 
+  \begin{env}
+  or
+  \begin{env}[  ]
+
+  the rest should be treated as CHAR's.  
+
+  This parser does not elim white space but is somewhat sensitive to it. 
+
+  In principle the above makes sense but it is difficult to do because we don't know when a paren ends (without parsing more deeply, which is the problem that i am trying to avoid).  So the easiest thing to do is to look for a newline.
+   
+  So look for patterns of the form 
+  \section{....} whitespace \n
+  or 
+  \begin{env} whitespare \n
+  or
+  \begin{env}[  ] whitespace \n
+
+
+  BUT this raises other issues: we can't reliably use the parser anymore.
+
+  
+
 - [Nov 28] Working on parameterizing the parser so that we can deal with many different kinds of env tokens and such
  
 - [Nov 28] The idea of splitting text into square, curly, and plain boxes ([], {}, rest) seem to work.
