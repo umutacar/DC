@@ -10,6 +10,7 @@ let parse_error s = printf "Parse Error: %s" s
 
 %token <string> WORD
 
+%token BACKSLASH
 %token O_CURLY C_CURLY	
 %token O_SQ_BRACKET C_SQ_BRACKET
 
@@ -30,6 +31,11 @@ let parse_error s = printf "Parse Error: %s" s
 %type <unit> chapter
 %%
 
+/* A curly box looks like
+   { word } 
+   { [ word ] { word } ] 
+   etc.  
+*/
 curly_box:
   O_CURLY boxes C_CURLY {}
 ;
@@ -39,6 +45,7 @@ sq_box:
 
 word: 
   WORD {}
+| BACKSLASH WORD {}
 ;
 
 /* a box is the basic unit of composition */
@@ -58,7 +65,6 @@ boxes_start_no_sq:
 |	word boxes { }
 |	curly_box boxes { }
 ;
-
 
 chapter_heading:
  HEADING_CHAPTER curly_box {}

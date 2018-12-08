@@ -1,5 +1,24 @@
 # JOURNAL
 
+- [Dec 7]
+  Resuming the work on the parser.
+  
+I am now investigating whether I can extend our definiton of words so to include whitespaces. The idea is to tokenize the input at special chars 
+
+special characters: \ { } [ ] 
+
+and to include into the tokens all the white space including newlines.
+
+The method I am following is that each non-word token consist of whatever it wants to represent and then is followed by whitespace.
+
+\begin{...} whitespace
+
+the words themselved consist of everything except the special characters above.
+
+
+The issue that I am not taking care of right now is that \ is a special character and words will not catch them.  So I need to account for it when boxing things.
+
+
 - [Nov 30] I am now investigating whether it would be possible to extend our definiton of words so to include whitespaces. The idea is to tokenize the input at special chars 
 
 \ { } [ ] 
