@@ -1,0 +1,147 @@
+# This is a version that is able to parse example.tex and print it back out.
+
+# USAGE
+  To compile run 
+  `$ build.sh`
+
+  To generate the parser try
+  `$ menhir --explain parser.mly`
+  This explains the conflicts.
+  
+  To understand conflicts try
+  `$ menhir --dump --explain parser.mly`
+  and look into file `parser.conflicts` and `parser.automaton`
+
+# JOURNAL
+
+- [Dec 9]
+Got a first version of the parser working. 
+
+There were some shift/reduce conflicts but these were due to the redundant atoms definitions of the form:
+
+atoms : empty | atom | atoms atom
+The middle rule is redundant.  Deleting that rule eliminated the conflicts.
+
+
+- [Dec 8]
+  Resuming the work on the parser.
+  
+I am now investigating whether I can extend our definiton of words so to include whitespaces. The idea is to tokenize the input at special chars 
+
+special characters: \ { } [ ] 
+
+and to include into the tokens all the white space including newlines.
+
+The method I am following is that each non-word token consist of whatever it wants to represent and then is followed by whitespace.
+
+\begin{...} whitespace
+
+the words themselved consist of everything except the special characters above.
+
+
+The issue that I am not taking care of right now is that \ is a special character and words will not catch them.  So I need to account for it when boxing things.
+
+
+- [Nov 30] I am now investigating whether it would be possible to extend our definiton of words so to include whitespaces. The idea is to tokenize the input at special chars 
+
+\ { } [ ] 
+
+and to include into the tokens all the white space including newlines.
+
+I don't currently see any problem with this.  But we will be playing with it more.
+
+
+- [Nov 30] The approach of splitting text into curly and square boxes has a problem:  it becomes difficult if not impossible to reconstruct the text back.  For example, we can have 
+[something ]
+\{ something else\}
+now when we parse, we lose the spacing and the spacing might matter
+
+  I think I need an more elementary method....
+
+  Next I would like to try the following:
+  Look for patterns of the form 
+  \section{....}
+  or 
+  \begin{env}
+  or
+  \begin{env}[  ]
+
+  the rest should be treated as CHAR's.  
+
+  This parser does not elim white space but is somewhat sensitive to it. 
+
+  In principle the above makes sense but it is difficult to do because we don't know when a paren ends (without parsing more deeply, which is the problem that i am trying to avoid).  So the easiest thing to do is to look for a newline.
+   
+  So look for patterns of the form 
+  \section{....} whitespace \n
+  or 
+  \begin{env} whitespare \n
+  or
+  \begin{env}[  ] whitespace \n
+
+
+  BUT this raises other issues: we can't reliably use the parser anymore.
+
+  
+
+- [Nov 28] Working on parameterizing the parser so that we can deal with many different kinds of env tokens and such
+ 
+- [Nov 28] The idea of splitting text into square, curly, and plain boxes ([], {}, rest) seem to work.
+
+- [Thanksgiving Break] 
+
+  - The problem with the whitespace business is that it kills existing parsers.  The current parsers are all LR(1) variants, which means that they can only lookahead one token at a time.  This becomes a problem when taking whitespace into account, because we usually want to allow multiple whitespaces.
+
+  - The files lexer.mll and parser.mly in this directory contain a take on the whitespace problem by uusing two newlines as a "separator" and ignoring whitespace otherwise.  This seems to "work" but it is clunky.  It is far away from the "Line by Line" parsing that I imagined would work nicely.
+
+  - I think I will have to take a different take on this.  I see two options
+1)  One way would be to write our own lexer that does the line by line parsing directly rather than relying on a parser, which is a bit rigid... 
+2) Another way is to give up on the reliance on white space and write a superficial parser at the level of "boxes" consisting of words {box} and [box] objects and define a superficial grammar for diderot latex at this level.  This should be feasible.  One issue is the ambiguity in things like this, but should be fixable.  
+\begin{example}[title][body] is ambigous because [title][body] can also be legal body.  We need a way to disambiguate this.
+
+this approach has the disadvantage of not being able to deal with paragraphs but maybe i can deal with that by using two lines as breakers.  The problem with that though is that i have to account for it everywhere, which becomes annoying but it might be feasible.  another way to deal with this to write a separate simple "translator" that can gramify paragraphs.  
+
+
+
+# Overview
+
+The basic idea I am following here is to parse the document superficially, so superficially that we only want to care about what we need to identify blocks.  The rest, we treat them as blobs of text.
+
+Specificially the lexer will break up the document into words and also keep the newlines and other spaces.  The parser will then extract what it needs and put the rest together.
+
+Note: I had initially hoped that I could get away by parsing things only at the level of the lines but I decided agains it because I still have to parse arguments in curly braces and in square brackets.  This might get all too complicated by I am hoping to make it work. 
+
+# DEBUG
+Turn this on to see the various parser steps.
+$ export OCAMLRUNPARAM='p'
+
+
+
+# Lexer
+
+We are going to breax the text into tokens consisting of
+1) spaces and special characters
+- white space
+- open close curly { }
+- open close square [ ] 
+
+2) various headings
+- latex headings
+- \begin{atom} \end{atom}, for all atoms
+- \begin{group} \end{group}
+- 
+
+3) words will be the rest
+
+The hope is that we will be able to put everything back together in the parser, except for the parts that we care about.
+
+# OCAML 
+
+## Commands for building using ocamlbuild
+$ ocamlbuild -use-ocamlfind -quiet top.native
+
+##  Commands for hand compiling
+$ ocamllex lexer.mll
+$ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
+$ lexer.native
+
