@@ -1,3 +1,15 @@
+# USAGE
+  To compile run 
+  `$ build.sh`
+
+  To generate the parser try
+  `$ menhir --explain parser.mly`
+  This explains the conflicts.
+  
+  To understand conflicts try
+  `$ menhir --dump --explain parser.mly`
+  and look into file `parser.conflicts` and `parser.automaton`
+
 # JOURNAL
 
 - [Dec 7]
