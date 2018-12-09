@@ -5,30 +5,28 @@ let parse_error s = printf "Parse Error: %s" s
 
 
 %token EOF
-%token SPACE TAB NEWLINE
-%token SEPARATOR
 
 %token <string> WORD
 
-%token BACKSLASH
-%token O_CURLY C_CURLY	
-%token O_SQ_BRACKET C_SQ_BRACKET
+%token <string> BACKSLASH
+%token <string> O_CURLY C_CURLY	
+%token <string> O_SQ_BRACKET C_SQ_BRACKET
 
 	
-%token HEADING_CHAPTER
-%token HEADING_SECTION
-%token HEADING_SUBSECTION
-%token HEADING_SUBSUBSECTION	
-%token HEADING_PARAGRAPH	
-%token HEADING_SUBPARAGRAPH
+%token <string> HEADING_CHAPTER
+%token <string> HEADING_SECTION
+%token <string> HEADING_SUBSECTION
+%token <string> HEADING_SUBSUBSECTION	
+%token <string> HEADING_PARAGRAPH	
+%token <string> HEADING_SUBPARAGRAPH
 
-%token ENV_B_GROUP ENV_E_GROUP
-%token ENV_B_DEFINITION ENV_E_DEFINITION
-%token ENV_B_EXAMPLE ENV_E_EXAMPLE
+%token <string> ENV_B_GROUP ENV_E_GROUP
+%token <string> ENV_B_DEFINITION ENV_E_DEFINITION
+%token <string> ENV_B_EXAMPLE ENV_E_EXAMPLE
 
 	
 %start chapter
-%type <unit> chapter
+%type <string> chapter
 %%
 
 /* A curly box looks like
@@ -37,115 +35,151 @@ let parse_error s = printf "Parse Error: %s" s
    etc.  
 */
 curly_box:
-  O_CURLY boxes C_CURLY {}
-;
+  o = O_CURLY;  b = boxes;  c = C_CURLY 
+  {o ^ b ^ c}
+
+
 sq_box:
-  O_SQ_BRACKET boxes C_SQ_BRACKET {}
-;
+  o = O_SQ_BRACKET; b = boxes;  c = C_SQ_BRACKET 
+  {o ^ b ^ c}
 
 word: 
-  WORD {}
-| BACKSLASH WORD {}
-;
+  w = WORD 
+  {w}
+| b = BACKSLASH w = WORD
+  {b ^ w}
 
 /* a box is the basic unit of composition */
 box:
-  word {}
-| curly_box {}
-| sq_box {}
-;	
+  w = word 
+  {w}
+| b = curly_box 
+  {b}
+| b = sq_box 
+  {b}
+
 
 boxes:
-  {}
-| boxes box { }
-;
+  {""}
+| bs = boxes; b = box
+  {bs ^ b }
+
 
 boxes_start_no_sq:
-  {}
-|	word boxes { }
-|	curly_box boxes { }
-;
+  {""}
+|	w = word; bs = boxes
+  {w ^ bs}
+|	b = curly_box; bs = boxes
+  {b ^ bs }
+
 
 chapter_heading:
- HEADING_CHAPTER curly_box {}
-;
+  hc = HEADING_CHAPTER; b = curly_box 
+  {hc ^ b}
+
 
 section_heading:
- HEADING_SECTION curly_box {}
-;
+  hs = HEADING_SECTION; b = curly_box 
+  {hs ^ b}
+
 
 env_b_definition_sq:
-  ENV_B_DEFINITION sq_box {}
-;
+  hb = ENV_B_DEFINITION; b = sq_box
+  {hb ^ b}
+
 
 env_b_definition:
-  ENV_B_DEFINITION {}
-;
+  hb = ENV_B_DEFINITION; 
+  {hb}
+
 
 env_e_definition:
-  ENV_E_DEFINITION { }
+  he = ENV_E_DEFINITION
+  {he}
+
 
 env_b_example:
- ENV_B_EXAMPLE sq_box {}
-;
+  hb = ENV_B_EXAMPLE; b = sq_box
+  {hb ^ b}
+
 
 env_b_example_sq:
- ENV_B_EXAMPLE sq_box {}
-;
+  hb = ENV_B_EXAMPLE; s = sq_box
+  {hb ^ s}
+
 
 env_e_example:
-  ENV_E_EXAMPLE { }
-;
+  he = ENV_E_EXAMPLE
+  {he}
+
 
 env_b_group:
- ENV_B_GROUP {}
-;
+  hb = ENV_B_GROUP
+  {hb}
+
 
 env_b_group_sq:
- ENV_B_GROUP sq_box {}
-;
+  hb = ENV_B_GROUP
+  b = sq_box
+  {hb ^ b}
+
 
 env_e_group:
-  ENV_E_GROUP { }
+  he = ENV_E_GROUP
+  {he}
 
 chapter:
-  chapter_heading blocks sections EOF {}
-|	chapter_heading sections EOF {}	
-;		
+  hc = chapter_heading; bs = blocks; ss = sections; EOF 
+  {hc ^ bs ^ ss}
+|	hc = chapter_heading; ss = sections; EOF
+  {hc ^ ss};		
 
-section:
-  section_heading blocks {}		
+section: 
+  hc = section_heading; bs = blocks
+  {hc ^ bs}		
 	
 sections:
-| section {}
-| sections section {}
-;
+| s = section; {s}
+| ss = sections; s = section
+  {ss ^ s}
+
 
 blocks:
-|	block {}
-| blocks block {  }
-;
+	b = block 
+  {b}
+| bs = blocks; b = block
+  {bs ^ b}
+
 
 block:
-	atom {}
-| group {}
-;			
+	a = atom
+  {a}
+| g = group
+  {g}
+
 			
 group:
-  env_b_group atoms env_e_group {}
-| env_b_group_sq atoms env_e_group {}
-;
+  hb = env_b_group; ats = atoms; he = env_e_group
+  {hb ^ ats ^ he}
+| hb = env_b_group_sq; ats = atoms; he = env_e_group
+  {hb ^ ats ^ he}
+
 
 atoms:
- {}		
-|	atom {}
-| atoms atom {  }
-;
+ {""}		
+|	a = atom 
+  {a}
+| ats = atoms; a = atom
+  {ats ^ a}
+
 	
 atom:
-|	env_b_definition boxes_start_no_sq env_e_definition   { }
-|	env_b_definition_sq boxes env_e_definition   { }
-| env_b_example boxes_start_no_sq  env_e_example    { }
-| env_b_example_sq boxes env_e_example    { }
-;
+	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
+  {hb ^ bs ^ he }
+|	hb = env_b_definition_sq; bs = boxes; he = env_e_definition
+  {hb ^ bs ^ he}
+| hb = env_b_example; bs = boxes_start_no_sq;  he = env_e_example
+  {hb ^ bs ^ he}
+| hb = env_b_example_sq; bs = boxes; he = env_e_example
+  {hb ^ bs ^ he}
 

@@ -39,50 +39,50 @@ let p_word = [^ '\\' '{' '}' '[' ']']+
 (** END PATTERNS *)			
 
 rule token = parse
-| p_backslash 
-		{printf "!matched: \\."; BACKSLASH}				
-| p_o_curly
-		{printf "!matched: {."; O_CURLY}				
-| p_c_curly
-		{printf "!matched: }.\n"; C_CURLY}				
+| p_backslash as x
+		{printf "!matched: \\."; BACKSLASH(x)}				
+| p_o_curly as x
+		{printf "!matched: {."; O_CURLY(x)}				
+| p_c_curly as x
+		{printf "!matched: }.\n"; C_CURLY(x)}				
 
 
-| p_o_sq_bracket
-		{printf "!matched: [."; O_SQ_BRACKET}				
-| p_c_sq_bracket
-		{printf "!matched: ].\n"; C_SQ_BRACKET}				
+| p_o_sq_bracket as x
+		{printf "!matched: [."; O_SQ_BRACKET(x)}				
+| p_c_sq_bracket as x
+		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
 		
 		
-| p_chapter as heading
-  	{printf "!matched %s." heading; HEADING_CHAPTER}		
-| p_section as heading
-  	{printf "!matched: %s." heading; HEADING_SECTION}		
-| p_subsection as heading
-  	{printf "!matched: %s." heading; HEADING_SUBSECTION}
-| p_subsubsection as heading
-  	{printf "!matched: %s." heading; HEADING_SUBSUBSECTION}
-| p_paragraph as heading
-  	{printf "!matched: %s." heading; HEADING_PARAGRAPH}				
-| p_subparagraph as heading
-  	{printf "!matched: %s." heading; HEADING_SUBPARAGRAPH}		
-| p_b_definition as begin_atom
-  	{printf "!matched: %s. " begin_atom; ENV_B_DEFINITION}		
-| p_e_definition as end_atom
-  	{printf "!matched: %s." end_atom; ENV_E_DEFINITION}
+| p_chapter as x
+  	{printf "!matched %s." x; HEADING_CHAPTER(x)}		
+| p_section as x
+  	{printf "!matched: %s." x; HEADING_SECTION(x)}		
+| p_subsection as x
+  	{printf "!matched: %s." x; HEADING_SUBSECTION(x)}
+| p_subsubsection as x
+  	{printf "!matched: %s." x; HEADING_SUBSUBSECTION(x)}
+| p_paragraph as x
+  	{printf "!matched: %s." x; HEADING_PARAGRAPH(x)}				
+| p_subparagraph as x
+  	{printf "!matched: %s." x; HEADING_SUBPARAGRAPH(x)}		
+| p_b_definition as x
+  	{printf "!matched: %s. " x; ENV_B_DEFINITION(x)}		
+| p_e_definition as x
+  	{printf "!matched: %s." x; ENV_E_DEFINITION(x)}
 
 
-| p_b_example as begin_atom
-  	{printf "!matched: %s." begin_atom; ENV_B_EXAMPLE}		
-| p_e_example as end_atom
-  	{printf "!matched: %s." end_atom; ENV_E_EXAMPLE}
+| p_b_example as x
+  	{printf "!matched: %s." x; ENV_B_EXAMPLE(x)}		
+| p_e_example as x
+  	{printf "!matched: %s." x; ENV_E_EXAMPLE(x)}
 
-| p_b_group as begin_group
-  	{printf "!matched: %s." begin_group; ENV_B_GROUP}		
-| p_e_group as end_group
-  	{printf "!matched: %s." end_group; ENV_E_GROUP}
+| p_b_group as x
+  	{printf "!matched: %s." x; ENV_B_GROUP(x)}		
+| p_e_group as x
+  	{printf "!matched: %s." x; ENV_E_GROUP(x)}
 
-| p_word as word
-		{printf "!matched word: %s." word; WORD (word)}
+| p_word as x
+		{printf "!matched word: %s." x; WORD (x)}
 		
 | eof
 		{EOF}
