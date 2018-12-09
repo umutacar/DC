@@ -83,14 +83,14 @@ section_heading:
   {hs ^ b}
 
 
-env_b_definition_sq:
-  hb = ENV_B_DEFINITION; b = sq_box
-  {hb ^ b}
-
-
 env_b_definition:
   hb = ENV_B_DEFINITION; 
   {hb}
+
+
+env_b_definition_sq:
+  hb = ENV_B_DEFINITION; b = sq_box
+  {hb ^ b}
 
 
 env_e_definition:
@@ -99,13 +99,13 @@ env_e_definition:
 
 
 env_b_example:
-  hb = ENV_B_EXAMPLE; b = sq_box
-  {hb ^ b}
+  hb = ENV_B_EXAMPLE
+  {hb}
 
 
 env_b_example_sq:
-  hb = ENV_B_EXAMPLE; s = sq_box
-  {hb ^ s}
+  hb = ENV_B_EXAMPLE; b = sq_box
+  {hb ^ b}
 
 
 env_e_example:
@@ -167,8 +167,6 @@ group:
 
 atoms:
  {""}		
-|	a = atom 
-  {a}
 | ats = atoms; a = atom
   {ats ^ a}
 

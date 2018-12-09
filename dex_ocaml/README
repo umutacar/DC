@@ -12,7 +12,16 @@
 
 # JOURNAL
 
-- [Dec 7]
+- [Dec 9]
+Got a first version of the parser working. 
+
+There were some shift/reduce conflicts but these were due to the redundant atoms definitions of the form:
+
+atoms : empty | atom | atoms atom
+The middle rule is redundant.  Deleting that rule eliminated the conflicts.
+
+
+- [Dec 8]
   Resuming the work on the parser.
   
 I am now investigating whether I can extend our definiton of words so to include whitespaces. The idea is to tokenize the input at special chars 
