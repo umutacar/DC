@@ -12,7 +12,16 @@
 
 # JOURNAL
 
-- [Dec 9]
+
+- [Dec 9, evening]
+
+Working on develeping the AST.  Set up the AST and generated it. Next step is to write some traversal functions over AST.  First one should reconstruct the originial text.
+
+
+- [Dec 9, morning]
+
+
+
 Got a first version of the parser working. 
 
 There were some shift/reduce conflicts but these were due to the redundant atoms definitions of the form:
