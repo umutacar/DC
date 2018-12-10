@@ -1,6 +1,10 @@
 %{
+open Core
 open Printf
-let parse_error s = printf "Parse Error: %s" s
+
+let parse_error s = printf "Parse Error: %s"
+let atom_kind_definition = "definition"
+let atom_kind_example = "definition"
 %}	
 
 
@@ -23,10 +27,14 @@ let parse_error s = printf "Parse Error: %s" s
 %token <string> ENV_B_GROUP ENV_E_GROUP
 %token <string> ENV_B_DEFINITION ENV_E_DEFINITION
 %token <string> ENV_B_EXAMPLE ENV_E_EXAMPLE
-
 	
 %start chapter
-%type <string> chapter
+%type <Ast.chapter> chapter
+%type <Ast.section> section
+%type <Ast.section List.t> sections
+%type <Ast.group> group
+%type <Ast.atom> atom
+
 %%
 
 /* A curly box looks like
@@ -36,12 +44,13 @@ let parse_error s = printf "Parse Error: %s" s
 */
 curly_box:
   o = O_CURLY;  b = boxes;  c = C_CURLY 
-  {o ^ b ^ c}
+  {(o, b, c)}
 
 
 sq_box:
   o = O_SQ_BRACKET; b = boxes;  c = C_SQ_BRACKET 
-  {o ^ b ^ c}
+  {(o, b, c)}
+
 
 word: 
   w = WORD 
@@ -49,14 +58,15 @@ word:
 | b = BACKSLASH w = WORD
   {b ^ w}
 
+
 /* a box is the basic unit of composition */
 box:
   w = word 
   {w}
 | b = curly_box 
-  {b}
+  {let (bo, bb, bc) = b in bo ^ bb ^ bc}
 | b = sq_box 
-  {b}
+  {let (bo, bb, bc) = b in bo ^ bb ^ bc}
 
 
 boxes:
@@ -65,22 +75,23 @@ boxes:
   {bs ^ b }
 
 
+/* This is a sequence of boxes where the first box must not be square. */
 boxes_start_no_sq:
   {""}
 |	w = word; bs = boxes
   {w ^ bs}
 |	b = curly_box; bs = boxes
-  {b ^ bs }
+  {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
 
 
 chapter_heading:
   hc = HEADING_CHAPTER; b = curly_box 
-  {hc ^ b}
+  {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
 
 section_heading:
   hs = HEADING_SECTION; b = curly_box 
-  {hs ^ b}
+  {let (bo, bb, bc) = b in (hs ^ bo ^ bb ^ bc, bb) }
 
 
 env_b_definition:
@@ -89,8 +100,8 @@ env_b_definition:
 
 
 env_b_definition_sq:
-  hb = ENV_B_DEFINITION; b = sq_box
-  {hb ^ b}
+  hb = ENV_B_DEFINITION; b =  sq_box
+  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
 
 
 env_e_definition:
@@ -105,7 +116,7 @@ env_b_example:
 
 env_b_example_sq:
   hb = ENV_B_EXAMPLE; b = sq_box
-  {hb ^ b}
+  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
 
 
 env_e_example:
@@ -119,9 +130,8 @@ env_b_group:
 
 
 env_b_group_sq:
-  hb = ENV_B_GROUP
-  b = sq_box
-  {hb ^ b}
+  hb = ENV_B_GROUP; b = sq_box
+  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
 
 
 env_e_group:
@@ -129,55 +139,53 @@ env_e_group:
   {he}
 
 chapter:
-  hc = chapter_heading; bs = blocks; ss = sections; EOF 
-  {hc ^ bs ^ ss}
-|	hc = chapter_heading; ss = sections; EOF
-  {hc ^ ss};		
+  h = chapter_heading; bs = blocks; ss = sections; EOF 
+  {let (hc, t) = h in Ast.Chapter(t, hc, bs, ss)}
+|	h =  chapter_heading; ss = sections; EOF
+  {let (hc, t) = h in Ast.Chapter (t, hc, [], ss)}		
 
 section: 
-  hc = section_heading; bs = blocks
-  {hc ^ bs}		
+  h = section_heading; bs = blocks
+  {let (hc, t) = h in Ast.Section(t, hc, bs)}		
 	
 sections:
-| s = section; {s}
+| s = section; {[s]}
 | ss = sections; s = section
-  {ss ^ s}
+  {List.append ss [s]}
 
 
 blocks:
 	b = block 
-  {b}
+  {[b]}
 | bs = blocks; b = block
-  {bs ^ b}
+  {List.append bs [b]}
 
 
 block:
 	a = atom
-  {a}
+  {Ast.Block_Atom a}
 | g = group
-  {g}
+  {Ast.Block_Group g}
 
 			
 group:
   hb = env_b_group; ats = atoms; he = env_e_group
-  {hb ^ ats ^ he}
+  {Ast.Group (None, hb, ats, he)}
 | hb = env_b_group_sq; ats = atoms; he = env_e_group
-  {hb ^ ats ^ he}
-
+  {let (hb, t) = hb in Ast.Group (Some t, hb, ats, he)}
 
 atoms:
- {""}		
+  {[]}		
 | ats = atoms; a = atom
-  {ats ^ a}
+  { List.append ats [a] }
 
 	
 atom:
 	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
-  {hb ^ bs ^ he }
+  { Atom (atom_kind_definition, None, hb, bs, he) }
 |	hb = env_b_definition_sq; bs = boxes; he = env_e_definition
-  {hb ^ bs ^ he}
+  {let (hb, t) = hb in Atom (atom_kind_definition, Some t, hb, bs, he) }
 | hb = env_b_example; bs = boxes_start_no_sq;  he = env_e_example
-  {hb ^ bs ^ he}
+  { Atom (atom_kind_example, None, hb, bs, he) }
 | hb = env_b_example_sq; bs = boxes; he = env_e_example
-  {hb ^ bs ^ he}
-
+  { let (hb, t) = hb in Atom (atom_kind_example, Some t, hb, bs, he) }
