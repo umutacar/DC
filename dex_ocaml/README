@@ -10,7 +10,13 @@
   `$ menhir --dump --explain parser.mly`
   and look into file `parser.conflicts` and `parser.automaton`
 
+#  TODO
+ 
+Next: flesh out the atoms and the section structure.  see if you can lex and prase one of 15210 chapters.
+
 # JOURNAL
+
+
 
 - [Dec 11, morning]
 
@@ -20,6 +26,7 @@ Next steps are to start fleshing out the parser to include the full language.
 
 To this end, the first thing I should figure out is whether I can deal with all the atoms in one swoop by using some kind of keywording mechanism so that we can keep the grammar neat and compact.
 
+Ok. I have figured out how to deal with atoms by using a keyword hash table.  This is a good place to stop.  The next thing to do is to 
 
 
 - [Dec 9, evening]
