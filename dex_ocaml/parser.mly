@@ -99,46 +99,19 @@ section_heading:
 
 
 env_begin:
-  KW_BEGIN; O_CURLY; a = ATOM; C_CURLY 
-  {("\\begin" ^ "{" ^ a ^ "}", a)}
+  KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY 
+  {("\\begin" ^ co ^ a ^ cc, a)}
 
 env_begin_sq:
-  KW_BEGIN; O_CURLY; a = ATOM; C_CURLY; b =  sq_box 
+  KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY; b =  sq_box 
   {let (bo, bb, bc) = b in 
-   let hb = "\\begin" ^ "{" ^ a ^ "}" in
-     (hb ^  bo ^ bb ^ bc, a, bb)}
+   let hb = "\\begin" ^ co ^ a ^ cc in
+     (hb ^  bo ^ bb ^ bc, a, bb)
+  }
 
 env_end:
-  KW_END; O_CURLY; a = ATOM; C_CURLY 
-  {"\\end" ^ "{" ^ a ^ "}"}
-
-env_b_definition:
-  hb = ENV_B_DEFINITION; 
-  {hb}
-
-env_b_definition_sq:
-  hb = ENV_B_DEFINITION; b =  sq_box
-  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
-
-
-env_e_definition:
-  he = ENV_E_DEFINITION
-  {he}
-
-
-env_b_example:
-  hb = ENV_B_EXAMPLE
-  {hb}
-
-
-env_b_example_sq:
-  hb = ENV_B_EXAMPLE; b = sq_box
-  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
-
-
-env_e_example:
-  he = ENV_E_EXAMPLE
-  {he}
+  KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
+  {"\\end" ^ co ^ a ^ cc}
 
 
 env_b_group:
