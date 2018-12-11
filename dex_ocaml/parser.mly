@@ -10,7 +10,9 @@ let atom_kind_example = "example"
 
 %token EOF
 
+%token <string> ATOM
 %token <string> WORD
+
 
 %token <string> BACKSLASH
 %token <string> O_CURLY C_CURLY	
@@ -23,6 +25,8 @@ let atom_kind_example = "example"
 %token <string> HEADING_SUBSUBSECTION	
 %token <string> HEADING_PARAGRAPH	
 %token <string> HEADING_SUBPARAGRAPH
+
+%token KW_BEGIN KW_END
 
 %token <string> ENV_B_GROUP ENV_E_GROUP
 %token <string> ENV_B_DEFINITION ENV_E_DEFINITION
@@ -94,10 +98,23 @@ section_heading:
   {let (bo, bb, bc) = b in (hs ^ bo ^ bb ^ bc, bb) }
 
 
+env_begin:
+  KW_BEGIN; O_CURLY; a = ATOM; C_CURLY 
+  {("\\begin" ^ "{" ^ a ^ "}", a)}
+
+env_begin_sq:
+  KW_BEGIN; O_CURLY; a = ATOM; C_CURLY; b =  sq_box 
+  {let (bo, bb, bc) = b in 
+   let hb = "\\begin" ^ "{" ^ a ^ "}" in
+     (hb ^  bo ^ bb ^ bc, a, bb)}
+
+env_end:
+  KW_END; O_CURLY; a = ATOM; C_CURLY 
+  {"\\end" ^ "{" ^ a ^ "}"}
+
 env_b_definition:
   hb = ENV_B_DEFINITION; 
   {hb}
-
 
 env_b_definition_sq:
   hb = ENV_B_DEFINITION; b =  sq_box
@@ -181,7 +198,16 @@ atoms:
 
 	
 atom:
-	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
+| hbk = env_begin; bs = boxes_start_no_sq; he = env_end
+  {let (hb, kind) = hbk in
+     Atom (kind, None, hb, bs, he) 
+  }
+| hbkt = env_begin_sq; bs = boxes; he = env_end
+  {let (hb, kind, title) = hbkt in
+     Atom (kind, Some title, hb, bs, he) 
+  }
+/*
+|	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
   { Atom (atom_kind_definition, None, hb, bs, he) }
 |	hb = env_b_definition_sq; bs = boxes; he = env_e_definition
   {let (hb, t) = hb in Atom (atom_kind_definition, Some t, hb, bs, he) }
@@ -189,3 +215,4 @@ atom:
   { Atom (atom_kind_example, None, hb, bs, he) }
 | hb = env_b_example_sq; bs = boxes; he = env_e_example
   { let (hb, t) = hb in Atom (atom_kind_example, Some t, hb, bs, he) }
+*/

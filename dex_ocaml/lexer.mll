@@ -3,6 +3,18 @@ open Core
 open Printf
 open Parser
 
+let atom_definition = "definition"
+let atom_example = "example"
+
+let atom_list = 
+  [
+   ("definition", atom_definition);
+   ("example", atom_example)
+  ]
+
+let atom_table = String.Table.create () ~size:512 
+let _ = List.iter ~f:(fun (key, data) -> Hashtbl.set atom_table ~key ~data) atom_list
+
 }
 
 (** BEGIN: PATTERNS *)	
@@ -34,6 +46,8 @@ let p_e_example = '\\' "end{example}" p_ws
 let p_b_group = '\\' "begin{group}" p_ws	
 let p_e_group = '\\' "end{group}" p_ws
 
+let p_begin = '\\' "begin"				
+let p_end = '\\' "end"				
 
 let p_word = [^ '\\' '{' '}' '[' ']']+ 
 (** END PATTERNS *)			
@@ -46,13 +60,11 @@ rule token = parse
 | p_c_curly as x
 		{printf "!matched: }.\n"; C_CURLY(x)}				
 
-
 | p_o_sq_bracket as x
 		{printf "!matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
 		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
-		
-		
+				
 | p_chapter as x
   	{printf "!matched %s." x; HEADING_CHAPTER(x)}		
 | p_section as x
@@ -65,16 +77,11 @@ rule token = parse
   	{printf "!matched: %s." x; HEADING_PARAGRAPH(x)}				
 | p_subparagraph as x
   	{printf "!matched: %s." x; HEADING_SUBPARAGRAPH(x)}		
-| p_b_definition as x
-  	{printf "!matched: %s. " x; ENV_B_DEFINITION(x)}		
-| p_e_definition as x
-  	{printf "!matched: %s." x; ENV_E_DEFINITION(x)}
 
-
-| p_b_example as x
-  	{printf "!matched: %s." x; ENV_B_EXAMPLE(x)}		
-| p_e_example as x
-  	{printf "!matched: %s." x; ENV_E_EXAMPLE(x)}
+| p_begin as x
+  	{printf "%s" x; KW_BEGIN}		
+| p_end as x
+  	{printf "%s" x; KW_END}		
 
 | p_b_group as x
   	{printf "!matched: %s." x; ENV_B_GROUP(x)}		
@@ -82,7 +89,11 @@ rule token = parse
   	{printf "!matched: %s." x; ENV_E_GROUP(x)}
 
 | p_word as x
-		{printf "!matched word: %s." x; WORD (x)}
+		{printf "!found word: %s." x;
+     match (Hashtbl.find atom_table x) with 
+     | None -> printf "!matched word: %s." x; WORD (x)
+     | Some y ->  printf "!found atom: %s." y; ATOM(y)
+    }
 		
 | eof
 		{EOF}
