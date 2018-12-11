@@ -21,6 +21,9 @@ let map_concat f xs =
   let result = List.fold_left (fun result x -> result ^ x) "" xs_s in
     result
 
+(**********************************************************************
+ ** BEGIN: AST To String
+ **********************************************************************)
 let atomToString (Atom(kind, topt, hb, ab, he)) = 
   match topt with
   | None -> hb ^ ab ^ he
@@ -37,7 +40,7 @@ let blockToString b =
   | Block_Group g -> groupToString g
   | Block_Atom a -> atomToString a
 
-let rec sectionToString (Section (t, h, bs)) =
+let sectionToString (Section (t, h, bs)) =
   let blocks = map_concat blockToString bs in
     h ^ blocks
 
@@ -46,6 +49,37 @@ let chapterToString (Chapter (t, h, bs, ss)) =
   let sections = map_concat sectionToString ss in
     h ^ blocks ^ sections
 
+(**********************************************************************
+ ** END: AST To String
+ **********************************************************************)
+
+(**********************************************************************
+ ** BEGIN: AST To LaTeX
+ **********************************************************************)
+let atomToTex (Atom(kind, topt, hb, ab, he)) = 
+  hb ^ ab ^ he
+
+let groupToTex (Group(topt, hb, ats, he)) = 
+  let atoms = map_concat atomToTex ats in
+    hb ^ atoms ^ he
+
+let blockToTex b = 
+  match b with
+  | Block_Group g -> groupToTex g
+  | Block_Atom a -> atomToTex a
+
+let sectionToTex (Section (t, h, bs)) =
+  let blocks = map_concat blockToTex bs in
+    h ^ blocks
+
+let chapterToTex (Chapter (t, h, bs, ss)) =
+  let blocks = map_concat blockToTex bs in
+  let sections = map_concat sectionToTex ss in
+    h ^ blocks ^ sections
+
+(**********************************************************************
+ ** END: AST To LaTeX
+ **********************************************************************)
 
 
 

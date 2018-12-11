@@ -4,7 +4,7 @@ open Printf
 
 let parse_error s = printf "Parse Error: %s"
 let atom_kind_definition = "definition"
-let atom_kind_example = "definition"
+let atom_kind_example = "example"
 %}	
 
 
