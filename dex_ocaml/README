@@ -23,7 +23,7 @@ Next: flesh out the atoms and the section structure.  see if you can lex and pra
   * Copied over star contraction chapter and will try to make it through the parser.
   * Fleshed out atoms and the atom structure.
 
-  * Added support for labeles into AST and chapters.  
+  * Added support for labeles into AST, chapters, and sections.  
 
 
 - [Dec 11, morning]
