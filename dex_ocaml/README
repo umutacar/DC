@@ -11,11 +11,12 @@
   and look into file `parser.conflicts` and `parser.automaton`
 
 #  TODO
- 
-Next: flesh out the section structure.  see if you can lex and prase one of 15210 chapters.
-  * Use menhir options to simplify grammar
-  * Need to deal with latex keywords that we don't care about such as \begin{center} \end{center}
+   * Need to deal with latex keywords that we don't care about such as \begin{center} \end{center}, likewise things like \includegraphics.
+
   * Do we need to deal with comments?
+
+  *  flesh out the section structure.  see if you can lex and prase one of 15210 chapters.
+  * Use menhir options to simplify grammar
 
 # JOURNAL
 
