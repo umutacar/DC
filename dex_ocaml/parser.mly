@@ -1,10 +1,9 @@
 %{
 open Core
 open Printf
+open Atoms
 
 let parse_error s = printf "Parse Error: %s"
-let atom_kind_definition = "definition"
-let atom_kind_example = "example"
 %}	
 
 
@@ -179,13 +178,16 @@ atom:
   {let (hb, kind, title) = hbkt in
      Atom (kind, Some title, hb, bs, he) 
   }
+
+
+
 /*
 |	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
-  { Atom (atom_kind_definition, None, hb, bs, he) }
+  { Atom (atom_definition, None, hb, bs, he) }
 |	hb = env_b_definition_sq; bs = boxes; he = env_e_definition
-  {let (hb, t) = hb in Atom (atom_kind_definition, Some t, hb, bs, he) }
+  {let (hb, t) = hb in Atom (atom_definition, Some t, hb, bs, he) }
 | hb = env_b_example; bs = boxes_start_no_sq;  he = env_e_example
-  { Atom (atom_kind_example, None, hb, bs, he) }
+  { Atom (atom_example, None, hb, bs, he) }
 | hb = env_b_example_sq; bs = boxes; he = env_e_example
-  { let (hb, t) = hb in Atom (atom_kind_example, Some t, hb, bs, he) }
+  { let (hb, t) = hb in Atom (atom_example, Some t, hb, bs, he) }
 */

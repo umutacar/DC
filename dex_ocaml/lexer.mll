@@ -2,18 +2,10 @@
 open Core
 open Printf
 open Parser
-
-let atom_definition = "definition"
-let atom_example = "example"
-
-let atom_list = 
-  [
-   ("definition", atom_definition);
-   ("example", atom_example)
-  ]
+open Atoms
 
 let atom_table = String.Table.create () ~size:512 
-let _ = List.iter ~f:(fun (key, data) -> Hashtbl.set atom_table ~key ~data) atom_list
+let _ = List.iter ~f:(fun (key, data) -> Hashtbl.set atom_table ~key ~data) all_atoms
 
 }
 
@@ -28,6 +20,7 @@ let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_ws
 let p_o_sq_bracket = '[' p_ws
 let p_c_sq_bracket = ']' p_ws											
+
 												 
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws

@@ -16,7 +16,11 @@ Next: flesh out the atoms and the section structure.  see if you can lex and pra
 
 # JOURNAL
 
+- [Dec 12, morning]
+  * Copied over star contraction chapter and will try to make it through the parser.
+  * Fleshed out atoms and the atom structure.
 
+  * Next todo: i have to figure out how to deal with labels and comments
 
 - [Dec 11, morning]
 
