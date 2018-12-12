@@ -167,10 +167,10 @@ block:
 			
 /* BEGIN: Groups and atoms */
 group:
-  hb = env_b_group; ats = atoms; he = env_e_group
-  {Ast.Group (None, hb, ats, he)}
-| hb = env_b_group_sq; ats = atoms; he = env_e_group
-  {let (hb, t) = hb in Ast.Group (Some t, hb, ats, he)}
+  hb = env_b_group; l = option(label); ats = atoms; he = env_e_group
+  {Ast.Group (None, l, hb, ats, he)}
+| hb = env_b_group_sq; l = option(label); ats = atoms; he = env_e_group
+  {let (hb, t) = hb in Ast.Group (Some t, l, hb, ats, he)}
 
 atoms:
   {[]}		
@@ -179,13 +179,13 @@ atoms:
 
 	
 atom:
-| hbk = env_begin; bs = boxes_start_no_sq; he = env_end
+| hbk = env_begin; l = option(label); bs = boxes_start_no_sq; he = env_end
   {let (hb, kind) = hbk in
-     Atom (kind, None, hb, bs, he) 
+     Atom (kind, None, l, hb, bs, he) 
   }
-| hbkt = env_begin_sq; bs = boxes; he = env_end
+| hbkt = env_begin_sq; l = option(label); bs = boxes; he = env_end
   {let (hb, kind, title) = hbkt in
-     Atom (kind, Some title, hb, bs, he) 
+     Atom (kind, Some title, l, hb, bs, he) 
   }
 /* END: Groups and Atoms */
 

@@ -10,8 +10,8 @@ type keyword = string
  *)
 
 type label = Label of keyword * string * keyword 
-type atom = Atom of atom_kind * title option * keyword * atom_body * keyword
-type group = Group of title option * keyword * atom list * keyword
+type atom = Atom of atom_kind * title option * label option * keyword * atom_body * keyword
+type group = Group of title option * label option * keyword * atom list * keyword
 
 type chapter = 
   Chapter of  title * label option * keyword * block list * section list
@@ -40,16 +40,18 @@ let labelOptionToString lo =
               |  Some l -> labelToString l  in
      r
 
-let atomToString (Atom(kind, topt, hb, ab, he)) = 
-  match topt with
-  | None -> hb ^ ab ^ he
-  | Some t -> hb ^ "kind:" ^ kind ^ "title:" ^ t ^ ab ^ he
-
-let groupToString (Group(topt, hb, ats, he)) = 
-  let atoms = map_concat atomToString ats in
+let atomToString (Atom(kind, topt, lo, hb, ab, he)) = 
+  let label = "label: " ^ labelOptionToString lo in
     match topt with
-    | None -> hb ^ atoms ^ he
-    | Some t -> hb ^ "title:" ^ t ^ atoms ^ he
+    | None -> hb ^ label ^ ab ^ he
+    | Some t -> hb ^ "kind:" ^ kind ^ "title:" ^ t ^ label ^ ab ^ he
+
+let groupToString (Group(topt, lo, hb, ats, he)) = 
+  let atoms = map_concat atomToString ats in
+  let label = "label: " ^ labelOptionToString lo in
+    match topt with
+    | None -> hb ^ label ^ atoms ^ he
+    | Some t -> hb ^ "title:" ^ t ^ label ^ atoms ^ he
 
 let blockToString b = 
   match b with
@@ -76,12 +78,14 @@ let chapterToString (Chapter (t, lo, h, bs, ss)) =
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
-let atomToTex (Atom(kind, topt, hb, ab, he)) = 
-  hb ^ ab ^ he
+let atomToTex (Atom(kind, topt, lo, hb, ab, he)) = 
+  let label = labelOptionToString lo in
+    hb ^ label ^ ab ^ he
 
-let groupToTex (Group(topt, hb, ats, he)) = 
+let groupToTex (Group(topt, lo, hb, ats, he)) = 
   let atoms = map_concat atomToTex ats in
-    hb ^ atoms ^ he
+  let label = labelOptionToString lo in
+    hb ^ label ^ atoms ^ he
 
 let blockToTex b = 
   match b with
