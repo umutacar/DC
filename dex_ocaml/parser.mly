@@ -18,7 +18,7 @@ let parse_error s = printf "Parse Error: %s"
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 
 
-%token KW_BEGIN KW_END	
+%token <string> KW_BEGIN KW_END	
 %token <string> KW_LABEL
 
 %token <string> KW_CHAPTER
@@ -59,7 +59,10 @@ word:
   {w}
 | b = BACKSLASH w = WORD
   {b ^ w}
-
+| kwb = KW_BEGIN; co = O_CURLY; w = WORD; cc = C_CURLY 
+  {kwb ^ co ^ w ^ cc}
+| kwe = KW_END; co = O_CURLY; w = WORD; cc = C_CURLY 
+  {kwe ^ co ^ w ^ cc}
 
 /* a box is the basic unit of composition */
 box:
@@ -101,19 +104,19 @@ section_heading:
 
 
 env_begin:
-  KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY 
-  {("\\begin" ^ co ^ a ^ cc, a)}
+  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY 
+  {(kwb ^ co ^ a ^ cc, a)}
 
 env_begin_sq:
-  KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY; b =  sq_box 
+  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY; b =  sq_box 
   {let (bo, bb, bc) = b in 
-   let hb = "\\begin" ^ co ^ a ^ cc in
+   let hb = kwb ^ co ^ a ^ cc in
      (hb ^  bo ^ bb ^ bc, a, bb)
   }
 
 env_end:
-  KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
-  {"\\end" ^ co ^ a ^ cc}
+  kwe = KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
+  {kwe ^ co ^ a ^ cc}
 
 /* BEGIN: Groups */
 env_b_group:

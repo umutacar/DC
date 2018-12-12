@@ -12,10 +12,10 @@
 
 #  TODO
  
-Next: flesh out the atoms and the section structure.  see if you can lex and prase one of 15210 chapters.
-  * Add labels to sections
-  * Add labels to atoms
+Next: flesh out the section structure.  see if you can lex and prase one of 15210 chapters.
   * Use menhir options to simplify grammar
+  * Need to deal with latex keywords that we don't care about such as \begin{center} \end{center}
+  * Do we need to deal with comments?
 
 # JOURNAL
 
@@ -24,7 +24,7 @@ Next: flesh out the atoms and the section structure.  see if you can lex and pra
   * Fleshed out atoms and the atom structure.
 
   * Added support for labeles into AST, chapters, and sections.  
-
+ 
 
 - [Dec 11, morning]
 

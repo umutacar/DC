@@ -69,9 +69,9 @@ rule token = parse
   	{printf "!matched: %s." x; KW_SUBPARAGRAPH(x)}		
 
 | p_begin as x
-  	{printf "%s" x; KW_BEGIN}		
+  	{printf "%s" x; KW_BEGIN(x)}		
 | p_end as x
-  	{printf "%s" x; KW_END}		
+  	{printf "%s" x; KW_END(x)}		
 
 | p_b_group as x
   	{printf "!matched: %s." x; ENV_B_GROUP(x)}		
