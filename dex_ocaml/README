@@ -13,6 +13,9 @@
 #  TODO
  
 Next: flesh out the atoms and the section structure.  see if you can lex and prase one of 15210 chapters.
+  * Add labels to sections
+  * Add labels to atoms
+  * Use menhir options to simplify grammar
 
 # JOURNAL
 
@@ -20,7 +23,8 @@ Next: flesh out the atoms and the section structure.  see if you can lex and pra
   * Copied over star contraction chapter and will try to make it through the parser.
   * Fleshed out atoms and the atom structure.
 
-  * Next todo: i have to figure out how to deal with labels and comments
+  * Added support for labeles into AST and chapters.  
+
 
 - [Dec 11, morning]
 
