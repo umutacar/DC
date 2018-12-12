@@ -17,19 +17,18 @@ let parse_error s = printf "Parse Error: %s"
 %token <string> O_CURLY C_CURLY	
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 
-	
-%token <string> HEADING_CHAPTER
-%token <string> HEADING_SECTION
-%token <string> HEADING_SUBSECTION
-%token <string> HEADING_SUBSUBSECTION	
-%token <string> HEADING_PARAGRAPH	
-%token <string> HEADING_SUBPARAGRAPH
 
-%token KW_BEGIN KW_END
+%token KW_BEGIN KW_END	
+%token <string> KW_LABEL
+
+%token <string> KW_CHAPTER
+%token <string> KW_SECTION
+%token <string> KW_SUBSECTION
+%token <string> KW_SUBSUBSECTION	
+%token <string> KW_PARAGRAPH	
+%token <string> KW_SUBPARAGRAPH
 
 %token <string> ENV_B_GROUP ENV_E_GROUP
-%token <string> ENV_B_DEFINITION ENV_E_DEFINITION
-%token <string> ENV_B_EXAMPLE ENV_E_EXAMPLE
 	
 %start chapter
 %type <Ast.chapter> chapter
@@ -87,13 +86,17 @@ boxes_start_no_sq:
   {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
 
 
+label:
+  l = KW_LABEL; b = curly_box 
+  {let (bo, bb, bc) = b in Ast.Label(l ^ bo, bb, bc) }
+
 chapter_heading:
-  hc = HEADING_CHAPTER; b = curly_box 
+  hc = KW_CHAPTER; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
 
 section_heading:
-  hs = HEADING_SECTION; b = curly_box 
+  hs = KW_SECTION; b = curly_box 
   {let (bo, bb, bc) = b in (hs ^ bo ^ bb ^ bc, bb) }
 
 
@@ -112,26 +115,26 @@ env_end:
   KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
   {"\\end" ^ co ^ a ^ cc}
 
-
+/* BEGIN: Groups */
 env_b_group:
   hb = ENV_B_GROUP
   {hb}
-
 
 env_b_group_sq:
   hb = ENV_B_GROUP; b = sq_box
   {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
 
-
 env_e_group:
   he = ENV_E_GROUP
   {he}
+/* END: Groups */
 
+/* BEGIN: Sectioning */
 chapter:
-  h = chapter_heading; bs = blocks; ss = sections; EOF 
-  {let (hc, t) = h in Ast.Chapter(t, hc, bs, ss)}
-|	h =  chapter_heading; ss = sections; EOF
-  {let (hc, t) = h in Ast.Chapter (t, hc, [], ss)}		
+  h = chapter_heading; l = option(label); bs = blocks; ss = sections; EOF 
+  {let (hc, t) = h in Ast.Chapter(t, l, hc, bs, ss)}
+|	h =  chapter_heading; l = option(label); ss = sections; EOF
+  {let (hc, t) = h in Ast.Chapter (t, l, hc, [], ss)}		
 
 section: 
   h = section_heading; bs = blocks
@@ -141,14 +144,17 @@ sections:
 | s = section; {[s]}
 | ss = sections; s = section
   {List.append ss [s]}
+/* END: Sectioning */
 
 
+/* BEGIN: Blocks
+ * A blocks is a sequence of groups and atoms 
+ */
 blocks:
 	b = block 
   {[b]}
 | bs = blocks; b = block
   {List.append bs [b]}
-
 
 block:
 	a = atom
@@ -156,7 +162,10 @@ block:
 | g = group
   {Ast.Block_Group g}
 
+/* END: Blocks */
+
 			
+/* BEGIN: Groups and atoms */
 group:
   hb = env_b_group; ats = atoms; he = env_e_group
   {Ast.Group (None, hb, ats, he)}
@@ -178,7 +187,7 @@ atom:
   {let (hb, kind, title) = hbkt in
      Atom (kind, Some title, hb, bs, he) 
   }
-
+/* END: Groups and Atoms */
 
 
 /*

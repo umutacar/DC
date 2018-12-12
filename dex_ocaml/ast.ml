@@ -1,16 +1,23 @@
 type atom_kind = string
 type atom_body = string
 type title = string
-type heading = string
+type keyword = string
 
-type atom = Atom of atom_kind * title option * heading * atom_body * heading
-type group = Group of title option * heading * atom list * heading
+(* Keywords are used to capture the "beginning" and "end" of the commands.
+   For example, "    \label   {"  and "}    \n", etc
+
+   Because we don't care about white space, they might have whitespace in them.
+ *)
+
+type label = Label of keyword * string * keyword 
+type atom = Atom of atom_kind * title option * keyword * atom_body * keyword
+type group = Group of title option * keyword * atom list * keyword
 
 type chapter = 
-  Chapter of title * heading * block list * section list
+  Chapter of  title * label option * keyword * block list * section list
 
 and section = 
-  Section of title * heading * block list
+  Section of title * keyword * block list
 
 and block = 
   | Block_Group of group
@@ -23,7 +30,16 @@ let map_concat f xs =
 
 (**********************************************************************
  ** BEGIN: AST To String
- **********************************************************************)
+*********************************************************************)
+let labelToString (Label(hb, label_string, he)) = 
+  hb ^  label_string ^ he
+
+let labelOptionToString lo = 
+  let r = match lo with 
+              |  None -> ""
+              |  Some l -> "label: " ^ labelToString l  in
+     r
+
 let atomToString (Atom(kind, topt, hb, ab, he)) = 
   match topt with
   | None -> hb ^ ab ^ he
@@ -44,10 +60,12 @@ let sectionToString (Section (t, h, bs)) =
   let blocks = map_concat blockToString bs in
     h ^ blocks
 
-let chapterToString (Chapter (t, h, bs, ss)) =
+let chapterToString (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToString bs in
   let sections = map_concat sectionToString ss in
-    h ^ blocks ^ sections
+  let title = "title: " ^ t in
+  let label = labelOptionToString lo in
+    "*chapter:" ^ title ^ label ^ h ^ blocks ^ sections
 
 (**********************************************************************
  ** END: AST To String
@@ -72,10 +90,11 @@ let sectionToTex (Section (t, h, bs)) =
   let blocks = map_concat blockToTex bs in
     h ^ blocks
 
-let chapterToTex (Chapter (t, h, bs, ss)) =
+let chapterToTex (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
-    h ^ blocks ^ sections
+  let label = labelOptionToString lo in
+    h ^ label ^ blocks ^ sections
 
 (**********************************************************************
  ** END: AST To LaTeX

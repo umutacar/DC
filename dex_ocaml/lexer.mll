@@ -21,7 +21,8 @@ let p_c_curly = '}' p_ws
 let p_o_sq_bracket = '[' p_ws
 let p_c_sq_bracket = ']' p_ws											
 
-												 
+let p_label = '\\' "label" p_ws												 
+
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
 let p_subsection = '\\' "subsection" p_ws
@@ -50,19 +51,22 @@ rule token = parse
 		{printf "!matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
 		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
+
+| p_label as x
+  	{printf "!matched %s." x; KW_LABEL(x)}		
 				
 | p_chapter as x
-  	{printf "!matched %s." x; HEADING_CHAPTER(x)}		
+  	{printf "!matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
-  	{printf "!matched: %s." x; HEADING_SECTION(x)}		
+  	{printf "!matched: %s." x; KW_SECTION(x)}		
 | p_subsection as x
-  	{printf "!matched: %s." x; HEADING_SUBSECTION(x)}
+  	{printf "!matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
-  	{printf "!matched: %s." x; HEADING_SUBSUBSECTION(x)}
+  	{printf "!matched: %s." x; KW_SUBSUBSECTION(x)}
 | p_paragraph as x
-  	{printf "!matched: %s." x; HEADING_PARAGRAPH(x)}				
+  	{printf "!matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
-  	{printf "!matched: %s." x; HEADING_SUBPARAGRAPH(x)}		
+  	{printf "!matched: %s." x; KW_SUBPARAGRAPH(x)}		
 
 | p_begin as x
   	{printf "%s" x; KW_BEGIN}		
