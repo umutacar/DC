@@ -137,8 +137,8 @@ chapter:
   {let (hc, t) = h in Ast.Chapter (t, l, hc, [], ss)}		
 
 section: 
-  h = section_heading; bs = blocks
-  {let (hc, t) = h in Ast.Section(t, hc, bs)}		
+  h = section_heading; l = option(label); bs = blocks
+  {let (hc, t) = h in Ast.Section(t, l, hc, bs)}		
 	
 sections:
 | s = section; {[s]}

@@ -17,7 +17,7 @@ type chapter =
   Chapter of  title * label option * keyword * block list * section list
 
 and section = 
-  Section of title * keyword * block list
+  Section of title * label option * keyword * block list
 
 and block = 
   | Block_Group of group
@@ -37,7 +37,7 @@ let labelToString (Label(hb, label_string, he)) =
 let labelOptionToString lo = 
   let r = match lo with 
               |  None -> ""
-              |  Some l -> "label: " ^ labelToString l  in
+              |  Some l -> labelToString l  in
      r
 
 let atomToString (Atom(kind, topt, hb, ab, he)) = 
@@ -56,15 +56,17 @@ let blockToString b =
   | Block_Group g -> groupToString g
   | Block_Atom a -> atomToString a
 
-let sectionToString (Section (t, h, bs)) =
+let sectionToString (Section (t, lo, h, bs)) =
   let blocks = map_concat blockToString bs in
-    h ^ blocks
+  let title = "title: " ^ t in
+  let label = "label: " ^ labelOptionToString lo in
+    "*section:" ^ title ^ label ^ h ^ blocks
 
 let chapterToString (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToString bs in
   let sections = map_concat sectionToString ss in
   let title = "title: " ^ t in
-  let label = labelOptionToString lo in
+  let label = "label: " ^ labelOptionToString lo in
     "*chapter:" ^ title ^ label ^ h ^ blocks ^ sections
 
 (**********************************************************************
@@ -86,9 +88,10 @@ let blockToTex b =
   | Block_Group g -> groupToTex g
   | Block_Atom a -> atomToTex a
 
-let sectionToTex (Section (t, h, bs)) =
+let sectionToTex (Section (t, lo, h, bs)) =
   let blocks = map_concat blockToTex bs in
-    h ^ blocks
+  let label = labelOptionToString lo in
+    h ^ label ^ blocks
 
 let chapterToTex (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToTex bs in
