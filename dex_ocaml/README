@@ -11,6 +11,8 @@
   and look into file `parser.conflicts` and `parser.automaton`
 
 #  TODO
+   * Might be possible to deal with sectioning by lexing separate blocks using separate lexer functions.
+
    * Need to deal with latex keywords that we don't care about such as \begin{center} \end{center}, likewise things like \includegraphics.
 
   * Do we need to deal with comments?

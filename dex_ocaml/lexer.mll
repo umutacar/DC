@@ -39,7 +39,7 @@ let p_end = '\\' "end"
 let p_word = [^ '\\' '{' '}' '[' ']']+ 
 (** END PATTERNS *)			
 
-rule token = parse
+rule program = parse
 | p_backslash as x
 		{printf "!matched: \\."; BACKSLASH(x)}				
 | p_o_curly as x
@@ -88,7 +88,7 @@ rule token = parse
 | eof
 		{EOF}
 | _
-    {token lexbuf}		
+    {program lexbuf}		
 		
 {
 }
