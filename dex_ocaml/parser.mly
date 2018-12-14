@@ -2,6 +2,7 @@
 open Core
 open Printf
 open Atoms
+open Ast
 
 let parse_error s = printf "Parse Error: %s"
 %}	
@@ -19,6 +20,12 @@ let parse_error s = printf "Parse Error: %s"
 
 
 %token <string> KW_BEGIN KW_END	
+%token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
+%token <string> KW_BEGIN_CODE KW_END_CODE
+%token <string> KW_BEGIN_COROLLARY KW_END_COROLLARY
+%token <string> KW_BEGIN_DEFINITION KW_END_DEFINITION	
+%token <string> KW_BEGIN_EXAMPLE KW_END_EXAMPLE
+	
 %token <string> KW_LABEL
 
 %token <string> KW_CHAPTER
@@ -182,14 +189,47 @@ atoms:
 
 	
 atom:
-| hbk = env_begin; l = option(label); bs = boxes_start_no_sq; he = env_end
-  {let (hb, kind) = hbk in
-     Atom (kind, None, l, hb, bs, he) 
+|	 a = atom_definition
+   { a } 
+|	 a = atom_example
+   { a } 
+
+atom_definition:
+| b = KW_BEGIN_DEFINITION;
+  l = option(label);
+  bs = boxes; 
+  e = KW_END_DEFINITION
+  {
+   Atom (atom_definition, None, l, b, bs, e) 
   }
-| hbkt = env_begin_sq; l = option(label); bs = boxes; he = env_end
-  {let (hb, kind, title) = hbkt in
-     Atom (kind, Some title, l, hb, bs, he) 
+| b = KW_BEGIN_DEFINITION;
+  t =  sq_box; 
+  l = option(label);
+  bs = boxes; 
+  e = KW_END_DEFINITION
+  {
+   let (bo, tt, bc) = t in
+     Atom (atom_definition, Some tt, l, b, bs, e) 
   }
+
+atom_example:
+| b = KW_BEGIN_EXAMPLE;
+  l = option(label);
+  bs = boxes; 
+  e = KW_END_EXAMPLE
+  {
+   Atom (atom_example, None, l, b, bs, e) 
+  }
+| b = KW_BEGIN_EXAMPLE;
+  t =  sq_box; 
+  l = option(label);
+  bs = boxes; 
+  e = KW_END_EXAMPLE
+  {
+   let (bo, tt, bc) = t in
+     Atom (atom_example, Some tt, l, b, bs, e) 
+  }
+
 /* END: Groups and Atoms */
 
 
@@ -202,4 +242,17 @@ atom:
   { Atom (atom_example, None, hb, bs, he) }
 | hb = env_b_example_sq; bs = boxes; he = env_e_example
   { let (hb, t) = hb in Atom (atom_example, Some t, hb, bs, he) }
+*/
+
+
+/*
+atom:
+| hbk = env_begin; l = option(label); bs = boxes_start_no_sq; he = env_end
+  {let (hb, kind) = hbk in
+     Atom (kind, None, l, hb, bs, he) 
+  }
+| hbkt = env_begin_sq; l = option(label); bs = boxes; he = env_end
+  {let (hb, kind, title) = hbkt in
+     Atom (kind, Some title, l, hb, bs, he) 
+  }
 */
