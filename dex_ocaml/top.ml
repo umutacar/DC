@@ -7,6 +7,8 @@ open Lexing
 
 let main () =
 	let args = Sys.argv in
+  (* this is caml arrays, not sure how to use them *)
+  let a = Caml.Array.make 5 in
     if Array.length args = 2 then
       let filename = Sys.argv.(1) in
 			(* let ic = open_in filename in *)
