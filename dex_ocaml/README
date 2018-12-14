@@ -15,6 +15,14 @@
 
    * Need to deal with latex keywords that we don't care about such as \begin{center} \end{center}, likewise things like \includegraphics.
 
+     Doing this is not completely straightforward because it starts creating conflicts.  For example, when we see \end, we migth want to treat it as a regular word or a keyword, e.g., \end{center} versus \end{definition}.  So this creates conflicts.  The cleanest way seems to be to specialize the lexer for the atoms so that we treat 
+
+  \begin{atom} and \end{atom}, where atom ::= definition | example, etc
+ 
+  as keywords and recognize them in the lexer.  This means that we never care about \begin or anything else for that matter.
+
+  if we do the same for \section, \subsection, etc, the parser might simlify further.  i think it might be possible to not treat {} as special anymore, though i think we still have to treat \ as special.  
+
   * Do we need to deal with comments?
 
   *  flesh out the section structure.  see if you can lex and prase one of 15210 chapters.
