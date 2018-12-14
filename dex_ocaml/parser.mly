@@ -86,14 +86,13 @@ boxes:
 | bs = boxes; b = box
   {bs ^ b }
 
-
-/* This is a sequence of boxes where the first box must not be square. */
 boxes_start_no_sq:
   {""}
 |	w = word; bs = boxes
   {w ^ bs}
 |	b = curly_box; bs = boxes
   {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
+
 
 
 label:
@@ -109,21 +108,6 @@ section_heading:
   hs = KW_SECTION; b = curly_box 
   {let (bo, bb, bc) = b in (hs ^ bo ^ bb ^ bc, bb) }
 
-
-env_begin:
-  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY 
-  {(kwb ^ co ^ a ^ cc, a)}
-
-env_begin_sq:
-  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY; b =  sq_box 
-  {let (bo, bb, bc) = b in 
-   let hb = kwb ^ co ^ a ^ cc in
-     (hb ^  bo ^ bb ^ bc, a, bb)
-  }
-
-env_end:
-  kwe = KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
-  {kwe ^ co ^ a ^ cc}
 
 /* BEGIN: Groups */
 env_b_group:
@@ -188,22 +172,24 @@ atoms:
   { List.append ats [a] }
 
 	
-atom:
-|	 a = atom_definition
-   { a } 
-|	 a = atom_example
-   { a } 
 
-atom_definition:
-| b = KW_BEGIN_DEFINITION;
+atom_(atom_name, kw_b, kw_e):
+| b = kw_b;
+  t = sq_box; 
   l = option(label);
   bs = boxes; 
-  e = KW_END_DEFINITION
+  e = kw_e
   {
-   Atom (atom_definition, None, l, b, bs, e) 
+   let (bo, tt, bc) = t in
+     Atom ("atom_name", Some tt, l, b, bs, e) 
   }
+
+
+atom_definition: 
+|	x = atom_(kw_atom_definition, KW_BEGIN_DEFINITION, KW_END_DEFINITION)
+  { x }
 | b = KW_BEGIN_DEFINITION;
-  t =  sq_box; 
+  t = sq_box; 
   l = option(label);
   bs = boxes; 
   e = KW_END_DEFINITION
@@ -246,6 +232,29 @@ atom_example:
 
 
 /*
+
+boxes_start_no_sq:
+  {""}
+|	w = word; bs = boxes
+  {w ^ bs}
+|	b = curly_box; bs = boxes
+  {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
+
+env_begin:
+  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY 
+  {(kwb ^ co ^ a ^ cc, a)}
+
+env_begin_sq:
+  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY; b =  sq_box 
+  {let (bo, bb, bc) = b in 
+   let hb = kwb ^ co ^ a ^ cc in
+     (hb ^  bo ^ bb ^ bc, a, bb)
+  }
+
+env_end:
+  kwe = KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
+  {kwe ^ co ^ a ^ cc}
+
 atom:
 | hbk = env_begin; l = option(label); bs = boxes_start_no_sq; he = env_end
   {let (hb, kind) = hbk in
