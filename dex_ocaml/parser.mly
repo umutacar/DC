@@ -1,10 +1,10 @@
 %{
 open Core
 open Printf
-open Atoms
 open Ast
 
 let parse_error s = printf "Parse Error: %s"
+let kw_atom_definition = "definition"
 %}	
 
 
@@ -38,6 +38,8 @@ let parse_error s = printf "Parse Error: %s"
 %token <string> ENV_B_GROUP ENV_E_GROUP
 	
 %start chapter
+%{ open Atoms %}
+
 %type <Ast.chapter> chapter
 %type <Ast.section> section
 %type <Ast.section List.t> sections
@@ -155,7 +157,6 @@ block:
   {Ast.Block_Atom a}
 | g = group
   {Ast.Block_Group g}
-
 /* END: Blocks */
 
 			
@@ -170,53 +171,48 @@ atoms:
   {[]}		
 | ats = atoms; a = atom
   { List.append ats [a] }
-
 	
 
-atom_(atom_name, kw_b, kw_e):
+atom_(kw_b, kw_e):
+| b = kw_b;
+  l = label;
+  bs = boxes; 
+  e = kw_e
+  {
+   Atom (b, None, Some l, b, bs, e) 
+  }
+
 | b = kw_b;
   t = sq_box; 
-  l = option(label);
+  l = label;
   bs = boxes; 
   e = kw_e
   {
    let (bo, tt, bc) = t in
-     Atom ("atom_name", Some tt, l, b, bs, e) 
+     Atom (b, Some tt, Some l, b, bs, e) 
   }
 
+| b = kw_b;
+  bs = boxes; 
+  e = kw_e
+  {
+   Atom (b, None, None, b, bs, e) 
+  }
 
-atom_definition: 
-|	x = atom_(kw_atom_definition, KW_BEGIN_DEFINITION, KW_END_DEFINITION)
-  { x }
-| b = KW_BEGIN_DEFINITION;
+| b = kw_b;
   t = sq_box; 
-  l = option(label);
-  bs = boxes; 
-  e = KW_END_DEFINITION
+  bs = boxes_start_no_sq; 
+  e = kw_e
   {
    let (bo, tt, bc) = t in
-     Atom (atom_definition, Some tt, l, b, bs, e) 
+     Atom (b, Some tt, None, b, bs, e) 
   }
 
-atom_example:
-| b = KW_BEGIN_EXAMPLE;
-  l = option(label);
-  bs = boxes; 
-  e = KW_END_EXAMPLE
-  {
-   Atom (atom_example, None, l, b, bs, e) 
-  }
-| b = KW_BEGIN_EXAMPLE;
-  t =  sq_box; 
-  l = option(label);
-  bs = boxes; 
-  e = KW_END_EXAMPLE
-  {
-   let (bo, tt, bc) = t in
-     Atom (atom_example, Some tt, l, b, bs, e) 
-  }
-
-/* END: Groups and Atoms */
+atom:
+|	x = atom_(KW_BEGIN_DEFINITION, KW_END_DEFINITION)
+  { x }
+|	x = atom_(KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
+  { x }
 
 
 /*
