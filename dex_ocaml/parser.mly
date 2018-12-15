@@ -211,7 +211,7 @@ atom_(kw_b, kw_e):
   }
 
 | b = kw_b;
-  bs = boxes; 
+  bs = boxes_start_no_sq; 
   e = kw_e
   {
    Atom (b, None, None, b, bs, e) 
@@ -219,7 +219,7 @@ atom_(kw_b, kw_e):
 
 | b = kw_b;
   t = sq_box; 
-  bs = boxes_start_no_sq; 
+  bs = boxes; 
   e = kw_e
   {
    let (bo, tt, bc) = t in
