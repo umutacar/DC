@@ -23,7 +23,10 @@ and subsection =
   Subsection of title * label option * keyword * block list * subsubsection list
 
 and subsubsection = 
-  Subsubsection of title * label option * keyword * block list
+  Subsubsection of title * label option * keyword * block list * paragraph list
+
+and paragraph = 
+  Paragraph of title * label option * keyword * block list
 
 and block = 
   | Block_Group of group
@@ -64,11 +67,18 @@ let blockToString b =
   | Block_Group g -> groupToString g
   | Block_Atom a -> atomToString a
 
-let subsubsectionToString (Subsubsection (t, lo, h, bs)) =
+let paragraphToString (Paragraph (t, lo, h, bs)) =
   let blocks = map_concat blockToString bs in
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
-    "*subsubsection:" ^ title ^ label ^ h ^ blocks
+    "*paragraph:" ^ title ^ label ^ h ^ blocks
+
+let subsubsectionToString (Subsubsection (t, lo, h, bs, ss)) =
+  let blocks = map_concat blockToString bs in
+  let nesteds = map_concat paragraphToString ss in
+  let title = "title: " ^ t in
+  let label = "label: " ^ labelOptionToString lo in
+    "*subsubsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
 
 let subSectionToString (Subsection (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToString bs in
@@ -112,10 +122,17 @@ let blockToTex b =
   | Block_Group g -> groupToTex g
   | Block_Atom a -> atomToTex a
 
-let subsubsectionToTex (Subsubsection (t, lo, h, bs)) =
+
+let paragraphToTex (Paragraph (t, lo, h, bs)) =
   let blocks = map_concat blockToTex bs in
   let label = labelOptionToString lo in
     h ^ label ^ blocks
+
+let subsubsectionToTex (Subsubsection (t, lo, h, bs, ss)) =
+  let blocks = map_concat blockToTex bs in
+  let nesteds = map_concat paragraphToTex ss in
+  let label = labelOptionToString lo in
+    h ^ label ^ blocks ^ nesteds
 
 let subsectionToTex (Subsection (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToTex bs in

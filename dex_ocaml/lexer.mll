@@ -51,7 +51,7 @@ let p_hint = "hint"
 let p_important = "important"
 let p_lemma = "lemma"
 let p_note = "note"
-let p_paragraph = "paragraph"
+let p_gram = "gram"
 let p_preamble = "preamble"
 let p_problem = "problem"
 let p_proof = "proof"
@@ -86,6 +86,8 @@ let p_b_example = '\\' "begin" p_o_curly p_example p_ws p_c_curly
 let p_e_example = '\\' "end" p_o_curly p_example p_ws p_c_curly
 let p_b_exercise = '\\' "begin" p_o_curly p_exercise p_ws p_c_curly
 let p_e_exercise = '\\' "end" p_o_curly p_exercise p_ws p_c_curly
+let p_b_gram = '\\' "begin" p_o_curly p_gram p_ws p_c_curly
+let p_e_gram = '\\' "end" p_o_curly p_gram p_ws p_c_curly
 let p_b_hint = '\\' "begin" p_o_curly p_hint p_ws p_c_curly
 let p_e_hint = '\\' "end" p_o_curly p_hint p_ws p_c_curly
 let p_b_important = '\\' "begin" p_o_curly p_important p_ws p_c_curly
@@ -94,8 +96,6 @@ let p_b_lemma = '\\' "begin" p_o_curly p_lemma p_ws p_c_curly
 let p_e_lemma = '\\' "end" p_o_curly p_lemma p_ws p_c_curly
 let p_b_note = '\\' "begin" p_o_curly p_note p_ws p_c_curly
 let p_e_note = '\\' "end" p_o_curly p_note p_ws p_c_curly
-let p_b_paragraph = '\\' "begin" p_o_curly p_paragraph p_ws p_c_curly
-let p_e_paragraph = '\\' "end" p_o_curly p_paragraph p_ws p_c_curly
 let p_b_preamble = '\\' "begin" p_o_curly p_preamble p_ws p_c_curly
 let p_e_preamble = '\\' "end" p_o_curly p_preamble p_ws p_c_curly
 let p_b_problem = '\\' "begin" p_o_curly p_problem p_ws p_c_curly
@@ -194,6 +194,10 @@ rule token = parse
   	{printf "matched begin EXERCISE %s" x; KW_BEGIN_EXERCISE(x)}		
 | p_e_exercise as x
   	{printf "matched end EXERCISE %s" x; KW_END_EXERCISE(x)}		
+| p_b_gram as x
+  	{printf "matched begin GRAM %s" x; KW_BEGIN_GRAM(x)}		
+| p_e_gram as x
+  	{printf "matched end GRAM %s" x; KW_END_GRAM(x)}		
 | p_b_hint as x
   	{printf "matched begin HINT %s" x; KW_BEGIN_HINT(x)}		
 | p_e_hint as x
@@ -210,10 +214,6 @@ rule token = parse
   	{printf "matched begin NOTE %s" x; KW_BEGIN_NOTE(x)}		
 | p_e_note as x
   	{printf "matched end NOTE %s" x; KW_END_NOTE(x)}		
-| p_b_paragraph as x
-  	{printf "matched begin PARAGRAPH %s" x; KW_BEGIN_PARAGRAPH(x)}		
-| p_e_paragraph as x
-  	{printf "matched end PARAGRAPH %s" x; KW_END_PARAGRAPH(x)}		
 | p_b_preamble as x
   	{printf "matched begin PREAMBLE %s" x; KW_BEGIN_PREAMBLE(x)}		
 | p_e_preamble as x
