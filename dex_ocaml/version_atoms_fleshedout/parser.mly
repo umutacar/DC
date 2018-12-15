@@ -5,10 +5,6 @@ open Ast
 
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
-let set_option (r, vo) = 
-  match vo with 
-  |	None -> ()
-  |	Some v -> (r:=v; ())
 %}	
 
 
@@ -140,33 +136,23 @@ label:
 /**********************************************************************
  ** BEGIN: Latex Sections
  **********************************************************************/
-heading_(kw_heading):
-  hc = kw_heading; b = curly_box 
+chapter_heading:
+  hc = KW_CHAPTER; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
+section_heading:
+  hs = KW_SECTION; b = curly_box 
+  {let (bo, bb, bc) = b in (hs ^ bo ^ bb ^ bc, bb) }
+
 chapter:
-  h = heading_(KW_CHAPTER); 
-  l = option(label); 
-  bso = option(blocks); 
-  sso = option(sections); 
-  EOF 
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let ss = ref [] in
-   let _ = set_option (bs, bso) in
-   let _ = set_option (ss, sso) in
-     Ast.Chapter(t, l, hc, bs, ss)
-  }	
+  h = chapter_heading; l = option(label); bs = blocks; ss = sections; EOF 
+  {let (hc, t) = h in Ast.Chapter(t, l, hc, bs, ss)}
+|	h =  chapter_heading; l = option(label); ss = sections; EOF
+  {let (hc, t) = h in Ast.Chapter (t, l, hc, [], ss)}		
+
 section: 
-  h = heading_(KW_SECTION); l = option(label); bso = option(blocks); sso = option(sections);
-  {
-   let bs = ref [] in
-   let ss = ref [] in
-   let _ = set_option (bs, bso) in
-   let _ = set_option (ss, sso) in
-     Ast.Section(t, l, hc, bs, ss)
-  }	  
+  h = section_heading; l = option(label); bs = blocks
+  {let (hc, t) = h in Ast.Section(t, l, hc, bs)}		
 	
 sections:
 | s = section; {[s]}

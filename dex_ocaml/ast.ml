@@ -17,7 +17,16 @@ type chapter =
   Chapter of  title * label option * keyword * block list * section list
 
 and section = 
-  Section of title * label option * keyword * block list
+  Section of title * label option * keyword * block list * subsection list
+
+and subsection = 
+  Subsection of title * label option * keyword * block list * subsubsection list
+
+and subsubsection = 
+  Subsubsection of title * label option * keyword * block list * subsubsubsection list
+
+and subsubsubsection = 
+  Subsubsubsection of title * label option * keyword * block list 
 
 and block = 
   | Block_Group of group
