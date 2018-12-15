@@ -30,6 +30,12 @@
 
 # JOURNAL
 
+- [Dec 14, 15, mixed hacking in faculty meetings]
+
+  * Learned about menhir parameterized rules.  they have some limitations but work generally well it seems.
+
+  * Using parameteric menhir rules, I was able to express atom parsing rules
+
 - [Dec 12, morning]
   * Copied over star contraction chapter and will try to make it through the parser.
   * Fleshed out atoms and the atom structure.

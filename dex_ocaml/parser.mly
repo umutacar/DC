@@ -13,11 +13,9 @@ let kw_atom_definition = "definition"
 %token <string> ATOM
 %token <string> WORD
 
-
 %token <string> BACKSLASH
 %token <string> O_CURLY C_CURLY	
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
-
 
 %token <string> KW_BEGIN KW_END	
 %token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
@@ -66,6 +64,10 @@ let kw_atom_definition = "definition"
 
 %%
 
+/**********************************************************************
+ ** BEGIN: Words and Boxes 
+ **********************************************************************/
+
 /* A curly box looks like
    { word } 
    { [ word ] { word } ] 
@@ -113,37 +115,35 @@ boxes_start_no_sq:
 |	b = curly_box; bs = boxes
   {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
 
+/**********************************************************************
+ ** END: Words and Boxes 
+ **********************************************************************/
 
 
+/**********************************************************************
+ ** BEGIN: Diderot Keywords
+ **********************************************************************/
 label:
   l = KW_LABEL; b = curly_box 
   {let (bo, bb, bc) = b in Ast.Label(l ^ bo, bb, bc) }
 
+
+/**********************************************************************
+ ** END Diderot Keywords
+ **********************************************************************/
+
+
+/**********************************************************************
+ ** BEGIN: Latex Sections
+ **********************************************************************/
 chapter_heading:
   hc = KW_CHAPTER; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
-
 
 section_heading:
   hs = KW_SECTION; b = curly_box 
   {let (bo, bb, bc) = b in (hs ^ bo ^ bb ^ bc, bb) }
 
-
-/* BEGIN: Groups */
-env_b_group:
-  hb = ENV_B_GROUP
-  {hb}
-
-env_b_group_sq:
-  hb = ENV_B_GROUP; b = sq_box
-  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
-
-env_e_group:
-  he = ENV_E_GROUP
-  {he}
-/* END: Groups */
-
-/* BEGIN: Sectioning */
 chapter:
   h = chapter_heading; l = option(label); bs = blocks; ss = sections; EOF 
   {let (hc, t) = h in Ast.Chapter(t, l, hc, bs, ss)}
@@ -158,8 +158,10 @@ sections:
 | s = section; {[s]}
 | ss = sections; s = section
   {List.append ss [s]}
-/* END: Sectioning */
 
+/**********************************************************************
+ ** BEGIN: Latex Sections
+ **********************************************************************/
 
 /* BEGIN: Blocks
  * A blocks is a sequence of groups and atoms 
@@ -179,6 +181,19 @@ block:
 
 			
 /* BEGIN: Groups and atoms */
+
+env_b_group:
+  hb = ENV_B_GROUP
+  {hb}
+
+env_b_group_sq:
+  hb = ENV_B_GROUP; b = sq_box
+  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
+
+env_e_group:
+  he = ENV_E_GROUP
+  {he}
+
 group:
   hb = env_b_group; l = option(label); ats = atoms; he = env_e_group
   {Ast.Group (None, l, hb, ats, he)}
@@ -273,49 +288,4 @@ atom:
   { x }
 |	x = atom_(KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
-/*
-|	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
-  { Atom (atom_definition, None, hb, bs, he) }
-|	hb = env_b_definition_sq; bs = boxes; he = env_e_definition
-  {let (hb, t) = hb in Atom (atom_definition, Some t, hb, bs, he) }
-| hb = env_b_example; bs = boxes_start_no_sq;  he = env_e_example
-  { Atom (atom_example, None, hb, bs, he) }
-| hb = env_b_example_sq; bs = boxes; he = env_e_example
-  { let (hb, t) = hb in Atom (atom_example, Some t, hb, bs, he) }
-*/
 
-
-/*
-
-boxes_start_no_sq:
-  {""}
-|	w = word; bs = boxes
-  {w ^ bs}
-|	b = curly_box; bs = boxes
-  {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
-
-env_begin:
-  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY 
-  {(kwb ^ co ^ a ^ cc, a)}
-
-env_begin_sq:
-  kwb = KW_BEGIN; co = O_CURLY; a = ATOM; cc = C_CURLY; b =  sq_box 
-  {let (bo, bb, bc) = b in 
-   let hb = kwb ^ co ^ a ^ cc in
-     (hb ^  bo ^ bb ^ bc, a, bb)
-  }
-
-env_end:
-  kwe = KW_END; co = O_CURLY; a = ATOM; cc = C_CURLY 
-  {kwe ^ co ^ a ^ cc}
-
-atom:
-| hbk = env_begin; l = option(label); bs = boxes_start_no_sq; he = env_end
-  {let (hb, kind) = hbk in
-     Atom (kind, None, l, hb, bs, he) 
-  }
-| hbkt = env_begin_sq; l = option(label); bs = boxes; he = env_end
-  {let (hb, kind, title) = hbkt in
-     Atom (kind, Some title, l, hb, bs, he) 
-  }
-*/
