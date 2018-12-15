@@ -23,10 +23,7 @@ and subsection =
   Subsection of title * label option * keyword * block list * subsubsection list
 
 and subsubsection = 
-  Subsubsection of title * label option * keyword * block list * subsubsubsection list
-
-and subsubsubsection = 
-  Subsubsubsection of title * label option * keyword * block list 
+  Subsubsection of title * label option * keyword * block list
 
 and block = 
   | Block_Group of group
@@ -67,11 +64,25 @@ let blockToString b =
   | Block_Group g -> groupToString g
   | Block_Atom a -> atomToString a
 
-let sectionToString (Section (t, lo, h, bs)) =
+let subsubsectionToString (Subsubsection (t, lo, h, bs)) =
   let blocks = map_concat blockToString bs in
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
-    "*section:" ^ title ^ label ^ h ^ blocks
+    "*subsubsection:" ^ title ^ label ^ h ^ blocks
+
+let subSectionToString (Subsection (t, lo, h, bs, ss)) =
+  let blocks = map_concat blockToString bs in
+  let nesteds = map_concat subsubsectionToString ss in
+  let title = "title: " ^ t in
+  let label = "label: " ^ labelOptionToString lo in
+    "*subsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
+
+let sectionToString (Section (t, lo, h, bs, ss)) =
+  let blocks = map_concat blockToString bs in
+  let nesteds = map_concat subSectionToString ss in
+  let title = "title: " ^ t in
+  let label = "label: " ^ labelOptionToString lo in
+    "*section:" ^ title ^ label ^ h ^ blocks ^ nesteds
 
 let chapterToString (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToString bs in
@@ -101,10 +112,22 @@ let blockToTex b =
   | Block_Group g -> groupToTex g
   | Block_Atom a -> atomToTex a
 
-let sectionToTex (Section (t, lo, h, bs)) =
+let subsubsectionToTex (Subsubsection (t, lo, h, bs)) =
   let blocks = map_concat blockToTex bs in
   let label = labelOptionToString lo in
     h ^ label ^ blocks
+
+let subsectionToTex (Subsection (t, lo, h, bs, ss)) =
+  let blocks = map_concat blockToTex bs in
+  let nesteds = map_concat subsubsectionToTex ss in
+  let label = labelOptionToString lo in
+    h ^ label ^ blocks ^ nesteds
+
+let sectionToTex (Section (t, lo, h, bs, ss)) =
+  let blocks = map_concat blockToTex bs in
+  let nesteds = map_concat subsectionToTex ss in
+  let label = labelOptionToString lo in
+    h ^ label ^ blocks ^ nesteds
 
 let chapterToTex (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToTex bs in

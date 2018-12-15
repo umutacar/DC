@@ -62,7 +62,8 @@ let set_option (r, vo) =
 
 %type <Ast.chapter> chapter
 %type <Ast.section> section
-%type <Ast.section List.t> sections
+%type <Ast.subsection> subsection
+%type <Ast.subsubsection> subsubsection
 %type <Ast.group> group
 %type <Ast.atom> atom
 
@@ -140,15 +141,20 @@ label:
 /**********************************************************************
  ** BEGIN: Latex Sections
  **********************************************************************/
-heading_(kw_heading):
+mk_heading(kw_heading):
   hc = kw_heading; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
+mk_sections(section_):
+| s = section_; {[s]}
+| ss = mk_sections(section_); s = section_
+  {List.append ss [s]}
+
 chapter:
-  h = heading_(KW_CHAPTER); 
+  h = mk_heading(KW_CHAPTER); 
   l = option(label); 
   bso = option(blocks); 
-  sso = option(sections); 
+  sso = option(mk_sections(section)); 
   EOF 
   {
    let (hc, t) = h in
@@ -156,22 +162,49 @@ chapter:
    let ss = ref [] in
    let _ = set_option (bs, bso) in
    let _ = set_option (ss, sso) in
-     Ast.Chapter(t, l, hc, bs, ss)
+     Ast.Chapter(t, l, hc, !bs, !ss)
   }	
+
 section: 
-  h = heading_(KW_SECTION); l = option(label); bso = option(blocks); sso = option(sections);
+  h = mk_heading(KW_SECTION); 
+  l = option(label); 
+  bso = option(blocks); 
+  sso = option(mk_sections(subsection));
   {
+   let (hc, t) = h in
    let bs = ref [] in
    let ss = ref [] in
    let _ = set_option (bs, bso) in
    let _ = set_option (ss, sso) in
-     Ast.Section(t, l, hc, bs, ss)
+     Ast.Section(t, l, hc, !bs, !ss)
+  }	  
+
+subsection: 
+  h = mk_heading(KW_SUBSECTION); 
+  l = option(label); 
+  bso = option(blocks); 
+  sso = option(mk_sections(subsubsection));
+  {
+   let (hc, t) = h in
+   let bs = ref [] in
+   let ss = ref [] in
+   let _ = set_option (bs, bso) in
+   let _ = set_option (ss, sso) in
+     Ast.Subsection(t, l, hc, !bs, !ss)
   }	  
 	
-sections:
-| s = section; {[s]}
-| ss = sections; s = section
-  {List.append ss [s]}
+
+subsubsection: 
+  h = mk_heading(KW_SUBSUBSECTION); 
+  l = option(label); 
+  bso = option(blocks); 
+  {
+   let (hc, t) = h in
+   let bs = ref [] in
+   let _ = set_option (bs, bso) in
+     Ast.Subsubsection(t, l, hc, !bs)
+  }	  
+	
 
 /**********************************************************************
  ** BEGIN: Latex Sections
