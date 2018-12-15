@@ -23,8 +23,26 @@ let kw_atom_definition = "definition"
 %token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
 %token <string> KW_BEGIN_CODE KW_END_CODE
 %token <string> KW_BEGIN_COROLLARY KW_END_COROLLARY
+%token <string> KW_BEGIN_COSTSPEC KW_END_COSTSPEC
+%token <string> KW_BEGIN_DATATYPE KW_END_DATATYPE	
+%token <string> KW_BEGIN_DATASTR KW_END_DATASTR	
 %token <string> KW_BEGIN_DEFINITION KW_END_DEFINITION	
 %token <string> KW_BEGIN_EXAMPLE KW_END_EXAMPLE
+%token <string> KW_BEGIN_EXERCISE KW_END_EXERCISE
+%token <string> KW_BEGIN_HINT KW_END_HINT
+%token <string> KW_BEGIN_IMPORTANT KW_END_IMPORTANT
+%token <string> KW_BEGIN_LEMMA KW_END_LEMMA
+%token <string> KW_BEGIN_NOTE KW_END_NOTE
+%token <string> KW_BEGIN_PARAGRAPH KW_END_PARAGRAPH
+%token <string> KW_BEGIN_PREAMBLE KW_END_PREAMBLE
+%token <string> KW_BEGIN_PROBLEM KW_END_PROBLEM
+%token <string> KW_BEGIN_PROOF KW_END_PROOF
+%token <string> KW_BEGIN_PROPOSITION KW_END_PROPOSITION
+%token <string> KW_BEGIN_REMARK KW_END_REMARK
+%token <string> KW_BEGIN_SOLUTION KW_END_SOLUTION
+%token <string> KW_BEGIN_SYNTAX KW_END_SYNTAX
+%token <string> KW_BEGIN_TEACHASK KW_END_TEACHASK
+%token <string> KW_BEGIN_THEOREM KW_END_THEOREM
 	
 %token <string> KW_LABEL
 
@@ -208,13 +226,53 @@ atom_(kw_b, kw_e):
      Atom (b, Some tt, None, b, bs, e) 
   }
 
+/*
+|	x = atom_(KW_BEGIN_xxx, KW_END_xxx)
+  { x }
+*/
 atom:
+|	x = atom_(KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
+  { x }
+|	x = atom_(KW_BEGIN_CODE, KW_END_CODE)
+  { x }
+|	x = atom_(KW_BEGIN_COROLLARY, KW_END_COROLLARY)
+  { x }
+|	x = atom_(KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
+  { x }
 |	x = atom_(KW_BEGIN_DEFINITION, KW_END_DEFINITION)
   { x }
 |	x = atom_(KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
   { x }
-
-
+|	x = atom_(KW_BEGIN_EXERCISE, KW_END_EXERCISE)
+  { x }
+|	x = atom_(KW_BEGIN_HINT, KW_END_HINT)
+  { x }
+|	x = atom_(KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
+  { x }
+|	x = atom_(KW_BEGIN_LEMMA, KW_END_LEMMA)
+  { x }
+|	x = atom_(KW_BEGIN_NOTE, KW_END_NOTE)
+  { x }
+|	x = atom_(KW_BEGIN_PARAGRAPH, KW_END_PARAGRAPH)
+  { x }
+|	x = atom_(KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
+  { x }
+|	x = atom_(KW_BEGIN_PROBLEM, KW_END_PROBLEM)
+  { x }
+|	x = atom_(KW_BEGIN_PROOF, KW_END_PROOF)
+  { x }
+|	x = atom_(KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
+  { x }
+|	x = atom_(KW_BEGIN_REMARK, KW_END_REMARK)
+  { x }
+|	x = atom_(KW_BEGIN_SOLUTION, KW_END_SOLUTION)
+  { x }
+|	x = atom_(KW_BEGIN_SYNTAX, KW_END_SYNTAX)
+  { x }
+|	x = atom_(KW_BEGIN_TEACHASK, KW_END_TEACHASK)
+  { x }
+|	x = atom_(KW_BEGIN_THEOREM, KW_END_THEOREM)
+  { x }
 /*
 |	hb = env_b_definition; bs = boxes_start_no_sq; he = env_e_definition
   { Atom (atom_definition, None, hb, bs, he) }
