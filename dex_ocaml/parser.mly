@@ -20,6 +20,7 @@ let set_option (r, vo) =
 %token <string> BACKSLASH
 %token <string> O_CURLY C_CURLY	
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
+%token <string> COMMENT_LINE
 
 %token <string> KW_BEGIN KW_END	
 %token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
@@ -55,7 +56,7 @@ let set_option (r, vo) =
 %token <string> KW_PARAGRAPH	
 %token <string> KW_SUBPARAGRAPH
 
-%token <string> ENV_B_GROUP ENV_E_GROUP
+%token <string> KW_BEGIN_GROUP KW_END_GROUP
 	
 %start chapter
 %{ open Atoms %}
@@ -91,6 +92,8 @@ sq_box:
 word: 
   w = WORD 
   {w}
+| x = COMMENT_LINE
+  {x}
 | b = BACKSLASH w = WORD
   {b ^ w}
 | kwb = KW_BEGIN; co = O_CURLY; w = WORD; cc = C_CURLY 
@@ -124,6 +127,14 @@ boxes_start_no_sq:
  ** END: Words and Boxes 
  **********************************************************************/
 
+/**********************************************************************
+ ** BEGIN: Comments
+ **********************************************************************/
+comment:
+  x = COMMENT_LINE
+  {x}
+| x = COMMENT_LINE; y = comment
+  {x ^ y}
 
 /**********************************************************************
  ** BEGIN: Diderot Keywords
@@ -237,22 +248,22 @@ block:
 			
 /* BEGIN: Groups and atoms */
 
-env_b_group:
-  hb = ENV_B_GROUP
+begin_group:
+  hb = KW_BEGIN_GROUP
   {hb}
 
-env_b_group_sq:
-  hb = ENV_B_GROUP; b = sq_box
+begin_group_sq:
+  hb = KW_BEGIN_GROUP; b = sq_box
   {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
 
-env_e_group:
-  he = ENV_E_GROUP
+end_group:
+  he = KW_END_GROUP
   {he}
 
 group:
-  hb = env_b_group; l = option(label); ats = atoms; he = env_e_group
+  hb = begin_group; l = option(label); ats = atoms; he = end_group
   {Ast.Group (None, l, hb, ats, he)}
-| hb = env_b_group_sq; l = option(label); ats = atoms; he = env_e_group
+| hb = begin_group_sq; l = option(label); ats = atoms; he = end_group
   {let (hb, t) = hb in Ast.Group (Some t, l, hb, ats, he)}
 
 atoms:

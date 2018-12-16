@@ -15,7 +15,8 @@ let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'	
 let p_ws = [' ' '\t' '\n']*	
-let p_comment_line = '%' [^ '\n']* '\n'
+let p_percent = '%'
+let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
 
 (* No white space after backslash *)
@@ -118,7 +119,7 @@ let p_e_teachask = '\\' "end" p_o_curly p_teachask p_ws p_c_curly
 let p_b_theorem = '\\' "begin" p_o_curly p_theorem p_ws p_c_curly
 let p_e_theorem = '\\' "end" p_o_curly p_theorem p_ws p_c_curly
 
-let p_word = [^ '\\' '{' '}' '[' ']']+ 
+let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 
 (** END PATTERNS *)			
@@ -136,6 +137,9 @@ rule token = parse
 		{printf "!matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
 		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
+
+| p_comment_line as x
+  	{printf "!matched comment line %s." x; COMMENT_LINE(x)}		
 
 | p_label as x
   	{printf "!matched %s." x; KW_LABEL(x)}		
@@ -255,9 +259,9 @@ rule token = parse
   	{printf "matched end THEOREM %s" x; KW_END_THEOREM(x)}		
 (* END ATOMS *)
 | p_b_group as x
-  	{printf "!matched: %s." x; ENV_B_GROUP(x)}		
+  	{printf "!matched: %s." x; KW_BEGIN_GROUP(x)}		
 | p_e_group as x
-  	{printf "!matched: %s." x; ENV_E_GROUP(x)}
+  	{printf "!matched: %s." x; KW_END_GROUP(x)}
 
 | p_word as x
 		{printf "!found word: %s." x;
