@@ -2,12 +2,6 @@
 open Core
 open Printf
 open Parser
-open Atoms
-
-
-let atom_table = String.Table.create () ~size:512 
-let _ = List.iter ~f:(fun (key, data) -> Hashtbl.set atom_table ~key ~data) all_atoms
-
 }
 
 (** BEGIN: PATTERNS *)	
@@ -265,11 +259,8 @@ rule token = parse
 
 | p_word as x
 		{printf "!found word: %s." x;
-     match (Hashtbl.find atom_table x) with 
-     | None -> printf "!matched word: %s." x; WORD (x)
-     | Some y ->  printf "!found atom: %s." y; ATOM(y)
+     WORD(x)
     }
-		
 | eof
 		{EOF}
 | _

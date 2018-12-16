@@ -14,7 +14,6 @@ let set_option (r, vo) =
 
 %token EOF
 
-%token <string> ATOM
 %token <string> WORD
 
 %token <string> BACKSLASH
