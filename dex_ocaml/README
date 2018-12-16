@@ -32,6 +32,26 @@
     
     Thus we have to treat latex keywords as plain words in the parser.
     
+    -> this approach seems to work.
+
+  * Associating preambles with atoms and groups does not completely solve the stray text problem.
+
+    Because we can also have stray text at the end of things that currently don't belonge anywhere
+
+    For example:
+    \section{xyz} 
+ 
+     blocks
+
+     stray text currently does not belong anywhere.
+
+    The same applies to blocks and such.
+
+    Thus if there is no atom group that the text will be assigned to we are kind of stuck.
+
+    It might be possible to give sections a postamble.      
+
+
 
 
 - [Dec 14, 15, mixed hacking in various meetings]

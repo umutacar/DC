@@ -58,6 +58,7 @@ let p_remark = "remark"
 let p_solution = "solution"
 let p_syntax = "syntax"
 let p_teachask = "teachask"
+let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
 let p_b_group = '\\' "begin{group}" p_ws	
@@ -110,6 +111,8 @@ let p_b_syntax = '\\' "begin" p_o_curly p_syntax p_ws p_c_curly
 let p_e_syntax = '\\' "end" p_o_curly p_syntax p_ws p_c_curly
 let p_b_teachask = '\\' "begin" p_o_curly p_teachask p_ws p_c_curly
 let p_e_teachask = '\\' "end" p_o_curly p_teachask p_ws p_c_curly
+let p_b_teachnote = '\\' "begin" p_o_curly p_teachnote p_ws p_c_curly
+let p_e_teachnote = '\\' "end" p_o_curly p_teachnote p_ws p_c_curly
 let p_b_theorem = '\\' "begin" p_o_curly p_theorem p_ws p_c_curly
 let p_e_theorem = '\\' "end" p_o_curly p_theorem p_ws p_c_curly
 
@@ -247,6 +250,10 @@ rule token = parse
   	{printf "matched begin TEACHASK %s" x; KW_BEGIN_TEACHASK(x)}		
 | p_e_teachask as x
   	{printf "matched end TEACHASK %s" x; KW_END_TEACHASK(x)}		
+| p_b_teachnote as x
+  	{printf "matched begin TEACHNOTE %s" x; KW_BEGIN_TEACHNOTE(x)}		
+| p_e_teachnote as x
+  	{printf "matched end TEACHNOTE %s" x; KW_END_TEACHNOTE(x)}		
 | p_b_theorem as x
   	{printf "matched begin THEOREM %s" x; KW_BEGIN_THEOREM(x)}		
 | p_e_theorem as x

@@ -44,6 +44,7 @@ let set_option (r, vo) =
 %token <string> KW_BEGIN_SOLUTION KW_END_SOLUTION
 %token <string> KW_BEGIN_SYNTAX KW_END_SYNTAX
 %token <string> KW_BEGIN_TEACHASK KW_END_TEACHASK
+%token <string> KW_BEGIN_TEACHNOTE KW_END_TEACHNOTE
 %token <string> KW_BEGIN_THEOREM KW_END_THEOREM
 	
 %token <string> KW_LABEL
@@ -95,6 +96,10 @@ word:
   {x}
 | bone = BACKSLASH btwo = BACKSLASH  /* latex special: // */
   {bone ^ btwo}
+| b = BACKSLASH c = O_CURLY  /* latex special: \{ */
+  {b ^ c}
+| b = BACKSLASH c = C_CURLY /* latex special: \} */
+  {b ^ c}
 | b = BACKSLASH s = O_SQ_BRACKET  /* latex special: \[ */
   {b ^ s}
 | b = BACKSLASH s = C_SQ_BRACKET /* latex special: \] */
@@ -387,6 +392,8 @@ atom:
 |	x = atom_(KW_BEGIN_SYNTAX, KW_END_SYNTAX)
   { x }
 |	x = atom_(KW_BEGIN_TEACHASK, KW_END_TEACHASK)
+  { x }
+|	x = atom_(KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
   { x }
 |	x = atom_(KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
