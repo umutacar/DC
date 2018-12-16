@@ -1,3 +1,4 @@
+type preamble = string
 type atom_kind = string
 type atom_body = string
 type title = string
@@ -13,8 +14,8 @@ type keyword = string
  *)
 
 type label = Label of keyword * string * keyword 
-type atom = Atom of atom_kind * title option * label option * keyword * atom_body * keyword
-type group = Group of title option * label option * keyword * atom list * keyword
+type atom = Atom of preamble * (atom_kind * title option * label option * keyword * atom_body * keyword) 
+type group = Group of preamble * (title option * label option * keyword * atom list * keyword)
 
 type chapter = 
   Chapter of  title * label option * keyword * block list * section list
@@ -58,18 +59,21 @@ let titleOptionToString topt =
               |  Some s -> s in
      r
 
-let atomToString (Atom(kind, topt, lo, hb, ab, he)) = 
+let atomToString (Atom(preamble, (kind, topt, lo, hb, ab, he))) = 
   let label = "label: " ^ labelOptionToString lo in
-    match topt with
-    | None -> hb ^ label ^ ab ^ he
-    | Some t -> hb ^ "kind:" ^ kind ^ "title:" ^ t ^ label ^ ab ^ he
+  let heading =  match topt with
+                 | None -> "Atom:" ^ hb 
+                 | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" 
+  in
+    preamble ^ heading ^ label ^ ab ^ he
 
-let groupToString (Group(topt, lo, hb, ats, he)) = 
+let groupToString (Group(preamble, (topt, lo, hb, ats, he))) = 
   let atoms = map_concat atomToString ats in
   let label = "label: " ^ labelOptionToString lo in
-    match topt with
-    | None -> hb ^ label ^ atoms ^ he
-    | Some t -> hb ^ "title:" ^ t ^ label ^ atoms ^ he
+  let heading = match topt with
+                | None -> hb
+                | Some t -> hb ^ "title:" ^ t in
+    preamble ^ heading ^ label ^ atoms ^ he
 
 let blockToString b = 
   match b with
@@ -117,17 +121,22 @@ let chapterToString (Chapter (t, lo, h, bs, ss)) =
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
-let atomToTex (Atom(kind, topt, lo, hb, ab, he)) = 
+let atomToTex (Atom(preamble, (kind, topt, lo, hb, ab, he))) = 
   let label = labelOptionToString lo in
-    match topt with
-    | None -> "Atom:" ^ hb ^ label ^ ab ^ he
-    | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" ^ label ^ ab ^ he
-    
+  let heading =  match topt with
+                 | None -> "Atom:" ^ hb 
+                 | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" 
+  in
+    preamble ^ heading ^ label ^ ab ^ he
+      
 
-let groupToTex (Group(topt, lo, hb, ats, he)) = 
+let groupToTex (Group(preamble, (topt, lo, hb, ats, he))) = 
   let atoms = map_concat atomToTex ats in
   let label = labelOptionToString lo in
-    hb ^ label ^ atoms ^ he
+  let heading = match topt with
+                | None -> hb
+                | Some t -> hb ^ t in
+    preamble ^ heading ^ label ^ atoms ^ he
 
 let blockToTex b = 
   match b with

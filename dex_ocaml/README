@@ -16,6 +16,12 @@
 
 # JOURNAL
 
+
+- [Dec 16]
+  * working on comments
+
+  * adding atom preambles that can be associated with each atom but will not be "displayed".
+
 - [Dec 14, 15, mixed hacking in various meetings]
 
   * Learned about menhir parameterized rules.  they have some limitations but work generally well it seems.

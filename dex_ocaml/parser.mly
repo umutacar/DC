@@ -260,11 +260,30 @@ end_group:
   he = KW_END_GROUP
   {he}
 
+/* There is a shift reduce conflict here but it doesn't shifting does 
+   the right thing. 
+*/   
 group:
-  hb = begin_group; l = option(label); ats = atoms; he = end_group
-  {Ast.Group (None, l, hb, ats, he)}
+| preamble = boxes;   
+  hb = KW_BEGIN_GROUP; 
+  l = option(label); 
+  ats = atoms; 
+  he = end_group
+  {Ast.Group (preamble, (None, l, hb, ats, he))}
+
+| preamble = boxes; 
+  hb = KW_BEGIN_GROUP;
+  t = sq_box; 
+  l = option(label); 
+  ats = atoms; 
+  he = end_group;
+  {let (bo, tt, bc) = t in
+   let title_part = bo ^ tt ^ bc in
+     Ast.Group (preamble, (Some tt, l, hb ^ title_part, ats, he))}
+/*
 | hb = begin_group_sq; l = option(label); ats = atoms; he = end_group
   {let (hb, t) = hb in Ast.Group (Some t, l, hb, ats, he)}
+*/
 
 atoms:
   {[]}		
@@ -273,46 +292,46 @@ atoms:
 	
 
 atom_(kw_b, kw_e):
-| b = kw_b;
+| preamble = boxes;
+  b = kw_b;
   l = label;
   bs = boxes; 
   e = kw_e;
-  text = boxes;
   {
    printf "Parsed Atom %s" b;
-   Atom (b, None, Some l, b, bs, e) 
+   Atom (preamble, (b, None, Some l, b, bs, e))
   }
 
-| b = kw_b;
+| preamble = boxes;
+  b = kw_b;
   t = sq_box; 
   l = label;
   bs = boxes; 
   e = kw_e;
-  text = boxes;
   {
    let (bo, tt, bc) = t in
      printf "Parsed Atom %s title = %s" b tt;
-     Atom (b, Some tt, Some l, b, bs, e) 
+     Atom (preamble, (b, Some tt, Some l, b, bs, e))
   }
 
-| b = kw_b;
+| preamble = boxes;
+  b = kw_b;
   bs = boxes_start_no_sq; 
   e = kw_e;
-  text = boxes;
   {
    printf "Parsed Atom %s" b;
-   Atom (b, None, None, b, bs, e) 
+   Atom (preamble, (b, None, None, b, bs, e)) 
   }
 
-| b = kw_b;
+| preamble = boxes;
+  b = kw_b;
   t = sq_box; 
   bs = boxes; 
   e = kw_e;
-  text = boxes;
   {
    let (bo, tt, bc) = t in
      printf "Parsed Atom %s title = %s" b tt;
-     Atom (b, Some tt, None, b, bs, e) 
+     Atom (preamble, (b, Some tt, None, b, bs, e))
   }
 
 /*
@@ -366,8 +385,6 @@ atom:
   { x }
 |	x = atom_(KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
-
-
 
 /*
 
