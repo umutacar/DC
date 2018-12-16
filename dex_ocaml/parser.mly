@@ -94,6 +94,12 @@ word:
   {w}
 | x = COMMENT_LINE
   {x}
+| bone = BACKSLASH btwo = BACKSLASH  /* latex special: // */
+  {bone ^ btwo}
+| b = BACKSLASH s = O_SQ_BRACKET  /* latex special: \[ */
+  {b ^ s}
+| b = BACKSLASH s = C_SQ_BRACKET /* latex special: \] */
+  {b ^ s}
 | b = BACKSLASH w = WORD
   {b ^ w}
 | kwb = KW_BEGIN; co = O_CURLY; w = WORD; cc = C_CURLY 
@@ -156,9 +162,9 @@ mk_heading(kw_heading):
   hc = kw_heading; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
-mk_sections(section_):
-| s = section_; {[s]}
-| ss = mk_sections(section_); s = section_
+mk_sections(my_section):
+| s = my_section; {[s]}
+| ss = mk_sections(my_section); s = my_section
   {List.append ss [s]}
 
 mk_section(kw_section, nested_section):

@@ -20,7 +20,19 @@
 - [Dec 16]
   * working on comments
 
-  * adding atom preambles that can be associated with each atom but will not be "displayed".
+  * added atom preambles that can be associated with each atom but will not be "displayed".
+  * added group preambles
+
+  * thinking about what to about latex commands such as 
+    \xyz where xyz could be \item \begin{enumerate} \% or \[
+    These we should treat them as plain words.  But how? 
+
+    The problem is that unless we treat \ specially we will not be able to
+    match things like \begin{atom}.
+    
+    Thus we have to treat latex keywords as plain words in the parser.
+    
+
 
 - [Dec 14, 15, mixed hacking in various meetings]
 
