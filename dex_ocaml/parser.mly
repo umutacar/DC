@@ -170,7 +170,7 @@ mk_sections(my_section):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  bso = option(blocks); 
+  bso = option(blocks);   
   sso = option(mk_sections(nested_section));
   {
    let (hc, t) = h in
@@ -178,7 +178,7 @@ mk_section(kw_section, nested_section):
    let ss = ref [] in
    let _ = set_option (bs, bso) in
    let _ = set_option (ss, sso) in
-     (t, l, hc, !bs, !ss)
+     ("", (t, l, hc, !bs, !ss))
   }	  
 
 
@@ -201,25 +201,25 @@ chapter:
 section: 
   args = mk_section(KW_SECTION, subsection)
   {
-   let (t, l, hc, bs, ss) = args in
-     Ast.Section(t, l, hc, bs, ss)
+   let (preamble, (t, l, hc, bs, ss)) = args in
+     Ast.Section (preamble, (t, l, hc, bs, ss))
   }	  
 
 subsection: 
   args = mk_section(KW_SUBSECTION, subsubsection)
   {
-   let (t, l, hc, bs, ss) = args in
-     Ast.Subsection(t, l, hc, bs, ss)
+   let (preamble, (t, l, hc, bs, ss)) = args in
+     Ast.Subsection(preamble, (t, l, hc, bs, ss))
   }	  
 	
 subsubsection: 
   args = mk_section(KW_SUBSUBSECTION, paragraph)
   {
-   let (t, l, hc, bs, ss) = args in
-     Ast.Subsubsection(t, l, hc, bs, ss)
+   let (preamble, (t, l, hc, bs, ss)) = args in
+     Ast.Subsubsection (preamble, (t, l, hc, bs, ss))
   }	  
 
-paragraph: 
+paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
   bso = option(blocks); 
@@ -227,7 +227,7 @@ paragraph:
    let (hc, t) = h in
    let bs = ref [] in
    let _ = set_option (bs, bso) in
-     Ast.Paragraph(t, l, hc, !bs)
+     Ast.Paragraph ("", (t, l, hc, !bs))
   }	  
 	
 

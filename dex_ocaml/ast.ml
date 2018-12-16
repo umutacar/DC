@@ -21,16 +21,16 @@ type chapter =
   Chapter of  title * label option * keyword * block list * section list
 
 and section = 
-  Section of title * label option * keyword * block list * subsection list
+  Section of preamble * (title * label option * keyword * block list * subsection list)
 
 and subsection = 
-  Subsection of title * label option * keyword * block list * subsubsection list
+  Subsection of preamble * (title * label option * keyword * block list * subsubsection list)
 
 and subsubsection = 
-  Subsubsection of title * label option * keyword * block list * paragraph list
+  Subsubsection of preamble * (title * label option * keyword * block list * paragraph list)
 
 and paragraph = 
-  Paragraph of title * label option * keyword * block list
+  Paragraph of preamble * (title * label option * keyword * block list)
 
 and block = 
   | Block_Group of group
@@ -80,27 +80,27 @@ let blockToString b =
   | Block_Group g -> groupToString g
   | Block_Atom a -> atomToString a
 
-let paragraphToString (Paragraph (t, lo, h, bs)) =
+let paragraphToString (Paragraph (preamble, (t, lo, h, bs))) =
   let blocks = map_concat blockToString bs in
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
-    "*paragraph:" ^ title ^ label ^ h ^ blocks
+    preamble ^ "*paragraph:" ^ title ^ label ^ h ^ blocks
 
-let subsubsectionToString (Subsubsection (t, lo, h, bs, ss)) =
+let subsubsectionToString (Subsubsection (preamble, (t, lo, h, bs, ss))) =
   let blocks = map_concat blockToString bs in
   let nesteds = map_concat paragraphToString ss in
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
-    "*subsubsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
+    preamble ^ "*subsubsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
 
-let subSectionToString (Subsection (t, lo, h, bs, ss)) =
+let subSectionToString (Subsection (preamble, (t, lo, h, bs, ss))) =
   let blocks = map_concat blockToString bs in
   let nesteds = map_concat subsubsectionToString ss in
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
-    "*subsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
+   preamble ^  "*subsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
 
-let sectionToString (Section (t, lo, h, bs, ss)) =
+let sectionToString (Section (preamble, (t, lo, h, bs, ss))) =
   let blocks = map_concat blockToString bs in
   let nesteds = map_concat subSectionToString ss in
   let title = "title: " ^ t in
@@ -144,28 +144,28 @@ let blockToTex b =
   | Block_Atom a -> atomToTex a
 
 
-let paragraphToTex (Paragraph (t, lo, h, bs)) =
+let paragraphToTex (Paragraph (preamble, (t, lo, h, bs))) =
   let blocks = map_concat blockToTex bs in
   let label = labelOptionToString lo in
-    h ^ label ^ blocks
+    preamble ^ h ^ label ^ blocks
 
-let subsubsectionToTex (Subsubsection (t, lo, h, bs, ss)) =
+let subsubsectionToTex (Subsubsection (preamble, (t, lo, h, bs, ss))) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat paragraphToTex ss in
   let label = labelOptionToString lo in
-    h ^ label ^ blocks ^ nesteds
+    preamble ^ h ^ label ^ blocks ^ nesteds
 
-let subsectionToTex (Subsection (t, lo, h, bs, ss)) =
+let subsectionToTex (Subsection (preamble, (t, lo, h, bs, ss))) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptionToString lo in
-    h ^ label ^ blocks ^ nesteds
+    preamble ^ h ^ label ^ blocks ^ nesteds
 
-let sectionToTex (Section (t, lo, h, bs, ss)) =
+let sectionToTex (Section (preamble, (t, lo, h, bs, ss))) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptionToString lo in
-    h ^ label ^ blocks ^ nesteds
+    preamble ^ h ^ label ^ blocks ^ nesteds
 
 let chapterToTex (Chapter (t, lo, h, bs, ss)) =
   let blocks = map_concat blockToTex bs in

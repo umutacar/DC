@@ -326,14 +326,347 @@ P_s \cup P_c = \cset{\vname{a} \mapsto \vname{a}, \vname{b} \mapsto \vname{b}, \
 \end{example}
 \end{group}
 
+
+\section{Analysis of Star Partition}
+\label{sec:graphcon::star::partition-analysis}
+
+\begin{theorem}[Cost of Star Partition]
+Based on the array-based cost specification for sequences and
+single-threaded sequences, the cost of $\cdvar{starPartition}$ is 
+\[
+O(n + m)
+\]
+work and 
+\[
+O(\lg n)
+\]
+span for a graph with $n$ vertices and $m$ edges.
+\end{theorem}
+\begin{exercise}
+Prove the theorem.
+\end{exercise}
+
+\begin{teachask}
+ In expectation, how big is $P$?  
+\end{teachask}
+
+
+\begin{gram}[Number of Satellites]
+Let us also bound the number of satellites found by
+$\cdvar{starPartition}.$
+%
+Note first that there is a one-to-one mapping between the satellites
+and the set $P_s$ computed by  the algorithm.
+%
+%
+The following lemma establishes that on a graph with
+$\nn$~non-isolated vertices, the number of satellites is at least
+$\nn/4$ in expectation.
+%
+As we will see this means that we can use star partitions to perform
+graph contraction with logarithmic span.
+\end{gram}
+
+\begin{group}
+\begin{lemma}[Number of Satelites]
+  For a graph $G$ with $\nn$ non-isolated vertices, the expected
+  number of satellites in a call to $\cdvar{starPartition}~(G,i)$ with
+  any~$i$ is at least $\nn/4$.
+\end{lemma}
+
+\begin{proof}
+  For any vertex $v$, let $H_v$ be the event that a vertex $v$ comes
+  up heads, $T_v$ that it comes up tails, and $R_v$ that $v \in
+  \cdvar{domain}(P)$ (i.e, it is a satellite).
+%
+  Consider any non-isolated vertex $v \in V(G)$.  By definition, we
+  know that a non-isolated vertex $v$ has at least one neighbor $u$.
+  So, we know that $T_v \land H_u$ implies $R_v$, since if $v$ is a
+  tail and $u$ is a head $v$ must either join $u$'s star or some other
+  star.  Therefore, $\prob{R_v} \geq \prob{T_v} \prob{H_u} = 1/4$.  By
+  the linearity of expectation,  the expected number of satellites is
+  \begin{align*}
+    \expct{\sum_{v: v \text{ non-isolated}} \onef{R_v}} & = \sum_{v: v
+      \text{ non-isolated}} \expct{\onef{R_v}} 
+\\[2mm]
+  & \geq \nn/4.
+  \end{align*}
+  The final inequality follows because we have $\nn$ non-isolated
+  vertices and because the expectation of an indicator random variable
+  is equal to the probability that it takes the value $1$.
+\end{proof}
+\end{group}
+
+\begin{teachnote}
+Consider the random variable that a vertex becomes a satellite.  This
+happens if the vertex flips tails and it has a neighbor that flips
+heads.  A non-isolated vertex has at least one neighbor, therefore
+this probability is at least 1/4.  The bound follows.
+\end{teachnote}
+
+\section{Star Contraction}
+\label{sec:graphcon::star::contract}
+
+\begin{definition}[Star Contraction]
+\defn{Star contraction} is an instance of graph contraction that uses
+star partitions to contract the graph.
+\end{definition}
+
+\begin{algorithm}[Star Contraction]
+\label{alg:graphcon::sc}
+\[
+\begin{array}{ll}
+1 & \cdvar{starContract}~\cdvar{base}~\cdvar{expand}~(G = (V,E)) =
+\\ 
+2 & ~~~~\cd{if}~|E| = 0~\cd{then}
+\\
+3 & ~~~~~~~~\cdvar{base}~(V)
+\\
+4 & ~~~~\cd{else}
+\\ 
+5 & ~~~~~~~~\cd{let}
+\\ 
+6 & ~~~~~~~~~~~~(V',P) = \cdvar{starPartition}~(V,E)~ % @\label{line:graphcon::cc::partition}@
+\\
+7 & ~~~~~~~~~~~~E' = \csetf{(\cget{P}{u},\cget{P}{v}) : (u,v) \in  E}{\cget{P}{u} \neq \cget{P}{v}} 
+% @\label{line:graphcon::cc::edges}@
+\\
+8 & ~~~~~~~~~~~~R = \cdvar{starContract}~\cdvar{base}~\cdvar{expand}~(V',E')
+\\
+9 & ~~~~~~~~\cd{in}
+\\
+10 & ~~~~~~~~~~~~\cdvar{expand}~(P, R)
+\\
+11 & ~~~~~~~~\cd{end}
+\end{array}
+\]
+
+The pseudo-code above illustrates a generic, higher-order
+star-contraction algorithm.
+%
+The algorithm takes as arguments
+\begin{itemize}
+\item  a function $\cdvar{base}$ that specifies
+the computation in the base case,
+
+\item 
+another function $\cdvar{expand}$ that computes the result for the larger
+graph from the smaller, contracted graph, and 
+
+\item
+the graph.
+\end{itemize}
+
+
+Each contraction on Line~\linegcscpartition{} returns the set of
+(centers) super-vertices $V'$ and a table $P$ mapping every $v \in V$
+to a $v' \in V'$.
+%
+The set $V'$ defines the super-vertices of the quotient graph.
+%
+
+Line~\linegcscedges{} completes the construction of the quotient graph:
+%
+\begin{itemize}
+\item it computes the edges of the quotient graph by 
+routing the end points of each edge to the corresponding
+super-vertices in $V'$, which is specified by the table $P$;
+%
+\item it  removes all self edges via the  filter $\cget{P}{u}
+\neq \cget{P}{v}$.
+%
+\end{itemize}
+%
+
+Having computed the quotient graph, the algorithm recurs.
+%
+Recursion bottoms out when the graph contains no edges, in which case,
+the function $\cdvar{base}$ is applied to the remaining vertices.
+%
+In the base case, each connected component has been contracted down to
+a singleton vertex, and thus the number of vertices in the contracted
+graph is equal to the number of components in the input graph.
+
+The result of the recursive call $R$ is ``expanded'' to compute the result
+for the whole graph by calling the function $\cdvar{expand}$.
+
+\end{algorithm}
+
+\begin{exercise}
+I did not work out the arguments for $\cdvar{base}$ and $\cdvar{expand}$
+carefully.  Discuss here what it should be by clicking on the ``discuss''
+button on the right hand corner of this block.
+\end{exercise}
+
+\begin{teachnote}
+TODO [this is somewhat resolved]
+This analysis is rather imprecise, because we have not written the
+pseudocode for graph contraction.  How do we re-route edges and such.
+This should be done.
+\end{teachnote}
+
+\begin{group}
+\begin{theorem}[Work and Span of Star Contraction]
+\label{thm:graphcon::star-contraction-cost}
+  For a graph $G = (V,E)$, we can contract the graph into a number of
+  isolated vertices   in $O(|V| + |E| \lg |V|)$ work and $O(\lg^2 |V|)$ span.
+\end{theorem}
+
+\begin{gram}
+For the proof, we will consider work and span separately
+%
+and assume that
+%
+\begin{itemize}
+   \item function $\cdvar{base}$ has constant span and linear work in the
+     number of vertices passed as argument, and
+\item function $\cdvar{expand}$ has linear work and logarithmic span in
+  the number of vertices and edges at the corresponding step of the
+  contraction.
+  \end{itemize}
+
+\end{gram}
+
+\begin{gram}[Span of Star Contraction]
+Let $\nn$ be the number of non-isolated vertices.
+%
+In star contraction, once a vertex becomes isolated, it remains
+isolated until the final round, since contraction only removes edges.
+%
+Let $\nn'$ denote the number of non-isolated vertices after one round of star
+contraction.
+%
+
+We can write the following recurrence for the span of star contraction.
+%
+\[
+\begin{array}{lll}
+S(\nn)  & = &
+\left\{
+\begin{array}{lll}
+S(\nn') + O(\lg n) & \mbox{if} & \nn > 0
+\\
+1 & \mbox{otherwise.}
+\end{array}
+\right.
+\end{array}
+\]
+%
+
+Observe that $\nn' = \nn - X$, where $X$ is the number of satellites
+(as defined earlier in the lemma about $\cdvar{starPartition}$), which are
+removed at a step of contraction. Since $\expct{X} = \nn/4$,
+$\expct{\nn'} = 3n/4$.
+%
+This is a familiar recurrence, which we know solves to $O(\lg^2
+\nn)$, and thus $O(\lg^2 n)$, in expectation.
+\end{gram}
+
+
+\begin{gram}[Work of Star Contraction]
+For work, we would like to show that the overall work is linear,
+because we might hope that the graph size is reduced by a constant
+fraction on each round.
+%
+Unfortunately, this is not the case.  Although we have shown that star
+contraction can remove a constant fraction of the non-isolated
+vertices in one round, we have not bounded the number of edges
+removed.
+%
+
+%% \begin{teachask}
+%% How many edges can we remove? 
+%% \end{teachask}
+%
+Because removing a satellite also removes the edge that attaches it to
+its star's center, each round  removes at least as many edges as vertices.  
+%
+But this does not help us bound
+the number of edges removed by a linear function of $m$, because there
+can be as many an $n^2$ edges in the graph.
+%
+Thus, all we know is that there are no more than $m-n$ after one
+round of contraction.
+
+To bound the work, we will consider non-isolated and isolated vertices
+separately.
+%
+Let $\nn'$  denote the  number of non-isolated vertices after one
+round of star contraction.
+%
+For the non-isolated vertices, we have the following work recurrence:
+\[
+\begin{array}{lll}
+W(\nn, m) 
+\leq 
+\left\{
+\begin{array}{lll}
+W(\nn', m) + O(\nn+m) & \mbox{if} & \nn > 1
+\\
+1 & \mbox{otherwise.}
+\end{array}
+\right.
+\end{array}
+\]
+%
+This recursion solves to
+\[
+\expct{W(\nn,m)} = O(\nn + m\lg \nn) = O(n + m \lg{n}).
+\]
+
+To bound the work on isolated vertices, we note that there at most $n$
+of them at each round and thus, the additional work is $O(n \lg{n}).$
+
+We thus conclude that the total work is
+\[
+O((n + m)\lg{n}).
+\]
+\end{gram}
+
+\begin{note}
+Consider as an example a star contraction where $n$ and $m$ have the
+following values in each round.
+\[
+\begin{array}{lll}
+\hline
+ \mbox{round} & \mbox{vertices} & \mbox{edges}
+\\
+\hline
+ 1 & n & m 
+\\
+ 2 & n/2 & m - n/2 
+\\
+ 3 & n/4 & m - 3n/4 
+\\
+ 4 & n/8 & m - 7n/8 
+\\
+\hline
+ \end{array}
+\]
+It is clear that the number of edges does not drop below $m-n,$ so if
+there are $m > 2n$ edges to start with, the overall work will be $O(m
+\lg n)$.
+%
+\end{note}
+%
+\end{group}
+
+\begin{teachnote}
+Note that if the graph is complete, we do actually reduce the number
+of edges by a constant fraction be eliminating redundancy, because we
+can only have so many edges in the quotient graph. This brings up an
+interesting point about when this algorithm actually performs poorly.
+It might be interesting to study some real world instance.
+\end{teachnote}
+
+\begin{teachnote}
+Idea: Consider a contraction along with the randomness function.
+Consider each round and the blocks contracted in that round.
+Add just as many edges as possible (without leading to duplicates)
+between those blocks.  Make sure that you don't generate duplicates
+in following rounds.  Since each block is nested inside a
+logarithmic number of other blocks.  It is possible to construct
+such a graph that also has a large number of edges.
+\end{teachnote}
 %\end{section}
-
-%% \begin{todo}
-%% This theorem needs a proof.  What is the graph representation? 
-%% It seems like it is an edge set representation.
-
-%% The big union would require logn span do we need inject here?
-
-%% \end{todo}
-
-
+%\end{chapter}
