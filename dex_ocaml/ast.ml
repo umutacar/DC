@@ -4,7 +4,10 @@ type title = string
 type keyword = string
 
 (* Keywords are used to capture the "beginning" and "end" of the commands.
-   For example, "    \label   {"  and "}    \n", etc
+   For example, "    \label   {"  and "}    \n", 
+                "\begin{example}  \n"
+                "\end{example}  \n\n\n"
+                  
 
    Because we don't care about white space, they might have whitespace in them.
  *)
@@ -47,6 +50,12 @@ let labelOptionToString lo =
   let r = match lo with 
               |  None -> ""
               |  Some l -> labelToString l  in
+     r
+
+let titleOptionToString topt = 
+  let r = match topt with 
+              |  None -> ""
+              |  Some s -> s in
      r
 
 let atomToString (Atom(kind, topt, lo, hb, ab, he)) = 
@@ -110,7 +119,10 @@ let chapterToString (Chapter (t, lo, h, bs, ss)) =
  **********************************************************************)
 let atomToTex (Atom(kind, topt, lo, hb, ab, he)) = 
   let label = labelOptionToString lo in
-    hb ^ label ^ ab ^ he
+    match topt with
+    | None -> "Atom:" ^ hb ^ label ^ ab ^ he
+    | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" ^ label ^ ab ^ he
+    
 
 let groupToTex (Group(topt, lo, hb, ats, he)) = 
   let atoms = map_concat atomToTex ats in

@@ -278,6 +278,7 @@ atom_(kw_b, kw_e):
   bs = boxes; 
   e = kw_e
   {
+   printf "Parsed Atom %s" b;
    Atom (b, None, Some l, b, bs, e) 
   }
 
@@ -288,6 +289,7 @@ atom_(kw_b, kw_e):
   e = kw_e
   {
    let (bo, tt, bc) = t in
+     printf "Parsed Atom %s title = %s" b tt;
      Atom (b, Some tt, Some l, b, bs, e) 
   }
 
@@ -295,6 +297,7 @@ atom_(kw_b, kw_e):
   bs = boxes_start_no_sq; 
   e = kw_e
   {
+   printf "Parsed Atom %s" b;
    Atom (b, None, None, b, bs, e) 
   }
 
@@ -304,6 +307,7 @@ atom_(kw_b, kw_e):
   e = kw_e
   {
    let (bo, tt, bc) = t in
+     printf "Parsed Atom %s title = %s" b tt;
      Atom (b, Some tt, None, b, bs, e) 
   }
 
