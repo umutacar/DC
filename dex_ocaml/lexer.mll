@@ -15,8 +15,11 @@ let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'	
 let p_ws = [' ' '\t' '\n']*	
+let p_comment_line = '%' [^ '\n']* '\n'
+let p_skip = p_ws
 
-let p_backslash = '\\' p_ws			
+(* No white space after backslash *)
+let p_backslash = '\\'
 let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_ws
 let p_o_sq_bracket = '[' p_ws
@@ -123,7 +126,7 @@ let p_word = [^ '\\' '{' '}' '[' ']']+
 
 rule token = parse
 | p_backslash as x
-		{printf "!matched: \\."; BACKSLASH(x)}				
+		{printf "!matched: \\."; BACKSLASH(Char.to_string x)}				
 | p_o_curly as x
 		{printf "!matched: {."; O_CURLY(x)}				
 | p_c_curly as x
