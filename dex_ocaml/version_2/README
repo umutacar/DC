@@ -1,0 +1,51 @@
+# TODO
+- The problem with the whitespace business is that it kills existing parsers.  The current parsers are all LR(1) variants, which means that they can only lookahead one token at a time.  This becomes a problem when taking whitespace into account, because we usually want to allow multiple whitespaces.
+
+The files lexer.mll and parser.mly in this directory contain a take on the whitespace problem by uusing two newlines as a "separator" and ignoring whitespace otherwise.  This seems to "work" but it is clunky.  It is far away from the "Line by Line" parsing that I imagined would work nicely.
+
+I think I will have to take a different take on this.  One way to do this would be to write our own lexer that does the line by line parsing directly rather than relying on a parser, which is a bit rigid... I think this is a good next step to take
+
+
+
+# Overview
+
+The basic idea I am following here is to parse the document superficially, so superficially that we only want to care about what we need to identify blocks.  The rest, we treat them as blobs of text.
+
+Specificially the lexer will break up the document into words and also keep the newlines and other spaces.  The parser will then extract what it needs and put the rest together.
+
+Note: I had initially hoped that I could get away by parsing things only at the level of the lines but I decided agains it because I still have to parse arguments in curly braces and in square brackets.  This might get all too complicated by I am hoping to make it work. 
+
+# DEBUG
+Turn this on to see the various parser steps.
+$ export OCAMLRUNPARAM='p'
+
+
+
+# Lexer
+
+We are going to breax the text into tokens consisting of
+1) spaces and special characters
+- white space
+- open close curly { }
+- open close square [ ] 
+
+2) various headings
+- latex headings
+- \begin{atom} \end{atom}, for all atoms
+- \begin{group} \end{group}
+- 
+
+3) words will be the rest
+
+The hope is that we will be able to put everything back together in the parser, except for the parts that we care about.
+
+# OCAML 
+
+## Commands for building using ocamlbuild
+$ ocamlbuild -use-ocamlfind -quiet top.native
+
+##  Commands for hand compiling
+$ ocamllex lexer.mll
+$ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
+$ lexer.native
+

@@ -1,0 +1,69 @@
+"top.ml" 8 84 88 "top.ml" 8 84 92
+type(
+  unit -> Base.unit
+)
+ident(
+  def main "top.ml" 11 141 141 "top.ml" 1 0 -1
+)
+"top.ml" 8 84 93 "top.ml" 8 84 95
+type(
+  unit
+)
+"top.ml" 9 98 104 "top.ml" 9 98 110
+type(
+  Base.unit
+)
+ident(
+  def result "top.ml" 10 130 134 "top.ml" 10 130 140
+)
+"top.ml" 9 98 113 "top.ml" 9 98 123
+type(
+  unit -> Base.unit
+)
+ident(
+  int_ref Lexer.main "lexer.mll" 94 22989 22993 "lexer.mll" 94 22989 22997
+)
+"top.ml" 9 98 124 "top.ml" 9 98 126
+type(
+  unit
+)
+"top.ml" 9 98 113 "top.ml" 9 98 126
+call(
+  tail
+)
+type(
+  Base.unit
+)
+"top.ml" 10 130 134 "top.ml" 10 130 140
+type(
+  Base.unit
+)
+ident(
+  int_ref result "top.ml" 9 98 104 "top.ml" 9 98 110
+)
+"top.ml" 9 98 100 "top.ml" 10 130 140
+type(
+  Base.unit
+)
+"top.ml" 11 141 145 "top.ml" 11 141 146
+type(
+  Base.unit
+)
+"top.ml" 11 141 149 "top.ml" 11 141 153
+type(
+  unit -> Base.unit
+)
+ident(
+  int_ref main "top.ml" 8 84 88 "top.ml" 8 84 92
+)
+"top.ml" 11 141 154 "top.ml" 11 141 156
+type(
+  unit
+)
+"top.ml" 11 141 149 "top.ml" 11 141 156
+call(
+  stack
+)
+type(
+  Base.unit
+)
