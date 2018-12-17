@@ -5,6 +5,10 @@
 This is how MeTaL and Diderot communicate.
   
 
+# Translation to MLX
+
+  In the past, it used to be that strictification and elaboration was done at the DEX level.  We now do these at the MLX level because XML tools make these operations relatively straightforward to implement.  Theferefore dex2mlx does a relatively straightforward translation of DEX to MLX.
+  
 
 # Create a standalone executable
 pip install pyinstaller
