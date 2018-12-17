@@ -8,7 +8,6 @@ efficient and parallel contraction technique for general graphs.
 
 \section{Star Partition}
 \label{sec:graphcon::star::partition}
-
 \begin{gram}
 In an edge partition, if an edge incident on a vertex~$v$ is selected
 as a block, then none of the other edges incident on $v$ can be their
@@ -327,6 +326,15 @@ P_s \cup P_c = \cset{\vname{a} \mapsto \vname{a}, \vname{b} \mapsto \vname{b}, \
 \end{group}
 
 
+%% \begin{todo}
+%% This theorem needs a proof.  What is the graph representation? 
+%% It seems like it is an edge set representation.
+
+%% The big union would require logn span do we need inject here?
+
+%% \end{todo}
+
+
 \section{Analysis of Star Partition}
 \label{sec:graphcon::star::partition-analysis}
 
@@ -403,6 +411,7 @@ happens if the vertex flips tails and it has a neighbor that flips
 heads.  A non-isolated vertex has at least one neighbor, therefore
 this probability is at least 1/4.  The bound follows.
 \end{teachnote}
+
 
 \section{Star Contraction}
 \label{sec:graphcon::star::contract}
@@ -648,6 +657,7 @@ there are $m > 2n$ edges to start with, the overall work will be $O(m
 \lg n)$.
 %
 \end{note}
+%
 \end{group}
 
 \begin{teachnote}
@@ -667,5 +677,3 @@ in following rounds.  Since each block is nested inside a
 logarithmic number of other blocks.  It is possible to construct
 such a graph that also has a large number of edges.
 \end{teachnote}
-%\end{section}
-%\end{chapter}

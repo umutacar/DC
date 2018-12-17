@@ -166,15 +166,11 @@ mk_heading(kw_heading):
   hc = kw_heading; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
-mk_sections(my_section):
-| s = my_section; {[s]}
-| ss = mk_sections(my_section); s = my_section
-  {List.append ss [s]}
 
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  bso = option(blocks);   
+  bso = option(blocks_and_postamble);
   sso = option(mk_sections(nested_section));
   {
    let (hc, t) = h in
@@ -185,11 +181,16 @@ mk_section(kw_section, nested_section):
      ("", (t, l, hc, !bs, !ss))
   }	  
 
+mk_sections(my_section):
+| s = my_section; {[s]}
+| ss = mk_sections(my_section); s = my_section
+  {List.append ss [s]}
+
 
 chapter:
   h = mk_heading(KW_CHAPTER); 
-  l = option(label); 
-  bso = option(blocks); 
+  l = label; 
+  bso = option(blocks_and_postamble); 
   sso = option(mk_sections(section)); 
   EOF 
   {
@@ -226,7 +227,7 @@ subsubsection:
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  bso = option(blocks); 
+  bso = option(blocks_and_postamble); 
   {
    let (hc, t) = h in
    let bs = ref [] in
@@ -242,17 +243,25 @@ paragraph:
 /* BEGIN: Blocks
  * A blocks is a sequence of groups and atoms 
  */
-blocks:
-	b = block 
-  {[b]}
-| bs = blocks; b = block
-  {List.append bs [b]}
 
 block:
 	a = atom
   {Ast.Block_Atom a}
 | g = group
   {Ast.Block_Group g}
+
+blocks:
+	b = block
+  {[b]}
+| bs = blocks;
+  b = block; 
+  {List.append bs [b]}
+
+
+/* Drop postamble */
+blocks_and_postamble:
+  bs = blocks; postamble = boxes;
+  {bs} 
 /* END: Blocks */
 
 			
@@ -277,7 +286,7 @@ group:
 | preamble = boxes;   
   hb = KW_BEGIN_GROUP; 
   l = option(label); 
-  ats = atoms; 
+  ats = atoms_and_postamble; 
   he = end_group
   {Ast.Group (preamble, (None, l, hb, ats, he))}
 
@@ -285,7 +294,7 @@ group:
   hb = KW_BEGIN_GROUP;
   t = sq_box; 
   l = option(label); 
-  ats = atoms; 
+  ats = atoms_and_postamble; 
   he = end_group;
   {let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
@@ -299,6 +308,11 @@ atoms:
   {[]}		
 | ats = atoms; a = atom
   { List.append ats [a] }
+
+/* Drop postamble */
+atoms_and_postamble:
+  ats = atoms; postamble = boxes;
+  {ats}		
 	
 
 atom_(kw_b, kw_e):

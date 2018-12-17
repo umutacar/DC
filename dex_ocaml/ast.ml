@@ -18,7 +18,7 @@ type atom = Atom of preamble * (atom_kind * title option * label option * keywor
 type group = Group of preamble * (title option * label option * keyword * atom list * keyword)
 
 type chapter = 
-  Chapter of  title * label option * keyword * block list * section list
+  Chapter of  title * label * keyword * block list * section list
 
 and section = 
   Section of preamble * (title * label option * keyword * block list * subsection list)
@@ -107,11 +107,11 @@ let sectionToString (Section (preamble, (t, lo, h, bs, ss))) =
   let label = "label: " ^ labelOptionToString lo in
     "*section:" ^ title ^ label ^ h ^ blocks ^ nesteds
 
-let chapterToString (Chapter (t, lo, h, bs, ss)) =
+let chapterToString (Chapter (t, l, h, bs, ss)) =
   let blocks = map_concat blockToString bs in
   let sections = map_concat sectionToString ss in
   let title = "title: " ^ t in
-  let label = "label: " ^ labelOptionToString lo in
+  let label = labelToString l in
     "*chapter:" ^ title ^ label ^ h ^ blocks ^ sections
 
 (**********************************************************************
@@ -167,10 +167,10 @@ let sectionToTex (Section (preamble, (t, lo, h, bs, ss))) =
   let label = labelOptionToString lo in
     preamble ^ h ^ label ^ blocks ^ nesteds
 
-let chapterToTex (Chapter (t, lo, h, bs, ss)) =
+let chapterToTex (Chapter (t, l, h, bs, ss)) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
-  let label = labelOptionToString lo in
+  let label = labelToString l in
     h ^ label ^ blocks ^ sections
 
 (**********************************************************************

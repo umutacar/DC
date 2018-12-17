@@ -12,10 +12,14 @@
 
 #  TODO
   * Extend the parser to support comments
+  * Extend the parser to support text between atoms/blocks/sections etc.
 
+    This seems also necessary to support comments, unless we remove them somehow...
 
 # JOURNAL
 
+- [Dec 17]
+  * One way to deal with all text that is inbetween atoms is to allow atoms and groups to have preambles and have a sequence of them to have a postamble.  So this is what I implemented.
 
 - [Dec 16]
   * working on comments
@@ -49,9 +53,14 @@
 
     Thus if there is no atom group that the text will be assigned to we are kind of stuck.
 
-    It might be possible to give sections a postamble.      
+   ** To solve this problem, one possibility would be to give sections (subsections) etc, a preamble as well.  This does not work, because when we see a preamble we don't know if it should belong to an atom or a section.  So this is a major difficulty.
+
+    ** I wonder if a postamble will work....
+
+      Postamble idea might work but it is quite tricy to make it work because of conflicts.  One conflict arises from preamble/postamble ambiguity.  Should postamble be preamble of the atom that we have not seen or is it postamble. So we have to differentiate between empty and nonempty blocks.  
 
 
+      I will need to look into this and see if it is possible.
 
 
 - [Dec 14, 15, mixed hacking in various meetings]
