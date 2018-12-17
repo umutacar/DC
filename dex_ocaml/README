@@ -11,10 +11,13 @@
   and look into file `parser.conflicts` and `parser.automaton`
 
 #  TODO
-  * Extend the parser to support comments
-  * Extend the parser to support text between atoms/blocks/sections etc.
+  * Extend the parser to support comments.  See if the special status of comemnts can be eliminated.
+  * Cleanup AST, rm unused preamble/postamble
 
-    This seems also necessary to support comments, unless we remove them somehow...
+  * Make sure parser is idempontent.  Parse, convert to string should give the exam same Latex
+
+  * Translate to MLX.  This will require implementing a "front end" for MLX in ocaml that can supply various syntactic constructs that we need.
+
 
 # JOURNAL
 
