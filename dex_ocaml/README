@@ -17,39 +17,10 @@
   * Translate to MLX.  This will require implementing a "front end" for MLX in ocaml that can supply various syntactic constructs that we need.
 
 
-
-
-# Overview
-
-The basic idea I am following here is to parse the document superficially, so superficially that we only want to care about what we need to identify blocks.  The rest, we treat them as blobs of text.
-
-Specificially the lexer will break up the document into words and also keep the newlines and other spaces.  The parser will then extract what it needs and put the rest together.
-
-Note: I had initially hoped that I could get away by parsing things only at the level of the lines but I decided agains it because I still have to parse arguments in curly braces and in square brackets.  This might get all too complicated by I am hoping to make it work. 
-
 # DEBUG
 Turn this on to see the various parser steps.
 $ export OCAMLRUNPARAM='p'
 
-
-
-# Lexer
-
-We are going to breax the text into tokens consisting of
-1) spaces and special characters
-- white space
-- open close curly { }
-- open close square [ ] 
-
-2) various headings
-- latex headings
-- \begin{atom} \end{atom}, for all atoms
-- \begin{group} \end{group}
-- 
-
-3) words will be the rest
-
-The hope is that we will be able to put everything back together in the parser, except for the parts that we care about.
 
 # OCAML 
 
