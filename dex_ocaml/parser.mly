@@ -111,10 +111,6 @@ word:
   {b ^ s}
 | b = BACKSLASH w = WORD
   {b ^ w}
-| kwb = KW_BEGIN; co = O_CURLY; w = WORD; cc = C_CURLY 
-  {kwb ^ co ^ w ^ cc}
-| kwe = KW_END; co = O_CURLY; w = WORD; cc = C_CURLY 
-  {kwe ^ co ^ w ^ cc}
 
 /* a box is the basic unit of composition */
 box:
@@ -327,7 +323,7 @@ atom_(kw_b, kw_e):
   bs = boxes; 
   e = kw_e;
   {
-   printf "Parsed Atom %s" b;
+   printf "Parsed Atom %s!" b;
    Atom (preamble, (b, None, Some l, b, bs, e))
   }
 

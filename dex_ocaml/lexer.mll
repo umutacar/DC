@@ -31,6 +31,10 @@ let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
+let p_b_group = '\\' "begin{group}" p_ws	
+let p_e_group = '\\' "end{group}" p_ws
+
+
 let p_xxx = "xxx"
 let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
 let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
@@ -61,11 +65,8 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
-let p_b_group = '\\' "begin{group}" p_ws	
-let p_e_group = '\\' "end{group}" p_ws
 
-let p_begin = '\\' "begin" p_ws				
-let p_end = '\\' "end" p_ws
+
 
 let p_b_algorithm = '\\' "begin" p_o_curly p_algorithm p_ws p_c_curly 
 let p_e_algorithm = '\\' "end" p_o_curly p_algorithm p_ws p_c_curly
@@ -79,8 +80,8 @@ let p_b_datastr = '\\' "begin" p_o_curly p_datastr p_ws p_c_curly
 let p_e_datastr = '\\' "end" p_o_curly p_datastr p_ws p_c_curly
 let p_b_datatype = '\\' "begin" p_o_curly p_datatype p_ws p_c_curly
 let p_e_datatype = '\\' "end" p_o_curly p_datatype p_ws p_c_curly
-let p_b_definition = '\\' "begin" p_o_curly p_definition p_ws p_c_curly p_ws
-let p_e_definition = '\\' "end" p_o_curly p_definition p_ws p_c_curly p_ws
+let p_b_definition = '\\' "begin" p_o_curly p_definition p_ws p_c_curly
+let p_e_definition = '\\' "end" p_o_curly p_definition p_ws p_c_curly
 let p_b_example = '\\' "begin" p_o_curly p_example p_ws p_c_curly
 let p_e_example = '\\' "end" p_o_curly p_example p_ws p_c_curly
 let p_b_exercise = '\\' "begin" p_o_curly p_exercise p_ws p_c_curly
@@ -153,14 +154,7 @@ rule token = parse
   	{printf "!matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
   	{printf "!matched: %s." x; KW_SUBPARAGRAPH(x)}		
-(*
-| (p_begin) (p_o_curly) (p_word ) (p_c_curly)
-  	{printf "matched: begin{word} %s" "xword"; KW_BEGIN("x")}		
-*)
-| p_begin as x
-  	{printf "%s" x; KW_BEGIN(x)}		
-| p_end as x
-  	{printf "%s" x; KW_END(x)}		
+
 (* BEGIN: ATOMS *)
 | p_b_algorithm as x
   	{printf "matched begin algorithm: %s" x; KW_BEGIN_ALGORITHM(x)}		
