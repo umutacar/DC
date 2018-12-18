@@ -116,7 +116,6 @@ let p_b_teachnote = '\\' "begin" p_o_curly p_teachnote p_ws p_c_curly
 let p_e_teachnote = '\\' "end" p_o_curly p_teachnote p_ws p_c_curly
 let p_b_theorem = '\\' "begin" p_o_curly p_theorem p_ws p_c_curly
 let p_e_theorem = '\\' "end" p_o_curly p_theorem p_ws p_c_curly
-
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 
@@ -135,10 +134,8 @@ rule token = parse
 		{printf "!matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
 		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
-
 | p_comment_line as x
   	{printf "!matched comment line %s." x; COMMENT_LINE(x)}		
-
 | p_label as x
   	{printf "!matched %s." x; KW_LABEL(x)}		
 				
