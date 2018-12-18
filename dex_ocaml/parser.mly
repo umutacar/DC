@@ -73,7 +73,35 @@ let set_option_with_intertext (r, vo) =
 %type <Ast.group> group
 %type <Ast.atom> atom
 
+
 %%
+
+
+%inline algorithm: { "algorithm" }
+%inline code: { "code" }
+%inline corollary: { "corollary" }
+%inline costspec: { "costspec" }
+%inline datastr: { "datastr" }
+%inline datatype: { "datatype" }
+%inline definition: { "definition" }
+%inline example: { "example" }
+%inline exercise: { "exercise" }
+%inline gram: { "gram" }
+%inline hint: { "hint" }
+%inline important: { "important" }
+%inline lemma: { "lemma" }
+%inline note: { "note" }
+%inline preamble: { "preamble" }
+%inline problem: { "problem" }
+%inline proof: { "proof" }
+%inline proposition: { "proposition" }
+%inline remark: { "remark" }
+%inline solution: { "solution" }
+%inline syntax: { "syntax" }
+%inline teachask: { "teachask" }
+%inline teachnote: { "teachnote" }
+%inline theorem: { "theorem" }
+
 
 /**********************************************************************
  ** BEGIN: Words and Boxes 
@@ -319,14 +347,14 @@ atoms_and_intertext:
   {(ats, it)}		
 	
 
-mkAtom(kw_b, kw_e):
-| preamble = boxes;
+mkAtom(kind, kw_b, kw_e):
+| kind = kind
+  preamble = boxes;
   h_b = kw_b;
   l = label;
   bs = boxes; 
   h_end = kw_e;
   {
-   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
    let h_begin = h_b in
      printf "Parsed Atom %s!" h_begin;
      Atom (preamble, (h_begin, kind, None, Some l, bs, h_end))
@@ -371,52 +399,52 @@ mkAtom(kw_b, kw_e):
   }
 
 atom:
-|	x = mkAtom(KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
+|	x = mkAtom(algorithm, KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
   { x }
-|	x = mkAtom(KW_BEGIN_CODE, KW_END_CODE)
+|	x = mkAtom(code, KW_BEGIN_CODE, KW_END_CODE)
   { x }
-|	x = mkAtom(KW_BEGIN_COROLLARY, KW_END_COROLLARY)
+|	x = mkAtom(corollary, KW_BEGIN_COROLLARY, KW_END_COROLLARY)
   { x }
-|	x = mkAtom(KW_BEGIN_DATASTR, KW_END_DATASTR)
+|	x = mkAtom(datastr, KW_BEGIN_DATASTR, KW_END_DATASTR)
   { x }
-|	x = mkAtom(KW_BEGIN_DATATYPE, KW_END_DATATYPE)
+|	x = mkAtom(datatype, KW_BEGIN_DATATYPE, KW_END_DATATYPE)
   { x }
-|	x = mkAtom(KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
+|	x = mkAtom(costspec, KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
   { x }
-|	x = mkAtom(KW_BEGIN_DEFINITION, KW_END_DEFINITION)
+|	x = mkAtom(definition, KW_BEGIN_DEFINITION, KW_END_DEFINITION)
   { x }
-|	x = mkAtom(KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
+|	x = mkAtom(example, KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
   { x }
-|	x = mkAtom(KW_BEGIN_EXERCISE, KW_END_EXERCISE)
+|	x = mkAtom(exercise, KW_BEGIN_EXERCISE, KW_END_EXERCISE)
   { x }
-|	x = mkAtom(KW_BEGIN_GRAM, KW_END_GRAM)
+|	x = mkAtom(gram, KW_BEGIN_GRAM, KW_END_GRAM)
   { x }
-|	x = mkAtom(KW_BEGIN_HINT, KW_END_HINT)
+|	x = mkAtom(hint, KW_BEGIN_HINT, KW_END_HINT)
   { x }
-|	x = mkAtom(KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
+|	x = mkAtom(important, KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
   { x }
-|	x = mkAtom(KW_BEGIN_LEMMA, KW_END_LEMMA)
+|	x = mkAtom(lemma, KW_BEGIN_LEMMA, KW_END_LEMMA)
   { x }
-|	x = mkAtom(KW_BEGIN_NOTE, KW_END_NOTE)
+|	x = mkAtom(note, KW_BEGIN_NOTE, KW_END_NOTE)
   { x }
-|	x = mkAtom(KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
+|	x = mkAtom(preamble, KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
   { x }
-|	x = mkAtom(KW_BEGIN_PROBLEM, KW_END_PROBLEM)
+|	x = mkAtom(problem, KW_BEGIN_PROBLEM, KW_END_PROBLEM)
   { x }
-|	x = mkAtom(KW_BEGIN_PROOF, KW_END_PROOF)
+|	x = mkAtom(proof, KW_BEGIN_PROOF, KW_END_PROOF)
   { x }
-|	x = mkAtom(KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
+|	x = mkAtom(proposition, KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
   { x }
-|	x = mkAtom(KW_BEGIN_REMARK, KW_END_REMARK)
+|	x = mkAtom(remark, KW_BEGIN_REMARK, KW_END_REMARK)
   { x }
-|	x = mkAtom(KW_BEGIN_SOLUTION, KW_END_SOLUTION)
+|	x = mkAtom(solution, KW_BEGIN_SOLUTION, KW_END_SOLUTION)
   { x }
-|	x = mkAtom(KW_BEGIN_SYNTAX, KW_END_SYNTAX)
+|	x = mkAtom(syntax, KW_BEGIN_SYNTAX, KW_END_SYNTAX)
   { x }
-|	x = mkAtom(KW_BEGIN_TEACHASK, KW_END_TEACHASK)
+|	x = mkAtom(teachask, KW_BEGIN_TEACHASK, KW_END_TEACHASK)
   { x }
-|	x = mkAtom(KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
+|	x = mkAtom(teachnote, KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
   { x }
-|	x = mkAtom(KW_BEGIN_THEOREM, KW_END_THEOREM)
+|	x = mkAtom(theorem, KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
 
