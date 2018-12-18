@@ -27,6 +27,7 @@
   * The above idea works but it is not very uniform.  The problem is that who does that postamble belong to.  It is usually not clear because you can have a blocks of atoms that has a postamble and then a section that also has a postamble.  The chapter's postamble is now that of the block of the atoms, which is quite counterintuive.  It seems that a better approach is to allow the final atoms to have a post and a preamble, while allowing all other atoms to have preambles.  For clarity, i started calling these /intertext/ rather thas postamble.
 
   * Now working on idempotent parsing.
+   Issue: whitespace are not being lined up.  WHat is our policy for dealing with white spaces.
 
 - [Dec 16]
   * working on comments
