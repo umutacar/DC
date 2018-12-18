@@ -21,13 +21,22 @@
 
 # JOURNAL
 
+- [Dec 18]
+  * working on idempotent parsing
+
+    Issue: headings for groups, atoms, sections, should be preserved as read from the file.
+    
+
+
 - [Dec 17]
   * One way to deal with all text that is inbetween atoms is to allow atoms and groups to have preambles and have a sequence of them to have a postamble.  So this is what I implemented.
 
   * The above idea works but it is not very uniform.  The problem is that who does that postamble belong to.  It is usually not clear because you can have a blocks of atoms that has a postamble and then a section that also has a postamble.  The chapter's postamble is now that of the block of the atoms, which is quite counterintuive.  It seems that a better approach is to allow the final atoms to have a post and a preamble, while allowing all other atoms to have preambles.  For clarity, i started calling these /intertext/ rather thas postamble.
 
   * Now working on idempotent parsing.
-   Issue: whitespace are not being lined up.  WHat is our policy for dealing with white spaces.
+   ** Issue: whitespace are not being lined up.  WHat is our policy for dealing with white spaces.
+      Resolved this issue it is not so much about whitespaces but more about making sure that we can push them through the parser carefully without dropping them somehow along the way as we extract various parts such as titles.
+
 
 - [Dec 16]
   * working on comments
