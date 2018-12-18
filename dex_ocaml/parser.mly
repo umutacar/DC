@@ -9,6 +9,11 @@ let set_option (r, vo) =
   match vo with 
   |	None -> ()
   |	Some v -> (r:=v; ())
+
+let set_option_with_intertext (r, vo) = 
+  match vo with 
+  |	None -> None
+  |	Some (v, it) -> (r:=v; Some it)
 %}	
 
 
@@ -170,15 +175,15 @@ mk_heading(kw_heading):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  bso = option(blocks_and_postamble);
+  bso = option(blocks_and_intertext);
   sso = option(mk_sections(nested_section));
   {
    let (hc, t) = h in
    let bs = ref [] in
    let ss = ref [] in
-   let _ = set_option (bs, bso) in
+   let it = set_option_with_intertext (bs, bso) in
    let _ = set_option (ss, sso) in
-     ("", (t, l, hc, !bs, !ss))
+     (t, l, hc, !bs, it, !ss)
   }	  
 
 mk_sections(my_section):
@@ -190,49 +195,49 @@ mk_sections(my_section):
 chapter:
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  bso = option(blocks_and_postamble); 
+  bso = option(blocks_and_intertext); 
   sso = option(mk_sections(section)); 
   EOF 
   {
    let (hc, t) = h in
    let bs = ref [] in
    let ss = ref [] in
-   let _ = set_option (bs, bso) in
+   let it = set_option_with_intertext (bs, bso) in
    let _ = set_option (ss, sso) in
-     Ast.Chapter(t, l, hc, !bs, !ss)
+     Ast.Chapter(t, l, hc, !bs, it, !ss)
   }	
 
 
 section: 
   args = mk_section(KW_SECTION, subsection)
   {
-   let (preamble, (t, l, hc, bs, ss)) = args in
-     Ast.Section (preamble, (t, l, hc, bs, ss))
+   let (t, l, hc, bs, it, ss) = args in
+     Ast.Section (t, l, hc, bs, it, ss)
   }	  
 
 subsection: 
   args = mk_section(KW_SUBSECTION, subsubsection)
   {
-   let (preamble, (t, l, hc, bs, ss)) = args in
-     Ast.Subsection(preamble, (t, l, hc, bs, ss))
+   let (t, l, hc, bs, it, ss) = args in
+     Ast.Subsection(t, l, hc, bs, it, ss)
   }	  
 	
 subsubsection: 
   args = mk_section(KW_SUBSUBSECTION, paragraph)
   {
-   let (preamble, (t, l, hc, bs, ss)) = args in
-     Ast.Subsubsection (preamble, (t, l, hc, bs, ss))
+   let (t, l, hc, bs, it, ss) = args in
+     Ast.Subsubsection (t, l, hc, bs, it, ss)
   }	  
 
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  bso = option(blocks_and_postamble); 
+  bso = option(blocks_and_intertext); 
   {
    let (hc, t) = h in
    let bs = ref [] in
-   let _ = set_option (bs, bso) in
-     Ast.Paragraph ("", (t, l, hc, !bs))
+   let it = set_option_with_intertext (bs, bso) in
+     Ast.Paragraph (t, l, hc, !bs, it)
   }	  
 	
 
@@ -258,9 +263,9 @@ blocks:
   {List.append bs [b]}
 
 
-/* Drop postamble */
-blocks_and_postamble:
-  bs = blocks; postamble = boxes;
+/* Drop intertext */
+blocks_and_intertext:
+  bs = blocks; intertext = boxes;
   {bs} 
 /* END: Blocks */
 
@@ -286,33 +291,33 @@ group:
 | preamble = boxes;   
   hb = KW_BEGIN_GROUP; 
   l = option(label); 
-  ats = atoms_and_postamble; 
+  ats_it = atoms_and_intertext; 
   he = end_group
-  {Ast.Group (preamble, (None, l, hb, ats, he))}
+  {let (ats, it) = ats_it in
+     Ast.Group (preamble, (None, l, hb, ats, it, he))
+  }
 
 | preamble = boxes; 
   hb = KW_BEGIN_GROUP;
   t = sq_box; 
   l = option(label); 
-  ats = atoms_and_postamble; 
+  ats_it = atoms_and_intertext; 
   he = end_group;
   {let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
-     Ast.Group (preamble, (Some tt, l, hb ^ title_part, ats, he))}
-/*
-| hb = begin_group_sq; l = option(label); ats = atoms; he = end_group
-  {let (hb, t) = hb in Ast.Group (Some t, l, hb, ats, he)}
-*/
+   let (ats, it) = ats_it in
+     Ast.Group (preamble, (Some tt, l, hb ^ title_part, ats, it, he))
+  }
 
 atoms:
   {[]}		
 | ats = atoms; a = atom
   { List.append ats [a] }
 
-/* Drop postamble */
-atoms_and_postamble:
-  ats = atoms; postamble = boxes;
-  {ats}		
+/* Drop intertext */
+atoms_and_intertext:
+  ats = atoms; it = boxes;
+  {(ats, it)}		
 	
 
 atom_(kw_b, kw_e):
@@ -358,10 +363,6 @@ atom_(kw_b, kw_e):
      Atom (preamble, (b, Some tt, None, b, bs, e))
   }
 
-/*
-|	x = atom_(KW_BEGIN_xxx, KW_END_xxx)
-  { x }
-*/
 atom:
 |	x = atom_(KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
   { x }
@@ -412,46 +413,3 @@ atom:
 |	x = atom_(KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
 
-/*
-
-section: 
-  h = mk_heading(KW_SECTION); 
-  l = option(label); 
-  bso = option(blocks); 
-  sso = option(mk_sections(subsection));
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let ss = ref [] in
-   let _ = set_option (bs, bso) in
-   let _ = set_option (ss, sso) in
-     Ast.Section(t, l, hc, !bs, !ss)
-  }	  
-
-subsection: 
-  h = mk_heading(KW_SUBSECTION); 
-  l = option(label); 
-  bso = option(blocks); 
-  sso = option(mk_sections(subsubsection));
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let ss = ref [] in
-   let _ = set_option (bs, bso) in
-   let _ = set_option (ss, sso) in
-     Ast.Subsection(t, l, hc, !bs, !ss)
-  }	  
-	
-
-subsubsection: 
-  h = mk_heading(KW_SUBSUBSECTION); 
-  l = option(label); 
-  bso = option(blocks); 
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let _ = set_option (bs, bso) in
-     Ast.Subsubsection(t, l, hc, !bs)
-  }	  
-
-*/
