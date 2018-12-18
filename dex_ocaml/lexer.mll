@@ -31,6 +31,10 @@ let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
+let p_b_group = '\\' "begin{group}" p_ws	
+let p_e_group = '\\' "end{group}" p_ws
+
+
 let p_xxx = "xxx"
 let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
 let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
@@ -61,13 +65,10 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
-let p_b_group = '\\' "begin{group}" p_ws	
-let p_e_group = '\\' "end{group}" p_ws
 
-let p_begin = '\\' "begin" p_ws				
-let p_end = '\\' "end" p_ws
 
-let p_b_algorithm = '\\' "begin" p_o_curly p_algorithm p_ws p_c_curly
+
+let p_b_algorithm = '\\' "begin" p_o_curly p_algorithm p_ws p_c_curly 
 let p_e_algorithm = '\\' "end" p_o_curly p_algorithm p_ws p_c_curly
 let p_b_code = '\\' "begin" p_o_curly p_code p_ws p_c_curly
 let p_e_code = '\\' "end" p_o_curly p_code p_ws p_c_curly
@@ -115,7 +116,6 @@ let p_b_teachnote = '\\' "begin" p_o_curly p_teachnote p_ws p_c_curly
 let p_e_teachnote = '\\' "end" p_o_curly p_teachnote p_ws p_c_curly
 let p_b_theorem = '\\' "begin" p_o_curly p_theorem p_ws p_c_curly
 let p_e_theorem = '\\' "end" p_o_curly p_theorem p_ws p_c_curly
-
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 
@@ -134,10 +134,8 @@ rule token = parse
 		{printf "!matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
 		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
-
 | p_comment_line as x
   	{printf "!matched comment line %s." x; COMMENT_LINE(x)}		
-
 | p_label as x
   	{printf "!matched %s." x; KW_LABEL(x)}		
 				
@@ -153,14 +151,7 @@ rule token = parse
   	{printf "!matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
   	{printf "!matched: %s." x; KW_SUBPARAGRAPH(x)}		
-(*
-| (p_begin) (p_o_curly) (p_word ) (p_c_curly)
-  	{printf "matched: begin{word} %s" "xword"; KW_BEGIN("x")}		
-*)
-| p_begin as x
-  	{printf "%s" x; KW_BEGIN(x)}		
-| p_end as x
-  	{printf "%s" x; KW_END(x)}		
+
 (* BEGIN: ATOMS *)
 | p_b_algorithm as x
   	{printf "matched begin algorithm: %s" x; KW_BEGIN_ALGORITHM(x)}		

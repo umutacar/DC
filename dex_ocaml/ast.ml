@@ -1,37 +1,52 @@
 type preamble = string
 type atom_kind = string
 type atom_body = string
+type label_string = string
 type title = string
+type intertext = string
 type keyword = string
-
 (* Keywords are used to capture the "beginning" and "end" of the commands.
    For example, "    \label   {"  and "}    \n", 
-                "\begin{example}  \n"
+                "\begin{example}[title]  \n"
                 "\end{example}  \n\n\n"
+
+
+
                   
 
    Because we don't care about white space, they might have whitespace in them.
  *)
 
-type label = Label of keyword * string * keyword 
-type atom = Atom of preamble * (atom_kind * title option * label option * keyword * atom_body * keyword) 
-type group = Group of preamble * (title option * label option * keyword * atom list * keyword)
+(* Label is heading and the label string *)
+type label = Label of keyword * label_string
+
+type atom = Atom of preamble * (keyword * atom_kind * title option * label option * atom_body * keyword) 
+
+type group = 
+  Group of preamble 
+           * (keyword * title option * label option * 
+              atom list * intertext * keyword) 
+
 
 type chapter = 
-  Chapter of  title * label * keyword * block list * section list
+  Chapter of (keyword * title * label
+              * block list * intertext * section list) 
 
 and section = 
-  Section of preamble * (title * label option * keyword * block list * subsection list)
+  Section of (keyword * title * label option
+              * block list * intertext * subsection list)
 
 and subsection = 
-  Subsection of preamble * (title * label option * keyword * block list * subsubsection list)
+  Subsection of (keyword * title * label option
+                 * block list * intertext * subsubsection list)
 
 and subsubsection = 
-  Subsubsection of preamble * (title * label option * keyword * block list * paragraph list)
+  Subsubsection of (keyword * title * label option
+                    * block list * intertext * paragraph list)
 
 and paragraph = 
-  Paragraph of preamble * (title * label option * keyword * block list)
-
+  Paragraph of (keyword * title * label option
+                * block list * intertext)
 and block = 
   | Block_Group of group
   | Block_Atom of atom
@@ -44,8 +59,12 @@ let map_concat f xs =
 (**********************************************************************
  ** BEGIN: AST To String
 *********************************************************************)
-let labelToString (Label(hb, label_string, he)) = 
-  hb ^  label_string ^ he
+let ostrToStr os = 
+  match os with 
+  |  None -> ""
+  |  Some s -> s
+
+let labelToString (Label(h, label_string)) = h
 
 let labelOptionToString lo = 
   let r = match lo with 
@@ -59,61 +78,6 @@ let titleOptionToString topt =
               |  Some s -> s in
      r
 
-let atomToString (Atom(preamble, (kind, topt, lo, hb, ab, he))) = 
-  let label = "label: " ^ labelOptionToString lo in
-  let heading =  match topt with
-                 | None -> "Atom:" ^ hb 
-                 | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" 
-  in
-    preamble ^ heading ^ label ^ ab ^ he
-
-let groupToString (Group(preamble, (topt, lo, hb, ats, he))) = 
-  let atoms = map_concat atomToString ats in
-  let label = "label: " ^ labelOptionToString lo in
-  let heading = match topt with
-                | None -> hb
-                | Some t -> hb ^ "title:" ^ t in
-    preamble ^ heading ^ label ^ atoms ^ he
-
-let blockToString b = 
-  match b with
-  | Block_Group g -> groupToString g
-  | Block_Atom a -> atomToString a
-
-let paragraphToString (Paragraph (preamble, (t, lo, h, bs))) =
-  let blocks = map_concat blockToString bs in
-  let title = "title: " ^ t in
-  let label = "label: " ^ labelOptionToString lo in
-    preamble ^ "*paragraph:" ^ title ^ label ^ h ^ blocks
-
-let subsubsectionToString (Subsubsection (preamble, (t, lo, h, bs, ss))) =
-  let blocks = map_concat blockToString bs in
-  let nesteds = map_concat paragraphToString ss in
-  let title = "title: " ^ t in
-  let label = "label: " ^ labelOptionToString lo in
-    preamble ^ "*subsubsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
-
-let subSectionToString (Subsection (preamble, (t, lo, h, bs, ss))) =
-  let blocks = map_concat blockToString bs in
-  let nesteds = map_concat subsubsectionToString ss in
-  let title = "title: " ^ t in
-  let label = "label: " ^ labelOptionToString lo in
-   preamble ^  "*subsection:" ^ title ^ label ^ h ^ blocks ^ nesteds
-
-let sectionToString (Section (preamble, (t, lo, h, bs, ss))) =
-  let blocks = map_concat blockToString bs in
-  let nesteds = map_concat subSectionToString ss in
-  let title = "title: " ^ t in
-  let label = "label: " ^ labelOptionToString lo in
-    "*section:" ^ title ^ label ^ h ^ blocks ^ nesteds
-
-let chapterToString (Chapter (t, l, h, bs, ss)) =
-  let blocks = map_concat blockToString bs in
-  let sections = map_concat sectionToString ss in
-  let title = "title: " ^ t in
-  let label = labelToString l in
-    "*chapter:" ^ title ^ label ^ h ^ blocks ^ sections
-
 (**********************************************************************
  ** END: AST To String
  **********************************************************************)
@@ -121,22 +85,19 @@ let chapterToString (Chapter (t, l, h, bs, ss)) =
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
-let atomToTex (Atom(preamble, (kind, topt, lo, hb, ab, he))) = 
+let atomToTex (Atom(preamble, (h_begin, kind, topt, lo, ab, h_end))) = 
   let label = labelOptionToString lo in
-  let heading =  match topt with
-                 | None -> "Atom:" ^ hb 
-                 | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" 
-  in
-    preamble ^ heading ^ label ^ ab ^ he
+    preamble ^ h_begin ^ label ^ ab ^ h_end
       
 
-let groupToTex (Group(preamble, (topt, lo, hb, ats, he))) = 
+let groupToTex (Group(preamble, (h_begin, topt, lo, ats, it, h_end))) = 
   let atoms = map_concat atomToTex ats in
   let label = labelOptionToString lo in
-  let heading = match topt with
-                | None -> hb
-                | Some t -> hb ^ t in
-    preamble ^ heading ^ label ^ atoms ^ he
+    preamble ^
+    h_begin ^ label ^ 
+    atoms ^ it ^ 
+    h_end
+
 
 let blockToTex b = 
   match b with
@@ -144,34 +105,41 @@ let blockToTex b =
   | Block_Atom a -> atomToTex a
 
 
-let paragraphToTex (Paragraph (preamble, (t, lo, h, bs))) =
+let paragraphToTex (Paragraph (heading, t, lo, bs, it)) =
   let blocks = map_concat blockToTex bs in
   let label = labelOptionToString lo in
-    preamble ^ h ^ label ^ blocks
+    heading ^ label ^ blocks ^ it 
 
-let subsubsectionToTex (Subsubsection (preamble, (t, lo, h, bs, ss))) =
+let subsubsectionToTex (Subsubsection (heading, t, lo, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat paragraphToTex ss in
   let label = labelOptionToString lo in
-    preamble ^ h ^ label ^ blocks ^ nesteds
+    heading ^ label ^ 
+    blocks ^ it ^ 
+    nesteds
 
-let subsectionToTex (Subsection (preamble, (t, lo, h, bs, ss))) =
+let subsectionToTex (Subsection (heading, t, lo, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptionToString lo in
-    preamble ^ h ^ label ^ blocks ^ nesteds
+    heading ^ label ^ 
+    blocks ^ it ^ 
+    nesteds
 
-let sectionToTex (Section (preamble, (t, lo, h, bs, ss))) =
+let sectionToTex (Section (heading, t, lo, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptionToString lo in
-    preamble ^ h ^ label ^ blocks ^ nesteds
+    heading ^ label ^ 
+    blocks ^ it ^ nesteds
 
-let chapterToTex (Chapter (t, l, h, bs, ss)) =
+let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
   let label = labelToString l in
-    h ^ label ^ blocks ^ sections
+    heading ^ label ^ 
+    blocks ^ it ^ 
+    sections
 
 (**********************************************************************
  ** END: AST To LaTeX

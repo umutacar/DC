@@ -9,6 +9,11 @@ let set_option (r, vo) =
   match vo with 
   |	None -> ()
   |	Some v -> (r:=v; ())
+
+let set_option_with_intertext (r, vo) = 
+  match vo with 
+  |	None -> ""
+  |	Some (v, it) -> (r:=v; it)
 %}	
 
 
@@ -106,10 +111,6 @@ word:
   {b ^ s}
 | b = BACKSLASH w = WORD
   {b ^ w}
-| kwb = KW_BEGIN; co = O_CURLY; w = WORD; cc = C_CURLY 
-  {kwb ^ co ^ w ^ cc}
-| kwe = KW_END; co = O_CURLY; w = WORD; cc = C_CURLY 
-  {kwe ^ co ^ w ^ cc}
 
 /* a box is the basic unit of composition */
 box:
@@ -149,9 +150,12 @@ comment:
 /**********************************************************************
  ** BEGIN: Diderot Keywords
  **********************************************************************/
+/* Return full text "\label{label_string}  \n" plus label */
 label:
   l = KW_LABEL; b = curly_box 
-  {let (bo, bb, bc) = b in Ast.Label(l ^ bo, bb, bc) }
+  {let (bo, bb, bc) = b in 
+   let h = l ^ bo ^ bb ^ bc in
+     Ast.Label(h, l)}
 
 
 /**********************************************************************
@@ -162,6 +166,7 @@ label:
 /**********************************************************************
  ** BEGIN: Latex Sections
  **********************************************************************/
+/* Return  heading and title pair. */ 
 mk_heading(kw_heading):
   hc = kw_heading; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
@@ -170,15 +175,15 @@ mk_heading(kw_heading):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  bso = option(blocks_and_postamble);
+  bso = option(blocks_and_intertext);
   sso = option(mk_sections(nested_section));
   {
-   let (hc, t) = h in
+   let (heading, t) = h in
    let bs = ref [] in
    let ss = ref [] in
-   let _ = set_option (bs, bso) in
+   let it = set_option_with_intertext (bs, bso) in
    let _ = set_option (ss, sso) in
-     ("", (t, l, hc, !bs, !ss))
+     (heading, t, l, !bs, it, !ss)
   }	  
 
 mk_sections(my_section):
@@ -190,49 +195,46 @@ mk_sections(my_section):
 chapter:
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  bso = option(blocks_and_postamble); 
+  bso = option(blocks_and_intertext); 
   sso = option(mk_sections(section)); 
   EOF 
   {
-   let (hc, t) = h in
+   let (heading, t) = h in
    let bs = ref [] in
    let ss = ref [] in
-   let _ = set_option (bs, bso) in
+   let it = set_option_with_intertext (bs, bso) in
    let _ = set_option (ss, sso) in
-     Ast.Chapter(t, l, hc, !bs, !ss)
+     Ast.Chapter(heading, t, l, !bs, it, !ss)
   }	
 
 
 section: 
-  args = mk_section(KW_SECTION, subsection)
+  desc = mk_section(KW_SECTION, subsection)
   {
-   let (preamble, (t, l, hc, bs, ss)) = args in
-     Ast.Section (preamble, (t, l, hc, bs, ss))
+     Ast.Section desc
   }	  
 
 subsection: 
-  args = mk_section(KW_SUBSECTION, subsubsection)
+  desc = mk_section(KW_SUBSECTION, subsubsection)
   {
-   let (preamble, (t, l, hc, bs, ss)) = args in
-     Ast.Subsection(preamble, (t, l, hc, bs, ss))
+     Ast.Subsection desc
   }	  
 	
 subsubsection: 
-  args = mk_section(KW_SUBSUBSECTION, paragraph)
+  desc = mk_section(KW_SUBSUBSECTION, paragraph)
   {
-   let (preamble, (t, l, hc, bs, ss)) = args in
-     Ast.Subsubsection (preamble, (t, l, hc, bs, ss))
+     Ast.Subsubsection desc
   }	  
 
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  bso = option(blocks_and_postamble); 
+  bso = option(blocks_and_intertext); 
   {
-   let (hc, t) = h in
+   let (heading, t) = h in
    let bs = ref [] in
-   let _ = set_option (bs, bso) in
-     Ast.Paragraph ("", (t, l, hc, !bs))
+   let it = set_option_with_intertext (bs, bso) in
+     Ast.Paragraph (heading, t, l,!bs, it)
   }	  
 	
 
@@ -258,10 +260,10 @@ blocks:
   {List.append bs [b]}
 
 
-/* Drop postamble */
-blocks_and_postamble:
-  bs = blocks; postamble = boxes;
-  {bs} 
+/* Drop intertext */
+blocks_and_intertext:
+  bs = blocks; intertext = boxes;
+  {(bs, intertext)} 
 /* END: Blocks */
 
 			
@@ -271,6 +273,7 @@ begin_group:
   hb = KW_BEGIN_GROUP
   {hb}
 
+/* Return the pair of full heading and title. */
 begin_group_sq:
   hb = KW_BEGIN_GROUP; b = sq_box
   {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
@@ -284,174 +287,136 @@ end_group:
 */   
 group:
 | preamble = boxes;   
-  hb = KW_BEGIN_GROUP; 
+  h_begin = KW_BEGIN_GROUP; 
   l = option(label); 
-  ats = atoms_and_postamble; 
-  he = end_group
-  {Ast.Group (preamble, (None, l, hb, ats, he))}
+  ats_it = atoms_and_intertext; 
+  h_end = end_group
+  {let (ats, it) = ats_it in
+     Ast.Group (preamble, (h_begin, None, l, ats, it, h_end))
+  }
 
 | preamble = boxes; 
   hb = KW_BEGIN_GROUP;
   t = sq_box; 
   l = option(label); 
-  ats = atoms_and_postamble; 
-  he = end_group;
+  ats_it = atoms_and_intertext; 
+  h_end = end_group;
   {let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
-     Ast.Group (preamble, (Some tt, l, hb ^ title_part, ats, he))}
-/*
-| hb = begin_group_sq; l = option(label); ats = atoms; he = end_group
-  {let (hb, t) = hb in Ast.Group (Some t, l, hb, ats, he)}
-*/
+   let h_begin = hb ^ title_part in
+   let (ats, it) = ats_it in
+     Ast.Group (preamble, (h_begin, Some tt, l, ats, it, h_end))
+  }
 
 atoms:
   {[]}		
 | ats = atoms; a = atom
   { List.append ats [a] }
 
-/* Drop postamble */
-atoms_and_postamble:
-  ats = atoms; postamble = boxes;
-  {ats}		
+/* Drop intertext */
+atoms_and_intertext:
+  ats = atoms; it = boxes;
+  {(ats, it)}		
 	
 
-atom_(kw_b, kw_e):
+mkAtom(kw_b, kw_e):
 | preamble = boxes;
-  b = kw_b;
+  h_b = kw_b;
   l = label;
   bs = boxes; 
-  e = kw_e;
+  h_end = kw_e;
   {
-   printf "Parsed Atom %s" b;
-   Atom (preamble, (b, None, Some l, b, bs, e))
+   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
+   let h_begin = h_b in
+     printf "Parsed Atom %s!" h_begin;
+     Atom (preamble, (h_begin, kind, None, Some l, bs, h_end))
   }
 
 | preamble = boxes;
-  b = kw_b;
+  h_b = kw_b;
   t = sq_box; 
   l = label;
   bs = boxes; 
-  e = kw_e;
+  h_end = kw_e;
   {
+   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
    let (bo, tt, bc) = t in
-     printf "Parsed Atom %s title = %s" b tt;
-     Atom (preamble, (b, Some tt, Some l, b, bs, e))
+   let h_begin = h_b ^ bo ^ tt ^ bc in   
+     printf "Parsed Atom %s title = %s" h_begin tt;
+     Atom (preamble, (h_begin, kind, Some tt, Some l, bs, h_end))
   }
 
 | preamble = boxes;
-  b = kw_b;
+  h_b = kw_b;
   bs = boxes_start_no_sq; 
-  e = kw_e;
+  h_end = kw_e;
   {
-   printf "Parsed Atom %s" b;
-   Atom (preamble, (b, None, None, b, bs, e)) 
+   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
+   let h_begin = h_b in
+     printf "Parsed Atom %s" h_begin;
+     Atom (preamble, (h_begin, kind, None, None, bs, h_end)) 
   }
 
 | preamble = boxes;
-  b = kw_b;
+  h_b = kw_b;
   t = sq_box; 
   bs = boxes; 
-  e = kw_e;
+  h_end = kw_e;
   {
+   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
    let (bo, tt, bc) = t in
-     printf "Parsed Atom %s title = %s" b tt;
-     Atom (preamble, (b, Some tt, None, b, bs, e))
+   let h_begin = h_b ^ bo ^ tt ^ bc in   
+     printf "Parsed Atom %s title = %s" h_begin tt;
+     Atom (preamble, (h_begin, kind, Some tt, None, bs, h_end))
   }
 
-/*
-|	x = atom_(KW_BEGIN_xxx, KW_END_xxx)
-  { x }
-*/
 atom:
-|	x = atom_(KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
+|	x = mkAtom(KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
   { x }
-|	x = atom_(KW_BEGIN_CODE, KW_END_CODE)
+|	x = mkAtom(KW_BEGIN_CODE, KW_END_CODE)
   { x }
-|	x = atom_(KW_BEGIN_COROLLARY, KW_END_COROLLARY)
+|	x = mkAtom(KW_BEGIN_COROLLARY, KW_END_COROLLARY)
   { x }
-|	x = atom_(KW_BEGIN_DATASTR, KW_END_DATASTR)
+|	x = mkAtom(KW_BEGIN_DATASTR, KW_END_DATASTR)
   { x }
-|	x = atom_(KW_BEGIN_DATATYPE, KW_END_DATATYPE)
+|	x = mkAtom(KW_BEGIN_DATATYPE, KW_END_DATATYPE)
   { x }
-|	x = atom_(KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
+|	x = mkAtom(KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
   { x }
-|	x = atom_(KW_BEGIN_DEFINITION, KW_END_DEFINITION)
+|	x = mkAtom(KW_BEGIN_DEFINITION, KW_END_DEFINITION)
   { x }
-|	x = atom_(KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
+|	x = mkAtom(KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
   { x }
-|	x = atom_(KW_BEGIN_EXERCISE, KW_END_EXERCISE)
+|	x = mkAtom(KW_BEGIN_EXERCISE, KW_END_EXERCISE)
   { x }
-|	x = atom_(KW_BEGIN_GRAM, KW_END_GRAM)
+|	x = mkAtom(KW_BEGIN_GRAM, KW_END_GRAM)
   { x }
-|	x = atom_(KW_BEGIN_HINT, KW_END_HINT)
+|	x = mkAtom(KW_BEGIN_HINT, KW_END_HINT)
   { x }
-|	x = atom_(KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
+|	x = mkAtom(KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
   { x }
-|	x = atom_(KW_BEGIN_LEMMA, KW_END_LEMMA)
+|	x = mkAtom(KW_BEGIN_LEMMA, KW_END_LEMMA)
   { x }
-|	x = atom_(KW_BEGIN_NOTE, KW_END_NOTE)
+|	x = mkAtom(KW_BEGIN_NOTE, KW_END_NOTE)
   { x }
-|	x = atom_(KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
+|	x = mkAtom(KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
   { x }
-|	x = atom_(KW_BEGIN_PROBLEM, KW_END_PROBLEM)
+|	x = mkAtom(KW_BEGIN_PROBLEM, KW_END_PROBLEM)
   { x }
-|	x = atom_(KW_BEGIN_PROOF, KW_END_PROOF)
+|	x = mkAtom(KW_BEGIN_PROOF, KW_END_PROOF)
   { x }
-|	x = atom_(KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
+|	x = mkAtom(KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
   { x }
-|	x = atom_(KW_BEGIN_REMARK, KW_END_REMARK)
+|	x = mkAtom(KW_BEGIN_REMARK, KW_END_REMARK)
   { x }
-|	x = atom_(KW_BEGIN_SOLUTION, KW_END_SOLUTION)
+|	x = mkAtom(KW_BEGIN_SOLUTION, KW_END_SOLUTION)
   { x }
-|	x = atom_(KW_BEGIN_SYNTAX, KW_END_SYNTAX)
+|	x = mkAtom(KW_BEGIN_SYNTAX, KW_END_SYNTAX)
   { x }
-|	x = atom_(KW_BEGIN_TEACHASK, KW_END_TEACHASK)
+|	x = mkAtom(KW_BEGIN_TEACHASK, KW_END_TEACHASK)
   { x }
-|	x = atom_(KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
+|	x = mkAtom(KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
   { x }
-|	x = atom_(KW_BEGIN_THEOREM, KW_END_THEOREM)
+|	x = mkAtom(KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
 
-/*
-
-section: 
-  h = mk_heading(KW_SECTION); 
-  l = option(label); 
-  bso = option(blocks); 
-  sso = option(mk_sections(subsection));
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let ss = ref [] in
-   let _ = set_option (bs, bso) in
-   let _ = set_option (ss, sso) in
-     Ast.Section(t, l, hc, !bs, !ss)
-  }	  
-
-subsection: 
-  h = mk_heading(KW_SUBSECTION); 
-  l = option(label); 
-  bso = option(blocks); 
-  sso = option(mk_sections(subsubsection));
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let ss = ref [] in
-   let _ = set_option (bs, bso) in
-   let _ = set_option (ss, sso) in
-     Ast.Subsection(t, l, hc, !bs, !ss)
-  }	  
-	
-
-subsubsection: 
-  h = mk_heading(KW_SUBSUBSECTION); 
-  l = option(label); 
-  bso = option(blocks); 
-  {
-   let (hc, t) = h in
-   let bs = ref [] in
-   let _ = set_option (bs, bso) in
-     Ast.Subsubsection(t, l, hc, !bs)
-  }	  
-
-*/
