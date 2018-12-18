@@ -2,7 +2,7 @@ type preamble = string
 type atom_kind = string
 type atom_body = string
 type title = string
-type intertext = string option
+type intertext = string
 type keyword = string
 
 (* Keywords are used to capture the "beginning" and "end" of the commands.
@@ -90,7 +90,7 @@ let groupToString (Group(preamble, (topt, lo, hb, ats, it, he))) =
                 | Some t -> hb ^ "title:" ^ t in
     preamble ^ 
     heading ^ label ^ 
-    atoms ^ (ostrToStr it) ^
+    atoms ^ it ^
     he  
 
 
@@ -104,7 +104,7 @@ let paragraphToString (Paragraph (t, lo, h, bs, it)) =
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
     "*paragraph:" ^ title ^ label ^ h ^
-    blocks ^ (ostrToStr it) 
+    blocks ^ it 
 
 
 let subsubsectionToString (Subsubsection (t, lo, h, bs, it, ss)) =
@@ -113,7 +113,7 @@ let subsubsectionToString (Subsubsection (t, lo, h, bs, it, ss)) =
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
     "*subsubsection:" ^ title ^ label ^ h 
-                      ^ blocks ^ (ostrToStr it) 
+                      ^ blocks ^ it 
                       ^ nesteds 
 
 let subSectionToString (Subsection (t, lo, h, bs, it, ss)) =
@@ -122,7 +122,7 @@ let subSectionToString (Subsection (t, lo, h, bs, it, ss)) =
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
    "*subsection:" ^ title ^ label ^ h 
-                  ^ blocks ^ (ostrToStr it) 
+                  ^ blocks ^ it 
                   ^ nesteds
 
 let sectionToString (Section (t, lo, h, bs, it, ss)) =
@@ -131,7 +131,7 @@ let sectionToString (Section (t, lo, h, bs, it, ss)) =
   let title = "title: " ^ t in
   let label = "label: " ^ labelOptionToString lo in
     "*section:" ^ title ^ label ^ h 
-                ^ blocks ^ (ostrToStr it) 
+                ^ blocks ^ it 
                 ^ nesteds
 
 let chapterToString (Chapter (t, l, h, bs, it, ss)) =
@@ -140,7 +140,7 @@ let chapterToString (Chapter (t, l, h, bs, it, ss)) =
   let title = "title: " ^ t in
   let label = labelToString l in
     "*chapter:" ^ title ^ label ^ h 
-                ^ blocks ^ (ostrToStr it) 
+                ^ blocks ^ it 
                 ^ sections
 
 (**********************************************************************
@@ -153,8 +153,8 @@ let chapterToString (Chapter (t, l, h, bs, it, ss)) =
 let atomToTex (Atom(preamble, (kind, topt, lo, hb, ab, he))) = 
   let label = labelOptionToString lo in
   let heading =  match topt with
-                 | None -> "Atom:" ^ hb 
-                 | Some t -> "Atom:" ^ hb ^ "[" ^ t ^ "]" 
+                 | None ->  hb 
+                 | Some t -> hb ^ "[" ^ t ^ "]" 
   in
     preamble ^ heading ^ label ^ ab ^ he
       
@@ -167,7 +167,7 @@ let groupToTex (Group(preamble, (topt, lo, hb, ats, it, he))) =
                 | Some t -> hb ^ t in
     preamble ^
     heading ^ label ^ 
-    atoms ^ (ostrToStr it) ^ 
+    atoms ^ it ^ 
     he  
 
 
@@ -180,14 +180,14 @@ let blockToTex b =
 let paragraphToTex (Paragraph ((t, lo, h, bs, it))) =
   let blocks = map_concat blockToTex bs in
   let label = labelOptionToString lo in
-    h ^ label ^ blocks ^ (ostrToStr it)
+    h ^ label ^ blocks ^ it
 
 let subsubsectionToTex (Subsubsection ((t, lo, h, bs, it, ss))) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat paragraphToTex ss in
   let label = labelOptionToString lo in
     h ^ label ^ 
-    blocks ^ (ostrToStr it) ^ 
+    blocks ^ it ^ 
     nesteds
 
 let subsectionToTex (Subsection ((t, lo, h, bs, it, ss))) =
@@ -195,7 +195,7 @@ let subsectionToTex (Subsection ((t, lo, h, bs, it, ss))) =
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptionToString lo in
     h ^ label ^ 
-    blocks ^ (ostrToStr it) ^ 
+    blocks ^ it ^ 
     nesteds
 
 let sectionToTex (Section ((t, lo, h, bs, it, ss))) =
@@ -203,14 +203,14 @@ let sectionToTex (Section ((t, lo, h, bs, it, ss))) =
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptionToString lo in
     h ^ label ^ 
-    blocks ^ (ostrToStr it) ^ nesteds
+    blocks ^ it ^ nesteds
 
 let chapterToTex (Chapter ((t, l, h, bs, it, ss))) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
   let label = labelToString l in
     h ^ label ^ 
-    blocks ^ (ostrToStr it) ^ 
+    blocks ^ it ^ 
     sections
 
 (**********************************************************************

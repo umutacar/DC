@@ -12,8 +12,8 @@ let set_option (r, vo) =
 
 let set_option_with_intertext (r, vo) = 
   match vo with 
-  |	None -> None
-  |	Some (v, it) -> (r:=v; Some it)
+  |	None -> ""
+  |	Some (v, it) -> (r:=v; it)
 %}	
 
 
@@ -266,7 +266,7 @@ blocks:
 /* Drop intertext */
 blocks_and_intertext:
   bs = blocks; intertext = boxes;
-  {bs} 
+  {(bs, intertext)} 
 /* END: Blocks */
 
 			
