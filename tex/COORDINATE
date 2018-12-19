@@ -1,0 +1,8 @@
+Coordination with the python-based XML backend needs to be done carefully.
+
+This coordinates seems to be going through several functions called
+missing_field* in diderot/src/pervasives/syntax.py
+
+These function are called from mlx_utils, which does nearly all work.
+
+So whatever latex produces must be mediated through this. 

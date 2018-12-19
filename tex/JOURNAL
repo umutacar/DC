@@ -10,6 +10,8 @@
 
   * Doing some of the "infrastructure" work needed to translatex tex to xml such as creating a vocabulary for the core language and such
 
+  * Coordination with XML backend is important, see tex/COORDINATE
+
 - [Dec 18]
   * working on idempotent parsing
 

@@ -158,9 +158,7 @@ let atomToXml (Atom(preamble, (h_begin, kind, topt, lopt, body, h_end))) =
   let body_xml = xml.from_tex_body body in
   let r = xml.mk_block (kind, [label_xml, title_xml, body_xml])
   
-
-      
-
+     
 let groupToXml (Group(preamble, (h_begin, topt, lo, ats, it, h_end))) = 
   let atoms = map_concat atomToXml ats in
   let label = labelOptionToString lo in
