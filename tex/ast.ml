@@ -85,9 +85,9 @@ let titleOptionToString topt =
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
-let atomToTex (Atom(preamble, (h_begin, kind, topt, lo, ab, h_end))) = 
+let atomToTex (Atom(preamble, (h_begin, kind, topt, lo, body, h_end))) = 
   let label = labelOptionToString lo in
-    preamble ^ h_begin ^ label ^ ab ^ h_end
+    preamble ^ h_begin ^ label ^ body ^ h_end
       
 
 let groupToTex (Group(preamble, (h_begin, topt, lo, ats, it, h_end))) = 
@@ -136,6 +136,77 @@ let sectionToTex (Section (heading, t, lo, bs, it, ss)) =
 let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
+  let label = labelToString l in
+    heading ^ label ^ 
+    blocks ^ it ^ 
+    sections
+
+(**********************************************************************
+ ** END: AST To LaTeX
+ **********************************************************************)
+
+
+
+
+
+(**********************************************************************
+ ** BEGIN: AST To XML
+ **********************************************************************)
+let atomToXml (Atom(preamble, (h_begin, kind, topt, lopt, body, h_end))) = 
+  let label_xml = xml.from_label_opt lopt in
+  let title_xml = xml.from_tex_title_opt topt in
+  let body_xml = xml.from_tex_body body in
+  let r = xml.mk_block (kind, [label_xml, title_xml, body_xml])
+  
+
+      
+
+let groupToXml (Group(preamble, (h_begin, topt, lo, ats, it, h_end))) = 
+  let atoms = map_concat atomToXml ats in
+  let label = labelOptionToString lo in
+    preamble ^
+    h_begin ^ label ^ 
+    atoms ^ it ^ 
+    h_end
+
+
+let blockToXml b = 
+  match b with
+  | Block_Group g -> groupToXml g
+  | Block_Atom a -> atomToXml a
+
+
+let paragraphToXml (Paragraph (heading, t, lo, bs, it)) =
+  let blocks = map_concat blockToXml bs in
+  let label = labelOptionToString lo in
+    heading ^ label ^ blocks ^ it 
+
+let subsubsectionToXml (Subsubsection (heading, t, lo, bs, it, ss)) =
+  let blocks = map_concat blockToXml bs in
+  let nesteds = map_concat paragraphToXml ss in
+  let label = labelOptionToString lo in
+    heading ^ label ^ 
+    blocks ^ it ^ 
+    nesteds
+
+let subsectionToXml (Subsection (heading, t, lo, bs, it, ss)) =
+  let blocks = map_concat blockToXml bs in
+  let nesteds = map_concat subsubsectionToXml ss in
+  let label = labelOptionToString lo in
+    heading ^ label ^ 
+    blocks ^ it ^ 
+    nesteds
+
+let sectionToXml (Section (heading, t, lo, bs, it, ss)) =
+  let blocks = map_concat blockToXml bs in
+  let nesteds = map_concat subsectionToXml ss in
+  let label = labelOptionToString lo in
+    heading ^ label ^ 
+    blocks ^ it ^ nesteds
+
+let chapterToXml (Chapter (heading, t, l, bs, it, ss)) =
+  let blocks = map_concat blockToXml bs in
+  let sections = map_concat sectionToXml ss in
   let label = labelToString l in
     heading ^ label ^ 
     blocks ^ it ^ 
