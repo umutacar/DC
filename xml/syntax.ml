@@ -1,363 +1,232 @@
-######################################################################
-## xml/syntax.py
-######################################################################
-
+(**********************************************************************
+ ** xml/syntax.py
+ **********************************************************************)
+open String
  
-let CDATA_BEGIN = '<![CDATA['
-let CDATA_END = ']]>'
-let MISSING = '__missing__'
+let cdata_begin = "<![CDATA["
+let cdata_end = "]]>"
+let missing = "__missing__"
 
-# Tags 
-let ATOM = 'atom'
-let BLOCK = 'block'
-let FIELD = 'field'
+(* Tags *) 
+let atom = "atom"
+let block = "block"
+let field = "field"
 
-# Block tags
-let ANSWER = 'answer'
-let BOOK = 'book'
-let CHAPTER = 'chapter'
-let PROBLEM = r'problem'
-let SECTION = 'section'
-let SELECT = 'select'
-let SUBSECTION = 'subsection'
-let SUBSUBSECTION = 'subsubsection'
+(* Block tags *)
+let answer = "answer"
+let book = "book"
+let chapter = "chapter"
+let problem = "problem"
+let section = "section"
+let select = "select"
+let subsection = "subsection"
+let subsubsection = "subsubsection"
 
-# Attribute values
-let ALGO = r'algorithm'
-let ALGORITHM = r'algorithm'
-let AUTHORS = r'authors'
-let BODY = r'body'
-let BODY_SRC = r'body_src'
-let BODY_POP = r'body_pop'
-let CHOICE = r'choice'
-let CHOICE_SRC = r'choice_src'
-let CODE = r'code'
-let COROLLARY = r'corollary'
-let COST_SPEC = r'costspec'
-let DATASTR = r'datastr'
-let DATATYPE = r'datatype'
-let DEFINITION = r'definition'
-let EXAMPLE = r'example'
-let EXERCISE = r'exercise'
-let FRIENDS = r'friends'
-let GRAM = 'gram'
-let GROUP = r'group'
-let HINT = r'hint'
-let IMPORTANT = r'important'
-let LABEL = r'label'
-let LEMMA = r'lemma'
-let NO = r'no'
-let NOTE = r'note'
-let ORDER = r'order'
-let PAGE = r'page'
-let PARAGRAPH = r'gram'
-let PARENTS = r'parents'
-let POINTS = r'points'
-let PREAMBLE = r'preamble'
-let PROBLEM = r'problem'
-let PROOF = r'proof'
-let PROPOSITION = r'proposition'
-let RANK = r'rank'
-let REMARK = r'remark'
-let SOLUTION = r'solution'
-let SYNTAX = r'syntax'
-let TASK = r'task'
-let TEACH_ASK = r'teachask'
-let TEACH_NOTE = r'teachnote'
-let THEOREM = r'theorem'
-let TITLE = r'title'
-let TITLE_MISSING = r'untitled'
-let TOPICS = r'topics'
-let UNIQUE = r'unique'
+(* Attribute values *)
+let algo = "algorithm"
+let algorithm = "algorithm"
+let authors = "authors"
+let body = "body"
+let body_src = "body_src"
+let body_pop = "body_pop"
+let choice = "choice"
+let choice_src = "choice_src"
+let code = "code"
+let corollary = "corollary"
+let cost_spec = "costspec"
+let datastr = "datastr"
+let datatype = "datatype"
+let definition = "definition"
+let example = "example"
+let exercise = "exercise"
+let friends = "friends"
+let gram = "gram"
+let group = "group"
+let hint = "hint"
+let important = "important"
+let label = "label"
+let lemma = "lemma"
+let no = "no"
+let note = "note"
+let order = "order"
+let page = "page"
+let paragraph = "gram"
+let parents = "parents"
+let points = "points"
+let preamble = "preamble"
+let problem = "problem"
+let proof = "proof"
+let proposition = "proposition"
+let rank = "rank"
+let remark = "remark"
+let solution = "solution"
+let syntax = "syntax"
+let task = "task"
+let teach_ask = "teachask"
+let teach_note = "teachnote"
+let theorem = "theorem"
+let title = "title"
+let title_missing = "untitled"
+let topics = "topics"
+let unique = "unique"
 
-######################################################################
-## BEGIN: Utilities
-
+(**********************************************************************
+ ** BEGIN: Utilities
+ **********************************************************************)
 let mk_comment (s) =
-  "<!-- " + s + " -->"
+  "<!-- "^ s ^ " -->"
 
 let mk_str_begin(tag) =
-  '<' + tag + '>'
+  "<" ^ tag ^ ">"
 
 let mk_str_begin_atom(name) =
-  '<' + ATOM + SPACE + NAME + EQUAL + QUOTE + name + QUOTE + '>'
+  "<" ^ atom ^ space ^ name ^ equal ^ quote ^ name ^ quote ^ ">"
 
 let mk_str_begin_block(name) =
-  '<' + BLOCK + SPACE + NAME + EQUAL + QUOTE + name + QUOTE + '>'
+  "<" ^ BLOCK ^ space ^ name ^ equal ^ quote ^ name ^ quote ^ ">"
 
 let mk_str_begin_field(name) =
-  '<' + FIELD + SPACE + NAME + EQUAL + QUOTE + name + QUOTE + '>'
+  "<" ^ FIELD ^ space ^ name ^ equal ^ quote ^ name ^ quote ^ ">"
 
 let mk_str_end(tag) =
-  '</' + tag + '>'
+  "</" ^ tag ^ ">"
 
 let mk_str_end_atom(name) =
-  '</' + ATOM + '>' + SPACE + mk_comment(name)
+  "</" ^ atom ^ ">" ^ space ^ mk_comment(name)
 
 let mk_str_end_block(name) =
-  '</' + BLOCK + '>' + SPACE + mk_comment(name)
+  "</" ^ BLOCK ^ ">" ^ space ^ mk_comment(name)
 
 let mk_str_end_field(name) =
-  '</' + FIELD + '>'+ SPACE + mk_comment(name)
+  "</" ^ FIELD ^ ">"^ space ^ mk_comment(name)
 
-## TODO = used?
+(* TODO = used? *)
 let mk_xml_node(tag, text) = 
-  result = \
-    mk_str_begin(tag) + NEWLINE + \
-    text.strip() + NEWLINE + \
-    mk_str_end(tag)
-#  print 'mk_xml_node:\n', result
-  result
+    mk_str_begin(tag) ^ newline ^ 
+            text.strip() ^ newline ^ 
+            mk_str_end(tag)
 
 let mk_cdata(body) =
-  CDATA_BEGIN + NEWLINE + body.strip() + NEWLINE + CDATA_END
+  cdata_begin ^ newline ^ body.strip() ^ newline ^ cdata_end
 
 let mk_str_block_atom(name, fields) =
-  print 'mk_str_block_atom:', name
-#  print 'mk_str_block_generic:', fields
-  begin = mk_str_begin_atom(name)
-  end = mk_str_end_atom(name)  
-  result = reduce (lambda x,y: x + NEWLINE + y, fields)
-  begin + NEWLINE + result + NEWLINE + end
+  let _ = printf "mk_str_block_atom: %s" name in
+  let b = mk_str_begin_atom(name) in
+  let e = mk_str_end_atom(name) in  
+  let result = List.reduce (fun i -> fun y -> x ^ newline ^ y) fields in
+    b ^ newline ^ result ^ newline ^ e
 
 let mk_str_block_generic(name, fields) =
-  print 'mk_str_block_generic:', name
-#  print 'mk_str_block_generic:', fields
-  begin = mk_str_begin_block(name)
-  end = mk_str_end_block(name)  
-  result = reduce (lambda x,y: x + NEWLINE + y, fields)
-  begin + NEWLINE + result + NEWLINE + end
+  let _ = print "mk_str_block_generic: %s" name in
+  let b = mk_str_begin_block(name) in
+  let e = mk_str_end_block(name) in  
+  let result = List.reduce (fun x -> fun y -> x ^ newline ^ y) fields in
+    b ^ newline ^ result ^ newline ^ e
 
 let mk_str_field_generic(name, contents) =
-  begin = mk_str_begin_field(name)
-  end = mk_str_end_field(name)
-  result = begin + NEWLINE + contents + NEWLINE + end
-  result
+  let b = mk_str_begin_field(name) in
+  let e = mk_str_end_field(name) in
+  let result = b ^ newline ^ contents ^ newline ^ e in
+    result
 
+(** END: Utilities
+ **********************************************************************)
 
-## END: Utilities
-######################################################################
-
-######## 
-## BEGIN: Block makers
-
-## book maker
+(**********************************************************************
+ ** BEGIN: Block makers
+ **********************************************************************)
+(* book maker *)
 let mk_str_book (fields) =
-  mk_str_block_generic(BOOK, fields)
+  mk_str_block_generic(book, fields)
 
-## chapter maker
+(* chapter maker *)
 let mk_str_chapter (fields) = 
-  mk_str_block_generic(CHAPTER, fields)
+  mk_str_block_generic(chapter, fields)
 
-## course maker
+(* course maker *)
 let mk_str_course (fields) =
-  mk_str_block_generic(COURSE, fields)
+  mk_str_block_generic(course, fields)
 
-## course maker
+(* course maker *)
 let mk_str_group (fields) =
-  mk_str_block_generic(GROUP, fields)
+  mk_str_block_generic(group, fields)
 
-let mk_str_problem_group (fields) =
-  mk_str_block_generic(PROBLEM_GROUP, fields)
-
-let mk_str_problem_set (fields) =
-  mk_str_block_generic(PROBLEM_SET, fields)
-
-## section maker
 let mk_str_section (fields) =
-  mk_str_block_generic(SECTION, fields)
+  mk_str_block_generic(section, fields)
 
-## subsection maker
 let mk_str_subsection (fields) =
-  mk_str_block_generic(SUBSECTION, fields)
+  mk_str_block_generic(subsection, fields)
 
-## subsubsection maker
 let mk_str_subsubsection (fields) =
-  mk_str_block_generic(SUBSUBSECTION, fields)
+  mk_str_block_generic(subsubsection, fields)
 
-## un maker
-let mk_str_checkpoint (fields) =
-  mk_str_block_generic(CHECKPOINT, fields)
-
-
-## assignment maker
-let mk_str_assignment (fields) =
-  mk_str_block_generic(ASSIGNMENT, fields)
-
-## atom maker
 let mk_str_atom (atom_name, fields) =
   mk_str_block_generic(atom_name, fields)
 
-## atom maker
 let mk_str_atom (atom_name, fields) =
   mk_str_block_atom(atom_name, fields)
 
-## algo maker
 let mk_str_algo (fields) =
-  mk_str_block_generic(ALGO, fields)
+  mk_str_block_generic(algo, fields)
 
-## problem_ff maker
-let mk_str_problem_fr (fields) =
-  mk_str_block_generic(PROBLEM_FR, fields)
+(**********************************************************************
+ ** END: Block makers
+ **********************************************************************)
 
-## problem_mc maker
-let mk_str_problem_ma (fields) =
-  mk_str_block_generic(PROBLEM_MA, fields)
+(**********************************************************************
+ ** BEGIN: Field makers
+ **********************************************************************)
 
-## problem_mc maker
-let mk_str_problem_mc (fields) =
-  mk_str_block_generic(PROBLEM_MC, fields)
+let mk_str_authors(x) = 
+  mk_str_field_generic(authors, x)
 
-## question_ff maker
-let mk_str_question_fr (fields) =
-  mk_str_block_generic(QUESTION_FR, fields)
+let mk_str_body (x) = 
+  mk_str_field_generic(body, mk_cdata(x))
 
-## question_mc maker
-let mk_str_question_ma (fields) =
-  mk_str_block_generic(QUESTION_MA, fields)
+let mk_str_body_src (x) = 
+  mk_str_field_generic(body_src, mk_cdata(x))
 
-## question_mc maker
-let mk_str_question_mc (fields) =
-  mk_str_block_generic(QUESTION_MC, fields)
+let mk_str_body_pop (x) = 
+  mk_str_field_generic(body_pop, x)
 
-## answer maker
-let mk_str_answer (fields) =
-  mk_str_block_generic(ANSWER, fields)
+let mk_str_hint (x) = 
+  mk_str_field_generic(hint, x)
 
-## choice maker
-let mk_str_choice (fields) =
-  mk_str_block_generic(CHOICE, fields)
+let mk_str_label(x) = 
+(*  print "label:", label *)
+  mk_str_field_generic(label, x)
 
-## select maker
-let mk_str_select (fields) =
-  mk_str_block_generic(SELECT, fields)
+let mk_str_no(x) = 
+  mk_str_field_generic(no, x)
+
+let mk_str_parents(x): 
+(*  print "mk_str_field = parents = ", x *)
+  parents = ", ".join(x)
+  mk_str_field_generic(parents, x)
+
+let mk_str_points(x) = 
+  mk_str_field_generic(points, x)
+
+let mk_str_solution (x) = 
+  mk_str_field_generic(solution, x)
+
+let mk_str_solution_src (x) = 
+  mk_str_field_generic(solution_src, x)
+
+let mk_str_title(x) = 
+  mk_str_field_generic(title, mk_cdata(x))
+
+let mk_str_title_src(x) = 
+  mk_str_field_generic(title_src, mk_cdata(x))
+
+let mk_str_topics (x) = 
+  mk_str_field_generic(topics, x)
+
+let mk_str_unique(x) = 
+  mk_str_field_generic(unique, x)
 
 
-## END: Block makers
-######## 
+(**********************************************************************
+ ** END: Field makers
+ **********************************************************************)
 
-######## 
-## BEGIN: Field makers
-let mk_str_authors(authors) = 
-  mk_str_field_generic(AUTHORS, authors)
-
-let mk_str_body (body) = 
-  mk_str_field_generic(BODY, mk_cdata(body))
-
-let mk_str_body_src (body) = 
-  mk_str_field_generic(BODY_SRC, mk_cdata(body))
-
-let mk_str_body_pop (body) = 
-  mk_str_field_generic(BODY_POP, body)
-
-let mk_str_correctness(correctness) = 
-  mk_str_field_generic(CORRECTNESS, correctness)
-
-let mk_str_course_number(number) = 
-  mk_str_field_generic(COURSE_NUMBER, number)
-
-let mk_str_duedate (duedate) =
-  mk_str_field_generic(DUEDATE, duedate)
-
-let mk_str_explain (explain) = 
-  mk_str_field_generic(EXPLAIN, explain)
-
-let mk_str_explain_src (explain) = 
-  mk_str_field_generic(EXPLAIN_SRC, explain)
-
-let mk_str_folder (folder) = 
-  mk_str_field_generic(FOLDER, folder)
-
-let mk_str_hint (hint) = 
-  mk_str_field_generic(HINT, hint)
-
-let mk_str_hint_src (hint) = 
-  mk_str_field_generic(HINT_SRC, hint)
-
-let mk_str_info(info) =
-  mk_str_field_generic(INFO, info)
-
-let mk_str_info_src(info) =
-  mk_str_field_generic(INFO_SRC, info)
-
-let mk_str_instance(info) =
-  mk_str_field_generic(INSTANCE, info)
-
-let mk_str_intro(intro) = 
-  mk_str_field_generic(INTRO, mk_cdata(intro))
-
-let mk_str_intro_src(intro) = 
-  mk_str_field_generic(INTRO_SRC, mk_cdata(intro))
-
-let mk_str_label(label) = 
-#  print 'label:', label
-  mk_str_field_generic(LABEL, label)
-
-let mk_str_no(no) = 
-#  print 'no =', no
-  mk_str_field_generic(NO, no)
-
-let mk_str_parents(parents): 
-#  print 'mk_str_field = parents = ', parents
-  parents = ', '.join(parents)
-  mk_str_field_generic(PARENTS, parents)
-
-let mk_str_picture(picture) = 
-  mk_str_field_generic(PICTURE, picture)
-
-let mk_str_points(points) = 
-  mk_str_field_generic(POINTS, points)
-
-let mk_str_prompt (prompt) = 
-  mk_str_field_generic(PROMPT, prompt)
-
-let mk_str_prompt_src (prompt) = 
-  mk_str_field_generic(PROMPT_SRC, prompt)
-
-let mk_str_provides_book (pb) = 
-  mk_str_field_generic(PROVIDES_BOOK, pb)
-
-let mk_str_provides_chapter (pc) = 
-  mk_str_field_generic(PROVIDES_CHAPTER, pc)
-
-let mk_str_provides_section (pc) = 
-  mk_str_field_generic(PROVIDES_SECTION, pc)
-
-let mk_str_provides_subsection (pc) = 
-  mk_str_field_generic(PROVIDES_SUBSECTION, pc)
-
-let mk_str_provides_assignment (pc) =
-  mk_str_field_generic(PROVIDES_ASSIGNMENT, pc)
-
-let mk_str_semester(semester) = 
-  mk_str_field_generic(SEMESTER, semester)
-
-let mk_str_solution (solution) = 
-  mk_str_field_generic(SOLUTION, solution)
-
-let mk_str_solution_src (solution) = 
-  mk_str_field_generic(SOLUTION_SRC, solution)
-
-# let mk_str_title(title): 
-#   if title:
-#     mk_str_field_generic(FIELD_TITLE, title)
-#   else:
-#     KW_UNTITLED
-
-let mk_str_title(title) = 
-  mk_str_field_generic(TITLE, mk_cdata(title))
-
-let mk_str_title_src(title) = 
-  mk_str_field_generic(TITLE_SRC, mk_cdata(title))
-
-let mk_str_topics (topics) = 
-  mk_str_field_generic(TOPICS, topics)
-
-let mk_str_unique(unique) = 
-  mk_str_field_generic(UNIQUE, unique)
-
-let mk_str_website(website) = 
-  mk_str_field_generic(WEBSITE, website)
-
-## END: Field makers
-######## 
