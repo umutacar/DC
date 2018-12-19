@@ -1,0 +1,2 @@
+# Compilation
+$ ocamlfind ocamlc -package core -c syntax.ml
