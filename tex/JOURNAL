@@ -2,11 +2,13 @@
 # JOURNAL
 
 - [Dec 19]
-  Trying to figure out how to generate xml code from tex.
+  * Trying to figure out how to generate xml code from tex.
 
   One question is whether to translate tex to tex_core, which we use to eliminate syntactic sugar.  This can probably be very helpful, especially when dealing with more complicated latex classes such as problem sets.  
 
   One problem with this approach is that it ends up generating lots of intermediate files.  But now we are using a real functional programming language.  So we can transform the ASTs but don't necessarily have to dump them.  I think this is the approach that I should follow.
+
+  * Doing some of the "infrastructure" work needed to translatex tex to xml such as creating a vocabulary for the core language and such
 
 - [Dec 18]
   * working on idempotent parsing
