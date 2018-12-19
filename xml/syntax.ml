@@ -124,7 +124,7 @@ let mk_block_atom(name, fields) =
     | None -> b ^ newline ^ e
     | Some r -> b ^ newline ^ r ^ newline ^ e
 
-let mk_block_generic(name, fields) =
+let mk_block_generic (name, fields) =
   let _ = printf "mk_block_generic: %s" name in
   let b = mk_begin_block(name) in
   let e = mk_end_block(name) in  
@@ -133,31 +133,40 @@ let mk_block_generic(name, fields) =
     | None ->  b ^ newline ^ e
     | Some r ->  b ^ newline ^ r ^ newline ^ e
 
-(* book maker *)
-let mk_book (fields) =
-  mk_block_generic(book, fields)
+let mk_chapter ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_generic(paragraph, [title_xml, label_xml, body])
 
-(* chapter maker *)
-let mk_chapter (fields) = 
-  mk_block_generic(chapter, fields)
+let mk_section ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_generic(paragraph, [title_xml, label_xml, body])
 
-let mk_group (fields) =
-  mk_block_generic(group, fields)
+let mk_subsection ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_generic(paragraph, [title_xml, label_xml, body])
 
-let mk_section (fields) =
-  mk_block_generic(section, fields)
+let mk_subsubsection ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_generic(paragraph, [title_xml, label_xml, body])
 
-let mk_subsection (fields) =
-  mk_block_generic(subsection, fields)
+let mk_paragraph ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_generic(paragraph, [title_xml, label_xml, body])
 
-let mk_subsubsection (fields) =
-  mk_block_generic(subsubsection, fields)
+let mk_group ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_generic(group, [title_xml, label_xml, body])
 
-let mk_atom (atom_name, fields) =
-  mk_block_atom(atom_name, fields)
-
-let mk_algo (fields) =
-  mk_block_generic(algo, fields)
+let mk_atom ?kind ?title ?label ?body = 
+  let title_xml = mk_title_opt (title) in
+  let label_xml = mk_label_opt (label) in
+    mk_block_atom(atom_name, [kind, title_xml, label_xml, body])
 
 (**********************************************************************
  ** END: Block makers

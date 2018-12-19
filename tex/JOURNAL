@@ -1,3 +1,7 @@
+# TODO
+ - Translate to xml.
+
+ - Should we have a core language?  I think not.  It mostly bloat code.  So let's not unless we really need.  The AST should be good enough for most things.
 
 # JOURNAL
 
@@ -11,6 +15,9 @@
   * Doing some of the "infrastructure" work needed to translatex tex to xml such as creating a vocabulary for the core language and such
 
   * Coordination with XML backend is important, see tex/COORDINATE
+
+  *  One question is what to do with various missing fields. I think the backend is robust enough to deal with their absence so maybe we should just omit them.
+
 
 - [Dec 18]
   * working on idempotent parsing
