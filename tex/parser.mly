@@ -360,42 +360,42 @@ mkAtom(kind, kw_b, kw_e):
      Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
   }
 
-| preamble = boxes;
+| kind = kind
+  preamble = boxes;
   h_b = kw_b;
   t = sq_box; 
   l = label;
   bs = boxes; 
   h_end = kw_e;
   {
-   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
    let (bo, tt, bc) = t in
    let h_begin = h_b ^ bo ^ tt ^ bc in   
      printf "Parsed Atom %s title = %s" h_begin tt;
-     Atom (preamble, (h_begin, kind, Some tt, Some l, bs, h_end))
+     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, h_end))
   }
 
-| preamble = boxes;
+| kind = kind
+  preamble = boxes;
   h_b = kw_b;
   bs = boxes_start_no_sq; 
   h_end = kw_e;
   {
-   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
    let h_begin = h_b in
      printf "Parsed Atom %s" h_begin;
-     Atom (preamble, (h_begin, kind, None, None, bs, h_end)) 
+     Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
   }
 
-| preamble = boxes;
+| kind = kind
+  preamble = boxes;
   h_b = kw_b;
   t = sq_box; 
   bs = boxes; 
   h_end = kw_e;
   {
-   let kind = h_b in  (* TODO: This should be fixed. Using heading as kind. *)
    let (bo, tt, bc) = t in
    let h_begin = h_b ^ bo ^ tt ^ bc in   
      printf "Parsed Atom %s title = %s" h_begin tt;
-     Atom (preamble, (h_begin, kind, Some tt, None, bs, h_end))
+     Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
   }
 
 atom:
