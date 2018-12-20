@@ -1,11 +1,11 @@
-type preamble = string
-type atom_kind = string
-type atom_body = string
-type label_string = string
-type title = string
-type intertext = string
-type keyword = string
-(* Keywords are used to capture the "beginning" and "end" of the commands.
+type t_preambly = string
+type t_atom_kind = string
+type t_atom_body = string
+type t_label_val = string
+type t_title = string
+type t_intertext = string
+type t_keyword = string
+(* T_Keywords are used to capture the "beginning" and "end" of the commands.
    For example, "    \label   {"  and "}    \n", 
                 "\begin{example}[title]  \n"
                 "\end{example}  \n\n\n"
@@ -14,35 +14,35 @@ type keyword = string
  *)
 
 (* Label is heading and the label string *)
-type label = Label of keyword * label_string
+type t_label = Label of t_keyword * t_label_val
 
-type atom = Atom of preamble * (keyword * atom_kind * title option * label option * atom_body * keyword) 
+type atom = Atom of t_preambly * (t_keyword * t_atom_kind * t_title option * t_label option * t_atom_body * t_keyword) 
 
 type group = 
-  Group of preamble 
-           * (keyword * title option * label option * 
-              atom list * intertext * keyword) 
+  Group of t_preambly 
+           * (t_keyword * t_title option * t_label option * 
+              atom list * t_intertext * t_keyword) 
 
 
 type chapter = 
-  Chapter of (keyword * title * label
-              * block list * intertext * section list) 
+  Chapter of (t_keyword * t_title * t_label
+              * block list * t_intertext * section list) 
 
 and section = 
-  Section of (keyword * title * label option
-              * block list * intertext * subsection list)
+  Section of (t_keyword * t_title * t_label option
+              * block list * t_intertext * subsection list)
 
 and subsection = 
-  Subsection of (keyword * title * label option
-                 * block list * intertext * subsubsection list)
+  Subsection of (t_keyword * t_title * t_label option
+                 * block list * t_intertext * subsubsection list)
 
 and subsubsection = 
-  Subsubsection of (keyword * title * label option
-                    * block list * intertext * paragraph list)
+  Subsubsection of (t_keyword * t_title * t_label option
+                    * block list * t_intertext * paragraph list)
 
 and paragraph = 
-  Paragraph of (keyword * title * label option
-                * block list * intertext)
+  Paragraph of (t_keyword * t_title * t_label option
+                * block list * t_intertext)
 and block = 
   | Block_Group of group
   | Block_Atom of atom
@@ -72,7 +72,7 @@ let ostrToStr os =
   |  Some s -> s
 
 let labelToString (Label(h, label_string)) = h
-let labelString (Label(h, label_string)) = label_string
+let labelToVal (Label(h, label_string)) = label_string
 
 let labelOptToString lopt = 
   let r = match lopt with 
@@ -83,7 +83,7 @@ let labelOptToString lopt =
 let labelOptToStringOpt lopt = 
   let r = match lopt with 
               |  None -> None
-              |  Some l -> Some (labelString l)  in
+              |  Some l -> Some (labelToVal l)  in
      r
 
 
@@ -187,19 +187,12 @@ let paragraphToXml (Paragraph (heading, title, lopt, bs, it)) =
   let r = XmlSyntax.mk_paragraph ~title:title ~lopt:lsopt ~body:blocks in
     r
 
-let paragraphToXml (Paragraph (heading, title, lopt, bs, it, ss)) =
-  let lsopt = labelOptToStringOpt lopt in
-  let blocks = map_concat blockToXml bs in
-  let r = XmlSyntax.mk_paragraph ~title:title ~lopt:lsopt ~body:blocks in
-    r
-
-
 let subsubsectionToXml (Subsubsection (heading, t, lopt, bs, it, ss)) =
   let lsopt = labelOptToStringOpt lopt in
   let blocks = map_concat blockToXml bs in
   let nesteds = map_concat paragraphToXml ss in
   let body = blocks ^ newline ^ nesteds in
-  let r = XmlSyntax.mk_subsubsection ~title:title ~lopt:lsopt ~body:body in
+  let r = XmlSyntax.mk_subsubsection ~title:t ~lopt:lsopt ~body:body in
     r
 
 let subsectionToXml (Subsection (heading, t, lopt, bs, it, ss)) =
@@ -207,7 +200,7 @@ let subsectionToXml (Subsection (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToXml bs in
   let nesteds = map_concat subsubsectionToXml ss in
   let body = blocks ^ newline ^ nesteds in
-  let r = XmlSyntax.mk_subsection ~title:title ~lopt:lsopt ~body:body in
+  let r = XmlSyntax.mk_subsection ~title:t ~lopt:lsopt ~body:body in
     r
 
 let sectionToXml (Section (heading, t, lopt, bs, it, ss)) =
@@ -215,15 +208,15 @@ let sectionToXml (Section (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToXml bs in
   let nesteds = map_concat subsectionToXml ss in
   let body = blocks ^ newline ^ nesteds in
-  let r = XmlSyntax.mk_section ~title:title ~lopt:lsopt ~body:body in
+  let r = XmlSyntax.mk_section ~title:t ~lopt:lsopt ~body:body in
     r
 
 let chapterToXml (Chapter (heading, t, l, bs, it, ss)) =
-  let lsopt = labelOptToStringOpt lopt in
+  let label = labelToVal l in
   let blocks = map_concat blockToXml bs in
   let sections = map_concat sectionToXml ss in
-  let body = blocks ^ newline ^ nesteds in
-  let r = XmlSyntax.mk_chapter ~title:title ~lopt:lsopt ~body:body in
+  let body = blocks ^ newline ^ sections in
+  let r = XmlSyntax.mk_chapter ~title:t ~label:label ~body:body in
     r
 
 (**********************************************************************

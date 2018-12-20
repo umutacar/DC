@@ -196,40 +196,44 @@ let mk_block_generic name fields =
     | None ->  b ^ newline ^ e
     | Some r ->  b ^ newline ^ r ^ newline ^ e
 
-let mk_chapter ~topt ~lopt ~body = 
-  let title_xml:string = mk_title_opt topt in
-  let label_xml:string = mk_label_opt lopt in
-    mk_block_generic chapter [title_xml; label_xml; body]
-
-let mk_section ~topt ~lopt ~body = 
+let mk_atom ~kind ~topt ~lopt ~body = 
   let title_xml = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic section [title_xml; label_xml; body]
-
-let mk_subsection ~topt ~lopt ~body = 
-  let title_xml = mk_title_opt topt in
-  let label_xml = mk_label_opt lopt in
-    mk_block_generic subsection [title_xml; label_xml; body]
-
-let mk_subsubsection ~topt ~lopt ~body = 
-  let title_xml = mk_title_opt topt in
-  let label_xml = mk_label_opt lopt in
-    mk_block_generic subsubsection [title_xml; label_xml; body]
-
-let mk_paragraph ~topt ~lopt ~body = 
-  let title_xml = mk_title_opt topt in
-  let label_xml = mk_label_opt lopt in
-    mk_block_generic paragraph [title_xml; label_xml; body]
+    mk_block_atom kind [title_xml; label_xml; body]
 
 let mk_group ~topt ~lopt ~body = 
   let title_xml = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
     mk_block_generic group [title_xml; label_xml; body]
 
-let mk_atom ~kind ~topt ~lopt ~body = 
-  let title_xml = mk_title_opt topt in
+let mk_paragraph ~title ~lopt ~body = 
+  let title_xml = mk_title title in
   let label_xml = mk_label_opt lopt in
-    mk_block_atom kind [title_xml; label_xml; body]
+    mk_block_generic paragraph [title_xml; label_xml; body]
+
+let mk_subsubsection ~title ~lopt ~body = 
+  let title_xml = mk_title title in
+  let label_xml = mk_label_opt lopt in
+    mk_block_generic subsubsection [title_xml; label_xml; body]
+
+let mk_subsection ~title ~lopt ~body = 
+  let title_xml = mk_title title in
+  let label_xml = mk_label_opt lopt in
+    mk_block_generic subsection [title_xml; label_xml; body]
+
+let mk_section ~title ~lopt ~body = 
+  let title_xml = mk_title title in
+  let label_xml = mk_label_opt lopt in
+    mk_block_generic section [title_xml; label_xml; body]
+
+let mk_chapter ~title ~label ~body = 
+  let title_xml:string = mk_title title in
+  let label_xml:string = mk_label label in
+    mk_block_generic chapter [title_xml; label_xml; body]
+
+
+
+
 
 (**********************************************************************
  ** END: Block makers
