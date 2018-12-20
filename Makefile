@@ -5,17 +5,28 @@
 OCB_FLAGS = -use-ocamlfind -I tex -I xml
 OCB = ocamlbuild $(OCB_FLAGS)
 
-all: native
+all: tex2tex.native
 
 clean:
 	$(OCB) -clean
 
-native:
-	$(OCB) main.native
+# tex2tex
+tex2tex.native:
+	$(OCB) tex2tex.native
 
-profile:
-	$(OCB) -tag profile main.native
+tex2tex.profile:
+	$(OCB) -tag profile tex2tex.native
 
-debug:
-	$(OCB) -tag debug main.byte
+tex2tex.debug:
+	$(OCB) -tag debug tex2tex.byte
+
+# tex2xml
+tex2xml.native:
+	$(OCB) tex2xml.native
+
+tex2xml.profile:
+	$(OCB) -tag profile tex2xml.native
+
+tex2xml.debug:
+	$(OCB) -tag debug tex2xml.byte
 
