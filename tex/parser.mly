@@ -357,7 +357,7 @@ mkAtom(kind, kw_b, kw_e):
   {
    let h_begin = h_b in
      printf "Parsed Atom %s!" h_begin;
-     Atom (preamble, (h_begin, kind, None, Some l, bs, h_end))
+     Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
   }
 
 | preamble = boxes;

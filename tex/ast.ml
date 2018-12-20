@@ -16,7 +16,7 @@ type t_keyword = string
 (* Label is heading and the label string *)
 type t_label = Label of t_keyword * t_label_val
 
-type atom = Atom of t_preambly * (t_keyword * t_atom_kind * t_title option * t_label option * t_atom_body * t_keyword) 
+type atom = Atom of t_preambly * (t_atom_kind * t_keyword * t_title option * t_label option * t_atom_body * t_keyword) 
 
 type group = 
   Group of t_preambly 
@@ -100,7 +100,7 @@ let titleOptionToString topt =
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
-let atomToTex (Atom(preamble, (h_begin, kind, topt, lopt, body, h_end))) = 
+let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
   let label = labelOptToString lopt in
     preamble ^ h_begin ^ label ^ body ^ h_end
       
@@ -164,7 +164,7 @@ let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
 (**********************************************************************
  ** BEGIN: AST To XML
  **********************************************************************)
-let atomToXml (Atom(preamble, (h_begin, kind, topt, lopt, body, h_end))) = 
+let atomToXml (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
   let lsopt = labelOptToStringOpt lopt in
   let body_xml = XmlSyntax.from_tex body in
   let r = XmlSyntax.mk_atom ~kind:kind ~topt:topt ~lopt:lsopt ~body:body in
