@@ -3,10 +3,13 @@
 
  - Should we have a core language?  I think not.  It mostly bloat code.  So let's not unless we really need.  The AST should be good enough for most things.
 
+ - clean up python crap from this directory when the parser is done
+ 
+
 # JOURNAL
 
 - [Dec 20]
-  * Two ways to do the translation of latex to xml.  One is to continue reusing our python code.  This will work but the problem is that it will prevent us from distributing an executable that can do this without having to rely on the user having installed python.  This is pretty bad.  Another way is to rewrite this stuff in OCAML.  I think this is the right direction.  
+  * Two ways to do the translation of latex to xml.  One is to continue reusing our python code.  This will work but the problem is that it will prevent us from distributing an executable that can do this without having to rely on the user having installed python.  This is pretty bad.  Another way is to rewrite this stuff in OCAML.  I think this is the right direction.  But maybe for now the first path is OK because it doesn't require writing new code.    
 
 
 - [Dec 19]
