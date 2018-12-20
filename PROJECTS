@@ -15,8 +15,16 @@ This is a big project.  There are many parts and concerns but based on my (Umut)
 ## XML translator
   Based on black translator, complete the xml translation.  This should be pretty close assuming block translation is complete.
 
+## Develop support for Latex Exam Class.
+
+http://www-math.mit.edu/~psh/exam/examdoc.pdf
+
+This is the document class that we and many others use to create exams.  I think it should be possible to block-parse this and convert to xml just like other latex documents.  Once we have this, then we should be able to upload all of our problem bank online.
+
+
 ## Error messages
   
   Error messages are currently completely omitted.  Use menhir's ability to generate good error messages.
+
 
 
