@@ -1,0 +1,22 @@
+# Goal
+
+The goal is to create a block-compiler for latex written in OCaml that is quite usable.  The idea of the block parser is to parse latex at the level of "blocks" and use pandoc or some other similar tool to translate the blocks into whatever format is needed, which is our case is xml/html.
+
+When developing the compiler, it is important to use OCaml only because we want to be able to generate executables.  It turns out that generating executables from python code is nearly impossible, which limits the use of python sources.  
+
+This is a big project.  There are many parts and concerns but based on my (Umut) explorations so far, it seems entirely feasible.  I am listing several specific projects that can immedieately be started on.
+
+# Specific Projects
+
+## Block translator
+  
+  In directory latex/ there is a block translator from latex to html/xml using pandoc.  We want an OCaml version of this.  
+
+## XML translator
+  Based on black translator, complete the xml translation.  This should be pretty close assuming block translation is complete.
+
+## Error messages
+  
+  Error messages are currently completely omitted.  Use menhir's ability to generate good error messages.
+
+
