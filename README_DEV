@@ -1,12 +1,24 @@
 # Usage
+
+## tex2tex
 $ make
-  This will generate main.native
-  Run main.tex tex/star.tex s.tex
+  This will generate tex2tex.native
+  Run 
+  $ tex2tex.native tex/star.tex s.tex
+
   This will parse tex/star.tex and write the parsed document into s.tex
   Run now 
   $ diff s.tex tex/star.tex
   And there should be no difference, because the parser is idempotent.
 
+## tex2xml
+$ make tex2xml.native
+  This will generate tex2xml.native
+  Run 
+  $ tex2xml.native tex/star.tex s.xml
+
+  This will parse tex/star.tex and generate an incomplete xml
+  Completing this translation is currently what I am working on.
 
 
 ######################################################################
