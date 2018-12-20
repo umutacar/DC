@@ -1,3 +1,17 @@
+# Usage
+$ make
+  This will generate main.native
+  Run main.tex tex/star.tex s.tex
+  This will parse tex/star.tex and write the parsed document into s.tex
+  Run now 
+  $ diff s.tex tex/star.tex
+  And there should be no difference, because the parser is idempotent.
+
+
+
+######################################################################
+## Pre-OCAML README, September 2018
+
 # IMPORTANT: 
 1) the module pervasives/ must match that inside the diderot
 2) the module mlx should containt syntax.py and this should be identical to that from diderot.

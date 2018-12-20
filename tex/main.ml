@@ -27,7 +27,7 @@ let main () =
         else
           (printf "Parsing complete: parsed text: \n%s" chapter_tex)
     else
-      printf "Usage: top <input file> [<output file>]\n";;			
+      printf "Usage: main <input latex file> [<output latex file>]\n";;			
 					
 let _ = main ()
 
