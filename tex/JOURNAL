@@ -16,8 +16,9 @@
 
   * Coordination with XML backend is important, see tex/COORDINATE
 
-  *  One question is what to do with various missing fields. I think the backend is robust enough to deal with their absence so maybe we should just omit them.
+  *  One question is what to do with various missing fields. I think the backend is robust enough to deal with their absence so maybe we should just omit them. 
 
+  * completed a skeloten of the xml generation.
 
 - [Dec 18]
   * working on idempotent parsing
