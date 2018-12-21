@@ -13,10 +13,15 @@ let quote = "'"
 let space = " "
 let empty_string = ""
 
+(* Attributes *)
+let name = "name"
+
 (* Tags *) 
 let atom = "atom"
 let block = "block"
 let field = "field"
+
+
 
 (* Block tags *)
 let answer = "answer"
@@ -73,6 +78,7 @@ let teach_note = "teachnote"
 let theorem = "theorem"
 let title = "title"
 let title_missing = "untitled"
+let title_src = "title_src"
 let topics = "topics"
 let unique = "unique"
 
@@ -85,26 +91,26 @@ let mk_comment (s) =
 let mk_begin(tag) =
   "<" ^ tag ^ ">"
 
-let mk_begin_atom(name) =
-  "<" ^ atom ^ space ^ name ^ equality ^ quote ^ name ^ quote ^ ">"
+let mk_begin_atom(kind) =
+  "<" ^ atom ^ space ^ name ^ equality ^ quote ^ kind ^ quote ^ ">"
 
-let mk_begin_block(name) =
-  "<" ^ block ^ space ^ name ^ equality ^ quote ^ name ^ quote ^ ">"
+let mk_begin_block(kind) =
+  "<" ^ block ^ space ^ name ^ equality ^ quote ^ kind ^ quote ^ ">"
 
-let mk_begin_field(name) =
-  "<" ^ field ^ space ^ name ^ equality ^ quote ^ name ^ quote ^ ">"
+let mk_begin_field(kind) =
+  "<" ^ field ^ space ^ name ^ equality ^ quote ^ kind ^ quote ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
 
-let mk_end_atom(name) =
-  "</" ^ atom ^ ">" ^ space ^ mk_comment(name)
+let mk_end_atom(kind) =
+  "</" ^ atom ^ ">" ^ space ^ mk_comment(kind)
 
-let mk_end_block(name) =
-  "</" ^ block ^ ">" ^ space ^ mk_comment(name)
+let mk_end_block(kind) =
+  "</" ^ block ^ ">" ^ space ^ mk_comment(kind)
 
-let mk_end_field(name) =
-  "</" ^ field ^ ">"^ space ^ mk_comment(name)
+let mk_end_field(kind) =
+  "</" ^ field ^ ">"^ space ^ mk_comment(kind)
 
 let mk_cdata(body) =
   cdata_begin ^ newline ^ String.strip(body) ^ newline ^ cdata_end
@@ -116,10 +122,10 @@ let mk_cdata(body) =
 (**********************************************************************
  ** BEGIN: Field makers
  **********************************************************************)
-let mk_field_generic(name, contents) =
-  let b = mk_begin_field(name) in
-  let e = mk_end_field(name) in
-  let result:string = b ^ newline ^ contents ^ newline ^ e in
+let mk_field_generic(kind, contents) =
+  let b = mk_begin_field(kind) in
+  let e = mk_end_field(kind) in
+  let result = b ^ newline ^ contents ^ newline ^ e in
     result
 
 let mk_authors(x) = 
@@ -161,6 +167,14 @@ let mk_solution (x) =
 let mk_title(x) = 
   mk_field_generic(title, mk_cdata(x))
 
+let mk_title_src(x) = 
+  mk_field_generic(title_src, mk_cdata(x))
+
+let mk_title_src_opt(x) = 
+  match x with
+  | None -> empty_string
+  | Some y -> mk_field_generic(title_src, y)
+
 let mk_title_opt(x) = 
   match x with
   | None -> empty_string
@@ -177,59 +191,68 @@ let mk_unique(x) =
 (**********************************************************************
  ** BEGIN: Block makers
  **********************************************************************)
-let mk_block_atom name fields =
-  let _ = printf "mk_block_atom: %s" name in
-  let b = mk_begin_atom(name) in
-  let e = mk_end_atom(name) in  
+let mk_block_atom kind fields =
+  let _ = printf "mk_block_atom: %s" kind in
+  let b = mk_begin_atom(kind) in
+  let e = mk_end_atom(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ newline ^ y) in
     match result with 
     | None -> b ^ newline ^ e
     | Some r -> b ^ newline ^ r ^ newline ^ e
 
 
-let mk_block_generic name fields =
-  let _ = printf "mk_block_generic: %s" name in
-  let b = mk_begin_block(name) in
-  let e = mk_end_block(name) in  
+let mk_block_generic kind fields =
+  let _ = printf "mk_block_generic: %s" kind in
+  let b = mk_begin_block(kind) in
+  let e = mk_end_block(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ newline ^ y) in
     match result with 
     | None ->  b ^ newline ^ e
     | Some r ->  b ^ newline ^ r ^ newline ^ e
 
-let mk_atom ~kind ~topt ~lopt ~body = 
-  let title_xml = mk_title_opt topt in
+let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
+  let title_xml = mk_title_opt t_xml_opt in
+  let title_src = mk_title_opt topt in
+  let body_xml = mk_body body_xml in
+  let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
-    mk_block_atom kind [title_xml; label_xml; body]
+    mk_block_atom kind [title_xml; title_src; label_xml; body]
 
-let mk_group ~topt ~lopt ~body = 
-  let title_xml = mk_title_opt topt in
+let mk_group ~topt ~t_xml_opt ~lopt ~body = 
+  let title_src = mk_title_src_opt topt in
+  let title_xml = mk_title_opt t_xml_opt in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic group [title_xml; label_xml; body]
+    mk_block_generic group [title_xml; title_src; label_xml; body]
 
-let mk_paragraph ~title ~lopt ~body = 
-  let title_xml = mk_title title in
+let mk_paragraph ~title ~title_xml ~lopt ~body = 
+  let title_src = mk_title_src title in
+  let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic paragraph [title_xml; label_xml; body]
+    mk_block_generic paragraph [title_xml; title_src; label_xml; body]
 
-let mk_subsubsection ~title ~lopt ~body = 
-  let title_xml = mk_title title in
+let mk_subsubsection ~title ~title_xml ~lopt ~body = 
+  let title_src = mk_title_src title in
+  let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic subsubsection [title_xml; label_xml; body]
+    mk_block_generic subsubsection [title_xml; title_src; label_xml; body]
 
-let mk_subsection ~title ~lopt ~body = 
-  let title_xml = mk_title title in
+let mk_subsection ~title ~title_xml ~lopt ~body = 
+  let title_src = mk_title_src title in
+  let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic subsection [title_xml; label_xml; body]
+    mk_block_generic subsection [title_xml; title_src; label_xml; body]
 
-let mk_section ~title ~lopt ~body = 
-  let title_xml = mk_title title in
+let mk_section ~title ~title_xml ~lopt ~body = 
+  let title_src = mk_title_src title in
+  let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic section [title_xml; label_xml; body]
+    mk_block_generic section [title_xml; title_src; label_xml; body]
 
-let mk_chapter ~title ~label ~body = 
-  let title_xml:string = mk_title title in
+let mk_chapter ~title ~title_xml ~label ~body = 
+  let title_src:string = mk_title_src title in
+  let title_xml = mk_title title_xml in
   let label_xml:string = mk_label label in
-    mk_block_generic chapter [title_xml; label_xml; body]
+    mk_block_generic chapter [title_xml; title_src; label_xml; body]
 
 
 

@@ -1,6 +1,8 @@
 # TODO
  - Extend XML translation to match older MLX translation.
 
+ - OCaml Str.regexp stuff broken.  Find replacement.
+
  - Should we have a core language?  I think not.  It mostly bloat code.  So let's not unless we really need.  The AST should be good enough for most things.
 
  - clean up python crap from this directory when the parser is done. one possibility is to key dex/ for historical consistency and move relevant directories under it.
@@ -14,6 +16,8 @@
 
   * Generated xml successfully using pandoc translation method. Yay!!!
   * Now comes the tedious part.  I need to carefully go through the xml and make sure that I am not missing any fields.  This is a bit tedious.  I have to study the dex translation because there isn't really a spec.  The implementation is the spec.  Ouch.
+
+  * OCaml Str.regexp stuff is broken.  Groups are not identified correctly.
 
 
 - [Dec 20]
