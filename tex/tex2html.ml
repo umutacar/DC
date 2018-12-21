@@ -1,6 +1,7 @@
 (**********************************************************************
  ** tex/tex2html.ml
- **
+ ** Provides the function mk_translator 
+ ** which returns a function that translates tex to html using pandoc.
  **********************************************************************)
 
 open Core
@@ -99,12 +100,16 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
 
 (**********************************************************************)
 
+(**********************************************************************
+ ** mk_translator makes a tex to html translator function 
+ ** and returns it
+ **********************************************************************)
 let mk_translator (tmp_dir, preamble) = 
    (* Create tmp dir *) 
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  
    (* translator *)
-   let translate (unique, contents, match_single_paragraph) = 
+   let translate unique contents match_single_paragraph = 
      let contents = text_prep contents in 
        tex_to_html tmp_dir unique preamble contents match_single_paragraph
    in

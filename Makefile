@@ -5,7 +5,7 @@
 OCB_FLAGS = -use-ocamlfind -I tex -I xml
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = tex/ast.ml tex/lexer.mll tex/parser.mly xml/xmlSyntax.ml 
-all: tex2tex.native
+all: tex2tex.native tex2xml.native
 
 clean:
 	$(OCB) -clean

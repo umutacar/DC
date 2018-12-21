@@ -167,7 +167,7 @@ let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
 let atomToXml tex2html
               (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
   let lsopt = labelOptToStringOpt lopt in
-  let body_xml = tex2html body in
+  let body_xml = tex2html "1" body true in
   let r = XmlSyntax.mk_atom ~kind:kind ~topt:topt ~lopt:lsopt ~body:body in
     r
      

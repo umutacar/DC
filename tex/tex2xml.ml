@@ -3,9 +3,9 @@ open Lexer
 open Lexing
 
 
-(*
-let filename = Sys.argv.(1) 
-*)
+let default_tmp_dir = "/tmp/"
+let default_preamble = "/Users/umut/15210/algobook/latex_preamble/preamble.tex"
+
 
 let main () =
 	let args = Sys.argv in
@@ -15,8 +15,9 @@ let main () =
       let chapter_xml =   
   			try 
           let lexbuf = Lexing.from_channel ic in
-	  	  	let chapter = Parser.chapter Lexer.token lexbuf in
-          let chapter_xml = Ast.chapterToXml chapter in
+	  	  	let ast_chapter = Parser.chapter Lexer.token lexbuf in
+          let tex2html = Tex2html.mk_translator (default_tmp_dir, default_preamble) in
+          let chapter_xml = Ast.chapterToXml tex2html ast_chapter in
             printf "Parsed successfully chapter.\n";
             chapter_xml
         with End_of_file -> exit 0
