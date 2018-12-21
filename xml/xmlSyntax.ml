@@ -216,7 +216,7 @@ let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml =
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
-    mk_block_atom kind [title_xml; title_src; label_xml; body]
+    mk_block_atom kind [title_xml; title_src; label_xml; body_xml; body_src]
 
 let mk_group ~topt ~t_xml_opt ~lopt ~body = 
   let title_src = mk_title_src_opt topt in
