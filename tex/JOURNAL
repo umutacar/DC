@@ -11,6 +11,8 @@
 - [Dec 20]
   * Two ways to do the translation of latex to xml.  One is to continue reusing our python code.  This will work but the problem is that it will prevent us from distributing an executable that can do this without having to rely on the user having installed python.  This is pretty bad.  Another way is to rewrite this stuff in OCAML.  I think this is the right direction.  But maybe for now the first path is OK because it doesn't require writing new code.    
 
+  * I completed a first version of an ocaml module for translating tex to html by using pandoc externally via systems calls.  This module is currently in tex/tex2html.ml.  I plan on trying it soon.
+
 
 - [Dec 19]
   * Trying to figure out how to generate xml code from tex.
