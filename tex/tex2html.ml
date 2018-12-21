@@ -57,7 +57,9 @@ let latex_file_to_html (latex_file_name, html_file_name) =
      ** This matters when printing to terminal which is ASCII
      **)
     let command = pandoc ^ " " ^ latex_file_name ^  " -o" ^ html_file_name  in
-    let _ = Sys.command command in 
+    let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
+    let exit_code = Sys.command command in 
+      printf "Command exited with code: %d\n" exit_code;
       printf "LaTex code is in file: %s\n" latex_file_name;
       printf "HTML code is in file: %s\n" html_file_name
 
@@ -95,8 +97,8 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
         printf "matched contents: %s" contents;
         contents
     else
-      let () = printf "FATAL ERROR: latex2html.translate: pattern did not match" in
-        "FATAL ERROR in latex to html translation"
+      let () = printf "FATAL ERROR in LaTeX to html translation" in
+        "FATAL ERROR in LaTeX to html translation"
 
 (**********************************************************************)
 

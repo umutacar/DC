@@ -26,7 +26,7 @@ let main () =
           let outfile = Sys.argv.(2) in
             Out_channel.write_all outfile ~data:chapter_xml 
         else
-          (printf "Parsing complete: parsed text: \n%s" chapter_xml)
+          printf "Parsing complete."
     else
       printf "Usage: main <input latex file> [<output xml file>]\n";;			
 					
