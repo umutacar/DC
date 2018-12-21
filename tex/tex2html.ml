@@ -34,8 +34,8 @@ let pandoc =  pandoc_minor
 
 
 (* Regular expressions *)
-let pattern_html_paragraph = Str.regexp "<p>\\(.*\\)</p>\n*"
-let pattern_newline = Str.regexp "[\n]"
+let pattern_html_paragraph = Str.regexp "<p>\\(.\|\n\\)*</p>\n*"
+let pattern_newline = Str.regexp "\n"
 
 (* prep string for conversion *)
 let text_prep(s) = 
@@ -97,7 +97,7 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
         printf "matched contents: %s" contents;
         contents
     else
-      let () = printf "FATAL ERROR in LaTeX to html translation" in
+      let () = printf "\nFATAL ERROR in LaTeX to html translation!\n" in
         "FATAL ERROR in LaTeX to html translation"
 
 (**********************************************************************)
