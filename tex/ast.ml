@@ -1,3 +1,6 @@
+(**********************************************************************
+ ** BEGIN: AST Data Types
+*********************************************************************)
 type t_preambly = string
 type t_atom_kind = string
 type t_atom_body = string
@@ -47,6 +50,10 @@ and block =
   | Block_Group of group
   | Block_Atom of atom
 
+(**********************************************************************
+ ** END: AST Data Types
+*********************************************************************)
+
 
 (**********************************************************************
  ** BEGIN: Utilities
@@ -58,6 +65,12 @@ let map_concat f xs =
     result
 
 let newline = "\n"
+
+let index = ref 0
+let mk_index () = 
+  let r = string_of_int !index in
+  let _ = index := !index + 1 in
+    r
 
 (**********************************************************************
  ** END Utilities
@@ -167,7 +180,7 @@ let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
 let atomToXml tex2html
               (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
   let lsopt = labelOptToStringOpt lopt in
-  let body_xml = tex2html "1" body true in
+  let body_xml = tex2html (mk_index ()) body true in
   let r = XmlSyntax.mk_atom ~kind:kind ~topt:topt ~lopt:lsopt ~body:body in
     r
      
