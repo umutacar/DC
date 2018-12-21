@@ -1,5 +1,5 @@
 # TODO
- - Translate to xml.
+ - Extend XML translation to match older MLX translation.
 
  - Should we have a core language?  I think not.  It mostly bloat code.  So let's not unless we really need.  The AST should be good enough for most things.
 
@@ -11,6 +11,9 @@
 - [Dec 21]
 
   * Need a way to pass the translation function into atom's of the AST.  This requires threading the translation through.  I think this is fine, because it is pure.
+
+  * Generated xml successfully using pandoc translation method. Yay!!!
+  * Now comes the tedious part.  I need to carefully go through the xml and make sure that I am not missing any fields.  This is a bit tedious.  I have to study the dex translation because there isn't really a spec.  The implementation is the spec.  Ouch.
 
 
 - [Dec 20]
