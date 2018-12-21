@@ -90,7 +90,8 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
   let () = latex_file_to_html (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
     if not match_single_paragraph then
-      html
+      let _ = printf "html: %s" html in 
+        html
     else
       let matched = try Str.search_forward pattern_html_paragraph html 0 
                     with Not_found -> -1

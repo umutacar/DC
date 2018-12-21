@@ -77,7 +77,6 @@ let teach_ask = "teachask"
 let teach_note = "teachnote"
 let theorem = "theorem"
 let title = "title"
-let title_missing = "untitled"
 let title_src = "title_src"
 let topics = "topics"
 let unique = "unique"
@@ -144,11 +143,12 @@ let mk_hint (x) =
   mk_field_generic(hint, x)
 
 let mk_label(x) = 
-  mk_field_generic(label, x)
+  let _ = printf "mk_label: %s" x in 
+    mk_field_generic(label, x)
 
 let mk_label_opt(x) = 
   match x with
-  | None -> empty_string
+  | None -> mk_field_generic(label, Constants.no_label)
   | Some y -> mk_field_generic(label, y)
 
 let mk_no(x) = 
@@ -172,12 +172,12 @@ let mk_title_src(x) =
 
 let mk_title_src_opt(x) = 
   match x with
-  | None -> empty_string
+  | None -> mk_field_generic(title_src, Constants.no_title)
   | Some y -> mk_field_generic(title_src, y)
 
 let mk_title_opt(x) = 
   match x with
-  | None -> empty_string
+  | None -> mk_field_generic(title, Constants.no_title)
   | Some y -> mk_field_generic(title, y)
 
 let mk_unique(x) = 
@@ -212,7 +212,7 @@ let mk_block_generic kind fields =
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
   let title_xml = mk_title_opt t_xml_opt in
-  let title_src = mk_title_opt topt in
+  let title_src = mk_title_src_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
