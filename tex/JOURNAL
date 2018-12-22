@@ -1,4 +1,6 @@
 # TODO
+ - Look into label inconsintency problems that come up when uploading the new xml.
+
  - Extend XML translation to match older MLX translation.
 
    The major remaining gap: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
