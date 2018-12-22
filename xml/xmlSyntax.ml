@@ -131,13 +131,13 @@ let mk_authors(x) =
   mk_field_generic(authors, x)
 
 let mk_body (x) = 
-  mk_field_generic(body, mk_cdata(x))
+  mk_field_generic(body, mk_cdata x)
 
 let mk_body_src (x) = 
-  mk_field_generic(body_src, mk_cdata(x))
+  mk_field_generic(body_src, mk_cdata x)
 
 let mk_body_pop (x) = 
-  mk_field_generic(body_pop, x)
+  mk_field_generic(body_pop, mk_cdata(x))
 
 let mk_hint (x) = 
   mk_field_generic(hint, x)
@@ -165,20 +165,20 @@ let mk_solution (x) =
   mk_field_generic(solution, x)
 
 let mk_title(x) = 
-  mk_field_generic(title, mk_cdata(x))
+  mk_field_generic(title, mk_cdata x)
 
 let mk_title_src(x) = 
-  mk_field_generic(title_src, mk_cdata(x))
+  mk_field_generic(title_src, mk_cdata x)
 
 let mk_title_src_opt(x) = 
   match x with
-  | None -> mk_field_generic(title_src, Constants.no_title)
-  | Some y -> mk_field_generic(title_src, y)
+  | None -> mk_field_generic(title_src, mk_cdata Constants.no_title)
+  | Some y -> mk_field_generic(title_src, mk_cdata y)
 
 let mk_title_opt(x) = 
   match x with
-  | None -> mk_field_generic(title, Constants.no_title)
-  | Some y -> mk_field_generic(title, y)
+  | None -> mk_field_generic(title, mk_cdata Constants.no_title)
+  | Some y -> mk_field_generic(title, mk_cdata y)
 
 let mk_unique(x) = 
   mk_field_generic(unique, x)
@@ -197,8 +197,8 @@ let mk_block_atom kind fields =
   let e = mk_end_atom(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ newline ^ y) in
     match result with 
-    | None -> b ^ newline ^ e
-    | Some r -> b ^ newline ^ r ^ newline ^ e
+    | None -> b ^ newline ^ e ^ newline
+    | Some r -> b ^ newline ^ r ^ newline ^ e ^ newline
 
 
 let mk_block_generic kind fields =
@@ -207,8 +207,8 @@ let mk_block_generic kind fields =
   let e = mk_end_block(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ newline ^ y) in
     match result with 
-    | None ->  b ^ newline ^ e
-    | Some r ->  b ^ newline ^ r ^ newline ^ e
+    | None ->  b ^ newline ^ e ^ newline
+    | Some r ->  b ^ newline ^ r ^ newline ^ e ^ newline
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
   let title_xml = mk_title_opt t_xml_opt in
