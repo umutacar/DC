@@ -5,6 +5,8 @@
 
    The major remaining gap: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
 
+   
+
  - Should we have a core language?  I think not.  It mostly bloat code.  So let's not unless we really need.  The AST should be good enough for most things.
 
  - clean up python crap from this directory when the parser is done. one possibility is to key dex/ for historical consistency and move relevant directories under it.
@@ -19,7 +21,14 @@
 
   * Completed a first working version of OCaml parser.  It is able to produce xml code from .tex files. I used star.tex (from graph contraction as an example).
 
-    There are still some issues left. The major one being how to strictify.  
+    There are still some issues left. The major one being how to strictify: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
+
+    I looked into this.  The basic idea is to wrap the "Blocks" in each section into another section.  Here is one way to proceed.
+
+    Create a separate AST-Strict data type.  This would be pretty similar to current AST but its types are more streamlined.  It would only allow strict nesting.  Then wriwe a function that translates AST into AST-Strict.  AST strict would then have functions that write it out as LaTeX or XML. Voila.  This should work...
+
+   
+
  
 - [Dec 21]
 
