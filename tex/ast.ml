@@ -77,50 +77,23 @@ let mk_index () =
  *********************************************************************)
 
 (**********************************************************************
- ** BEGIN: AST To String
-*********************************************************************)
-let ostrToStr os = 
-  match os with 
-  |  None -> ""
-  |  Some s -> s
-
-let labelToString (Label(h, label_string)) = h
-let labelToVal (Label(h, label_string)) = label_string
-
-let labelOptToString lopt = 
-  let r = match lopt with 
-              |  None -> ""
-              |  Some l -> labelToString l  in
-     r
-
-let labelOptToStringOpt lopt = 
-  let r = match lopt with 
-              |  None -> None
-              |  Some l -> Some (labelToVal l)  in
-     r
-
-
-let titleOptionToString topt = 
-  let r = match topt with 
-              |  None -> ""
-              |  Some s -> s in
-     r
-
-(**********************************************************************
- ** END: AST To String
- **********************************************************************)
-
-(**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
+let labelToTex (Label(h, label_string)) = h
+let labelOptToTex lopt = 
+  let r = match lopt with 
+              |  None -> ""
+              |  Some Label(heading, l) -> l  in
+     r
+
 let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
-  let label = labelOptToString lopt in
+  let label = labelOptToTex lopt in
     preamble ^ h_begin ^ label ^ body ^ h_end
       
 
 let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let atoms = map_concat atomToTex ats in
-  let label = labelOptToString lopt in
+  let label = labelOptToTex lopt in
     preamble ^
     h_begin ^ label ^ 
     atoms ^ it ^ 
@@ -135,13 +108,13 @@ let blockToTex b =
 
 let paragraphToTex (Paragraph (heading, t, lopt, bs, it)) =
   let blocks = map_concat blockToTex bs in
-  let label = labelOptToString lopt in
+  let label = labelOptToTex lopt in
     heading ^ label ^ blocks ^ it 
 
 let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat paragraphToTex ss in
-  let label = labelOptToString lopt in
+  let label = labelOptToTex lopt in
     heading ^ label ^ 
     blocks ^ it ^ 
     nesteds
@@ -149,7 +122,7 @@ let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, it, ss)) =
 let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
-  let label = labelOptToString lopt in
+  let label = labelOptToTex lopt in
     heading ^ label ^ 
     blocks ^ it ^ 
     nesteds
@@ -157,14 +130,14 @@ let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
 let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsectionToTex ss in
-  let label = labelOptToString lopt in
+  let label = labelOptToTex lopt in
     heading ^ label ^ 
     blocks ^ it ^ nesteds
 
 let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
-  let label = labelToString l in
+  let label = labelToTex l in
     heading ^ label ^ 
     blocks ^ it ^ 
     sections
@@ -177,17 +150,28 @@ let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
 (**********************************************************************
  ** BEGIN: AST To XML
  **********************************************************************)
+
+(* *_single_pare flags are used for html post-processing:
+ *  "true" means that this was a single paragraph and the
+ * <p> </p> annotations must be removed.
+ *) 
 let body_is_single_par = false
 let title_is_single_par = true
 
 
+let extract_label lopt = 
+  let r = match lopt with 
+              |  None -> None
+              |  Some Label(heading, v) -> Some v  in
+     r
+
 let label_title tex2html lopt t = 
-  let lsopt = labelOptToStringOpt lopt in
+  let lsopt = extract_label lopt in
   let t_xml = tex2html (mk_index()) t title_is_single_par in
     (lsopt, t_xml)
 
 let label_title_opt tex2html lopt topt = 
-  let lsopt = labelOptToStringOpt lopt in
+  let lsopt = extract_label lopt in
   let t_xml_opt = match topt with 
                   | None -> None
                   | Some t -> Some (tex2html (mk_index()) t title_is_single_par)
@@ -255,7 +239,7 @@ let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
     r
 
 let chapterToXml  tex2html (Chapter (heading, t, l, bs, it, ss)) =
-  let label = labelToVal l in 
+  let Label(heading, label) = l in 
   let t_xml = tex2html (mk_index()) t title_is_single_par in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let sections = map_concat (sectionToXml  tex2html) ss in
