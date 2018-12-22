@@ -7,7 +7,9 @@
 
  - clean up python crap from this directory when the parser is done. one possibility is to key dex/ for historical consistency and move relevant directories under it.
 
- - clean up the ocaml code. there are some shared constants and so on. 
+ - clean up the ocaml code. there are some shared constants and so on.
+
+ 
 
 # JOURNAL
 
