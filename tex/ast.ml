@@ -1,3 +1,4 @@
+open Core
 (**********************************************************************
  ** BEGIN: AST Data Types
 *********************************************************************)
@@ -59,9 +60,9 @@ and block =
  ** BEGIN: Utilities
 *********************************************************************)
 
-let map_concat f xs = 
-  let xs_s = List.map f xs in
-  let result = List.fold_left (fun result x -> result ^ x) "" xs_s in
+let map_concat f xs: string = 
+  let xs_s: string list = List.map xs f in
+  let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ x) in
     result
 
 let newline = "\n"
@@ -240,6 +241,7 @@ let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
 
 let chapterToXml  tex2html (Chapter (heading, t, l, bs, it, ss)) =
   let Label(heading, label) = l in 
+  let _ = printf "chapter label  = %s\n" label in
   let t_xml = tex2html (mk_index()) t title_is_single_par in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let sections = map_concat (sectionToXml  tex2html) ss in
