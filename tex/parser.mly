@@ -183,7 +183,7 @@ label:
   l = KW_LABEL; b = curly_box 
   {let (bo, bb, bc) = b in 
    let h = l ^ bo ^ bb ^ bc in
-     Ast.Label(h, l)}
+     Ast.Label(h, bb)}
 
 
 /**********************************************************************
@@ -347,7 +347,7 @@ atoms_and_intertext:
   {(ats, it)}		
 	
 
-mkAtom(kind, kw_b, kw_e):
+mk_atom(kind, kw_b, kw_e):
 | kind = kind
   preamble = boxes;
   h_b = kw_b;
@@ -399,52 +399,52 @@ mkAtom(kind, kw_b, kw_e):
   }
 
 atom:
-|	x = mkAtom(algorithm, KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
+|	x = mk_atom(algorithm, KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
   { x }
-|	x = mkAtom(code, KW_BEGIN_CODE, KW_END_CODE)
+|	x = mk_atom(code, KW_BEGIN_CODE, KW_END_CODE)
   { x }
-|	x = mkAtom(corollary, KW_BEGIN_COROLLARY, KW_END_COROLLARY)
+|	x = mk_atom(corollary, KW_BEGIN_COROLLARY, KW_END_COROLLARY)
   { x }
-|	x = mkAtom(datastr, KW_BEGIN_DATASTR, KW_END_DATASTR)
+|	x = mk_atom(datastr, KW_BEGIN_DATASTR, KW_END_DATASTR)
   { x }
-|	x = mkAtom(datatype, KW_BEGIN_DATATYPE, KW_END_DATATYPE)
+|	x = mk_atom(datatype, KW_BEGIN_DATATYPE, KW_END_DATATYPE)
   { x }
-|	x = mkAtom(costspec, KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
+|	x = mk_atom(costspec, KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
   { x }
-|	x = mkAtom(definition, KW_BEGIN_DEFINITION, KW_END_DEFINITION)
+|	x = mk_atom(definition, KW_BEGIN_DEFINITION, KW_END_DEFINITION)
   { x }
-|	x = mkAtom(example, KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
+|	x = mk_atom(example, KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
   { x }
-|	x = mkAtom(exercise, KW_BEGIN_EXERCISE, KW_END_EXERCISE)
+|	x = mk_atom(exercise, KW_BEGIN_EXERCISE, KW_END_EXERCISE)
   { x }
-|	x = mkAtom(gram, KW_BEGIN_GRAM, KW_END_GRAM)
+|	x = mk_atom(gram, KW_BEGIN_GRAM, KW_END_GRAM)
   { x }
-|	x = mkAtom(hint, KW_BEGIN_HINT, KW_END_HINT)
+|	x = mk_atom(hint, KW_BEGIN_HINT, KW_END_HINT)
   { x }
-|	x = mkAtom(important, KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
+|	x = mk_atom(important, KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
   { x }
-|	x = mkAtom(lemma, KW_BEGIN_LEMMA, KW_END_LEMMA)
+|	x = mk_atom(lemma, KW_BEGIN_LEMMA, KW_END_LEMMA)
   { x }
-|	x = mkAtom(note, KW_BEGIN_NOTE, KW_END_NOTE)
+|	x = mk_atom(note, KW_BEGIN_NOTE, KW_END_NOTE)
   { x }
-|	x = mkAtom(preamble, KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
+|	x = mk_atom(preamble, KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
   { x }
-|	x = mkAtom(problem, KW_BEGIN_PROBLEM, KW_END_PROBLEM)
+|	x = mk_atom(problem, KW_BEGIN_PROBLEM, KW_END_PROBLEM)
   { x }
-|	x = mkAtom(proof, KW_BEGIN_PROOF, KW_END_PROOF)
+|	x = mk_atom(proof, KW_BEGIN_PROOF, KW_END_PROOF)
   { x }
-|	x = mkAtom(proposition, KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
+|	x = mk_atom(proposition, KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
   { x }
-|	x = mkAtom(remark, KW_BEGIN_REMARK, KW_END_REMARK)
+|	x = mk_atom(remark, KW_BEGIN_REMARK, KW_END_REMARK)
   { x }
-|	x = mkAtom(solution, KW_BEGIN_SOLUTION, KW_END_SOLUTION)
+|	x = mk_atom(solution, KW_BEGIN_SOLUTION, KW_END_SOLUTION)
   { x }
-|	x = mkAtom(syntax, KW_BEGIN_SYNTAX, KW_END_SYNTAX)
+|	x = mk_atom(syntax, KW_BEGIN_SYNTAX, KW_END_SYNTAX)
   { x }
-|	x = mkAtom(teachask, KW_BEGIN_TEACHASK, KW_END_TEACHASK)
+|	x = mk_atom(teachask, KW_BEGIN_TEACHASK, KW_END_TEACHASK)
   { x }
-|	x = mkAtom(teachnote, KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
+|	x = mk_atom(teachnote, KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
   { x }
-|	x = mkAtom(theorem, KW_BEGIN_THEOREM, KW_END_THEOREM)
+|	x = mk_atom(theorem, KW_BEGIN_THEOREM, KW_END_THEOREM)
   { x }
 
