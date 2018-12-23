@@ -8,11 +8,20 @@ This is a big project.  There are many parts and concerns but based on my (Umut)
 
 # Specific Projects
 
-## Block translator
+## Add paragraphs to tex parser and to translation.
+## Strictificaton
+  Generate a strict AST from the current AST
+
+## Decoration
+   Should we also decorate the AST with additional dependencies, e.g., parents and other related links.  This could be done by using some text analysis.
+
+##
+
+## Block translator[This is mostly done. see tex/tex2html]
   
   In directory latex/ there is a block translator from latex to html/xml using pandoc.  We want an OCaml version of this.  
 
-## XML translator
+## XML translator[An initial version of this is done.  see tex/ and xml/]
   Based on black translator, complete the xml translation.  This should be pretty close assuming block translation is complete.
 
 ## Develop support for Latex Exam Class.
