@@ -2,6 +2,16 @@
  ** Diderot Constants 
  **********************************************************************)
 
+(* Syntactic constants *)
+let cdata_begin = "<![CDATA["
+let cdata_end = "]]>"
+let equality = "="
+let newline = "\n"
+let quote = "'"
+let space = " "
+
+
+
 (* Error conditions that can occur as tokens *)
 let not_provided = "...NOT.PROVIDED."
 let no_answer = not_provided ^ "ANSWER..." 

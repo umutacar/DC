@@ -3,14 +3,8 @@
  **********************************************************************)
 open Core
 open String
- 
-let cdata_begin = "<![CDATA["
-let cdata_end = "]]>"
-let equality = "="
-let newline = "\n"
-let quote = "'"
-let space = " "
-let empty_string = ""
+
+module C = Constants
 
 (* Tags *) 
 
@@ -95,31 +89,33 @@ let mk_begin(tag) =
   "<" ^ tag ^ ">"
 
 let mk_attr_val attr_name attr_val = 
-  attr_name ^ equality ^ quote ^ attr_val ^ quote
+  attr_name ^ C.equality ^ C.quote ^ attr_val ^ C.quote
 
 let mk_begin_atom(kind) =
-  "<" ^ tag_atom ^ space ^ (mk_attr_val attr_name kind) ^ quote ^ ">"
+  "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ C.quote ^ ">"
 
 let mk_begin_block(kind) =
-  "<" ^ tag_block ^ space ^ (mk_attr_val attr_name kind) ^ quote ^ ">"
+  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ C.quote ^ ">"
 
 let mk_begin_field(kind) =
-  "<" ^ tag_field ^ space ^ (mk_attr_val attr_name kind) ^ quote ^ ">"
+  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name kind) ^ C.quote ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
 
 let mk_end_atom(kind) =
-  "</" ^ tag_atom ^ ">" ^ space ^ mk_comment(kind)
+  "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
 
 let mk_end_block(kind) =
-  "</" ^ tag_block ^ ">" ^ space ^ mk_comment(kind)
+  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(kind)
 
 let mk_end_field(kind) =
-  "</" ^ tag_field ^ ">"^ space ^ mk_comment(kind)
+  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(kind)
 
 let mk_cdata(body) =
-  cdata_begin ^ newline ^ String.strip(body) ^ newline ^ cdata_end
+  C.cdata_begin ^ C.newline ^ String.strip(body) 
+                        ^ C.newline ^ 
+  C.cdata_end
 
 (** END: Utilities
  **********************************************************************)
@@ -131,7 +127,7 @@ let mk_cdata(body) =
 let mk_field_generic(kind, contents) =
   let b = mk_begin_field(kind) in
   let e = mk_end_field(kind) in
-  let result = b ^ newline ^ contents ^ newline ^ e in
+  let result = b ^ C.newline ^ contents ^ C.newline ^ e in
     result
 
 let mk_authors(x) = 
@@ -155,7 +151,7 @@ let mk_label(x) =
 
 let mk_label_opt(x) = 
   match x with
-  | None -> mk_field_generic(label, Constants.no_label)
+  | None -> mk_field_generic(label, C.no_label)
   | Some y -> mk_field_generic(label, y)
 
 let mk_no(x) = 
@@ -179,12 +175,12 @@ let mk_title_src(x) =
 
 let mk_title_src_opt(x) = 
   match x with
-  | None -> mk_field_generic(title_src, mk_cdata Constants.no_title)
+  | None -> mk_field_generic(title_src, mk_cdata C.no_title)
   | Some y -> mk_field_generic(title_src, mk_cdata y)
 
 let mk_title_opt(x) = 
   match x with
-  | None -> mk_field_generic(title, mk_cdata Constants.no_title)
+  | None -> mk_field_generic(title, mk_cdata C.no_title)
   | Some y -> mk_field_generic(title, mk_cdata y)
 
 let mk_unique(x) = 
@@ -202,20 +198,20 @@ let mk_block_atom kind fields =
   let _ = printf "mk_block_atom: %s" kind in
   let b = mk_begin_atom(kind) in
   let e = mk_end_atom(kind) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ newline ^ y) in
+  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
-    | None -> b ^ newline ^ e ^ newline
-    | Some r -> b ^ newline ^ r ^ newline ^ e ^ newline
+    | None -> b ^ C.newline ^ e ^ C.newline
+    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
 
 let mk_block_generic kind fields =
   let _ = printf "mk_block_generic: %s" kind in
   let b = mk_begin_block(kind) in
   let e = mk_end_block(kind) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ newline ^ y) in
+  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
-    | None ->  b ^ newline ^ e ^ newline
-    | Some r ->  b ^ newline ^ r ^ newline ^ e ^ newline
+    | None ->  b ^ C.newline ^ e ^ C.newline
+    | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
   let title_xml = mk_title_opt t_xml_opt in
