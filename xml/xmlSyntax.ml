@@ -7,23 +7,28 @@ open String
 let cdata_begin = "<![CDATA["
 let cdata_end = "]]>"
 let equality = "="
-let missing = "__missing__"
 let newline = "\n"
 let quote = "'"
 let space = " "
 let empty_string = ""
 
-(* Attributes *)
-let name = "name"
-
 (* Tags *) 
-let atom = "atom"
-let block = "block"
-let field = "field"
+
+let tag_xml_version = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+(* These two are not used but for future reference. *) 
+let tag_diderot_begin = "<diderot: xmlns = \"http://umut-acar.org/diderot\">"
+let tag_diderot_end = "</diderot>"
 
 
+let tag_atom = "atom"
+let tag_block = "block"
+let tag_field = "field"
 
-(* Block tags *)
+
+(* Attributes *)
+let attr_name = "name"
+
+(* Attribute values *)
 let answer = "answer"
 let book = "book"
 let chapter = "chapter"
@@ -33,7 +38,6 @@ let select = "select"
 let subsection = "subsection"
 let subsubsection = "subsubsection"
 
-(* Attribute values *)
 let algo = "algorithm"
 let algorithm = "algorithm"
 let authors = "authors"
@@ -90,26 +94,29 @@ let mk_comment (s) =
 let mk_begin(tag) =
   "<" ^ tag ^ ">"
 
+let mk_attr_val attr_name attr_val = 
+  attr_name ^ equality ^ quote ^ attr_val ^ quote
+
 let mk_begin_atom(kind) =
-  "<" ^ atom ^ space ^ name ^ equality ^ quote ^ kind ^ quote ^ ">"
+  "<" ^ tag_atom ^ space ^ (mk_attr_val attr_name kind) ^ quote ^ ">"
 
 let mk_begin_block(kind) =
-  "<" ^ block ^ space ^ name ^ equality ^ quote ^ kind ^ quote ^ ">"
+  "<" ^ tag_block ^ space ^ (mk_attr_val attr_name kind) ^ quote ^ ">"
 
 let mk_begin_field(kind) =
-  "<" ^ field ^ space ^ name ^ equality ^ quote ^ kind ^ quote ^ ">"
+  "<" ^ tag_field ^ space ^ (mk_attr_val attr_name kind) ^ quote ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
 
 let mk_end_atom(kind) =
-  "</" ^ atom ^ ">" ^ space ^ mk_comment(kind)
+  "</" ^ tag_atom ^ ">" ^ space ^ mk_comment(kind)
 
 let mk_end_block(kind) =
-  "</" ^ block ^ ">" ^ space ^ mk_comment(kind)
+  "</" ^ tag_block ^ ">" ^ space ^ mk_comment(kind)
 
 let mk_end_field(kind) =
-  "</" ^ field ^ ">"^ space ^ mk_comment(kind)
+  "</" ^ tag_field ^ ">"^ space ^ mk_comment(kind)
 
 let mk_cdata(body) =
   cdata_begin ^ newline ^ String.strip(body) ^ newline ^ cdata_end

@@ -4,13 +4,18 @@
 
  - Extend XML translation to match older MLX translation.
 
-   The major remaining gap: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
+
+   -- The major remaining gap: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
    
+   -- see xml.ml, headers
 
  - Should we have a core language?  I think not.  It mostly bloat code.  So let's not unless we really need.  The AST should be good enough for most things.
 
  - clean up python crap from this directory when the parser is done. one possibility is to key dex/ for historical consistency and move relevant directories under it.
 
+ - Add support for paragraphs
+
+   One idea: sections will now have blocks followed by paragraphs and then transition into nested sections.  Basically, we are allowing paragraphs to occur at block level.  But of course once you have a paragraph, then the rest will be contained within that paragraph.  
 
 
  
