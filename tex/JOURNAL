@@ -17,6 +17,14 @@
 
    One idea: sections will now have blocks followed by paragraphs and then transition into nested sections.  Basically, we are allowing paragraphs to occur at block level.  But of course once you have a paragraph, then the rest will be contained within that paragraph.  
 
+ - Coordination with the python-based XML backend needs to be done carefully.
+
+This coordinates seems to be going through several functions called
+missing_field* in diderot/src/pervasives/syntax.py
+
+These function are called from mlx_utils, which does nearly all work.
+
+So whatever latex produces must be mediated through this. 
 
  
 
