@@ -92,13 +92,13 @@ let mk_attr_val attr_name attr_val =
   attr_name ^ C.equality ^ C.quote ^ attr_val ^ C.quote
 
 let mk_begin_atom(kind) =
-  "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ C.quote ^ ">"
+  "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
 let mk_begin_block(kind) =
-  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ C.quote ^ ">"
+  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
 let mk_begin_field(kind) =
-  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name kind) ^ C.quote ^ ">"
+  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"

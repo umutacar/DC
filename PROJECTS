@@ -8,9 +8,16 @@ This is a big project.  There are many parts and concerns but based on my (Umut)
 
 # Specific Projects
 
-## Add paragraphs to tex parser and to translation.
 ## Strictificaton
   Generate a strict AST from the current AST
+
+## Extensible language
+
+
+https://github.com/diderot-edu/MeTaL/issues/30
+
+## Add paragraphs to tex parser and to translation.
+
 
 ## Decoration
    Should we also decorate the AST with additional dependencies, e.g., parents and other related links.  This could be done by using some text analysis.
