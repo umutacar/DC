@@ -1,4 +1,36 @@
-# Overall Strategy
+# DEVELOPMENT
+## USAGE
+  To compile run the parser 
+  `$ build.sh`
+
+  To generate the parser try
+  `$ menhir --explain parser.mly`
+  This explains the conflicts.
+  
+  To understand conflicts try
+  `$ menhir --dump --explain parser.mly`
+  and look into file `parser.conflicts` and `parser.automaton`
+
+  To compile a particular module try something like this
+  ocamlfind ocamlc -package core -c tex2html.ml
+
+## DEBUG
+Turn this on to see the various parser steps.
+$ export OCAMLRUNPARAM='p'
+
+
+## OCAML 
+
+### Commands for building using ocamlbuild
+$ ocamlbuild -use-ocamlfind -quiet top.native
+
+###  Commands for hand compiling
+$ ocamllex lexer.mll
+$ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
+$ lexer.native
+
+
+# OVERALL STRATEGY
 
 Our strategy rests on several observations.
 
@@ -98,51 +130,3 @@ LR parsers are powerful enough for most programming language grammars.  But they
 	
   
 
-# The grammar
-```
-// A word
-word = non_space^+
-
-// latex env's
-heading_begin = \begin{word}
-heading_end = \end{word}
-
-// latex headings
-heading_chapter = \chapter{word}
-heading_section = \section{word}
-heading_subsection = \subsection{word}
-heading_subsubsection = \subsubsection{word}
-heading_paragraph = \paragraph{word}
-heading_subparagraph = \subparagraph{word}
-
-// all headings
-heading = heading_begin | heading_end | heading_chapter | heading_section | heading_subsection |
-          heading_subsubsection | heading_paragraph | heading_subparagraph
-
-// empty lines
-empty_lines = \n^+
-
-// possible empty lines
-pos_empty_lines = \n^*
-
-// content_line is a number of non-empty non-heading
-content_line = non_empty_line_not_heading
-content_lines = content_line^+
-
-// content is content_lines with possibly empty linens in between
-content = content_lines
-        | content_lines + empty_lines + content
-				
-
-// an atom is content wrapped in an environment
-atom = heading_begin pos_empty_lines content pos_empty_lines heading_end    
-
-atoms = atom^+
-
-subparagraph = subparagraph_str  atoms
-paragraph = paragraph_str  [atom | subparagraph]^+
-subsubsection = subsubsection_str [atom | paragraph | subparagraph]^+
-subsection = subsection_str [atom | paragraph | subparagraph]^+ subsubsection^*
-section ..
-
-```
