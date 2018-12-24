@@ -22,6 +22,7 @@ let set_option_with_intertext (r, vo) =
 %token <string> WORD
 
 %token <string> BACKSLASH
+%token <string> PERCENT  /* latex special \% */
 %token <string> O_CURLY C_CURLY	
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 %token <string> COMMENT_LINE
@@ -137,6 +138,8 @@ word:
   {b ^ s}
 | b = BACKSLASH s = C_SQ_BRACKET /* latex special: \] */
   {b ^ s}
+| x = PERCENT /* latex special: \% */
+  {x}
 | b = BACKSLASH w = WORD
   {b ^ w}
 

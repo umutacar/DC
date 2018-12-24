@@ -19,6 +19,7 @@ let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_ws
 let p_o_sq_bracket = '[' p_ws
 let p_c_sq_bracket = ']' p_ws											
+let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 
 let p_definition = "definition" p_ws
@@ -124,136 +125,139 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 rule token = parse
 | p_backslash as x
-		{printf "!matched: \\."; BACKSLASH(Char.to_string x)}				
+		{printf "!lexer matched: \\."; BACKSLASH(Char.to_string x)}				
 | p_o_curly as x
-		{printf "!matched: {."; O_CURLY(x)}				
+		{printf "!lexer matched: {."; O_CURLY(x)}				
 | p_c_curly as x
-		{printf "!matched: }.\n"; C_CURLY(x)}				
-
+		{printf "!lexer matched: }.\n"; C_CURLY(x)}				
 | p_o_sq_bracket as x
-		{printf "!matched: [."; O_SQ_BRACKET(x)}				
+		{printf "!lexer matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
-		{printf "!matched: ].\n"; C_SQ_BRACKET(x)}				
+		{printf "!lexer matched: ].\n"; C_SQ_BRACKET(x)}				
+| p_special_percent as x
+		{printf "!lexer matched: %s.\n" "\%"; PERCENT(x)}				
+
+
 | p_comment_line as x
-  	{printf "!matched comment line %s." x; COMMENT_LINE(x)}		
+  	{printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 | p_label as x
-  	{printf "!matched %s." x; KW_LABEL(x)}		
+  	{printf "!lexer matched %s." x; KW_LABEL(x)}		
 				
 | p_chapter as x
-  	{printf "!matched %s." x; KW_CHAPTER(x)}		
+  	{printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
-  	{printf "!matched: %s." x; KW_SECTION(x)}		
+  	{printf "!lexer matched: %s." x; KW_SECTION(x)}		
 | p_subsection as x
-  	{printf "!matched: %s." x; KW_SUBSECTION(x)}
+  	{printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
-  	{printf "!matched: %s." x; KW_SUBSUBSECTION(x)}
+  	{printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
 | p_paragraph as x
-  	{printf "!matched: %s." x; KW_PARAGRAPH(x)}				
+  	{printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
-  	{printf "!matched: %s." x; KW_SUBPARAGRAPH(x)}		
+  	{printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
 
 (* BEGIN: ATOMS *)
 | p_b_algorithm as x
-  	{printf "matched begin algorithm: %s" x; KW_BEGIN_ALGORITHM(x)}		
+  	{printf "lexer matched begin algorithm: %s" x; KW_BEGIN_ALGORITHM(x)}		
 | p_e_algorithm as x
-  	{printf "matched end algorithm: %s" x; KW_END_ALGORITHM(x)}		
+  	{printf "lexer matched end algorithm: %s" x; KW_END_ALGORITHM(x)}		
 | p_b_code as x
-  	{printf "matched begin code %s" x; KW_BEGIN_CODE(x)}		
+  	{printf "lexer matched begin code %s" x; KW_BEGIN_CODE(x)}		
 | p_e_code as x
-  	{printf "matched end code: %s" x; KW_END_CODE(x)}		
+  	{printf "lexer matched end code: %s" x; KW_END_CODE(x)}		
 | p_b_corollary as x
-  	{printf "matched begin corollary %s" x; KW_BEGIN_COROLLARY(x)}		
+  	{printf "lexer matched begin corollary %s" x; KW_BEGIN_COROLLARY(x)}		
 | p_e_corollary as x
-  	{printf "matched end corollary: %s" x; KW_END_COROLLARY(x)}		
+  	{printf "lexer matched end corollary: %s" x; KW_END_COROLLARY(x)}		
 | p_b_costspec as x
-  	{printf "matched begin COSTSPEC %s" x; KW_BEGIN_COSTSPEC(x)}		
+  	{printf "lexer matched begin COSTSPEC %s" x; KW_BEGIN_COSTSPEC(x)}		
 | p_e_costspec as x
-  	{printf "matched end COSTSPEC %s" x; KW_END_COSTSPEC(x)}		
+  	{printf "lexer matched end COSTSPEC %s" x; KW_END_COSTSPEC(x)}		
 | p_b_datastr as x
-  	{printf "matched begin DATASTR %s" x; KW_BEGIN_DATASTR(x)}		
+  	{printf "lexer matched begin DATASTR %s" x; KW_BEGIN_DATASTR(x)}		
 | p_e_datastr as x
-  	{printf "matched end DATASTR %s" x; KW_END_DATASTR(x)}		
+  	{printf "lexer matched end DATASTR %s" x; KW_END_DATASTR(x)}		
 | p_b_datatype as x
-  	{printf "matched begin DATATYPE %s" x; KW_BEGIN_DATATYPE(x)}		
+  	{printf "lexer matched begin DATATYPE %s" x; KW_BEGIN_DATATYPE(x)}		
 | p_e_datatype as x
-  	{printf "matched end DATATYPE %s" x; KW_END_DATATYPE(x)}		
+  	{printf "lexer matched end DATATYPE %s" x; KW_END_DATATYPE(x)}		
 | p_b_definition as x
-  	{printf "matched begin definition: %s" x; KW_BEGIN_DEFINITION(x)}		
+  	{printf "lexer matched begin definition: %s" x; KW_BEGIN_DEFINITION(x)}		
 | p_e_definition as x
-  	{printf "matched end definition: %s" x; KW_END_DEFINITION(x)}		
+  	{printf "lexer matched end definition: %s" x; KW_END_DEFINITION(x)}		
 | p_b_example as x
-  	{printf "matched begin example: %s" x; KW_BEGIN_EXAMPLE(x)}		
+  	{printf "lexer matched begin example: %s" x; KW_BEGIN_EXAMPLE(x)}		
 | p_e_example as x
-  	{printf "matched end example: %s" x; KW_END_EXAMPLE(x)}		
+  	{printf "lexer matched end example: %s" x; KW_END_EXAMPLE(x)}		
 | p_b_exercise as x
-  	{printf "matched begin EXERCISE %s" x; KW_BEGIN_EXERCISE(x)}		
+  	{printf "lexer matched begin EXERCISE %s" x; KW_BEGIN_EXERCISE(x)}		
 | p_e_exercise as x
-  	{printf "matched end EXERCISE %s" x; KW_END_EXERCISE(x)}		
+  	{printf "lexer matched end EXERCISE %s" x; KW_END_EXERCISE(x)}		
 | p_b_gram as x
-  	{printf "matched begin GRAM %s" x; KW_BEGIN_GRAM(x)}		
+  	{printf "lexer matched begin GRAM %s" x; KW_BEGIN_GRAM(x)}		
 | p_e_gram as x
-  	{printf "matched end GRAM %s" x; KW_END_GRAM(x)}		
+  	{printf "lexer matched end GRAM %s" x; KW_END_GRAM(x)}		
 | p_b_hint as x
-  	{printf "matched begin HINT %s" x; KW_BEGIN_HINT(x)}		
+  	{printf "lexer matched begin HINT %s" x; KW_BEGIN_HINT(x)}		
 | p_e_hint as x
-  	{printf "matched end HINT %s" x; KW_END_HINT(x)}		
+  	{printf "lexer matched end HINT %s" x; KW_END_HINT(x)}		
 | p_b_important as x
-  	{printf "matched begin IMPORTANT %s" x; KW_BEGIN_IMPORTANT(x)}		
+  	{printf "lexer matched begin IMPORTANT %s" x; KW_BEGIN_IMPORTANT(x)}		
 | p_e_important as x
-  	{printf "matched end IMPORTANT %s" x; KW_END_IMPORTANT(x)}		
+  	{printf "lexer matched end IMPORTANT %s" x; KW_END_IMPORTANT(x)}		
 | p_b_lemma as x
-  	{printf "matched begin LEMMA %s" x; KW_BEGIN_LEMMA(x)}		
+  	{printf "lexer matched begin LEMMA %s" x; KW_BEGIN_LEMMA(x)}		
 | p_e_lemma as x
-  	{printf "matched end LEMMA %s" x; KW_END_LEMMA(x)}		
+  	{printf "lexer matched end LEMMA %s" x; KW_END_LEMMA(x)}		
 | p_b_note as x
-  	{printf "matched begin NOTE %s" x; KW_BEGIN_NOTE(x)}		
+  	{printf "lexer matched begin NOTE %s" x; KW_BEGIN_NOTE(x)}		
 | p_e_note as x
-  	{printf "matched end NOTE %s" x; KW_END_NOTE(x)}		
+  	{printf "lexer matched end NOTE %s" x; KW_END_NOTE(x)}		
 | p_b_preamble as x
-  	{printf "matched begin PREAMBLE %s" x; KW_BEGIN_PREAMBLE(x)}		
+  	{printf "lexer matched begin PREAMBLE %s" x; KW_BEGIN_PREAMBLE(x)}		
 | p_e_preamble as x
-  	{printf "matched end PREAMBLE %s" x; KW_END_PREAMBLE(x)}		
+  	{printf "lexer matched end PREAMBLE %s" x; KW_END_PREAMBLE(x)}		
 | p_b_problem as x
-  	{printf "matched begin PROBLEM %s" x; KW_BEGIN_PROBLEM(x)}		
+  	{printf "lexer matched begin PROBLEM %s" x; KW_BEGIN_PROBLEM(x)}		
 | p_e_problem as x
-  	{printf "matched end PROBLEM %s" x; KW_END_PROBLEM(x)}		
+  	{printf "lexer matched end PROBLEM %s" x; KW_END_PROBLEM(x)}		
 | p_b_proof as x
-  	{printf "matched begin PROOF %s" x; KW_BEGIN_PROOF(x)}		
+  	{printf "lexer matched begin PROOF %s" x; KW_BEGIN_PROOF(x)}		
 | p_e_proof as x
-  	{printf "matched end PROOF %s" x; KW_END_PROOF(x)}		
+  	{printf "lexer matched end PROOF %s" x; KW_END_PROOF(x)}		
 | p_b_proposition as x
-  	{printf "matched begin PROPOSITION %s" x; KW_BEGIN_PROPOSITION(x)}		
+  	{printf "lexer matched begin PROPOSITION %s" x; KW_BEGIN_PROPOSITION(x)}		
 | p_e_proposition as x
-  	{printf "matched end PROPOSITION %s" x; KW_END_PROPOSITION(x)}		
+  	{printf "lexer matched end PROPOSITION %s" x; KW_END_PROPOSITION(x)}		
 | p_b_remark as x
-  	{printf "matched begin REMARK %s" x; KW_BEGIN_REMARK(x)}		
+  	{printf "lexer matched begin REMARK %s" x; KW_BEGIN_REMARK(x)}		
 | p_e_remark as x
-  	{printf "matched end REMARK %s" x; KW_END_REMARK(x)}		
+  	{printf "lexer matched end REMARK %s" x; KW_END_REMARK(x)}		
 | p_b_solution as x
-  	{printf "matched begin SOLUTION %s" x; KW_BEGIN_SOLUTION(x)}		
+  	{printf "lexer matched begin SOLUTION %s" x; KW_BEGIN_SOLUTION(x)}		
 | p_e_solution as x
-  	{printf "matched end SOLUTION %s" x; KW_END_SOLUTION(x)}		
+  	{printf "lexer matched end SOLUTION %s" x; KW_END_SOLUTION(x)}		
 | p_b_syntax as x
-  	{printf "matched begin SYNTAX %s" x; KW_BEGIN_SYNTAX(x)}		
+  	{printf "lexer matched begin SYNTAX %s" x; KW_BEGIN_SYNTAX(x)}		
 | p_e_syntax as x
-  	{printf "matched end SYNTAX %s" x; KW_END_SYNTAX(x)}		
+  	{printf "lexer matched end SYNTAX %s" x; KW_END_SYNTAX(x)}		
 | p_b_teachask as x
-  	{printf "matched begin TEACHASK %s" x; KW_BEGIN_TEACHASK(x)}		
+  	{printf "lexer matched begin TEACHASK %s" x; KW_BEGIN_TEACHASK(x)}		
 | p_e_teachask as x
-  	{printf "matched end TEACHASK %s" x; KW_END_TEACHASK(x)}		
+  	{printf "lexer matched end TEACHASK %s" x; KW_END_TEACHASK(x)}		
 | p_b_teachnote as x
-  	{printf "matched begin TEACHNOTE %s" x; KW_BEGIN_TEACHNOTE(x)}		
+  	{printf "lexer matched begin TEACHNOTE %s" x; KW_BEGIN_TEACHNOTE(x)}		
 | p_e_teachnote as x
-  	{printf "matched end TEACHNOTE %s" x; KW_END_TEACHNOTE(x)}		
+  	{printf "lexer matched end TEACHNOTE %s" x; KW_END_TEACHNOTE(x)}		
 | p_b_theorem as x
-  	{printf "matched begin THEOREM %s" x; KW_BEGIN_THEOREM(x)}		
+  	{printf "lexer matched begin THEOREM %s" x; KW_BEGIN_THEOREM(x)}		
 | p_e_theorem as x
-  	{printf "matched end THEOREM %s" x; KW_END_THEOREM(x)}		
+  	{printf "lexer matched end THEOREM %s" x; KW_END_THEOREM(x)}		
 (* END ATOMS *)
 | p_b_group as x
-  	{printf "!matched: %s." x; KW_BEGIN_GROUP(x)}		
+  	{printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
 | p_e_group as x
-  	{printf "!matched: %s." x; KW_END_GROUP(x)}
+  	{printf "!lexer matched: %s." x; KW_END_GROUP(x)}
 
 | p_word as x
 		{printf "!found word: %s." x;
