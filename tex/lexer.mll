@@ -32,8 +32,8 @@ let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
-let p_b_group = '\\' "begin{group}" p_ws	
-let p_e_group = '\\' "end{group}" p_ws
+let p_b_group = '\\' "begin{flex}" p_ws	
+let p_e_group = '\\' "end{flex}" p_ws
 
 
 let p_xxx = "xxx"
