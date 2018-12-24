@@ -1,5 +1,5 @@
 # TODO
-
+ - \% should be matched as latex keyword.
  - Clean up the parser code (shared constants and so on) and upload several chapters (on staging) to test its robustness.
 
  - Test the parser on 210 files.
