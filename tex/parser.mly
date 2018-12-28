@@ -65,7 +65,6 @@ let set_option_with_intertext (r, vo) =
 %token <string> KW_BEGIN_GROUP KW_END_GROUP
 	
 %start chapter
-%{ open Atoms %}
 
 %type <Ast.chapter> chapter
 %type <Ast.section> section
