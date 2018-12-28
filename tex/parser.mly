@@ -28,6 +28,7 @@ let set_option_with_intertext (r, vo) =
 %token <string> COMMENT_LINE
 
 %token <string> KW_BEGIN KW_END	
+%token <string> KW_BEGIN_DIDEROT_ATOM KW_END_DIDEROT_ATOM	
 %token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
 %token <string> KW_BEGIN_CODE KW_END_CODE
 %token <string> KW_BEGIN_COROLLARY KW_END_COROLLARY
@@ -77,7 +78,7 @@ let set_option_with_intertext (r, vo) =
 
 %%
 
-
+%inline diderot_atom: { "diderot_atom" }
 %inline algorithm: { "algorithm" }
 %inline code: { "code" }
 %inline corollary: { "corollary" }
@@ -402,6 +403,8 @@ mk_atom(kind, kw_b, kw_e):
   }
 
 atom:
+|	x = mk_atom(diderot_atom, KW_BEGIN_DIDEROT_ATOM, KW_END_DIDEROT_ATOM)
+  { x }
 |	x = mk_atom(algorithm, KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
   { x }
 |	x = mk_atom(code, KW_BEGIN_CODE, KW_END_CODE)
