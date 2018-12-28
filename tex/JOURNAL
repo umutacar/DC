@@ -1,5 +1,8 @@
 # TODO
- - \% should be matched as latex keyword.
+  - diderot keywords such as labels can appear inside bodies.  How to deal with these?  We can include them as a word but this will likely lead to many conflicts.
+
+    this suggests that "hijacking" latex commands as diderot commands can be a bit painful.  we have to be careful
+
  - Clean up the parser code (shared constants and so on) and upload several chapters (on staging) to test its robustness.
 
  - Test the parser on 210 files.

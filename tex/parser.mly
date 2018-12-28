@@ -140,10 +140,6 @@ word:
   {b ^ s}
 | x = PERCENT /* latex special: \% */
   {x}
-| l = KW_LABEL; b = curly_box  /* label can appear inside bodies */
-  {let (bo, bb, bc) = b in 
-     l ^ bo ^ bb ^ bc
-  }
 | b = BACKSLASH w = WORD
   {b ^ w}
 
