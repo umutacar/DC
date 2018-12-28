@@ -36,11 +36,12 @@ So whatever latex produces must be mediated through this.
 # JOURNAL
 
 - [Dec 23]
-  - Cleanup up the ocaml code a bit 
+  - Cleanedup up the ocaml code a bit 
 
   - Starting running the parser through 15210 sources.  
     Was able to compile and upload the first 5-6 chapters but encountered a problem in language/functional.tex.
     Not sure what the problem is.  Have to look into it more carefully.
+   - Resolved this issue, it was due to \% character being special in latex.
 
 - [Dec 22]
 

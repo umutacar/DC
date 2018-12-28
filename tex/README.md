@@ -49,14 +49,7 @@ Our strategy rests on several observations.
 * Another improvement will be to use a better language and parsing
   infrastructure so that we can generate some error messages.
 
-* Our basic solution is to parse latex in a line by line manner.  Glue
-  lines into blocks and treat blocks as elements which we translate.
-
-* The syntactic changes that we will require from Latex will be
-  minimal.  The files will *look* like LaTeX. But they will have some
-  extra newline characters.
-
-* Basically we are taking a MarkDown view of Latex.  
+* Our basic solution is to parse latex at the level of "blocks" consisting of chunks of latex separated by special syntactic terminals that we care abou.
 
 # Background on Lexing 
 
