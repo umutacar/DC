@@ -17,7 +17,10 @@ type t_keyword = string
    Because we don't care about white space, they might have whitespace in them.
  *)
 
-(* Label is heading and the label string *)
+(* Label is heading and the label string 
+ * Example Label(\label{this}, this)
+ *)
+
 type t_label = Label of t_keyword * t_label_val
 
 type atom = Atom of t_preambly * (t_atom_kind * t_keyword * t_title option * t_label option * t_atom_body * t_keyword) 
@@ -84,7 +87,7 @@ let labelToTex (Label(h, label_string)) = h
 let labelOptToTex lopt = 
   let r = match lopt with 
               |  None -> ""
-              |  Some Label(heading, l) -> l  in
+              |  Some Label(heading, l) -> heading  in
      r
 
 let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
