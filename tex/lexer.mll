@@ -67,13 +67,6 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
-
-
-(* 
-let p_b_diderot_atom = '\\' "begin" p_o_curly p_diderot_atom p_ws p_c_curly 
-let p_e_diderot_atom = '\\' "end" p_o_curly p_diderot_atom p_ws p_c_curly 
-*)
-
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
              ((p_code as kind) p_ws as kindws) |
@@ -99,8 +92,6 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_teachask as kind) p_ws as kindws) |
              ((p_teachnote as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
-
-let p_begin_diderot_atom = (p_begin p_ws as b) (p_o_curly as o) (p_diderot_atom p_ws as x) (p_c_curly as c) 
 
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
