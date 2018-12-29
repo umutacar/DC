@@ -51,6 +51,7 @@ So whatever latex produces must be mediated through this.
     This is because lexer internally uses standard libraries (it seems) and core is not consistent with standard.
 
   - Extended the lexer and parser to support diderotXYZ atoms where XYZ can be any custom atom.
+  - Allowing chapters to have preambles much like atoms.
 
 - [Dec 23]
   - Cleanedup up the ocaml code a bit 
