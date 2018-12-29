@@ -130,7 +130,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 rule token = parse
 | p_backslash as x
-		{printf "!lexer matched: \\."; BACKSLASH(Char.escaped x)}				
+		{printf "!lexer matched: \\."; BACKSLASH(String.make 1 x)}				
 | p_o_curly as x
 		{printf "!lexer matched: {."; O_CURLY(x)}				
 | p_c_curly as x
@@ -163,9 +163,16 @@ rule token = parse
 
 (* BEGIN: ATOMS *)
 | (p_begin p_ws as b) (p_o_curly as o) (p_diderot_atom p_ws as x) (p_c_curly as c) 
-  	{printf "lexer matched begin diderot_atom: %s" x; KW_BEGIN_DIDEROT_ATOM(x)}		
+  	{let all = b ^ o ^ x ^ c in
+       printf "lexer matched begin diderot_atom: %s" x;
+       KW_BEGIN_DIDEROT_ATOM(x, all)
+    }		
 | (p_end p_ws as e) (p_o_curly as o) (p_diderot_atom p_ws as x) (p_c_curly as c)
-  	{printf "lexer matched end diderot_atom: %s" x; KW_END_DIDEROT_ATOM(x)}		
+  	{let all = e ^ o ^ x ^ c in
+       printf "lexer matched end diderot_atom: %s" x; 
+       KW_END_DIDEROT_ATOM(all)
+    }		
+
 | p_b_algorithm as x
   	{printf "lexer matched begin algorithm: %s" x; KW_BEGIN_ALGORITHM(x)}		
 | p_e_algorithm as x
