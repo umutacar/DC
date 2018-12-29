@@ -1,5 +1,4 @@
 {
-open Core
 open Printf
 open Parser
 }
@@ -125,7 +124,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 rule token = parse
 | p_backslash as x
-		{printf "!lexer matched: \\."; BACKSLASH(Char.to_string x)}				
+		{printf "!lexer matched: \\."; BACKSLASH(String.make 1 x)}				
 | p_o_curly as x
 		{printf "!lexer matched: {."; O_CURLY(x)}				
 | p_c_curly as x
