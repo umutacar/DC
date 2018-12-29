@@ -34,6 +34,13 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [Dec 28]
+  - Fixed a label printing bug
+  - Dropped the Core library in favor of standard ocaml libraries in lexer.
+
+    This is because lexer internally uses standard libraries (it seems) and core is not consistent with standard.
+
+  - Extended the lexer and parser to support diderotXYZ atoms where XYZ can be any custom atom.
 
 - [Dec 23]
   - Cleanedup up the ocaml code a bit 
