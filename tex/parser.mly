@@ -27,7 +27,6 @@ let set_option_with_intertext (r, vo) =
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 %token <string> COMMENT_LINE
 
-%token <string> KW_BEGIN KW_END	
 %token <string*string> KW_BEGIN_ATOM KW_END_ATOM 
 %token <string> KW_LABEL
 
@@ -118,15 +117,6 @@ boxes_start_no_sq:
  **********************************************************************/
 
 /**********************************************************************
- ** BEGIN: Comments
- **********************************************************************/
-comment:
-  x = COMMENT_LINE
-  {x}
-| x = COMMENT_LINE; y = comment
-  {x ^ y}
-
-/**********************************************************************
  ** BEGIN: Diderot Keywords
  **********************************************************************/
 /* Return full text "\label{label_string}  \n" plus label */
@@ -172,6 +162,7 @@ mk_sections(my_section):
 
 
 chapter:
+  preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
   bso = option(blocks_and_intertext); 
@@ -183,7 +174,7 @@ chapter:
    let ss = ref [] in
    let it = set_option_with_intertext (bs, bso) in
    let _ = set_option (ss, sso) in
-     Ast.Chapter(heading, t, l, !bs, it, !ss)
+     Ast.Chapter(preamble, (heading, t, l, !bs, it, !ss))
   }	
 
 
@@ -248,15 +239,6 @@ blocks_and_intertext:
 			
 /* BEGIN: Groups and atoms */
 
-begin_group:
-  hb = KW_BEGIN_GROUP
-  {hb}
-
-/* Return the pair of full heading and title. */
-begin_group_sq:
-  hb = KW_BEGIN_GROUP; b = sq_box
-  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
-
 end_group:
   he = KW_END_GROUP
   {he}
@@ -308,7 +290,7 @@ mk_atom(kw_b, kw_e):
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     printf "Parsed Atom %s!" kind;
+     printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
   }
 
@@ -334,7 +316,7 @@ mk_atom(kw_b, kw_e):
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     printf "Parsed Atom %s!" kind;
+     printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
   }
 
@@ -348,7 +330,7 @@ mk_atom(kw_b, kw_e):
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     printf "Parsed Atom %s title = %s" h_begin tt;
+     printf "Parsed Atom kind = %s h_begin = %s title = %s" kind h_begin tt;
      Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
   }
 

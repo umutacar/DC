@@ -2,7 +2,7 @@ open Core
 (**********************************************************************
  ** BEGIN: AST Data Types
 *********************************************************************)
-type t_preambly = string
+type t_preamble = string
 type t_atom_kind = string
 type t_atom_body = string
 type t_label_val = string
@@ -23,33 +23,34 @@ type t_keyword = string
 
 type t_label = Label of t_keyword * t_label_val
 
-type atom = Atom of t_preambly * (t_atom_kind * t_keyword * t_title option * t_label option * t_atom_body * t_keyword) 
+type atom = Atom of t_preamble * (t_atom_kind * t_keyword * t_title option * t_label option * t_atom_body * t_keyword) 
 
 type group = 
-  Group of t_preambly 
+  Group of t_preamble 
            * (t_keyword * t_title option * t_label option * 
               atom list * t_intertext * t_keyword) 
 
 
 type chapter = 
-  Chapter of (t_keyword * t_title * t_label
-              * block list * t_intertext * section list) 
+  Chapter of t_preamble
+             *  (t_keyword * t_title * t_label * 
+                 block list * t_intertext * section list) 
 
 and section = 
-  Section of (t_keyword * t_title * t_label option
-              * block list * t_intertext * subsection list)
+  Section of (t_keyword * t_title * t_label option *
+              block list * t_intertext * subsection list)
 
 and subsection = 
-  Subsection of (t_keyword * t_title * t_label option
-                 * block list * t_intertext * subsubsection list)
+  Subsection of (t_keyword * t_title * t_label option *
+                 block list * t_intertext * subsubsection list)
 
 and subsubsection = 
-  Subsubsection of (t_keyword * t_title * t_label option
-                    * block list * t_intertext * paragraph list)
+  Subsubsection of (t_keyword * t_title * t_label option *
+                    block list * t_intertext * paragraph list)
 
 and paragraph = 
-  Paragraph of (t_keyword * t_title * t_label option
-                * block list * t_intertext)
+  Paragraph of (t_keyword * t_title * t_label option *
+                block list * t_intertext)
 and block = 
   | Block_Group of group
   | Block_Atom of atom
@@ -138,10 +139,11 @@ let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
     heading ^ label ^ 
     blocks ^ it ^ nesteds
 
-let chapterToTex (Chapter (heading, t, l, bs, it, ss)) =
+let chapterToTex (Chapter (preamble, (heading, t, l, bs, it, ss))) =
   let blocks = map_concat blockToTex bs in
   let sections = map_concat sectionToTex ss in
   let label = labelToTex l in
+    preamble ^ 
     heading ^ label ^ 
     blocks ^ it ^ 
     sections
@@ -243,7 +245,7 @@ let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
                                ~lopt:lsopt ~body:body in
     r
 
-let chapterToXml  tex2html (Chapter (heading, t, l, bs, it, ss)) =
+let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
   let Label(heading, label) = l in 
   let _ = printf "chapter label, heading = %s  = %s\n" heading label in
   let t_xml = tex2html (mk_index()) t title_is_single_par in

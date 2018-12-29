@@ -136,12 +136,12 @@ rule token = parse
 
 (* BEGIN: ATOMS *)
 | p_begin_atom
-  	{let all = b ^ o ^ kind ^ kindws ^ c in
+  	{let all = b ^ o ^ kindws ^ c in
        printf "lexer matched begin atom: %s" kind;
        KW_BEGIN_ATOM(kind, all)
     }		
 | p_end_atom
-  	{let all = e ^ o ^ kind ^ kindws ^ c in
+  	{let all = e ^ o ^ kindws ^ c in
        printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
