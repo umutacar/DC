@@ -21,8 +21,9 @@ let p_c_sq_bracket = ']' p_ws
 let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 
-let p_definition = "definition" p_ws
-let p_example = "example" p_ws
+let p_begin = '\\' "begin" p_ws												 
+let p_end = '\\' "end" p_ws												 
+
 
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
@@ -40,6 +41,7 @@ let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
 let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
 
 
+let p_diderot_atom = "diderot" ['a'-'z''A'-'Z']*	
 let p_algorithm = "algorithm"
 let p_code = "code"
 let p_corollary = "corollary"
@@ -67,6 +69,10 @@ let p_theorem = "theorem"
 
 
 
+(* 
+let p_b_diderot_atom = '\\' "begin" p_o_curly p_diderot_atom p_ws p_c_curly 
+let p_e_diderot_atom = '\\' "end" p_o_curly p_diderot_atom p_ws p_c_curly 
+*)
 
 let p_b_algorithm = '\\' "begin" p_o_curly p_algorithm p_ws p_c_curly 
 let p_e_algorithm = '\\' "end" p_o_curly p_algorithm p_ws p_c_curly
@@ -156,6 +162,17 @@ rule token = parse
   	{printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
 
 (* BEGIN: ATOMS *)
+| (p_begin p_ws as b) (p_o_curly as o) (p_diderot_atom p_ws as x) (p_c_curly as c) 
+  	{let all = b ^ o ^ x ^ c in
+       printf "lexer matched begin diderot_atom: %s" x;
+       KW_BEGIN_DIDEROT_ATOM(x, all)
+    }		
+| (p_end p_ws as e) (p_o_curly as o) (p_diderot_atom p_ws as x) (p_c_curly as c)
+  	{let all = e ^ o ^ x ^ c in
+       printf "lexer matched end diderot_atom: %s" x; 
+       KW_END_DIDEROT_ATOM(all)
+    }		
+
 | p_b_algorithm as x
   	{printf "lexer matched begin algorithm: %s" x; KW_BEGIN_ALGORITHM(x)}		
 | p_e_algorithm as x

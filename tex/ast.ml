@@ -20,6 +20,7 @@ type t_keyword = string
 (* Label is heading and the label string 
  * Example Label(\label{this}, this)
  *)
+
 type t_label = Label of t_keyword * t_label_val
 
 type atom = Atom of t_preambly * (t_atom_kind * t_keyword * t_title option * t_label option * t_atom_body * t_keyword) 
@@ -184,6 +185,7 @@ let label_title_opt tex2html lopt topt =
 
 let atomToXml tex2html
               (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
+  let _ = printf "AtomToXml: kind = %s\n" kind in
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
   let r = XmlSyntax.mk_atom ~kind:kind 

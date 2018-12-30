@@ -28,6 +28,8 @@ let set_option_with_intertext (r, vo) =
 %token <string> COMMENT_LINE
 
 %token <string> KW_BEGIN KW_END	
+%token <string*string> KW_BEGIN_DIDEROT_ATOM 
+%token <string> KW_END_DIDEROT_ATOM	
 %token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
 %token <string> KW_BEGIN_CODE KW_END_CODE
 %token <string> KW_BEGIN_COROLLARY KW_END_COROLLARY
@@ -76,7 +78,7 @@ let set_option_with_intertext (r, vo) =
 
 %%
 
-
+%inline diderot_atom: { "diderot_atom" }
 %inline algorithm: { "algorithm" }
 %inline code: { "code" }
 %inline corollary: { "corollary" }
@@ -400,7 +402,59 @@ mk_atom(kind, kw_b, kw_e):
      Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
   }
 
+/*  generic diderot atom */
+atom_diderot(kw_b, kw_e):
+| preamble = boxes;
+  h_b = kw_b;
+  l = label;
+  bs = boxes; 
+  h_end = kw_e;
+  {
+   let (kind, h_begin) = h_b in
+     printf "Parsed Atom %s!" kind;
+     Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
+  }
+
+| preamble = boxes;
+  h_b = kw_b;
+  t = sq_box; 
+  l = label;
+  bs = boxes; 
+  h_end = kw_e;
+  {
+   let (bo, tt, bc) = t in
+   let (kind, h_bb) = h_b in
+   let h_begin = h_bb ^ bo ^ tt ^ bc in   
+     printf "Parsed Atom %s title = %s" kind tt;
+     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, h_end))
+  }
+
+| preamble = boxes;
+  h_b = kw_b;
+  bs = boxes_start_no_sq; 
+  h_end = kw_e;
+  {
+   let (kind, h_begin) = h_b in
+     printf "Parsed Atom %s!" kind;
+     Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
+  }
+
+| preamble = boxes;
+  h_b = kw_b;
+  t = sq_box; 
+  bs = boxes; 
+  h_end = kw_e;
+  {
+   let (bo, tt, bc) = t in
+   let (kind, h_bb) = h_b in
+   let h_begin = h_bb ^ bo ^ tt ^ bc in   
+     printf "Parsed Atom %s title = %s" h_begin tt;
+     Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
+  }
+
 atom:
+|	x = atom_diderot(KW_BEGIN_DIDEROT_ATOM, KW_END_DIDEROT_ATOM)
+  { x }
 |	x = mk_atom(algorithm, KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
   { x }
 |	x = mk_atom(code, KW_BEGIN_CODE, KW_END_CODE)
