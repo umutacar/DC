@@ -27,34 +27,7 @@ let set_option_with_intertext (r, vo) =
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 %token <string> COMMENT_LINE
 
-%token <string> KW_BEGIN KW_END	
-%token <string*string> KW_BEGIN_DIDEROT_ATOM 
-%token <string> KW_END_DIDEROT_ATOM	
-%token <string> KW_BEGIN_ALGORITHM KW_END_ALGORITHM	
-%token <string> KW_BEGIN_CODE KW_END_CODE
-%token <string> KW_BEGIN_COROLLARY KW_END_COROLLARY
-%token <string> KW_BEGIN_COSTSPEC KW_END_COSTSPEC
-%token <string> KW_BEGIN_DATATYPE KW_END_DATATYPE	
-%token <string> KW_BEGIN_DATASTR KW_END_DATASTR	
-%token <string> KW_BEGIN_DEFINITION KW_END_DEFINITION	
-%token <string> KW_BEGIN_EXAMPLE KW_END_EXAMPLE
-%token <string> KW_BEGIN_EXERCISE KW_END_EXERCISE
-%token <string> KW_BEGIN_GRAM KW_END_GRAM
-%token <string> KW_BEGIN_HINT KW_END_HINT
-%token <string> KW_BEGIN_IMPORTANT KW_END_IMPORTANT
-%token <string> KW_BEGIN_LEMMA KW_END_LEMMA
-%token <string> KW_BEGIN_NOTE KW_END_NOTE
-%token <string> KW_BEGIN_PREAMBLE KW_END_PREAMBLE
-%token <string> KW_BEGIN_PROBLEM KW_END_PROBLEM
-%token <string> KW_BEGIN_PROOF KW_END_PROOF
-%token <string> KW_BEGIN_PROPOSITION KW_END_PROPOSITION
-%token <string> KW_BEGIN_REMARK KW_END_REMARK
-%token <string> KW_BEGIN_SOLUTION KW_END_SOLUTION
-%token <string> KW_BEGIN_SYNTAX KW_END_SYNTAX
-%token <string> KW_BEGIN_TEACHASK KW_END_TEACHASK
-%token <string> KW_BEGIN_TEACHNOTE KW_END_TEACHNOTE
-%token <string> KW_BEGIN_THEOREM KW_END_THEOREM
-	
+%token <string*string> KW_BEGIN_ATOM KW_END_ATOM 
 %token <string> KW_LABEL
 
 %token <string> KW_CHAPTER
@@ -75,35 +48,8 @@ let set_option_with_intertext (r, vo) =
 %type <Ast.group> group
 %type <Ast.atom> atom
 
-
+/*  BEGIN RULES */
 %%
-
-%inline diderot_atom: { "diderot_atom" }
-%inline algorithm: { "algorithm" }
-%inline code: { "code" }
-%inline corollary: { "corollary" }
-%inline costspec: { "costspec" }
-%inline datastr: { "datastr" }
-%inline datatype: { "datatype" }
-%inline definition: { "definition" }
-%inline example: { "example" }
-%inline exercise: { "exercise" }
-%inline gram: { "gram" }
-%inline hint: { "hint" }
-%inline important: { "important" }
-%inline lemma: { "lemma" }
-%inline note: { "note" }
-%inline preamble: { "preamble" }
-%inline problem: { "problem" }
-%inline proof: { "proof" }
-%inline proposition: { "proposition" }
-%inline remark: { "remark" }
-%inline solution: { "solution" }
-%inline syntax: { "syntax" }
-%inline teachask: { "teachask" }
-%inline teachnote: { "teachnote" }
-%inline theorem: { "theorem" }
-
 
 /**********************************************************************
  ** BEGIN: Words and Boxes 
@@ -171,15 +117,6 @@ boxes_start_no_sq:
  **********************************************************************/
 
 /**********************************************************************
- ** BEGIN: Comments
- **********************************************************************/
-comment:
-  x = COMMENT_LINE
-  {x}
-| x = COMMENT_LINE; y = comment
-  {x ^ y}
-
-/**********************************************************************
  ** BEGIN: Diderot Keywords
  **********************************************************************/
 /* Return full text "\label{label_string}  \n" plus label */
@@ -225,6 +162,7 @@ mk_sections(my_section):
 
 
 chapter:
+  preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
   bso = option(blocks_and_intertext); 
@@ -236,7 +174,7 @@ chapter:
    let ss = ref [] in
    let it = set_option_with_intertext (bs, bso) in
    let _ = set_option (ss, sso) in
-     Ast.Chapter(heading, t, l, !bs, it, !ss)
+     Ast.Chapter(preamble, (heading, t, l, !bs, it, !ss))
   }	
 
 
@@ -301,15 +239,6 @@ blocks_and_intertext:
 			
 /* BEGIN: Groups and atoms */
 
-begin_group:
-  hb = KW_BEGIN_GROUP
-  {hb}
-
-/* Return the pair of full heading and title. */
-begin_group_sq:
-  hb = KW_BEGIN_GROUP; b = sq_box
-  {let (bo, bb, bc) = b in (hb ^ bo ^ bb ^ bc, bb)}
-
 end_group:
   he = KW_END_GROUP
   {he}
@@ -351,67 +280,17 @@ atoms_and_intertext:
   {(ats, it)}		
 	
 
-mk_atom(kind, kw_b, kw_e):
-| kind = kind
-  preamble = boxes;
-  h_b = kw_b;
-  l = label;
-  bs = boxes; 
-  h_end = kw_e;
-  {
-   let h_begin = h_b in
-     printf "Parsed Atom %s!" h_begin;
-     Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
-  }
-
-| kind = kind
-  preamble = boxes;
-  h_b = kw_b;
-  t = sq_box; 
-  l = label;
-  bs = boxes; 
-  h_end = kw_e;
-  {
-   let (bo, tt, bc) = t in
-   let h_begin = h_b ^ bo ^ tt ^ bc in   
-     printf "Parsed Atom %s title = %s" h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, h_end))
-  }
-
-| kind = kind
-  preamble = boxes;
-  h_b = kw_b;
-  bs = boxes_start_no_sq; 
-  h_end = kw_e;
-  {
-   let h_begin = h_b in
-     printf "Parsed Atom %s" h_begin;
-     Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
-  }
-
-| kind = kind
-  preamble = boxes;
-  h_b = kw_b;
-  t = sq_box; 
-  bs = boxes; 
-  h_end = kw_e;
-  {
-   let (bo, tt, bc) = t in
-   let h_begin = h_b ^ bo ^ tt ^ bc in   
-     printf "Parsed Atom %s title = %s" h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
-  }
-
-/*  generic diderot atom */
-atom_diderot(kw_b, kw_e):
+/*  diderot atom */
+mk_atom(kw_b, kw_e):
 | preamble = boxes;
   h_b = kw_b;
   l = label;
   bs = boxes; 
-  h_end = kw_e;
+  h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
-     printf "Parsed Atom %s!" kind;
+   let (_, h_end) = h_e in
+     printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
   }
 
@@ -420,10 +299,11 @@ atom_diderot(kw_b, kw_e):
   t = sq_box; 
   l = label;
   bs = boxes; 
-  h_end = kw_e;
+  h_e = kw_e;
   {
-   let (bo, tt, bc) = t in
    let (kind, h_bb) = h_b in
+   let (_, h_end) = h_e in
+   let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      printf "Parsed Atom %s title = %s" kind tt;
      Atom (preamble, (kind, h_begin, Some tt, Some l, bs, h_end))
@@ -432,10 +312,11 @@ atom_diderot(kw_b, kw_e):
 | preamble = boxes;
   h_b = kw_b;
   bs = boxes_start_no_sq; 
-  h_end = kw_e;
+  h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
-     printf "Parsed Atom %s!" kind;
+   let (_, h_end) = h_e in
+     printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
   }
 
@@ -443,64 +324,17 @@ atom_diderot(kw_b, kw_e):
   h_b = kw_b;
   t = sq_box; 
   bs = boxes; 
-  h_end = kw_e;
+  h_e = kw_e;
   {
-   let (bo, tt, bc) = t in
    let (kind, h_bb) = h_b in
+   let (_, h_end) = h_e in
+   let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     printf "Parsed Atom %s title = %s" h_begin tt;
+     printf "Parsed Atom kind = %s h_begin = %s title = %s" kind h_begin tt;
      Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
   }
 
 atom:
-|	x = atom_diderot(KW_BEGIN_DIDEROT_ATOM, KW_END_DIDEROT_ATOM)
-  { x }
-|	x = mk_atom(algorithm, KW_BEGIN_ALGORITHM, KW_END_ALGORITHM)
-  { x }
-|	x = mk_atom(code, KW_BEGIN_CODE, KW_END_CODE)
-  { x }
-|	x = mk_atom(corollary, KW_BEGIN_COROLLARY, KW_END_COROLLARY)
-  { x }
-|	x = mk_atom(datastr, KW_BEGIN_DATASTR, KW_END_DATASTR)
-  { x }
-|	x = mk_atom(datatype, KW_BEGIN_DATATYPE, KW_END_DATATYPE)
-  { x }
-|	x = mk_atom(costspec, KW_BEGIN_COSTSPEC, KW_END_COSTSPEC)
-  { x }
-|	x = mk_atom(definition, KW_BEGIN_DEFINITION, KW_END_DEFINITION)
-  { x }
-|	x = mk_atom(example, KW_BEGIN_EXAMPLE, KW_END_EXAMPLE)
-  { x }
-|	x = mk_atom(exercise, KW_BEGIN_EXERCISE, KW_END_EXERCISE)
-  { x }
-|	x = mk_atom(gram, KW_BEGIN_GRAM, KW_END_GRAM)
-  { x }
-|	x = mk_atom(hint, KW_BEGIN_HINT, KW_END_HINT)
-  { x }
-|	x = mk_atom(important, KW_BEGIN_IMPORTANT, KW_END_IMPORTANT)
-  { x }
-|	x = mk_atom(lemma, KW_BEGIN_LEMMA, KW_END_LEMMA)
-  { x }
-|	x = mk_atom(note, KW_BEGIN_NOTE, KW_END_NOTE)
-  { x }
-|	x = mk_atom(preamble, KW_BEGIN_PREAMBLE, KW_END_PREAMBLE)
-  { x }
-|	x = mk_atom(problem, KW_BEGIN_PROBLEM, KW_END_PROBLEM)
-  { x }
-|	x = mk_atom(proof, KW_BEGIN_PROOF, KW_END_PROOF)
-  { x }
-|	x = mk_atom(proposition, KW_BEGIN_PROPOSITION, KW_END_PROPOSITION)
-  { x }
-|	x = mk_atom(remark, KW_BEGIN_REMARK, KW_END_REMARK)
-  { x }
-|	x = mk_atom(solution, KW_BEGIN_SOLUTION, KW_END_SOLUTION)
-  { x }
-|	x = mk_atom(syntax, KW_BEGIN_SYNTAX, KW_END_SYNTAX)
-  { x }
-|	x = mk_atom(teachask, KW_BEGIN_TEACHASK, KW_END_TEACHASK)
-  { x }
-|	x = mk_atom(teachnote, KW_BEGIN_TEACHNOTE, KW_END_TEACHNOTE)
-  { x }
-|	x = mk_atom(theorem, KW_BEGIN_THEOREM, KW_END_THEOREM)
+|	x = mk_atom(KW_BEGIN_ATOM, KW_END_ATOM)
   { x }
 

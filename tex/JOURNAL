@@ -34,6 +34,16 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [Dec 29]
+
+  - Found a way to streamline the defitinions of atoms.  The basic idea is to use variables to capture the atom kind matched so that the atom can be returned as part of a matched token.  This means that we don't have to create separate tokens for each atom and can treat them all as part of instances of a single atom token.  This reduces the number of lines of codes in the parser quite dramatically and simplifies things a lot.  The only *slight* downside is that it does not bugs of the sort
+
+  \begin{example}
+  \end{defition}
+
+  This is because begin and end are both well defined atoms.  this atom would be treated as an example.  This "bug" might even be a feature.  But it would be nice to produce a warning in this case.
+
 - [Dec 28]
   - Fixed a label printing bug
   - Dropped the Core library in favor of standard ocaml libraries in lexer.
@@ -41,6 +51,7 @@ So whatever latex produces must be mediated through this.
     This is because lexer internally uses standard libraries (it seems) and core is not consistent with standard.
 
   - Extended the lexer and parser to support diderotXYZ atoms where XYZ can be any custom atom.
+  - Allowing chapters to have preambles much like atoms.
 
 - [Dec 23]
   - Cleanedup up the ocaml code a bit 
