@@ -44,6 +44,9 @@ So whatever latex produces must be mediated through this.
 
   This is because begin and end are both well defined atoms.  this atom would be treated as an example.  This "bug" might even be a feature.  But it would be nice to produce a warning in this case.
 
+- [Dec 30]
+  - Added levels to blocks and atoms.
+
 - [Dec 28]
   - Fixed a label printing bug
   - Dropped the Core library in favor of standard ocaml libraries in lexer.
