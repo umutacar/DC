@@ -3,6 +3,15 @@ open Core
 open Printf
 open Ast
 
+(* Debug prints *)
+let debug = false
+let d_printf args = 
+  if debug then
+    fprintf stdout args
+  else 
+    ifprintf stdout args
+
+
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
 let set_option (r, vo) = 
@@ -290,7 +299,7 @@ mk_atom(kw_b, kw_e):
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
+     d_printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
   }
 
@@ -305,7 +314,7 @@ mk_atom(kw_b, kw_e):
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     printf "Parsed Atom %s title = %s" kind tt;
+     d_printf "Parsed Atom %s title = %s" kind tt;
      Atom (preamble, (kind, h_begin, Some tt, Some l, bs, h_end))
   }
 
@@ -316,7 +325,7 @@ mk_atom(kw_b, kw_e):
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
+     d_printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
   }
 
@@ -330,7 +339,7 @@ mk_atom(kw_b, kw_e):
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     printf "Parsed Atom kind = %s h_begin = %s title = %s" kind h_begin tt;
+     d_printf "Parsed Atom kind = %s h_begin = %s title = %s" kind h_begin tt;
      Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
   }
 

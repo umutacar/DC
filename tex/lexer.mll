@@ -1,6 +1,14 @@
 {
 open Printf
 open Parser
+
+(* Debug prints *)
+let debug = false
+let d_printf args = 
+  if debug then
+    fprintf stdout args
+  else 
+    ifprintf stdout args
 }
 
 (** BEGIN: PATTERNS *)	
@@ -103,56 +111,56 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 rule token = parse
 | p_backslash as x
-		{printf "!lexer matched: \\."; BACKSLASH(String.make 1 x)}				
+		{d_printf "!lexer matched: \\."; BACKSLASH(String.make 1 x)}				
 | p_o_curly as x
-		{printf "!lexer matched: {."; O_CURLY(x)}				
+		{d_printf "!lexer matched: {."; O_CURLY(x)}				
 | p_c_curly as x
-		{printf "!lexer matched: }.\n"; C_CURLY(x)}				
+		{d_printf "!lexer matched: }.\n"; C_CURLY(x)}				
 | p_o_sq_bracket as x
-		{printf "!lexer matched: [."; O_SQ_BRACKET(x)}				
+		{d_printf "!lexer matched: [."; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
-		{printf "!lexer matched: ].\n"; C_SQ_BRACKET(x)}				
+		{d_printf "!lexer matched: ].\n"; C_SQ_BRACKET(x)}				
 | p_special_percent as x
-		{printf "!lexer matched: %s.\n" "\%"; PERCENT(x)}				
+		{d_printf "!lexer matched: %s.\n" "\%"; PERCENT(x)}				
 
 
 | p_comment_line as x
-  	{printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
+  	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 | p_label as x
-  	{printf "!lexer matched %s." x; KW_LABEL(x)}		
+  	{d_printf "!lexer matched %s." x; KW_LABEL(x)}		
 				
 | p_chapter as x
-  	{printf "!lexer matched %s." x; KW_CHAPTER(x)}		
+  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
-  	{printf "!lexer matched: %s." x; KW_SECTION(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
 | p_subsection as x
-  	{printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
+  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
-  	{printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
+  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
 | p_paragraph as x
-  	{printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
+  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
-  	{printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
 
 (* BEGIN: ATOMS *)
 | p_begin_atom
   	{let all = b ^ o ^ kindws ^ c in
-       printf "lexer matched begin atom: %s" kind;
+       d_printf "lexer matched begin atom: %s" kind;
        KW_BEGIN_ATOM(kind, all)
     }		
 | p_end_atom
   	{let all = e ^ o ^ kindws ^ c in
-       printf "lexer matched end atom: %s" kind;
+       d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
 (* END ATOMS *)
 | p_b_group as x
-  	{printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
 | p_e_group as x
-  	{printf "!lexer matched: %s." x; KW_END_GROUP(x)}
+  	{d_printf "!lexer matched: %s." x; KW_END_GROUP(x)}
 
 | p_word as x
-		{printf "!found word: %s." x;
+		{d_printf "!found word: %s." x;
      WORD(x)
     }
 | eof

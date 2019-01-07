@@ -1,4 +1,19 @@
 open Core
+
+(**********************************************************************
+ ** BEGIN: Debugging 
+ **********************************************************************)
+let debug = false
+let d_printf args = 
+  if debug then
+    fprintf stdout args
+  else 
+    ifprintf stdout args
+(**********************************************************************
+ ** END: Debugging 
+ **********************************************************************)
+
+
 (**********************************************************************
  ** BEGIN: AST Data Types
 *********************************************************************)
@@ -187,7 +202,7 @@ let label_title_opt tex2html lopt topt =
 
 let atomToXml tex2html
               (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
-  let _ = printf "AtomToXml: kind = %s\n" kind in
+  let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
   let r = XmlSyntax.mk_atom ~kind:kind 
@@ -247,7 +262,7 @@ let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
 
 let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
   let Label(heading, label) = l in 
-  let _ = printf "chapter label, heading = %s  = %s\n" heading label in
+  let _ = d_printf "chapter label, heading = %s  = %s\n" heading label in
   let t_xml = tex2html (mk_index()) t title_is_single_par in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let sections = map_concat (sectionToXml  tex2html) ss in

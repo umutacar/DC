@@ -59,9 +59,18 @@ let latex_file_to_html (latex_file_name, html_file_name) =
     let command = pandoc ^ " " ^ latex_file_name ^  " -o" ^ html_file_name  in
     let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
-      printf "Command exited with code: %d\n" exit_code;
-      printf "LaTex code is in file: %s\n" latex_file_name;
-      printf "HTML code is in file: %s\n" html_file_name
+      if exit_code <> 0 then
+        begin
+          printf "Error in html translation.\n";
+          printf "Command exited with code: %d\n" exit_code;
+          printf "Now exiting.";
+          exit exit_code
+        end
+      else
+        begin
+          printf "LaTex code is in file: %s\n" latex_file_name;
+          printf "HTML code is in file: %s\n" html_file_name
+        end
 
 
 (**********************************************************************
@@ -90,7 +99,7 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
   let () = latex_file_to_html (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
     if not match_single_paragraph then
-      let _ = printf "html: %s" html in 
+(*      let _ = printf "html: %s" html in *)
         html
     else
       let matched = try Str.search_forward pattern_html_paragraph html 0 
@@ -99,7 +108,7 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
         (* Group names start counting from 1. *)
         if matched >= 0 then
           let contents:string = Str.matched_group 1 html  in
-            printf "matched contents: %s" contents;
+(*            printf "matched contents: %s" contents; *)
             contents
         else
           let () = printf "\nFATAL ERROR in LaTeX to html translation!\n" in

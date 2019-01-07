@@ -4,6 +4,20 @@
 open Core
 open String
 
+(**********************************************************************
+ ** BEGIN: Debugging 
+ **********************************************************************)
+let debug = false
+let d_printf args = 
+  if debug then
+    fprintf stdout args
+  else 
+    ifprintf stdout args
+(**********************************************************************
+ ** END: Debugging 
+ **********************************************************************)
+
+
 module C = Constants
 
 (* Tags *) 
@@ -146,7 +160,7 @@ let mk_hint (x) =
   mk_field_generic(hint, x)
 
 let mk_label(x) = 
-  let _ = printf "mk_label: %s" x in 
+  let _ = d_printf "mk_label: %s" x in 
     mk_field_generic(label, x)
 
 let mk_label_opt(x) = 
@@ -195,7 +209,7 @@ let mk_unique(x) =
  ** BEGIN: Block makers
  **********************************************************************)
 let mk_block_atom kind fields =
-  let _ = printf "mk_block_atom: %s" kind in
+  let _ = d_printf "mk_block_atom: %s" kind in
   let b = mk_begin_atom(kind) in
   let e = mk_end_atom(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
@@ -205,7 +219,7 @@ let mk_block_atom kind fields =
 
 
 let mk_block_generic kind fields =
-  let _ = printf "mk_block_generic: %s" kind in
+  let _ = d_printf "mk_block_generic: %s" kind in
   let b = mk_begin_block(kind) in
   let e = mk_end_block(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
