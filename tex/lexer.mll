@@ -71,6 +71,7 @@ let p_proposition = "proposition"
 let p_remark = "remark"
 let p_solution = "solution"
 let p_syntax = "syntax"
+let p_task = "task"
 let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
@@ -97,6 +98,7 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_remark as kind) p_ws as kindws) |
              ((p_solution as kind) p_ws as kindws) |
              ((p_syntax as kind) p_ws as kindws) |
+             ((p_task as kind) p_ws as kindws) |
              ((p_teachask as kind) p_ws as kindws) |
              ((p_teachnote as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
