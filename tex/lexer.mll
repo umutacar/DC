@@ -3,7 +3,7 @@ open Printf
 open Parser
 
 (* Debug prints *)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -15,7 +15,7 @@ let d_printf args =
 let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'	
-let p_ws = [' ' '\t' '\n']*	
+let p_ws = [' ' '\t' '\n' '\r']*	
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
@@ -115,15 +115,15 @@ rule token = parse
 | p_backslash as x
 		{d_printf "!lexer matched: \\."; BACKSLASH(String.make 1 x)}				
 | p_o_curly as x
-		{d_printf "!lexer matched: {."; O_CURLY(x)}				
+		{d_printf "!lexer matched: %s.\n" x; O_CURLY(x)}				
 | p_c_curly as x
-		{d_printf "!lexer matched: }.\n"; C_CURLY(x)}				
+		{d_printf "!lexer matched: %s.\n" x; C_CURLY(x)}				
 | p_o_sq_bracket as x
-		{d_printf "!lexer matched: [."; O_SQ_BRACKET(x)}				
+		{d_printf "!lexer matched: %s.\n" x; O_SQ_BRACKET(x)}				
 | p_c_sq_bracket as x
-		{d_printf "!lexer matched: ].\n"; C_SQ_BRACKET(x)}				
+		{d_printf "!lexer matched: %s.\n" x; C_SQ_BRACKET(x)}				
 | p_special_percent as x
-		{d_printf "!lexer matched: %s.\n" "\%"; PERCENT(x)}				
+		{d_printf "!lexer matched: %s.\n" x; PERCENT(x)}				
 
 
 | p_comment_line as x
