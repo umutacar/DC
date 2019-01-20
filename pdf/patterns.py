@@ -14,10 +14,12 @@ TEX_ATOM_SLIDE = r'''
     '''
 
 ### END Latex patterns
+# Usage: XML_INCLUDE_PDF % filename
+XML_INCLUDE_PDF = r'''<embed src='%s' width='500px'/>'''
 
 ## BEGIN XML patterns
-# Usage CHAPTER % (title, title_src, label)
-CHAPTER = r'''
+# Usage XML_CHAPTER % (title, title_src, label)
+XML_CHAPTER = r'''
 <block name='chapter'>
 <field name='title'>
 <![CDATA[
@@ -34,8 +36,8 @@ CHAPTER = r'''
 </field> <!-- label -->
 '''
 
-# usage PREAMBLE % (body, body_src)
-PREAMBLE = r'''
+# usage XML_PREAMBLE % (body, body_src)
+XML_PREAMBLE = r'''
 <atom name='preamble'>
 <field name='title'>
 <![CDATA[
@@ -63,8 +65,8 @@ PREAMBLE = r'''
 </atom> <!-- preamble -->
 '''
 
-# Usage: SLIDE % (body, body_src)
-SLIDE = r'''
+# Usage: XML_SLIDE % (body, body_src)
+XML_SLIDE = r'''
 <atom name='slide'>
 <field name='title'>
 <![CDATA[

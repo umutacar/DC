@@ -135,12 +135,14 @@ def extract_text_per_page (inputfile_name):
             os_utils.mv_file_subdir (outfile_name, PAGES)
             print "Wrote output to", outfile_name
 
-def mk_page_atom (inputfile_name, page_number):
-    name_page = os_utils.mk_file_name_page (inputfile_name, page_number)
-    atom = patterns.TEX_ATOM_SLIDE % name_page
-    return atom
 
-def pdf2tex (inputfile_name):    
+def slides2tex (inputfile_name):    
+
+    def mk_page_atom (inputfile_name, page_number):
+        name_page = os_utils.mk_file_name_page (inputfile_name, page_number)
+        atom = patterns.TEX_ATOM_SLIDE % name_page
+        return atom
+
     texfile_name = os_utils.mk_file_name_ext (inputfile_name, os_utils.TEX_EXTENSION)
     prefix = os_utils.prefix_file_name (inputfile_name)
     texfile = open (texfile_name, "w")
@@ -161,13 +163,42 @@ def pdf2tex (inputfile_name):
         texfile.write (atom)
 
     texfile.close ()
+
+
+def slides2xml (inputfile_name):    
+
+    def mk_slide_atom (inputfile_name, slide_number):
+        name_slide = os_utils.mk_file_name_page (inputfile_name, slide_number)
+        embed_pdf = patterns.XML_INCLUDE_PDF % name_slide
+        atom = patterns.XML_SLIDE % (embed_pdf, 'some text')
+        return atom
+
+    xmlfile_name = os_utils.mk_file_name_ext (inputfile_name, os_utils.XML_EXTENSION)
+    prefix = os_utils.prefix_file_name (inputfile_name)
+    xmlfile = open (xmlfile_name, "w")
+
+    pdffile = open(inputfile_name, "rb")
+    reader = PdfFileReader(pdffile)
+
+    # Use prefix for title, title_src, and label
+    chapter = patterns.XML_CHAPTER % (prefix, prefix, prefix)
+    preamble = patterns.XML_PREAMBLE % (EMPTY_STRING, EMPTY_STRING)
+    xmlfile.write (chapter)
+    xmlfile.write (preamble)
+
+    for i in range(reader.numPages):
+        slide_number = i + 1
+        atom = mk_slide_atom (inputfile_name, slide_number)
+        xmlfile.write (atom)
+
+    xmlfile.close ()
     
 def main ():
     inputfile_name = sys.argv[1]
 #  split_and_extract_text (inputfile)
     split_into_pages (inputfile_name)
     extract_text_per_page (inputfile_name)
-    pdf2tex (inputfile_name)
+    slides2xml (inputfile_name)
   
 if __name__ == '__main__':
     main ()
