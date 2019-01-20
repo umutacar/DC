@@ -2,6 +2,8 @@ import sys
 import os
 from pervasives.syntax import *
 
+# TODO: Use normalize for path names
+
 # Common file extensions
 DEX_EXTENSION = 'dex'
 DIL_EXTENSION = 'dil'
@@ -102,6 +104,16 @@ def mv_file_subdir (filename, dir_name):
 
   ## END: Run commands
 ######################################################################
+
+def normalize (infile_name):
+ return os.path.normcase(os.path.normpath(infile_name))
+
+def prefix_file_name (infile_name):
+  infile_name = normalize(infile_name)
+  base = os.path.basename(infile_name)
+  (prefix, ext) = base.split (PERIOD) 
+  return prefix
+
 
 # mk a new filename out the infilename
 # name.ext turns into name_derivative.extension

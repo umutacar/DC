@@ -14,9 +14,12 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from pervasives import os_utils 
 
 ## Constants
-CHAPTER_HEADING = r'\chapter{Slides}'
+EMPTY_STRING = ''
+PATTERN_CHAPTER_HEADING = r'\chapter{%s}' + '\n'
+PATTERN_CHAPTER_LABEL = r'\label{ch:%s}' + '\n'
 PATTERN_CHAPTER_PREAMBLE = r'''
 \begin{preamble}
+%s
 \end{preamble}
 '''
 
@@ -140,9 +143,9 @@ def extract_text_per_page (inputfile_name):
 
 def mk_page_atom (inputfile_name, page_number):
     atom_pattern = r'''
-\begin{gram}
-\includegraphics{%s}
-\end{gram}
+\begin{slide}
+\includegraphics[width=\textwidth]{%s}
+\end{slide}
     '''
     name_page = os_utils.mk_file_name_page (inputfile_name, page_number)
     atom = atom_pattern % name_page
@@ -150,13 +153,19 @@ def mk_page_atom (inputfile_name, page_number):
 
 def pdf2tex (inputfile_name):    
     texfile_name = os_utils.mk_file_name_ext (inputfile_name, os_utils.TEX_EXTENSION)
-    
+    prefix = os_utils.prefix_file_name (inputfile_name)
     texfile = open (texfile_name, "w")
 
     pdffile = open(inputfile_name, "rb")
     reader = PdfFileReader(pdffile)
 
-    texfile.write (CHAPTER_HEADING)
+    heading = PATTERN_CHAPTER_HEADING % prefix
+    label = PATTERN_CHAPTER_LABEL % prefix
+    preamble = PATTERN_CHAPTER_PREAMBLE % EMPTY_STRING
+    texfile.write (heading)
+    texfile.write (label)
+    texfile.write (preamble)
+
     for i in range(reader.numPages):
         page_number = i + 1
         atom = mk_page_atom (inputfile_name, page_number)
