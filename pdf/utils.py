@@ -167,13 +167,18 @@ def slides2tex (inputfile_name):
 
 def slides2xml (inputfile_name):    
 
-    def mk_slide_atom (inputfile_name, slide_number):
+    def mk_slide_atom (inputfile_name, txtfile_name, slide_number):
         name_slide = os_utils.mk_file_name_page (inputfile_name, slide_number)
+        name_slide_txt = os_utils.mk_file_name_page (txtfile_name, slide_number)
+        name_slide_txt = PAGES + '/' + name_slide_txt
         embed_pdf = patterns.XML_INCLUDE_PDF % name_slide
-        atom = patterns.XML_SLIDE % (embed_pdf, 'some text')
+        slide_txt = open (name_slide_txt, "r")
+        body_txt = slide_txt.read()         
+        atom = patterns.XML_SLIDE % (embed_pdf, body_txt)
         return atom
 
     xmlfile_name = os_utils.mk_file_name_ext (inputfile_name, os_utils.XML_EXTENSION)
+    txtfile_name = os_utils.mk_file_name_ext (inputfile_name, os_utils.TEXT_EXTENSION)
     prefix = os_utils.prefix_file_name (inputfile_name)
     xmlfile = open (xmlfile_name, "w")
 
@@ -181,16 +186,18 @@ def slides2xml (inputfile_name):
     reader = PdfFileReader(pdffile)
 
     # Use prefix for title, title_src, and label
-    chapter = patterns.XML_CHAPTER % (prefix, prefix, prefix)
+    chapter_heading = patterns.XML_CHAPTER_HEADING % (prefix, prefix, prefix)
     preamble = patterns.XML_PREAMBLE % (EMPTY_STRING, EMPTY_STRING)
-    xmlfile.write (chapter)
+    xmlfile.write (chapter_heading)
     xmlfile.write (preamble)
 
     for i in range(reader.numPages):
         slide_number = i + 1
-        atom = mk_slide_atom (inputfile_name, slide_number)
+        atom = mk_slide_atom (inputfile_name, txtfile_name, slide_number)
         xmlfile.write (atom)
 
+    chapter_ending = patterns.XML_CHAPTER_ENDING
+    xmlfile.write (chapter_ending)
     xmlfile.close ()
     
 def main ():

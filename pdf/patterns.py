@@ -19,7 +19,7 @@ XML_INCLUDE_PDF = r'''<embed src='%s' width='500px'/>'''
 
 ## BEGIN XML patterns
 # Usage XML_CHAPTER % (title, title_src, label)
-XML_CHAPTER = r'''
+XML_CHAPTER_HEADING = r'''
 <block name='chapter'>
 <field name='title'>
 <![CDATA[
@@ -35,7 +35,9 @@ XML_CHAPTER = r'''
 %s
 </field> <!-- label -->
 '''
-
+XML_CHAPTER_ENDING = r'''
+</block> <!-- chapter -->
+'''
 # usage XML_PREAMBLE % (body, body_src)
 XML_PREAMBLE = r'''
 <atom name='preamble'>
@@ -67,7 +69,7 @@ XML_PREAMBLE = r'''
 
 # Usage: XML_SLIDE % (body, body_src)
 XML_SLIDE = r'''
-<atom name='slide'>
+<atom name='gram'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -91,5 +93,5 @@ XML_SLIDE = r'''
 %s
 ]]>
 </field> <!-- body_src -->
-</atom> <!-- slide -->
+</atom> <!-- gram -->
 '''
