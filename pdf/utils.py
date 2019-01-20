@@ -12,16 +12,10 @@ from pdfminer.layout import LAParams
 from PyPDF2 import PdfFileWriter, PdfFileReader
 
 from pervasives import os_utils 
+import patterns
 
 ## Constants
 EMPTY_STRING = ''
-PATTERN_CHAPTER_HEADING = r'\chapter{%s}' + '\n'
-PATTERN_CHAPTER_LABEL = r'\label{ch:%s}' + '\n'
-PATTERN_CHAPTER_PREAMBLE = r'''
-\begin{preamble}
-%s
-\end{preamble}
-'''
 
 DOT = '.'
 PDF = 'pdf'
@@ -142,13 +136,8 @@ def extract_text_per_page (inputfile_name):
             print "Wrote output to", outfile_name
 
 def mk_page_atom (inputfile_name, page_number):
-    atom_pattern = r'''
-\begin{slide}
-\includegraphics[width=\textwidth]{%s}
-\end{slide}
-    '''
     name_page = os_utils.mk_file_name_page (inputfile_name, page_number)
-    atom = atom_pattern % name_page
+    atom = patterns.TEX_ATOM_SLIDE % name_page
     return atom
 
 def pdf2tex (inputfile_name):    
@@ -159,9 +148,9 @@ def pdf2tex (inputfile_name):
     pdffile = open(inputfile_name, "rb")
     reader = PdfFileReader(pdffile)
 
-    heading = PATTERN_CHAPTER_HEADING % prefix
-    label = PATTERN_CHAPTER_LABEL % prefix
-    preamble = PATTERN_CHAPTER_PREAMBLE % EMPTY_STRING
+    heading = patterns.TEX_CHAPTER_HEADING % prefix
+    label = patterns.TEX_CHAPTER_LABEL % prefix
+    preamble = patterns.TEX_CHAPTER_PREAMBLE % EMPTY_STRING
     texfile.write (heading)
     texfile.write (label)
     texfile.write (preamble)
