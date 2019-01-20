@@ -69,7 +69,7 @@ XML_PREAMBLE = r'''
 
 # Usage: XML_SLIDE % (body, body_src)
 XML_SLIDE = r'''
-<atom name='gram'>
+<atom name='slide'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -93,5 +93,5 @@ XML_SLIDE = r'''
 %s
 ]]>
 </field> <!-- body_src -->
-</atom> <!-- gram -->
+</atom> <!-- slide -->
 '''
