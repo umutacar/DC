@@ -14,6 +14,12 @@ from PyPDF2 import PdfFileWriter, PdfFileReader
 from pervasives import os_utils 
 
 ## Constants
+CHAPTER_HEADING = r'\chapter{Slides}'
+PATTERN_CHAPTER_PREAMBLE = r'''
+\begin{preamble}
+\end{preamble}
+'''
+
 DOT = '.'
 PDF = 'pdf'
 TXT = 'txt'
@@ -132,11 +138,38 @@ def extract_text_per_page (inputfile_name):
             os_utils.mv_file_subdir (outfile_name, PAGES)
             print "Wrote output to", outfile_name
 
+def mk_page_atom (inputfile_name, page_number):
+    atom_pattern = r'''
+\begin{gram}
+\includegraphics{%s}
+\end{gram}
+    '''
+    name_page = os_utils.mk_file_name_page (inputfile_name, page_number)
+    atom = atom_pattern % name_page
+    return atom
+
+def pdf2tex (inputfile_name):    
+    texfile_name = os_utils.mk_file_name_ext (inputfile_name, os_utils.TEX_EXTENSION)
+    
+    texfile = open (texfile_name, "w")
+
+    pdffile = open(inputfile_name, "rb")
+    reader = PdfFileReader(pdffile)
+
+    texfile.write (CHAPTER_HEADING)
+    for i in range(reader.numPages):
+        page_number = i + 1
+        atom = mk_page_atom (inputfile_name, page_number)
+        texfile.write (atom)
+
+    texfile.close ()
+    
 def main ():
-    inputfile = sys.argv[1]
+    inputfile_name = sys.argv[1]
 #  split_and_extract_text (inputfile)
-    split_into_pages (inputfile)
-    extract_text_per_page (inputfile)
+    split_into_pages (inputfile_name)
+    extract_text_per_page (inputfile_name)
+    pdf2tex (inputfile_name)
   
 if __name__ == '__main__':
     main ()

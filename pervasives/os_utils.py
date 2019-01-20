@@ -122,6 +122,7 @@ def mk_file_name_page (infile_name, i):
   r = mk_file_name_derivative (infile_name, derivative)
   return r 
 
+# takes name.ext and makes name.extension 
 def mk_file_name_ext (infile_name, extension):
   (infile_name_first, infile_ext) = infile_name.split (PERIOD) 
   outfile_name = infile_name_first + PERIOD + extension
