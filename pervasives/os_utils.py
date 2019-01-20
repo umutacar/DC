@@ -1,6 +1,8 @@
 import sys    
 import os
-from .syntax import *
+from pervasives.syntax import *
+
+# TODO: Use normalize for path names
 
 # Common file extensions
 DEX_EXTENSION = 'dex'
@@ -10,6 +12,7 @@ LATEX_EXTENSION = 'tex'
 TEX_EXTENSION = LATEX_EXTENSION
 MLX_EXTENSION = 'mlx'
 PDF_EXTENSION = 'pdf'
+TEXT_EXTENSION = 'txt'
 XML_EXTENSION = 'xml'
 
 # Common file derivatives
@@ -63,14 +66,14 @@ def reset_stdout():
 ## BEGIN: Run commands
 
 def run_command(command):
-  print('Executing command:', command)
+  print 'Executing command:', command
   result = os.system(command)
   if result:
-    print('Command did not complete successfully.\n Offending command was:\n', command)
+    print 'Command did not complete successfully.\n Offending command was:\n', command
     exit()
 
 def run_command_no_check(command):
-  print('Executing command:', command)
+  print 'Executing command:', command
   result = os.system(command)
 
 def rm_file (filename):
@@ -92,11 +95,25 @@ def cp_file_to (filename1, filename2):
 def mv_file_to (filename1, filename2):
   command = 'mv ' + SPACE + filename1 + SPACE + filename2
   run_command_no_check(command)    
+
+def mv_file_subdir (filename, dir_name):
+  filename2 = PERIOD + SLASH + dir_name + SLASH + filename 
+  mv_file_to (filename, filename2)
   
 
 
   ## END: Run commands
 ######################################################################
+
+def normalize (infile_name):
+ return os.path.normcase(os.path.normpath(infile_name))
+
+def prefix_file_name (infile_name):
+  infile_name = normalize(infile_name)
+  base = os.path.basename(infile_name)
+  (prefix, ext) = base.split (PERIOD) 
+  return prefix
+
 
 # mk a new filename out the infilename
 # name.ext turns into name_derivative.extension
@@ -111,6 +128,13 @@ def mk_file_name_derivative (infile_name, derivative):
   outfile_name = infile_name_first + UNDERSCORE + derivative + PERIOD + infile_ext
   return outfile_name
 
+# page count is i
+def mk_file_name_page (infile_name, i):
+  derivative = str(i)
+  r = mk_file_name_derivative (infile_name, derivative)
+  return r 
+
+# takes name.ext and makes name.extension 
 def mk_file_name_ext (infile_name, extension):
   (infile_name_first, infile_ext) = infile_name.split (PERIOD) 
   outfile_name = infile_name_first + PERIOD + extension
