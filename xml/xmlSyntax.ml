@@ -269,8 +269,8 @@ let mk_chapter ~title ~title_xml ~label ~body =
   let title_src:string = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml:string = mk_label label in
-    mk_block_generic chapter [title_xml; title_src; label_xml; body]
-
+  let chapter_xml = mk_block_generic chapter [title_xml; title_src; label_xml; body] in 
+    tag_xml_version ^ C.newline ^ chapter_xml
 
 
 
