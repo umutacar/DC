@@ -69,6 +69,7 @@ let p_problem = "problem"
 let p_proof = "proof"
 let p_proposition = "proposition"
 let p_remark = "remark"
+let p_reminder = "reminder"
 let p_slide = "slide"
 let p_solution = "solution"
 let p_syntax = "syntax"
@@ -97,6 +98,7 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_proof as kind) p_ws as kindws) |
              ((p_proposition as kind) p_ws as kindws) |
              ((p_remark as kind) p_ws as kindws) |
+             ((p_reminder as kind) p_ws as kindws) |
              ((p_slide as kind) p_ws as kindws) |
              ((p_solution as kind) p_ws as kindws) |
              ((p_syntax as kind) p_ws as kindws) |
