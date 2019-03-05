@@ -188,9 +188,15 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
-| p_begin_verbatim 
-    {enter_verbatim lexbuf; verbatim lexbuf }   
-
+| p_begin_verbatim as x
+      { 
+          let _ = d_printf "!lexer: entering verbatim\n" in
+          let _ = enter_verbatim lexbuf in
+          let y = verbatim lexbuf in
+          let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
+            WORD(x ^ y)
+          
+      }   
 | p_word as x
 		{d_printf "!found word: %s." x;
      WORD(x)
@@ -202,17 +208,22 @@ rule token = parse
 		
 and verbatim =
   parse
-  | p_begin_verbatim 
-        { 
-            let _ = d_printf "!lexer: entering verbatim\n"
-            in enter_verbatim lexbuf; verbatim lexbuf 
-        }   
+(*
   | p_end_verbatim 
         { 
             let _ = d_printf "!lexer: exiting verbatim\n"
             in exit_verbatim lexbuf; token lexbuf }   
-  | _   
-        { verbatim lexbuf }
+*)
+  | p_end_verbatim as x
+        { 
+            let _ = d_printf "!lexer: exiting verbatim\n" in
+            let _ = exit_verbatim lexbuf in 
+                x
+        }
+  | _  as x
+        { let y = verbatim lexbuf in
+            (String.make 1 x) ^ y
+        }
 
 (** BEGIN TRAILER **)
 {
