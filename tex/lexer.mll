@@ -1,15 +1,33 @@
+(** BEGIN: HEADER **)
 {
 open Printf
 open Parser
 
 (* Debug prints *)
-let debug = true
+let debug = false
 let d_printf args = 
   if debug then
     fprintf stdout args
   else 
     ifprintf stdout args
+
+
+let start = Lexing.lexeme_start
+
+(* begin: verbatim machinery *)
+
+let verbatim_pos = ref 0  
+
+let enter_verbatim lexbuf =
+  verbatim_pos := start lexbuf
+
+let exit_verbatim lexbuf =
+  ()
+
+(* end: verbatim machinery *)
+
 }
+(** END: HEADER **)
 
 (** BEGIN: PATTERNS *)	
 let p_space = ' '
@@ -32,6 +50,13 @@ let p_label = '\\' "label" p_ws
 let p_begin = '\\' "begin" p_ws												 
 let p_end = '\\' "end" p_ws												 
 
+(* begin: verbatim 
+ * we will treat verbatim as a "box"
+ *)
+let p_verbatim = "verbatim"
+let p_begin_verbatim = p_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
+let p_end_verbatim = p_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
+(* end: verbatim *)
 
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
@@ -78,6 +103,7 @@ let p_task = "task"
 let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
+
 
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
@@ -148,8 +174,10 @@ rule token = parse
   	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
   	{d_printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
-
-(* BEGIN: ATOMS *)
+| p_b_group as x
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
+| p_e_group as x
+  	{d_printf "!lexer matched: %s." x; KW_END_GROUP(x)}
 | p_begin_atom
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;
@@ -160,12 +188,15 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
-(* END ATOMS *)
-| p_b_group as x
-  	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
-| p_e_group as x
-  	{d_printf "!lexer matched: %s." x; KW_END_GROUP(x)}
-
+| p_begin_verbatim as x
+      { 
+          let _ = d_printf "!lexer: entering verbatim\n" in
+          let _ = enter_verbatim lexbuf in
+          let y = verbatim lexbuf in
+          let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
+            WORD(x ^ y)
+          
+      }   
 | p_word as x
 		{d_printf "!found word: %s." x;
      WORD(x)
@@ -175,5 +206,28 @@ rule token = parse
 | _
     {token lexbuf}		
 		
+and verbatim =
+  parse
+(*
+  | p_end_verbatim 
+        { 
+            let _ = d_printf "!lexer: exiting verbatim\n"
+            in exit_verbatim lexbuf; token lexbuf }   
+*)
+  | p_end_verbatim as x
+        { 
+            let _ = d_printf "!lexer: exiting verbatim\n" in
+            let _ = exit_verbatim lexbuf in 
+                x
+        }
+  | _  as x
+        { let y = verbatim lexbuf in
+            (String.make 1 x) ^ y
+        }
+
+(** BEGIN TRAILER **)
 {
 }
+(** END TRAILER **)
+
+

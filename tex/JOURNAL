@@ -34,6 +34,8 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [March 5]
+  Working on treating \begin{verbatim} .. \end{verbatim} as a block. 
 
 - [Dec 29]
 
