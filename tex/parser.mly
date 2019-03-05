@@ -4,7 +4,7 @@ open Printf
 open Ast
 
 (* Debug prints *)
-let debug = true
+let debug = false
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -286,8 +286,7 @@ atoms:
 /* Drop intertext */
 atoms_and_intertext:
   ats = atoms; it = boxes;
-  {(ats, it)}		
-	
+  {(ats, it)}			
 
 /*  diderot atom */
 mk_atom(kw_b, kw_e):
