@@ -3,7 +3,7 @@ open Printf
 open Parser
 
 (* Debug prints *)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -130,7 +130,6 @@ rule token = parse
 		{d_printf "!lexer matched: %s.\n" x; C_SQ_BRACKET(x)}				
 | p_special_percent as x
 		{d_printf "!lexer matched: %s.\n" x; PERCENT(x)}				
-
 
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
