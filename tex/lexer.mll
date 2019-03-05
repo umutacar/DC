@@ -51,6 +51,7 @@ let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
 
 let p_diderot_atom = "diderot" ['a'-'z''A'-'Z']*	
 let p_algorithm = "algorithm"
+let p_assumption = "assumption"
 let p_code = "code"
 let p_corollary = "corollary"
 let p_costspec = "costspec"
@@ -80,6 +81,7 @@ let p_theorem = "theorem"
 
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
+             ((p_assumption as kind) p_ws as kindws) |
              ((p_code as kind) p_ws as kindws) |
              ((p_corollary as kind) p_ws as kindws) |
              ((p_costspec as kind) p_ws as kindws) |
