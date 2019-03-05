@@ -11,8 +11,9 @@ let d_printf args =
   else 
     ifprintf stdout args
 
-
+(* Some Utilities *)
 let start = Lexing.lexeme_start
+let char_to_str x = String.make 1 x
 
 (* begin: verbatim machinery *)
 
@@ -145,7 +146,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 rule token = parse
 | p_backslash as x
-		{d_printf "!lexer matched: \\."; BACKSLASH(String.make 1 x)}				
+		{d_printf "!lexer matched: \\."; BACKSLASH(char_to_str x)}				
 | p_o_curly as x
 		{d_printf "!lexer matched: %s.\n" x; O_CURLY(x)}				
 | p_c_curly as x
@@ -222,7 +223,7 @@ and verbatim =
         }
   | _  as x
         { let y = verbatim lexbuf in
-            (String.make 1 x) ^ y
+            (char_to_str x) ^ y
         }
 
 (** BEGIN TRAILER **)
