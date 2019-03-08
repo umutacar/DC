@@ -34,8 +34,17 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [March 8]
+  Goal: Working on recognizing labels in the lexer so that we can treat the follow-up text as an blob if the label occurs within an atom.
+  * Done: recognize label in the lexer and make sure parser works as the same.
+    Done: checked that the tex generated is the same as the source (idempotence).
+    TODO: Check the same about xml.
+
 - [March 5]
   Working on treating \begin{verbatim} .. \end{verbatim} as a block. 
+  This is done.
+
 
 - [Dec 29]
 
