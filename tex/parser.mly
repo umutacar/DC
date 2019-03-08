@@ -130,11 +130,18 @@ boxes_start_no_sq:
  ** BEGIN: Diderot Keywords
  **********************************************************************/
 /* Return full text "\label{label_string}  \n" plus label */
+/*
 label:
   l = KW_LABEL; b = curly_box 
   {let (bo, bb, bc) = b in 
    let h = l ^ bo ^ bb ^ bc in
      Ast.Label(h, bb)}
+*/
+label:
+  l = KW_LABEL_AND_NAME
+  {let (all, label) = l in 
+   let _ = d_printf "Parser matched label = %s all = %s" label all in
+     Ast.Label(all, label)}
 
 
 /**********************************************************************

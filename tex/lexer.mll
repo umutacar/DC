@@ -4,7 +4,7 @@ open Printf
 open Parser
 
 (* Debug prints *)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -40,7 +40,7 @@ let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
 let p_digit = ['0'-'9']
 let p_alpha = ['a'-'z' 'A'-'Z']
-let p_separator = ['-' '_' '/']
+let p_separator = [':' '.' '-' '_' '/']
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -165,8 +165,10 @@ rule token = parse
 
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
+
 | p_label_and_name as x
   	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
+| p_backslash as x
 (*
 | p_label as x
   	{d_printf "!lexer matched %s." x; KW_LABEL(x)}		
