@@ -36,8 +36,9 @@ let set_option_with_intertext (r, vo) =
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 %token <string> COMMENT_LINE
 
-%token <string*string> KW_BEGIN_ATOM KW_END_ATOM 
+%token <string * string> KW_BEGIN_ATOM KW_END_ATOM 
 %token <string> KW_LABEL
+%token <string * string> KW_LABEL_AND_NAME
 
 %token <string> KW_CHAPTER
 %token <string> KW_SECTION
