@@ -20,17 +20,12 @@ let char_to_str x = String.make 1 x
 let latex_env_pos = ref 0  
 let latex_env_depth = ref 0  
 
-let enter_latex_env lexbuf =
-  latex_env_pos := start lexbuf
-  latex_env_depth = !latex_env_depth + 1
+let do_begin_latex_env () =
+  latex_env_depth := !latex_env_depth + 1
 
-let exit_latex_env lexbuf =
-  latex_env_depth = !latex_env_depth - 1
-  if !latex_env_depth = 0 then
-    ()
-
-let enter_nested_latex_env lexbuf =
-  latex_env_depth = !latex_env_depth + 1
+let do_end_latex_env () =
+  let () = latex_env_depth := !latex_env_depth - 1 in
+    (!latex_env_depth = 0)
 
 
 (* end: latex env machinery *)
@@ -132,7 +127,7 @@ let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
-let p_latex_env = (p_alpha)+(*)?
+let p_latex_env = (p_alpha)+('*')?
 
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
@@ -167,8 +162,8 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
-let p_begin_latex_env = (p_begin p_ws as b) (p_o_curly as o) (p_latex_env latex_env_name) (p_c_curly as c) 
-let p_end_latex_env = (p_end p_ws as b) (p_o_curly as o) (p_latex_env latex_env_name) (p_c_curly as c) 
+let p_begin_latex_env = (p_begin p_ws as b) (p_o_curly as o) (p_latex_env as latex_env_name) (p_c_curly as c) 
+let p_end_latex_env = (p_end p_ws as b) (p_o_curly as o) (p_latex_env as latex_env_name) (p_c_curly as c) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -229,8 +224,8 @@ rule token = parse
     }		
 | p_begin_latex_env as x
       { 
-          let _ = d_printf "!lexer: entering latex env\n" in
-          let _ = enter_latex_env lexbuf in
+          let _ = d_printf "!lexer: begin latex env: %s\n" x in
+          let _ = do_begin_latex_env () in
           let y = latex_env lexbuf in
           let _ = d_printf "!lexer: latex env matched = %s" (x ^ y) in
             WORD(x ^ y)
@@ -255,14 +250,34 @@ rule token = parse
 | _
     {token lexbuf}		
 		
+and latex_env =
+  parse
+  | p_begin_latex_env as x
+        {
+            let _ = d_printf "!lexer: begin latex env: %s\n" x in
+            let _ = do_begin_latex_env () in
+            let y = latex_env lexbuf in
+                x ^ y              
+        }
+
+  | p_end_latex_env as x
+        { 
+            let _ = d_printf "!lexer: end latex env: %s\n" x in
+            let do_exit = do_end_latex_env () in
+                if do_exit then
+                    let _ = d_printf "!lexer: exiting latex env\n" in
+                        x
+                else
+                    let y = latex_env lexbuf in
+                      x ^ y  
+        }      
+  | _  as x
+        { let y = latex_env lexbuf in
+            (char_to_str x) ^ y
+        }
+
 and verbatim =
   parse
-(*
-  | p_end_verbatim 
-        { 
-            let _ = d_printf "!lexer: exiting verbatim\n"
-            in exit_verbatim lexbuf; token lexbuf }   
-*)
   | p_end_verbatim as x
         { 
             let _ = d_printf "!lexer: exiting verbatim\n" in
