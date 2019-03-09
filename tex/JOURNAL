@@ -34,6 +34,13 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [March 9]
+  Goal: treat latex environments as "words".
+
+  The idea is to start skipping over text when we encounter a latex env.
+  Because these can be nested, we have to count the depth.
+
+  When we encounter a verbatim, we will still need to skip over everything up to the next verbatim.
 
 - [March 8]
   Goal: Working on recognizing labels in the lexer so that we can treat the follow-up text as an blob if the label occurs within an atom.

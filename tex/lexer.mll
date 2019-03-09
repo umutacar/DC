@@ -15,6 +15,27 @@ let d_printf args =
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
 
+(* begin: latex env machinery *)
+
+let latex_env_pos = ref 0  
+let latex_env_depth = ref 0  
+
+let enter_latex_env lexbuf =
+  latex_env_pos := start lexbuf
+  latex_env_depth = !latex_env_depth + 1
+
+let exit_latex_env lexbuf =
+  latex_env_depth = !latex_env_depth - 1
+  if !latex_env_depth = 0 then
+    ()
+
+let enter_nested_latex_env lexbuf =
+  latex_env_depth = !latex_env_depth + 1
+
+
+(* end: latex env machinery *)
+
+
 (* begin: verbatim machinery *)
 
 let verbatim_pos = ref 0  
@@ -110,6 +131,8 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
+(* A latex environment consists of alphabethical chars plus an optional star *)
+let p_latex_env = (p_alpha)+(*)?
 
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
@@ -143,6 +166,10 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
+
+let p_begin_latex_env = (p_begin p_ws as b) (p_o_curly as o) (p_latex_env latex_env_name) (p_c_curly as c) 
+let p_end_latex_env = (p_end p_ws as b) (p_o_curly as o) (p_latex_env latex_env_name) (p_c_curly as c) 
+
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 
@@ -200,6 +227,16 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
+| p_begin_latex_env as x
+      { 
+          let _ = d_printf "!lexer: entering latex env\n" in
+          let _ = enter_latex_env lexbuf in
+          let y = latex_env lexbuf in
+          let _ = d_printf "!lexer: latex env matched = %s" (x ^ y) in
+            WORD(x ^ y)
+          
+      }   
+
 | p_begin_verbatim as x
       { 
           let _ = d_printf "!lexer: entering verbatim\n" in
