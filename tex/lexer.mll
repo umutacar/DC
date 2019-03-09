@@ -271,6 +271,11 @@ and latex_env =
                     let y = latex_env lexbuf in
                       x ^ y  
         }      
+  | p_comment_line as x   (* skip over comments *)
+      	{ 
+            let y = latex_env lexbuf in 
+                x ^ y
+        } 
   | _  as x
         { let y = latex_env lexbuf in
             (char_to_str x) ^ y
