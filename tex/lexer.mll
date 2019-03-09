@@ -4,7 +4,7 @@ open Printf
 open Parser
 
 (* Debug prints *)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -38,6 +38,9 @@ let p_ws = [' ' '\t' '\n' '\r']*
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
+let p_digit = ['0'-'9']
+let p_alpha = ['a'-'z' 'A'-'Z']
+let p_separator = [':' '.' '-' '_' '/']
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -48,6 +51,8 @@ let p_c_sq_bracket = ']' p_ws
 let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 
+let p_label_name = (p_alpha | p_digit | p_separator)*
+let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
 let p_begin = '\\' "begin" p_ws												 
 let p_end = '\\' "end" p_ws												 
 
@@ -160,8 +165,14 @@ rule token = parse
 
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
+
+| p_label_and_name as x
+  	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
+| p_backslash as x
+(*
 | p_label as x
   	{d_printf "!lexer matched %s." x; KW_LABEL(x)}		
+*)
 				
 | p_chapter as x
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
