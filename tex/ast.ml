@@ -128,7 +128,7 @@ let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, h_end
     | None -> 
       let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
       let r =  preamble ^ h_begin ^ label ^ body ^ h_end in 
-      let _  = d_printf "atomToTex: atom =  %s" r in
+(*      let _  = d_printf "atomToTex: atom =  %s" r in *)
         r
     | Some il ->
       let ils = iListToTex il in 
@@ -194,7 +194,7 @@ let chapterToTex (Chapter (preamble, (heading, t, l, bs, it, ss))) =
  ** BEGIN: AST To XML
  **********************************************************************)
 
-(* *_single_pare flags are used for html post-processing:
+(* *_single_par flags are used for html post-processing:
  *  "true" means that this was a single paragraph and the
  * <p> </p> annotations must be removed.
  *) 
@@ -208,10 +208,18 @@ let extract_label lopt =
               |  Some Label(heading, v) -> Some v  in
      r
 
+let title_opt tex2html topt = 
+  let t_xml_opt = match topt with 
+                  | None -> None
+                  | Some t -> Some (tex2html (mk_index()) t title_is_single_par)
+  in
+    t_xml_opt
+
 let label_title tex2html lopt t = 
   let lsopt = extract_label lopt in
   let t_xml = tex2html (mk_index()) t title_is_single_par in
     (lsopt, t_xml)
+
 
 let label_title_opt tex2html lopt topt = 
   let lsopt = extract_label lopt in
@@ -220,6 +228,25 @@ let label_title_opt tex2html lopt topt =
                   | Some t -> Some (tex2html (mk_index()) t title_is_single_par)
   in
     (lsopt, t_xml_opt)
+
+let iListToXml tex2html
+              (IList (preamble, (kind, h_begin, topt, itemslist, h_end))) = 
+  let _ = d_printf "IListToXml: kind = %s\n" kind in 
+  let t_xml_opt = title_opt tex2html topt in
+
+  let itemslist_tex = List.map itemslist (fun (sep, item) -> sep ^ item) in
+  let items_tex = String.concat ~sep:"" itemslist_tex in
+
+  let itemslist_xml = List.map itemslist 
+                               (fun (sep, body) -> tex2html (mk_index ()) body body_is_single_par) in
+  let items_xml = String.concat ~sep:"" itemslist_xml in
+
+  let r = XmlSyntax.mk_ilist ~kind:kind 
+                             ~topt:topt ~t_xml_opt:t_xml_opt
+                             ~items_src:items_tex
+                             ~items_xml:body_xml
+          in
+    r
 
 
 let atomToXml tex2html
