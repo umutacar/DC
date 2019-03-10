@@ -43,6 +43,8 @@ So whatever latex produces must be mediated through this.
   When we encounter a verbatim, we will still need to skip over everything up to the next verbatim. this is important because the body of verbatim can have arbitrary including unbalanced latex code, which could confuse our compiler. 
 
   * Done: latex env's sketched.  not worrying about verbatim at this time.
+  * Have a separate ENV token for environments.  "word" is not the right thing.
+  * Introduced blobs as word and environments.
 
 - [March 8]
   Goal: Working on recognizing labels in the lexer so that we can treat the follow-up text as an blob if the label occurs within an atom.

@@ -228,7 +228,7 @@ rule token = parse
           let _ = do_begin_latex_env () in
           let y = latex_env lexbuf in
           let _ = d_printf "!lexer: latex env matched = %s" (x ^ y) in
-            WORD(x ^ y)
+            ENV(x ^ y)
           
       }   
 
@@ -238,7 +238,7 @@ rule token = parse
           let _ = enter_verbatim lexbuf in
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-            WORD(x ^ y)
+            ENV(x ^ y)
           
       }   
 | p_word as x
