@@ -118,8 +118,8 @@ let labelOptToTex lopt =
      r
 
 let iListToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
-  let il = List.map itemslist (fun (x, y) -> [x ^ y]) in
-  let ils = List.nth_exn (List.concat il) 0 in
+  let il = List.map itemslist (fun (x, y) -> x ^ y) in
+  let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
 let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, h_end))) = 
