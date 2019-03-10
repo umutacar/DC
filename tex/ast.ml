@@ -3,7 +3,7 @@ open Core
 (**********************************************************************
  ** BEGIN: Debugging 
  **********************************************************************)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -125,7 +125,11 @@ let iListToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) =
 let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, h_end))) = 
   let label = labelOptToTex lopt in
     match ilist_opt with 
-    | None -> preamble ^ h_begin ^ label ^ body ^ h_end
+    | None -> 
+      let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
+      let r =  preamble ^ h_begin ^ label ^ body ^ h_end in 
+      let _  = d_printf "atomToTex: atom =  %s" r in
+        r
     | Some il ->
       let ils = iListToTex il in 
         preamble ^ h_begin ^ label ^ body ^ ils ^ h_end      
@@ -166,6 +170,7 @@ let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
 
 let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
+(*  let _ = d_printf "sectionToTex: blocks = %s" blocks in *)
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 

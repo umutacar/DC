@@ -4,7 +4,7 @@ open Printf
 open Ast
 
 (* Debug prints *)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -140,6 +140,7 @@ boxes_start_no_sq:
 ilist:
 | il = ILIST
   {let (kind, kw_b, ilist, kw_e) = il in
+   let _ = d_printf ("!parser: ilist matched") in
      Ast.IList ("", (kind, kw_b, None, ilist, kw_e))
   }
 
@@ -343,7 +344,7 @@ mk_atom(kw_b, kw_e):
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     d_printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
+     d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, Some l, bs, il, h_end))
   }
 
@@ -352,39 +353,42 @@ mk_atom(kw_b, kw_e):
   t = sq_box; 
   l = label;
   bs = boxes; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_bb) = h_b in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "Parsed Atom %s title = %s" kind tt;
-     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, None, h_end))
+     d_printf "Parsed Atom.2 kind = %s title = %s" kind tt;
+     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, h_end))
   }
 
 | preamble = boxes;
   h_b = kw_b;
   bs = boxes_start_no_sq; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     d_printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
-     Atom (preamble, (kind, h_begin, None, None, bs, None, h_end)) 
+     d_printf "Parsed Atom.3 kind = %s h_begin = %s" kind h_begin;
+     Atom (preamble, (kind, h_begin, None, None, bs, il, h_end)) 
   }
 
 | preamble = boxes;
   h_b = kw_b;
   t = sq_box; 
   bs = boxes; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_bb) = h_b in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "Parsed Atom kind = %s h_begin = %s title = %s" kind h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, None, bs, None, h_end))
+     d_printf "Parsed Atom.4 kind = %s h_begin = %s title = %s" kind h_begin tt;
+     Atom (preamble, (kind, h_begin, Some tt, None, bs, il, h_end))
   }
 
 atom:
