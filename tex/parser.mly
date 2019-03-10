@@ -30,6 +30,7 @@ let set_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
+%token <string list> LIST
 
 %token <string> BACKSLASH
 %token <string> PERCENT  /* latex special \% */

@@ -15,7 +15,26 @@ let d_printf args =
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
 
-(* begin: latex env machinery *)
+
+(**********************************************************************
+ ** BEGIN: lits
+ **********************************************************************)
+
+
+let do_begin_list () =
+  ()
+
+let do_end_list () =
+  ()
+
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
+
+
+(**********************************************************************
+ ** BEGIN: latex env machinery 
+ **********************************************************************)
 
 let latex_env_pos = ref 0  
 let latex_env_depth = ref 0  
@@ -27,11 +46,14 @@ let do_end_latex_env () =
   let () = latex_env_depth := !latex_env_depth - 1 in
     (!latex_env_depth = 0)
 
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
 
-(* end: latex env machinery *)
 
-
-(* begin: verbatim machinery *)
+(**********************************************************************
+ ** BEGIN: verbatim machinery 
+ **********************************************************************)
 
 let verbatim_pos = ref 0  
 
@@ -41,7 +63,10 @@ let enter_verbatim lexbuf =
 let exit_verbatim lexbuf =
   ()
 
-(* end: verbatim machinery *)
+(**********************************************************************
+ ** END: verbatim machinery 
+ **********************************************************************)
+
 
 }
 (** END: HEADER **)
@@ -71,6 +96,8 @@ let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
 let p_begin = '\\' "begin" p_ws												 
 let p_end = '\\' "end" p_ws												 
+let p_choice = '\\' "choice"
+let p_correctchoice = '\\' "correctchoice"
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -126,6 +153,11 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
+(* Lists *)
+let p_choices = "choices"
+
+let p_list_separator = p_choice | p_correctchoice
+
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
 
@@ -162,10 +194,17 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
+let p_list = ((p_choices as list_kind) p_ws as list_kindws) 
+
+let p_begin_list = (p_begin p_ws as b) (p_o_curly as o) p_list (p_c_curly as c) 
+let p_end_list = (p_end p_ws as e) (p_o_curly as o) p_list (p_c_curly as c) 
+
 let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
+
+
 
 
 (** END PATTERNS *)			
@@ -222,6 +261,15 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
+| p_begin_list as x
+      { 
+          let _ = d_printf "!lexer: begin list: %s\n" x in
+          let _ = do_begin_list () in
+          let (_, l) = list lexbuf in
+          let _ = d_printf "!lexer: list matched = %s" (String.concat "," l) in
+            LIST(l)          
+      }   
+
 | p_begin_latex_env as x
       { 
           let _ = d_printf "!lexer: begin latex env: %s\n" x in
@@ -289,6 +337,22 @@ and latex_env =
         { let y = latex_env lexbuf in
             (char_to_str x) ^ y
         }
+and list = 
+  parse
+  | p_list_separator as x
+        {
+            let _ = d_printf "!lexer: list separator: %s\n" x in
+            let (y, zs) = list lexbuf in
+            let l = (x ^ y) :: zs in
+              ("", l)                           
+        }
+
+  | p_end_list as x 
+      {
+            let _ = d_printf "!lexer: exiting list\n" in
+            let _ = do_end_list () in 
+                (x, [])
+      }
 
 and verbatim =
   parse
