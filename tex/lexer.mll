@@ -261,14 +261,14 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
-| p_begin_ilist as x
-      { 
-          let _ = d_printf "!lexer: begin ilist: %s\n" x in
-          let _ = do_begin_ilist () in
-          let (_, l) = ilist lexbuf in
-          let sl = x ^ String.concat "," l in
-          let _ = d_printf "!lexer: ilist matched = %s" sl in
-            ILIST(l)          
+| p_begin_ilist 
+      {let kw_b = b ^ o ^ kindws ^ c in
+       let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
+       let _ = do_begin_ilist () in
+       let (_, l, kw_e) = ilist lexbuf in
+       let sl = kw_b ^ String.concat "," l ^ kw_e in
+       let _ = d_printf "!lexer: ilist matched = %s" sl in
+            ILIST(kind, kw_b, l, kw_e)          
       }   
 
 | p_begin_latex_env as x
@@ -343,20 +343,21 @@ and ilist =
   | p_ilist_separator as x
         {
             let _ = d_printf "!lexer: ilist separator: %s\n" x in
-            let (y, zs) = ilist lexbuf in
-            let l = (x ^ y) :: zs in
-              ("", l)                           
+            let (y, zs, e) = ilist lexbuf in
+            let l = (x, y) :: zs in
+              ("", l, e)                           
         }
 
   | p_end_ilist as x 
       {
-            let _ = d_printf "!lexer: exiting ilist\n" in
-            let _ = do_end_ilist () in 
-                (x, [])
+  	   let all = e ^ o ^ kindws ^ c in
+       let _ = d_printf "!lexer: end of ilist: %s\n" all in
+       let _ = do_end_ilist () in 
+           ("", [], all)
       }
   | _  as x
-        { let (y, zs) = ilist lexbuf in
-            ((char_to_str x) ^ y, zs)
+        { let (y, zs, e) = ilist lexbuf in
+            ((char_to_str x) ^ y, zs, e)
         }
 
 and verbatim =

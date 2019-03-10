@@ -20,10 +20,15 @@ let d_printf args =
 type t_preamble = string
 type t_atom_kind = string
 type t_atom_body = string
-type t_label_val = string
-type t_title = string
+type t_ilist_body = string
+type t_ilist_kind = string
+type t_ilist_item = string
 type t_intertext = string
 type t_keyword = string
+type t_label_val = string
+type t_title = string
+
+
 (* T_Keywords are used to capture the "beginning" and "end" of the commands.
    For example, "    \label   {"  and "}    \n", 
                 "\begin{example}[title]  \n"
@@ -38,7 +43,13 @@ type t_keyword = string
 
 type t_label = Label of t_keyword * t_label_val
 
-type atom = Atom of t_preamble * (t_atom_kind * t_keyword * t_title option * t_label option * t_atom_body * t_keyword) 
+type ilist = IList of t_preamble  
+                      * (t_ilist_kind * t_keyword * t_title option *
+                         (t_ilist_item * t_ilist_body) list * t_keyword) 
+
+type atom = Atom of t_preamble  
+                    * (t_atom_kind * t_keyword * t_title option * t_label option * 
+                       t_atom_body * ilist option * t_keyword) 
 
 type group = 
   Group of t_preamble 
@@ -106,10 +117,18 @@ let labelOptToTex lopt =
               |  Some Label(heading, l) -> heading  in
      r
 
-let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
-  let label = labelOptToTex lopt in
-    preamble ^ h_begin ^ label ^ body ^ h_end
+let iListToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
+  let il = List.map itemslist (fun (x, y) -> [x ^ y]) in
+  let ils = List.nth_exn (List.concat il) 0 in
+    preamble ^ h_begin ^ ils ^ h_end
       
+let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, h_end))) = 
+  let label = labelOptToTex lopt in
+    match ilist_opt with 
+    | None -> preamble ^ h_begin ^ label ^ body ^ h_end
+    | Some il ->
+      let ils = iListToTex il in 
+        preamble ^ h_begin ^ label ^ body ^ ils ^ h_end      
 
 let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let atoms = map_concat atomToTex ats in
@@ -119,12 +138,10 @@ let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) =
     atoms ^ it ^ 
     h_end
 
-
 let blockToTex b = 
   match b with
   | Block_Group g -> groupToTex g
   | Block_Atom a -> atomToTex a
-
 
 let paragraphToTex (Paragraph (heading, t, lopt, bs, it)) =
   let blocks = map_concat blockToTex bs in
@@ -201,7 +218,7 @@ let label_title_opt tex2html lopt topt =
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, topt, lopt, body, h_end))) = 
+              (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
