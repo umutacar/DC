@@ -43,6 +43,23 @@ So whatever latex produces must be mediated through this.
   \choice 
   \end{choices}
 
+  TODO: how do we want to incorporate ilists?  should they occur as part of an atom?
+  For example, a problem could be like this
+  \titledquestion{questions title}
+  
+  Pick any any of the following
+  \part
+
+  \begin{choices}
+  \choice latex blobs
+  \correctchoice latex blobs
+  \choice 
+  \end{choices}
+
+  \part
+
+  --> This is too general.  we have to proceed incrementally.  let's just focus on getting multiple choice questions in.
+
 - [March 9]
   Goal: treat latex environments as "words".
 

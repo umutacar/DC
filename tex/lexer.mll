@@ -266,7 +266,7 @@ rule token = parse
           let _ = d_printf "!lexer: begin ilist: %s\n" x in
           let _ = do_begin_ilist () in
           let (_, l) = ilist lexbuf in
-          let sl = String.concat "," l in
+          let sl = x ^ String.concat "," l in
           let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(l)          
       }   
