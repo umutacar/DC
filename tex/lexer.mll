@@ -4,7 +4,7 @@ open Printf
 open Parser
 
 (* Debug prints *)
-let debug = false
+let debug = true
 let d_printf args = 
   if debug then
     fprintf stdout args
@@ -21,10 +21,10 @@ let char_to_str x = String.make 1 x
  **********************************************************************)
 
 
-let do_begin_list () =
+let do_begin_ilist () =
   ()
 
-let do_end_list () =
+let do_end_ilist () =
   ()
 
 (**********************************************************************
@@ -153,10 +153,10 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
-(* Lists *)
+(* Ilists *)
 let p_choices = "choices"
 
-let p_list_separator = p_choice | p_correctchoice
+let p_ilist_separator = p_choice | p_correctchoice
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
@@ -194,10 +194,10 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
-let p_list = ((p_choices as list_kind) p_ws as list_kindws) 
+let p_ilist = ((p_choices as ilist_kind) p_ws as ilist_kindws) 
 
-let p_begin_list = (p_begin p_ws as b) (p_o_curly as o) p_list (p_c_curly as c) 
-let p_end_list = (p_end p_ws as e) (p_o_curly as o) p_list (p_c_curly as c) 
+let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
+let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
 let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
@@ -261,13 +261,14 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
-| p_begin_list as x
+| p_begin_ilist as x
       { 
-          let _ = d_printf "!lexer: begin list: %s\n" x in
-          let _ = do_begin_list () in
-          let (_, l) = list lexbuf in
-          let _ = d_printf "!lexer: list matched = %s" (String.concat "," l) in
-            LIST(l)          
+          let _ = d_printf "!lexer: begin ilist: %s\n" x in
+          let _ = do_begin_ilist () in
+          let (_, l) = ilist lexbuf in
+          let sl = String.concat "," l in
+          let _ = d_printf "!lexer: ilist matched = %s" sl in
+            ILIST(l)          
       }   
 
 | p_begin_latex_env as x
@@ -337,22 +338,26 @@ and latex_env =
         { let y = latex_env lexbuf in
             (char_to_str x) ^ y
         }
-and list = 
+and ilist = 
   parse
-  | p_list_separator as x
+  | p_ilist_separator as x
         {
-            let _ = d_printf "!lexer: list separator: %s\n" x in
-            let (y, zs) = list lexbuf in
+            let _ = d_printf "!lexer: ilist separator: %s\n" x in
+            let (y, zs) = ilist lexbuf in
             let l = (x ^ y) :: zs in
               ("", l)                           
         }
 
-  | p_end_list as x 
+  | p_end_ilist as x 
       {
-            let _ = d_printf "!lexer: exiting list\n" in
-            let _ = do_end_list () in 
+            let _ = d_printf "!lexer: exiting ilist\n" in
+            let _ = do_end_ilist () in 
                 (x, [])
       }
+  | _  as x
+        { let (y, zs) = ilist lexbuf in
+            ((char_to_str x) ^ y, zs)
+        }
 
 and verbatim =
   parse

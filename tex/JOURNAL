@@ -34,6 +34,15 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [March 10]
+  Goal: add diderot itemized lists, e.g.,
+  \begin{choices}
+  \choice latex blobs
+  \correctchoice latex blobs
+  \choice 
+  \end{choices}
+
 - [March 9]
   Goal: treat latex environments as "words".
 
