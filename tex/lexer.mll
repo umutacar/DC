@@ -4,7 +4,7 @@ open Printf
 open Parser
 
 (* Debug prints *)
-let debug = true
+let debug = false
 let d_printf args = 
   if debug then
     fprintf stdout args
