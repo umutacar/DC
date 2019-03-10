@@ -139,8 +139,9 @@ boxes_start_no_sq:
    it is in inside of diderot atoms */
 ilist:
 | il = ILIST
-  let (kind, kw_b, ilist, kw_e) = il in
-    {Ast.IList "" (kind, kw_b, None, il, kw_e)}
+  {let (kind, kw_b, ilist, kw_e) = il in
+     Ast.IList ("", (kind, kw_b, None, ilist, kw_e))
+  }
 
 /**********************************************************************
  ** END: Words and Boxes 
