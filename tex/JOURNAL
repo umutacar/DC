@@ -45,6 +45,7 @@ So whatever latex produces must be mediated through this.
   * Done: latex env's sketched.  not worrying about verbatim at this time.
   * Have a separate ENV token for environments.  "word" is not the right thing.
   * Introduced blobs as word and environments.
+  * Allowing nesting of verbatims inside latex env's.
 
 - [March 8]
   Goal: Working on recognizing labels in the lexer so that we can treat the follow-up text as an blob if the label occurs within an atom.
