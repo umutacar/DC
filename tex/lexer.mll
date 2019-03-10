@@ -162,8 +162,8 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
-let p_begin_latex_env = (p_begin p_ws as b) (p_o_curly as o) (p_latex_env as latex_env_name) (p_c_curly as c) 
-let p_end_latex_env = (p_end p_ws as b) (p_o_curly as o) (p_latex_env as latex_env_name) (p_c_curly as c) 
+let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
+let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -252,6 +252,15 @@ rule token = parse
 		
 and latex_env =
   parse
+  | p_begin_verbatim as x
+      { 
+          let _ = d_printf "!lexer: entering verbatim\n" in
+          let _ = enter_verbatim lexbuf in
+          let y = verbatim lexbuf in
+          let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
+          let z = latex_env lexbuf in
+            x ^ y ^ z          
+      }   
   | p_begin_latex_env as x
         {
             let _ = d_printf "!lexer: begin latex env: %s\n" x in
