@@ -34,6 +34,18 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [March 9]
+  Goal: treat latex environments as "words".
+
+  The idea is to start skipping over text when we encounter a latex env.
+  Because these can be nested, we have to count the depth.
+
+  When we encounter a verbatim, we will still need to skip over everything up to the next verbatim. this is important because the body of verbatim can have arbitrary including unbalanced latex code, which could confuse our compiler. 
+
+  * Done: latex env's sketched.  not worrying about verbatim at this time.
+  * Have a separate ENV token for environments.  "word" is not the right thing.
+  * Introduced blobs as word and environments.
+  * Allowing nesting of verbatims inside latex env's.
 
 - [March 8]
   Goal: Working on recognizing labels in the lexer so that we can treat the follow-up text as an blob if the label occurs within an atom.

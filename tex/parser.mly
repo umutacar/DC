@@ -29,6 +29,7 @@ let set_option_with_intertext (r, vo) =
 %token EOF
 
 %token <string> WORD
+%token <string> ENV
 
 %token <string> BACKSLASH
 %token <string> PERCENT  /* latex special \% */
@@ -79,7 +80,7 @@ sq_box:
   o = O_SQ_BRACKET; b = boxes;  c = C_SQ_BRACKET 
   {(o, b, c)}
 
-
+ 
 word: 
   w = WORD 
   {w}
@@ -100,10 +101,20 @@ word:
 | b = BACKSLASH w = WORD
   {b ^ w}
 
+env: 
+  x = ENV
+  {x}  
+
+blob:
+  x = env
+  {x}
+| x = word
+  {x}
+
 /* a box is the basic unit of composition */
 box:
-  w = word 
-  {w}
+  x = blob
+  {x}
 | b = curly_box 
   {let (bo, bb, bc) = b in bo ^ bb ^ bc}
 | b = sq_box 
@@ -117,8 +128,8 @@ boxes:
 
 boxes_start_no_sq:
   {""}
-|	w = word; bs = boxes
-  {w ^ bs}
+|	x = blob; bs = boxes
+  {x ^ bs}
 |	b = curly_box; bs = boxes
   {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
 
