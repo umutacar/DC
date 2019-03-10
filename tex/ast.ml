@@ -240,11 +240,10 @@ let iListToXml tex2html
   let itemslist_xml = List.map itemslist 
                                (fun (sep, body) -> tex2html (mk_index ()) body body_is_single_par) in
   let items_xml = String.concat ~sep:"" itemslist_xml in
-
   let r = XmlSyntax.mk_ilist ~kind:kind 
                              ~topt:topt ~t_xml_opt:t_xml_opt
-                             ~items_src:items_tex
-                             ~items_xml:body_xml
+                             ~body_src:items_tex
+                             ~body_xml:items_xml
           in
     r
 
