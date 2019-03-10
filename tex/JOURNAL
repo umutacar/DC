@@ -58,7 +58,7 @@ So whatever latex produces must be mediated through this.
 
   \part
 
-  --> This is too general.  we have to proceed incrementally.  let's just focus on getting multiple choice questions in.
+  --> This may be too general.  we have to proceed incrementally.  let's just focus on getting multiple choice questions in.  But I don't think this would be impossible to do. we just have to create a structure to parse "section-like" lists.  This should not be that different from parsing sections.
 
 - [March 9]
   Goal: treat latex environments as "words".
