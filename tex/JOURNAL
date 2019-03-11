@@ -37,6 +37,7 @@ So whatever latex produces must be mediated through this.
 
 - [March 11]
   Goal: XML generation for lists.
+  -> superficial generation complete but need separate xml for list items.
 
 
 - [March 10]

@@ -20,6 +20,8 @@ let d_printf args =
 type t_preamble = string
 type t_atom_kind = string
 type t_atom_body = string
+type t_item_kind = string
+type t_item_body = string
 type t_ilist_body = string
 type t_ilist_kind = string
 type t_ilist_item = string
@@ -43,9 +45,11 @@ type t_title = string
 
 type t_label = Label of t_keyword * t_label_val
 
+type item = Item of t_keyword *  t_item_body
+
 type ilist = IList of t_preamble  
                       * (t_ilist_kind * t_keyword * t_title option *
-                         (t_ilist_item * t_ilist_body) list * t_keyword) 
+                         item list * t_keyword) 
 
 type atom = Atom of t_preamble  
                     * (t_atom_kind * t_keyword * t_title option * t_label option * 
@@ -117,8 +121,11 @@ let labelOptToTex lopt =
               |  Some Label(heading, l) -> heading  in
      r
 
+let itemToTex (Item(keyword, body)) = 
+  keyword ^ body
+
 let ilistToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
-  let il = List.map itemslist (fun (x, y) -> x ^ y) in
+  let il = List.map itemslist itemToTex in
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
@@ -229,22 +236,21 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
+let itemToXml tex2html (Item (kind, body)) = 
+  let _ = d_printf "itemToXml: kind = %s\n" kind in 
+  let body_xml = tex2html (mk_index ()) body body_is_single_par in
+    XmlSyntax.mk_item ~kind:kind ~body_src:body ~body_xml:body_xml
+
 let ilistToXml tex2html
               (IList (preamble, (kind, h_begin, topt, itemslist, h_end))) = 
   let _ = d_printf "IListToXml: kind = %s\n" kind in 
   let t_xml_opt = title_opt tex2html topt in
 
-  let itemslist_tex = List.map itemslist (fun (sep, item) -> sep ^ item) in
-  let items_tex = String.concat ~sep:"" itemslist_tex in
-
-  let itemslist_xml = List.map itemslist 
-                               (fun (sep, body) -> tex2html (mk_index ()) body body_is_single_par) in
-  let items_xml = String.concat ~sep:"" itemslist_xml in
+  let items_xml = map_concat  (itemToXml tex2html) itemslist in
   let r = XmlSyntax.mk_ilist ~kind:kind 
                              ~topt:topt ~t_xml_opt:t_xml_opt
-                             ~body_src:items_tex
-                             ~body_xml:items_xml
-          in
+                             ~body:items_xml
+  in
     r
 
 
