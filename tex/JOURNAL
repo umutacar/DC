@@ -38,7 +38,8 @@ So whatever latex produces must be mediated through this.
 - [March 11]
   Goal: XML generation for lists.
   -> superficial generation complete but need separate xml for list items.
-
+  -> now generating xml for individual items.
+  -> moving onto beamer.
 
 - [March 10]
   Goal: add diderot itemized lists, e.g.,
