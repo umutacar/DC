@@ -249,13 +249,13 @@ let mk_ilist ~kind ~topt ~t_xml_opt ~body_src ~body_xml =
   let body_src = mk_body_src body_src in
     mk_block_ilist kind [title_xml; title_src; body_xml; body_src]
 
-let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
+let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist = 
   let title_xml = mk_title_opt t_xml_opt in
   let title_src = mk_title_src_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
-    mk_block_atom kind [title_xml; title_src; label_xml; body_xml; body_src]
+    mk_block_atom kind [title_xml; title_src; label_xml; body_xml; body_src; ilist]
 
 let mk_group ~topt ~t_xml_opt ~lopt ~body = 
   let title_src = mk_title_src_opt topt in

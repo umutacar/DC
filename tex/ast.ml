@@ -117,7 +117,7 @@ let labelOptToTex lopt =
               |  Some Label(heading, l) -> heading  in
      r
 
-let iListToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
+let ilistToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
   let il = List.map itemslist (fun (x, y) -> x ^ y) in
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
@@ -131,7 +131,7 @@ let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, h_end
 (*      let _  = d_printf "atomToTex: atom =  %s" r in *)
         r
     | Some il ->
-      let ils = iListToTex il in 
+      let ils = ilistToTex il in 
         preamble ^ h_begin ^ label ^ body ^ ils ^ h_end      
 
 let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
@@ -229,7 +229,7 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
-let iListToXml tex2html
+let ilistToXml tex2html
               (IList (preamble, (kind, h_begin, topt, itemslist, h_end))) = 
   let _ = d_printf "IListToXml: kind = %s\n" kind in 
   let t_xml_opt = title_opt tex2html topt in
@@ -253,11 +253,17 @@ let atomToXml tex2html
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
+  let ilist_xml =   
+    match ilist with  
+    | None -> ""
+    | Some l -> ilistToXml tex2html l 
+  in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~topt:topt ~t_xml_opt:t_xml_opt
                             ~lopt:lsopt 
                             ~body_src:body
                             ~body_xml:body_xml
+                            ~ilist:ilist_xml
           in
     r
      
