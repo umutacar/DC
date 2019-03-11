@@ -31,7 +31,7 @@ let tag_diderot_end = "</diderot>"
 let tag_atom = "atom"
 let tag_block = "block"
 let tag_field = "field"
-
+let tag_ilist = "ilist"
 
 (* Attributes *)
 let attr_name = "name"
@@ -108,6 +108,9 @@ let mk_attr_val attr_name attr_val =
 let mk_begin_atom(kind) =
   "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
+let mk_begin_ilist(kind) =
+  "<" ^ tag_ilist ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+
 let mk_begin_block(kind) =
   "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
@@ -119,6 +122,9 @@ let mk_end(tag) =
 
 let mk_end_atom(kind) =
   "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
+
+let mk_end_ilist(kind) =
+  "</" ^ tag_ilist ^ ">" ^ C.space ^ mk_comment(kind)
 
 let mk_end_block(kind) =
   "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(kind)
@@ -217,6 +223,15 @@ let mk_block_atom kind fields =
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
+let mk_block_ilist kind fields =
+  let _ = d_printf "mk_block_ilist: %s" kind in
+  let b = mk_begin_ilist(kind) in
+  let e = mk_end_ilist(kind) in  
+  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
+    match result with 
+    | None -> b ^ C.newline ^ e ^ C.newline
+    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
+
 
 let mk_block_generic kind fields =
   let _ = d_printf "mk_block_generic: %s" kind in
@@ -232,7 +247,7 @@ let mk_ilist ~kind ~topt ~t_xml_opt ~body_src ~body_xml =
   let title_src = mk_title_src_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
-    mk_block_generic kind [title_xml; title_src; body_xml; body_src]
+    mk_block_ilist kind [title_xml; title_src; body_xml; body_src]
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
   let title_xml = mk_title_opt t_xml_opt in
