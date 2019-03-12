@@ -36,7 +36,7 @@ let tag_ilist = "ilist"
 
 (* Attributes *)
 let attr_name = "name"
-let attr_subkind = "kind"
+let attr_kind = "kind"
 
 (* Attribute values *)
 let answer = "answer"
@@ -110,49 +110,37 @@ let mk_attr_val attr_name attr_val =
   attr_name ^ C.equality ^ C.quote ^ attr_val ^ C.quote
 
 (* TODO: unused/rm *)
-let mk_begin_item(kind) =
-  "<" ^ tag_item ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+let mk_begin_item(name) =
+  "<" ^ tag_item ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
 let mk_begin_atom(kind) =
   "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
-(* TODO: unused/rm *)
-let mk_begin_ilist(kind) =
-  "<" ^ tag_ilist ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+let mk_begin_block(name) =
+  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
-let mk_begin_block(kind) =
-  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
-
-let mk_begin_block_with_subkind kind subkind =
-  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ C.space ^
-                              (mk_attr_val attr_subkind subkind) ^ 
+let mk_begin_block_with_kind name kind =
+  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
+                              (mk_attr_val attr_kind kind) ^ 
   ">"
 
-let mk_begin_field(kind) =
-  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+let mk_begin_field(name) =
+  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
 
-(* TODO: unused/rm *)
-let mk_end_item(kind) =
-  "</" ^ tag_item ^ ">" ^ C.space ^ mk_comment(kind)
-
 let mk_end_atom(kind) =
   "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
 
-(* TODO: unused/rm *)
-let mk_end_ilist(kind) =
-  "</" ^ tag_ilist ^ ">" ^ C.space ^ mk_comment(kind)
+let mk_end_block(name) =
+  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name)
 
-let mk_end_block(kind) =
-  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(kind)
+let mk_end_block_with_kind name kind =
+  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
 
-let mk_end_block_with_subkind kind subkind =
-  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(kind ^ "/" ^ subkind)
-
-let mk_end_field(kind) =
-  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(kind)
+let mk_end_field(name) =
+  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(name)
 
 let mk_cdata(body) =
   C.cdata_begin ^ C.newline ^ String.strip(body) 
@@ -166,9 +154,9 @@ let mk_cdata(body) =
 (**********************************************************************
  ** BEGIN: Field makers
  **********************************************************************)
-let mk_field_generic(kind, contents) =
-  let b = mk_begin_field(kind) in
-  let e = mk_end_field(kind) in
+let mk_field_generic(name, contents) =
+  let b = mk_begin_field(name) in
+  let e = mk_end_field(name) in
   let result = b ^ C.newline ^ contents ^ C.newline ^ e in
     result
 
@@ -238,16 +226,6 @@ let mk_unique(x) =
  ** BEGIN: Block makers
  **********************************************************************)
 
-let mk_block_item kind fields =
-  let _ = d_printf "mk_block_item: %s" kind in
-  let b = mk_begin_item(kind) in
-  let e = mk_end_item(kind) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
-    match result with 
-    | None -> b ^ C.newline ^ e ^ C.newline
-    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
-
-
 let mk_block_atom kind fields =
   let _ = d_printf "mk_block_atom: %s" kind in
   let b = mk_begin_atom(kind) in
@@ -257,35 +235,25 @@ let mk_block_atom kind fields =
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_block_ilist kind fields =
-  let _ = d_printf "mk_block_ilist: %s" kind in
-  let b = mk_begin_ilist(kind) in
-  let e = mk_end_ilist(kind) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
-    match result with 
-    | None -> b ^ C.newline ^ e ^ C.newline
-    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
-
-
-let mk_block_generic kind fields =
-  let _ = d_printf "mk_block_generic: %s" kind in
-  let b = mk_begin_block(kind) in
-  let e = mk_end_block(kind) in  
+let mk_block_generic name fields =
+  let _ = d_printf "mk_block_generic: %s" name in
+  let b = mk_begin_block(name) in
+  let e = mk_end_block(name) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None ->  b ^ C.newline ^ e ^ C.newline
     | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_block_generic_with_subkind kind subkind fields =
-  let _ = d_printf "mk_block_generic: %s" kind in
-  let b = mk_begin_block_with_subkind kind subkind in
-  let e = mk_end_block_with_subkind kind subkind in  
+let mk_block_generic_with_kind name kind fields =
+  let _ = d_printf "mk_block_generic: %s" name in
+  let b = mk_begin_block_with_kind name kind in
+  let e = mk_end_block_with_kind name kind in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None ->  b ^ C.newline ^ e ^ C.newline
     | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_item ~kind ~body_src ~body_xml = 
+let mk_item ~body_src ~body_xml = 
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
     mk_block_generic item [body_xml; body_src] 
@@ -293,7 +261,7 @@ let mk_item ~kind ~body_src ~body_xml =
 let mk_ilist ~kind ~topt ~t_xml_opt ~body = 
   let title_xml = mk_title_opt t_xml_opt in
   let title_src = mk_title_src_opt topt in
-    mk_block_generic_with_subkind ilist kind [title_xml; title_src; body]
+    mk_block_generic_with_kind ilist kind [title_xml; title_src; body]
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist = 
   let title_xml = mk_title_opt t_xml_opt in

@@ -239,7 +239,7 @@ let label_title_opt tex2html lopt topt =
 let itemToXml tex2html (Item (kind, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
-    XmlSyntax.mk_item ~kind:kind ~body_src:body ~body_xml:body_xml
+    XmlSyntax.mk_item ~body_src:body ~body_xml:body_xml
 
 let ilistToXml tex2html
               (IList (preamble, (kind, h_begin, topt, itemslist, h_end))) = 
