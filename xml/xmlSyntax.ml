@@ -256,11 +256,12 @@ let mk_block_generic_with_kind name kind fields =
     | None ->  b ^ C.newline ^ e ^ C.newline
     | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_item ~body_src ~body_xml = 
+let mk_item ~pval ~body_src ~body_xml = 
   let label_xml = mk_label_opt None in
+  let pval_xml = mk_points_opt pval in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
-    mk_block_generic item [label_xml; body_xml; body_src] 
+    mk_block_generic item [label_xml; pval_xml; body_xml; body_src] 
 
 let mk_ilist ~kind ~topt ~t_xml_opt ~body = 
   let title_xml = mk_title_opt t_xml_opt in

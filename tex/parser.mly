@@ -30,7 +30,7 @@ let set_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
-/* ilist is kind * kw_begin * (item-separator, item-body) list * kw_end list */
+/* ilist is kind * kw_begin * (item-separator-keyword, item-body) list * kw_end list */
 %token <string * string * ((string * string) list) * string> ILIST
 
 %token <string> BACKSLASH

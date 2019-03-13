@@ -129,7 +129,7 @@ let contains_substring search target =
     res
 
 
-let pval_opt_to_string pval = 
+let pval_opt_to_string_opt pval = 
   match pval with 
   | None -> None
   | Some x -> Some (Float.to_string x)
@@ -293,9 +293,9 @@ let label_title_opt tex2html lopt topt =
 
 let itemToXml tex2html (Item (kind, pval_opt, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
-  let pval_xml = XmlSyntax.mk_points_opt (pval_opt_to_string pval_opt) in
+  let pval_opt_str = pval_opt_to_string_opt pval_opt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
-    XmlSyntax.mk_item ~body_src:body ~body_xml:body_xml
+    XmlSyntax.mk_item ~pval:pval_opt_str ~body_src:body ~body_xml:body_xml
 
 let ilistToXml tex2html
               (IList (preamble, (kind, h_begin, topt, itemslist, h_end))) = 
