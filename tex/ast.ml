@@ -44,8 +44,9 @@ type t_title = string
  *)
 
 type t_label = Label of t_keyword * t_label_val
+type t_point_val = float
 
-type item = Item of t_keyword *  t_item_body
+type item = Item of t_keyword *  t_point_val option * t_item_body
 
 type ilist = IList of t_preamble  
                       * (t_ilist_kind * t_keyword * t_title option *
@@ -114,6 +115,9 @@ let mk_index () =
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
+let mktex_optarg x = 
+  "[" ^ x ^ "]"
+
 let labelToTex (Label(h, label_string)) = h
 let labelOptToTex lopt = 
   let r = match lopt with 
@@ -121,8 +125,13 @@ let labelOptToTex lopt =
               |  Some Label(heading, l) -> heading  in
      r
 
-let itemToTex (Item(keyword, body)) = 
-  keyword ^ body
+let pointvalToTex p = 
+  mktex_optarg (Float.to_string p)
+
+let itemToTex (Item(keyword, pval, body)) = 
+  match pval with 
+  | None -> keyword ^ body
+  | Some p -> keyword ^ (pointvalToTex p) ^ body
 
 let ilistToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
   let il = List.map itemslist itemToTex in
@@ -236,7 +245,7 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
-let itemToXml tex2html (Item (kind, body)) = 
+let itemToXml tex2html (Item (kind, pval, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
     XmlSyntax.mk_item ~body_src:body ~body_xml:body_xml
@@ -333,6 +342,7 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 (**********************************************************************
  ** END: AST To XML
  **********************************************************************)
+
 
 
 

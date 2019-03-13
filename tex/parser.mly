@@ -30,7 +30,7 @@ let set_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
-/* ilist is kind * kw_begin * item-separator, item-body list * kw_end list */
+/* ilist is kind * kw_begin * (item-separator, item-body) list * kw_end list */
 %token <string * string * ((string * string) list) * string> ILIST
 
 %token <string> BACKSLASH
@@ -140,7 +140,7 @@ boxes_start_no_sq:
 ilist:
 | il = ILIST
   {let (kind, kw_b, ilist, kw_e) = il in
-   let items = List.map ilist ~f:(fun (x,y) -> Ast.Item (x,y)) in
+   let items = List.map ilist ~f:(fun (x,y) -> Ast.Item (x, None, y)) in
    let _ = d_printf ("!parser: ilist matched") in
      Ast.IList ("", (kind, kw_b, None, items, kw_e))
   }

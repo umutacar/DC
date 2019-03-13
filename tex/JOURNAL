@@ -35,11 +35,17 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [March 13] 
+  -> Extend to support checkboxes and other types of lists.
+
+- [March 12] 
+  -> completed  an initial version of the beamer to support itemized lists.
 - [March 11]
   Goal: XML generation for lists.
   -> superficial generation complete but need separate xml for list items.
   -> now generating xml for individual items.
   -> moving onto beamer.
+
 
 - [March 10]
   Goal: add diderot itemized lists, e.g.,
