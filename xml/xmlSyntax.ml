@@ -80,7 +80,7 @@ let page = "page"
 let paragraph = "gram"
 let parents = "parents"
 let points = "points"
-let point_val = "point_val"
+let point_value = "point_value"
 let preamble = "preamble"
 let problem = "problem"
 let proof = "proof"
@@ -191,10 +191,10 @@ let mk_points_opt(x) =
   | None -> mk_field_generic(points, C.no_points)
   | Some y -> mk_field_generic(points, y)
 
-let mk_point_val_opt(x) = 
+let mk_point_value_opt(x) = 
   match x with
-  | None -> mk_field_generic(point_val, C.no_point_val)
-  | Some y -> mk_field_generic(point_val, y)
+  | None -> mk_field_generic(point_value, C.no_point_value)
+  | Some y -> mk_field_generic(point_value, y)
 
 
 let mk_no(x) = 
@@ -265,7 +265,7 @@ let mk_block_generic_with_kind name kind fields =
 
 let mk_item ~pval ~body_src ~body_xml = 
   let label_xml = mk_label_opt None in
-  let pval_xml = mk_point_val_opt pval in
+  let pval_xml = mk_point_value_opt pval in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
     mk_block_generic item [label_xml; pval_xml; body_xml; body_src] 
