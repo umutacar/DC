@@ -184,15 +184,18 @@ let mk_label_opt(x) =
   | None -> mk_field_generic(label, C.no_label)
   | Some y -> mk_field_generic(label, y)
 
+
+let mk_points_opt(x) = 
+  match x with
+  | None -> mk_field_generic(points, C.no_points)
+  | Some y -> mk_field_generic(points, y)
+
 let mk_no(x) = 
   mk_field_generic(no, x)
 
 let mk_parents(x) = 
   let p = String.concat ~sep:", " x in
     mk_field_generic(parents, p)
-
-let mk_points(x) = 
-  mk_field_generic(points, x)
 
 let mk_solution (x) = 
   mk_field_generic(solution, x)

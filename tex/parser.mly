@@ -140,7 +140,7 @@ boxes_start_no_sq:
 ilist:
 | il = ILIST
   {let (kind, kw_b, ilist, kw_e) = il in
-   let items = List.map ilist ~f:(fun (x,y) -> Ast.Item (x, None, y)) in
+   let items = List.map ilist ~f:(fun (x,y) -> Ast.mk_item (x, y)) in
    let _ = d_printf ("!parser: ilist matched") in
      Ast.IList ("", (kind, kw_b, None, items, kw_e))
   }

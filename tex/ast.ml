@@ -13,6 +13,16 @@ let d_printf args =
  ** END: Debugging 
  **********************************************************************)
 
+(**********************************************************************
+ ** BEGIN: Constants
+ *********************************************************************)
+
+let points_correct = 1.0
+let points_incorrect = 0.0
+
+(**********************************************************************
+ ** END: Constants
+ **********************************************************************)
 
 (**********************************************************************
  ** BEGIN: AST Data Types
@@ -108,10 +118,46 @@ let mk_index () =
   let _ = index := !index + 1 in
     r
 
+let contains_substring search target =
+  let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
+  let found = String.substr_index ~pos:0 ~pattern:search target in
+  let res = 
+    match found with 
+    | None -> let _ = d_printf "contains_substring: found none\n" in false
+    | Some x -> let _ = d_printf "contains_substring: found match %d\n" x in true 
+  in
+    res
+
+
+let pval_opt_to_string pval = 
+  match pval with 
+  | None -> None
+  | Some x -> Some (Float.to_string x)
+
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
 
+(**********************************************************************
+ ** BEGIN: Makers
+ **********************************************************************)
+
+let item_keyword_to_point keyword = 
+  let _ = d_printf "item_keyword_to_point: keyword = %s\n" keyword in
+  let pval = 
+    if contains_substring "correct" keyword then
+      points_correct
+    else if contains_substring "Correct" keyword then
+      points_correct    
+    else
+      points_incorrect
+  in
+  let _ = d_printf "item_keyword_to_point: pval = %f\n" pval in
+    pval
+  
+let mk_item (keyword, body) = 
+  let pval = item_keyword_to_point keyword in
+    Item (keyword, Some pval, body)
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
@@ -245,8 +291,9 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
-let itemToXml tex2html (Item (kind, pval, body)) = 
+let itemToXml tex2html (Item (kind, pval_opt, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
+  let pval_xml = XmlSyntax.mk_points_opt (pval_opt_to_string pval_opt) in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
     XmlSyntax.mk_item ~body_src:body ~body_xml:body_xml
 
