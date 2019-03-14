@@ -15,7 +15,26 @@ let d_printf args =
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
 
-(* begin: latex env machinery *)
+
+(**********************************************************************
+ ** BEGIN: lits
+ **********************************************************************)
+
+
+let do_begin_ilist () =
+  ()
+
+let do_end_ilist () =
+  ()
+
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
+
+
+(**********************************************************************
+ ** BEGIN: latex env machinery 
+ **********************************************************************)
 
 let latex_env_pos = ref 0  
 let latex_env_depth = ref 0  
@@ -27,11 +46,14 @@ let do_end_latex_env () =
   let () = latex_env_depth := !latex_env_depth - 1 in
     (!latex_env_depth = 0)
 
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
 
-(* end: latex env machinery *)
 
-
-(* begin: verbatim machinery *)
+(**********************************************************************
+ ** BEGIN: verbatim machinery 
+ **********************************************************************)
 
 let verbatim_pos = ref 0  
 
@@ -41,7 +63,10 @@ let enter_verbatim lexbuf =
 let exit_verbatim lexbuf =
   ()
 
-(* end: verbatim machinery *)
+(**********************************************************************
+ ** END: verbatim machinery 
+ **********************************************************************)
+
 
 }
 (** END: HEADER **)
@@ -57,13 +82,14 @@ let p_skip = p_ws
 let p_digit = ['0'-'9']
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
+let p_integer = ['0'-'9']+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
 let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_ws
-let p_o_sq_bracket = '[' p_ws
-let p_c_sq_bracket = ']' p_ws											
+let p_o_sq = '[' p_ws
+let p_c_sq = ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 
@@ -71,6 +97,8 @@ let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
 let p_begin = '\\' "begin" p_ws												 
 let p_end = '\\' "end" p_ws												 
+let p_choice = '\\' "choice"
+let p_correctchoice = '\\' "correctchoice"
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -126,6 +154,13 @@ let p_teachask = "teachask"
 let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
+(* Ilists *)
+let p_choices = "choices"
+let p_checks = "checks"
+let p_checkboxes = "checkboxes"
+
+let p_ilist_separator = p_choice | p_correctchoice
+
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
 
@@ -162,10 +197,21 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
+let p_ilist_kinds = (p_choices | p_checks | p_checkboxes)
+let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
+
+let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
+
+let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+ 
+let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
+
 let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
+
+
 
 
 (** END PATTERNS *)			
@@ -178,9 +224,9 @@ rule token = parse
 		{d_printf "!lexer matched: %s.\n" x; O_CURLY(x)}				
 | p_c_curly as x
 		{d_printf "!lexer matched: %s.\n" x; C_CURLY(x)}				
-| p_o_sq_bracket as x
+| p_o_sq as x
 		{d_printf "!lexer matched: %s.\n" x; O_SQ_BRACKET(x)}				
-| p_c_sq_bracket as x
+| p_c_sq as x
 		{d_printf "!lexer matched: %s.\n" x; C_SQ_BRACKET(x)}				
 | p_special_percent as x
 		{d_printf "!lexer matched: %s.\n" x; PERCENT(x)}				
@@ -222,6 +268,29 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
+| p_begin_ilist 
+      {let kw_b = b ^ o ^ kindws ^ c in
+       let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
+       let _ = do_begin_ilist () in
+       let (_, l, kw_e) = ilist lexbuf in
+       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+       let sl = kw_b ^ String.concat "," l_joined ^ kw_e in
+       let _ = d_printf "!lexer: ilist matched = %s" sl in
+            ILIST(kind, kw_b, None, l, kw_e)          
+      }   
+
+| p_begin_ilist_arg 
+      {let kw_b = b ^ o ^ kindws ^ c  in
+       let kw_b_arg = kw_b ^ o_sq ^ point_val ^ c_sq in
+       let _ = d_printf "!lexer: begin ilist: %s\n" kw_b_arg in
+       let _ = do_begin_ilist () in
+       let (_, l, kw_e) = ilist lexbuf in
+       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+       let sl = kw_b_arg ^ String.concat "," l_joined ^ kw_e in
+       let _ = d_printf "!lexer: ilist matched = %s" sl in
+            ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
+      }   
+
 | p_begin_latex_env as x
       { 
           let _ = d_printf "!lexer: begin latex env: %s\n" x in
@@ -288,6 +357,27 @@ and latex_env =
   | _  as x
         { let y = latex_env lexbuf in
             (char_to_str x) ^ y
+        }
+and ilist = 
+  parse
+  | p_ilist_separator as x
+        {
+            let _ = d_printf "!lexer: ilist separator: %s\n" x in
+            let (y, zs, e) = ilist lexbuf in
+            let l = (x, y) :: zs in
+              ("", l, e)                           
+        }
+
+  | p_end_ilist as x 
+      {
+  	   let all = e ^ o ^ kindws ^ c in
+       let _ = d_printf "!lexer: end of ilist: %s\n" all in
+       let _ = do_end_ilist () in 
+           ("", [], all)
+      }
+  | _  as x
+        { let (y, zs, e) = ilist lexbuf in
+            ((char_to_str x) ^ y, zs, e)
         }
 
 and verbatim =

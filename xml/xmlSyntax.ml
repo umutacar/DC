@@ -28,13 +28,15 @@ let tag_diderot_begin = "<diderot: xmlns = \"http://umut-acar.org/diderot\">"
 let tag_diderot_end = "</diderot>"
 
 
+let tag_item = "item"
 let tag_atom = "atom"
 let tag_block = "block"
 let tag_field = "field"
-
+let tag_ilist = "ilist"
 
 (* Attributes *)
 let attr_name = "name"
+let attr_kind = "kind"
 
 (* Attribute values *)
 let answer = "answer"
@@ -45,6 +47,8 @@ let section = "section"
 let select = "select"
 let subsection = "subsection"
 let subsubsection = "subsubsection"
+let ilist = "ilist"
+let item = "item"
 
 let algo = "algorithm"
 let algorithm = "algorithm"
@@ -52,7 +56,10 @@ let authors = "authors"
 let body = "body"
 let body_src = "body_src"
 let body_pop = "body_pop"
+let check = "check"
+let checkbox = "checkbox"
 let choice = "choice"
+let choices = "choices"
 let choice_src = "choice_src"
 let code = "code"
 let corollary = "corollary"
@@ -76,10 +83,12 @@ let page = "page"
 let paragraph = "gram"
 let parents = "parents"
 let points = "points"
+let point_value = "point_value"
 let preamble = "preamble"
 let problem = "problem"
 let proof = "proof"
 let proposition = "proposition"
+let radio = "radio"
 let rank = "rank"
 let remark = "remark"
 let solution = "solution"
@@ -96,6 +105,17 @@ let unique = "unique"
 (**********************************************************************
  ** BEGIN: Utilities
  **********************************************************************)
+let contains_substring search target =
+  let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
+  let found = String.substr_index ~pos:0 ~pattern:search target in
+  let res = 
+    match found with 
+    | None -> let _ = d_printf "contains_substring: found none\n" in false
+    | Some x -> let _ = d_printf "contains_substring: found match %d\n" x in true 
+  in
+    res
+
+
 let mk_comment (s) =
   "<!-- "^ s ^ " -->"
 
@@ -105,14 +125,23 @@ let mk_begin(tag) =
 let mk_attr_val attr_name attr_val = 
   attr_name ^ C.equality ^ C.quote ^ attr_val ^ C.quote
 
+(* TODO: unused/rm *)
+let mk_begin_item(name) =
+  "<" ^ tag_item ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
+
 let mk_begin_atom(kind) =
   "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
-let mk_begin_block(kind) =
-  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+let mk_begin_block(name) =
+  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
-let mk_begin_field(kind) =
-  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+let mk_begin_block_with_kind name kind =
+  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
+                              (mk_attr_val attr_kind kind) ^ 
+  ">"
+
+let mk_begin_field(name) =
+  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
@@ -120,17 +149,27 @@ let mk_end(tag) =
 let mk_end_atom(kind) =
   "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
 
-let mk_end_block(kind) =
-  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(kind)
+let mk_end_block(name) =
+  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name)
 
-let mk_end_field(kind) =
-  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(kind)
+let mk_end_block_with_kind name kind =
+  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
+
+let mk_end_field(name) =
+  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(name)
 
 let mk_cdata(body) =
   C.cdata_begin ^ C.newline ^ String.strip(body) 
                         ^ C.newline ^ 
   C.cdata_end
 
+let ilist_kind_to_xml kind = 
+  if contains_substring check kind then
+    checkbox
+  else if contains_substring choices kind then
+    radio
+  else
+    raise (Failure "xmlSyntax: Encountered IList of unknown kind")
 (** END: Utilities
  **********************************************************************)
 
@@ -138,9 +177,9 @@ let mk_cdata(body) =
 (**********************************************************************
  ** BEGIN: Field makers
  **********************************************************************)
-let mk_field_generic(kind, contents) =
-  let b = mk_begin_field(kind) in
-  let e = mk_end_field(kind) in
+let mk_field_generic(name, contents) =
+  let b = mk_begin_field(name) in
+  let e = mk_end_field(name) in
   let result = b ^ C.newline ^ contents ^ C.newline ^ e in
     result
 
@@ -168,15 +207,24 @@ let mk_label_opt(x) =
   | None -> mk_field_generic(label, C.no_label)
   | Some y -> mk_field_generic(label, y)
 
+
+let mk_points_opt(x) = 
+  match x with
+  | None -> mk_field_generic(points, C.no_points)
+  | Some y -> mk_field_generic(points, y)
+
+let mk_point_value_opt(x) = 
+  match x with
+  | None -> mk_field_generic(point_value, C.no_point_value)
+  | Some y -> mk_field_generic(point_value, y)
+
+
 let mk_no(x) = 
   mk_field_generic(no, x)
 
 let mk_parents(x) = 
   let p = String.concat ~sep:", " x in
     mk_field_generic(parents, p)
-
-let mk_points(x) = 
-  mk_field_generic(points, x)
 
 let mk_solution (x) = 
   mk_field_generic(solution, x)
@@ -205,35 +253,61 @@ let mk_unique(x) =
  ** END: Field makers
  **********************************************************************)
 
+
 (**********************************************************************
  ** BEGIN: Block makers
  **********************************************************************)
-let mk_block_atom kind fields =
+
+let mk_block_atom kind ilist fields =
   let _ = d_printf "mk_block_atom: %s" kind in
   let b = mk_begin_atom(kind) in
   let e = mk_end_atom(kind) in  
+  let fields = if ilist = "" then fields
+               else fields @ [ilist]
+  in
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-
-let mk_block_generic kind fields =
-  let _ = d_printf "mk_block_generic: %s" kind in
-  let b = mk_begin_block(kind) in
-  let e = mk_end_block(kind) in  
+let mk_block_generic name fields =
+  let _ = d_printf "mk_block_generic: %s" name in
+  let b = mk_begin_block(name) in
+  let e = mk_end_block(name) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None ->  b ^ C.newline ^ e ^ C.newline
     | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml = 
+let mk_block_generic_with_kind name kind fields =
+  let _ = d_printf "mk_block_generic: %s" name in
+  let b = mk_begin_block_with_kind name kind in
+  let e = mk_end_block_with_kind name kind in  
+  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
+    match result with 
+    | None ->  b ^ C.newline ^ e ^ C.newline
+    | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
+
+let mk_item ~pval ~body_src ~body_xml = 
+  let label_xml = mk_label_opt None in
+  let pval_xml = mk_point_value_opt pval in
+  let body_xml = mk_body body_xml in
+  let body_src = mk_body_src body_src in
+    mk_block_generic item [label_xml; pval_xml; body_xml; body_src] 
+
+let mk_ilist ~kind ~pval ~body = 
+  let kind_xml = ilist_kind_to_xml kind in
+  let pval_xml = mk_point_value_opt pval in
+  let label_xml = mk_label_opt None in
+    mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
+
+let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist = 
   let title_xml = mk_title_opt t_xml_opt in
   let title_src = mk_title_src_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
-    mk_block_atom kind [title_xml; title_src; label_xml; body_xml; body_src]
+    mk_block_atom kind ilist [title_xml; title_src; label_xml; body_xml; body_src]
 
 let mk_group ~topt ~t_xml_opt ~lopt ~body = 
   let title_src = mk_title_src_opt topt in
@@ -271,8 +345,6 @@ let mk_chapter ~title ~title_xml ~label ~body =
   let label_xml:string = mk_label label in
   let chapter_xml = mk_block_generic chapter [title_xml; title_src; label_xml; body] in 
     tag_xml_version ^ C.newline ^ chapter_xml
-
-
 
 
 (**********************************************************************

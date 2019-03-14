@@ -34,6 +34,46 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [March 13] 
+  -> Extend to support checkboxes and other types of lists.
+
+- [March 12] 
+  -> completed  an initial version of the beamer to support itemized lists.
+- [March 11]
+  Goal: XML generation for lists.
+  -> superficial generation complete but need separate xml for list items.
+  -> now generating xml for individual items.
+  -> moving onto beamer.
+
+
+- [March 10]
+  Goal: add diderot itemized lists, e.g.,
+  \begin{choices}
+  \choice latex blobs
+  \correctchoice latex blobs
+  \choice 
+  \end{choices}
+
+  TODO: how do we want to incorporate ilists?  should they occur as part of an atom?
+  For example, a problem could be like this
+  \titledquestion{questions title}
+  
+  Pick any any of the following
+  \part
+
+  \begin{choices}
+  \choice latex blobs
+  \correctchoice latex blobs
+  \choice 
+  \end{choices}
+
+  \part
+
+  --> This may be too general.  we have to proceed incrementally.  let's just focus on getting multiple choice questions in.  But I don't think this would be impossible to do. we just have to create a structure to parse "section-like" lists.  This should not be that different from parsing sections.
+
+  * Done with the parsing,  now move on the xml genaration. 
+
 - [March 9]
   Goal: treat latex environments as "words".
 

@@ -9,6 +9,9 @@ let filename = Sys.argv.(1)
 
 let main () =
 	let args = Sys.argv in
+(*
+	let _ = printf "length of the args = %d" (Array.length args)  in
+*)
     if Array.length args >= 2 then
       let filename = Sys.argv.(1) in
 			let ic = In_channel.create filename in

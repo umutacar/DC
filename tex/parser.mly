@@ -30,6 +30,8 @@ let set_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
+/* ilist is kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list */
+%token <string * string * (string * string * string) option * ((string * string) list) * string> ILIST
 
 %token <string> BACKSLASH
 %token <string> PERCENT  /* latex special \% */
@@ -132,6 +134,22 @@ boxes_start_no_sq:
   {x ^ bs}
 |	b = curly_box; bs = boxes
   {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
+
+/* I don't think ilist should have a preamble, because
+   it is in inside of diderot atoms */
+ilist:
+| il = ILIST
+  {let (kind, kw_b, arg_opt, ilist, kw_e) = il in
+   let items = List.map ilist ~f:(fun (x,y) -> Ast.mk_item (x, y)) in
+   let _ = d_printf ("!parser: ilist matched") in
+     match arg_opt with
+     | None -> 
+         Ast.IList ("", (kind, kw_b, None, items, kw_e))
+     | Some (o_s, point_val, c_s) -> 
+       let kw_b_all = kw_b ^ o_s ^ point_val ^ c_s in
+       let point_val_f = float_of_string point_val in
+         Ast.IList ("", (kind, kw_b_all, Some point_val_f, items, kw_e))        
+  }
 
 /**********************************************************************
  ** END: Words and Boxes 
@@ -328,12 +346,13 @@ mk_atom(kw_b, kw_e):
   h_b = kw_b;
   l = label;
   bs = boxes; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     d_printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
-     Atom (preamble, (kind, h_begin, None, Some l, bs, h_end))
+     d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin;
+     Atom (preamble, (kind, h_begin, None, Some l, bs, il, h_end))
   }
 
 | preamble = boxes;
@@ -341,39 +360,42 @@ mk_atom(kw_b, kw_e):
   t = sq_box; 
   l = label;
   bs = boxes; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_bb) = h_b in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "Parsed Atom %s title = %s" kind tt;
-     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, h_end))
+     d_printf "Parsed Atom.2 kind = %s title = %s" kind tt;
+     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, h_end))
   }
 
 | preamble = boxes;
   h_b = kw_b;
   bs = boxes_start_no_sq; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
    let (_, h_end) = h_e in
-     d_printf "Parsed Atom kind = %s h_begin = %s" kind h_begin;
-     Atom (preamble, (kind, h_begin, None, None, bs, h_end)) 
+     d_printf "Parsed Atom.3 kind = %s h_begin = %s" kind h_begin;
+     Atom (preamble, (kind, h_begin, None, None, bs, il, h_end)) 
   }
 
 | preamble = boxes;
   h_b = kw_b;
   t = sq_box; 
   bs = boxes; 
+  il = option(ilist); 
   h_e = kw_e;
   {
    let (kind, h_bb) = h_b in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "Parsed Atom kind = %s h_begin = %s title = %s" kind h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, None, bs, h_end))
+     d_printf "Parsed Atom.4 kind = %s h_begin = %s title = %s" kind h_begin tt;
+     Atom (preamble, (kind, h_begin, Some tt, None, bs, il, h_end))
   }
 
 atom:
