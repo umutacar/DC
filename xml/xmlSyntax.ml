@@ -270,11 +270,10 @@ let mk_item ~pval ~body_src ~body_xml =
   let body_src = mk_body_src body_src in
     mk_block_generic item [label_xml; pval_xml; body_xml; body_src] 
 
-let mk_ilist ~kind ~topt ~t_xml_opt ~body = 
-  let title_xml = mk_title_opt t_xml_opt in
-  let title_src = mk_title_src_opt topt in
+let mk_ilist ~kind ~pval ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let label_xml = mk_label_opt None in
-    mk_block_generic_with_kind ilist kind [title_xml; title_src; label_xml; body]
+    mk_block_generic_with_kind ilist kind [label_xml; pval_xml; body]
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist = 
   let title_xml = mk_title_opt t_xml_opt in

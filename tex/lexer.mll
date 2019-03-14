@@ -82,13 +82,14 @@ let p_skip = p_ws
 let p_digit = ['0'-'9']
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
+let p_integer = ['0'-'9']+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
 let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_ws
-let p_o_sq_bracket = '[' p_ws
-let p_c_sq_bracket = ']' p_ws											
+let p_o_sq = '[' p_ws
+let p_c_sq = ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 
@@ -197,6 +198,9 @@ let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c)
 let p_ilist = ((p_choices as kind) p_ws as kindws) 
 
 let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
+
+let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+ 
 let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
 let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
@@ -217,9 +221,9 @@ rule token = parse
 		{d_printf "!lexer matched: %s.\n" x; O_CURLY(x)}				
 | p_c_curly as x
 		{d_printf "!lexer matched: %s.\n" x; C_CURLY(x)}				
-| p_o_sq_bracket as x
+| p_o_sq as x
 		{d_printf "!lexer matched: %s.\n" x; O_SQ_BRACKET(x)}				
-| p_c_sq_bracket as x
+| p_c_sq as x
 		{d_printf "!lexer matched: %s.\n" x; C_SQ_BRACKET(x)}				
 | p_special_percent as x
 		{d_printf "!lexer matched: %s.\n" x; PERCENT(x)}				
@@ -269,7 +273,19 @@ rule token = parse
        let l_joined = List.map (fun (x, y) -> x ^ y) l in
        let sl = kw_b ^ String.concat "," l_joined ^ kw_e in
        let _ = d_printf "!lexer: ilist matched = %s" sl in
-            ILIST(kind, kw_b, l, kw_e)          
+            ILIST(kind, kw_b, None, l, kw_e)          
+      }   
+
+| p_begin_ilist_arg 
+      {let kw_b = b ^ o ^ kindws ^ c  in
+       let kw_b_arg = kw_b ^ o_sq ^ point_val ^ c_sq in
+       let _ = d_printf "!lexer: begin ilist: %s\n" kw_b_arg in
+       let _ = do_begin_ilist () in
+       let (_, l, kw_e) = ilist lexbuf in
+       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+       let sl = kw_b_arg ^ String.concat "," l_joined ^ kw_e in
+       let _ = d_printf "!lexer: ilist matched = %s" sl in
+            ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
 
 | p_begin_latex_env as x

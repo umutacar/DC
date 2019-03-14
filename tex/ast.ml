@@ -59,7 +59,7 @@ type t_point_val = float
 type item = Item of t_keyword *  t_point_val option * t_item_body
 
 type ilist = IList of t_preamble  
-                      * (t_ilist_kind * t_keyword * t_title option *
+                      * (t_ilist_kind * t_keyword * t_point_val option *
                          item list * t_keyword) 
 
 type atom = Atom of t_preamble  
@@ -179,7 +179,7 @@ let itemToTex (Item(keyword, pval, body)) =
   | None -> keyword ^ body
   | Some p -> keyword ^ (pointvalToTex p) ^ body
 
-let ilistToTex (IList(preamble, (kind, h_begin, topt, itemslist, h_end))) = 
+let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) = 
   let il = List.map itemslist itemToTex in
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
@@ -293,18 +293,18 @@ let label_title_opt tex2html lopt topt =
 
 let itemToXml tex2html (Item (kind, pval_opt, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
-  let pval_opt_str = pval_opt_to_string_opt pval_opt in
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
-    XmlSyntax.mk_item ~pval:pval_opt_str ~body_src:body ~body_xml:body_xml
+    XmlSyntax.mk_item ~pval:pval_str_opt ~body_src:body ~body_xml:body_xml
 
 let ilistToXml tex2html
-              (IList (preamble, (kind, h_begin, topt, itemslist, h_end))) = 
+              (IList (preamble, (kind, h_begin, pval_opt, itemslist, h_end))) = 
   let _ = d_printf "IListToXml: kind = %s\n" kind in 
-  let t_xml_opt = title_opt tex2html topt in
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
 
   let items_xml = map_concat  (itemToXml tex2html) itemslist in
   let r = XmlSyntax.mk_ilist ~kind:kind 
-                             ~topt:topt ~t_xml_opt:t_xml_opt
+                             ~pval:pval_str_opt
                              ~body:items_xml
   in
     r

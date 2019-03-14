@@ -30,8 +30,8 @@ let set_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
-/* ilist is kind * kw_begin * (item-separator-keyword, item-body) list * kw_end list */
-%token <string * string * ((string * string) list) * string> ILIST
+/* ilist is kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list */
+%token <string * string * (string * string * string) option * ((string * string) list) * string> ILIST
 
 %token <string> BACKSLASH
 %token <string> PERCENT  /* latex special \% */
@@ -139,10 +139,16 @@ boxes_start_no_sq:
    it is in inside of diderot atoms */
 ilist:
 | il = ILIST
-  {let (kind, kw_b, ilist, kw_e) = il in
+  {let (kind, kw_b, arg_opt, ilist, kw_e) = il in
    let items = List.map ilist ~f:(fun (x,y) -> Ast.mk_item (x, y)) in
    let _ = d_printf ("!parser: ilist matched") in
-     Ast.IList ("", (kind, kw_b, None, items, kw_e))
+     match arg_opt with
+     | None -> 
+         Ast.IList ("", (kind, kw_b, None, items, kw_e))
+     | Some (o_s, point_val, c_s) -> 
+       let kw_b_all = kw_b ^ o_s ^ point_val ^ c_s in
+       let point_val_f = float_of_string point_val in
+         Ast.IList ("", (kind, kw_b_all, Some point_val_f, items, kw_e))        
   }
 
 /**********************************************************************
