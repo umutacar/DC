@@ -2,15 +2,7 @@
 open Core
 open Printf
 open Ast
-
-(* Debug prints *)
-let debug = false
-let d_printf args = 
-  if debug then
-    fprintf stdout args
-  else 
-    ifprintf stdout args
-
+open Utils
 
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
