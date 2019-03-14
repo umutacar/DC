@@ -4,15 +4,6 @@ open Printf
 open Ast
 open Utils
 
-(* Debug prints *)
-let debug = false
-let d_printf args = 
-  if debug then
-    fprintf stdout args
-  else 
-    ifprintf stdout args
-
-
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
 let set_option (r, vo) = 
