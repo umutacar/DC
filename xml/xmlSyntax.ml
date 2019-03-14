@@ -56,7 +56,10 @@ let authors = "authors"
 let body = "body"
 let body_src = "body_src"
 let body_pop = "body_pop"
+let check = "check"
+let checkbox = "checkbox"
 let choice = "choice"
+let choices = "choices"
 let choice_src = "choice_src"
 let code = "code"
 let corollary = "corollary"
@@ -85,6 +88,7 @@ let preamble = "preamble"
 let problem = "problem"
 let proof = "proof"
 let proposition = "proposition"
+let radio = "radio"
 let rank = "rank"
 let remark = "remark"
 let solution = "solution"
@@ -101,6 +105,17 @@ let unique = "unique"
 (**********************************************************************
  ** BEGIN: Utilities
  **********************************************************************)
+let contains_substring search target =
+  let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
+  let found = String.substr_index ~pos:0 ~pattern:search target in
+  let res = 
+    match found with 
+    | None -> let _ = d_printf "contains_substring: found none\n" in false
+    | Some x -> let _ = d_printf "contains_substring: found match %d\n" x in true 
+  in
+    res
+
+
 let mk_comment (s) =
   "<!-- "^ s ^ " -->"
 
@@ -148,6 +163,13 @@ let mk_cdata(body) =
                         ^ C.newline ^ 
   C.cdata_end
 
+let ilist_kind_to_xml kind = 
+  if contains_substring check kind then
+    checkbox
+  else if contains_substring choices kind then
+    radio
+  else
+    raise (Failure "xmlSyntax: Encountered IList of unknown kind")
 (** END: Utilities
  **********************************************************************)
 
@@ -236,10 +258,13 @@ let mk_unique(x) =
  ** BEGIN: Block makers
  **********************************************************************)
 
-let mk_block_atom kind fields =
+let mk_block_atom kind ilist fields =
   let _ = d_printf "mk_block_atom: %s" kind in
   let b = mk_begin_atom(kind) in
   let e = mk_end_atom(kind) in  
+  let fields = if ilist = "" then fields
+               else fields @ [ilist]
+  in
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None -> b ^ C.newline ^ e ^ C.newline
@@ -271,9 +296,10 @@ let mk_item ~pval ~body_src ~body_xml =
     mk_block_generic item [label_xml; pval_xml; body_xml; body_src] 
 
 let mk_ilist ~kind ~pval ~body = 
+  let kind_xml = ilist_kind_to_xml kind in
   let pval_xml = mk_point_value_opt pval in
   let label_xml = mk_label_opt None in
-    mk_block_generic_with_kind ilist kind [label_xml; pval_xml; body]
+    mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
 let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist = 
   let title_xml = mk_title_opt t_xml_opt in
@@ -281,7 +307,7 @@ let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist =
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
-    mk_block_atom kind [title_xml; title_src; label_xml; body_xml; body_src; ilist]
+    mk_block_atom kind ilist [title_xml; title_src; label_xml; body_xml; body_src]
 
 let mk_group ~topt ~t_xml_opt ~lopt ~body = 
   let title_src = mk_title_src_opt topt in

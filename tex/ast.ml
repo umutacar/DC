@@ -3,7 +3,7 @@ open Core
 (**********************************************************************
  ** BEGIN: Debugging 
  **********************************************************************)
-let debug = true
+let debug = false
 let d_printf args = 
   if debug then
     fprintf stdout args
