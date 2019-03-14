@@ -1,7 +1,6 @@
 open Core
 open Lexer
 open Lexing
-open Debug
 
 let default_tmp_dir = "/tmp"
 
