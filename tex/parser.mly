@@ -2,6 +2,7 @@
 open Core
 open Printf
 open Ast
+open Utils
 
 (* Debug prints *)
 let debug = false
