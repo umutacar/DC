@@ -36,7 +36,7 @@ let set_option_with_intertext (r, vo) =
 %token <string * string> KW_LABEL_AND_NAME
 
 %token <string> KW_CHAPTER
-%token <string> KW_SECTION
+%token <string> KW_SECTION, KW_TITLED_QUESTION
 %token <string> KW_SUBSECTION
 %token <string> KW_SUBSUBSECTION	
 %token <string> KW_PARAGRAPH	
@@ -221,6 +221,11 @@ section:
   {
      Ast.Section desc
   }	  
+| desc = mk_section(KW_TITLED_QUESTION, subsection)
+  {
+     Ast.Section desc
+  }	  
+
 
 subsection: 
   desc = mk_section(KW_SUBSECTION, subsubsection)
