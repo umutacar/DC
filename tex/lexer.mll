@@ -103,6 +103,7 @@ let p_end_verbatim = p_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
+let p_titled_question = '\\' "titledsection" p_ws
 let p_subsection = '\\' "subsection" p_ws
 let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
@@ -239,6 +240,8 @@ rule token = parse
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
   	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
+| p_titled_question as x
+  	{d_printf "!lexer matched: %s." x; KW_TITLED_QUESTION(x)}		
 | p_subsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
