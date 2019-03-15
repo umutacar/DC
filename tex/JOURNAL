@@ -39,6 +39,8 @@ So whatever latex produces must be mediated through this.
   -> Starting to work on free responses.
 
   --> One question is how do we deal with the fact that the meaninng of "solution" is different in the exam package?  I think the solution to this for us to have a separate diderot->latex mapping for exam package environments.  This is easy so let's not worry about this.
+ 
+      Update: I was able to set up our "problem bank" to do this.  there were no problems.  so this will work.
 
   --> added \titledquestion{} section
       format: 
@@ -56,7 +58,7 @@ So whatever latex produces must be mediated through this.
 
       I want to support this but somehow I need to ignore parts.
 
- 
+  --> Ignoring parts and pushing also points to problems works.  There is some redudancy but don't think it is a big deal. 
 
 
 - [March 14] 
