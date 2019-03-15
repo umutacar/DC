@@ -93,6 +93,9 @@ let p_end = '\\' "end" p_ws
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
 
+let p_part = '\\' "part"
+let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
+
 (* begin: verbatim 
  * we will treat verbatim as a "box"
  *)
@@ -101,8 +104,18 @@ let p_begin_verbatim = p_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_end_verbatim = p_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
+(* begin: parts
+ * we will ignore these.
+ *)
+let p_parts = "parts"
+let p_begin_parts = p_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+let p_end_parts = p_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+(* end: parts *)
+
+
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
+let p_titled_question = '\\' "titledsection" p_ws
 let p_subsection = '\\' "subsection" p_ws
 let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
@@ -205,8 +218,6 @@ let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly)
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 
-
-
 (** END PATTERNS *)			
 
 
@@ -239,6 +250,8 @@ rule token = parse
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
   	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
+| p_titled_question as x
+  	{d_printf "!lexer matched: %s." x; KW_TITLED_QUESTION(x)}		
 | p_subsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
@@ -283,6 +296,15 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
+| p_part           (* drop *)
+    {token lexbuf}		
+| p_part_arg       (* drop *)
+    {token lexbuf}		
+| p_begin_parts    (* drop *)
+    {token lexbuf}		
+| p_end_parts      (* drop *)
+    {token lexbuf}		
+
 
 | p_begin_latex_env as x
       { 

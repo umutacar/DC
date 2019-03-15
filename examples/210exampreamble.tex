@@ -1,0 +1,79 @@
+\usepackage{tabularx}
+
+%% Rubric
+\ifrubric
+  \newenvironment{rubric}
+  {
+  \paragraph{Rubric.}
+  }
+  {
+  }
+\else
+  \NewEnviron{rubric}{} % Drop body {\BODY}
+\fi
+
+%% Frequently encountered problems.
+\iffep
+  \newenvironment{fep}
+  {
+  \paragraph{Frequently Encountered Problems.}
+  }
+  {
+  }
+\else
+  \NewEnviron{fep}{} % Drop body {\BODY}
+\fi
+
+
+\newcommand{\thetasol}[1]{\begin{solution}[\fill] $\Theta(#1)$ \end{solution}}
+%\newcommand{\fillin}[1]{\makebox[#1][l]{\strut\hrulefill}}
+\newcommand{\ours}[1]{{[Our solution: {#1}]}}
+
+\newcommand{\trueorfalse}{\part[2]\textbf{TRUE} or \textbf{FALSE}: }
+\newcommand{\atrue}{\begin{solution}[.1in] TRUE \end{solution}}
+\newcommand{\afalse}{\begin{solution}[.1in] FALSE \end{solution}}
+\newcommand{\atruefalse}{\begin{solution}[.1in] TRUE \& FALSE \end{solution}}
+
+\newcommand{\used}[1]{\textbf{Used: #1}}
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+
+
+\newcommand{\sml}[1]{\texttt{#1}}
+\newcommand{\smlp}[1]{\texttt{({#1})}}
+
+\newcommand{\mksome}[1]{~\mathit{Some(#1)}}
+\newcommand{\mknone}{~\mathit{None}}
+
+\newcommand{\prob}[2][\mbox{}]{\ensuremath{\mathop{\text{\normalfont {\textbf{Pr}}}}_{#1}\left[#2\right]}}
+%\newcommand{\expct}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\expct}[2][\mbox{}]{\ensuremath{\mathop{\text{\normalfont {\textbf{E}}}}_{#1}\left[#2\right]}}
+\newcommand{\given}{{\ensuremath{\:\mid\:}}}
+\newcommand{\pmf}[1]{\mathbf{P}_{#1}}
+
+\newcommand{\ctext}[1]{\mbox{\rm\em #1}}
+\newcommand{\com}[1]{\mbox{\bf #1}}
+\newcommand{\clseq}{\left\langle}
+\newcommand{\crseq}{\right\rangle}
+\newcommand{\cseq}[1]{\left\langle\, {#1} \,\right\rangle}
+\newcommand{\cseqf}[2]{\left\langle\, #1 \;|\; #2 \,\right\rangle}
+\newcommand{\cidx}[2]{\cseq{#1,\ldots,#2}}
+\newcommand{\cset}[1]{\left\{ #1 \right\}}
+\newcommand{\csetf}[2]{\left\{ #1 \;|\; #2 \right\}}
+\newcommand{\cval}{\com{val}}
+\newcommand{\cfn}[2]{\com{fn}\; #1 \Rightarrow #2}
+\newcommand{\cname}[1]{{\normalfont\texttt{\emph{#1}}}}
+\newcommand{\cd}[1]{\texttt{#1}}
+\newcommand{\cdvar}[1]{\mathit{#1}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\dra}{\Rightarrow}
+
+%% 
+\newcommand{\recprob}[4]{
+\begin{problem}[{#1}]
+$#2$
+\end{problem}
+\begin{solution}[\fill] $\Theta(#3)$,  #4\end{solution}
+}
+
+

@@ -36,7 +36,7 @@ let set_option_with_intertext (r, vo) =
 %token <string * string> KW_LABEL_AND_NAME
 
 %token <string> KW_CHAPTER
-%token <string> KW_SECTION
+%token <string> KW_SECTION, KW_TITLED_QUESTION
 %token <string> KW_SUBSECTION
 %token <string> KW_SUBSUBSECTION	
 %token <string> KW_PARAGRAPH	
@@ -101,7 +101,9 @@ env:
 
 blob:
   x = env
-  {x}
+  {let _ = d_printf ("!parser: blob/env matched.") in
+     x
+  }
 | x = word
   {x}
 
@@ -186,6 +188,7 @@ mk_section(kw_section, nested_section):
   sso = option(mk_sections(nested_section));
   {
    let (heading, t) = h in
+   let _ = d_printf ("!parser: section %s matched") heading in
    let bs = ref [] in
    let ss = ref [] in
    let it = set_option_with_intertext (bs, bso) in
@@ -221,6 +224,11 @@ section:
   {
      Ast.Section desc
   }	  
+| desc = mk_section(KW_TITLED_QUESTION, subsection)
+  {
+     Ast.Section desc
+  }	  
+
 
 subsection: 
   desc = mk_section(KW_SUBSECTION, subsubsection)
@@ -272,7 +280,9 @@ blocks:
 /* Drop intertext */
 blocks_and_intertext:
   bs = blocks; intertext = boxes;
-  {(bs, intertext)} 
+  {let _ = d_printf ("parser matched: blocks_and_intertext.\n") in
+     (bs, intertext)
+  } 
 
 
 /**********************************************************************
