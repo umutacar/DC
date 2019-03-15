@@ -93,6 +93,8 @@ let p_end = '\\' "end" p_ws
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
 
+let p_part = '\\' "part"
+
 (* begin: verbatim 
  * we will treat verbatim as a "box"
  *)
@@ -100,6 +102,15 @@ let p_verbatim = "verbatim"
 let p_begin_verbatim = p_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_end_verbatim = p_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
+
+(* begin: parts
+ * we will ignore these.
+ *)
+let p_parts = "parts"
+let p_begin_parts = p_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+let p_end_parts = p_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+(* end: parts *)
+
 
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
@@ -206,8 +217,6 @@ let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly)
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 
-
-
 (** END PATTERNS *)			
 
 
@@ -286,6 +295,13 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
+| p_part           (* drop *)
+    {token lexbuf}		
+| p_begin_parts    (* drop *)
+    {token lexbuf}		
+| p_end_parts      (* drop *)
+    {token lexbuf}		
+
 
 | p_begin_latex_env as x
       { 

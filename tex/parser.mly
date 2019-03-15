@@ -101,7 +101,9 @@ env:
 
 blob:
   x = env
-  {x}
+  {let _ = d_printf ("!parser: blob/env matched.") in
+     x
+  }
 | x = word
   {x}
 
@@ -186,6 +188,7 @@ mk_section(kw_section, nested_section):
   sso = option(mk_sections(nested_section));
   {
    let (heading, t) = h in
+   let _ = d_printf ("!parser: section %s matched") heading in
    let bs = ref [] in
    let ss = ref [] in
    let it = set_option_with_intertext (bs, bso) in
@@ -277,7 +280,9 @@ blocks:
 /* Drop intertext */
 blocks_and_intertext:
   bs = blocks; intertext = boxes;
-  {(bs, intertext)} 
+  {let _ = d_printf ("parser matched: blocks_and_intertext.\n") in
+     (bs, intertext)
+  } 
 
 
 /**********************************************************************

@@ -1,6 +1,8 @@
 \chapter{Exam I}
+\label{ch:exam1}
 \titledquestion{(Cost Analysis) Recurrences}
 
+\begin{gram}
 Recall that $f(n)$ is $\Theta(g(n))$
 if $f(n) \in O(g(n))$ and $g(n) \in O(f(n))$.
 %Find tight bounds in
@@ -11,28 +13,23 @@ Also, state whether the recurrence is dominated at the root, the
 leaves, or equally at all levels of the recurrence tree.
 You do not have to show your work, but it might help you get partial
 credit.
+\end{gram}
 
 
-\begin{parts}
-
-\part[2]
 \recprob{f(n) = 5 f(n/5) + \Theta(n)}
         {n\lg n}
         {root dominated}  % \used{Spring 2015}
 
-\part[2]
 \recprob{f(n) = 3 f(n/2) + \Theta(n^2)}
         {n^2 n}
         {root dominated}  % \used{Spring 2015}
 
-
-\part[2]
 \recprob{f(n) =  f(n/2) + \lg n}
         {\lg^2 n}
         {approximately balanced}
 
-\part[2]
 \recprob{f(n) =  5 f(n/8) + \Theta(n^{2/3})}
         {\Theta(\lg_8 5) roughly \Theta(n^{0.77})}
         {leaf dominated}
-\end{parts}
+
+
