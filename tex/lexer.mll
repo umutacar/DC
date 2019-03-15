@@ -94,6 +94,7 @@ let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
 
 let p_part = '\\' "part"
+let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -296,6 +297,8 @@ rule token = parse
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
 | p_part           (* drop *)
+    {token lexbuf}		
+| p_part_arg       (* drop *)
     {token lexbuf}		
 | p_begin_parts    (* drop *)
     {token lexbuf}		
