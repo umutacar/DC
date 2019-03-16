@@ -44,10 +44,8 @@ let authors = "authors"
 let body = "body"
 let body_src = "body_src"
 let body_pop = "body_pop"
-let check = "check"
 let checkbox = "checkbox"
 let choice = "choice"
-let choices = "choices"
 let choice_src = "choice_src"
 let code = "code"
 let corollary = "corollary"
@@ -70,6 +68,8 @@ let order = "order"
 let page = "page"
 let paragraph = "gram"
 let parents = "parents"
+let pickany = "pickany"
+let pickone = "pickone"
 let points = "points"
 let point_value = "point_value"
 let preamble = "preamble"
@@ -152,9 +152,9 @@ let mk_cdata(body) =
   C.cdata_end
 
 let ilist_kind_to_xml kind = 
-  if contains_substring check kind then
+  if contains_substring pickany kind then
     checkbox
-  else if contains_substring choices kind then
+  else if contains_substring pickone kind then
     radio
   else
     raise (Failure "xmlSyntax: Encountered IList of unknown kind")

@@ -161,9 +161,8 @@ let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
 (* Ilists *)
-let p_choices = "choices"
-let p_checks = "checks"
-let p_checkboxes = "checkboxes"
+let p_pickone = "pickone"
+let p_pickany = "pickany"
 
 let p_ilist_separator = p_choice | p_correctchoice
 
@@ -203,7 +202,7 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
-let p_ilist_kinds = (p_choices | p_checks | p_checkboxes)
+let p_ilist_kinds = (p_pickone | p_pickany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
 
 let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
