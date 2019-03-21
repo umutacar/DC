@@ -29,7 +29,7 @@ let pandoc_standalone = "pandoc  --mathjax -s"
 
 (* generate non-standalone html files *)
 let pandoc_minor = "pandoc --from latex+smart  --mathjax"
-let pandoc_minor = "pandoc --mathjax"
+let pandoc_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
 
 
