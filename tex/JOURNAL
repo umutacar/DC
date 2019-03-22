@@ -35,6 +35,9 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [Marh 22]
+  -> Chapters can now have blocks.  One problem is that this leads to an additional shift/reduce conflict, because a superblock can be a block. So I  will have to look into this.
+
 - [Marh 21]
   -> Extended the parser and AST/XML to support clusters.
   -> Cluster are currently not hooked up to the syntax. That is the next thing to do.
