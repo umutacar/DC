@@ -92,6 +92,15 @@ and subsubsection =
 and paragraph = 
   Paragraph of (t_keyword * t_title * t_label option *
                 block list * t_intertext)
+
+and cluster = 
+  Cluster of (t_keyword * t_title * t_label option *
+              block list * t_intertext)
+
+and superblock = 
+  | SuperBlock_Block of block
+  | SuperBlock_Cluster of cluster
+
 and block = 
   | Block_Group of group
   | Block_Atom of atom
@@ -341,6 +350,11 @@ let blockToXml tex2html b =
   match b with
   | Block_Group g -> groupToXml tex2html g
   | Block_Atom a -> atomToXml  tex2html a
+
+let superblockToXml tex2html x = 
+  match x with
+  | SuperBlock_Block b -> blockToXml tex2html b
+  | SuperBlock_Cluster c -> clusterToXml  tex2html c
 
 let paragraphToXml  tex2html (Paragraph (heading, t, lopt, bs, it)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
