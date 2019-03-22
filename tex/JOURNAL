@@ -1,4 +1,5 @@
 # TODO
+  - superblocks include blocks.  This leads to shift/reduce conflict.  Look into this.  Is this harmless?
   - diderot keywords such as labels can appear inside bodies.  How to deal with these?  We can include them as a word but this will likely lead to many conflicts.
 
     this suggests that "hijacking" latex commands as diderot commands can be a bit painful.  we have to be careful
