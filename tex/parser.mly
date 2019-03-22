@@ -282,15 +282,16 @@ superblock:
  ** A cluster is a titled sequence of groups, and atoms 
  **********************************************************************/
 cluster:
-| h = mk_heading(KW_CLUSTER); 
+| 
+  h_begin = KW_BEGIN_CLUSTER;
   l = option(label); 
   bso = option(blocks_and_intertext);
+  h_end = KW_END_GROUP
   {
-   let (heading, t) = h in
-   let _ = d_printf ("!parser: cluster %s matched") heading in
+   let _ = d_printf ("!parser: cluster matched") in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster(heading, t, l, !bs, it)
+     Ast.Cluster(h_begin, t, l, !bs, it, h_end)
   }	  
 /**********************************************************************
  ** END: Cluster
