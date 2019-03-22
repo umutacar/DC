@@ -35,6 +35,11 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [Marh 21]
+  -> Extended the parser and AST/XML to support clusters.
+  -> Cluster are currently not hooked up to the syntax. That is the next thing to do.
+  --> Will need to test and cluster, when not used don't change anything.
+
 - [March 15] 
   -> Starting to work on free responses.
 
