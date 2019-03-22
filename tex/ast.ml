@@ -94,8 +94,9 @@ and paragraph =
                 block list * t_intertext)
 
 and cluster = 
-  Cluster of (t_keyword * t_title * t_label option *
-              block list * t_intertext)
+  Cluster of t_preamble
+             * (t_keyword * t_title option * t_label option * 
+                block list * t_intertext * t_keyword)
 
 and superblock = 
   | SuperBlock_Block of block
@@ -350,6 +351,13 @@ let blockToXml tex2html b =
   match b with
   | Block_Group g -> groupToXml tex2html g
   | Block_Atom a -> atomToXml  tex2html a
+
+let clusterToXml tex2html (Cluster(preamble, (h_begin, topt, lopt, bs, it, h_end))) = 
+  let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
+  let blocks = map_concat (blockToXml tex2html) bs in
+  let r = XmlSyntax.mk_cluster ~topt:topt ~t_xml_opt:t_xml_opt 
+                               ~lopt:lsopt ~body:blocks in
+    r
 
 let superblockToXml tex2html x = 
   match x with

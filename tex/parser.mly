@@ -42,6 +42,7 @@ let set_option_with_intertext (r, vo) =
 %token <string> KW_PARAGRAPH	
 %token <string> KW_SUBPARAGRAPH
 
+%token <string> KW_BEGIN_CLUSTER KW_END_CLUSTER
 %token <string> KW_BEGIN_GROUP KW_END_GROUP
 	
 %start chapter
@@ -282,7 +283,7 @@ superblock:
  ** A cluster is a titled sequence of groups, and atoms 
  **********************************************************************/
 cluster:
-| 
+| preamble = boxes;   
   h_begin = KW_BEGIN_CLUSTER;
   l = option(label); 
   bso = option(blocks_and_intertext);
@@ -291,7 +292,7 @@ cluster:
    let _ = d_printf ("!parser: cluster matched") in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster(h_begin, t, l, !bs, it, h_end)
+     Ast.Cluster (preamble, (h_begin, t, l, !bs, it, h_end))
   }	  
 /**********************************************************************
  ** END: Cluster
