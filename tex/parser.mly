@@ -252,11 +252,51 @@ paragraph:
    let it = set_option_with_intertext (bs, bso) in
      Ast.Paragraph (heading, t, l,!bs, it)
   }	  
-	
 
 /**********************************************************************
  ** END: Latex Sections
  **********************************************************************/
+
+superblocks_and_intertext:
+  xs = superblocks; intertext = boxes;
+  {let _ = d_printf ("parser matched: superblocks_and_intertext.\n") in
+     (xs, intertext)
+  } 
+
+superblocks:
+|	x = superblock
+  {[x]}
+| xs = superblocks;
+  x = superblock; 
+  {List.append xs [x]}
+
+superblock:
+|	b = block
+  { Ast.SuperBlock_Block b }
+| c = cluster
+  { Ast.SuperBlock_Cluster c }
+  
+
+/**********************************************************************
+ ** BEGIN: Cluster
+ ** A cluster is a titled sequence of groups, and atoms 
+ **********************************************************************/
+cluster:
+| h = mk_heading(KW_CLUSTER); 
+  l = option(label); 
+  bso = option(blocks_and_intertext);
+  {
+   let (heading, t) = h in
+   let _ = d_printf ("!parser: cluster %s matched") heading in
+   let bs = ref [] in
+   let it = set_option_with_intertext (bs, bso) in
+     Ast.Cluster(heading, t, l, !bs, it)
+  }	  
+/**********************************************************************
+ ** END: Cluster
+ **********************************************************************/
+
+
 
 /**********************************************************************
  ** BEGIN: Blocks
@@ -276,7 +316,6 @@ blocks:
   b = block; 
   {List.append bs [b]}
 
-
 /* Drop intertext */
 blocks_and_intertext:
   bs = blocks; intertext = boxes;
@@ -288,6 +327,7 @@ blocks_and_intertext:
 /**********************************************************************
  ** END: Blocks
  **********************************************************************/
+
 			
 /**********************************************************************
  ** BEGIN: Groups
