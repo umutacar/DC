@@ -207,7 +207,7 @@ chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  bso = option(blocks_and_intertext); 
+  bso = option(superblocks_and_intertext); 
   sso = option(mk_sections(section)); 
   EOF 
   {
@@ -273,9 +273,9 @@ superblocks:
 
 superblock:
 |	b = block
-  { Ast.SuperBlock_Block b }
+  { Ast.Superblock_Block b }
 | c = cluster
-  { Ast.SuperBlock_Cluster c }
+  { Ast.Superblock_Cluster c }
   
 
 /**********************************************************************
@@ -287,13 +287,29 @@ cluster:
   h_begin = KW_BEGIN_CLUSTER;
   l = option(label); 
   bso = option(blocks_and_intertext);
-  h_end = KW_END_GROUP
+  h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, t, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, None, l, !bs, it, h_end))
   }	  
+| preamble = boxes;   
+  h_b = KW_BEGIN_CLUSTER;
+  t = sq_box; 
+  l = option(label); 
+  bso = option(blocks_and_intertext);
+  h_end = KW_END_CLUSTER
+  {
+   let (bo, tt, bc) = t in
+   let title_part = bo ^ tt ^ bc in
+   let h_begin = h_b ^ title_part in
+   let _ = d_printf ("!parser: cluster matched") in
+   let bs = ref [] in
+   let it = set_option_with_intertext (bs, bso) in
+     Ast.Cluster (preamble, (h_begin, Some tt, l, !bs, it, h_end))
+  }	  
+
 /**********************************************************************
  ** END: Cluster
  **********************************************************************/
