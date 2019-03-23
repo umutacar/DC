@@ -240,14 +240,14 @@ chapter:
   h = mk_heading(KW_CHAPTER); 
   l = label; 
   sbso = option(superblocks_and_intertext); 
-  sso = option(mk_sections(section)); 
+  sso = option(mk_sections_super(section)); 
   EOF 
   {
    let (heading, t) = h in
    let sbs = ref [] in
    let ss = ref [] in
-   let it = set_option_with_intertext (sbs, sbso) in
-   let _ = set_option (ss, sso) in
+   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let _ = set_superblock_option (ss, sso) in
      Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
   }	
 
