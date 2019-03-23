@@ -42,7 +42,9 @@ So whatever latex produces must be mediated through this.
   How should we do this? What should the syntax be? 
   Maybe recreate a 210 exam to see how.  
 
-  -> Played with the exam package and latex.  The conclusion is problems will support two optional arguments: titles and points.  The integer numbers will become points, the other will become title. 
+  -> Played with the exam package and latex.  The conclusion is problems will support two optional arguments: titles and points.  The integer numbers will become points, the other will become title.
+
+  -> It seems that it will be cleanest to have a solution field within a problem. This will indicate whether the problem is free response or not.  And if so, whether there should be a textbox.
 
 - [Marh 22]
   -> Chapters can now have blocks.  One problem is that this leads to an additional shift/reduce conflict, because a superblock can be a block. So I  will have to look into this.
