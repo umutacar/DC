@@ -218,7 +218,7 @@ mk_section_super(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
   sbso = option(superblocks_and_intertext);
-  sso = option(mk_sections(nested_section));
+  sso = option(mk_sections_super(nested_section));
   {
    let (heading, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
@@ -278,12 +278,12 @@ subsubsection:
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  bso = option(blocks_and_intertext); 
+  sbso = option(superblocks_and_intertext); 
   {
    let (heading, t) = h in
-   let bs = ref [] in
-   let it = set_option_with_intertext (bs, bso) in
-     Ast.Paragraph (heading, t, l,!bs, it)
+   let sbs = ref [] in
+   let it = set_superblock_option_with_intertext (sbs, sbso) in
+     Ast.Paragraph (heading, t, l,!sbs, it)
   }	  
 
 /**********************************************************************
