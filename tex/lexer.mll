@@ -112,7 +112,6 @@ let p_begin_parts = p_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 let p_end_parts = p_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 (* end: parts *)
 
-
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
 let p_titled_question = '\\' "titledsection" p_ws
@@ -121,14 +120,15 @@ let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
+let p_b_cluster = '\\' "begin{cluster}" p_ws	
+let p_e_cluster = '\\' "end{cluster}" p_ws
+
 let p_b_group = '\\' "begin{flex}" p_ws	
 let p_e_group = '\\' "end{flex}" p_ws
-
 
 let p_xxx = "xxx"
 let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
 let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
-
 
 let p_diderot_atom = "diderot" ['a'-'z''A'-'Z']*	
 let p_algorithm = "algorithm"
@@ -259,6 +259,10 @@ rule token = parse
   	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
 | p_subparagraph as x
   	{d_printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
+| p_b_cluster as x
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x)}		
+| p_e_cluster as x
+  	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
 | p_b_group as x
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
 | p_e_group as x

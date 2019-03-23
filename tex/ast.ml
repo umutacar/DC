@@ -1,17 +1,5 @@
 open Core
-
-(**********************************************************************
- ** BEGIN: Debugging 
- **********************************************************************)
-let debug = false
-let d_printf args = 
-  if debug then
-    fprintf stdout args
-  else 
-    ifprintf stdout args
-(**********************************************************************
- ** END: Debugging 
- **********************************************************************)
+open Utils
 
 (**********************************************************************
  ** BEGIN: Constants
@@ -220,6 +208,7 @@ let blockToTex b =
   | Block_Atom a -> atomToTex a
 
 let clusterToTex (Cluster(preamble, (h_begin, topt, lopt, bs, it, h_end))) = 
+  let _ = d_printf "clusterToTex" in
   let blocks = map_concat blockToTex bs in
   let label = labelOptToTex lopt in
     preamble ^
@@ -227,11 +216,15 @@ let clusterToTex (Cluster(preamble, (h_begin, topt, lopt, bs, it, h_end))) =
     blocks ^ it ^ 
     h_end
 
-
 let superblockToTex x = 
-  match x with
-  | Superblock_Cluster c -> clusterToTex c
-  | Superblock_Block b -> blockToTex b
+  let _ = d_printf "superblockToTex" in
+  let r = 
+    match x with
+    | Superblock_Cluster c -> clusterToTex c
+    | Superblock_Block b -> blockToTex b
+  in
+  let _ = d_printf ("ast.superblockToTex: %s\n") r  in
+    r
 
 let paragraphToTex (Paragraph (heading, t, lopt, bs, it)) =
   let blocks = map_concat blockToTex bs in
@@ -262,9 +255,10 @@ let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
     heading ^ label ^ 
     blocks ^ it ^ nesteds
 
-let chapterToTex (Chapter (preamble, (heading, t, l, bs, it, ss))) =
-  let superblocks = map_concat superblockToTex bs in
+let chapterToTex (Chapter (preamble, (heading, t, l, sbs, it, ss))) =
+  let superblocks = map_concat superblockToTex sbs in
   let sections = map_concat sectionToTex ss in
+  let _ = d_printf "ast.chapterToTex: superblocks = [begin: superblocks] %s... [end: superblocks] " superblocks in
   let label = labelToTex l in
     preamble ^ 
     heading ^ label ^ 

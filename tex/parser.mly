@@ -102,7 +102,7 @@ env:
 
 blob:
   x = env
-  {let _ = d_printf ("!parser: blob/env matched.") in
+  {let _ = d_printf ("!parser: blob/env matched = %s\n.") x in
      x
   }
 | x = word
@@ -207,16 +207,16 @@ chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  bso = option(superblocks_and_intertext); 
+  sbso = option(superblocks_and_intertext); 
   sso = option(mk_sections(section)); 
   EOF 
   {
    let (heading, t) = h in
-   let bs = ref [] in
+   let sbs = ref [] in
    let ss = ref [] in
-   let it = set_option_with_intertext (bs, bso) in
+   let it = set_option_with_intertext (sbs, sbso) in
    let _ = set_option (ss, sso) in
-     Ast.Chapter(preamble, (heading, t, l, !bs, it, !ss))
+     Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
   }	
 
 
@@ -260,7 +260,7 @@ paragraph:
 
 superblocks_and_intertext:
   xs = superblocks; intertext = boxes;
-  {let _ = d_printf ("parser matched: superblocks_and_intertext.\n") in
+  {let _ = d_printf ("parser matched: superblocks_and_intertext.\n")  in
      (xs, intertext)
   } 
 
@@ -301,6 +301,7 @@ cluster:
   bso = option(blocks_and_intertext);
   h_end = KW_END_CLUSTER
   {
+   let _ = d_printf ("!parser: cluster matched") in
    let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_b ^ title_part in
