@@ -28,7 +28,11 @@ let set_superblock_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
-/* ilist is kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list */
+%token <string * string> SOLUTION
+
+/* ilist is 
+ * kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list 
+ */
 %token <string * string * (string * string * string) option * ((string * string) list) * string> ILIST
 
 %token <string> BACKSLASH
@@ -132,6 +136,16 @@ boxes_start_no_sq:
   {x ^ bs}
 |	b = curly_box; bs = boxes
   {let (bo, bb, bc) = b in bo ^ bb ^ bc ^ bs }
+
+/* I don't think solutions should have a preamble, because
+   it is in inside of diderot atoms */
+solution:
+| s = SOLUTION
+  {let (h, body) = s in
+   let _ = d_printf ("!parser: solution matched") in     
+     (h, body)
+  }
+
 
 /* I don't think ilist should have a preamble, because
    it is in inside of diderot atoms */
@@ -401,6 +415,7 @@ mk_atom(kw_b, kw_e):
   l = label;
   bs = boxes; 
   il = option(ilist); 
+  sol = option(solution); 
   h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
@@ -415,6 +430,7 @@ mk_atom(kw_b, kw_e):
   l = label;
   bs = boxes; 
   il = option(ilist); 
+  sol = option(solution); 
   h_e = kw_e;
   {
    let (kind, h_bb) = h_b in
@@ -429,6 +445,7 @@ mk_atom(kw_b, kw_e):
   h_b = kw_b;
   bs = boxes_start_no_sq; 
   il = option(ilist); 
+  sol = option(solution); 
   h_e = kw_e;
   {
    let (kind, h_begin) = h_b in
@@ -442,6 +459,7 @@ mk_atom(kw_b, kw_e):
   t = sq_box; 
   bs = boxes; 
   il = option(ilist); 
+  sol = option(solution); 
   h_e = kw_e;
   {
    let (kind, h_bb) = h_b in

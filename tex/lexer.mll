@@ -92,7 +92,7 @@ let p_begin = '\\' "begin" p_ws
 let p_end = '\\' "end" p_ws												 
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
-let p_solution = '\\' "solution"
+
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
@@ -164,8 +164,10 @@ let p_theorem = "theorem"
 (* Ilists *)
 let p_pickone = "pickone"
 let p_pickany = "pickany"
-
 let p_ilist_separator = p_choice | p_correctchoice
+
+(* Reference solution *)
+let p_refsol = "refsol"
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
@@ -204,7 +206,8 @@ let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c)
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
-let p_end_problum = (p_end p_ws as e) (p_o_curly as o) p_problem (p_c_curly as c) 
+let p_begin_refsol = (p_begin p_ws as b) (p_o_curly as o) p_refsol (p_c_curly as c) 
+let p_end_refsol = (p_end p_ws as e) (p_o_curly as o) p_refsol (p_c_curly as c) 
 
 let p_ilist_kinds = (p_pickone | p_pickany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
@@ -303,10 +306,13 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
-| p_solution as h 
+| p_begin_refsol
       {
-       let _ = d_printf "!lexer: begin solution\n" in
-       let body = solution lexbuf in
+       let kw_b = b ^ o ^ kindws ^ c  in
+       let _ = d_printf "!lexer: begin solution % s\n" kw_b in
+       let body = refsol lexbuf in
+!!! HERES
+
        let _ = d_printf "!lexer: solution matched = %s" body in
             SOLUTION(h, body)
       }   
