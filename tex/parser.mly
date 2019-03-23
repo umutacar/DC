@@ -6,10 +6,6 @@ open Utils
 
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
-let set_option (r, vo) = 
-  match vo with 
-  |	None -> ()
-  |	Some v -> (r:=v; ())
 
 let set_option_with_intertext (r, vo) = 
   match vo with 
@@ -193,26 +189,6 @@ mk_heading(kw_heading):
   hc = kw_heading; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
-
-mk_section(kw_section, nested_section):
-  h = mk_heading(kw_section); 
-  l = option(label); 
-  bso = option(blocks_and_intertext);
-  sso = option(mk_sections(nested_section));
-  {
-   let (heading, t) = h in
-   let _ = d_printf ("!parser: section %s matched") heading in
-   let bs = ref [] in
-   let ss = ref [] in
-   let it = set_option_with_intertext (bs, bso) in
-   let _ = set_option (ss, sso) in
-     (heading, t, l, !bs, it, !ss)
-  }	  
-
-mk_sections(my_section):
-| s = my_section; {[s]}
-| ss = mk_sections(my_section); s = my_section
-  {List.append ss [s]}
 
 mk_section_super(kw_section, nested_section):
   h = mk_heading(kw_section); 
