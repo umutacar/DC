@@ -15,6 +15,18 @@ let set_option_with_intertext (r, vo) =
   match vo with 
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
+
+let set_superblock_option (r, vo) = 
+  match vo with 
+  |	None -> ()
+  |	Some v -> (r:=v; ())
+
+let set_superblock_option_with_intertext (r, vo) = 
+  match vo with 
+  |	None -> ""
+  |	Some (v, it) -> (r:=v; it)
+
+
 %}	
 
 
@@ -202,6 +214,26 @@ mk_sections(my_section):
 | ss = mk_sections(my_section); s = my_section
   {List.append ss [s]}
 
+mk_section_super(kw_section, nested_section):
+  h = mk_heading(kw_section); 
+  l = option(label); 
+  sbso = option(superblocks_and_intertext);
+  sso = option(mk_sections(nested_section));
+  {
+   let (heading, t) = h in
+   let _ = d_printf ("!parser: section %s matched") heading in
+   let sbs = ref [] in
+   let ss = ref [] in
+   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let _ = set_superblock_option (ss, sso) in
+     (heading, t, l, !sbs, it, !ss)
+  }	  
+
+mk_sections_super(my_section):
+| s = my_section; {[s]}
+| ss = mk_sections_super(my_section); s = my_section
+  {List.append ss [s]}
+
 
 chapter:
   preamble = boxes;
@@ -221,24 +253,24 @@ chapter:
 
 
 section: 
-  desc = mk_section(KW_SECTION, subsection)
+  desc = mk_section_super(KW_SECTION, subsection)
   {
      Ast.Section desc
   }	  
-| desc = mk_section(KW_TITLED_QUESTION, subsection)
+| desc = mk_section_super(KW_TITLED_QUESTION, subsection)
   {
      Ast.Section desc
   }	  
 
 
 subsection: 
-  desc = mk_section(KW_SUBSECTION, subsubsection)
+  desc = mk_section_super(KW_SUBSECTION, subsubsection)
   {
      Ast.Subsection desc
   }	  
 	
 subsubsection: 
-  desc = mk_section(KW_SUBSUBSECTION, paragraph)
+  desc = mk_section_super(KW_SUBSUBSECTION, paragraph)
   {
      Ast.Subsubsection desc
   }	  

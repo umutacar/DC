@@ -67,7 +67,7 @@ type chapter =
 
 and section = 
   Section of (t_keyword * t_title * t_label option *
-              block list * t_intertext * subsection list)
+              superblock list * t_intertext * subsection list)
 
 and subsection = 
   Subsection of (t_keyword * t_title * t_label option *
@@ -248,12 +248,12 @@ let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
     nesteds
 
 let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
-  let blocks = map_concat blockToTex bs in
+  let superblocks = map_concat superblockToTex bs in
 (*  let _ = d_printf "sectionToTex: blocks = %s" blocks in *)
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
-    blocks ^ it ^ nesteds
+    superblocks ^ it ^ nesteds
 
 let chapterToTex (Chapter (preamble, (heading, t, l, sbs, it, ss))) =
   let superblocks = map_concat superblockToTex sbs in
@@ -399,9 +399,9 @@ let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, it, ss)) =
 
 let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
-  let blocks = map_concat (blockToXml  tex2html) bs in
+  let superblocks = map_concat (superblockToXml  tex2html) bs in
   let nesteds = map_concat (subsectionToXml  tex2html) ss in
-  let body = blocks ^ newline ^ nesteds in
+  let body = superblocks ^ newline ^ nesteds in
   let r = XmlSyntax.mk_section ~title:t ~title_xml:t_xml
                                ~lopt:lsopt ~body:body in
     r
