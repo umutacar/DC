@@ -19,12 +19,14 @@ let main () =
     if Array.length args = 2 then
       let filename = args.(1) in
       let result = tex2tex filename in
-        printf "Parsed successfully chapter: %s\n" result 
+        printf "Successfully translater chapter to TeX: %s\n" result 
       else if Array.length args = 3 then    
         let filename = args.(1) in
         let outfile = args.(2) in
         let result = tex2tex filename in
-          Out_channel.write_all outfile ~data:result
+        let _ = Out_channel.write_all outfile ~data:result in
+        let _ = printf "Successfully tranlated chapter. Output in %s\n" outfile in
+           ()
       else
          printf "Usage: main <input latex file> [<output latex file>]\n" ;;
 					
