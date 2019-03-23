@@ -7,8 +7,6 @@ open Utils
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
 
-
-
 let set_sections_option(r, vo) = 
   match vo with 
   |	None -> ()
@@ -24,9 +22,7 @@ let set_superblock_option_with_intertext (r, vo) =
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
 
-
 %}	
-
 
 %token EOF
 
@@ -80,11 +76,9 @@ curly_box:
   o = O_CURLY;  b = boxes;  c = C_CURLY 
   {(o, b, c)}
 
-
 sq_box:
   o = O_SQ_BRACKET; b = boxes;  c = C_SQ_BRACKET 
   {(o, b, c)}
-
  
 word: 
   w = WORD 
@@ -126,7 +120,6 @@ box:
   {let (bo, bb, bc) = b in bo ^ bb ^ bc}
 | b = sq_box 
   {let (bo, bb, bc) = b in bo ^ bb ^ bc}
-
 
 boxes:
   {""}
@@ -177,11 +170,9 @@ label:
    let _ = d_printf "Parser matched label = %s all = %s" label all in
      Ast.Label(all, label)}
 
-
 /**********************************************************************
  ** END Diderot Keywords
  **********************************************************************/
-
 
 /**********************************************************************
  ** BEGIN: Latex Sections
@@ -190,7 +181,6 @@ label:
 mk_heading(kw_heading):
   hc = kw_heading; b = curly_box 
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
-
 
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
@@ -212,7 +202,6 @@ mk_sections(my_section):
 | ss = mk_sections(my_section); s = my_section
   {List.append ss [s]}
 
-
 chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
@@ -229,7 +218,6 @@ chapter:
      Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
   }	
 
-
 section: 
   desc = mk_section(KW_SECTION, subsection)
   {
@@ -239,7 +227,6 @@ section:
   {
      Ast.Section desc
   }	  
-
 
 subsection: 
   desc = mk_section(KW_SUBSECTION, subsubsection)
@@ -287,11 +274,11 @@ superblock:
 | c = cluster
   { Ast.Superblock_Cluster c }
   
-
 /**********************************************************************
  ** BEGIN: Cluster
  ** A cluster is a titled sequence of groups, and atoms 
  **********************************************************************/
+
 cluster:
 | preamble = boxes;   
   h_begin = KW_BEGIN_CLUSTER;
@@ -325,8 +312,6 @@ cluster:
  ** END: Cluster
  **********************************************************************/
 
-
-
 /**********************************************************************
  ** BEGIN: Blocks
  ** A block is a sequence of groups and atoms 
@@ -356,12 +341,10 @@ blocks_and_intertext:
 /**********************************************************************
  ** END: Blocks
  **********************************************************************/
-
 			
 /**********************************************************************
  ** BEGIN: Groups
  **********************************************************************/
-
 
 end_group:
   he = KW_END_GROUP
