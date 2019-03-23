@@ -1,5 +1,5 @@
 \chapter{Example Quiz I}
-\label{ch:quiz-i}
+\label{ch:quiz-ii}
 
 \begin{preamble}
 This is an example quiz.
@@ -11,28 +11,54 @@ Para I of Cluster I.
 \end{gram}
 
 \begin{flex}
-\begin{gram}
-Para II of Cluster I.
-\end{gram}
+\begin{problem}[Cluster I. Problem 1]
+Select one of the following
+\begin{pickone}[20]
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\correctchoice This is the third choice $c$.
+\correctchoice This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{pickone}
+\end{problem}
 
-\begin{gram}
-Para III of Cluster I.
-\end{gram}
+\begin{hint}
+Hint  for Problem I.1
+\end{hint}
+\end{flex}
+
+\begin{flex}
+\begin{problem}[Cluster I. Problem 2]
+Select one of the following
+\begin{pickany}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\correctchoice This is the third choice $c$.
+\correctchoice This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{pickany}
+
+\end{problem}
+
+\begin{hint}
+Hint  for Problem I.2
+\end{hint}
 \end{flex}
 \end{cluster}
 
 \section{Simple questions}
-\label{XXsec:sets::math}
+\label{sec:quiz-ii::simple}
 
 \begin{gram}
+Here are some assumptions
 \begin{description}
-\item[I] item I
+\item[I] Assumption I
 \begin{enumerate}
-\item item I.1
-\item item I.2
+\item Assumption I.1
+\item Assumption I.2
 \end{enumerate}
 
-\item[II] item II
+\item[II] Assumption II
 \end{description}
 \end{gram}
 
@@ -120,21 +146,46 @@ Select one of the following
 \end{problem}
 
 
-\begin{cluster}[Cluster II]
-\begin{problem}
-Problem II.1 of Cluster II.
-\end{problem}
 
-
-\begin{problem}
-Problem II.2 of Cluster II.
-\end{problem}
+\begin{cluster}[Cluster I]
+\begin{gram}
+Para I of Cluster II.
+\end{gram}
 
 \begin{flex}
-\begin{problem}
-Problem II.3 of Cluster II.
+\begin{problem}[Cluster II. Problem 1]
+Select one of the following
+\begin{pickone}[20]
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\correctchoice This is the third choice $c$.
+\correctchoice This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{pickone}
+
 \end{problem}
+
 \begin{hint}
+Hint  for Problem II.1
+\end{hint}
+\end{flex}
+
+\begin{flex}
+\begin{problem}[Cluster I. Problem 2]
+Select one of the following
+\begin{pickany}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\correctchoice This is the third choice $c$.
+\correctchoice This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{pickany}
+
+\end{problem}
+
+\begin{hint}
+Hint  for Problem II.2
 \end{hint}
 \end{flex}
 \end{cluster}
+
