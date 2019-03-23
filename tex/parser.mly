@@ -190,11 +190,11 @@ mk_heading(kw_heading):
   {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
 
 
-mk_section_super(kw_section, nested_section):
+mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
   sbso = option(superblocks_and_intertext);
-  sso = option(mk_sections_super(nested_section));
+  sso = option(mk_sections(nested_section));
   {
    let (heading, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
@@ -205,9 +205,9 @@ mk_section_super(kw_section, nested_section):
      (heading, t, l, !sbs, it, !ss)
   }	  
 
-mk_sections_super(my_section):
+mk_sections(my_section):
 | s = my_section; {[s]}
-| ss = mk_sections_super(my_section); s = my_section
+| ss = mk_sections(my_section); s = my_section
   {List.append ss [s]}
 
 
@@ -216,7 +216,7 @@ chapter:
   h = mk_heading(KW_CHAPTER); 
   l = label; 
   sbso = option(superblocks_and_intertext); 
-  sso = option(mk_sections_super(section)); 
+  sso = option(mk_sections(section)); 
   EOF 
   {
    let (heading, t) = h in
@@ -229,24 +229,24 @@ chapter:
 
 
 section: 
-  desc = mk_section_super(KW_SECTION, subsection)
+  desc = mk_section(KW_SECTION, subsection)
   {
      Ast.Section desc
   }	  
-| desc = mk_section_super(KW_TITLED_QUESTION, subsection)
+| desc = mk_section(KW_TITLED_QUESTION, subsection)
   {
      Ast.Section desc
   }	  
 
 
 subsection: 
-  desc = mk_section_super(KW_SUBSECTION, subsubsection)
+  desc = mk_section(KW_SUBSECTION, subsubsection)
   {
      Ast.Subsection desc
   }	  
 	
 subsubsection: 
-  desc = mk_section_super(KW_SUBSUBSECTION, paragraph)
+  desc = mk_section(KW_SUBSUBSECTION, paragraph)
   {
      Ast.Subsubsection desc
   }	  
