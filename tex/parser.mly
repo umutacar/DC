@@ -7,15 +7,17 @@ open Utils
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
 
+
+
+let set_sections_option(r, vo) = 
+  match vo with 
+  |	None -> ()
+  |	Some v -> (r:=v; ())
+
 let set_option_with_intertext (r, vo) = 
   match vo with 
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
-
-let set_superblock_option (r, vo) = 
-  match vo with 
-  |	None -> ()
-  |	Some v -> (r:=v; ())
 
 let set_superblock_option_with_intertext (r, vo) = 
   match vo with 
@@ -201,7 +203,7 @@ mk_section(kw_section, nested_section):
    let sbs = ref [] in
    let ss = ref [] in
    let it = set_superblock_option_with_intertext (sbs, sbso) in
-   let _ = set_superblock_option (ss, sso) in
+   let _ = set_sections_option(ss, sso) in
      (heading, t, l, !sbs, it, !ss)
   }	  
 
@@ -223,7 +225,7 @@ chapter:
    let sbs = ref [] in
    let ss = ref [] in
    let it = set_superblock_option_with_intertext (sbs, sbso) in
-   let _ = set_superblock_option (ss, sso) in
+   let _ = set_sections_option(ss, sso) in
      Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
   }	
 
