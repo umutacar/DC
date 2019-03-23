@@ -299,14 +299,18 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
-| p_part           (* drop *)
-    {token lexbuf}		
-| p_part_arg       (* drop *)
-    {token lexbuf}		
-| p_begin_parts    (* drop *)
-    {token lexbuf}		
-| p_end_parts      (* drop *)
-    {token lexbuf}		
+| p_part as x           (* treat as comment *)
+    {COMMENT_LINE(x)}
+(*    {token lexbuf}		*)
+| p_part_arg as x            (* treat as comment *)
+    {COMMENT_LINE(x)}
+(*    {token lexbuf}		*)
+| p_begin_parts as x    (* treat as comment *)
+    {COMMENT_LINE(x)}
+(*    {token lexbuf}		*)
+| p_end_parts as x      (* treat as comment *)
+    {COMMENT_LINE(x)}
+(*    {token lexbuf}		*)
 
 
 | p_begin_latex_env as x
