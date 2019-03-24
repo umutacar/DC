@@ -79,10 +79,10 @@ let p_integer = ['0'-'9']+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
-let p_o_curly = '{' p_ws
-let p_c_curly = '}' p_ws
-let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_ws											
+let p_o_curly = p_ws '{' p_ws
+let p_c_curly = p_ws '}' p_ws
+let p_o_sq = p_ws '[' p_ws
+let p_c_sq = p_ws ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 

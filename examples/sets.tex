@@ -7,7 +7,7 @@
   finite sets of elements taken from a fixed domain and several cost models, including one based on \href{ch:bst::adt}{balanced binary search trees}.
 \end{preamble}
 
-\begin{code}
+\begin{code}[10]
 
 \input{/Users/umut/lambdabricks/src/atoms/models_code.py}
 \end{code}
@@ -41,18 +41,19 @@ integers or reals, by using various composition rules, such as
 Cartesian products.
 \end{gram}
 
-\begin{gram}[Choices]
+\begin{gram}[10][Choices]
 Select any one of the following.
-\begin{choices}
+\begin{pickone}
 \choice a
 \choice $b = y^2$
 \correctchoice c
 \correctchoice d
 \choice e
-\end{choices}
+\end{pickone}
 \end{gram}
 
-\begin{gram}
+\begin{gram}[ 20  ] [ x]
+\label{xy}
 Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
 %
 We discuss tables \href{ch:tables}{in the next chapter.}

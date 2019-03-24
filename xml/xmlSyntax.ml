@@ -309,7 +309,7 @@ let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist ~refso
     | (None, None) -> 
         let _ =  d_printf "xml.mk_atom: refsol_xml = None\n" in       
           mk_block_atom kind ilist 
-                        [title_xml; title_src; label_xml; body_xml; body_src]
+                        [title_xml; title_src; label_xml; pval_xml; body_xml; body_src]
     | (Some refsol_xml, Some refsol_src) ->
         let _ =  d_printf "xml.mk_atom: refsol_xml = %s\n" refsol_xml in       
         let refsol_xml = mk_refsol refsol_xml in

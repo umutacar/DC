@@ -132,7 +132,10 @@ let contains_substring search target =
 let pval_opt_to_string_opt pval = 
   match pval with 
   | None -> None
-  | Some x -> Some (Float.to_string x)
+  | Some x -> 
+    let f = Float.to_string x in
+    let _ = d_printf ("pval_opt_to_string_opt: points = %f\n") x in
+      Some f
 
 (**********************************************************************
  ** END Utilities
