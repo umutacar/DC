@@ -46,6 +46,8 @@ So whatever latex produces must be mediated through this.
 
   -> It seems that it will be cleanest to have a solution field within a problem. This will indicate whether the problem is free response or not.  And if so, whether there should be a textbox.
 
+  -> Allow points to have point values.  See ilists an an example, the idea is to match the point value as part of the begin{atom}.  For example \begin{atom}[20]
+
 - [Marh 22]
   -> Chapters can now have blocks.  One problem is that this leads to an additional shift/reduce conflict, because a superblock can be a block. So I  will have to look into this.
   -> Superblocks and clusters are now good.
