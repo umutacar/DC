@@ -344,15 +344,16 @@ let atomToXml tex2html
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
-  let refsol_src = 
+  let _ = 
     match refsol with 
-    | None -> ""
-    | Some x -> x
+    | None -> d_printf "AtomToXml: refsol = None\n" 
+    | Some x -> d_printf "AtomToXml: refsol = %s\n" x 
   in
+  let refsol_src = refsol in
   let refsol_xml = 
     match refsol with 
-    | None -> ""
-    | Some x -> tex2html (mk_index ()) x refsol_is_single_par 
+    | None -> None
+    | Some x -> Some (tex2html (mk_index ()) x refsol_is_single_par)
   in
   let ilist_xml =   
     match ilist with  
@@ -365,8 +366,8 @@ let atomToXml tex2html
                             ~body_src:body
                             ~body_xml:body_xml
                             ~ilist:ilist_xml
-                            ~refsol_xml:refsol_xml
-                            ~refsol_src:refsol_src
+                            ~refsol_xml_opt:refsol_xml
+                            ~refsol_src_opt:refsol_src
    in
      r
      
