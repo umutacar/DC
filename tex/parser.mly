@@ -22,6 +22,11 @@ let set_superblock_option_with_intertext (r, vo) =
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
 
+let mk_point_val_f_opt (s: string option) = 
+  match s with
+  | None -> None
+  | Some x -> Some (float_of_string x)
+
 %}	
 
 %token EOF
@@ -41,7 +46,8 @@ let set_superblock_option_with_intertext (r, vo) =
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 %token <string> COMMENT_LINE
 
-%token <string * string> KW_BEGIN_ATOM KW_END_ATOM 
+%token <string * string * string option> KW_BEGIN_ATOM
+%token <string * string> KW_END_ATOM 
 %token <string> KW_LABEL
 %token <string * string> KW_LABEL_AND_NAME
 
@@ -424,11 +430,12 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_begin) = h_b in
+   let (kind, h_begin, pval_opt) = h_b in
+   let pval_f_opt = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
    let _ =  d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin in
-     Atom (preamble, (kind, h_begin, None, Some l, bs, il, sol, h_end))
+     Atom (preamble, (kind, h_begin, pval_f_opt, None, Some l, bs, il, sol, h_end))
   }
 
 | preamble = boxes;
@@ -439,13 +446,14 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_bb) = h_b in
+   let (kind, h_bb, pval_opt) = h_b in
+   let pval_f_opt = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (bo, tt, bc) = t in
    let (_, h_end) = h_e in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      d_printf "Parsed Atom.2 kind = %s title = %s" kind tt;
-     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, sol, h_end))
+     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, Some l, bs, il, sol, h_end))
   }
 
 | preamble = boxes;
@@ -454,11 +462,12 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_begin) = h_b in
+   let (kind, h_begin, pval_opt) = h_b in
+   let pval_f_opt = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
      d_printf "Parsed Atom.3 kind = %s h_begin = %s" kind h_begin;
-     Atom (preamble, (kind, h_begin, None, None, bs, il, sol, h_end)) 
+     Atom (preamble, (kind, h_begin, pval_f_opt, None, None, bs, il, sol, h_end)) 
   }
 
 | preamble = boxes;
@@ -468,13 +477,14 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_bb) = h_b in
+   let (kind, h_bb, pval_opt) = h_b in
+   let pval_f_opt = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      d_printf "Parsed Atom.4 kind = %s h_begin = %s title = %s" kind h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, None, bs, il, sol, h_end))
+     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, bs, il, sol, h_end))
   }
 
 atom:

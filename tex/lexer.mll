@@ -275,12 +275,12 @@ rule token = parse
 | p_begin_atom
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all)
+       KW_BEGIN_ATOM(kind, all, None)
     }		
 | p_begin_atom_with_points
-  	{let all = b ^ o ^ kindws ^ c in
+  	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
        d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM_WITH_POINTS(kind, all)
+       KW_BEGIN_ATOM(kind, all, Some point_val)
     }		
 | p_end_atom
   	{let all = e ^ o ^ kindws ^ c in

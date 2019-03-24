@@ -52,7 +52,8 @@ type ilist = IList of t_preamble
                          item list * t_keyword) 
 
 type atom = Atom of t_preamble  
-                    * (t_atom_kind * t_keyword * t_title option * t_label option * 
+                    * (t_atom_kind * t_keyword * t_point_val option * t_title option * 
+                       t_label option * 
                        t_atom_body * ilist option * t_refsol option * t_keyword) 
 
 type group = 
@@ -191,7 +192,7 @@ let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
-let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
   let label = labelOptToTex lopt in
   let refsol = refsolOptToTex refsol_opt in
     match ilist_opt with 
@@ -340,8 +341,9 @@ let ilistToXml tex2html
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist, refsol, h_end))) = 
+              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist, refsol, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
   let _ = 
@@ -361,6 +363,7 @@ let atomToXml tex2html
     | Some l -> ilistToXml tex2html l 
   in
   let r = XmlSyntax.mk_atom ~kind:kind 
+                            ~pval:pval_str_opt
                             ~topt:topt ~t_xml_opt:t_xml_opt
                             ~lopt:lsopt 
                             ~body_src:body
