@@ -28,7 +28,7 @@ let set_superblock_option_with_intertext (r, vo) =
 
 %token <string> WORD
 %token <string> ENV
-%token <string * string> SOLUTION
+%token <string * string * (string * string)> REFSOL 
 
 /* ilist is 
  * kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list 
@@ -139,11 +139,11 @@ boxes_start_no_sq:
 
 /* I don't think solutions should have a preamble, because
    it is in inside of diderot atoms */
-solution:
-| s = SOLUTION
-  {let (h, body) = s in
-   let _ = d_printf ("!parser: solution matched") in     
-     (h, body)
+refsol:
+| s = REFSOL
+  {let (h_b, body, h_e) = s in
+   let _ = d_printf ("!parser: nefsol matched") in     
+     (h_b, body, h_e)
   }
 
 
@@ -408,6 +408,13 @@ atoms_and_intertext:
   ats = atoms; it = boxes;
   {(ats, it)}			
 
+mk_atom_tail (kw_e):
+| h_b = kw_e
+  { (None, None, h_b) }
+| s = refsol
+  {let (h_b, body, h_e) = s in
+     (Some h_b, Some body, h_e)
+  }
 /*  diderot atom */
 mk_atom(kw_b, kw_e):
 | preamble = boxes;
@@ -415,12 +422,12 @@ mk_atom(kw_b, kw_e):
   l = label;
   bs = boxes; 
   il = option(ilist); 
-  sol = option(solution); 
-  h_e = kw_e;
+  tail = mk_atom_tail (kw_e)
   {
    let (kind, h_begin) = h_b in
+   let (_, sol_opt, h_e) = tail in
    let (_, h_end) = h_e in
-     d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin;
+   let _ =  d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin in
      Atom (preamble, (kind, h_begin, None, Some l, bs, il, h_end))
   }
 
@@ -430,12 +437,12 @@ mk_atom(kw_b, kw_e):
   l = label;
   bs = boxes; 
   il = option(ilist); 
-  sol = option(solution); 
-  h_e = kw_e;
+  tail = mk_atom_tail (kw_e)
   {
    let (kind, h_bb) = h_b in
-   let (_, h_end) = h_e in
+   let (_, sol_opt, h_e) = tail in
    let (bo, tt, bc) = t in
+   let (_, h_end) = h_e in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      d_printf "Parsed Atom.2 kind = %s title = %s" kind tt;
      Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, h_end))
@@ -445,10 +452,10 @@ mk_atom(kw_b, kw_e):
   h_b = kw_b;
   bs = boxes_start_no_sq; 
   il = option(ilist); 
-  sol = option(solution); 
-  h_e = kw_e;
+  tail = mk_atom_tail (kw_e)
   {
    let (kind, h_begin) = h_b in
+   let (_, sol_opt, h_e) = tail in
    let (_, h_end) = h_e in
      d_printf "Parsed Atom.3 kind = %s h_begin = %s" kind h_begin;
      Atom (preamble, (kind, h_begin, None, None, bs, il, h_end)) 
@@ -459,10 +466,10 @@ mk_atom(kw_b, kw_e):
   t = sq_box; 
   bs = boxes; 
   il = option(ilist); 
-  sol = option(solution); 
-  h_e = kw_e;
+  tail = mk_atom_tail (kw_e)
   {
    let (kind, h_bb) = h_b in
+   let (_, sol_opt, h_e) = tail in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   

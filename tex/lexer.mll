@@ -92,7 +92,7 @@ let p_begin = '\\' "begin" p_ws
 let p_end = '\\' "end" p_ws												 
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
-
+let p_refsol = '\\' "solution"
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
@@ -164,10 +164,8 @@ let p_theorem = "theorem"
 (* Ilists *)
 let p_pickone = "pickone"
 let p_pickany = "pickany"
-let p_ilist_separator = p_choice | p_correctchoice
 
-(* Reference solution *)
-let p_refsol = "refsol"
+let p_ilist_separator = p_choice | p_correctchoice
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
@@ -206,8 +204,7 @@ let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c)
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
-let p_begin_refsol = (p_begin p_ws as b) (p_o_curly as o) p_refsol (p_c_curly as c) 
-let p_end_refsol = (p_end p_ws as e) (p_o_curly as o) p_refsol (p_c_curly as c) 
+let p_end_problem = (p_end p_ws as e) (p_o_curly as o) ((p_problem as kind) p_ws as kindws) (p_c_curly as c) 
 
 let p_ilist_kinds = (p_pickone | p_pickany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
@@ -306,15 +303,13 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
-| p_begin_refsol
+| p_refsol as h 
       {
-       let kw_b = b ^ o ^ kindws ^ c  in
-       let _ = d_printf "!lexer: begin solution % s\n" kw_b in
-       let body = refsol lexbuf in
-!!! HERES
-
-       let _ = d_printf "!lexer: solution matched = %s" body in
-            SOLUTION(h, body)
+       let _ = d_printf "!lexer: begin refsol\n" in
+       let (body, h_e) = refsol lexbuf in
+       let (h_e_a, h_e_b) = h_e in
+       let _ = d_printf "!lexer: refsol matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
+            REFSOL(h, body, h_e)
       }   
 
 | p_part as x           (* treat as comment *)
@@ -420,16 +415,18 @@ and ilist =
             ((char_to_str x) ^ y, zs, e)
         }
 
-and solution =
+and refsol =
   parse
-  | p_end_problem as x
+  | p_end_problem
         { 
-            let _ = d_printf "!lexer: exiting solution\n" in
-                x
+  	     let all = e ^ o ^ kindws ^ c in
+         let _ = d_printf "lexer matched end problem: %s" kind in
+         let _ = d_printf "!lexer: exiting refsol\n" in
+           ("", (kind, all))
         }
   | _  as x
-        { let y = solution lexbuf in
-            (char_to_str x) ^ y
+        { let (body, h_e) = refsol lexbuf in
+            ((char_to_str x) ^ body, h_e)
         }
 
 and verbatim =
