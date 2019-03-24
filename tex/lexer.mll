@@ -201,6 +201,7 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
 
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
+let p_begin_atom_with_points = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
@@ -275,6 +276,11 @@ rule token = parse
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;
        KW_BEGIN_ATOM(kind, all)
+    }		
+| p_begin_atom_with_points
+  	{let all = b ^ o ^ kindws ^ c in
+       d_printf "lexer matched begin atom: %s" kind;
+       KW_BEGIN_ATOM_WITH_POINTS(kind, all)
     }		
 | p_end_atom
   	{let all = e ^ o ^ kindws ^ c in
