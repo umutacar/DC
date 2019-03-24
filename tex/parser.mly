@@ -307,9 +307,10 @@ cluster:
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
+   let pval_opt = None in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, None, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, pval_opt, None, l, !bs, it, h_end))
   }	  
 | preamble = boxes;   
   h_b = KW_BEGIN_CLUSTER;
@@ -319,13 +320,14 @@ cluster:
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
+   let pval_opt = None in
    let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_b ^ title_part in
    let _ = d_printf ("!parser: cluster matched") in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, Some tt, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, pval_opt, Some tt, l, !bs, it, h_end))
   }	  
 
 /**********************************************************************

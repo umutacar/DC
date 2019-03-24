@@ -1,7 +1,4 @@
 # TODO
-  -> Allow points to have point values.  See ilists an an example, the idea is to match the point value as part of the begin{atom}.  For example \begin{atom}[20]
-
-
   - superblocks include blocks.  This leads to shift/reduce conflict.  Look into this.  Is this harmless?
   - diderot keywords such as labels can appear inside bodies.  How to deal with these?  We can include them as a word but this will likely lead to many conflicts.
 
@@ -38,6 +35,8 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [March 24]
+  -> atoms now have points. if not specified, then they have 0 points.
 - [March 23]
   -> Updated beamer to recognize clusters.
   -> Allow point scores to be added to clusters.  

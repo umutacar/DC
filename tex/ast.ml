@@ -85,7 +85,7 @@ and paragraph =
 
 and cluster = 
   Cluster of t_preamble
-             * (t_keyword * t_title option * t_label option * 
+             * (t_keyword * t_point_val option * t_title option * t_label option * 
                 block list * t_intertext * t_keyword)
 
 and superblock = 
@@ -221,7 +221,7 @@ let blockToTex b =
   | Block_Group g -> groupToTex g
   | Block_Atom a -> atomToTex a
 
-let clusterToTex (Cluster(preamble, (h_begin, topt, lopt, bs, it, h_end))) = 
+let clusterToTex (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
   let _ = d_printf "clusterToTex" in
   let blocks = map_concat blockToTex bs in
   let label = labelOptToTex lopt in
@@ -390,10 +390,12 @@ let blockToXml tex2html b =
   | Block_Group g -> groupToXml tex2html g
   | Block_Atom a -> atomToXml  tex2html a
 
-let clusterToXml tex2html (Cluster(preamble, (h_begin, topt, lopt, bs, it, h_end))) = 
+let clusterToXml tex2html (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let blocks = map_concat (blockToXml tex2html) bs in
-  let r = XmlSyntax.mk_cluster ~topt:topt ~t_xml_opt:t_xml_opt 
+  let r = XmlSyntax.mk_cluster ~pval:pval_str_opt 
+                               ~topt:topt ~t_xml_opt:t_xml_opt 
                                ~lopt:lsopt ~body:blocks in
     r
 

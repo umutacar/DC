@@ -323,11 +323,12 @@ let mk_group ~topt ~t_xml_opt ~lopt ~body =
   let label_xml = mk_label_opt lopt in
     mk_block_generic group [title_xml; title_src; label_xml; body]
 
-let mk_cluster ~topt ~t_xml_opt ~lopt ~body = 
+let mk_cluster ~pval ~topt ~t_xml_opt ~lopt ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let title_src = mk_title_src_opt topt in
   let title_xml = mk_title_opt t_xml_opt in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic cluster [title_xml; title_src; label_xml; body]
+    mk_block_generic cluster [title_xml; title_src; label_xml; pval_xml; body]
 
 
 let mk_paragraph ~title ~title_xml ~lopt ~body = 
