@@ -43,6 +43,7 @@ type t_title = string
 
 type t_label = Label of t_keyword * t_label_val
 type t_point_val = float
+type t_refsol = string 
 
 type item = Item of t_keyword *  t_point_val option * t_item_body
 
@@ -52,7 +53,7 @@ type ilist = IList of t_preamble
 
 type atom = Atom of t_preamble  
                     * (t_atom_kind * t_keyword * t_title option * t_label option * 
-                       t_atom_body * ilist option * t_keyword) 
+                       t_atom_body * ilist option * t_refsol option * t_keyword) 
 
 type group = 
   Group of t_preamble 
@@ -172,6 +173,14 @@ let labelOptToTex lopt =
 let pointvalToTex p = 
   mktex_optarg (Float.to_string p)
 
+let refsolOptToTex refsol_opt = 
+  let heading = "\\solution" in
+  let r = match refsol_opt with 
+              |  None -> ""
+              |  Some x -> heading ^ "\n" ^ x  in
+     r
+
+
 let itemToTex (Item(keyword, pval, body)) = 
   match pval with 
   | None -> keyword ^ body
@@ -182,17 +191,18 @@ let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
-let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, h_end))) = 
+let atomToTex (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
   let label = labelOptToTex lopt in
+  let refsol = refsolOptToTex refsol_opt in
     match ilist_opt with 
     | None -> 
       let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
-      let r =  preamble ^ h_begin ^ label ^ body ^ h_end in 
+      let r =  preamble ^ h_begin ^ label ^ body ^ refsol ^ h_end in 
 (*      let _  = d_printf "atomToTex: atom =  %s" r in *)
         r
     | Some il ->
       let ils = ilistToTex il in 
-        preamble ^ h_begin ^ label ^ body ^ ils ^ h_end      
+        preamble ^ h_begin ^ label ^ body ^ ils ^ refsol ^ h_end      
 
 let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let atoms = map_concat atomToTex ats in
@@ -279,6 +289,7 @@ let chapterToTex (Chapter (preamble, (heading, t, l, sbs, it, ss))) =
  * <p> </p> annotations must be removed.
  *) 
 let body_is_single_par = false
+let refsol_is_single_par = false
 let title_is_single_par = true
 
 
@@ -329,10 +340,20 @@ let ilistToXml tex2html
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist, h_end))) = 
+              (Atom(preamble, (kind, h_begin, topt, lopt, body, ilist, refsol, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
+  let refsol_src = 
+    match refsol with 
+    | None -> ""
+    | Some x -> x
+  in
+  let refsol_xml = 
+    match refsol with 
+    | None -> ""
+    | Some x -> tex2html (mk_index ()) x refsol_is_single_par 
+  in
   let ilist_xml =   
     match ilist with  
     | None -> ""
@@ -344,8 +365,10 @@ let atomToXml tex2html
                             ~body_src:body
                             ~body_xml:body_xml
                             ~ilist:ilist_xml
-          in
-    r
+                            ~refsol_xml:refsol_xml
+                            ~refsol_src:refsol_src
+   in
+     r
      
 let groupToXml tex2html
                (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 

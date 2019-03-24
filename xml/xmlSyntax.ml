@@ -79,6 +79,8 @@ let proof = "proof"
 let proposition = "proposition"
 let radio = "radio"
 let rank = "rank"
+let refsol = "refsol"
+let refsol_src = "refsol_src"
 let remark = "remark"
 let solution = "solution"
 let syntax = "syntax"
@@ -218,6 +220,12 @@ let mk_parents(x) =
 let mk_solution (x) = 
   mk_field_generic(solution, x)
 
+let mk_refsol (x) = 
+  mk_field_generic(refsol, x)
+
+let mk_refsol_src (x) = 
+  mk_field_generic(refsol_src, x)
+
 let mk_title(x) = 
   mk_field_generic(title, mk_cdata x)
 
@@ -290,11 +298,13 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist = 
+let mk_atom ~kind ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist ~refsol_src ~refsol_xml = 
   let title_xml = mk_title_opt t_xml_opt in
   let title_src = mk_title_src_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
+  let refsol_xml = mk_refsol refsol_xml in
+  let refsol_src = mk_refsol_src refsol_src in
   let label_xml = mk_label_opt lopt in
     mk_block_atom kind ilist [title_xml; title_src; label_xml; body_xml; body_src]
 

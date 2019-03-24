@@ -425,10 +425,10 @@ mk_atom(kw_b, kw_e):
   tail = mk_atom_tail (kw_e)
   {
    let (kind, h_begin) = h_b in
-   let (_, sol_opt, h_e) = tail in
+   let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
    let _ =  d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin in
-     Atom (preamble, (kind, h_begin, None, Some l, bs, il, h_end))
+     Atom (preamble, (kind, h_begin, None, Some l, bs, il, sol, h_end))
   }
 
 | preamble = boxes;
@@ -440,12 +440,12 @@ mk_atom(kw_b, kw_e):
   tail = mk_atom_tail (kw_e)
   {
    let (kind, h_bb) = h_b in
-   let (_, sol_opt, h_e) = tail in
+   let (_, sol, h_e) = tail in
    let (bo, tt, bc) = t in
    let (_, h_end) = h_e in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      d_printf "Parsed Atom.2 kind = %s title = %s" kind tt;
-     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, h_end))
+     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, sol, h_end))
   }
 
 | preamble = boxes;
@@ -455,10 +455,10 @@ mk_atom(kw_b, kw_e):
   tail = mk_atom_tail (kw_e)
   {
    let (kind, h_begin) = h_b in
-   let (_, sol_opt, h_e) = tail in
+   let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
      d_printf "Parsed Atom.3 kind = %s h_begin = %s" kind h_begin;
-     Atom (preamble, (kind, h_begin, None, None, bs, il, h_end)) 
+     Atom (preamble, (kind, h_begin, None, None, bs, il, sol, h_end)) 
   }
 
 | preamble = boxes;
@@ -469,12 +469,12 @@ mk_atom(kw_b, kw_e):
   tail = mk_atom_tail (kw_e)
   {
    let (kind, h_bb) = h_b in
-   let (_, sol_opt, h_e) = tail in
+   let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      d_printf "Parsed Atom.4 kind = %s h_begin = %s title = %s" kind h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, None, bs, il, h_end))
+     Atom (preamble, (kind, h_begin, Some tt, None, bs, il, sol, h_end))
   }
 
 atom:
