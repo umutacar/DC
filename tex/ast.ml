@@ -65,32 +65,32 @@ type group =
 type chapter = 
   Chapter of t_preamble
              *  (t_keyword * t_title * t_label * 
-                 superblock list * t_intertext * section list) 
+                 block list * t_intertext * section list) 
 
 and section = 
   Section of (t_keyword * t_title * t_label option *
-              superblock list * t_intertext * subsection list)
+              block list * t_intertext * subsection list)
 
 and subsection = 
   Subsection of (t_keyword * t_title * t_label option *
-                 superblock list * t_intertext * subsubsection list)
+                 block list * t_intertext * subsubsection list)
 
 and subsubsection = 
   Subsubsection of (t_keyword * t_title * t_label option *
-                    superblock list * t_intertext * paragraph list)
+                    block list * t_intertext * paragraph list)
 
 and paragraph = 
   Paragraph of (t_keyword * t_title * t_label option *
-                superblock list * t_intertext)
+                block list * t_intertext)
 
 and cluster = 
   Cluster of t_preamble
              * (t_keyword * t_point_val option * t_title option * t_label option * 
                 element list * t_intertext * t_keyword)
 
-and superblock = 
-  | Superblock_Block of element
-  | Superblock_Cluster of cluster
+and block = 
+  | Block_Block of element
+  | Block_Cluster of cluster
 
 and element = 
   | Element_Group of group
@@ -230,53 +230,53 @@ let clusterToTex (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_en
     elements ^ it ^ 
     h_end
 
-let superblockToTex x = 
-  let _ = d_printf "superblockToTex" in
+let blockToTex x = 
+  let _ = d_printf "blockToTex" in
   let r = 
     match x with
-    | Superblock_Cluster c -> clusterToTex c
-    | Superblock_Block b -> elementToTex b
+    | Block_Cluster c -> clusterToTex c
+    | Block_Block b -> elementToTex b
   in
-  let _ = d_printf ("ast.superblockToTex: %s\n") r  in
+  let _ = d_printf ("ast.blockToTex: %s\n") r  in
     r
 
 let paragraphToTex (Paragraph (heading, t, lopt, bs, it)) =
-  let superblocks = map_concat superblockToTex bs in
+  let blocks = map_concat blockToTex bs in
   let label = labelOptToTex lopt in
-    heading ^ label ^ superblocks ^ it 
+    heading ^ label ^ blocks ^ it 
 
 let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, it, ss)) =
-  let superblocks = map_concat superblockToTex bs in
+  let blocks = map_concat blockToTex bs in
   let nesteds = map_concat paragraphToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
-    superblocks ^ it ^ 
+    blocks ^ it ^ 
     nesteds
 
 let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
-  let superblocks = map_concat superblockToTex bs in
+  let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
-    superblocks ^ it ^ 
+    blocks ^ it ^ 
     nesteds
 
 let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
-  let superblocks = map_concat superblockToTex bs in
+  let blocks = map_concat blockToTex bs in
 (*  let _ = d_printf "sectionToTex: elements = %s" elements in *)
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
-    superblocks ^ it ^ nesteds
+    blocks ^ it ^ nesteds
 
 let chapterToTex (Chapter (preamble, (heading, t, l, sbs, it, ss))) =
-  let superblocks = map_concat superblockToTex sbs in
+  let blocks = map_concat blockToTex sbs in
   let sections = map_concat sectionToTex ss in
-  let _ = d_printf "ast.chapterToTex: superblocks = [begin: superblocks] %s... [end: superblocks] " superblocks in
+  let _ = d_printf "ast.chapterToTex: blocks = [begin: blocks] %s... [end: blocks] " blocks in
   let label = labelToTex l in
     preamble ^ 
     heading ^ label ^ 
-    superblocks ^ it ^ 
+    blocks ^ it ^ 
     sections
 
 (**********************************************************************
@@ -399,41 +399,41 @@ let clusterToXml tex2html (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs,
                                ~lopt:lsopt ~body:elements in
     r
 
-let superblockToXml tex2html x = 
+let blockToXml tex2html x = 
   match x with
-  | Superblock_Block b -> elementToXml tex2html b
-  | Superblock_Cluster c -> clusterToXml  tex2html c
+  | Block_Block b -> elementToXml tex2html b
+  | Block_Cluster c -> clusterToXml  tex2html c
 
 let paragraphToXml  tex2html (Paragraph (heading, t, lopt, bs, it)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
-  let superblocks = map_concat (superblockToXml  tex2html) bs in
+  let blocks = map_concat (blockToXml  tex2html) bs in
   let r = XmlSyntax.mk_paragraph ~title:t ~title_xml:t_xml 
-                                 ~lopt:lsopt ~body:superblocks in
+                                 ~lopt:lsopt ~body:blocks in
     r
 
 let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it, ss)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
-  let superblocks = map_concat (superblockToXml  tex2html) bs in
+  let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (paragraphToXml  tex2html) ss in
-  let body = superblocks ^ newline ^ nesteds in
+  let body = blocks ^ newline ^ nesteds in
   let r = XmlSyntax.mk_subsubsection ~title:t ~title_xml:t_xml
                                      ~lopt:lsopt ~body:body in
     r
 
 let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, it, ss)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
-  let superblocks = map_concat (superblockToXml  tex2html) bs in
+  let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (subsubsectionToXml  tex2html) ss in
-  let body = superblocks ^ newline ^ nesteds in
+  let body = blocks ^ newline ^ nesteds in
   let r = XmlSyntax.mk_subsection ~title:t ~title_xml:t_xml
                                   ~lopt:lsopt ~body:body in
     r
 
 let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
-  let superblocks = map_concat (superblockToXml  tex2html) bs in
+  let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (subsectionToXml  tex2html) ss in
-  let body = superblocks ^ newline ^ nesteds in
+  let body = blocks ^ newline ^ nesteds in
   let r = XmlSyntax.mk_section ~title:t ~title_xml:t_xml
                                ~lopt:lsopt ~body:body in
     r
@@ -442,9 +442,9 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
   let Label(heading, label) = l in 
   let _ = d_printf "chapter label, heading = %s  = %s\n" heading label in
   let t_xml = tex2html (mk_index()) t title_is_single_par in
-  let superblocks = map_concat (superblockToXml  tex2html) bs in
+  let blocks = map_concat (blockToXml  tex2html) bs in
   let sections = map_concat (sectionToXml  tex2html) ss in
-  let body = superblocks ^ newline ^ sections in
+  let body = blocks ^ newline ^ sections in
   let r = XmlSyntax.mk_chapter ~title:t ~title_xml:t_xml ~label:label ~body:body in
     r
 

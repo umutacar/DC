@@ -17,7 +17,7 @@ let set_option_with_intertext (r, vo) =
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
 
-let set_superblock_option_with_intertext (r, vo) = 
+let set_block_option_with_intertext (r, vo) = 
   match vo with 
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
@@ -205,14 +205,14 @@ mk_heading(kw_heading):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  sbso = option(superblocks_and_intertext);
+  sbso = option(blocks_and_intertext);
   sso = option(mk_sections(nested_section));
   {
    let (heading, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
    let sbs = ref [] in
    let ss = ref [] in
-   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let it = set_block_option_with_intertext (sbs, sbso) in
    let _ = set_sections_option(ss, sso) in
      (heading, t, l, !sbs, it, !ss)
   }	  
@@ -226,14 +226,14 @@ chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  sbso = option(superblocks_and_intertext); 
+  sbso = option(blocks_and_intertext); 
   sso = option(mk_sections(section)); 
   EOF 
   {
    let (heading, t) = h in
    let sbs = ref [] in
    let ss = ref [] in
-   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let it = set_block_option_with_intertext (sbs, sbso) in
    let _ = set_sections_option(ss, sso) in
      Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
   }	
@@ -263,11 +263,11 @@ subsubsection:
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  sbso = option(superblocks_and_intertext); 
+  sbso = option(blocks_and_intertext); 
   {
    let (heading, t) = h in
    let sbs = ref [] in
-   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let it = set_block_option_with_intertext (sbs, sbso) in
      Ast.Paragraph (heading, t, l,!sbs, it)
   }	  
 
@@ -275,24 +275,24 @@ paragraph:
  ** END: Latex Sections
  **********************************************************************/
 
-superblocks_and_intertext:
-  xs = superblocks; intertext = boxes;
-  {let _ = d_printf ("parser matched: superblocks_and_intertext.\n")  in
+blocks_and_intertext:
+  xs = blocks; intertext = boxes;
+  {let _ = d_printf ("parser matched: blocks_and_intertext.\n")  in
      (xs, intertext)
   } 
 
-superblocks:
-|	x = superblock
+blocks:
+|	x = block
   {[x]}
-| xs = superblocks;
-  x = superblock; 
+| xs = blocks;
+  x = block; 
   {List.append xs [x]}
 
-superblock:
+block:
 |	e = element
-  { Ast.Superblock_Block e }
+  { Ast.Block_Block e }
 | c = cluster
-  { Ast.Superblock_Cluster c }
+  { Ast.Block_Cluster c }
   
 /**********************************************************************
  ** BEGIN: Cluster
@@ -336,7 +336,7 @@ cluster:
 
 /**********************************************************************
  ** BEGIN: Elements
- ** A element is a sequence of groups and atoms 
+ ** An element is a groups and atoms 
  **********************************************************************/
 
 element:
