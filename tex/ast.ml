@@ -77,11 +77,7 @@ and subsection =
 
 and subsubsection = 
   Subsubsection of (t_keyword * t_title * t_label option *
-                    block list * t_intertext * paragraph list)
-
-and paragraph = 
-  Paragraph of (t_keyword * t_title * t_label option *
-                block list * t_intertext)
+                    block list * t_intertext)
 
 and cluster = 
   Cluster of t_preamble
@@ -240,18 +236,11 @@ let blockToTex x =
   let _ = d_printf ("ast.blockToTex: %s\n") r  in
     r
 
-let paragraphToTex (Paragraph (heading, t, lopt, bs, it)) =
+let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, it)) =
   let blocks = map_concat blockToTex bs in
-  let label = labelOptToTex lopt in
-    heading ^ label ^ blocks ^ it 
-
-let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, it, ss)) =
-  let blocks = map_concat blockToTex bs in
-  let nesteds = map_concat paragraphToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
-    blocks ^ it ^ 
-    nesteds
+    blocks ^ it
 
 let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
   let blocks = map_concat blockToTex bs in
@@ -404,18 +393,10 @@ let blockToXml tex2html x =
   | Block_Block b -> elementToXml tex2html b
   | Block_Cluster c -> clusterToXml  tex2html c
 
-let paragraphToXml  tex2html (Paragraph (heading, t, lopt, bs, it)) =
+let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it)) =
   let (lsopt, t_xml) = label_title tex2html lopt t in
   let blocks = map_concat (blockToXml  tex2html) bs in
-  let r = XmlSyntax.mk_paragraph ~title:t ~title_xml:t_xml 
-                                 ~lopt:lsopt ~body:blocks in
-    r
-
-let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it, ss)) =
-  let (lsopt, t_xml) = label_title tex2html lopt t in
-  let blocks = map_concat (blockToXml  tex2html) bs in
-  let nesteds = map_concat (paragraphToXml  tex2html) ss in
-  let body = blocks ^ newline ^ nesteds in
+  let body = blocks in
   let r = XmlSyntax.mk_subsubsection ~title:t ~title_xml:t_xml
                                      ~lopt:lsopt ~body:body in
     r

@@ -55,8 +55,6 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> KW_SECTION, KW_TITLED_QUESTION
 %token <string> KW_SUBSECTION
 %token <string> KW_SUBSUBSECTION	
-%token <string> KW_PARAGRAPH	
-%token <string> KW_SUBPARAGRAPH
 
 %token <string> KW_BEGIN_CLUSTER KW_END_CLUSTER
 %token <string> KW_BEGIN_GROUP KW_END_GROUP
@@ -254,12 +252,19 @@ subsection:
      Ast.Subsection desc
   }	  
 	
-subsubsection: 
-  desc = mk_section(KW_SUBSUBSECTION, paragraph)
+
+subsubsection:
+  h = mk_heading(KW_SUBSUBSECTION); 
+  l = option(label); 
+  sbso = option(blocks_and_intertext); 
   {
-     Ast.Subsubsection desc
+   let (heading, t) = h in
+   let sbs = ref [] in
+   let it = set_block_option_with_intertext (sbs, sbso) in
+     Ast.Subsubsection (heading, t, l,!sbs, it)
   }	  
 
+/*
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
@@ -270,7 +275,7 @@ paragraph:
    let it = set_block_option_with_intertext (sbs, sbso) in
      Ast.Paragraph (heading, t, l,!sbs, it)
   }	  
-
+*/
 /**********************************************************************
  ** END: Latex Sections
  **********************************************************************/
