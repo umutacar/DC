@@ -35,7 +35,10 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
-- [April 7]
+- [April 7]  
+  - Need a function to compute point values for clusters.
+  - Renamed "block" to "element".  
+    An element now is either a group or an atom.
 
 - [March 24]
   -> atoms now have points. if not specified, then they have 0 points.

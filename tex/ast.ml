@@ -86,15 +86,15 @@ and paragraph =
 and cluster = 
   Cluster of t_preamble
              * (t_keyword * t_point_val option * t_title option * t_label option * 
-                block list * t_intertext * t_keyword)
+                element list * t_intertext * t_keyword)
 
 and superblock = 
-  | Superblock_Block of block
+  | Superblock_Block of element
   | Superblock_Cluster of cluster
 
-and block = 
-  | Block_Group of group
-  | Block_Atom of atom
+and element = 
+  | Element_Group of group
+  | Element_Atom of atom
 
 (**********************************************************************
  ** END: AST Data Types
@@ -216,18 +216,18 @@ let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) =
     atoms ^ it ^ 
     h_end
 
-let blockToTex b = 
+let elementToTex b = 
   match b with
-  | Block_Group g -> groupToTex g
-  | Block_Atom a -> atomToTex a
+  | Element_Group g -> groupToTex g
+  | Element_Atom a -> atomToTex a
 
 let clusterToTex (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
   let _ = d_printf "clusterToTex" in
-  let blocks = map_concat blockToTex bs in
+  let elements = map_concat elementToTex bs in
   let label = labelOptToTex lopt in
     preamble ^
     h_begin ^ label ^ 
-    blocks ^ it ^ 
+    elements ^ it ^ 
     h_end
 
 let superblockToTex x = 
@@ -235,7 +235,7 @@ let superblockToTex x =
   let r = 
     match x with
     | Superblock_Cluster c -> clusterToTex c
-    | Superblock_Block b -> blockToTex b
+    | Superblock_Block b -> elementToTex b
   in
   let _ = d_printf ("ast.superblockToTex: %s\n") r  in
     r
@@ -263,7 +263,7 @@ let subsectionToTex (Subsection (heading, t, lopt, bs, it, ss)) =
 
 let sectionToTex (Section (heading, t, lopt, bs, it, ss)) =
   let superblocks = map_concat superblockToTex bs in
-(*  let _ = d_printf "sectionToTex: blocks = %s" blocks in *)
+(*  let _ = d_printf "sectionToTex: elements = %s" elements in *)
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
@@ -385,23 +385,23 @@ let groupToXml tex2html
                              ~lopt:lsopt ~body:atoms in
     r
 
-let blockToXml tex2html b = 
+let elementToXml tex2html b = 
   match b with
-  | Block_Group g -> groupToXml tex2html g
-  | Block_Atom a -> atomToXml  tex2html a
+  | Element_Group g -> groupToXml tex2html g
+  | Element_Atom a -> atomToXml  tex2html a
 
 let clusterToXml tex2html (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
-  let blocks = map_concat (blockToXml tex2html) bs in
+  let elements = map_concat (elementToXml tex2html) bs in
   let r = XmlSyntax.mk_cluster ~pval:pval_str_opt 
                                ~topt:topt ~t_xml_opt:t_xml_opt 
-                               ~lopt:lsopt ~body:blocks in
+                               ~lopt:lsopt ~body:elements in
     r
 
 let superblockToXml tex2html x = 
   match x with
-  | Superblock_Block b -> blockToXml tex2html b
+  | Superblock_Block b -> elementToXml tex2html b
   | Superblock_Cluster c -> clusterToXml  tex2html c
 
 let paragraphToXml  tex2html (Paragraph (heading, t, lopt, bs, it)) =

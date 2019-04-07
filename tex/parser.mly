@@ -289,8 +289,8 @@ superblocks:
   {List.append xs [x]}
 
 superblock:
-|	b = block
-  { Ast.Superblock_Block b }
+|	e = element
+  { Ast.Superblock_Block e }
 | c = cluster
   { Ast.Superblock_Cluster c }
   
@@ -303,7 +303,7 @@ cluster:
 | preamble = boxes;   
   h_begin = KW_BEGIN_CLUSTER;
   l = option(label); 
-  bso = option(blocks_and_intertext);
+  bso = option(elements_and_intertext);
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
@@ -316,7 +316,7 @@ cluster:
   h_b = KW_BEGIN_CLUSTER;
   t = sq_box; 
   l = option(label); 
-  bso = option(blocks_and_intertext);
+  bso = option(elements_and_intertext);
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
@@ -335,33 +335,33 @@ cluster:
  **********************************************************************/
 
 /**********************************************************************
- ** BEGIN: Blocks
- ** A block is a sequence of groups and atoms 
+ ** BEGIN: Elements
+ ** A element is a sequence of groups and atoms 
  **********************************************************************/
 
-block:
+element:
 	a = atom
-  {Ast.Block_Atom a}
+  {Ast.Element_Atom a}
 | g = group
-  {Ast.Block_Group g}
+  {Ast.Element_Group g}
 
-blocks:
-	b = block
-  {[b]}
-| bs = blocks;
-  b = block; 
-  {List.append bs [b]}
+elements:
+	e = element
+  {[e]}
+| es = elements;
+  e = element; 
+  {List.append es [e]}
 
 /* Drop intertext */
-blocks_and_intertext:
-  bs = blocks; intertext = boxes;
-  {let _ = d_printf ("parser matched: blocks_and_intertext.\n") in
-     (bs, intertext)
+elements_and_intertext:
+  es = elements; intertext = boxes;
+  {let _ = d_printf ("parser matched: elements_and_intertext.\n") in
+     (es, intertext)
   } 
 
 
 /**********************************************************************
- ** END: Blocks
+ ** END: Elements
  **********************************************************************/
 			
 /**********************************************************************
