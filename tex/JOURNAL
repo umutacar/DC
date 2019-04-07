@@ -35,8 +35,16 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [April 7]
+
 - [March 24]
   -> atoms now have points. if not specified, then they have 0 points.
+     the syntax is \begin{atom}[pointval][title]
+     pointval is optional
+   
+     
+  -> added points to clusters.  but clusters are not given points at the syntax level. 
+     the question now is how to compute this stuff for clusters.
 - [March 23]
   -> Updated beamer to recognize clusters.
   -> Allow point scores to be added to clusters.  

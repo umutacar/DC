@@ -27,7 +27,7 @@ let main () =
       let outfile = Sys.argv.(3) in
          Out_channel.write_all outfile ~data:chapter_xml 
     else
-      printf "Usage: main <input latex file> <input preamble file> [<output xml file>]\n";;			
+      printf "Usage: main <input latex file> <input preamble file> <output xml file>\n";;			
 					
 let _ = main ()
 
