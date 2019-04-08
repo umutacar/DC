@@ -56,7 +56,9 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> KW_SUBSECTION
 %token <string> KW_SUBSUBSECTION	
 
-%token <string> KW_BEGIN_CLUSTER KW_END_CLUSTER
+/* cluster is heading and point value option */
+%token <string * string option> KW_BEGIN_CLUSTER 
+%token <string> KW_END_CLUSTER
 %token <string> KW_BEGIN_GROUP KW_END_GROUP
 	
 %start chapter
@@ -313,10 +315,11 @@ cluster:
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
-   let pval_opt = None in
+   let (h_begin, pval_opt) = h_begin in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, pval_opt, None, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, pval_f_opt, None, l, !bs, it, h_end))
   }	  
 | preamble = boxes;   
   h_b = KW_BEGIN_CLUSTER;
@@ -326,14 +329,15 @@ cluster:
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
-   let pval_opt = None in
+   let (h_b, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_b ^ title_part in
    let _ = d_printf ("!parser: cluster matched") in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, pval_opt, Some tt, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, pval_f_opt, Some tt, l, !bs, it, h_end))
   }	  
 
 /**********************************************************************

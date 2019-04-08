@@ -131,6 +131,7 @@ let p_paragraph = '\\' "paragraph" p_ws
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
 let p_b_cluster = '\\' "begin{cluster}" p_ws	
+let p_b_cluster_with_points = (p_b_cluster p_ws as cb) (p_o_sq as o_sq) (p_float as pval) (p_c_sq as c_sq)
 let p_e_cluster = '\\' "end{cluster}" p_ws
 
 let p_b_group = '\\' "begin{flex}" p_ws	
@@ -273,7 +274,9 @@ rule token = parse
 | p_subsubsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
 | p_b_cluster as x
-  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		
+| p_b_cluster_with_points as x
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, Some pval)}		
 | p_e_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
 | p_b_group as x
