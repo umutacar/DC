@@ -99,7 +99,7 @@ and element =
 (**********************************************************************
  ** BEGIN: Utilities
 *********************************************************************)
-let mk_pval pvalopt = 
+let mk_pval pvalopt= 
   match pvalopt with 
   |  None -> 0.0
   |  Some x -> x
@@ -142,6 +142,14 @@ let contains_substring search target =
     res
 
 
+let pval_opt_to_string pval = 
+  match pval with 
+  | None -> "None"
+  | Some x -> 
+    let f = Float.to_string x in
+    let _ = d_printf ("pval_opt_to_string: points = %f\n") x in
+      "Some" ^ f
+
 let pval_opt_to_string_opt pval = 
   match pval with 
   | None -> None
@@ -180,6 +188,19 @@ let mk_item (keyword, body) =
 let mktex_optarg x = 
   "[" ^ x ^ "]"
 
+let mk_tex_begin block_name pvalopt topt = 
+  let b = "\\begin{" ^ block_name ^ "}" in
+  let p = match pvalopt with 
+          | None -> ""
+          | Some pts -> mktex_optarg (Float.to_string pts)
+  in 
+  let t = match topt with 
+          | None -> ""
+          | Some t -> mktex_optarg t
+  in
+    b ^ p ^ t ^ "\n"
+
+
 let labelToTex (Label(h, label_string)) = h
 let labelOptToTex lopt = 
   let r = match lopt with 
@@ -189,6 +210,11 @@ let labelOptToTex lopt =
 
 let pointvalToTex p = 
   mktex_optarg (Float.to_string p)
+
+let pointvalOptToTex p = 
+  match p with 
+  | None -> ""
+  | Some pts -> mktex_optarg (Float.to_string pts)
 
 let refsolOptToTex refsol_opt = 
   let heading = "\\solution" in
@@ -235,7 +261,8 @@ let elementToTex b =
   | Element_Atom a -> atomToTex a
 
 let clusterToTex (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
-  let _ = d_printf "clusterToTex" in
+  let _ = d_printf "clusterToTex, points = %s\n" (pval_opt_to_string pval_opt) in
+  let h_begin = mk_tex_begin "cluster" pval_opt topt in
   let elements = map_concat elementToTex bs in
   let label = labelOptToTex lopt in
     preamble ^
@@ -508,6 +535,7 @@ let elementEl b =
 let clusterEl (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
   let _ = d_printf "clusterEl" in
   let (pts, es) = map_and_sum_pts elementEl es in
+  let _ = d_printf "clusterEl: points = %s" (Float.to_string pts) in
   let lopt = labelOptEl lopt in
     Cluster (preamble, (h_begin, Some pts, topt, lopt, es, it, h_end))
 
