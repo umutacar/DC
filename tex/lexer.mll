@@ -179,7 +179,6 @@ let p_ilist_separator = p_choice | p_correctchoice
 let p_ilist_separator_arg = (p_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
                             | (p_correctchoice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
 
-
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
 
@@ -225,7 +224,9 @@ let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws)
 
 let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
+(* point values now go with atoms.
 let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+*)
  
 let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
@@ -309,7 +310,7 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, None, l, kw_e)          
       }   
-
+(* point values now go with atoms
 | p_begin_ilist_arg 
       {let kw_b = b ^ o ^ kindws ^ c  in
        let kw_b_arg = kw_b ^ o_sq ^ point_val ^ c_sq in
@@ -321,6 +322,7 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
+*)
 | p_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in

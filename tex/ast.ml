@@ -192,7 +192,7 @@ let mk_item (keyword, pvalopt, body) =
 let mktex_optarg x = 
   "[" ^ x ^ "]"
 
-let mk_tex_begin block_name pvalopt topt = 
+let mktex_begin block_name pvalopt topt = 
   let b = "\\begin{" ^ block_name ^ "}" in
   let p = match pvalopt with 
           | None -> ""
@@ -234,6 +234,7 @@ let itemToTex (Item(keyword, pval, body)) =
   | Some p -> keyword ^ (pointvalToTex p) ^ space ^ body
 
 let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) = 
+  let h_begin = mktex_begin kind point_val_opt None in
   let il = List.map itemslist itemToTex in
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
@@ -266,7 +267,7 @@ let elementToTex b =
 
 let clusterToTex (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
   let _ = d_printf "clusterToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let h_begin = mk_tex_begin "cluster" pval_opt topt in
+  let h_begin = mktex_begin "cluster" pval_opt topt in
   let elements = map_concat elementToTex bs in
   let label = labelOptToTex lopt in
     preamble ^
