@@ -40,6 +40,10 @@ So whatever latex produces must be mediated through this.
   - Working on making elobaration idempotent.  I need to be able to assign points to items optionally.
     * items now have points
     * clusters also should..
+    * ok items and clusters now have points.  
+    * BUT: suppose that the cluster sums don't match up the given sum.  What do we do? 
+      One idea is to disallaw optional points this in the surface syntax.  Another is to scale. 
+      This is a bit of a policy decision.  We will need to see...
 
 - [April 7]  
   - Need a function to compute point values for clusters.
