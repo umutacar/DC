@@ -35,6 +35,9 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [April 8]
+  - TODO: Make elobaration idempotent.
+
 - [April 7]  
   - Need a function to compute point values for clusters.
   - Renamed "block" to "element".  
