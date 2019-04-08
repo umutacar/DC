@@ -36,7 +36,8 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 - [April 8]
-  - TODO: Make elobaration idempotent.
+
+  - Working on making elobaration idempotent.  I need to be able to assign points to items optionally.
 
 - [April 7]  
   - Need a function to compute point values for clusters.

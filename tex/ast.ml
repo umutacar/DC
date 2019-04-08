@@ -7,6 +7,7 @@ open Utils
 
 let points_correct = 1.0
 let points_incorrect = 0.0
+let space = " "
 
 (**********************************************************************
  ** END: Constants
@@ -179,8 +180,11 @@ let item_keyword_to_point keyword =
   let _ = d_printf "item_keyword_to_point: pval = %f\n" pval in
     pval
   
-let mk_item (keyword, body) = 
-  let pval = item_keyword_to_point keyword in
+let mk_item (keyword, pvalopt, body) = 
+  let pval = match pvalopt with
+             | None -> item_keyword_to_point keyword
+             | Some pts -> pts
+  in
     Item (keyword, Some pval, body)
 (**********************************************************************
  ** BEGIN: AST To LaTeX
@@ -227,7 +231,7 @@ let refsolOptToTex refsol_opt =
 let itemToTex (Item(keyword, pval, body)) = 
   match pval with 
   | None -> keyword ^ body
-  | Some p -> keyword ^ (pointvalToTex p) ^ body
+  | Some p -> keyword ^ (pointvalToTex p) ^ space ^ body
 
 let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) = 
   let il = List.map itemslist itemToTex in

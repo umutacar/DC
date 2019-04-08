@@ -7,7 +7,10 @@ open Utils
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
-
+let pvalopt_to_str x = 
+  match x with 
+  | None -> "None"
+  | Some x -> "Some" ^ x
 
 (**********************************************************************
  ** BEGIN: lits
@@ -72,10 +75,16 @@ let p_ws = [' ' '\t' '\n' '\r']*
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
+
 let p_digit = ['0'-'9']
+let p_integer = ['0'-'9']+
+let p_frac = '.' p_digit*
+let p_exp = ['e' 'E'] ['-' '+']? p_digit+
+let p_float = p_digit* p_frac? p_exp?
+
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
-let p_integer = ['0'-'9']+
+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -166,6 +175,9 @@ let p_pickone = "pickone"
 let p_pickany = "pickany"
 
 let p_ilist_separator = p_choice | p_correctchoice
+let p_ilist_separator_arg = (p_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+                            | (p_correctchoice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
@@ -288,7 +300,8 @@ rule token = parse
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
        let _ = do_begin_ilist () in
        let (_, l, kw_e) = ilist lexbuf in
-       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+
+       let l_joined = List.map (fun (x, y, z) -> x ^ (pvalopt_to_str y) ^ z) l in
        let sl = kw_b ^ String.concat "," l_joined ^ kw_e in
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, None, l, kw_e)          
@@ -300,7 +313,7 @@ rule token = parse
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b_arg in
        let _ = do_begin_ilist () in
        let (_, l, kw_e) = ilist lexbuf in
-       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+       let l_joined = List.map (fun (x, y, z) -> x ^ (pvalopt_to_str y) ^ z) l in
        let sl = kw_b_arg ^ String.concat "," l_joined ^ kw_e in
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
@@ -401,7 +414,15 @@ and ilist =
         {
             let _ = d_printf "!lexer: ilist separator: %s\n" x in
             let (y, zs, e) = ilist lexbuf in
-            let l = (x, y) :: zs in
+            let l = (x, None, y) :: zs in
+              ("", l, e)                           
+        }
+
+  | p_ilist_separator_arg as x
+        {
+            let _ = d_printf "!lexer: ilist separator: %s\n" x in
+            let (y, zs, e) = ilist lexbuf in
+            let l = (kind, Some point_val, y) :: zs in
               ("", l, e)                           
         }
 

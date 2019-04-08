@@ -36,9 +36,9 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string * (string * string)> REFSOL 
 
 /* ilist is 
- * kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list 
+ * kind * kw_begin * point-value option * (item-separator-keyword, point value option, item-body) list * kw_end list 
  */
-%token <string * string * (string * string * string) option * ((string * string) list) * string> ILIST
+%token <string * string * (string * string * string) option * ((string * string option * string) list) * string> ILIST
 
 %token <string> BACKSLASH
 %token <string> PERCENT  /* latex special \% */
@@ -156,7 +156,8 @@ refsol:
 ilist:
 | il = ILIST
   {let (kind, kw_b, arg_opt, ilist, kw_e) = il in
-   let items = List.map ilist ~f:(fun (x,y) -> Ast.mk_item (x, y)) in
+   let ilist = List.map ilist ~f:(fun (x, pval, y) -> (x, fst (mk_point_val_f_opt pval), y)) in
+   let items = List.map ilist ~f:(fun (x, pval, y) -> Ast.mk_item (x, pval, y)) in
    let _ = d_printf ("!parser: ilist matched") in
      match arg_opt with
      | None -> 
