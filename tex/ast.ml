@@ -61,7 +61,6 @@ type group =
            * (t_keyword * t_title option * t_label option * 
               atom list * t_intertext * t_keyword) 
 
-
 type chapter = 
   Chapter of t_preamble
              *  (t_keyword * t_title * t_label * 
@@ -100,7 +99,11 @@ and element =
 (**********************************************************************
  ** BEGIN: Utilities
 *********************************************************************)
-
+let mk_pval pvalopt = 
+  match pvalopt with 
+  |  None -> 0.0
+  |  Some x -> x
+ 
 let map f xs = 
   List.map xs f
 
@@ -108,6 +111,17 @@ let map_concat f xs: string =
   let xs_s: string list = List.map xs f in
   let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ x) in
     result
+
+let map_and_sum_pts f xs =   
+  let pvals_and_xs = map f xs in
+  let pvals = map fst pvals_and_xs in
+  let xs = map snd pvals_and_xs in
+  let pts_total = 
+    match List.reduce pvals (fun x y -> x +. y) with 
+    | None -> 0.0
+    | Some r -> r
+  in
+    (pts_total, xs)  
 
 let newline = "\n"
 
@@ -435,6 +449,104 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 (**********************************************************************
  ** END: AST To XML
  **********************************************************************)
+
+(**********************************************************************
+ ** END: AST To XML
+ **********************************************************************)
+
+
+(**********************************************************************
+ ** BEGIN: AST ELEBORATION
+ **********************************************************************)
+
+(* Identity function *)
+let labelEl l = l
+
+(* Identity function *)
+let labelOptEl lopt = 
+  match lopt with
+  | None -> None
+  | Some l -> Some (labelEl l) 
+
+(* Identity function *)
+let refsolOptEl refsol_opt = 
+  refsol_opt
+
+(* Identity function *)
+let itemEl (Item(keyword, pval, body)) = 
+  Item (keyword, pval, body)
+
+(* Locally identity function *)
+let ilistOptEl ilist_opt = 
+  match ilist_opt with 
+  | None -> None
+  | Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) ->
+      let itemslist = List.map itemslist itemEl in
+        Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
+            
+let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
+  let lopt = labelOptEl lopt in
+  let refsol_opt = refsolOptEl refsol_opt in
+  let ilist_opt = ilistOptEl ilist_opt in
+  let pval = mk_pval pval_opt  in
+    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end)))
+
+let groupEl (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
+  let (pvalsum, ats) = map_and_sum_pts atomEl ats in
+  let lopt = labelOptEl lopt in
+    (pvalsum, Group (preamble, (h_begin, topt, lopt, ats, it, h_end)))
+
+let elementEl b = 
+  match b with
+  | Element_Group g -> 
+    let (pval, g) = groupEl g in 
+      (pval, Element_Group g)
+  | Element_Atom a -> 
+    let (pval, a) = atomEl a in
+      (pval, Element_Atom a)
+
+let clusterEl (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
+  let _ = d_printf "clusterEl" in
+  let (pts, es) = map_and_sum_pts elementEl es in
+  let lopt = labelOptEl lopt in
+    Cluster (preamble, (h_begin, Some pts, topt, lopt, es, it, h_end))
+
+let blockEl x = 
+  let _ = d_printf "blockEl" in
+    match x with
+    | Block_Cluster c -> Block_Cluster (clusterEl c)
+    | Block_Block b -> 
+      let (_, b) = elementEl b in
+        Block_Block b 
+
+let subsubsectionEl (Subsubsection (heading, t, lopt, bs, it)) =
+  let bs = map blockEl bs in
+  let lopt = labelOptEl lopt in
+    Subsubsection (heading, t, lopt, bs, it)
+
+let subsectionEl (Subsection (heading, t, lopt, bs, it, ss)) =
+  let bs = map blockEl bs in
+  let ss = map subsubsectionEl ss in
+  let lopt = labelOptEl lopt in
+    Subsection (heading, t, lopt, bs, it, ss)
+
+let sectionEl (Section (heading, t, lopt, bs, it, ss)) =
+  let bs = map blockEl bs in
+(*  let _ = d_printf "sectionEl: elements = %s" elements in *)
+  let ss = map subsectionEl ss in
+  let lopt = labelOptEl lopt in
+    Section (heading, t, lopt, bs, it, ss)
+
+let chapterEl (Chapter (preamble, (heading, t, l, bs, it, ss))) =
+  let bs = map blockEl bs in
+  let ss = map sectionEl ss in
+  let l = labelEl l in
+    (Chapter (preamble, (heading, t, l, bs, it, ss)))
+
+(**********************************************************************
+ ** END: AST ELABORATION
+ **********************************************************************)
+
 
 
 (**********************************************************************

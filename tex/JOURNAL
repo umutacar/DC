@@ -41,6 +41,8 @@ So whatever latex produces must be mediated through this.
     An element now is either a group or an atom.
   - Renamed "superblock to block"
     A block now is either a cluster or an element.
+  - Wrote a set of  traversal functions that traverse the AST without doin anything.
+    TODO: Need to customize this so that it can do traversals.
 
 - [March 24]
   -> atoms now have points. if not specified, then they have 0 points.
