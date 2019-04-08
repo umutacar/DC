@@ -101,6 +101,9 @@ and element =
  ** BEGIN: Utilities
 *********************************************************************)
 
+let map f xs = 
+  List.map xs f
+
 let map_concat f xs: string = 
   let xs_s: string list = List.map xs f in
   let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ x) in
@@ -434,6 +437,87 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
  **********************************************************************)
 
 
+(**********************************************************************
+ ** BEGIN: AST  TRAVERSAL
+ **********************************************************************)
 
+(* Identity function *)
+let labelTR l = l
 
+(* Identity function *)
+let labelOptTR lopt = 
+  match lopt with
+  | None -> None
+  | Some l -> Some (labelTR l) 
 
+(* Identity function *)
+let refsolOptTR refsol_opt = 
+  refsol_opt
+
+(* Identity function *)
+let itemTR (Item(keyword, pval, body)) = 
+  Item (keyword, pval, body)
+
+(* Locally identity function *)
+let ilistOptTR ilist_opt = 
+  match ilist_opt with 
+  | None -> None
+  | Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) ->
+      let itemslist = List.map itemslist itemTR in
+        Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
+            
+let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
+  let lopt = labelOptTR lopt in
+  let refsol_opt = refsolOptTR refsol_opt in
+  let ilist_opt = ilistOptTR ilist_opt in
+    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))
+
+let groupTR (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
+  let ats = map atomTR ats in
+  let lopt = labelOptTR lopt in
+    Group (preamble, (h_begin, topt, lopt, ats, it, h_end))
+
+let elementTR b = 
+  match b with
+  | Element_Group g -> Element_Group (groupTR g)
+  | Element_Atom a -> Element_Atom (atomTR a)
+
+let clusterTR (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
+  let _ = d_printf "clusterTR" in
+  let es = map elementTR es in
+  let lopt = labelOptTR lopt in
+    Cluster (preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))
+
+let blockTR x = 
+  let _ = d_printf "blockTR" in
+    match x with
+    | Block_Cluster c -> Block_Cluster (clusterTR c)
+    | Block_Block b -> Block_Block (elementTR b)
+
+let subsubsectionTR (Subsubsection (heading, t, lopt, bs, it)) =
+  let bs = map blockTR bs in
+  let lopt = labelOptTR lopt in
+    Subsubsection (heading, t, lopt, bs, it)
+
+let subsectionTR (Subsection (heading, t, lopt, bs, it, ss)) =
+  let bs = map blockTR bs in
+  let ss = map subsubsectionTR ss in
+  let lopt = labelOptTR lopt in
+    Subsection (heading, t, lopt, bs, it, ss)
+
+let sectionTR (Section (heading, t, lopt, bs, it, ss)) =
+  let bs = map blockTR bs in
+(*  let _ = d_printf "sectionTR: elements = %s" elements in *)
+  let ss = map subsectionTR ss in
+  let lopt = labelOptTR lopt in
+    Section (heading, t, lopt, bs, it, ss)
+
+let chapterTR (Chapter (preamble, (heading, t, l, bs, it, ss))) =
+  let bs = map blockTR bs in
+  let ss = map sectionTR ss in
+  let l = labelTR l in
+    (Chapter (preamble, (heading, t, l, bs, it, ss)))
+
+(**********************************************************************
+ ** END: AST TRAVERSAL
+ **********************************************************************)
