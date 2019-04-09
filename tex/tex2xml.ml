@@ -9,7 +9,6 @@ let mk_translator preamble_filename =
   let preamble = In_channel.read_all preamble_filename in
     Tex2html.mk_translator (default_tmp_dir, preamble) 
 
-
 let tex2ast filename = 
 	let ic = In_channel.create filename in
    	try 
