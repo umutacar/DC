@@ -35,6 +35,37 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [April 9]
+  * Added elaboration to tex and xml generation. So this should be good to merge upstream.
+    
+- [April 8]
+  - Working on making elobaration idempotent.  I need to be able to assign points to items optionally.
+    * items now have points
+    * clusters also should..
+    * ok items and clusters now have points.  
+    * BUT: suppose that the cluster sums don't match up the given sum.  What do we do? 
+      One idea is to disallaw optional points this in the surface syntax.  Another is to scale. 
+      This is a bit of a policy decision.  We will need to see...
+
+- [April 7]  
+  - Need a function to compute point values for clusters.
+  - Renamed "block" to "element".  
+    An element now is either a group or an atom.
+  - Renamed "superblock to block"
+    A block now is either a cluster or an element.
+  - Wrote a set of  traversal functions that traverse the AST without doin anything.
+    TODO: Need to customize this so that it can do traversals.
+  - Started working on Elaboration.
+    DOne: a basic elaboration for points.  Untested.
+
+- [March 24]
+  -> atoms now have points. if not specified, then they have 0 points.
+     the syntax is \begin{atom}[pointval][title]
+     pointval is optional
+   
+     
+  -> added points to clusters.  but clusters are not given points at the syntax level. 
+     the question now is how to compute this stuff for clusters.
 - [March 23]
   -> Updated beamer to recognize clusters.
   -> Allow point scores to be added to clusters.  
@@ -45,6 +76,8 @@ So whatever latex produces must be mediated through this.
   -> Played with the exam package and latex.  The conclusion is problems will support two optional arguments: titles and points.  The integer numbers will become points, the other will become title.
 
   -> It seems that it will be cleanest to have a solution field within a problem. This will indicate whether the problem is free response or not.  And if so, whether there should be a textbox.
+
+  -> Allow points to have point values.  See ilists an an example, the idea is to match the point value as part of the begin{atom}.  For example \begin{atom}[20]
 
 - [Marh 22]
   -> Chapters can now have blocks.  One problem is that this leads to an additional shift/reduce conflict, because a superblock can be a block. So I  will have to look into this.

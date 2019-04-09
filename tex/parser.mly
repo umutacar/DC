@@ -17,10 +17,15 @@ let set_option_with_intertext (r, vo) =
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
 
-let set_superblock_option_with_intertext (r, vo) = 
+let set_block_option_with_intertext (r, vo) = 
   match vo with 
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
+
+let mk_point_val_f_opt (s: string option) = 
+  match s with
+  | None -> (None, "None")
+  | Some x -> (Some (float_of_string x), "Some " ^ x)
 
 %}	
 
@@ -31,9 +36,9 @@ let set_superblock_option_with_intertext (r, vo) =
 %token <string * string * (string * string)> REFSOL 
 
 /* ilist is 
- * kind * kw_begin * point-value option * (item-separator-keyword, item-body) list * kw_end list 
+ * kind * kw_begin * point-value option * (item-separator-keyword, point value option, item-body) list * kw_end list 
  */
-%token <string * string * (string * string * string) option * ((string * string) list) * string> ILIST
+%token <string * string * (string * string * string) option * ((string * string option * string) list) * string> ILIST
 
 %token <string> BACKSLASH
 %token <string> PERCENT  /* latex special \% */
@@ -41,7 +46,8 @@ let set_superblock_option_with_intertext (r, vo) =
 %token <string> O_SQ_BRACKET C_SQ_BRACKET
 %token <string> COMMENT_LINE
 
-%token <string * string> KW_BEGIN_ATOM KW_END_ATOM 
+%token <string * string * string option> KW_BEGIN_ATOM
+%token <string * string> KW_END_ATOM 
 %token <string> KW_LABEL
 %token <string * string> KW_LABEL_AND_NAME
 
@@ -49,10 +55,10 @@ let set_superblock_option_with_intertext (r, vo) =
 %token <string> KW_SECTION, KW_TITLED_QUESTION
 %token <string> KW_SUBSECTION
 %token <string> KW_SUBSUBSECTION	
-%token <string> KW_PARAGRAPH	
-%token <string> KW_SUBPARAGRAPH
 
-%token <string> KW_BEGIN_CLUSTER KW_END_CLUSTER
+/* cluster is heading and point value option */
+%token <string * string option> KW_BEGIN_CLUSTER 
+%token <string> KW_END_CLUSTER
 %token <string> KW_BEGIN_GROUP KW_END_GROUP
 	
 %start chapter
@@ -152,7 +158,8 @@ refsol:
 ilist:
 | il = ILIST
   {let (kind, kw_b, arg_opt, ilist, kw_e) = il in
-   let items = List.map ilist ~f:(fun (x,y) -> Ast.mk_item (x, y)) in
+   let ilist = List.map ilist ~f:(fun (x, pval, y) -> (x, fst (mk_point_val_f_opt pval), y)) in
+   let items = List.map ilist ~f:(fun (x, pval, y) -> Ast.mk_item (x, pval, y)) in
    let _ = d_printf ("!parser: ilist matched") in
      match arg_opt with
      | None -> 
@@ -199,14 +206,14 @@ mk_heading(kw_heading):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  sbso = option(superblocks_and_intertext);
+  sbso = option(blocks_and_intertext);
   sso = option(mk_sections(nested_section));
   {
    let (heading, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
    let sbs = ref [] in
    let ss = ref [] in
-   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let it = set_block_option_with_intertext (sbs, sbso) in
    let _ = set_sections_option(ss, sso) in
      (heading, t, l, !sbs, it, !ss)
   }	  
@@ -220,14 +227,14 @@ chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  sbso = option(superblocks_and_intertext); 
+  sbso = option(blocks_and_intertext); 
   sso = option(mk_sections(section)); 
   EOF 
   {
    let (heading, t) = h in
    let sbs = ref [] in
    let ss = ref [] in
-   let it = set_superblock_option_with_intertext (sbs, sbso) in
+   let it = set_block_option_with_intertext (sbs, sbso) in
    let _ = set_sections_option(ss, sso) in
      Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
   }	
@@ -248,45 +255,52 @@ subsection:
      Ast.Subsection desc
   }	  
 	
-subsubsection: 
-  desc = mk_section(KW_SUBSUBSECTION, paragraph)
-  {
-     Ast.Subsubsection desc
-  }	  
 
-paragraph:  
-  h = mk_heading(KW_PARAGRAPH); 
+subsubsection:
+  h = mk_heading(KW_SUBSUBSECTION); 
   l = option(label); 
-  sbso = option(superblocks_and_intertext); 
+  sbso = option(blocks_and_intertext); 
   {
    let (heading, t) = h in
    let sbs = ref [] in
-   let it = set_superblock_option_with_intertext (sbs, sbso) in
-     Ast.Paragraph (heading, t, l,!sbs, it)
+   let it = set_block_option_with_intertext (sbs, sbso) in
+     Ast.Subsubsection (heading, t, l,!sbs, it)
   }	  
 
+/*
+paragraph:  
+  h = mk_heading(KW_PARAGRAPH); 
+  l = option(label); 
+  sbso = option(blocks_and_intertext); 
+  {
+   let (heading, t) = h in
+   let sbs = ref [] in
+   let it = set_block_option_with_intertext (sbs, sbso) in
+     Ast.Paragraph (heading, t, l,!sbs, it)
+  }	  
+*/
 /**********************************************************************
  ** END: Latex Sections
  **********************************************************************/
 
-superblocks_and_intertext:
-  xs = superblocks; intertext = boxes;
-  {let _ = d_printf ("parser matched: superblocks_and_intertext.\n")  in
+blocks_and_intertext:
+  xs = blocks; intertext = boxes;
+  {let _ = d_printf ("parser matched: blocks_and_intertext.\n")  in
      (xs, intertext)
   } 
 
-superblocks:
-|	x = superblock
+blocks:
+|	x = block
   {[x]}
-| xs = superblocks;
-  x = superblock; 
+| xs = blocks;
+  x = block; 
   {List.append xs [x]}
 
-superblock:
-|	b = block
-  { Ast.Superblock_Block b }
+block:
+|	e = element
+  { Ast.Block_Block e }
 | c = cluster
-  { Ast.Superblock_Cluster c }
+  { Ast.Block_Cluster c }
   
 /**********************************************************************
  ** BEGIN: Cluster
@@ -297,29 +311,33 @@ cluster:
 | preamble = boxes;   
   h_begin = KW_BEGIN_CLUSTER;
   l = option(label); 
-  bso = option(blocks_and_intertext);
+  bso = option(elements_and_intertext);
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
+   let (h_begin, pval_opt) = h_begin in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, None, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, pval_f_opt, None, l, !bs, it, h_end))
   }	  
 | preamble = boxes;   
   h_b = KW_BEGIN_CLUSTER;
   t = sq_box; 
   l = option(label); 
-  bso = option(blocks_and_intertext);
+  bso = option(elements_and_intertext);
   h_end = KW_END_CLUSTER
   {
    let _ = d_printf ("!parser: cluster matched") in
+   let (h_b, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_b ^ title_part in
    let _ = d_printf ("!parser: cluster matched") in
    let bs = ref [] in
    let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, Some tt, l, !bs, it, h_end))
+     Ast.Cluster (preamble, (h_begin, pval_f_opt, Some tt, l, !bs, it, h_end))
   }	  
 
 /**********************************************************************
@@ -327,33 +345,33 @@ cluster:
  **********************************************************************/
 
 /**********************************************************************
- ** BEGIN: Blocks
- ** A block is a sequence of groups and atoms 
+ ** BEGIN: Elements
+ ** An element is a groups and atoms 
  **********************************************************************/
 
-block:
+element:
 	a = atom
-  {Ast.Block_Atom a}
+  {Ast.Element_Atom a}
 | g = group
-  {Ast.Block_Group g}
+  {Ast.Element_Group g}
 
-blocks:
-	b = block
-  {[b]}
-| bs = blocks;
-  b = block; 
-  {List.append bs [b]}
+elements:
+	e = element
+  {[e]}
+| es = elements;
+  e = element; 
+  {List.append es [e]}
 
 /* Drop intertext */
-blocks_and_intertext:
-  bs = blocks; intertext = boxes;
-  {let _ = d_printf ("parser matched: blocks_and_intertext.\n") in
-     (bs, intertext)
+elements_and_intertext:
+  es = elements; intertext = boxes;
+  {let _ = d_printf ("parser matched: elements_and_intertext.\n") in
+     (es, intertext)
   } 
 
 
 /**********************************************************************
- ** END: Blocks
+ ** END: Elements
  **********************************************************************/
 			
 /**********************************************************************
@@ -424,11 +442,12 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_begin) = h_b in
+   let (kind, h_begin, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
-   let _ =  d_printf "Parsed Atom.1 kind = %s h_begin = %s" kind h_begin in
-     Atom (preamble, (kind, h_begin, None, Some l, bs, il, sol, h_end))
+     d_printf "\n \n Parsed Atom.1 kind = %s  h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str;
+     Atom (preamble, (kind, h_begin, pval_f_opt, None, Some l, bs, il, sol, h_end))
   }
 
 | preamble = boxes;
@@ -439,13 +458,14 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_bb) = h_b in
+   let (kind, h_bb, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (bo, tt, bc) = t in
    let (_, h_end) = h_e in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "Parsed Atom.2 kind = %s title = %s" kind tt;
-     Atom (preamble, (kind, h_begin, Some tt, Some l, bs, il, sol, h_end))
+     d_printf "\n Parsed Atom.2 kind = %s title = %s pval_f_opt = %s " kind tt pval_opt_str;
+     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, Some l, bs, il, sol, h_end))
   }
 
 | preamble = boxes;
@@ -454,11 +474,13 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_begin) = h_b in
+   let (kind, h_begin, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
-     d_printf "Parsed Atom.3 kind = %s h_begin = %s" kind h_begin;
-     Atom (preamble, (kind, h_begin, None, None, bs, il, sol, h_end)) 
+     d_printf "\n Parsed Atom.3 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str;
+
+     Atom (preamble, (kind, h_begin, pval_f_opt, None, None, bs, il, sol, h_end)) 
   }
 
 | preamble = boxes;
@@ -468,13 +490,14 @@ mk_atom(kw_b, kw_e):
   il = option(ilist); 
   tail = mk_atom_tail (kw_e)
   {
-   let (kind, h_bb) = h_b in
+   let (kind, h_bb, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (_, sol, h_e) = tail in
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "Parsed Atom.4 kind = %s h_begin = %s title = %s" kind h_begin tt;
-     Atom (preamble, (kind, h_begin, Some tt, None, bs, il, sol, h_end))
+     d_printf "\n Parsed Atom.4 kind = %s h_begin = %s title = %s pval_f_opt = %s " kind h_begin tt pval_opt_str;
+     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, bs, il, sol, h_end))
   }
 
 atom:

@@ -7,7 +7,10 @@ open Utils
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
-
+let pvalopt_to_str x = 
+  match x with 
+  | None -> "None"
+  | Some x -> "Some" ^ x
 
 (**********************************************************************
  ** BEGIN: lits
@@ -72,17 +75,23 @@ let p_ws = [' ' '\t' '\n' '\r']*
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
+
 let p_digit = ['0'-'9']
+let p_integer = ['0'-'9']+
+let p_frac = '.' p_digit*
+let p_exp = ['e' 'E'] ['-' '+']? p_digit+
+let p_float = p_digit* p_frac? p_exp?
+
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
-let p_integer = ['0'-'9']+
+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
-let p_o_curly = '{' p_ws
-let p_c_curly = '}' p_ws
-let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_ws											
+let p_o_curly = p_ws '{' p_ws
+let p_c_curly = p_ws '}' p_ws
+let p_o_sq = p_ws '[' p_ws
+let p_c_sq = p_ws ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
 let p_label = '\\' "label" p_ws												 
@@ -122,6 +131,7 @@ let p_paragraph = '\\' "paragraph" p_ws
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
 let p_b_cluster = '\\' "begin{cluster}" p_ws	
+let p_b_cluster_with_points = (p_b_cluster p_ws as cb) (p_o_sq as o_sq) (p_float as pval) (p_c_sq as c_sq)
 let p_e_cluster = '\\' "end{cluster}" p_ws
 
 let p_b_group = '\\' "begin{flex}" p_ws	
@@ -166,6 +176,8 @@ let p_pickone = "pickone"
 let p_pickany = "pickany"
 
 let p_ilist_separator = p_choice | p_correctchoice
+let p_ilist_separator_arg = (p_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+                            | (p_correctchoice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
@@ -201,6 +213,7 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
 
 let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
+let p_begin_atom_with_points = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
@@ -211,7 +224,9 @@ let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws)
 
 let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
+(* point values now go with atoms.
 let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+*)
  
 let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
@@ -259,12 +274,10 @@ rule token = parse
   	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
-| p_paragraph as x
-  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
-| p_subparagraph as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
 | p_b_cluster as x
-  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		
+| p_b_cluster_with_points as x
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, Some pval)}		
 | p_e_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
 | p_b_group as x
@@ -274,7 +287,12 @@ rule token = parse
 | p_begin_atom
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all)
+       KW_BEGIN_ATOM(kind, all, None)
+    }		
+| p_begin_atom_with_points
+  	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
+       d_printf "lexer matched begin atom: %s" kind;
+       KW_BEGIN_ATOM(kind, all, Some point_val)
     }		
 | p_end_atom
   	{let all = e ^ o ^ kindws ^ c in
@@ -286,23 +304,25 @@ rule token = parse
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
        let _ = do_begin_ilist () in
        let (_, l, kw_e) = ilist lexbuf in
-       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+
+       let l_joined = List.map (fun (x, y, z) -> x ^ (pvalopt_to_str y) ^ z) l in
        let sl = kw_b ^ String.concat "," l_joined ^ kw_e in
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, None, l, kw_e)          
       }   
-
+(* point values now go with atoms
 | p_begin_ilist_arg 
       {let kw_b = b ^ o ^ kindws ^ c  in
        let kw_b_arg = kw_b ^ o_sq ^ point_val ^ c_sq in
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b_arg in
        let _ = do_begin_ilist () in
        let (_, l, kw_e) = ilist lexbuf in
-       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+       let l_joined = List.map (fun (x, y, z) -> x ^ (pvalopt_to_str y) ^ z) l in
        let sl = kw_b_arg ^ String.concat "," l_joined ^ kw_e in
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
+*)
 | p_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in
@@ -399,7 +419,15 @@ and ilist =
         {
             let _ = d_printf "!lexer: ilist separator: %s\n" x in
             let (y, zs, e) = ilist lexbuf in
-            let l = (x, y) :: zs in
+            let l = (x, None, y) :: zs in
+              ("", l, e)                           
+        }
+
+  | p_ilist_separator_arg as x
+        {
+            let _ = d_printf "!lexer: ilist separator: %s\n" x in
+            let (y, zs, e) = ilist lexbuf in
+            let l = (kind, Some point_val, y) :: zs in
               ("", l, e)                           
         }
 

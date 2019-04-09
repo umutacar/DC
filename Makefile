@@ -5,7 +5,7 @@
 OCB_FLAGS = -use-ocamlfind -I tex -I xml -I pervasives
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = pervasives/utils.ml tex/ast.ml  tex/lexer.mll tex/parser.mly tex/tex2html.ml xml/constants.ml xml/xmlSyntax.ml 
-all: tex2tex.native tex2xml.native
+all: tex2tex.native tex2xml.native traverse.native
 
 clean:
 	$(OCB) -clean
@@ -29,4 +29,16 @@ tex2xml.profile: $(DEPEND) tex/tex2xml.ml
 
 tex2xml.debug: $(DEPEND) tex/tex2xml.ml
 	$(OCB) -tag debug tex2xml.byte
+
+
+
+# traverse
+traverse.native: $(DEPEND) tex/traverse.ml
+	$(OCB) traverse.native
+
+traverse.profile: $(DEPEND) tex/traverse.ml
+	$(OCB) -tag profile traverse.native
+
+traverse.debug: $(DEPEND) tex/traverse.ml
+	$(OCB) -tag debug traverse.byte
 
