@@ -35,8 +35,10 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [April 9]
+  * Added elaboration to tex and xml generation. So this should be good to merge upstream.
+    
 - [April 8]
-
   - Working on making elobaration idempotent.  I need to be able to assign points to items optionally.
     * items now have points
     * clusters also should..
