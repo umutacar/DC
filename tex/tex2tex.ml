@@ -2,17 +2,26 @@ open Core
 open Lexer
 open Lexing
 
-let tex2tex filename = 
+let tex2ast filename = 
 	let ic = In_channel.create filename in
-  let chapter_tex =   
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let chapter = Parser.chapter Lexer.token lexbuf in
-      let chapter_tex = Ast.chapterToTex chapter in
-        chapter_tex
+	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
+        ast_chapter
     with End_of_file -> exit 0
-  in
-    chapter_tex
+
+
+let ast2tex ast_chapter = 
+  Ast.chapterToTex ast_chapter
+
+let tex2tex filename = 
+  (* Make AST *)
+  let ast = tex2ast filename in
+  (* Elaborate AST *)
+  let ast_elaborated = Ast.chapterEl ast in
+  (* Make TeX *)
+  let result = ast2tex ast_elaborated in
+    result
 
 let main () =
 	let args = Sys.argv in
