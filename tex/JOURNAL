@@ -1,4 +1,8 @@
 # TODO
+  - Testing: make sure that the updates did not break anything by running regression tests with existing chapters.
+
+    Connect back with the diderot development. 
+
   - superblocks include blocks.  This leads to shift/reduce conflict.  Look into this.  Is this harmless?
   - diderot keywords such as labels can appear inside bodies.  How to deal with these?  We can include them as a word but this will likely lead to many conflicts.
 
