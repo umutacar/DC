@@ -39,6 +39,9 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [April 12]
+  Got \input inlining to work by using OCAML's regular expressions.
+
 - [April 11]
   * Added recognition for \input{filename} in branch pre_input.  The idea would be to read the contents of filename and include it in the current body of text.  The question is whether this should be done in a preprocessing step so that if there are diderot commands within the file, they could be handled properly.  I think the answer is obviously this is how it should be..
 
