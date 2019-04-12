@@ -25,18 +25,22 @@ let ast2xml ast_chapter preamble_filename =
     printf "Parsed successfully chapter.\n";
     chapter_xml
 
+let tex2xml infile preamble_filename = 
+  (* Make AST *)
+	let ast_chapter = tex2ast infile in
+
+  (* Translate to XML *)
+  let xml_chapter = ast2xml ast_chapter preamble_filename in
+    xml_chapter
+
 let main () =
 	let args = Sys.argv in
     if Array.length args == 4 then
       let infile = Sys.argv.(1) in
       let preamble_filename = Sys.argv.(2) in
-
-      (* Make AST *)
-	  	let ast_chapter = tex2ast infile in
-
-      (* Translate to XML *)
-      let xml_chapter = ast2xml ast_chapter preamble_filename in
       let outfile = Sys.argv.(3) in
+
+      let xml_chapter = tex2xml infile preamble_filename in      
          Out_channel.write_all outfile ~data:xml_chapter 
     else
       printf "Usage: main <input latex file> <input preamble file> <output xml file>\n";;			
