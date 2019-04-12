@@ -17,7 +17,7 @@ let ast2tex ast_chapter =
 
 let tex2tex infile = 
   (* Preprocessing I: Inline *)
-  let infile_inlined = TexUtils.file_derivative infile Constants.ext_core in
+  let infile_inlined = Utils.file_derivative infile Constants.ext_core in
   let () = TexUtils.inline infile infile_inlined in
 
   (* Make AST *)
