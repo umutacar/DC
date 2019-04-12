@@ -16,12 +16,7 @@ let ast2tex ast_chapter =
   Ast.chapterToTex ast_chapter
 
 let tex2tex infile = 
-  (* Preprocessing I: Inline *)
-  let infile_base = Filename.basename infile in
-  let infile_inlined = Utils.file_derivative infile_base Constants.ext_core in
-  let infile_inlined = Constants.tmp_dir_name  ^ "/" ^ infile_inlined in
-  let () = TexUtils.inline infile infile_inlined in
-
+  let infile_inlined = Preprocessor.inline_file infile in
   (* Make AST *)
   let ast = tex2ast infile_inlined in
   (* Elaborate AST *)
