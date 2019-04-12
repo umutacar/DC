@@ -14,10 +14,10 @@ let file_derivative filename deriv =
   let (filename_, ext) = Filename.split_extension filename in
     match ext with 
     | None -> filename_ ^ deriv
-    | Some x -> filename_ ^ deriv ^ x 
+    | Some x -> filename_ ^ deriv ^ "." ^ x 
 
 
-let file_tex filename = 
+let file_ensure_tex filename =
   let (filename_, ext) = Filename.split_extension filename in
     match ext with 
     | None -> filename_ ^ Constants.ext_tex

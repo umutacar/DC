@@ -2,6 +2,7 @@
  ** Diderot Constants 
  **********************************************************************)
 
+let tmp_dir_name = "/tmp"
 let ext_core = "_core"
 let ext_tex = ".tex"
 exception Fatal_Error of string
