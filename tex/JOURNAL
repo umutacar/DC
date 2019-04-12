@@ -39,6 +39,13 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [April 11]
+  * Added recognition for \input{filename} in branch pre_input.  The idea would be to read the contents of filename and include it in the current body of text.  The question is whether this should be done in a preprocessing step so that if there are diderot commands within the file, they could be handled properly.  I think the answer is obviously this is how it should be..
+
+  I implemented this by extending the lexer but perhaps this is overkill.  It might be more straightforward to simply read in a file and substitute \input{filename} with the contents of the file.  I don't think it is necessary to parse the file.  It should be possible to do this much more simply, without having to do anything at all, and by simply using a string query and a replacement.
+
+  I am therefore going to reset to quiz branch and implement preprocessing as a separate pass.
+
 - [April 9]
   * Added elaboration to tex and xml generation. So this should be good to merge upstream.
     
