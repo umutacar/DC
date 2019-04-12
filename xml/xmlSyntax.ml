@@ -6,7 +6,7 @@ open String
 open Utils
 
 
-module C = Constants
+module C = XmlConstants
 
 (* Tags *) 
 

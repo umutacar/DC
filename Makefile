@@ -4,7 +4,7 @@
 
 OCB_FLAGS = -use-ocamlfind -I tex -I xml -I pervasives
 OCB = ocamlbuild $(OCB_FLAGS)
-DEPEND = pervasives/utils.ml tex/ast.ml  tex/lexer.mll tex/parser.mly tex/tex2html.ml xml/constants.ml xml/xmlSyntax.ml 
+DEPEND = pervasives/utils.ml tex/ast.ml  tex/lexer.mll tex/parser.mly tex/tex2html.ml tex/texUtils.ml xml/xmlConstants.ml xml/xmlSyntax.ml 
 all: tex2tex.native tex2xml.native traverse.native
 
 clean:
