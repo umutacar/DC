@@ -6,6 +6,10 @@ open Stdio
 open Utils
 open Re2
 
+(**********************************************************************
+ ** BEGIN: PREPROCESSOR
+ **********************************************************************)
+
 (* Inline the contents of \input{filename} directives *)
 let inline_file_to infile outfile  =
   let inline_file (m: Match.t) =
@@ -42,3 +46,7 @@ let inline_file infile =
   let infile_inlined = Constants.tmp_dir_name  ^ "/" ^ infile_inlined in
   let () = inline_file_to infile infile_inlined in
     infile_inlined
+
+(**********************************************************************
+ ** END: PREPROCESSOR
+ **********************************************************************)
