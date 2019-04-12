@@ -21,7 +21,7 @@ let tex2tex infile =
   let () = TexUtils.inline infile infile_inlined in
 
   (* Make AST *)
-  let ast = tex2ast infile in
+  let ast = tex2ast infile_inlined in
   (* Elaborate AST *)
   let ast_elaborated = Ast.chapterEl ast in
   (* Make TeX *)
