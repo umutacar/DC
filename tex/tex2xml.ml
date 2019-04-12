@@ -26,8 +26,11 @@ let ast2xml ast_chapter preamble_filename =
     chapter_xml
 
 let tex2xml infile preamble_filename = 
+  (* Preprocess *)
+  let infile_inlined = Preprocessor.inline_file infile in
+
   (* Make AST *)
-	let ast_chapter = tex2ast infile in
+	let ast_chapter = tex2ast infile_inlined in
 
   (* Translate to XML *)
   let xml_chapter = ast2xml ast_chapter preamble_filename in
