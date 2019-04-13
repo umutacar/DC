@@ -49,6 +49,7 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string * string option> KW_BEGIN_ATOM
 %token <string * string> KW_END_ATOM 
 %token <string> KW_LABEL
+%token <string * string list * string> KW_DEPEND
 %token <string * string> KW_LABEL_AND_NAME
 
 %token <string> KW_CHAPTER
