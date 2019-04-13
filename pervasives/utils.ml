@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = true
+let debug = false
 let d_printf args = 
   if debug then
     fprintf stdout args

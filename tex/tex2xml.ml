@@ -25,10 +25,14 @@ let ast2xml ast_chapter preamble_filename =
     printf "Parsed successfully chapter.\n";
     chapter_xml
 
-let tex2xml infile preamble_filename = 
+let tex2xml do_inline infile preamble_filename = 
   (* Preprocess *)
-  let infile_inlined = Preprocessor.inline_file infile in
-
+  let infile_inlined = 
+        if do_inline then
+          Preprocessor.inline_file infile
+        else 
+          infile
+  in
   (* Make AST *)
 	let ast_chapter = tex2ast infile_inlined in
 
@@ -42,11 +46,18 @@ let main () =
       let infile = Sys.argv.(1) in
       let preamble_filename = Sys.argv.(2) in
       let outfile = Sys.argv.(3) in
-
-      let xml_chapter = tex2xml infile preamble_filename in      
+      let do_inline = true in
+      let xml_chapter = tex2xml do_inline infile preamble_filename in      
+         Out_channel.write_all outfile ~data:xml_chapter 
+    else if Array.length args == 5 then
+      let infile = Sys.argv.(1) in
+      let preamble_filename = Sys.argv.(2) in
+      let outfile = Sys.argv.(3) in
+      let do_inline = bool_of_string (Sys.argv.(4)) in
+      let xml_chapter = tex2xml do_inline infile preamble_filename in      
          Out_channel.write_all outfile ~data:xml_chapter 
     else
-      printf "Usage: main <input latex file> <input preamble file> <output xml file>\n";;			
+      printf "Usage: main  <input latex file> <input preamble file> <output xml file> [inline = *true/false]\n";;			
 					
 let _ = main ()
 
