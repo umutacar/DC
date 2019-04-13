@@ -39,6 +39,12 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [April 13]
+  * Added lexer and parser support for \depend{label1, label2, label3}...
+
+    I don't think I can add depend to atoms without inflating the parser dramatically.  We will need to simplify things...
+
 - [April 12]
   Got \input inlining to work by using OCAML's regular expressions.
 
