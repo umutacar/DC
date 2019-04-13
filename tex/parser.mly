@@ -192,6 +192,12 @@ label:
    let _ = d_printf "Parser matched label = %s all = %s" label all in
      Ast.Label(all, label)}
 
+depend:
+  d = KW_DEPEND
+  {let (hb, ds, he) = d in 
+     String.concat ~sep:", " ds
+  }
+
 /**********************************************************************
  ** END Diderot Keywords
  **********************************************************************/
@@ -434,7 +440,70 @@ mk_atom_tail (kw_e):
   {let (h_b, body, h_e) = s in
      (Some h_b, Some body, h_e)
   }
+
+
 /*  diderot atom */
+mk_atom(kw_b, kw_e):
+| preamble = boxes;
+  h_b = kw_b;
+  topt = option (sq_box)
+  l = label;
+  dopt = option (depend);
+  bs = boxes; 
+  il = option(ilist); 
+  tail = mk_atom_tail (kw_e)
+  {
+   let (kind, h_bb, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
+   let (_, sol, h_e) = tail in
+   let (_, h_end) = h_e in
+     match topt with 
+     | None -> 
+       let h_begin = h_bb in
+       let _ = d_printf "\n \n Parsed Atom.1 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str in
+         Atom (preamble, (kind, h_begin, pval_f_opt, None, Some l, bs, il, sol, h_end))
+     | Some t ->
+       let (bo, tt, bc) = t in
+       let h_begin = h_bb ^ bo ^ tt ^ bc in   
+       let _ = d_printf "\n Parsed Atom.2 kind = %s title = %s pval_f_opt = %s " kind tt pval_opt_str in
+         Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, Some l, bs, il, sol, h_end))
+  }
+
+| preamble = boxes;
+  h_b = kw_b;
+  bs = boxes_start_no_sq; 
+  il = option(ilist); 
+  tail = mk_atom_tail (kw_e)
+  {
+   let (kind, h_begin, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
+   let (_, sol, h_e) = tail in
+   let (_, h_end) = h_e in
+     d_printf "\n Parsed Atom.3 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str;
+
+     Atom (preamble, (kind, h_begin, pval_f_opt, None, None, bs, il, sol, h_end)) 
+  }
+
+| preamble = boxes;
+  h_b = kw_b;
+  t = sq_box; 
+  bs = boxes; 
+  il = option(ilist); 
+  tail = mk_atom_tail (kw_e)
+  {
+   let (kind, h_bb, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
+   let (_, sol, h_e) = tail in
+   let (_, h_end) = h_e in
+   let (bo, tt, bc) = t in
+   let h_begin = h_bb ^ bo ^ tt ^ bc in   
+     d_printf "\n Parsed Atom.4 kind = %s h_begin = %s title = %s pval_f_opt = %s " kind h_begin tt pval_opt_str;
+     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, bs, il, sol, h_end))
+  }
+
+
+/*  diderot atom */
+/* BEGIN: Old Atom
 mk_atom(kw_b, kw_e):
 | preamble = boxes;
   h_b = kw_b;
@@ -501,6 +570,9 @@ mk_atom(kw_b, kw_e):
      Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, bs, il, sol, h_end))
   }
 
+
+
+END: Old Atom **/
 atom:
 |	x = mk_atom(KW_BEGIN_ATOM, KW_END_ATOM)
   { x }
