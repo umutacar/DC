@@ -39,6 +39,17 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [April 14]
+  * Started testing lexing of \depend'ency lists and. Fixed some lexer issues.
+  * Now extending ast to include depency lists for atoms.
+
+- [April 13]
+  * Added lexer and parser support for \depend{label1, label2, label3}...
+
+    I don't think I can add depend to atoms without inflating the parser dramatically.  We will need to simplify things...
+  * TODO: Ok, simplified the mk_atom function of the parser to accommodate \depend{} command.  Now I need to update the ast to include dependencies in addition to labels.
+
 - [April 12]
   Got \input inlining to work by using OCAML's regular expressions.
 

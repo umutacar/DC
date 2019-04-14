@@ -6,12 +6,16 @@ This is an example quiz.
 \end{preamble}
 
 \begin{cluster}[Cluster I]
+\label{cl:quiz-ii::1}
+
 \begin{gram}[10]
+\label{quiz-ii::1::1}
 Para I of Cluster I.
 \end{gram}
 
 \begin{flex}
 \begin{problem}[20][Cluster I. Problem 1]
+\depend { quiz-ii::1::1 }
 Select one of the following
 \begin{pickone}
 \choice This is the first choice $a = z^2$.
@@ -29,6 +33,8 @@ Hint  for Problem I.1
 
 \begin{flex}
 \begin{problem}[40][Cluster I. Problem 2]
+\label{quiz-ii:2}
+\depend { quiz-ii::1::1,  quiz-ii::1::2}
 Select one of the following
 \begin{pickany}
 \choice This is the first choice $a = z^2$.

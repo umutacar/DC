@@ -54,6 +54,7 @@ let cost_spec = "costspec"
 let datastr = "datastr"
 let datatype = "datatype"
 let definition = "definition"
+let depend = "depend"
 let example = "example"
 let exercise = "exercise"
 let friends = "friends"
@@ -186,6 +187,12 @@ let mk_body_src (x) =
 let mk_body_pop (x) = 
   mk_field_generic(body_pop, mk_cdata(x))
 
+let mk_depend_opt(x) = 
+  match x with
+  | None -> mk_field_generic(depend, C.no_depend)
+  | Some y -> mk_field_generic(depend, y)
+
+
 let mk_hint (x) = 
   mk_field_generic(hint, x)
 
@@ -298,24 +305,25 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~body_src ~body_xml ~ilist ~refsol_src_opt ~refsol_xml_opt = 
+let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~dopt ~body_src ~body_xml ~ilist ~refsol_src_opt ~refsol_xml_opt = 
   let pval_xml = mk_point_value_opt pval in
   let title_xml = mk_title_opt t_xml_opt in
   let title_src = mk_title_src_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
+  let depend_xml = mk_depend_opt dopt in
     match (refsol_xml_opt, refsol_src_opt) with
     | (None, None) -> 
         let _ =  d_printf "xml.mk_atom: refsol_xml = None\n" in       
           mk_block_atom kind ilist 
-                        [title_xml; title_src; label_xml; pval_xml; body_xml; body_src]
+                        [title_xml; title_src; label_xml; depend_xml; pval_xml; body_xml; body_src]
     | (Some refsol_xml, Some refsol_src) ->
         let _ =  d_printf "xml.mk_atom: refsol_xml = %s\n" refsol_xml in       
         let refsol_xml = mk_refsol refsol_xml in
         let refsol_src = mk_refsol_src refsol_src in
           mk_block_atom kind ilist 
-                        [title_xml; title_src; label_xml; pval_xml; body_xml; body_src; refsol_xml; refsol_src]    
+                        [title_xml; title_src; label_xml; depend_xml; pval_xml; body_xml; body_src; refsol_xml; refsol_src]    
 
 let mk_group ~topt ~t_xml_opt ~lopt ~body = 
   let title_src = mk_title_src_opt topt in

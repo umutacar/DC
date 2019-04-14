@@ -68,6 +68,7 @@ let exit_verbatim lexbuf =
 (** END: HEADER **)
 
 (** BEGIN: PATTERNS *)	
+let p_comma = ','
 let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'	
@@ -94,6 +95,7 @@ let p_o_sq = p_ws '[' p_ws
 let p_c_sq = p_ws ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
+let p_depend = '\\' "depend" p_ws p_o_curly p_ws												 
 let p_label = '\\' "label" p_ws												 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
@@ -256,6 +258,15 @@ rule token = parse
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 
+| p_depend as h_b 
+      {
+       let _ = d_printf "!lexer: begin depend:\n" in
+       let (l, h_e) = depend lexbuf in
+       let sl =  h_b ^ (String.concat "," l) ^ h_e in
+       let _ = d_printf "!lexer: depend matched = %s" sl in
+            KW_DEPEND(h_b, l, h_e)          
+      }   
+
 | p_label_and_name as x
   	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
 | p_backslash as x
@@ -413,6 +424,24 @@ and latex_env =
         { let y = latex_env lexbuf in
             (char_to_str x) ^ y
         }
+and depend = 
+  parse
+  | (p_label_name as x) p_ws p_comma p_ws 
+        {
+            let _ = d_printf "!lexer.depend: label %s\n" x in
+            let (t, h_e) = depend lexbuf in
+            let l = x :: t in
+              (l, h_e)                           
+        }
+  | (p_label_name as x) (p_ws p_c_curly p_ws as h_e) 
+        {
+            let _ = d_printf "!lexer.depend: label %s\n" x in
+              ([x], h_e)
+        }
+  | p_c_curly p_ws as x 
+      {
+         ([], x)
+      }
 and ilist = 
   parse
   | p_ilist_separator as x

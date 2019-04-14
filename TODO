@@ -1,3 +1,7 @@
+
+# April 2019
+  created atomizer/ directory for the atomizer work. 
+
 # Dec 19, 2018
 
   We need to coordinate constants (pervasives/constants.ml) with xml  backend so that they agree on things.  This used to be easier with  python because all we need was that certain files match.  Now we need a more "manual" thing where we have to make sure these match across different languages.  I need to look into how to make this work.
