@@ -40,6 +40,10 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [April 14]
+  * Started testing lexing of \depend'ency lists and. Fixed some lexer issues.
+  * Now extending ast to include depency lists for atoms.
+
 - [April 13]
   * Added lexer and parser support for \depend{label1, label2, label3}...
 

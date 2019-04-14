@@ -194,8 +194,8 @@ label:
 
 depend:
   d = KW_DEPEND
-  {let (hb, ds, he) = d in 
-     String.concat ~sep:", " ds
+  {let (hb, ds, he) = d in      
+     Ast.Depend (hb, ds)
   }
 
 /**********************************************************************
@@ -466,12 +466,12 @@ mk_atom(kw_b, kw_e):
      | None -> 
        let h_begin = h_bb in
        let _ = d_printf "\n \n Parsed Atom.1 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str in
-         Atom (preamble, (kind, h_begin, pval_f_opt, None, Some l, bs, il, sol, h_end))
+         Atom (preamble, (kind, h_begin, pval_f_opt, None, Some l, dopt, bs, il, sol, h_end))
      | Some t ->
        let (bo, tt, bc) = t in
        let h_begin = h_bb ^ bo ^ tt ^ bc in   
        let _ = d_printf "\n Parsed Atom.2 kind = %s title = %s pval_f_opt = %s " kind tt pval_opt_str in
-         Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, Some l, bs, il, sol, h_end))
+         Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, Some l, dopt, bs, il, sol, h_end))
   }
 
 /* atoms without labels but with depends, may have titles or not */
@@ -490,12 +490,12 @@ mk_atom(kw_b, kw_e):
      | None -> 
        let h_begin = h_bb in
        let _ = d_printf "\n \n Parsed Atom.3 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str in
-         Atom (preamble, (kind, h_begin, pval_f_opt, None, None, bs, il, sol, h_end))
+         Atom (preamble, (kind, h_begin, pval_f_opt, None, None, Some d, bs, il, sol, h_end))
      | Some t ->
        let (bo, tt, bc) = t in
        let h_begin = h_bb ^ bo ^ tt ^ bc in   
        let _ = d_printf "\n Parsed Atom.4 kind = %s title = %s pval_f_opt = %s " kind tt pval_opt_str in
-         Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, bs, il, sol, h_end))
+         Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, Some d, bs, il, sol, h_end))
   }
 
 /* atoms without labels, without depends, without titles */
@@ -510,7 +510,7 @@ mk_atom(kw_b, kw_e):
    let (_, h_end) = h_e in
      d_printf "\n Parsed Atom.3 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str;
 
-     Atom (preamble, (kind, h_begin, pval_f_opt, None, None, bs, il, sol, h_end)) 
+     Atom (preamble, (kind, h_begin, pval_f_opt, None, None, None, bs, il, sol, h_end)) 
   }
 
 /* atoms without labels, without depends, with titles */
@@ -527,7 +527,7 @@ mk_atom(kw_b, kw_e):
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
      d_printf "\n Parsed Atom.4 kind = %s h_begin = %s title = %s pval_f_opt = %s " kind h_begin tt pval_opt_str;
-     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, bs, il, sol, h_end))
+     Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, None, bs, il, sol, h_end))
   }
 
 

@@ -43,6 +43,7 @@ type t_title = string
  *)
 
 type t_label = Label of t_keyword * t_label_val
+type t_depend = Depend of t_keyword * t_label_val list 
 type t_point_val = float
 type t_refsol = string 
 
@@ -54,7 +55,7 @@ type ilist = IList of t_preamble
 
 type atom = Atom of t_preamble  
                     * (t_atom_kind * t_keyword * t_point_val option * t_title option * 
-                       t_label option * 
+                       t_label option * t_depend option * 
                        t_atom_body * ilist option * t_refsol option * t_keyword) 
 
 type group = 
@@ -204,6 +205,12 @@ let mktex_begin block_name pvalopt topt =
   in
     b ^ p ^ t ^ "\n"
 
+let dependOptToTex dopt = 
+  let r = match dopt with 
+              |  None -> ""
+              |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" in
+     r
+
 
 let labelToTex (Label(h, label_string)) = h
 let labelOptToTex lopt = 
@@ -239,18 +246,19 @@ let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
-let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))) = 
   let label = labelOptToTex lopt in
+  let depend = dependOptToTex dopt in
   let refsol = refsolOptToTex refsol_opt in
     match ilist_opt with 
     | None -> 
       let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
-      let r =  preamble ^ h_begin ^ label ^ body ^ refsol ^ h_end in 
+      let r =  preamble ^ h_begin ^ label ^ depend ^ body ^ refsol ^ h_end in 
 (*      let _  = d_printf "atomToTex: atom =  %s" r in *)
         r
     | Some il ->
       let ils = ilistToTex il in 
-        preamble ^ h_begin ^ label ^ body ^ ils ^ refsol ^ h_end      
+        preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ refsol ^ h_end      
 
 let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let atoms = map_concat atomToTex ats in
@@ -341,6 +349,12 @@ let extract_label lopt =
               |  Some Label(heading, v) -> Some v  in
      r
 
+let extract_depend dopt = 
+  let r = match dopt with 
+              |  None -> None
+              |  Some Depend(heading, ls) -> Some (String.concat ~sep:", " ls)  in
+     r
+
 let title_opt tex2html topt = 
   let t_xml_opt = match topt with 
                   | None -> None
@@ -362,6 +376,17 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
+let titleToXml tex2html t = 
+  let t_xml = tex2html (mk_index()) t title_is_single_par in
+    t_xml
+
+let titleOptToXml tex2html topt = 
+  let t_xml_opt = match topt with 
+                  | None -> None
+                  | Some t -> Some (tex2html (mk_index()) t title_is_single_par)
+  in
+    t_xml_opt
+
 let itemToXml tex2html (Item (kind, pval_opt, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
@@ -382,10 +407,12 @@ let ilistToXml tex2html
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist, refsol, h_end))) = 
+              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist, refsol, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
-  let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
+  let lsopt = extract_label lopt in
+  let dsopt = extract_depend dopt in
+  let t_xml_opt = titleOptToXml tex2html topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
   let _ = 
     match refsol with 
@@ -406,7 +433,7 @@ let atomToXml tex2html
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
                             ~topt:topt ~t_xml_opt:t_xml_opt
-                            ~lopt:lsopt 
+                            ~lopt:lsopt ~dopt:dsopt 
                             ~body_src:body
                             ~body_xml:body_xml
                             ~ilist:ilist_xml
@@ -417,7 +444,8 @@ let atomToXml tex2html
      
 let groupToXml tex2html
                (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
-  let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
+  let lsopt = extract_label lopt in
+  let t_xml_opt = titleOptToXml tex2html topt in
   let atoms = map_concat (atomToXml tex2html) ats in
   let r = XmlSyntax.mk_group ~topt:topt ~t_xml_opt:t_xml_opt 
                              ~lopt:lsopt ~body:atoms in
@@ -430,7 +458,8 @@ let elementToXml tex2html b =
 
 let clusterToXml tex2html (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
-  let (lsopt, t_xml_opt) = label_title_opt tex2html lopt topt in
+  let lsopt = extract_label lopt in
+  let t_xml_opt = titleOptToXml tex2html topt in
   let elements = map_concat (elementToXml tex2html) bs in
   let r = XmlSyntax.mk_cluster ~pval:pval_str_opt 
                                ~topt:topt ~t_xml_opt:t_xml_opt 
@@ -443,7 +472,8 @@ let blockToXml tex2html x =
   | Block_Cluster c -> clusterToXml  tex2html c
 
 let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it)) =
-  let (lsopt, t_xml) = label_title tex2html lopt t in
+  let lsopt = extract_label lopt in
+  let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let body = blocks in
   let r = XmlSyntax.mk_subsubsection ~title:t ~title_xml:t_xml
@@ -451,7 +481,8 @@ let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it)) =
     r
 
 let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, it, ss)) =
-  let (lsopt, t_xml) = label_title tex2html lopt t in
+  let lsopt = extract_label lopt in
+  let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (subsubsectionToXml  tex2html) ss in
   let body = blocks ^ newline ^ nesteds in
@@ -460,7 +491,8 @@ let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, it, ss)) =
     r
 
 let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
-  let (lsopt, t_xml) = label_title tex2html lopt t in
+  let lsopt = extract_label lopt in
+  let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (subsectionToXml  tex2html) ss in
   let body = blocks ^ newline ^ nesteds in
@@ -471,7 +503,7 @@ let sectionToXml  tex2html (Section (heading, t, lopt, bs, it, ss)) =
 let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
   let Label(heading, label) = l in 
   let _ = d_printf "chapter label, heading = %s  = %s\n" heading label in
-  let t_xml = tex2html (mk_index()) t title_is_single_par in
+  let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let sections = map_concat (sectionToXml  tex2html) ss in
   let body = blocks ^ newline ^ sections in
@@ -490,6 +522,16 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 (**********************************************************************
  ** BEGIN: AST ELEBORATION
  **********************************************************************)
+
+(* Identity function *)
+let dependEl d = d
+
+(* Identity function *)
+let dependOptEl dopt = 
+  match dopt with
+  | None -> None
+  | Some l -> Some (dependEl l) 
+
 
 (* Identity function *)
 let labelEl l = l
@@ -516,12 +558,13 @@ let ilistOptEl ilist_opt =
       let itemslist = List.map itemslist itemEl in
         Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
             
-let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))) = 
   let lopt = labelOptEl lopt in
+  let dopt = dependOptEl dopt in
   let refsol_opt = refsolOptEl refsol_opt in
   let ilist_opt = ilistOptEl ilist_opt in
   let pval = mk_pval pval_opt  in
-    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end)))
+    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end)))
 
 let groupEl (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let (pvalsum, ats) = map_and_sum_pts atomEl ats in
@@ -585,6 +628,15 @@ let chapterEl (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 (**********************************************************************
  ** BEGIN: AST  TRAVERSAL
  **********************************************************************)
+(* Identity function *)
+let dependTR d = d
+
+(* Identity function *)
+let dependOptTR dopt = 
+  match dopt with
+  | None -> None
+  | Some d -> Some (dependTR d) 
+
 
 (* Identity function *)
 let labelTR l = l
@@ -611,11 +663,12 @@ let ilistOptTR ilist_opt =
       let itemslist = List.map itemslist itemTR in
         Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
             
-let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))) = 
+  let dopt = dependOptTR dopt in
   let lopt = labelOptTR lopt in
   let refsol_opt = refsolOptTR refsol_opt in
   let ilist_opt = ilistOptTR ilist_opt in
-    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, body, ilist_opt, refsol_opt, h_end))
+    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))
 
 let groupTR (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let ats = map atomTR ats in
