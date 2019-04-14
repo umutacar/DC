@@ -95,7 +95,7 @@ let p_o_sq = p_ws '[' p_ws
 let p_c_sq = p_ws ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
-let p_depend = '\\' "depend" p_ws												 
+let p_depend = '\\' "depend" p_ws p_o_curly p_ws												 
 let p_label = '\\' "label" p_ws												 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
@@ -262,7 +262,7 @@ rule token = parse
       {
        let _ = d_printf "!lexer: begin depend:\n" in
        let (l, h_e) = depend lexbuf in
-       let sl = h_b ^ (String.concat "," l) ^ h_e in
+       let sl =  h_b ^ (String.concat "," l) ^ h_e in
        let _ = d_printf "!lexer: depend matched = %s" sl in
             KW_DEPEND(h_b, l, h_e)          
       }   
@@ -433,7 +433,12 @@ and depend =
             let l = x :: t in
               (l, h_e)                           
         }
-  | p_c_curly as x 
+  | (p_label_name as x) (p_ws p_c_curly p_ws as h_e) 
+        {
+            let _ = d_printf "!lexer.depend: label %s\n" x in
+              ([x], h_e)
+        }
+  | p_c_curly p_ws as x 
       {
          ([], x)
       }
