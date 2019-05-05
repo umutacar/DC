@@ -103,6 +103,9 @@ let p_begin = '\\' "begin" p_ws
 let p_end = '\\' "end" p_ws												 
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
+
+let p_explain = '\\' "explain"
+let p_hint = '\\' "hint"
 let p_refsol = '\\' "solution"
 
 let p_part = '\\' "part"
@@ -334,13 +337,23 @@ rule token = parse
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
 *)
+(*
+| p_hint as h
+      {
+       let _ = d_printf "!lexer: begin hint\n" in
+       let (body, h_e) = hint lexbuf in
+       let (h_e_a, h_e_b) = h_e in
+       let _ = d_printf "!lexer: hint matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
+            HINT(h, body, h_e)
+      }   
+*)
 | p_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in
-       let (body, h_e) = refsol lexbuf in
+       let (body, exp, h_e) = refsol lexbuf in
        let (h_e_a, h_e_b) = h_e in
        let _ = d_printf "!lexer: refsol matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-            REFSOL(h, body, h_e)
+         REFSOL(h, body, exp, h_e)
       }   
 
 | p_part as x           (* treat as comment *)
@@ -472,6 +485,20 @@ and ilist =
             ((char_to_str x) ^ y, zs, e)
         }
 
+and explain = 
+  parse 
+  | p_end_problem
+        { 
+  	     let all = e ^ o ^ kindws ^ c in
+         let _ = d_printf "lexer matched end problem: %s" kind in
+         let _ = d_printf "!lexer: exiting explain\n" in
+           ("", (kind, all))
+        }  
+  | _  as x
+        { let (body, h_e) = explain lexbuf in
+            ((char_to_str x) ^ body, h_e)
+        }
+
 and refsol =
   parse
   | p_end_problem
@@ -479,11 +506,17 @@ and refsol =
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
          let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", (kind, all))
+           ("", None, (kind, all))
         }
+  | p_explain as h
+      {
+       let _ = d_printf "!lexer: begin explain\n" in
+       let (body, h_e) = explain lexbuf in
+         ("", Some body, h_e)
+      }   
   | _  as x
-        { let (body, h_e) = refsol lexbuf in
-            ((char_to_str x) ^ body, h_e)
+        { let (body, exp, h_e) = refsol lexbuf in
+            ((char_to_str x) ^ body, exp, h_e)
         }
 
 and verbatim =

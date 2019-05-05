@@ -11,6 +11,8 @@
   `$ menhir --dump --explain parser.mly`
   and look into file `parser.conflicts` and `parser.automaton`
 
+  To generate .messages file menhir --list-errors parser.mly > parser.messages
+
   To compile a particular module try something like this
   ocamlfind ocamlc -package core -c tex2html.ml
 
@@ -30,6 +32,28 @@ $ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
 $ lexer.native
 
 
+# Grammar
+
+## Chapters and sections
+
+  We have four levels of sectioning:
+  chapter, section, subsection, subsubsection 
+
+  These have to be "properly nested" as in the order above.  For example, "subsubsection" inside "section" is disallowed.
+
+  Each section has the form: 
+  X ::= heading + label + blocks + subX
+  where X = chapter | section | subsection | subsubsection
+  and subX = section | subsection | subsubsection | "nothing"
+  respectively
+
+  A "block" is either an "element" or a "cluster".  
+
+  An "element" is an atom or a "flex/group."
+ 
+  A "cluster" is a sequence of elements.
+  
+ 
 # OVERALL STRATEGY
 
 Our strategy rests on several observations.

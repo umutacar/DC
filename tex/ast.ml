@@ -45,6 +45,7 @@ type t_title = string
 type t_label = Label of t_keyword * t_label_val
 type t_depend = Depend of t_keyword * t_label_val list 
 type t_point_val = float
+type t_exp = string 
 type t_refsol = string 
 
 type item = Item of t_keyword *  t_point_val option * t_item_body
@@ -56,7 +57,10 @@ type ilist = IList of t_preamble
 type atom = Atom of t_preamble  
                     * (t_atom_kind * t_keyword * t_point_val option * t_title option * 
                        t_label option * t_depend option * 
-                       t_atom_body * ilist option * t_refsol option * t_keyword) 
+                       t_atom_body * 
+                       ilist option * 
+                       t_refsol option * t_exp option *   
+                       t_keyword) 
 
 type group = 
   Group of t_preamble 
@@ -80,14 +84,14 @@ and subsubsection =
   Subsubsection of (t_keyword * t_title * t_label option *
                     block list * t_intertext)
 
+and block = 
+  | Block_Block of element
+  | Block_Cluster of cluster
+
 and cluster = 
   Cluster of t_preamble
              * (t_keyword * t_point_val option * t_title option * t_label option * 
                 element list * t_intertext * t_keyword)
-
-and block = 
-  | Block_Block of element
-  | Block_Cluster of cluster
 
 and element = 
   | Element_Group of group
@@ -246,7 +250,7 @@ let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
-let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, exp_opt, h_end))) = 
   let label = labelOptToTex lopt in
   let depend = dependOptToTex dopt in
   let refsol = refsolOptToTex refsol_opt in
@@ -407,7 +411,7 @@ let ilistToXml tex2html
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist, refsol, h_end))) = 
+              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist, refsol, exp_opt, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
@@ -520,7 +524,8 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 
 
 (**********************************************************************
- ** BEGIN: AST ELEBORATION
+ ** BEGIN: AST ELABORATION
+ ** What does elaboration do? 
  **********************************************************************)
 
 (* Identity function *)
@@ -558,13 +563,13 @@ let ilistOptEl ilist_opt =
       let itemslist = List.map itemslist itemEl in
         Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
             
-let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, exp_opt, h_end))) = 
   let lopt = labelOptEl lopt in
   let dopt = dependOptEl dopt in
   let refsol_opt = refsolOptEl refsol_opt in
   let ilist_opt = ilistOptEl ilist_opt in
   let pval = mk_pval pval_opt  in
-    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end)))
+    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, exp_opt, h_end)))
 
 let groupEl (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let (pvalsum, ats) = map_and_sum_pts atomEl ats in
@@ -663,12 +668,12 @@ let ilistOptTR ilist_opt =
       let itemslist = List.map itemslist itemTR in
         Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
             
-let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))) = 
+let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, exp_opt, h_end))) = 
   let dopt = dependOptTR dopt in
   let lopt = labelOptTR lopt in
   let refsol_opt = refsolOptTR refsol_opt in
   let ilist_opt = ilistOptTR ilist_opt in
-    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, h_end))
+    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, refsol_opt, exp_opt, h_end))
 
 let groupTR (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let ats = map atomTR ats in

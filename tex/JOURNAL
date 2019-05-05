@@ -40,6 +40,22 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [May 5]
+  * Getting back to things...
+  * Add \explain and \hint to atoms.
+    The syntax would be
+    \begin{atom}
+
+    \hint
+    ..
+    \solution
+    ..
+    \explain (explain the solution).
+
+   \end{atom}
+ 
+   The tricky things is that all of the above are optional, so when we find one, we would need to stop when we find another or the end of atom.  The end of atom in turn should (though doesn't have to be) passed out and returned to the parser.
+
 - [April 14]
   * Started testing lexing of \depend'ency lists and. Fixed some lexer issues.
   * Now extending ast to include depency lists for atoms.
