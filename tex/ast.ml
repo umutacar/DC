@@ -535,10 +535,6 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
  ** END: AST To XML
  **********************************************************************)
 
-(**********************************************************************
- ** END: AST To XML
- **********************************************************************)
-
 
 (**********************************************************************
  ** BEGIN: AST ELABORATION
@@ -554,7 +550,6 @@ let dependOptEl dopt =
   | None -> None
   | Some l -> Some (dependEl l) 
 
-
 (* Identity function *)
 let labelEl l = l
 
@@ -567,6 +562,14 @@ let labelOptEl lopt =
 (* Identity function *)
 let refsolOptEl refsol_opt = 
   refsol_opt
+
+(* Identity function *)
+let expOptEl exp_opt = 
+  exp_opt
+
+(* Identity function *)
+let hintOptEl hint_opt = 
+  hint_opt
 
 (* Identity function *)
 let itemEl (Item(keyword, pval, body)) = 
@@ -583,7 +586,9 @@ let ilistOptEl ilist_opt =
 let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
   let lopt = labelOptEl lopt in
   let dopt = dependOptEl dopt in
+  let hint_opt = hintOptEl hint_opt in
   let refsol_opt = refsolOptEl refsol_opt in
+  let exp_opt = expOptEl exp_opt in
   let ilist_opt = ilistOptEl ilist_opt in
   let pval = mk_pval pval_opt  in
     (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end)))
@@ -674,6 +679,15 @@ let refsolOptTR refsol_opt =
   refsol_opt
 
 (* Identity function *)
+let expOptTR exp_opt = 
+  exp_opt
+
+(* Identity function *)
+let hintOptTR hint_opt = 
+  hint_opt
+
+
+(* Identity function *)
 let itemTR (Item(keyword, pval, body)) = 
   Item (keyword, pval, body)
 
@@ -688,7 +702,10 @@ let ilistOptTR ilist_opt =
 let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
   let dopt = dependOptTR dopt in
   let lopt = labelOptTR lopt in
+  let hint_opt = hintOptTR hint_opt in
   let refsol_opt = refsolOptTR refsol_opt in
+  let exp_opt = expOptTR exp_opt in
+
   let ilist_opt = ilistOptTR ilist_opt in
     Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))
 

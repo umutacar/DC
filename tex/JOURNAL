@@ -57,6 +57,9 @@ So whatever latex produces must be mediated through this.
    The tricky things is that all of the above are optional, so when we find one, we would need to stop when we find another or the end of atom.  The end of atom in turn should (though doesn't have to be) passed out and returned to the parser.
 
    Working on this: figuring first the tex-to-tex translation.
+   Ok this is done. 
+  * Next TODO: extend XML translation to deal with hints, explanations, and solutions.
+
 
 - [April 14]
   * Started testing lexing of \depend'ency lists and. Fixed some lexer issues.
