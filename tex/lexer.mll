@@ -95,18 +95,18 @@ let p_o_sq = p_ws '[' p_ws
 let p_c_sq = p_ws ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
-let p_depend = '\\' "depend" p_ws p_o_curly p_ws												 
-let p_label = '\\' "label" p_ws												 
+let p_com_depend = '\\' "depend" p_ws p_o_curly p_ws												 
+let p_com_label = '\\' "label" p_ws												 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
-let p_begin = '\\' "begin" p_ws												 
-let p_end = '\\' "end" p_ws												 
-let p_choice = '\\' "choice"
-let p_correctchoice = '\\' "correctchoice"
+let p_com_begin = '\\' "begin" p_ws												 
+let p_com_end = '\\' "end" p_ws												 
+let p_com_choice = '\\' "choice"
+let p_com_correct_choice = '\\' "correctchoice"
 
-let p_explain = '\\' "explain"
-let p_hint = '\\' "hint"
-let p_refsol = '\\' "solution"
+let p_com_explain = '\\' "explain"
+let p_com_hint = '\\' "hint"
+let p_com_refsol = '\\' "solution"
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
@@ -115,16 +115,16 @@ let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
  * we will treat verbatim as a "box"
  *)
 let p_verbatim = "verbatim"
-let p_begin_verbatim = p_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
-let p_end_verbatim = p_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
+let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
+let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
 (* begin: parts
  * we will ignore these.
  *)
 let p_parts = "parts"
-let p_begin_parts = p_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
-let p_end_parts = p_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+let p_begin_parts = p_com_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+let p_end_parts = p_com_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 (* end: parts *)
 
 let p_chapter = '\\' "chapter" p_ws
@@ -180,9 +180,9 @@ let p_theorem = "theorem"
 let p_pickone = "pickone"
 let p_pickany = "pickany"
 
-let p_ilist_separator = p_choice | p_correctchoice
-let p_ilist_separator_arg = (p_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-                            | (p_correctchoice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+let p_ilist_separator = p_com_choice | p_com_correct_choice
+let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+                            | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
@@ -217,26 +217,26 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_teachnote as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
 
-let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
-let p_begin_atom_with_points = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
+let p_begin_atom = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
+let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
-let p_end_problem = (p_end p_ws as e) (p_o_curly as o) ((p_problem as kind) p_ws as kindws) (p_c_curly as c) 
+let p_end_problem = (p_com_end p_ws as e) (p_o_curly as o) ((p_problem as kind) p_ws as kindws) (p_c_curly as c) 
 
 let p_ilist_kinds = (p_pickone | p_pickany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
 
-let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
+let p_begin_ilist = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
 (* point values now go with atoms.
-let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+let p_begin_ilist_arg = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 *)
  
-let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
+let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
-let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
+let p_begin_latex_env = (p_com_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
+let p_end_latex_env = (p_com_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -261,7 +261,7 @@ rule token = parse
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 
-| p_depend as h_b 
+| p_com_depend as h_b 
       {
        let _ = d_printf "!lexer: begin depend:\n" in
        let (l, h_e) = depend lexbuf in
@@ -274,7 +274,7 @@ rule token = parse
   	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
 | p_backslash as x
 (*
-| p_label as x
+| p_com_label as x
   	{d_printf "!lexer matched %s." x; KW_LABEL(x)}		
 *)
 				
@@ -337,17 +337,7 @@ rule token = parse
             ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
 *)
-(*
-| p_hint as h
-      {
-       let _ = d_printf "!lexer: begin hint\n" in
-       let (body, h_e) = hint lexbuf in
-       let (h_e_a, h_e_b) = h_e in
-       let _ = d_printf "!lexer: hint matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-            HINT(h, body, h_e)
-      }   
-*)
-| p_hint as h 
+| p_com_hint as h 
       {
        let _ = d_printf "!lexer: begin hint\n" in
        let (body, sol_opt, exp_opt, h_e) = hint lexbuf in
@@ -358,7 +348,7 @@ rule token = parse
          HINT(h, body, sol_opt, exp_opt, h_e)
       }   
 
-| p_refsol as h 
+| p_com_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in
        let (body, exp_opt, h_e) = refsol lexbuf in
@@ -520,7 +510,7 @@ and refsol =
          let _ = d_printf "!lexer: exiting refsol\n" in
            ("", None, (kind, all))
         }
-  | p_explain as h
+  | p_com_explain as h
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, h_e) = explain lexbuf in
@@ -544,7 +534,7 @@ and hint =
         }
 
   (* refsol plus optional explanation *) 
-  | p_refsol as h
+  | p_com_refsol as h
       {
        let _ = d_printf "!lexer: begin refsol\n" in
        let (body, exp_opt, h_e) = refsol lexbuf in
@@ -553,7 +543,7 @@ and hint =
       }   
 
   (* explanation, no solution *)
-  | p_explain as h
+  | p_com_explain as h
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, h_e) = explain lexbuf in
