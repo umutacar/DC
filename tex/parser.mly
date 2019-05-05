@@ -510,7 +510,7 @@ mk_atom(kw_b, kw_e):
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (il, _, sol, exp, h_e) = tail in
    let (_, h_end) = h_e in
-     d_printf "\n Parsed Atom.3 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str;
+     d_printf "\n Parsed Atom.5 kind = %s h_begin = %s pval_f_opt = %s " kind h_begin pval_opt_str;
 
      Atom (preamble, (kind, h_begin, pval_f_opt, None, None, None, bs, il, sol, exp, h_end)) 
   }
@@ -528,7 +528,7 @@ mk_atom(kw_b, kw_e):
    let (_, h_end) = h_e in
    let (bo, tt, bc) = t in
    let h_begin = h_bb ^ bo ^ tt ^ bc in   
-     d_printf "\n Parsed Atom.4 kind = %s h_begin = %s title = %s pval_f_opt = %s " kind h_begin tt pval_opt_str;
+     d_printf "\n Parsed Atom.6 kind = %s h_begin = %s title = %s pval_f_opt = %s " kind h_begin tt pval_opt_str;
      Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, None, bs, il, sol, exp, h_end))
   }
 

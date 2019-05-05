@@ -350,10 +350,14 @@ rule token = parse
 | p_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in
-       let (body, exp, h_e) = refsol lexbuf in
+       let (body, exp_opt, h_e) = refsol lexbuf in
        let (h_e_a, h_e_b) = h_e in
        let _ = d_printf "!lexer: refsol matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-         REFSOL(h, body, exp, h_e)
+         match exp_opt with
+         | None -> (d_printf "!lexer: explain = None";
+                    REFSOL(h, body, exp_opt, h_e))
+         | Some x -> (d_printf "!lexer: explain =%s" x;
+                      REFSOL(h, body, exp_opt, h_e))
       }   
 
 | p_part as x           (* treat as comment *)
@@ -512,6 +516,7 @@ and refsol =
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, h_e) = explain lexbuf in
+       let _ = d_printf "explain matched = %s" body in
          ("", Some body, h_e)
       }   
   | _  as x

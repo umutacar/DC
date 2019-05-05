@@ -231,6 +231,13 @@ let pointvalOptToTex p =
   | None -> ""
   | Some pts -> mktex_optarg (Float.to_string pts)
 
+let expOptToTex exp_opt = 
+  let heading = "\\explain" in
+  let r = match exp_opt with 
+              |  None -> ""
+              |  Some x -> heading ^ "\n" ^ x  in
+     r
+
 let refsolOptToTex refsol_opt = 
   let heading = "\\solution" in
   let r = match refsol_opt with 
@@ -254,15 +261,16 @@ let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, 
   let label = labelOptToTex lopt in
   let depend = dependOptToTex dopt in
   let refsol = refsolOptToTex refsol_opt in
+  let exp = expOptToTex exp_opt in
     match ilist_opt with 
     | None -> 
       let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
-      let r =  preamble ^ h_begin ^ label ^ depend ^ body ^ refsol ^ h_end in 
+      let r =  preamble ^ h_begin ^ label ^ depend ^ body ^ refsol ^ exp ^ h_end in 
 (*      let _  = d_printf "atomToTex: atom =  %s" r in *)
         r
     | Some il ->
       let ils = ilistToTex il in 
-        preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ refsol ^ h_end      
+        preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ refsol ^ exp ^ h_end      
 
 let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let atoms = map_concat atomToTex ats in
