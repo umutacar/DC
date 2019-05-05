@@ -34,6 +34,9 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> WORD
 %token <string> ENV
 
+/* A hint is heading, body, solution option, explain option, ending */
+%token <string * string * string option * string option * (string * string)> HINT
+
 /* A ref sol is heading, body, explain option, ending */
 %token <string * string * string option * (string * string)> REFSOL 
 

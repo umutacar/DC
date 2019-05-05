@@ -347,17 +347,25 @@ rule token = parse
             HINT(h, body, h_e)
       }   
 *)
+| p_hint as h 
+      {
+       let _ = d_printf "!lexer: begin hint\n" in
+       let (body, sol_opt, exp_opt, h_e) = hint lexbuf in
+       let (h_e_a, h_e_b) = h_e in
+       let _ = d_printf "!lexer: hint matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
+       let _ = d_printf_opt_str "explain" exp_opt in
+       let _ = d_printf_opt_str "solution" sol_opt in
+         HINT(h, body, sol_opt, exp_opt, h_e)
+      }   
+
 | p_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in
        let (body, exp_opt, h_e) = refsol lexbuf in
        let (h_e_a, h_e_b) = h_e in
        let _ = d_printf "!lexer: refsol matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-         match exp_opt with
-         | None -> (d_printf "!lexer: explain = None";
-                    REFSOL(h, body, exp_opt, h_e))
-         | Some x -> (d_printf "!lexer: explain =%s" x;
-                      REFSOL(h, body, exp_opt, h_e))
+       let _ = d_printf_opt_str "solution" exp_opt in
+         REFSOL(h, body, exp_opt, h_e)
       }   
 
 | p_part as x           (* treat as comment *)
@@ -522,6 +530,39 @@ and refsol =
   | _  as x
         { let (body, exp, h_e) = refsol lexbuf in
             ((char_to_str x) ^ body, exp, h_e)
+        }
+
+and hint =
+  parse
+  (* just a hint, no solution, no explanation *)
+  | p_end_problem
+        { 
+  	     let all = e ^ o ^ kindws ^ c in
+         let _ = d_printf "lexer matched end problem: %s" kind in
+         let _ = d_printf "!lexer: exiting refsol\n" in
+           ("", None, None, (kind, all))
+        }
+
+  (* refsol plus optional explanation *) 
+  | p_refsol as h
+      {
+       let _ = d_printf "!lexer: begin refsol\n" in
+       let (body, exp_opt, h_e) = refsol lexbuf in
+       let _ = d_printf "refsol matched = %s" body in
+         ("", Some body, exp_opt, h_e)
+      }   
+
+  (* explanation, no solution *)
+  | p_explain as h
+      {
+       let _ = d_printf "!lexer: begin explain\n" in
+       let (body, h_e) = explain lexbuf in
+       let _ = d_printf "explain matched = %s" body in
+         ("", None, Some body, h_e)
+      }   
+  | _  as x
+        { let (body, sol_opt, exp_opt, h_e) = hint lexbuf in
+            ((char_to_str x) ^ body, sol_opt, exp_opt, h_e)
         }
 
 and verbatim =
