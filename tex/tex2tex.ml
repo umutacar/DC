@@ -2,6 +2,21 @@ open Core
 open Lexer
 open Lexing
 
+(* Stub. *)
+let handle_parser_error () = 
+  printf ("Parse Error\n.")
+
+let tex2ast infile = 
+	let ic = In_channel.create infile in
+   	try 
+      let lexbuf = Lexing.from_channel ic in
+	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
+        ast_chapter
+    with | End_of_file -> exit 0
+         | Parser.Error as exn -> 
+           handle_parser_error (); 
+           raise exn
+
 
 let tex2ast infile = 
 	let ic = In_channel.create infile in
