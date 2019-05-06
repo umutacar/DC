@@ -262,10 +262,14 @@ let mk_title_src_opt(x) =
   | None -> mk_field_generic(title_src, mk_cdata C.no_title)
   | Some y -> mk_field_generic(title_src, mk_cdata y)
 
-let mk_title_opt(x) = 
+let mk_title_opt (x) = 
   match x with
-  | None -> mk_field_generic(title, mk_cdata C.no_title)
-  | Some y -> mk_field_generic(title, mk_cdata y)
+  | None -> 
+    [mk_field_generic(title, mk_cdata C.no_title);
+     mk_field_generic(title_src, mk_cdata C.no_title)]
+  | Some (t_xml, t_src) -> 
+    [mk_field_generic(title, mk_cdata t_xml);
+     mk_field_generic(title_src, mk_cdata t_src)]
 
 let mk_unique(x) = 
   mk_field_generic(unique, x)
@@ -320,15 +324,14 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol_src_opt ~refsol_xml_opt = 
+let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol_src_opt ~refsol_xml_opt = 
   let pval_xml = mk_point_value_opt pval in
-  let title_xml = mk_title_opt t_xml_opt in
-  let title_src = mk_title_src_opt topt in
+  let titles = mk_title_opt topt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
-  let fields_base = [title_xml; title_src; label_xml; depend_xml; pval_xml; body_xml; body_src] in
+  let fields_base = titles @ [label_xml; depend_xml; pval_xml; body_xml; body_src] in
 
   (* Now add in optional fields *)
   let refsols = mk_refsols_opt refsol_xml_opt refsol_src_opt in
@@ -336,18 +339,18 @@ let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~dopt ~body_src ~body_xml ~ilist_
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
 
-let mk_group ~topt ~t_xml_opt ~lopt ~body = 
-  let title_src = mk_title_src_opt topt in
-  let title_xml = mk_title_opt t_xml_opt in
+let mk_group ~topt ~lopt ~body = 
+  let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic group [title_xml; title_src; label_xml; body]
+  let fields = titles @ [label_xml; body] in
+    mk_block_generic group fields
 
-let mk_cluster ~pval ~topt ~t_xml_opt ~lopt ~body = 
+let mk_cluster ~pval ~topt ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
-  let title_src = mk_title_src_opt topt in
-  let title_xml = mk_title_opt t_xml_opt in
+  let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic cluster [title_xml; title_src; label_xml; pval_xml; body]
+  let fields = titles @ [label_xml; pval_xml; body] in
+    mk_block_generic cluster fields
 
 
 let mk_paragraph ~title ~title_xml ~lopt ~body = 

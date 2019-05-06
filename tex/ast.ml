@@ -360,6 +360,8 @@ let chapterToTex (Chapter (preamble, (heading, t, l, sbs, it, ss))) =
  * <p> </p> annotations must be removed.
  *) 
 let body_is_single_par = false
+let explain_is_single_par = false
+let hint_is_single_par = false
 let refsol_is_single_par = false
 let title_is_single_par = true
 
@@ -397,16 +399,18 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
+let fieldOptToXml tex2html is_single_par xopt =
+   match xopt with 
+   | None -> None 
+   | Some x -> let x_xml = tex2html (mk_index()) x is_single_par in
+                 Some (x_xml, x)
+
 let titleToXml tex2html t = 
   let t_xml = tex2html (mk_index()) t title_is_single_par in
     t_xml
 
 let titleOptToXml tex2html topt = 
-  let t_xml_opt = match topt with 
-                  | None -> None
-                  | Some t -> Some (tex2html (mk_index()) t title_is_single_par)
-  in
-    t_xml_opt
+  fieldOptToXml tex2html title_is_single_par topt
 
 let itemToXml tex2html (Item (kind, pval_opt, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
@@ -433,12 +437,23 @@ let atomToXml tex2html
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
-  let t_xml_opt = titleOptToXml tex2html topt in
+  let title_opt = titleOptToXml tex2html topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
   let _ = 
     match refsol with 
     | None -> d_printf "AtomToXml: refsol = None\n" 
     | Some x -> d_printf "AtomToXml: refsol = %s\n" x 
+  in
+  let ilist_xml_opt =   
+    match ilist with  
+    | None -> None
+    | Some l -> Some (ilistToXml tex2html l) 
+  in
+  let hint_src = hint in
+  let hint_xml = 
+    match hint with 
+    | None -> None
+    | Some x -> Some (tex2html (mk_index ()) x hint_is_single_par)
   in
   let refsol_src = refsol in
   let refsol_xml = 
@@ -446,14 +461,9 @@ let atomToXml tex2html
     | None -> None
     | Some x -> Some (tex2html (mk_index ()) x refsol_is_single_par)
   in
-  let ilist_xml_opt =   
-    match ilist with  
-    | None -> None
-    | Some l -> Some (ilistToXml tex2html l) 
-  in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
-                            ~topt:topt ~t_xml_opt:t_xml_opt
+                            ~topt:title_opt
                             ~lopt:lsopt ~dopt:dsopt 
                             ~body_src:body
                             ~body_xml:body_xml
@@ -466,9 +476,9 @@ let atomToXml tex2html
 let groupToXml tex2html
                (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
   let lsopt = extract_label lopt in
-  let t_xml_opt = titleOptToXml tex2html topt in
+  let title_opt = titleOptToXml tex2html topt in
   let atoms = map_concat (atomToXml tex2html) ats in
-  let r = XmlSyntax.mk_group ~topt:topt ~t_xml_opt:t_xml_opt 
+  let r = XmlSyntax.mk_group ~topt:title_opt
                              ~lopt:lsopt ~body:atoms in
     r
 
@@ -480,17 +490,17 @@ let elementToXml tex2html b =
 let clusterToXml tex2html (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
-  let t_xml_opt = titleOptToXml tex2html topt in
+  let title_opt = titleOptToXml tex2html topt in
   let elements = map_concat (elementToXml tex2html) bs in
   let r = XmlSyntax.mk_cluster ~pval:pval_str_opt 
-                               ~topt:topt ~t_xml_opt:t_xml_opt 
+                               ~topt:title_opt
                                ~lopt:lsopt ~body:elements in
     r
 
 let blockToXml tex2html x = 
   match x with
   | Block_Block b -> elementToXml tex2html b
-  | Block_Cluster c -> clusterToXml  tex2html c
+  | Block_Cluster c -> clusterToXml tex2html c
 
 let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it)) =
   let lsopt = extract_label lopt in
