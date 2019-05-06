@@ -399,18 +399,27 @@ let label_title_opt tex2html lopt topt =
   in
     (lsopt, t_xml_opt)
 
+let titleToXml tex2html t = 
+  let t_xml = tex2html (mk_index()) t title_is_single_par in
+    t_xml
+
 let fieldOptToXml tex2html is_single_par xopt =
    match xopt with 
    | None -> None 
    | Some x -> let x_xml = tex2html (mk_index()) x is_single_par in
                  Some (x_xml, x)
 
-let titleToXml tex2html t = 
-  let t_xml = tex2html (mk_index()) t title_is_single_par in
-    t_xml
-
 let titleOptToXml tex2html topt = 
   fieldOptToXml tex2html title_is_single_par topt
+
+let refsolOptToXml tex2html refsol_opt = 
+  let _ = 
+    match refsol_opt with 
+    | None -> d_printf "ast.refsolOptToXml = None\n" 
+    | Some x -> d_printf "ast.refsolOptToXml: refsol = %s\n" x 
+  in
+    fieldOptToXml tex2html refsol_is_single_par refsol_opt
+
 
 let itemToXml tex2html (Item (kind, pval_opt, body)) = 
   let _ = d_printf "itemToXml: kind = %s\n" kind in 
@@ -432,18 +441,13 @@ let ilistToXml tex2html
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist, hint, refsol, exp_opt, h_end))) = 
+              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist, hint, refsol_opt, exp_opt, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
-  let _ = 
-    match refsol with 
-    | None -> d_printf "AtomToXml: refsol = None\n" 
-    | Some x -> d_printf "AtomToXml: refsol = %s\n" x 
-  in
   let ilist_xml_opt =   
     match ilist with  
     | None -> None
@@ -455,12 +459,15 @@ let atomToXml tex2html
     | None -> None
     | Some x -> Some (tex2html (mk_index ()) x hint_is_single_par)
   in
+(*
   let refsol_src = refsol in
   let refsol_xml = 
     match refsol with 
     | None -> None
     | Some x -> Some (tex2html (mk_index ()) x refsol_is_single_par)
   in
+*)
+  let refsols_opt = refsolOptToXml tex2html refsol_opt in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
                             ~topt:title_opt
@@ -468,8 +475,7 @@ let atomToXml tex2html
                             ~body_src:body
                             ~body_xml:body_xml
                             ~ilist_opt:ilist_xml_opt
-                            ~refsol_xml_opt:refsol_xml
-                            ~refsol_src_opt:refsol_src
+                            ~refsol_opt:refsols_opt
    in
      r
      

@@ -240,6 +240,7 @@ let mk_refsol (x) =
 let mk_refsol_src (x) = 
   mk_field_generic(refsol_src, mk_cdata x)
 
+(*
 let mk_refsols_opt refsol_xml_opt refsol_src_opt = 
     match (refsol_xml_opt, refsol_src_opt) with
     | (None, None) -> 
@@ -249,6 +250,17 @@ let mk_refsols_opt refsol_xml_opt refsol_src_opt =
         let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = %s\n" refsol_xml in       
         let refsol_xml = mk_refsol refsol_xml in
         let refsol_src = mk_refsol_src refsol_src in
+          [refsol_xml; refsol_src]
+*)
+let mk_refsols_opt refsol_opt = 
+    match refsol_opt with
+    | None -> 
+        let _ =  d_printf "xml.mk_refsols_opt: refsol = None\n" in       
+          []
+    | Some (r_xml, r_src) ->
+        let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = %s\n" r_xml in       
+        let refsol_xml = mk_field_generic(refsol, mk_cdata r_xml) in
+        let refsol_src = mk_field_generic(refsol_src, mk_cdata r_src) in
           [refsol_xml; refsol_src]
 
 let mk_title(x) = 
@@ -324,7 +336,7 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol_src_opt ~refsol_xml_opt = 
+let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol_opt = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let body_xml = mk_body body_xml in
@@ -334,7 +346,7 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol
   let fields_base = titles @ [label_xml; depend_xml; pval_xml; body_xml; body_src] in
 
   (* Now add in optional fields *)
-  let refsols = mk_refsols_opt refsol_xml_opt refsol_src_opt in
+  let refsols = mk_refsols_opt refsol_opt in
   let fields = List.append fields_base refsols in
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
