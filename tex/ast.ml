@@ -412,6 +412,8 @@ let fieldOptToXml tex2html is_single_par xopt =
 let titleOptToXml tex2html topt = 
   fieldOptToXml tex2html title_is_single_par topt
 
+
+
 let refsolOptToXml tex2html refsol_opt = 
   let _ = 
     match refsol_opt with 
@@ -427,32 +429,29 @@ let itemToXml tex2html (Item (kind, pval_opt, body)) =
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
     XmlSyntax.mk_item ~pval:pval_str_opt ~body_src:body ~body_xml:body_xml
 
-let ilistToXml tex2html
-              (IList (preamble, (kind, h_begin, pval_opt, itemslist, h_end))) = 
-  let _ = d_printf "IListToXml: kind = %s\n" kind in 
-  let pval_str_opt = pval_opt_to_string_opt pval_opt in
-
-  let items_xml = map_concat  (itemToXml tex2html) itemslist in
-  let r = XmlSyntax.mk_ilist ~kind:kind 
-                             ~pval:pval_str_opt
-                             ~body:items_xml
-  in
-    r
+let ilistOptToXml tex2html ilist_opt = 
+  match ilist_opt with 
+  | None -> None 
+  | Some (IList (preamble, (kind, h_begin, pval_opt, itemslist, h_end))) ->
+    let _ = d_printf "IListToXml: kind = %s\n" kind in 
+    let pval_str_opt = pval_opt_to_string_opt pval_opt in
+    let items_xml = map_concat  (itemToXml tex2html) itemslist in
+    let r = XmlSyntax.mk_ilist ~kind:kind 
+                               ~pval:pval_str_opt
+                               ~body:items_xml
+    in
+      Some r
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist, hint, refsol_opt, exp_opt, h_end))) = 
+              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint, refsol_opt, exp_opt, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = tex2html (mk_index ()) body body_is_single_par in
-  let ilist_xml_opt =   
-    match ilist with  
-    | None -> None
-    | Some l -> Some (ilistToXml tex2html l) 
-  in
+  let ilist_xml_opt = ilistOptToXml tex2html ilist_opt in
   let hint_src = hint in
   let hint_xml = 
     match hint with 
