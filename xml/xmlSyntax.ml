@@ -2,6 +2,7 @@
  ** xml/xmlSyntax.ml
  **********************************************************************)
 open Core
+open Base
 open String
 open Utils
 
@@ -162,6 +163,12 @@ let ilist_kind_to_xml kind =
     radio
   else
     raise (Failure "xmlSyntax: Encountered IList of unknown kind")
+
+let append_opt x_opt l = 
+  match x_opt with 
+  | None -> l
+  | Some x -> List.append l [x]
+
 (** END: Utilities
  **********************************************************************)
 
@@ -233,6 +240,17 @@ let mk_refsol (x) =
 let mk_refsol_src (x) = 
   mk_field_generic(refsol_src, mk_cdata x)
 
+let mk_refsols_opt refsol_xml_opt refsol_src_opt = 
+    match (refsol_xml_opt, refsol_src_opt) with
+    | (None, None) -> 
+        let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = None\n" in       
+          []
+    | (Some refsol_xml, Some refsol_src) ->
+        let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = %s\n" refsol_xml in       
+        let refsol_xml = mk_refsol refsol_xml in
+        let refsol_src = mk_refsol_src refsol_src in
+          [refsol_xml; refsol_src]
+
 let mk_title(x) = 
   mk_field_generic(title, mk_cdata x)
 
@@ -262,13 +280,10 @@ let mk_unique(x) =
  ** BEGIN: Block makers
  **********************************************************************)
 
-let mk_block_atom kind ilist fields =
+let mk_block_atom kind fields =
   let _ = d_printf "mk_block_atom: %s" kind in
   let b = mk_begin_atom(kind) in
   let e = mk_end_atom(kind) in  
-  let fields = if ilist = "" then fields
-               else fields @ [ilist]
-  in
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None -> b ^ C.newline ^ e ^ C.newline
@@ -305,7 +320,7 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~dopt ~body_src ~body_xml ~ilist ~refsol_src_opt ~refsol_xml_opt = 
+let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol_src_opt ~refsol_xml_opt = 
   let pval_xml = mk_point_value_opt pval in
   let title_xml = mk_title_opt t_xml_opt in
   let title_src = mk_title_src_opt topt in
@@ -313,17 +328,13 @@ let mk_atom ~kind ~pval ~topt ~t_xml_opt ~lopt ~dopt ~body_src ~body_xml ~ilist 
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
-    match (refsol_xml_opt, refsol_src_opt) with
-    | (None, None) -> 
-        let _ =  d_printf "xml.mk_atom: refsol_xml = None\n" in       
-          mk_block_atom kind ilist 
-                        [title_xml; title_src; label_xml; depend_xml; pval_xml; body_xml; body_src]
-    | (Some refsol_xml, Some refsol_src) ->
-        let _ =  d_printf "xml.mk_atom: refsol_xml = %s\n" refsol_xml in       
-        let refsol_xml = mk_refsol refsol_xml in
-        let refsol_src = mk_refsol_src refsol_src in
-          mk_block_atom kind ilist 
-                        [title_xml; title_src; label_xml; depend_xml; pval_xml; body_xml; body_src; refsol_xml; refsol_src]    
+  let fields_base = [title_xml; title_src; label_xml; depend_xml; pval_xml; body_xml; body_src] in
+
+  (* Now add in optional fields *)
+  let refsols = mk_refsols_opt refsol_xml_opt refsol_src_opt in
+  let fields = List.append fields_base refsols in
+  let fields = append_opt ilist_opt fields in
+    mk_block_atom kind fields
 
 let mk_group ~topt ~t_xml_opt ~lopt ~body = 
   let title_src = mk_title_src_opt topt in

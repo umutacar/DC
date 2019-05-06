@@ -446,10 +446,10 @@ let atomToXml tex2html
     | None -> None
     | Some x -> Some (tex2html (mk_index ()) x refsol_is_single_par)
   in
-  let ilist_xml =   
+  let ilist_xml_opt =   
     match ilist with  
-    | None -> ""
-    | Some l -> ilistToXml tex2html l 
+    | None -> None
+    | Some l -> Some (ilistToXml tex2html l) 
   in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
@@ -457,7 +457,7 @@ let atomToXml tex2html
                             ~lopt:lsopt ~dopt:dsopt 
                             ~body_src:body
                             ~body_xml:body_xml
-                            ~ilist:ilist_xml
+                            ~ilist_opt:ilist_xml_opt
                             ~refsol_xml_opt:refsol_xml
                             ~refsol_src_opt:refsol_src
    in
