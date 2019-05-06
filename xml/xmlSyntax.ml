@@ -240,18 +240,6 @@ let mk_refsol (x) =
 let mk_refsol_src (x) = 
   mk_field_generic(refsol_src, mk_cdata x)
 
-(*
-let mk_refsols_opt refsol_xml_opt refsol_src_opt = 
-    match (refsol_xml_opt, refsol_src_opt) with
-    | (None, None) -> 
-        let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = None\n" in       
-          []
-    | (Some refsol_xml, Some refsol_src) ->
-        let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = %s\n" refsol_xml in       
-        let refsol_xml = mk_refsol refsol_xml in
-        let refsol_src = mk_refsol_src refsol_src in
-          [refsol_xml; refsol_src]
-*)
 let mk_refsols_opt refsol_opt = 
     match refsol_opt with
     | None -> 
@@ -259,8 +247,8 @@ let mk_refsols_opt refsol_opt =
           []
     | Some (r_xml, r_src) ->
         let _ =  d_printf "xml.mk_refsols_opt: refsol_xml = %s\n" r_xml in       
-        let refsol_xml = mk_field_generic(refsol, mk_cdata r_xml) in
-        let refsol_src = mk_field_generic(refsol_src, mk_cdata r_src) in
+        let refsol_xml = mk_refsol r_xml in
+        let refsol_src = mk_refsol_src r_src in
           [refsol_xml; refsol_src]
 
 let mk_title(x) = 
@@ -277,11 +265,11 @@ let mk_title_src_opt(x) =
 let mk_title_opt (x) = 
   match x with
   | None -> 
-    [mk_field_generic(title, mk_cdata C.no_title);
-     mk_field_generic(title_src, mk_cdata C.no_title)]
+    [mk_title C.no_title;
+     mk_title_src C.no_title]
   | Some (t_xml, t_src) -> 
-    [mk_field_generic(title, mk_cdata t_xml);
-     mk_field_generic(title_src, mk_cdata t_src)]
+    [mk_title t_xml;
+     mk_title_src t_src]
 
 let mk_unique(x) = 
   mk_field_generic(unique, x)

@@ -459,14 +459,6 @@ let atomToXml tex2html
     | None -> None
     | Some x -> Some (tex2html (mk_index ()) x hint_is_single_par)
   in
-(*
-  let refsol_src = refsol in
-  let refsol_xml = 
-    match refsol with 
-    | None -> None
-    | Some x -> Some (tex2html (mk_index ()) x refsol_is_single_par)
-  in
-*)
   let refsols_opt = refsolOptToXml tex2html refsol_opt in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
