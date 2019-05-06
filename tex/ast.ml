@@ -409,8 +409,12 @@ let fieldOptToXml tex2html is_single_par xopt =
    | Some x -> let x_xml = tex2html (mk_index()) x is_single_par in
                  Some (x_xml, x)
 
+let explainOptToXml tex2html exp_opt = 
+  fieldOptToXml tex2html explain_is_single_par exp_opt
+
 let titleOptToXml tex2html topt = 
   fieldOptToXml tex2html title_is_single_par topt
+
 
 let hintOptToXml tex2html hint_opt = 
   fieldOptToXml tex2html hint_is_single_par hint_opt
@@ -455,6 +459,7 @@ let atomToXml tex2html
   let ilist_xml_opt = ilistOptToXml tex2html ilist_opt in
   let hints_opt = hintOptToXml tex2html hint_opt in
   let refsols_opt = refsolOptToXml tex2html refsol_opt in
+  let exps_opt = explainOptToXml tex2html exp_opt in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
                             ~topt:title_opt
@@ -464,6 +469,7 @@ let atomToXml tex2html
                             ~ilist_opt:ilist_xml_opt
                             ~hints_opt:hints_opt
                             ~refsols_opt:refsols_opt
+                            ~explains_opt:exps_opt
    in
      r
      

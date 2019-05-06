@@ -58,6 +58,8 @@ let definition = "definition"
 let depend = "depend"
 let example = "example"
 let exercise = "exercise"
+let explain = "explain"
+let explain_src = "explain_src"
 let friends = "friends"
 let gram = "gram"
 let group = "group"
@@ -201,6 +203,13 @@ let mk_depend_opt(x) =
   | Some y -> mk_field_generic(depend, y)
 
 
+let mk_explain (x) = 
+  mk_field_generic(explain, mk_cdata x)
+
+let mk_explain_src (x) = 
+  mk_field_generic(explain_src, mk_cdata x)
+
+
 let mk_hint (x) = 
   mk_field_generic(hint, mk_cdata x)
 
@@ -275,6 +284,13 @@ let mk_title_opt (x) =
     [mk_title t_xml;
      mk_title_src t_src]
 
+let mk_explains_opt x = 
+  match x with
+  | None -> [ ]    
+  | Some (x_xml, x_src) -> 
+    [mk_explain x_xml;
+     mk_explain_src x_src]
+
 let mk_hints_opt x = 
   match x with
   | None -> [ ]    
@@ -335,7 +351,7 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt = 
+let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt= 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let body_xml = mk_body body_xml in
@@ -347,7 +363,8 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_
   (* Now add in optional fields *)
   let hints = mk_hints_opt hints_opt in
   let refsols = mk_refsols_opt refsols_opt in
-  let fields = fields_base @ hints @ refsols in
+  let explains = mk_explains_opt explains_opt in
+  let fields = fields_base @ hints @ refsols @ explains in
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
 

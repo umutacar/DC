@@ -40,6 +40,11 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [May 6]
+  * Started working on XML translation.  The code has gotten unwieldy, so I want to reorg first...
+    Reorg done.
+  * Hint and explains fields created and translated to xml.
+
 - [May 5]
   * Getting back to things...
   * Add \explain and \hint to atoms.
