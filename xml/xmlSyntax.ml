@@ -62,6 +62,7 @@ let friends = "friends"
 let gram = "gram"
 let group = "group"
 let hint = "hint"
+let hint_src = "hint_src"
 let important = "important"
 let label = "label"
 let lemma = "lemma"
@@ -201,7 +202,10 @@ let mk_depend_opt(x) =
 
 
 let mk_hint (x) = 
-  mk_field_generic(hint, x)
+  mk_field_generic(hint, mk_cdata x)
+
+let mk_hint_src (x) = 
+  mk_field_generic(hint_src, mk_cdata x)
 
 let mk_label(x) = 
   let _ = d_printf "mk_label: %s" x in 
@@ -271,6 +275,13 @@ let mk_title_opt (x) =
     [mk_title t_xml;
      mk_title_src t_src]
 
+let mk_hints_opt x = 
+  match x with
+  | None -> [ ]    
+  | Some (x_xml, x_src) -> 
+    [mk_hint x_xml;
+     mk_hint_src x_src]
+
 let mk_unique(x) = 
   mk_field_generic(unique, x)
 
@@ -324,7 +335,7 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol_opt = 
+let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let body_xml = mk_body body_xml in
@@ -334,8 +345,9 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~refsol
   let fields_base = titles @ [label_xml; depend_xml; pval_xml; body_xml; body_src] in
 
   (* Now add in optional fields *)
-  let refsols = mk_refsols_opt refsol_opt in
-  let fields = List.append fields_base refsols in
+  let hints = mk_hints_opt hints_opt in
+  let refsols = mk_refsols_opt refsols_opt in
+  let fields = fields_base @ hints @ refsols in
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
 
