@@ -45,6 +45,8 @@ So whatever latex produces must be mediated through this.
     Reorg done.
   * Hint and explains fields created and translated to xml.
 
+  * Worked on updating our latex sytle files to allow compiling problems to pdf.  It didn't work out by using the exam package, because of differences in style.  Not sure how to handle this.  I don't think it is going to be pretty.  I think the easiest thing is to define my own lists instead of using the exam package.
+
 - [May 5]
   * Getting back to things...
   * Add \explain and \hint to atoms.
