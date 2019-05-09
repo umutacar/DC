@@ -40,8 +40,11 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [May 9]
+  * Extend parser with multipart problems.  These would be another block, basically like a flex, but would use a different title.
+
 - [ May 7 ] 
-  * Made a multichoice list. This works is latex.
+  * Made a multichoice list. This works is late
   * TODO: current points scheme with optional titles and points, both being optional arguments doesn't work well with latex. There should not be more than one optional argument...
     Idea: detect the one that is a number and treat it specially.  
     OK This works.  Now carry it forward by fleshing it out.  If you don't want to care about the order of arguments, then you will need to be more careful about things in parsing also.  Maybe this is not the best thing.  It might be better to require the first argument always be poins.  Also for consistency.   

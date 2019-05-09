@@ -68,6 +68,10 @@ type group =
            * (t_keyword * t_title option * t_label option * 
               atom list * t_intertext * t_keyword) 
 
+type problem_cluster = 
+  ProblemCluster of t_preamble 
+           * (t_keyword * t_title option * t_label option * 
+              atom list * t_intertext * t_keyword) 
 type chapter = 
   Chapter of t_preamble
              *  (t_keyword * t_title * t_label * 
@@ -96,6 +100,7 @@ and cluster =
 
 and element = 
   | Element_Group of group
+  | Element_ProblemCluster of problem_cluster
   | Element_Atom of atom
 
 (**********************************************************************

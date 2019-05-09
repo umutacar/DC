@@ -66,6 +66,7 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string option> KW_BEGIN_CLUSTER 
 %token <string> KW_END_CLUSTER
 %token <string> KW_BEGIN_GROUP KW_END_GROUP
+%token <string> KW_BEGIN_PROBLEM_CLUSTER KW_END_PROBLEM_CLUSTER
 	
 %start chapter
 
@@ -373,6 +374,8 @@ cluster:
 element:
 	a = atom
   {Ast.Element_Atom a}
+| pc = problemcluster
+  {Ast.Element_ProblemCluster pc}
 | g = group
   {Ast.Element_Group g}
 
