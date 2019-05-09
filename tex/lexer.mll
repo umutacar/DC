@@ -139,8 +139,8 @@ let p_b_cluster = '\\' "begin{cluster}" p_ws
 let p_b_cluster_with_points = (p_b_cluster p_ws as cb) (p_o_sq as o_sq) (p_float as pval) (p_c_sq as c_sq)
 let p_e_cluster = '\\' "end{cluster}" p_ws
 
-let p_b_group = '\\' "begin{flex}" p_ws	
-let p_e_group = '\\' "end{flex}" p_ws
+let p_flex = "flex"
+let p_problem_cluster = "mproblem"
 
 let p_xxx = "xxx"
 let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
@@ -217,6 +217,7 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_teachnote as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
 
+
 let p_begin_atom = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
@@ -237,6 +238,14 @@ let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c
 
 let p_begin_latex_env = (p_com_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 let p_end_latex_env = (p_com_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
+
+
+let p_group = ((p_flex as kind) p_ws as kindws) |
+              ((p_problem_cluster as kind) p_ws as kindws) 
+
+let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
+let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -294,10 +303,16 @@ rule token = parse
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, Some pval)}		
 | p_e_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
-| p_b_group as x
-  	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
-| p_e_group as x
-  	{d_printf "!lexer matched: %s." x; KW_END_GROUP(x)}
+| p_begin_group as x
+  	{let all = b ^ o ^ kindws ^ c in
+       d_printf "lexer matched begin group: %s" kind;
+       KW_BEGIN_GROUP(kind, all, None)
+    }		
+| p_end_atom
+  	{let all = e ^ o ^ kindws ^ c in
+       d_printf "lexer matched end group: %s" kind;
+       KW_END_GROUP(kind, all)
+    }		
 | p_begin_atom
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;

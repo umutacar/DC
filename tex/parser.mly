@@ -402,7 +402,7 @@ elements_and_intertext:
  ** BEGIN: Parametric Groups
  **********************************************************************/
 
-mk_end_group (kw_e):
+mk_group_end (kw_e):
   he = kw_e
   {he}
 
@@ -414,9 +414,10 @@ mk_group (kw_b, kw_e):
   h_b = kw_b; 
   l = option(label); 
   ats_it = atoms_and_intertext; 
-  h_end = mk_end_group (kw_e);
+  h_e = mk_group_end (kw_e);
   {let (kind, h_bb, _) = h_b in
    let (ats, it) = ats_it in
+   let (kind_, h_end) = h_e in
      Ast.Group (preamble, (kind, h_bb, None, l, ats, it, h_end))
   }
 
@@ -425,11 +426,12 @@ mk_group (kw_b, kw_e):
   t = sq_box; 
   l = option(label); 
   ats_it = atoms_and_intertext; 
-  h_end = mk_end_group (kw_e);
+  h_e = mk_group_end (kw_e);
   {let (kind, h_bb, _) = h_b in
    let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_bb ^ title_part in
+   let (kind_, h_end) = h_e in
    let (ats, it) = ats_it in
      Ast.Group (preamble, (kind, h_begin, Some tt, l, ats, it, h_end))
   }
