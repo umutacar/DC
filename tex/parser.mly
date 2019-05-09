@@ -65,9 +65,11 @@ let mk_point_val_f_opt (s: string option) =
 /* cluster is heading and point value option */
 %token <string * string option> KW_BEGIN_CLUSTER 
 %token <string> KW_END_CLUSTER
-%token <string> KW_BEGIN_GROUP KW_END_GROUP
-%token <string> KW_BEGIN_PROBLEM_CLUSTER KW_END_PROBLEM_CLUSTER
-	
+
+/*%token <string> KW_BEGIN_GROUP KW_END_GROUP */
+
+%token <string * string * string option> KW_BEGIN_GROUP
+%token <string * string> KW_END_GROUP 	
 %start chapter
 
 %type <Ast.chapter> chapter
@@ -368,14 +370,12 @@ cluster:
 
 /**********************************************************************
  ** BEGIN: Elements
- ** An element is a groups and atoms 
+ ** An element is a group, a problem cluster, or an atom 
  **********************************************************************/
 
 element:
 	a = atom
   {Ast.Element_Atom a}
-| pc = problemcluster
-  {Ast.Element_ProblemCluster pc}
 | g = group
   {Ast.Element_Group g}
 
@@ -399,42 +399,48 @@ elements_and_intertext:
  **********************************************************************/
 			
 /**********************************************************************
- ** BEGIN: Groups
+ ** BEGIN: Parametric Groups
  **********************************************************************/
 
-end_group:
-  he = KW_END_GROUP
+mk_end_group (kw_e):
+  he = kw_e
   {he}
 
-/* There is a shift reduce conflict here but it doesn't shifting does 
+/* There is a shift reduce conflict here but it doesn't matter. Shifting does 
    the right thing. 
 */   
-group:
+mk_group (kw_b, kw_e):
 | preamble = boxes;   
-  h_begin = KW_BEGIN_GROUP; 
+  h_b = kw_b; 
   l = option(label); 
   ats_it = atoms_and_intertext; 
-  h_end = end_group
-  {let (ats, it) = ats_it in
-     Ast.Group (preamble, (h_begin, None, l, ats, it, h_end))
+  h_end = mk_end_group (kw_e);
+  {let (kind, h_bb, _) = h_b in
+   let (ats, it) = ats_it in
+     Ast.Group (preamble, (kind, h_bb, None, l, ats, it, h_end))
   }
 
 | preamble = boxes; 
-  hb = KW_BEGIN_GROUP;
+  h_b = kw_b;
   t = sq_box; 
   l = option(label); 
   ats_it = atoms_and_intertext; 
-  h_end = end_group;
-  {let (bo, tt, bc) = t in
+  h_end = mk_end_group (kw_e);
+  {let (kind, h_bb, _) = h_b in
+   let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
-   let h_begin = hb ^ title_part in
+   let h_begin = h_bb ^ title_part in
    let (ats, it) = ats_it in
-     Ast.Group (preamble, (h_begin, Some tt, l, ats, it, h_end))
+     Ast.Group (preamble, (kind, h_begin, Some tt, l, ats, it, h_end))
   }
 
+group:
+|	x = mk_group(KW_BEGIN_GROUP, KW_END_GROUP)
+  { x }
 /**********************************************************************
- ** END: Groups
+ ** END: Parametric Groups
  **********************************************************************/
+
 
 /**********************************************************************
  ** BEGIN: Atoms
@@ -560,3 +566,6 @@ atom:
 /**********************************************************************
  ** END: Atoms
  **********************************************************************/
+
+
+
