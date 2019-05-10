@@ -71,11 +71,13 @@ let p_tab = '\t'
 let p_ws = [' ' '\t' '\n' '\r']*	
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
-let p_skip = p_ws
 let p_digit = ['0'-'9']
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 let p_integer = ['0'-'9']+
+(*  A LaTeX/Diderot environment name *) 
+let p_name = (p_alpha)+('*')?
+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -90,11 +92,17 @@ let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
 let p_begin = '\\' "begin" p_ws												 
 let p_end = '\\' "end" p_ws												 
+let p_xbegin = '\\' "xbegin" p_ws												 
+let p_xend = '\\' "xend" p_ws												 
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
+
+
+let p_begin_skip = p_xbegin p_ws p_o_curly p_ws p_name p_ws p_c_curly
+let p_end_skip = p_xend p_ws p_o_curly p_ws p_name p_ws p_c_curly
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -166,9 +174,6 @@ let p_pickany = "pickany"
 
 let p_ilist_separator = p_choice | p_correctchoice
 
-(* A latex environment consists of alphabethical chars plus an optional star *)
-let p_latex_env = (p_alpha)+('*')?
-
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
              ((p_assumption as kind) p_ws as kindws) |
@@ -211,8 +216,8 @@ let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly 
  
 let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
-let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
+let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_name) (p_c_curly) 
+let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_name) (p_c_curly) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -263,7 +268,7 @@ rule token = parse
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
 | p_e_group as x
   	{d_printf "!lexer matched: %s." x; KW_END_GROUP(x)}
-| p_begin_atom
+| p_begin_atom 
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;
        KW_BEGIN_ATOM(kind, all)
@@ -304,6 +309,13 @@ rule token = parse
 | p_end_parts      (* drop *)
     {token lexbuf}		
 
+| p_begin_skip as x
+      { 
+          let _ = d_printf "!lexer: begin skipping: %s\n" x in
+          let y = skip lexbuf in
+          let _ = d_printf "!lexer: end skipping, matched = %s" (x ^ y) in
+            token lexbuf          
+      }   
 
 | p_begin_latex_env as x
       { 
@@ -324,6 +336,7 @@ rule token = parse
             ENV(x ^ y)
           
       }   
+
 | p_word as x
 		{d_printf "!found word: %s." x;
      WORD(x)
@@ -394,6 +407,17 @@ and ilist =
             ((char_to_str x) ^ y, zs, e)
         }
 
+and skip =
+  parse
+  | p_end_skip as x
+        { 
+            let _ = d_printf "!lexer: exiting skip\n" in
+                x
+        }
+  | _  as x
+        { let y = skip lexbuf in
+            (char_to_str x) ^ y
+        }
 and verbatim =
   parse
   | p_end_verbatim as x
