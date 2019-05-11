@@ -50,6 +50,7 @@ type t_point_val = float
 type t_exp = string 
 type t_hint = string 
 type t_refsol = string 
+type t_rubric = string 
 
 type item = Item of t_keyword *  t_point_val option * t_item_body
 
@@ -62,7 +63,7 @@ type atom = Atom of t_preamble
                        t_label option * t_depend option * 
                        t_atom_body * 
                        ilist option * 
-                       t_hint option * t_refsol option * t_exp option *   
+                       t_hint option * t_refsol option * t_exp option * t_rubric option *   
                        t_keyword) 
 
 type group = 
@@ -264,6 +265,16 @@ let refsolOptToTex refsol_opt =
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
+let rubricOptToTex rubric_opt = 
+  let heading = "\\rubric" in
+  let r = match rubric_opt with 
+              |  None -> ""
+              |  Some x -> 
+                 (d_printf "rubricOptToTex: rubric = %s" x; 
+                  heading ^ "\n" ^ x)
+  in
+     r
+
 
 let itemToTex (Item(keyword, pval, body)) = 
   match pval with 
@@ -276,21 +287,22 @@ let ilistToTex (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) =
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
       
-let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
+let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
   let label = labelOptToTex lopt in
   let depend = dependOptToTex dopt in
   let hint = hintOptToTex hint_opt in
   let refsol = refsolOptToTex refsol_opt in
   let exp = expOptToTex exp_opt in
+  let rubric = rubricOptToTex rubric_opt in
     match ilist_opt with 
     | None -> 
       let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
-      let r =  preamble ^ h_begin ^ label ^ depend ^ body ^ hint ^ refsol ^ exp ^ h_end in 
+      let r =  preamble ^ h_begin ^ label ^ depend ^ body ^ hint ^ refsol ^ exp ^ rubric ^ h_end in 
 (*      let _  = d_printf "atomToTex: atom =  %s" r in *)
         r
     | Some il ->
       let ils = ilistToTex il in 
-        preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ hint ^ refsol ^ exp ^ h_end      
+        preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ hint ^ refsol ^ exp ^ rubric ^ h_end      
 
 let groupToTex (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
   let h_begin = mktex_begin kind pval_opt topt in
@@ -461,7 +473,7 @@ let ilistOptToXml tex2html ilist_opt =
 
 
 let atomToXml tex2html
-              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
+              (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
   let _ = d_printf "AtomToXml: kind = %s\n" kind in 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
@@ -588,9 +600,14 @@ let labelOptEl lopt =
 let refsolOptEl refsol_opt = 
   refsol_opt
 
+
 (* Identity function *)
 let expOptEl exp_opt = 
   exp_opt
+
+(* Identity function *)
+let rubricOptEl rubric_opt = 
+  rubric_opt
 
 (* Identity function *)
 let hintOptEl hint_opt = 
@@ -608,15 +625,16 @@ let ilistOptEl ilist_opt =
       let itemslist = List.map itemslist itemEl in
         Some (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end)))
             
-let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
+let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
   let lopt = labelOptEl lopt in
   let dopt = dependOptEl dopt in
   let hint_opt = hintOptEl hint_opt in
   let refsol_opt = refsolOptEl refsol_opt in
   let exp_opt = expOptEl exp_opt in
+  let rubric_opt = rubricOptEl rubric_opt in
   let ilist_opt = ilistOptEl ilist_opt in
   let pval = mk_pval pval_opt  in
-    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end)))
+    (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end)))
 
 
 let groupEl (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
@@ -714,6 +732,10 @@ let refsolOptTR refsol_opt =
   refsol_opt
 
 (* Identity function *)
+let rubricOptTR rubric_opt = 
+  rubric_opt
+
+(* Identity function *)
 let expOptTR exp_opt = 
   exp_opt
 
@@ -734,15 +756,15 @@ let ilistOptTR ilist_opt =
       let itemslist = List.map itemslist itemTR in
         Some (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end)))
             
-let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
+let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
   let dopt = dependOptTR dopt in
   let lopt = labelOptTR lopt in
   let hint_opt = hintOptTR hint_opt in
   let refsol_opt = refsolOptTR refsol_opt in
   let exp_opt = expOptTR exp_opt in
-
+  let rubric_opt = rubricOptTR rubric_opt in
   let ilist_opt = ilistOptTR ilist_opt in
-    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))
+    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
 
 let groupTR (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
   let ats = map atomTR ats in

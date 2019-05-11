@@ -106,6 +106,7 @@ let p_com_correct_choice = '\\' "choice*"
 
 let p_com_explain = '\\' "explain"
 let p_com_hint = '\\' "help"
+let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "solution"
 
 let p_part = '\\' "part"
@@ -361,22 +362,33 @@ rule token = parse
 | p_com_hint as h 
       {
        let _ = d_printf "!lexer: begin hint\n" in
-       let (body, sol_opt, exp_opt, h_e) = hint lexbuf in
+       let (body, sol_opt, exp_opt, rubric_opt, h_e) = hint lexbuf in
        let (h_e_a, h_e_b) = h_e in
        let _ = d_printf "!lexer: hint matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
        let _ = d_printf_opt_str "explain" exp_opt in
        let _ = d_printf_opt_str "solution" sol_opt in
-         HINT(h, body, sol_opt, exp_opt, h_e)
+       let _ = d_printf_opt_str "rubric" rubric_opt in
+         HINT(h, body, sol_opt, exp_opt, rubric_opt, h_e)
       }   
 
 | p_com_refsol as h 
       {
        let _ = d_printf "!lexer: begin refsol\n" in
-       let (body, exp_opt, h_e) = refsol lexbuf in
+       let (body, exp_opt, rubric_opt, h_e) = refsol lexbuf in
        let (h_e_a, h_e_b) = h_e in
        let _ = d_printf "!lexer: refsol matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-       let _ = d_printf_opt_str "solution" exp_opt in
-         REFSOL(h, body, exp_opt, h_e)
+       let _ = d_printf_opt_str "explain" exp_opt in
+       let _ = d_printf_opt_str "rubric" rubric_opt in
+         REFSOL(h, body, exp_opt, rubric_opt, h_e)
+      }   
+
+| p_com_rubric as h 
+      {
+       let _ = d_printf "!lexer: begin rubric\n" in
+       let (body, h_e) = rubric lexbuf in
+       let (h_e_a, h_e_b) = h_e in
+       let _ = d_printf "!lexer: rubric matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
+         RUBRIC(h, body, h_e)
       }   
 
 | p_part as x           (* treat as comment *)
@@ -508,18 +520,39 @@ and ilist =
             ((char_to_str x) ^ y, zs, e)
         }
 
-and explain = 
+and rubric = 
   parse 
   | p_end_problem
         { 
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
-         let _ = d_printf "!lexer: exiting explain\n" in
+         let _ = d_printf "!lexer: exiting rubric\n" in
            ("", (kind, all))
         }  
   | _  as x
-        { let (body, h_e) = explain lexbuf in
+        { let (body, h_e) = rubric lexbuf in
             ((char_to_str x) ^ body, h_e)
+        }
+
+and explain = 
+  parse 
+  | p_com_rubric as h
+      {
+       let _ = d_printf "!lexer: begin rubric\n" in
+       let (body, h_e) = rubric lexbuf in
+       let _ = d_printf "rubric matched = %s" body in
+         ("", Some body, h_e)
+      }   
+  | p_end_problem
+        { 
+  	     let all = e ^ o ^ kindws ^ c in
+         let _ = d_printf "lexer matched end problem: %s" kind in
+         let _ = d_printf "!lexer: exiting explain\n" in
+           ("", None, (kind, all))
+        }  
+  | _  as x
+        { let (body, rubric_opt, h_e) = explain lexbuf in
+            ((char_to_str x) ^ body, rubric_opt, h_e)
         }
 
 and refsol =
@@ -529,18 +562,25 @@ and refsol =
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
          let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", None, (kind, all))
+           ("", None, None, (kind, all))
         }
   | p_com_explain as h
       {
        let _ = d_printf "!lexer: begin explain\n" in
-       let (body, h_e) = explain lexbuf in
+       let (body, rubric_opt, h_e) = explain lexbuf in
        let _ = d_printf "explain matched = %s" body in
-         ("", Some body, h_e)
+         ("", Some body, rubric_opt, h_e)
+      }   
+  | p_com_rubric as h
+      {
+       let _ = d_printf "!lexer: begin rubric\n" in
+       let (body, h_e) = rubric lexbuf in
+       let _ = d_printf "rubric matched = %s" body in
+         ("", None, Some body, h_e)
       }   
   | _  as x
-        { let (body, exp, h_e) = refsol lexbuf in
-            ((char_to_str x) ^ body, exp, h_e)
+        { let (body, exp, rubric_opt, h_e) = refsol lexbuf in
+            ((char_to_str x) ^ body, exp, rubric_opt, h_e)
         }
 
 and hint =
@@ -551,29 +591,39 @@ and hint =
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
          let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", None, None, (kind, all))
+           ("", None, None, None, (kind, all))
         }
 
-  (* refsol plus optional explanation *) 
+  (* hint + refsol plus optional explanation *) 
   | p_com_refsol as h
       {
        let _ = d_printf "!lexer: begin refsol\n" in
-       let (body, exp_opt, h_e) = refsol lexbuf in
+       let (body, exp_opt, rubric_opt, h_e) = refsol lexbuf in
        let _ = d_printf "refsol matched = %s" body in
-         ("", Some body, exp_opt, h_e)
+         ("", Some body, exp_opt, rubric_opt, h_e)
       }   
 
-  (* explanation, no solution *)
+  (* hint + explanation, no solution *)
   | p_com_explain as h
       {
        let _ = d_printf "!lexer: begin explain\n" in
-       let (body, h_e) = explain lexbuf in
+       let (body, rubric_opt, h_e) = explain lexbuf in
        let _ = d_printf "explain matched = %s" body in
-         ("", None, Some body, h_e)
+         ("", None, Some body, rubric_opt, h_e)
       }   
+
+  (* hint + rubric, no solution, no explanation *)
+  | p_com_rubric as h
+      {
+       let _ = d_printf "!lexer: begin rubric\n" in
+       let (body, h_e) = rubric lexbuf in
+       let _ = d_printf "rubric matched = %s" body in
+         ("", None, None, Some body, h_e)
+      }   
+
   | _  as x
-        { let (body, sol_opt, exp_opt, h_e) = hint lexbuf in
-            ((char_to_str x) ^ body, sol_opt, exp_opt, h_e)
+        { let (body, sol_opt, exp_opt, rubric_opt, h_e) = hint lexbuf in
+            ((char_to_str x) ^ body, sol_opt, exp_opt, rubric_opt, h_e)
         }
 
 and verbatim =
