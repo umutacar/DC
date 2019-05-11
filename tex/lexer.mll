@@ -310,7 +310,7 @@ rule token = parse
     }		
 | p_begin_group_with_points as x
   	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
-       d_printf "lexer matched begin group: %s" kind;
+       d_printf "lexer matched begin group %s with points = %s" kind point_val;
        KW_BEGIN_GROUP(kind, all,  Some point_val)
     }		
 

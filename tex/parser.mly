@@ -415,11 +415,12 @@ mk_group (kw_b, kw_e):
   l = option(label); 
   ats_it = atoms_and_intertext; 
   h_e = mk_group_end (kw_e);
-  {let (kind, h_bb, _) = h_b in
+  {let (kind, h_bb, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (ats, it) = ats_it in
    let (kind_, h_end) = h_e in
-   let pval_opt = None in
-     Ast.Group (preamble, (kind, h_bb, pval_opt, None, l, ats, it, h_end))
+   let _ = d_printf ("!parser: group matched with points = %s\n") pval_opt_str in
+     Ast.Group (preamble, (kind, h_bb, pval_f_opt, None, l, ats, it, h_end))
   }
 
 | preamble = boxes; 
@@ -428,14 +429,15 @@ mk_group (kw_b, kw_e):
   l = option(label); 
   ats_it = atoms_and_intertext; 
   h_e = mk_group_end (kw_e);
-  {let (kind, h_bb, _) = h_b in
+  {let (kind, h_bb, pval_opt) = h_b in
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (bo, tt, bc) = t in
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_bb ^ title_part in
    let (kind_, h_end) = h_e in
    let (ats, it) = ats_it in
-   let pval_opt = None in
-     Ast.Group (preamble, (kind, h_begin, pval_opt, Some tt, l, ats, it, h_end))
+   let _ = d_printf ("!parser: group matched with points = %s\n") pval_opt_str in
+     Ast.Group (preamble, (kind, h_begin, pval_f_opt, Some tt, l, ats, it, h_end))
   }
 
 group:

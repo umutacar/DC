@@ -270,8 +270,8 @@ let itemToTex (Item(keyword, pval, body)) =
   | None -> keyword ^ body
   | Some p -> keyword ^ (pointvalToTex p) ^ space ^ body
 
-let ilistToTex (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) = 
-  let h_begin = mktex_begin kind point_val_opt None in
+let ilistToTex (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) = 
+  let h_begin = mktex_begin kind pval_opt None in
   let il = List.map itemslist itemToTex in
   let ils = String.concat ~sep:"" il in
     preamble ^ h_begin ^ ils ^ h_end
@@ -292,8 +292,8 @@ let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, 
       let ils = ilistToTex il in 
         preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ hint ^ refsol ^ exp ^ h_end      
 
-let groupToTex (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
-  let h_begin = mktex_begin kind point_val_opt topt in
+let groupToTex (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
+  let h_begin = mktex_begin kind pval_opt topt in
   let atoms = map_concat atomToTex ats in
   let label = labelOptToTex lopt in
     preamble ^
@@ -486,9 +486,9 @@ let atomToXml tex2html
      r
      
 let groupToXml tex2html
-               (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
+               (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
   let lsopt = extract_label lopt in
-  let pval_str_opt = pval_opt_to_string_opt point_val_opt in
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let title_opt = titleOptToXml tex2html topt in
   let atoms = map_concat (atomToXml tex2html) ats in
   let r = XmlSyntax.mk_group ~kind:kind ~pval:pval_str_opt ~topt:title_opt
@@ -604,9 +604,9 @@ let itemEl (Item(keyword, pval, body)) =
 let ilistOptEl ilist_opt = 
   match ilist_opt with 
   | None -> None
-  | Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) ->
+  | Some (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) ->
       let itemslist = List.map itemslist itemEl in
-        Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
+        Some (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end)))
             
 let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
   let lopt = labelOptEl lopt in
@@ -619,11 +619,18 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
     (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end)))
 
 
-let groupEl (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
+let groupEl (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
   let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
+  let _ = d_printf "groupEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
-    (mk_pval pvalsum_opt, Group (preamble, (kind, h_begin, pvalsum_opt, topt, lopt, ats, it, h_end)))
-
+    (* If no pval is declared, pass the sum out. 
+     * Otherwise, use the declared point value.
+     *)
+    match pval_opt with
+    | None -> (mk_pval pvalsum_opt, 
+               Group (preamble, (kind, h_begin, pvalsum_opt, topt, lopt, ats, it, h_end)))
+    | Some pval -> (pval,
+                    Group (preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end)))
 let elementEl b = 
   match b with
   | Element_Group g -> 
@@ -723,9 +730,9 @@ let itemTR (Item(keyword, pval, body)) =
 let ilistOptTR ilist_opt = 
   match ilist_opt with 
   | None -> None
-  | Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end))) ->
+  | Some (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) ->
       let itemslist = List.map itemslist itemTR in
-        Some (IList(preamble, (kind, h_begin, point_val_opt, itemslist, h_end)))
+        Some (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end)))
             
 let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))) = 
   let dopt = dependOptTR dopt in
@@ -737,10 +744,10 @@ let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
   let ilist_opt = ilistOptTR ilist_opt in
     Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))
 
-let groupTR (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
+let groupTR (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))) = 
   let ats = map atomTR ats in
   let lopt = labelOptTR lopt in
-    Group (preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))
+    Group (preamble, (kind, h_begin, pval_opt, topt, lopt, ats, it, h_end))
 
 let elementTR b = 
   match b with
