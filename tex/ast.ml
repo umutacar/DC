@@ -116,6 +116,11 @@ let mk_pval pvalopt=
   match pvalopt with 
   |  None -> 0.0
   |  Some x -> x
+
+let mk_pval_str pvalopt= 
+  match pvalopt with 
+  |  None -> "0.0"
+  |  Some x -> Float.to_string x
  
 let map f xs = 
   List.map xs f
@@ -129,12 +134,13 @@ let map_and_sum_pts f xs =
   let pvals_and_xs = map f xs in
   let pvals = map fst pvals_and_xs in
   let xs = map snd pvals_and_xs in
-  let pts_total = 
+  let pts_total_opt = List.reduce pvals (fun x y -> x +. y) in
+(*
     match List.reduce pvals (fun x y -> x +. y) with 
     | None -> 0.0
     | Some r -> r
-  in
-    (pts_total, xs)  
+*)
+    (pts_total_opt, xs)  
 
 let newline = "\n"
 
@@ -206,7 +212,8 @@ let mktex_begin block_name pvalopt topt =
   let b = "\\begin{" ^ block_name ^ "}" in
   let p = match pvalopt with 
           | None -> ""
-          | Some pts -> mktex_optarg (Float.to_string pts)
+          | Some pts -> if pts = 0.0 then ""
+                        else mktex_optarg (Float.to_string pts)
   in 
   let t = match topt with 
           | None -> ""
@@ -609,10 +616,11 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
   let pval = mk_pval pval_opt  in
     (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end)))
 
+
 let groupEl (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
-  let (pvalsum, ats) = map_and_sum_pts atomEl ats in
+  let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
   let lopt = labelOptEl lopt in
-    (pvalsum, Group (preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end)))
+    (mk_pval pvalsum_opt, Group (preamble, (kind, h_begin, pvalsum_opt, topt, lopt, ats, it, h_end)))
 
 let elementEl b = 
   match b with
@@ -625,10 +633,10 @@ let elementEl b =
 
 let clusterEl (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
   let _ = d_printf "clusterEl" in
-  let (pts, es) = map_and_sum_pts elementEl es in
-  let _ = d_printf "clusterEl: points = %s" (Float.to_string pts) in
+  let (pval_opt, es) = map_and_sum_pts elementEl es in
+  let _ = d_printf "clusterEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
-    Cluster (preamble, (h_begin, Some pts, topt, lopt, es, it, h_end))
+    Cluster (preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))
 
 let blockEl x = 
   let _ = d_printf "blockEl" in
