@@ -1,4 +1,6 @@
 # TODO
+  - Clusters: now that we have groups and multipart problems are within them, do we need clusters?
+
   - ProblemCluster is defunct: delete it...
 
   - Update the backend to support new groups
