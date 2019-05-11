@@ -384,10 +384,11 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
 
-let mk_group ~kind ~topt ~lopt ~body = 
+let mk_group ~kind ~pval ~topt ~lopt ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
-  let fields = titles @ [label_xml; body] in
+  let fields = titles @ [label_xml; pval_xml; body] in
     mk_block_group kind fields
 
 let mk_cluster ~pval ~topt ~lopt ~body = 

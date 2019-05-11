@@ -237,7 +237,7 @@ let pointvalOptToTex p =
   | Some pts -> mktex_optarg (Float.to_string pts)
 
 let hintOptToTex hint_opt = 
-  let heading = "\\hint" in
+  let heading = "\\help" in
   let r = match hint_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
@@ -481,9 +481,10 @@ let atomToXml tex2html
 let groupToXml tex2html
                (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
   let lsopt = extract_label lopt in
+  let pval_str_opt = pval_opt_to_string_opt point_val_opt in
   let title_opt = titleOptToXml tex2html topt in
   let atoms = map_concat (atomToXml tex2html) ats in
-  let r = XmlSyntax.mk_group ~kind:kind ~topt:title_opt
+  let r = XmlSyntax.mk_group ~kind:kind ~pval:pval_str_opt ~topt:title_opt
                              ~lopt:lsopt ~body:atoms in
     r
 
