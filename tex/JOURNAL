@@ -42,6 +42,7 @@ So whatever latex produces must be mediated through this.
     - added to lexer/parser.
     - added to xml
   * group points are calculated from those of the atoms within. 
+  * things are pretty complete now.  i should move onto building the diderot back end to support the new syntax.
 
 - [May 10]
   * Fixed up some bugs with lexing and parsing.  
