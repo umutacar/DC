@@ -41,8 +41,7 @@ So whatever latex produces must be mediated through this.
   * multipart problems should have points.
     - added to lexer/parser.
     - added to xml
-  * group points should be calculated from those of the atoms within 
-  * TODO: what is the status of elaboration?
+  * group points are calculated from those of the atoms within. 
 
 - [May 10]
   * Fixed up some bugs with lexing and parsing.  

@@ -561,7 +561,9 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 
 (**********************************************************************
  ** BEGIN: AST ELABORATION
- ** What does elaboration do? 
+ ** Elaboration is currently very basic. 
+ ** It traverses the code and calculates point scores for groups
+ ** and clusters.
  **********************************************************************)
 
 (* Identity function *)
@@ -678,6 +680,8 @@ let chapterEl (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 
 (**********************************************************************
  ** BEGIN: AST  TRAVERSAL
+ ** Unused, left here as a skeleton.  Elaboration above is an instance
+ ** of traversal.
  **********************************************************************)
 (* Identity function *)
 let dependTR d = d
