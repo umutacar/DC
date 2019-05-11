@@ -387,6 +387,7 @@ let body_is_single_par = false
 let explain_is_single_par = false
 let hint_is_single_par = false
 let refsol_is_single_par = false
+let rubric_is_single_par = false
 let title_is_single_par = true
 
 
@@ -436,6 +437,9 @@ let fieldOptToXml tex2html is_single_par xopt =
 let explainOptToXml tex2html exp_opt = 
   fieldOptToXml tex2html explain_is_single_par exp_opt
 
+let rubricOptToXml tex2html rubric_opt = 
+  fieldOptToXml tex2html rubric_is_single_par rubric_opt
+
 let titleOptToXml tex2html topt = 
   fieldOptToXml tex2html title_is_single_par topt
 
@@ -484,6 +488,7 @@ let atomToXml tex2html
   let hints_opt = hintOptToXml tex2html hint_opt in
   let refsols_opt = refsolOptToXml tex2html refsol_opt in
   let exps_opt = explainOptToXml tex2html exp_opt in
+  let rubric_opt = rubricOptToXml tex2html rubric_opt in
   let r = XmlSyntax.mk_atom ~kind:kind 
                             ~pval:pval_str_opt
                             ~topt:title_opt
@@ -494,6 +499,7 @@ let atomToXml tex2html
                             ~hints_opt:hints_opt
                             ~refsols_opt:refsols_opt
                             ~explains_opt:exps_opt
+                            ~rubric_opt:rubric_opt
    in
      r
      

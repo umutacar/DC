@@ -88,6 +88,8 @@ let rank = "rank"
 let refsol = "refsol"
 let refsol_src = "refsol_src"
 let remark = "remark"
+let rubric = "rubric"
+let rubric_src = "rubric_src"
 let solution = "solution"
 let syntax = "syntax"
 let task = "task"
@@ -260,6 +262,12 @@ let mk_refsol (x) =
 let mk_refsol_src (x) = 
   mk_field_generic(refsol_src, mk_cdata x)
 
+let mk_rubric (x) = 
+  mk_field_generic(rubric, mk_cdata x)
+
+let mk_rubric_src (x) = 
+  mk_field_generic(rubric_src, mk_cdata x)
+
 let mk_refsols_opt refsol_opt = 
     match refsol_opt with
     | None -> 
@@ -270,6 +278,18 @@ let mk_refsols_opt refsol_opt =
         let refsol_xml = mk_refsol r_xml in
         let refsol_src = mk_refsol_src r_src in
           [refsol_xml; refsol_src]
+
+let mk_rubrics_opt rubrics_opt = 
+    match rubrics_opt with
+    | None -> 
+        let _ =  d_printf "xml.mk_rubrics_opt: rubric = None\n" in       
+          []
+    | Some (r_xml, r_src) ->
+        let _ =  d_printf "xml.mk_rubrics_opt: rubrics_xml = %s\n" r_xml in       
+        let rubric_xml = mk_rubric r_xml in
+        let rubric_src = mk_rubric_src r_src in
+          [rubric_xml; rubric_src]
+
 
 let mk_title(x) = 
   mk_field_generic(title, mk_cdata x)
@@ -367,7 +387,7 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
 
-let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt= 
+let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let body_xml = mk_body body_xml in
@@ -380,7 +400,8 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_
   let hints = mk_hints_opt hints_opt in
   let refsols = mk_refsols_opt refsols_opt in
   let explains = mk_explains_opt explains_opt in
-  let fields = fields_base @ hints @ refsols @ explains in
+  let rubrics = mk_rubrics_opt rubric_opt in
+  let fields = fields_base @ hints @ refsols @ explains @ rubrics in
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
 
