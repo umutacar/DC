@@ -77,6 +77,7 @@ let p_separator = [':' '.' '-' '_' '/']
 let p_integer = ['0'-'9']+
 (*  A LaTeX/Diderot environment name *) 
 let p_name = (p_alpha)+('*')?
+let p_name_skip = (p_alpha) + ('*')? + "xd"
 
 
 (* No white space after backslash *)
@@ -92,8 +93,6 @@ let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
 let p_begin = '\\' "begin" p_ws												 
 let p_end = '\\' "end" p_ws												 
-let p_xbegin = '\\' "xbegin" p_ws												 
-let p_xend = '\\' "xend" p_ws												 
 let p_choice = '\\' "choice"
 let p_correctchoice = '\\' "correctchoice"
 
@@ -101,8 +100,8 @@ let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
 
 
-let p_begin_skip = p_xbegin p_ws p_o_curly p_ws p_name p_ws p_c_curly
-let p_end_skip = p_xend p_ws p_o_curly p_ws p_name p_ws p_c_curly
+let p_begin_skip = p_begin p_ws p_o_curly p_ws p_name_skip p_ws p_c_curly
+let p_end_skip = p_end p_ws p_o_curly p_ws p_name_skip p_ws p_c_curly
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
