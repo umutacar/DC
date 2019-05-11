@@ -177,8 +177,8 @@ let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
 (* Ilists *)
-let p_onechoice = "xchoice"
-let p_anychoice = "anychoice"
+let p_chooseone = "xchoice"
+let p_chooseany = "anychoice"
 
 let p_ilist_separator = p_com_choice | p_com_correct_choice
 let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
@@ -225,7 +225,7 @@ let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c)
 (* This is special, we use it to detect the end of a solution *)
 let p_end_problem = (p_com_end p_ws as e) (p_o_curly as o) ((p_problem as kind) p_ws as kindws) (p_c_curly as c) 
 
-let p_ilist_kinds = (p_onechoice | p_anychoice)
+let p_ilist_kinds = (p_chooseone | p_chooseany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
 
 let p_begin_ilist = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 

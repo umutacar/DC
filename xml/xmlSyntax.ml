@@ -75,8 +75,8 @@ let order = "order"
 let page = "page"
 let paragraph = "gram"
 let parents = "parents"
-let pickany = "pickany"
-let pickone = "pickone"
+let chooseany = "anychoice"
+let chooseone = "xchoice"
 let points = "points"
 let point_value = "point_value"
 let preamble = "preamble"
@@ -167,9 +167,9 @@ let mk_cdata(body) =
   C.cdata_end
 
 let ilist_kind_to_xml kind = 
-  if contains_substring pickany kind then
+  if contains_substring chooseany kind then
     checkbox
-  else if contains_substring pickone kind then
+  else if contains_substring chooseone kind then
     radio
   else
     raise (Failure "xmlSyntax: Encountered IList of unknown kind")
