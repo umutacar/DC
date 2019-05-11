@@ -8,6 +8,7 @@ open Utils
 let points_correct = 1.0
 let points_incorrect = 0.0
 let space = " "
+let correct_choice_indicator = "*"
 
 (**********************************************************************
  ** END: Constants
@@ -181,10 +182,8 @@ let pval_opt_to_string_opt pval =
 let item_keyword_to_point keyword = 
   let _ = d_printf "item_keyword_to_point: keyword = %s\n" keyword in
   let pval = 
-    if contains_substring "correct" keyword then
+    if contains_substring correct_choice_indicator keyword then
       points_correct
-    else if contains_substring "Correct" keyword then
-      points_correct    
     else
       points_incorrect
   in
