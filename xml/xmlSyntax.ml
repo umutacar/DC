@@ -19,6 +19,7 @@ let tag_diderot_end = "</diderot>"
 
 let tag_item = "item"
 let tag_atom = "atom"
+let tag_group = "group"
 let tag_block = "block"
 let tag_field = "field"
 let tag_ilist = "ilist"
@@ -74,8 +75,8 @@ let order = "order"
 let page = "page"
 let paragraph = "gram"
 let parents = "parents"
-let pickany = "pickany"
-let pickone = "pickone"
+let chooseany = "anychoice"
+let chooseone = "xchoice"
 let points = "points"
 let point_value = "point_value"
 let preamble = "preamble"
@@ -128,6 +129,9 @@ let mk_begin_item(name) =
 let mk_begin_atom(kind) =
   "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
+let mk_begin_group(kind) =
+  "<" ^ tag_group ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+
 let mk_begin_block(name) =
   "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
@@ -145,6 +149,9 @@ let mk_end(tag) =
 let mk_end_atom(kind) =
   "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
 
+let mk_end_group(kind) =
+  "</" ^ tag_group ^ ">" ^ C.space ^ mk_comment(kind)
+
 let mk_end_block(name) =
   "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name)
 
@@ -160,9 +167,9 @@ let mk_cdata(body) =
   C.cdata_end
 
 let ilist_kind_to_xml kind = 
-  if contains_substring pickany kind then
+  if contains_substring chooseany kind then
     checkbox
-  else if contains_substring pickone kind then
+  else if contains_substring chooseone kind then
     radio
   else
     raise (Failure "xmlSyntax: Encountered IList of unknown kind")
@@ -320,6 +327,15 @@ let mk_block_atom kind fields =
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
+let mk_block_group kind fields =
+  let _ = d_printf "mk_block_group: %s" kind in
+  let b = mk_begin_group(kind) in
+  let e = mk_end_group(kind) in  
+  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
+    match result with 
+    | None -> b ^ C.newline ^ e ^ C.newline
+    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
+
 let mk_block_generic name fields =
   let _ = d_printf "mk_block_generic: %s" name in
   let b = mk_begin_block(name) in
@@ -368,11 +384,12 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_
   let fields = append_opt ilist_opt fields in
     mk_block_atom kind fields
 
-let mk_group ~topt ~lopt ~body = 
+let mk_group ~kind ~pval ~topt ~lopt ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
-  let fields = titles @ [label_xml; body] in
-    mk_block_generic group fields
+  let fields = titles @ [label_xml; pval_xml; body] in
+    mk_block_group kind fields
 
 let mk_cluster ~pval ~topt ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in

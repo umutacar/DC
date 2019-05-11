@@ -8,6 +8,7 @@ open Utils
 let points_correct = 1.0
 let points_incorrect = 0.0
 let space = " "
+let correct_choice_indicator = "*"
 
 (**********************************************************************
  ** END: Constants
@@ -19,6 +20,7 @@ let space = " "
 type t_preamble = string
 type t_atom_kind = string
 type t_atom_body = string
+type t_group_kind = string
 type t_item_kind = string
 type t_item_body = string
 type t_ilist_body = string
@@ -65,9 +67,13 @@ type atom = Atom of t_preamble
 
 type group = 
   Group of t_preamble 
-           * (t_keyword * t_title option * t_label option * 
+           * (t_group_kind * t_keyword * t_point_val option * t_title option * t_label option * 
               atom list * t_intertext * t_keyword) 
 
+type problem_cluster = 
+  ProblemCluster of t_preamble 
+           * (t_keyword * t_title option * t_label option * 
+              atom list * t_intertext * t_keyword) 
 type chapter = 
   Chapter of t_preamble
              *  (t_keyword * t_title * t_label * 
@@ -110,6 +116,11 @@ let mk_pval pvalopt=
   match pvalopt with 
   |  None -> 0.0
   |  Some x -> x
+
+let mk_pval_str pvalopt= 
+  match pvalopt with 
+  |  None -> "0.0"
+  |  Some x -> Float.to_string x
  
 let map f xs = 
   List.map xs f
@@ -123,12 +134,13 @@ let map_and_sum_pts f xs =
   let pvals_and_xs = map f xs in
   let pvals = map fst pvals_and_xs in
   let xs = map snd pvals_and_xs in
-  let pts_total = 
+  let pts_total_opt = List.reduce pvals (fun x y -> x +. y) in
+(*
     match List.reduce pvals (fun x y -> x +. y) with 
     | None -> 0.0
     | Some r -> r
-  in
-    (pts_total, xs)  
+*)
+    (pts_total_opt, xs)  
 
 let newline = "\n"
 
@@ -176,10 +188,8 @@ let pval_opt_to_string_opt pval =
 let item_keyword_to_point keyword = 
   let _ = d_printf "item_keyword_to_point: keyword = %s\n" keyword in
   let pval = 
-    if contains_substring "correct" keyword then
+    if contains_substring correct_choice_indicator keyword then
       points_correct
-    else if contains_substring "Correct" keyword then
-      points_correct    
     else
       points_incorrect
   in
@@ -202,7 +212,8 @@ let mktex_begin block_name pvalopt topt =
   let b = "\\begin{" ^ block_name ^ "}" in
   let p = match pvalopt with 
           | None -> ""
-          | Some pts -> mktex_optarg (Float.to_string pts)
+          | Some pts -> if pts = 0.0 then ""
+                        else mktex_optarg (Float.to_string pts)
   in 
   let t = match topt with 
           | None -> ""
@@ -233,7 +244,7 @@ let pointvalOptToTex p =
   | Some pts -> mktex_optarg (Float.to_string pts)
 
 let hintOptToTex hint_opt = 
-  let heading = "\\hint" in
+  let heading = "\\help" in
   let r = match hint_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
@@ -281,7 +292,8 @@ let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, 
       let ils = ilistToTex il in 
         preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ hint ^ refsol ^ exp ^ h_end      
 
-let groupToTex (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
+let groupToTex (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
+  let h_begin = mktex_begin kind point_val_opt topt in
   let atoms = map_concat atomToTex ats in
   let label = labelOptToTex lopt in
     preamble ^
@@ -474,11 +486,12 @@ let atomToXml tex2html
      r
      
 let groupToXml tex2html
-               (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
+               (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
   let lsopt = extract_label lopt in
+  let pval_str_opt = pval_opt_to_string_opt point_val_opt in
   let title_opt = titleOptToXml tex2html topt in
   let atoms = map_concat (atomToXml tex2html) ats in
-  let r = XmlSyntax.mk_group ~topt:title_opt
+  let r = XmlSyntax.mk_group ~kind:kind ~pval:pval_str_opt ~topt:title_opt
                              ~lopt:lsopt ~body:atoms in
     r
 
@@ -548,7 +561,9 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 
 (**********************************************************************
  ** BEGIN: AST ELABORATION
- ** What does elaboration do? 
+ ** Elaboration is currently very basic. 
+ ** It traverses the code and calculates point scores for groups
+ ** and clusters.
  **********************************************************************)
 
 (* Identity function *)
@@ -603,10 +618,11 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
   let pval = mk_pval pval_opt  in
     (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end)))
 
-let groupEl (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
-  let (pvalsum, ats) = map_and_sum_pts atomEl ats in
+
+let groupEl (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
+  let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
   let lopt = labelOptEl lopt in
-    (pvalsum, Group (preamble, (h_begin, topt, lopt, ats, it, h_end)))
+    (mk_pval pvalsum_opt, Group (preamble, (kind, h_begin, pvalsum_opt, topt, lopt, ats, it, h_end)))
 
 let elementEl b = 
   match b with
@@ -619,10 +635,10 @@ let elementEl b =
 
 let clusterEl (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
   let _ = d_printf "clusterEl" in
-  let (pts, es) = map_and_sum_pts elementEl es in
-  let _ = d_printf "clusterEl: points = %s" (Float.to_string pts) in
+  let (pval_opt, es) = map_and_sum_pts elementEl es in
+  let _ = d_printf "clusterEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
-    Cluster (preamble, (h_begin, Some pts, topt, lopt, es, it, h_end))
+    Cluster (preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))
 
 let blockEl x = 
   let _ = d_printf "blockEl" in
@@ -664,6 +680,8 @@ let chapterEl (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 
 (**********************************************************************
  ** BEGIN: AST  TRAVERSAL
+ ** Unused, left here as a skeleton.  Elaboration above is an instance
+ ** of traversal.
  **********************************************************************)
 (* Identity function *)
 let dependTR d = d
@@ -719,10 +737,10 @@ let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
   let ilist_opt = ilistOptTR ilist_opt in
     Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))
 
-let groupTR (Group(preamble, (h_begin, topt, lopt, ats, it, h_end))) = 
+let groupTR (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
   let ats = map atomTR ats in
   let lopt = labelOptTR lopt in
-    Group (preamble, (h_begin, topt, lopt, ats, it, h_end))
+    Group (preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))
 
 let elementTR b = 
   match b with

@@ -1,4 +1,8 @@
 # TODO
+  - ProblemCluster is defunct: delete it...
+
+  - Update the backend to support new groups
+
   - Testing: make sure that the updates did not break anything by running regression tests with existing chapters.
 
     Connect back with the diderot development. 
@@ -7,13 +11,6 @@
   - diderot keywords such as labels can appear inside bodies.  How to deal with these?  We can include them as a word but this will likely lead to many conflicts.
 
     this suggests that "hijacking" latex commands as diderot commands can be a bit painful.  we have to be careful
-
- - Clean up the parser code (shared constants and so on) and upload several chapters (on staging) to test its robustness.
-
- - Test the parser on 210 files.
-
- - Extend XML translation to match older MLX translation.
-
 
    -- The major remaining gap: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
    
@@ -39,9 +36,26 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+- [May 11]
+
+  * multipart problems should have points.
+    - added to lexer/parser.
+    - added to xml
+  * group points are calculated from those of the atoms within. 
+
+- [May 10]
+  * Fixed up some bugs with lexing and parsing.  
+  * tested tex2tex translation with different of groups: mproblem and flex.
+  * tested xml translation
+
+
+- [May 9]
+  * Extend parser with multipart problems.  These would be another block, basically like a flex, but would use a different title.
+    - Started doing this.  TODO: paremeterize group's so that I can use the same definitions, much like with atoms.  Working on this done with parser and lexer.
+
 
 - [ May 7 ] 
-  * Made a multichoice list. This works is latex.
+  * Made a multichoice list. This works is late
   * TODO: current points scheme with optional titles and points, both being optional arguments doesn't work well with latex. There should not be more than one optional argument...
     Idea: detect the one that is a number and treat it specially.  
     OK This works.  Now carry it forward by fleshing it out.  If you don't want to care about the order of arguments, then you will need to be more careful about things in parsing also.  Maybe this is not the best thing.  It might be better to require the first argument always be poins.  Also for consistency.   
