@@ -308,7 +308,7 @@ rule token = parse
        d_printf "lexer matched begin group: %s" kind;
        KW_BEGIN_GROUP(kind, all, None)
     }		
-| p_end_atom
+| p_end_group
   	{let all = e ^ o ^ kindws ^ c in
        d_printf "lexer matched end group: %s" kind;
        KW_END_GROUP(kind, all)
