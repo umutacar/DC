@@ -67,7 +67,7 @@ type atom = Atom of t_preamble
 
 type group = 
   Group of t_preamble 
-           * (t_group_kind * t_keyword * t_title option * t_label option * 
+           * (t_group_kind * t_keyword * t_point_val option * t_title option * t_label option * 
               atom list * t_intertext * t_keyword) 
 
 type problem_cluster = 
@@ -285,7 +285,8 @@ let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, 
       let ils = ilistToTex il in 
         preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ hint ^ refsol ^ exp ^ h_end      
 
-let groupToTex (Group(preamble, (kind, h_begin, topt, lopt, ats, it, h_end))) = 
+let groupToTex (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
+  let h_begin = mktex_begin kind point_val_opt topt in
   let atoms = map_concat atomToTex ats in
   let label = labelOptToTex lopt in
     preamble ^
@@ -478,7 +479,7 @@ let atomToXml tex2html
      r
      
 let groupToXml tex2html
-               (Group(preamble, (kind, h_begin, topt, lopt, ats, it, h_end))) = 
+               (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
   let lsopt = extract_label lopt in
   let title_opt = titleOptToXml tex2html topt in
   let atoms = map_concat (atomToXml tex2html) ats in
@@ -607,10 +608,10 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
   let pval = mk_pval pval_opt  in
     (pval, Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end)))
 
-let groupEl (Group(preamble, (kind, h_begin, topt, lopt, ats, it, h_end))) = 
+let groupEl (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
   let (pvalsum, ats) = map_and_sum_pts atomEl ats in
   let lopt = labelOptEl lopt in
-    (pvalsum, Group (preamble, (kind, h_begin, topt, lopt, ats, it, h_end)))
+    (pvalsum, Group (preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end)))
 
 let elementEl b = 
   match b with
@@ -723,10 +724,10 @@ let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
   let ilist_opt = ilistOptTR ilist_opt in
     Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, h_end))
 
-let groupTR (Group(preamble, (kind, h_begin, topt, lopt, ats, it, h_end))) = 
+let groupTR (Group(preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))) = 
   let ats = map atomTR ats in
   let lopt = labelOptTR lopt in
-    Group (preamble, (kind, h_begin, topt, lopt, ats, it, h_end))
+    Group (preamble, (kind, h_begin, point_val_opt, topt, lopt, ats, it, h_end))
 
 let elementTR b = 
   match b with

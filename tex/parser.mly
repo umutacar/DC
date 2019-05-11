@@ -418,7 +418,8 @@ mk_group (kw_b, kw_e):
   {let (kind, h_bb, _) = h_b in
    let (ats, it) = ats_it in
    let (kind_, h_end) = h_e in
-     Ast.Group (preamble, (kind, h_bb, None, l, ats, it, h_end))
+   let pval_opt = None in
+     Ast.Group (preamble, (kind, h_bb, pval_opt, None, l, ats, it, h_end))
   }
 
 | preamble = boxes; 
@@ -433,7 +434,8 @@ mk_group (kw_b, kw_e):
    let h_begin = h_bb ^ title_part in
    let (kind_, h_end) = h_e in
    let (ats, it) = ats_it in
-     Ast.Group (preamble, (kind, h_begin, Some tt, l, ats, it, h_end))
+   let pval_opt = None in
+     Ast.Group (preamble, (kind, h_begin, pval_opt, Some tt, l, ats, it, h_end))
   }
 
 group:
