@@ -40,6 +40,13 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [May 10]
+  * Fixed up some bugs with lexing and parsing.  
+  * TODO: does tex2tex translation work, with different kinds of groups: mproblem and flex?
+    Test?
+  * TODO: same as above for xml translation?
+  * TODO: what is the status of elaboration?
+
 - [May 9]
   * Extend parser with multipart problems.  These would be another block, basically like a flex, but would use a different title.
     - Started doing this.  TODO: paremeterize group's so that I can use the same definitions, much like with atoms.  Working on this done with parser and lexer.
