@@ -353,15 +353,16 @@ blocks:
 | es_opt = option(elements);
   ps_opt = option(paragraphs);
 {
-  match es_opt with 
-  | None -> []
-  | Some es -> 
-      match ps_opt with 
-      | None -> []
-      | Some ps -> 
+  let _ = d_printf ("parser matched: blocks.\n") in
+    match es_opt with 
+    | None -> []
+    | Some es -> 
         let b_es = List.map es ~f:(fun e -> Ast.Block_Element e) in
-        let b_ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
-          b_es @ b_ps
+          match ps_opt with 
+          | None -> b_es
+          | Some ps -> 
+            let b_ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
+              b_es @ b_ps
 }
 
 /*
