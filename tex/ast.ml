@@ -75,6 +75,7 @@ type problem_cluster =
   ProblemCluster of t_preamble 
            * (t_keyword * t_title option * t_label option * 
               atom list * t_intertext * t_keyword) 
+
 type chapter = 
   Chapter of t_preamble
              *  (t_keyword * t_title * t_label * 
@@ -94,12 +95,12 @@ and subsubsection =
 
 and block = 
   | Block_Block of element
-  | Block_Cluster of cluster
+  | Block_Paragraph of paragraph
 
-and cluster = 
-  Cluster of t_preamble
-             * (t_keyword * t_point_val option * t_title option * t_label option * 
-                element list * t_intertext * t_keyword)
+and paragraph = 
+  Paragraph of t_preamble
+             * (t_keyword * t_point_val option * t_title * t_label option * 
+                element list * t_intertext)
 
 and element = 
   | Element_Group of group
@@ -208,6 +209,15 @@ let mk_item (keyword, pvalopt, body) =
  **********************************************************************)
 let mktex_optarg x = 
   "[" ^ x ^ "]"
+
+let mktex_section name pvalopt t = 
+  let b = "\\" ^ name in
+  let p = match pvalopt with 
+          | None -> ""
+          | Some pts -> if pts = 0.0 then ""
+                        else mktex_optarg (Float.to_string pts)
+  in 
+    b ^ p ^ "{" ^ t ^ "}" ^ "\n"
 
 let mktex_begin block_name pvalopt topt = 
   let b = "\\begin{" ^ block_name ^ "}" in
@@ -318,21 +328,20 @@ let elementToTex b =
   | Element_Group g -> groupToTex g
   | Element_Atom a -> atomToTex a
 
-let clusterToTex (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
-  let _ = d_printf "clusterToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let h_begin = mktex_begin "cluster" pval_opt topt in
+let paragraphToTex (Paragraph(preamble, (heading, pval_opt, t, lopt, bs, it))) = 
+  let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
+  let h_begin = mktex_section "paragraph" pval_opt t in
   let elements = map_concat elementToTex bs in
   let label = labelOptToTex lopt in
     preamble ^
-    h_begin ^ label ^ 
-    elements ^ it ^ 
-    h_end
+    heading ^ label ^ 
+    elements ^ it 
 
 let blockToTex x = 
   let _ = d_printf "blockToTex" in
   let r = 
     match x with
-    | Block_Cluster c -> clusterToTex c
+    | Block_Paragraph c -> paragraphToTex c
     | Block_Block b -> elementToTex b
   in
   let _ = d_printf ("ast.blockToTex: %s\n") r  in
@@ -518,20 +527,21 @@ let elementToXml tex2html b =
   | Element_Group g -> groupToXml tex2html g
   | Element_Atom a -> atomToXml  tex2html a
 
-let clusterToXml tex2html (Cluster(preamble, (h_begin, pval_opt, topt, lopt, bs, it, h_end))) = 
+
+let paragraphToXml tex2html (Paragraph(preamble, (heading, pval_opt, t, lopt, bs, it))) = 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
-  let title_opt = titleOptToXml tex2html topt in
+  let t_xml = titleToXml tex2html t in
   let elements = map_concat (elementToXml tex2html) bs in
-  let r = XmlSyntax.mk_cluster ~pval:pval_str_opt 
-                               ~topt:title_opt
-                               ~lopt:lsopt ~body:elements in
+  let r = XmlSyntax.mk_paragraph ~pval:pval_str_opt 
+                                 ~title:t ~title_xml:t_xml
+                                 ~lopt:lsopt ~body:elements in
     r
 
 let blockToXml tex2html x = 
   match x with
   | Block_Block b -> elementToXml tex2html b
-  | Block_Cluster c -> clusterToXml tex2html c
+  | Block_Paragraph c -> paragraphToXml tex2html c
 
 let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it)) =
   let lsopt = extract_label lopt in
@@ -580,8 +590,7 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, it, ss))) =
 (**********************************************************************
  ** BEGIN: AST ELABORATION
  ** Elaboration is currently very basic. 
- ** It traverses the code and calculates point scores for groups
- ** and clusters.
+ ** It traverses the code and calculates point scores for groups.
  **********************************************************************)
 
 (* Identity function *)
@@ -664,17 +673,17 @@ let elementEl b =
     let (pval, a) = atomEl a in
       (pval, Element_Atom a)
 
-let clusterEl (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
-  let _ = d_printf "clusterEl" in
+let paragraphEl (Paragraph(preamble, (heading, pval_opt, topt, lopt, es, it))) = 
+  let _ = d_printf "paragraphEl" in
   let (pval_opt, es) = map_and_sum_pts elementEl es in
-  let _ = d_printf "clusterEl: points = %s" (mk_pval_str pval_opt) in
+  let _ = d_printf "paragraphEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
-    Cluster (preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))
+    Paragraph (preamble, (heading, pval_opt, topt, lopt, es, it))
 
 let blockEl x = 
   let _ = d_printf "blockEl" in
     match x with
-    | Block_Cluster c -> Block_Cluster (clusterEl c)
+    | Block_Paragraph c -> Block_Paragraph (paragraphEl c)
     | Block_Block b -> 
       let (_, b) = elementEl b in
         Block_Block b 
@@ -782,16 +791,16 @@ let elementTR b =
   | Element_Group g -> Element_Group (groupTR g)
   | Element_Atom a -> Element_Atom (atomTR a)
 
-let clusterTR (Cluster(preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))) = 
-  let _ = d_printf "clusterTR" in
+let paragraphTR (Paragraph(preamble, (heading, pval_opt, t, lopt, es, it))) = 
+  let _ = d_printf "paragraphTR" in
   let es = map elementTR es in
   let lopt = labelOptTR lopt in
-    Cluster (preamble, (h_begin, pval_opt, topt, lopt, es, it, h_end))
+    Paragraph (preamble, (heading, pval_opt, t, lopt, es, it))
 
 let blockTR x = 
   let _ = d_printf "blockTR" in
     match x with
-    | Block_Cluster c -> Block_Cluster (clusterTR c)
+    | Block_Paragraph c -> Block_Paragraph (paragraphTR c)
     | Block_Block b -> Block_Block (elementTR b)
 
 let subsubsectionTR (Subsubsection (heading, t, lopt, bs, it)) =

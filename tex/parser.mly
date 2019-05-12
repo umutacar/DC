@@ -22,6 +22,17 @@ let set_block_option_with_intertext (r, vo) =
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
 
+let set_element_option_with_intertext (r, vo) = 
+  match vo with 
+  |	None -> ""
+  |	Some (v, it) -> (r:=v; it)
+
+let set_element_option (r, vo) = 
+  match vo with 
+  |	None -> (r := []; "")
+  |	Some v -> (r := v; "")
+
+
 let mk_point_val_f_opt (s: string option) = 
   match s with
   | None -> (None, "None")
@@ -61,9 +72,10 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string> KW_LABEL_AND_NAME
 
 %token <string> KW_CHAPTER
-%token <string> KW_SECTION, KW_TITLED_QUESTION
+%token <string> KW_SECTION
 %token <string> KW_SUBSECTION
 %token <string> KW_SUBSUBSECTION	
+%token <string> KW_PARAGRAPH	
 
 /* cluster is heading and point value option */
 %token <string * string option> KW_BEGIN_CLUSTER 
@@ -271,10 +283,7 @@ section:
   {
      Ast.Section desc
   }	  
-| desc = mk_section(KW_TITLED_QUESTION, subsection)
-  {
-     Ast.Section desc
-  }	  
+
 
 subsection: 
   desc = mk_section(KW_SUBSECTION, subsubsection)
@@ -294,18 +303,18 @@ subsubsection:
      Ast.Subsubsection (heading, t, l,!sbs, it)
   }	  
 
-/*
+
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  sbso = option(blocks_and_intertext); 
+  sbso = option(elements);
   {
    let (heading, t) = h in
    let sbs = ref [] in
-   let it = set_block_option_with_intertext (sbs, sbso) in
-     Ast.Paragraph (heading, t, l,!sbs, it)
+   let it = set_element_option (sbs, sbso) in
+     Ast.Paragraph ("", (heading, None, t, l,!sbs, it)) 
   }	  
-*/
+
 /**********************************************************************
  ** END: Latex Sections
  **********************************************************************/
@@ -326,14 +335,15 @@ blocks:
 block:
 |	e = element
   { Ast.Block_Block e }
-| c = cluster
-  { Ast.Block_Cluster c }
-  
+/*
+| p = paragraph
+  { Ast.Block_Paragraph p }
+*/  
 /**********************************************************************
  ** BEGIN: Cluster
  ** A cluster is a titled sequence of groups, and atoms 
  **********************************************************************/
-
+/*
 cluster:
 | preamble = boxes;   
   h_begin = KW_BEGIN_CLUSTER;
@@ -366,6 +376,7 @@ cluster:
    let it = set_option_with_intertext (bs, bso) in
      Ast.Cluster (preamble, (h_begin, pval_f_opt, Some tt, l, !bs, it, h_end))
   }	  
+*/
 
 /**********************************************************************
  ** END: Cluster
@@ -485,7 +496,6 @@ mk_atom_tail (kw_e):
 
 
 mk_atom(kw_b, kw_e):
-
 /* atoms with label */
 | preamble = boxes;
   h_b = kw_b;

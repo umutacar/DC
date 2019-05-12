@@ -290,12 +290,12 @@ rule token = parse
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
   	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
-| p_titled_question as x
-  	{d_printf "!lexer matched: %s." x; KW_TITLED_QUESTION(x)}		
 | p_subsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
+| p_paragraph as x
+  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}
 (*
 | p_b_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		
