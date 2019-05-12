@@ -289,11 +289,10 @@ subsubsection:
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  eso = option(elements);
+  es = elements;
   {
    let _ = d_printf ("Parser matched: paragraph.\n") in
    let (heading, t) = h in
-   let es = element_option eso in
    let tt = "" in
      Ast.Paragraph (heading, None, t, l, es, tt) 
   }	  
@@ -315,14 +314,11 @@ paragraphs:
  **********************************************************************/
 
 blocks: 
-| es_opt = option(elements);
+| es = elements;
   ps_opt = option(paragraphs);
   {
    let _ = d_printf ("parser matched: blocks.\n") in
-   let es = match es_opt with 
-            | None -> []
-            | Some es -> List.map es ~f:(fun e -> Ast.Block_Element e)
-   in
+   let es = List.map es ~f:(fun e -> Ast.Block_Element e) in
    let ps = match ps_opt with 
             | None -> []
             | Some ps -> List.map ps ~f:(fun p -> Ast.Block_Paragraph p) 
@@ -345,12 +341,27 @@ element:
 | g = group
   {Ast.Element_Group g}
 
+
+elements:
+  {[]}
+| es = elements;
+  e = element; 
+  {List.append es [e]}
+
+/*
 elements:
 	e = element
   {[e]}
 | es = elements;
   e = element; 
   {List.append es [e]}
+*/
+
+elements_and_tailtext:
+  es = atoms; 
+  tt = boxes;
+  {(es, tt)}			
+
 
 /**********************************************************************
  ** END: Elements
