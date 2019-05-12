@@ -412,15 +412,15 @@ let mk_group ~kind ~pval ~topt ~lopt ~body =
   let fields = titles @ [label_xml; pval_xml; body] in
     mk_block_group kind fields
 
-let mk_cluster ~pval ~topt ~lopt ~body = 
+let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
-  let titles = mk_title_opt topt in
+  let title_src = mk_title_src title in
+  let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-  let fields = titles @ [label_xml; pval_xml; body] in
-    mk_block_generic cluster fields
+  let fields = [title_src; title_xml; pval_xml; label_xml; body] in
+    mk_block_generic paragraph fields
 
-
-let mk_paragraph ~title ~title_xml ~lopt ~body = 
+let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 
   let title_src = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in

@@ -136,10 +136,7 @@ let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
 let p_subparagraph = '\\' "subparagraph" p_ws												
 
-let p_b_cluster = '\\' "begin{cluster}" p_ws	
-let p_b_cluster_with_points = (p_b_cluster p_ws as cb) (p_o_sq as o_sq) (p_float as pval) (p_c_sq as c_sq)
-let p_e_cluster = '\\' "end{cluster}" p_ws
-
+let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
@@ -241,7 +238,8 @@ let p_begin_latex_env = (p_com_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly)
 let p_end_latex_env = (p_com_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
 
 
-let p_group = ((p_flex as kind) p_ws as kindws) |
+let p_group = ((p_cluster as kind) p_ws as kindws) |
+              ((p_flex as kind) p_ws as kindws) |
               ((p_problem_cluster as kind) p_ws as kindws) 
 
 let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
@@ -292,18 +290,20 @@ rule token = parse
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
   	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
-| p_titled_question as x
-  	{d_printf "!lexer matched: %s." x; KW_TITLED_QUESTION(x)}		
 | p_subsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
+| p_paragraph as x
+  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}
+(*
 | p_b_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		
 | p_b_cluster_with_points as x
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, Some pval)}		
 | p_e_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
+*)
 | p_begin_group as x
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin group: %s" kind;
