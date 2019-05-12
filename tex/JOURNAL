@@ -45,6 +45,8 @@ So whatever latex produces must be mediated through this.
 
    - OK, I was able to resolve this but only by taking the "intertext" treatment out.  Intertext makes things more complicated because it can be ambigous where the intertext belongs to.  I will have to study this separately.
 
+ * TODO: textbetween atoms should be discarded.  how to do this?
+
 - [May 11]
   * multipart problems should have points.
     - added to lexer/parser.

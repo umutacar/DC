@@ -7,30 +7,10 @@ open Utils
 let parse_error s = printf "Parse Error: %s"
 let kw_atom_definition = "definition"
 
-let set_sections_option(r, vo) = 
-  match vo with 
-  |	None -> ()
-  |	Some v -> (r:=v; ())
-
 let sections_option vo = 
   match vo with 
   |	None -> []
   |	Some v -> v
-
-let set_option_with_intertext (r, vo) = 
-  match vo with 
-  |	None -> ""
-  |	Some (v, it) -> (r:=v; it)
-
-let set_block_option (r, vo) = 
-  match vo with 
-  |	None -> ""
-  |	Some (v) -> (r:=v; "")
-
-let set_block_option_with_intertext (r, vo) = 
-  match vo with 
-  |	None -> ""
-  |	Some (v, it) -> (r:=v; it)
 
 let blocks_option_with_intertext (vo) = 
   match vo with 
@@ -41,16 +21,6 @@ let blocks_option vo =
   match vo with 
   |	None -> []
   |	Some v -> v
-
-let set_element_option_with_intertext (r, vo) = 
-  match vo with 
-  |	None -> ""
-  |	Some (v, it) -> (r:=v; it)
-
-let set_element_option (r, vo) = 
-  match vo with 
-  |	None -> (r := []; "")
-  |	Some v -> (r := v; "")
 
 let element_option vo = 
   match vo with 
@@ -345,7 +315,7 @@ paragraphs:
  **********************************************************************/
 
 /**********************************************************************
- ** BEGIN: Block
+ ** BEGIN: Blocks
  ** A blocks is  sequence of atoms/groups followed by paragraphs
  **********************************************************************/
 
@@ -358,56 +328,22 @@ blocks_and_intertext:
 blocks: 
 | es_opt = option(elements);
   ps_opt = option(paragraphs);
-{
-  let _ = d_printf ("parser matched: blocks.\n") in
-  let es = match es_opt with 
-    | None -> []
-    | Some es -> List.map es ~f:(fun e -> Ast.Block_Element e)
-  in
-  let ps = match ps_opt with 
-           | None -> []
-           | Some ps -> List.map ps ~f:(fun p -> Ast.Block_Paragraph p) 
-  in
-    es @ ps
-}
+  {
+   let _ = d_printf ("parser matched: blocks.\n") in
+   let es = match es_opt with 
+            | None -> []
+            | Some es -> List.map es ~f:(fun e -> Ast.Block_Element e)
+   in
+   let ps = match ps_opt with 
+            | None -> []
+            | Some ps -> List.map ps ~f:(fun p -> Ast.Block_Paragraph p) 
+   in
+     es @ ps
+  }
 
-/*
-cluster:
-| preamble = boxes;   
-  h_begin = KW_BEGIN_CLUSTER;
-  l = option(label); 
-  bso = option(elements_and_intertext);
-  h_end = KW_END_CLUSTER
-  {
-   let _ = d_printf ("!parser: cluster matched") in
-   let (h_begin, pval_opt) = h_begin in
-   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
-   let bs = ref [] in
-   let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, pval_f_opt, None, l, !bs, it, h_end))
-  }	  
-| preamble = boxes;   
-  h_b = KW_BEGIN_CLUSTER;
-  t = sq_box; 
-  l = option(label); 
-  bso = option(elements_and_intertext);
-  h_end = KW_END_CLUSTER
-  {
-   let _ = d_printf ("!parser: cluster matched") in
-   let (h_b, pval_opt) = h_b in
-   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
-   let (bo, tt, bc) = t in
-   let title_part = bo ^ tt ^ bc in
-   let h_begin = h_b ^ title_part in
-   let _ = d_printf ("!parser: cluster matched") in
-   let bs = ref [] in
-   let it = set_option_with_intertext (bs, bso) in
-     Ast.Cluster (preamble, (h_begin, pval_f_opt, Some tt, l, !bs, it, h_end))
-  }	  
-*/
 
 /**********************************************************************
- ** END: Block
+ ** END: Blocks
  **********************************************************************/
 
 /**********************************************************************

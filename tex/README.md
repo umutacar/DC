@@ -38,11 +38,8 @@ $ lexer.native
 
 ## Excluded and inter- text
   * Each atom has a premable that excludes stuff that comes before it.
-  * Thus the only worry is text without a followin atom.
 
-    blah (blah atom)* blah is all you need  but how to set this up formally?
-
-    this is basically what we need to encode
+  * Each other segment also has a preamble, would that work? 
 
 ## Chapters and sections
 
