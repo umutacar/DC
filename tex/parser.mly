@@ -52,6 +52,11 @@ let set_element_option (r, vo) =
   |	None -> (r := []; "")
   |	Some v -> (r := v; "")
 
+let element_option vo = 
+  match vo with 
+  |	None -> []
+  |	Some v -> v
+
 
 let mk_point_val_f_opt (s: string option) = 
   match s with
@@ -321,10 +326,11 @@ paragraph:
   l = option(label); 
   eso = option(elements);
   {
+   let _ = d_printf ("Parser matched: paragraph.\n") in
    let (heading, t) = h in
-   let es = ref [] in
-   let it = set_element_option (es, eso) in
-     Ast.Paragraph (heading, None, t, l,!es, it) 
+   let es = element_option eso in
+   let it = "" in
+     Ast.Paragraph (heading, None, t, l, es, it) 
   }	  
 
 paragraphs:
@@ -354,15 +360,15 @@ blocks:
   ps_opt = option(paragraphs);
 {
   let _ = d_printf ("parser matched: blocks.\n") in
-    match es_opt with 
+  let es = match es_opt with 
     | None -> []
-    | Some es -> 
-        let b_es = List.map es ~f:(fun e -> Ast.Block_Element e) in
-          match ps_opt with 
-          | None -> b_es
-          | Some ps -> 
-            let b_ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
-              b_es @ b_ps
+    | Some es -> List.map es ~f:(fun e -> Ast.Block_Element e)
+  in
+  let ps = match ps_opt with 
+           | None -> []
+           | Some ps -> List.map ps ~f:(fun p -> Ast.Block_Paragraph p) 
+  in
+    es @ ps
 }
 
 /*

@@ -7,6 +7,25 @@ This is an example quiz.
 
 \section{Material}
 
+\paragraph{First Paragraph of Material}
+\begin{cluster}
+\begin{datatype}[Sets]
+\label{XXadt:sets} 
+For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
+\adt{SET} abstract data type is a type $\sss$ representing the power 
+set of $\uuu$ (i.e., all subsets of $\uuu$) limited to sets of finite 
+size, along with the functions below. 
+{\normalsize
+input{./sets-and-tables/sig-sets}
+}
+Where $\tynat$ is 
+the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
+\texttt{false}\}$.
+%; for a set $A$ of type $\sss$.
+%, $\means{A}$ denotes the  (mathematical) set of keys in the set.
+\end{datatype}
+\end{cluster}
+
 \section{Sets ADT}
 
 \begin{cluster}
