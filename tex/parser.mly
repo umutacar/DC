@@ -298,8 +298,8 @@ paragraph:
   }	  
 
 paragraphs:
-| p = paragraph;
-  { [p] }
+| 
+ { [ ] }
 | p = paragraph; 
   ps = paragraphs;
   {List.append ps [p]}
@@ -315,14 +315,11 @@ paragraphs:
 
 blocks: 
 | es = elements;
-  ps_opt = option(paragraphs);
+  ps = paragraphs;
   {
    let _ = d_printf ("parser matched: blocks.\n") in
    let es = List.map es ~f:(fun e -> Ast.Block_Element e) in
-   let ps = match ps_opt with 
-            | None -> []
-            | Some ps -> List.map ps ~f:(fun p -> Ast.Block_Paragraph p) 
-   in
+   let ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
      es @ ps
   }
 
