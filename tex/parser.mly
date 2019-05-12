@@ -289,11 +289,11 @@ subsubsection:
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  es = elements;
+  estt = elements_and_tailtext;
   {
    let _ = d_printf ("Parser matched: paragraph.\n") in
    let (heading, t) = h in
-   let tt = "" in
+   let (es, tt) = estt in
      Ast.Paragraph (heading, None, t, l, es, tt) 
   }	  
 
@@ -303,6 +303,7 @@ paragraphs:
 | p = paragraph; 
   ps = paragraphs;
   {List.append ps [p]}
+
 
 /**********************************************************************
  ** END: Latex Sections
@@ -314,10 +315,11 @@ paragraphs:
  **********************************************************************/
 
 blocks: 
-| es = elements;
+| estt = elements_and_tailtext;
   ps = paragraphs;
   {
-   let _ = d_printf ("parser matched: blocks.\n") in
+   let _ = d_printf ("parser matched: blocks.\n") in 
+   let (es, tt_es) = estt in
    let es = List.map es ~f:(fun e -> Ast.Block_Element e) in
    let ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
      es @ ps
@@ -355,10 +357,9 @@ elements:
 */
 
 elements_and_tailtext:
-  es = atoms; 
+  es = elements; 
   tt = boxes;
   {(es, tt)}			
-
 
 /**********************************************************************
  ** END: Elements

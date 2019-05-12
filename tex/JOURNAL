@@ -53,10 +53,17 @@ So whatever latex produces must be mediated through this.
    - The other idea, which somewhat worked in the past, was
       -- have a preamble for each atom and group
       -- have a postamble for each sequence of atoms, including empty sequence.
-      -- have a postamble for each sequence of (atoms and groups)
+      -- have a postamble for each sequence of elements (atoms and groups)
       etc.  
   
-      This could work it seems but there it should allow these sequences to be empty.  I should solve this first be allowing them to be empty.
+      This could work it seems but there it should allow these sequences to be empty.  I should solve this first be allowing them to be empty... OK, done.
+ 
+      Now, are we covered?  
+      It seems that this will go a long way because all others (segments) consist of as elements as leaves so it should suffice.
+  
+      OK, this is probaly a good place to test things a bit.
+
+      TODO: I am dropping tailtext from elements rigt now.
 
 
 
