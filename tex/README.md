@@ -34,6 +34,16 @@ $ lexer.native
 
 # Grammar
 
+## Note: Plural items, sections, atoms, etc can be tricky.  I try to make sure that these are non-empty, so that they can be wrapped inside options.  If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.
+
+## Excluded and inter- text
+  * Each atom has a premable that excludes stuff that comes before it.
+  * Thus the only worry is text without a followin atom.
+
+    blah (blah atom)* blah is all you need  but how to set this up formally?
+
+    this is basically what we need to encode
+
 ## Chapters and sections
 
   We have four levels of sectioning:

@@ -41,7 +41,9 @@ So whatever latex produces must be mediated through this.
 - [May 12]
   * cluster is now a group.  
   * TODO: add paragraphs as floatin sections.
-    - This is tricky.  The problem is that paragraphs don't have a proper end.  As a result if you have \paragrah{P} atom1 atom2, does atom2 stand on its own or does it go under the paragraph.  To prevent this, paragraphs should be treated as nested objects.  a block can start with elements followed by a sequence of paragraphs, so a block is a lot like a section.  once you start a paragraph, you cannot exit.     
+    - This is tricky.  The problem is that paragraphs don't have a proper end.  As a result if you have \paragrah{P} atom1 atom2, does atom2 stand on its own or does it go under the paragraph.  To prevent this, paragraphs should be treated as nested objects.  a block can start with elements followed by a sequence of paragraphs, so a block is a lot like a section.  once you start a paragraph, you cannot exit.
+
+   - OK, I was able to resolve this but only by taking the "intertext" treatment out.  Intertext makes things more complicated because it can be ambigous where the intertext belongs to.  I will have to study this separately.
 
 - [May 11]
   * multipart problems should have points.

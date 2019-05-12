@@ -93,14 +93,13 @@ and subsubsection =
   Subsubsection of (t_keyword * t_title * t_label option *
                     block list * t_intertext)
 
-and block = 
-  | Block_Block of element
-  | Block_Paragraph of paragraph
-
 and paragraph = 
-  Paragraph of t_preamble
-             * (t_keyword * t_point_val option * t_title * t_label option * 
+  Paragraph of (t_keyword * t_point_val option * t_title * t_label option *
                 element list * t_intertext)
+
+and block = 
+  | Block_Element of element
+  | Block_Paragraph of paragraph
 
 and element = 
   | Element_Group of group
@@ -328,12 +327,11 @@ let elementToTex b =
   | Element_Group g -> groupToTex g
   | Element_Atom a -> atomToTex a
 
-let paragraphToTex (Paragraph(preamble, (heading, pval_opt, t, lopt, bs, it))) = 
+let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, es, it)) = 
   let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
   let h_begin = mktex_section "paragraph" pval_opt t in
-  let elements = map_concat elementToTex bs in
+  let elements = map_concat elementToTex es in
   let label = labelOptToTex lopt in
-    preamble ^
     heading ^ label ^ 
     elements ^ it 
 
@@ -342,7 +340,7 @@ let blockToTex x =
   let r = 
     match x with
     | Block_Paragraph c -> paragraphToTex c
-    | Block_Block b -> elementToTex b
+    | Block_Element b -> elementToTex b
   in
   let _ = d_printf ("ast.blockToTex: %s\n") r  in
     r
@@ -528,11 +526,11 @@ let elementToXml tex2html b =
   | Element_Atom a -> atomToXml  tex2html a
 
 
-let paragraphToXml tex2html (Paragraph(preamble, (heading, pval_opt, t, lopt, bs, it))) = 
+let paragraphToXml tex2html (Paragraph(heading, pval_opt, t, lopt, es, it)) = 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
-  let elements = map_concat (elementToXml tex2html) bs in
+  let elements = map_concat (elementToXml tex2html) es in
   let r = XmlSyntax.mk_paragraph ~pval:pval_str_opt 
                                  ~title:t ~title_xml:t_xml
                                  ~lopt:lsopt ~body:elements in
@@ -540,7 +538,7 @@ let paragraphToXml tex2html (Paragraph(preamble, (heading, pval_opt, t, lopt, bs
 
 let blockToXml tex2html x = 
   match x with
-  | Block_Block b -> elementToXml tex2html b
+  | Block_Element b -> elementToXml tex2html b
   | Block_Paragraph c -> paragraphToXml tex2html c
 
 let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, it)) =
@@ -673,20 +671,20 @@ let elementEl b =
     let (pval, a) = atomEl a in
       (pval, Element_Atom a)
 
-let paragraphEl (Paragraph(preamble, (heading, pval_opt, topt, lopt, es, it))) = 
+let paragraphEl (Paragraph (heading, pval_opt, topt, lopt, es, it)) = 
   let _ = d_printf "paragraphEl" in
   let (pval_opt, es) = map_and_sum_pts elementEl es in
   let _ = d_printf "paragraphEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
-    Paragraph (preamble, (heading, pval_opt, topt, lopt, es, it))
+    Paragraph  (heading, pval_opt, topt, lopt, es, it)
 
 let blockEl x = 
   let _ = d_printf "blockEl" in
     match x with
     | Block_Paragraph c -> Block_Paragraph (paragraphEl c)
-    | Block_Block b -> 
+    | Block_Element b -> 
       let (_, b) = elementEl b in
-        Block_Block b 
+        Block_Element b 
 
 let subsubsectionEl (Subsubsection (heading, t, lopt, bs, it)) =
   let bs = map blockEl bs in
@@ -791,17 +789,17 @@ let elementTR b =
   | Element_Group g -> Element_Group (groupTR g)
   | Element_Atom a -> Element_Atom (atomTR a)
 
-let paragraphTR (Paragraph(preamble, (heading, pval_opt, t, lopt, es, it))) = 
+let paragraphTR (Paragraph(heading, pval_opt, t, lopt, es, it)) = 
   let _ = d_printf "paragraphTR" in
   let es = map elementTR es in
   let lopt = labelOptTR lopt in
-    Paragraph (preamble, (heading, pval_opt, t, lopt, es, it))
+    Paragraph (heading, pval_opt, t, lopt, es, it)
 
 let blockTR x = 
   let _ = d_printf "blockTR" in
     match x with
     | Block_Paragraph c -> Block_Paragraph (paragraphTR c)
-    | Block_Block b -> Block_Block (elementTR b)
+    | Block_Element b -> Block_Element (elementTR b)
 
 let subsubsectionTR (Subsubsection (heading, t, lopt, bs, it)) =
   let bs = map blockTR bs in

@@ -12,15 +12,35 @@ let set_sections_option(r, vo) =
   |	None -> ()
   |	Some v -> (r:=v; ())
 
+let sections_option vo = 
+  match vo with 
+  |	None -> []
+  |	Some v -> v
+
 let set_option_with_intertext (r, vo) = 
   match vo with 
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
 
+let set_block_option (r, vo) = 
+  match vo with 
+  |	None -> ""
+  |	Some (v) -> (r:=v; "")
+
 let set_block_option_with_intertext (r, vo) = 
   match vo with 
   |	None -> ""
   |	Some (v, it) -> (r:=v; it)
+
+let blocks_option_with_intertext (vo) = 
+  match vo with 
+  |	None -> ([], "")
+  |	Some (v, it) -> (v; it)
+
+let blocks_option vo = 
+  match vo with 
+  |	None -> []
+  |	Some v -> v
 
 let set_element_option_with_intertext (r, vo) = 
   match vo with 
@@ -245,16 +265,14 @@ mk_heading(kw_heading):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  sbso = option(blocks_and_intertext);
-  sso = option(mk_sections(nested_section));
+  bs = blocks;
+  nso = option(mk_sections(nested_section));
   {
    let (heading, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
-   let sbs = ref [] in
-   let ss = ref [] in
-   let it = set_block_option_with_intertext (sbs, sbso) in
-   let _ = set_sections_option(ss, sso) in
-     (heading, t, l, !sbs, it, !ss)
+   let ns = sections_option nso in
+   let it = "" in
+     (heading, t, l, bs, it, ns)
   }	  
 
 mk_sections(my_section):
@@ -266,16 +284,14 @@ chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  sbso = option(blocks_and_intertext); 
+  bs = blocks; 
   sso = option(mk_sections(section)); 
   EOF 
   {
    let (heading, t) = h in
-   let sbs = ref [] in
-   let ss = ref [] in
-   let it = set_block_option_with_intertext (sbs, sbso) in
-   let _ = set_sections_option(ss, sso) in
-     Ast.Chapter(preamble, (heading, t, l, !sbs, it, !ss))
+   let ss = sections_option sso in
+   let it = "" in
+     Ast.Chapter(preamble, (heading, t, l, bs, it, ss))
   }	
 
 section: 
@@ -284,39 +300,47 @@ section:
      Ast.Section desc
   }	  
 
-
 subsection: 
   desc = mk_section(KW_SUBSECTION, subsubsection)
   {
      Ast.Subsection desc
-  }	  
-	
+  }	  	
 
 subsubsection:
   h = mk_heading(KW_SUBSUBSECTION); 
   l = option(label); 
-  sbso = option(blocks_and_intertext); 
+  bs = blocks;
   {
    let (heading, t) = h in
-   let sbs = ref [] in
-   let it = set_block_option_with_intertext (sbs, sbso) in
-     Ast.Subsubsection (heading, t, l,!sbs, it)
+   let it = "" in
+     Ast.Subsubsection (heading, t, l, bs, it)
   }	  
-
 
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  sbso = option(elements);
+  eso = option(elements);
   {
    let (heading, t) = h in
-   let sbs = ref [] in
-   let it = set_element_option (sbs, sbso) in
-     Ast.Paragraph ("", (heading, None, t, l,!sbs, it)) 
+   let es = ref [] in
+   let it = set_element_option (es, eso) in
+     Ast.Paragraph (heading, None, t, l,!es, it) 
   }	  
+
+paragraphs:
+| p = paragraph;
+  { [p] }
+| p = paragraph; 
+  ps = paragraphs;
+  {List.append ps [p]}
 
 /**********************************************************************
  ** END: Latex Sections
+ **********************************************************************/
+
+/**********************************************************************
+ ** BEGIN: Block
+ ** A blocks is  sequence of atoms/groups followed by paragraphs
  **********************************************************************/
 
 blocks_and_intertext:
@@ -325,24 +349,21 @@ blocks_and_intertext:
      (xs, intertext)
   } 
 
-blocks:
-|	x = block
-  {[x]}
-| xs = blocks;
-  x = block; 
-  {List.append xs [x]}
+blocks: 
+| es_opt = option(elements);
+  ps_opt = option(paragraphs);
+{
+  match es_opt with 
+  | None -> []
+  | Some es -> 
+      match ps_opt with 
+      | None -> []
+      | Some ps -> 
+        let b_es = List.map es ~f:(fun e -> Ast.Block_Element e) in
+        let b_ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
+          b_es @ b_ps
+}
 
-block:
-|	e = element
-  { Ast.Block_Block e }
-/*
-| p = paragraph
-  { Ast.Block_Paragraph p }
-*/  
-/**********************************************************************
- ** BEGIN: Cluster
- ** A cluster is a titled sequence of groups, and atoms 
- **********************************************************************/
 /*
 cluster:
 | preamble = boxes;   
@@ -379,7 +400,7 @@ cluster:
 */
 
 /**********************************************************************
- ** END: Cluster
+ ** END: Block
  **********************************************************************/
 
 /**********************************************************************
