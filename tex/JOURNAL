@@ -45,7 +45,12 @@ So whatever latex produces must be mediated through this.
     - added to xml
   * group points are calculated from those of the atoms within. 
   * added rubric, passed through compiler and lexer, passed through tex-to-tex translation.
-  * things are pretty complete now.  i should move onto building the diderot back end to support the new syntax.
+  * TODO: i need to add points to all sections and chapters.
+  * TODO: first a few changes to the section structure
+    - create a new group, called "cluster" whose goal is to tie together entities together.
+      the idea would be that you want all atoms to be visible (unlike flex) but the atoms are related as in a flex.  this can help contextualize discussions.
+    - replace clusters with paragraphs??? is there value to this?  given that we have groups, why do we need this?  the only advantage is its compatibility with latex.  authors who use paragraphs, for example, in papers we use them a lot might like this feature.  it would make it possible to upload the same latex with minimal changes.  
+
 
 - [May 10]
   * Fixed up some bugs with lexing and parsing.  
