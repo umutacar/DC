@@ -42,7 +42,7 @@ $ lexer.native
 
   To solve this problem, I allow 
    * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
-   * each sequence of atoms/groups (elements) to have a "tailtext".  this tail text in the ast is given to the segment that contains this sequence and is thought as a piece of text hanging off that segement at th end.
+   * each sequence of atoms/groups (elements) to have a "tailtext".  this tail text in the ast is given to the segment that contains this sequence and is thought as a piece of text hanging off that segment at th. end.
  
   I think this covers all the cases, though there might be bugs.
 
