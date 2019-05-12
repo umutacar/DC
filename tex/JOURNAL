@@ -43,9 +43,29 @@ So whatever latex produces must be mediated through this.
   * TODO: add paragraphs as floatin sections.
     - This is tricky.  The problem is that paragraphs don't have a proper end.  As a result if you have \paragrah{P} atom1 atom2, does atom2 stand on its own or does it go under the paragraph.  To prevent this, paragraphs should be treated as nested objects.  a block can start with elements followed by a sequence of paragraphs, so a block is a lot like a section.  once you start a paragraph, you cannot exit.
 
-   - OK, I was able to resolve this but only by taking the "intertext" treatment out.  Intertext makes things more complicated because it can be ambigous where the intertext belongs to.  I will have to study this separately.
+   - I was able to resolve this but only by taking the "intertext" treatment out.  Intertext makes things more complicated because it can be ambigous where the intertext belongs to.  I will have to study this separately.
 
- * TODO: textbetween atoms should be discarded.  how to do this?
+ * Problem: textbetween atoms should be discarded.  how to do this?
+   - One idea is to allow each "segment" (ch, sec, subsec, atom etc) to have a preamble. This will cover all intertext space.  This seems extremely difficult to make work with the parser due to constraints.  The problem is that each segment starts with a preamble, so the parser gets confused about which direction to take.  For example when it sees some "preamble text" should it skip the paragraph coming up or should it not?  without know what the heading is it does not know...  
+   
+   So this preamble idea simply does not work. 
+  
+   - The other idea, which somewhat worked in the past, was
+      -- have a preamble for each atom and group
+      -- have a postamble for each sequence of atoms, including empty sequence.
+      -- have a postamble for each sequence of elements (atoms and groups)
+      etc.  
+  
+      This could work it seems but there it should allow these sequences to be empty.  I should solve this first be allowing them to be empty... OK, done.
+ 
+      Now, are we covered?  
+      It seems that this will go a long way because all others (segments) consist of as elements as leaves so it should suffice.
+  
+      OK, this is probaly a good place to test things a bit.
+
+      TODO: I am dropping tailtext from elements rigt now.
+
+
 
 - [May 11]
   * multipart problems should have points.

@@ -36,15 +36,21 @@ $ lexer.native
 
 ## Note: Plural items, sections, atoms, etc can be tricky.  I try to make sure that these are non-empty, so that they can be wrapped inside options.  If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.
 
-## Excluded and inter- text
-  * Each atom has a premable that excludes stuff that comes before it.
+## preambles and tailtexts
 
-  * Each other segment also has a preamble, would that work? 
+  One difficulty in the parser was accommodating text outside the atoms.  I wanted to allow any text outside of an atom and the idea would be for all these texts not to be taken into account in terms of uploading to diderot but still be preserved so that we can heve an idempontent system that does not loose any of the input TeX file.
+
+  To solve this problem, I allow 
+   * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
+   * each sequence of atoms/groups (elements) to have a "tailtext".  this tail text in the ast is given to the segment that contains this sequence and is thought as a piece of text hanging off that segment at th. end.
+ 
+  I think this covers all the cases, though there might be bugs.
+
 
 ## Chapters and sections
 
-  We have four levels of sectioning:
-  chapter, section, subsection, subsubsection 
+*  We have four levels of sectioning:
+  chapter, section, subsection, subsubsection
 
   These have to be "properly nested" as in the order above.  For example, "subsubsection" inside "section" is disallowed.
 
@@ -54,11 +60,8 @@ $ lexer.native
   and subX = section | subsection | subsubsection | "nothing"
   respectively
 
-  A "block" is either an "element" or a "cluster".  
+* In addition, we have "paragraphs" that can float and appear as part of any section.  A paragraph contains "elements" each of which is a group or an atom.
 
-  An "element" is an atom or a "flex/group."
- 
-  A "cluster" is a sequence of elements.
   
  
 # OVERALL STRATEGY
