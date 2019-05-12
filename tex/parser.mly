@@ -12,11 +12,6 @@ let sections_option vo =
   |	None -> []
   |	Some v -> v
 
-let blocks_option_with_intertext (vo) = 
-  match vo with 
-  |	None -> ([], "")
-  |	Some (v, it) -> (v; it)
-
 let blocks_option vo = 
   match vo with 
   |	None -> []
@@ -246,8 +241,8 @@ mk_section(kw_section, nested_section):
    let (heading, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
    let ns = sections_option nso in
-   let it = "" in
-     (heading, t, l, bs, it, ns)
+   let tt = "" in
+     (heading, t, l, bs, tt, ns)
   }	  
 
 mk_sections(my_section):
@@ -265,8 +260,8 @@ chapter:
   {
    let (heading, t) = h in
    let ss = sections_option sso in
-   let it = "" in
-     Ast.Chapter(preamble, (heading, t, l, bs, it, ss))
+   let tt = "" in
+     Ast.Chapter(preamble, (heading, t, l, bs, tt, ss))
   }	
 
 section: 
@@ -287,8 +282,8 @@ subsubsection:
   bs = blocks;
   {
    let (heading, t) = h in
-   let it = "" in
-     Ast.Subsubsection (heading, t, l, bs, it)
+   let tt = "" in
+     Ast.Subsubsection (heading, t, l, bs, tt)
   }	  
 
 paragraph:  
@@ -299,8 +294,8 @@ paragraph:
    let _ = d_printf ("Parser matched: paragraph.\n") in
    let (heading, t) = h in
    let es = element_option eso in
-   let it = "" in
-     Ast.Paragraph (heading, None, t, l, es, it) 
+   let tt = "" in
+     Ast.Paragraph (heading, None, t, l, es, tt) 
   }	  
 
 paragraphs:
@@ -319,12 +314,6 @@ paragraphs:
  ** A blocks is  sequence of atoms/groups followed by paragraphs
  **********************************************************************/
 
-blocks_and_intertext:
-  xs = blocks; intertext = boxes;
-  {let _ = d_printf ("parser matched: blocks_and_intertext.\n")  in
-     (xs, intertext)
-  } 
-
 blocks: 
 | es_opt = option(elements);
   ps_opt = option(paragraphs);
@@ -340,7 +329,6 @@ blocks:
    in
      es @ ps
   }
-
 
 /**********************************************************************
  ** END: Blocks
@@ -364,14 +352,6 @@ elements:
   e = element; 
   {List.append es [e]}
 
-/* Drop intertext */
-elements_and_intertext:
-  es = elements; intertext = boxes;
-  {let _ = d_printf ("parser matched: elements_and_intertext.\n") in
-     (es, intertext)
-  } 
-
-
 /**********************************************************************
  ** END: Elements
  **********************************************************************/
@@ -391,21 +371,21 @@ mk_group (kw_b, kw_e):
 | preamble = boxes;   
   h_b = kw_b; 
   l = option(label); 
-  ats_it = atoms_and_intertext; 
+  ats_tt = atoms_and_tailtext; 
   h_e = mk_group_end (kw_e);
   {let (kind, h_bb, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
-   let (ats, it) = ats_it in
+   let (ats, tt) = ats_tt in
    let (kind_, h_end) = h_e in
    let _ = d_printf ("!parser: group matched with points = %s\n") pval_opt_str in
-     Ast.Group (preamble, (kind, h_bb, pval_f_opt, None, l, ats, it, h_end))
+     Ast.Group (preamble, (kind, h_bb, pval_f_opt, None, l, ats, tt, h_end))
   }
 
 | preamble = boxes; 
   h_b = kw_b;
   t = sq_box; 
   l = option(label); 
-  ats_it = atoms_and_intertext; 
+  ats_tt = atoms_and_tailtext; 
   h_e = mk_group_end (kw_e);
   {let (kind, h_bb, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
@@ -413,9 +393,9 @@ mk_group (kw_b, kw_e):
    let title_part = bo ^ tt ^ bc in
    let h_begin = h_bb ^ title_part in
    let (kind_, h_end) = h_e in
-   let (ats, it) = ats_it in
+   let (ats, tt) = ats_tt in
    let _ = d_printf ("!parser: group matched with points = %s\n") pval_opt_str in
-     Ast.Group (preamble, (kind, h_begin, pval_f_opt, Some tt, l, ats, it, h_end))
+     Ast.Group (preamble, (kind, h_begin, pval_f_opt, Some tt, l, ats, tt, h_end))
   }
 
 group:
@@ -435,10 +415,10 @@ atoms:
 | ats = atoms; a = atom
   { List.append ats [a] }
 
-/* Drop intertext */
-atoms_and_intertext:
-  ats = atoms; it = boxes;
-  {(ats, it)}			
+atoms_and_tailtext:
+  ats = atoms; 
+  tt = boxes;
+  {(ats, tt)}			
 
 mk_atom_tail (kw_e):
 |  il = option(ilist); 
