@@ -91,8 +91,8 @@ let p_separator = [':' '.' '-' '_' '/']
 let p_backslash = '\\'
 let p_o_curly = p_ws '{' p_ws
 let p_c_curly = p_ws '}' p_ws
-let p_o_sq = p_ws '[' p_ws
-let p_c_sq = p_ws ']' p_ws											
+let p_o_sq = '[' p_ws
+let p_c_sq = ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
 let p_com_depend = '\\' "depend" p_ws p_o_curly p_ws												 
@@ -130,11 +130,13 @@ let p_end_parts = p_com_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 
 let p_chapter = '\\' "chapter" p_ws
 let p_section = '\\' "section" p_ws
-let p_titled_question = '\\' "titledsection" p_ws
-let p_subsection = '\\' "subsection" p_ws
-let p_subsubsection = '\\' "subsubsection" p_ws
+let p_section_with_points = '\\' "section" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsection = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsection_with_points = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsubsection = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsubsection_with_points = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_paragraph = '\\' "paragraph" p_ws												
-let p_subparagraph = '\\' "subparagraph" p_ws												
+let p_paragraph_with_points = '\\' "paragraph" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
 let p_cluster = "cluster"
 let p_flex = "flex"
@@ -287,15 +289,32 @@ rule token = parse
 *)
 				
 | p_chapter as x
-  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
+  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, None)}		
 | p_section as x
-  	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_SECTION(x, None)}		
+| p_section_with_points as x
+  	{let _ = d_printf "lexer matched section with points: %s" x in
+       KW_SECTION(x, Some point_val)
+    }		
 | p_subsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
+  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x, None)}
+| p_subsection_with_points as x
+  	{let _ = d_printf "lexer matched subsection with points: %s" x in
+       KW_SUBSECTION(x, Some point_val)
+    }		
 | p_subsubsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
+  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x, None)}
+
+| p_subsubsection_with_points as x
+  	{let _ = d_printf "lexer matched subsubsection with points: %s" x in
+       KW_SUBSUBSECTION(x, Some point_val)
+    }		
 | p_paragraph as x
-  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}
+  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x, None)}
+| p_paragraph_with_points as x
+  	{let _ = d_printf "!lexer matched: %s." x in 
+       KW_PARAGRAPH(x, Some point_val)
+    }
 (*
 | p_b_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		

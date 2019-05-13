@@ -78,19 +78,19 @@ type problem_cluster =
 
 type chapter = 
   Chapter of t_preamble
-             *  (t_keyword * t_title * t_label * 
+             *  (t_keyword * t_point_val option * t_title * t_label * 
                  block list * t_tailtex * section list) 
 
 and section = 
-  Section of (t_keyword * t_title * t_label option *
+  Section of (t_keyword * t_point_val option * t_title * t_label option *
               block list * t_tailtex * subsection list)
 
 and subsection = 
-  Subsection of (t_keyword * t_title * t_label option *
+  Subsection of (t_keyword * t_point_val option * t_title * t_label option *
                  block list * t_tailtex * subsubsection list)
 
 and subsubsection = 
-  Subsubsection of (t_keyword * t_title * t_label option *
+  Subsubsection of (t_keyword * t_point_val option * t_title * t_label option *
                     block list * t_tailtex)
 
 and paragraph = 
@@ -345,13 +345,13 @@ let blockToTex x =
   let _ = d_printf ("ast.blockToTex: %s\n") r  in
     r
 
-let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, tt)) =
+let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
   let blocks = map_concat blockToTex bs in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
     blocks ^ tt
 
-let subsectionToTex (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionToTex (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
@@ -359,7 +359,7 @@ let subsectionToTex (Subsection (heading, t, lopt, bs, tt, ss)) =
     blocks ^ tt ^ 
     nesteds
 
-let sectionToTex (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionToTex (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let blocks = map_concat blockToTex bs in
 (*  let _ = d_printf "sectionToTex: elements = %s" elements in *)
   let nesteds = map_concat subsectionToTex ss in
@@ -367,7 +367,7 @@ let sectionToTex (Section (heading, t, lopt, bs, tt, ss)) =
     heading ^ label ^ 
     blocks ^ tt ^ nesteds
 
-let chapterToTex (Chapter (preamble, (heading, t, l, sbs, tt, ss))) =
+let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, sbs, tt, ss))) =
   let blocks = map_concat blockToTex sbs in
   let sections = map_concat sectionToTex ss in
   let _ = d_printf "ast.chapterToTex: blocks = [begin: blocks] %s... [end: blocks] " blocks in
@@ -541,7 +541,7 @@ let blockToXml tex2html x =
   | Block_Element b -> elementToXml tex2html b
   | Block_Paragraph c -> paragraphToXml tex2html c
 
-let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, tt)) =
+let subsubsectionToXml  tex2html (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
@@ -550,7 +550,7 @@ let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, tt)) =
                                      ~lopt:lsopt ~body:body in
     r
 
-let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionToXml  tex2html (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
@@ -560,7 +560,7 @@ let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, tt, ss)) =
                                   ~lopt:lsopt ~body:body in
     r
 
-let sectionToXml  tex2html (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionToXml  tex2html (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
@@ -570,7 +570,7 @@ let sectionToXml  tex2html (Section (heading, t, lopt, bs, tt, ss)) =
                                ~lopt:lsopt ~body:body in
     r
 
-let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, tt, ss))) =
+let chapterToXml  tex2html (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
   let Label(heading, label) = l in 
   let _ = d_printf "chapter label, heading = %s  = %s\n" heading label in
   let t_xml = titleToXml tex2html t in
@@ -686,29 +686,29 @@ let blockEl x =
       let (_, b) = elementEl b in
         Block_Element b 
 
-let subsubsectionEl (Subsubsection (heading, t, lopt, bs, tt)) =
+let subsubsectionEl (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
   let bs = map blockEl bs in
   let lopt = labelOptEl lopt in
-    Subsubsection (heading, t, lopt, bs, tt)
+    Subsubsection (heading, pval_opt, t, lopt, bs, tt)
 
-let subsectionEl (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionEl (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let bs = map blockEl bs in
   let ss = map subsubsectionEl ss in
   let lopt = labelOptEl lopt in
-    Subsection (heading, t, lopt, bs, tt, ss)
+    Subsection (heading, pval_opt, t, lopt, bs, tt, ss)
 
-let sectionEl (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionEl (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let bs = map blockEl bs in
 (*  let _ = d_printf "sectionEl: elements = %s" elements in *)
   let ss = map subsectionEl ss in
   let lopt = labelOptEl lopt in
-    Section (heading, t, lopt, bs, tt, ss)
+    Section (heading, pval_opt, t, lopt, bs, tt, ss)
 
-let chapterEl (Chapter (preamble, (heading, t, l, bs, tt, ss))) =
+let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
   let bs = map blockEl bs in
   let ss = map sectionEl ss in
   let l = labelEl l in
-    (Chapter (preamble, (heading, t, l, bs, tt, ss)))
+    (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss)))
 
 (**********************************************************************
  ** END: AST ELABORATION
@@ -801,29 +801,29 @@ let blockTR x =
     | Block_Paragraph c -> Block_Paragraph (paragraphTR c)
     | Block_Element b -> Block_Element (elementTR b)
 
-let subsubsectionTR (Subsubsection (heading, t, lopt, bs, tt)) =
+let subsubsectionTR (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
   let bs = map blockTR bs in
   let lopt = labelOptTR lopt in
-    Subsubsection (heading, t, lopt, bs, tt)
+    Subsubsection (heading, pval_opt, t, lopt, bs, tt)
 
-let subsectionTR (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionTR (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let bs = map blockTR bs in
   let ss = map subsubsectionTR ss in
   let lopt = labelOptTR lopt in
-    Subsection (heading, t, lopt, bs, tt, ss)
+    Subsection (heading, pval_opt, t, lopt, bs, tt, ss)
 
-let sectionTR (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionTR (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let bs = map blockTR bs in
 (*  let _ = d_printf "sectionTR: elements = %s" elements in *)
   let ss = map subsectionTR ss in
   let lopt = labelOptTR lopt in
-    Section (heading, t, lopt, bs, tt, ss)
+    Section (heading, pval_opt, t, lopt, bs, tt, ss)
 
-let chapterTR (Chapter (preamble, (heading, t, l, bs, tt, ss))) =
+let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
   let bs = map blockTR bs in
   let ss = map sectionTR ss in
   let l = labelTR l in
-    (Chapter (preamble, (heading, t, l, bs, tt, ss)))
+    (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss)))
 
 (**********************************************************************
  ** END: AST TRAVERSAL
