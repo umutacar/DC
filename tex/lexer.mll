@@ -129,6 +129,7 @@ let p_end_parts = p_com_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 (* end: parts *)
 
 let p_chapter = '\\' "chapter" p_ws
+let p_chapter_with_points = '\\' "chapter" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_section = '\\' "section" p_ws
 let p_section_with_points = '\\' "section" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_subsection = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
@@ -290,6 +291,8 @@ rule token = parse
 				
 | p_chapter as x
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, None)}		
+| p_chapter_with_points as x
+  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, Some point_val)}		
 | p_section as x
   	{d_printf "!lexer matched: %s." x; KW_SECTION(x, None)}		
 | p_section_with_points as x
