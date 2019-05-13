@@ -41,6 +41,8 @@ So whatever latex produces must be mediated through this.
 
 - [May 13]
   * Add point value to all segments.  Author should be able so specify and if not they should be computed during evaluation.
+    Updated lexer, parser and elaboration
+    TODO: Update printing and to xml conversion to take points into account.
 
 - [May 12]
   * cluster is now a group.  
