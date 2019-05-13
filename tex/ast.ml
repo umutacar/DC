@@ -126,12 +126,16 @@ let mk_pval_str pvalopt=
 let fix_pval pval_opt pvalsum_opt = 
   (* If no pval is declared, pass the sum out. 
    * Otherwise, use the declared point value.
-   *)
-    match pval_opt with
-    | None -> match pvalsum_opt with 
-              | None -> 0.0
-              | Some p -> p
-    | Some pval -> pval
+   *)  
+    let _ = d_printf "fix_pval: pval_opt = %s pval_sum_opt = %s" 
+                     (mk_pval_str pval_opt) 
+                     (mk_pval_str pvalsum_opt) 
+    in
+      match (pval_opt, pvalsum_opt) with
+      | (Some p, _) -> p
+      | (None, None) -> 0.0
+      | (None, Some p) -> p
+
 
 let map f xs = 
   List.map xs f
@@ -665,6 +669,7 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
 let groupEl (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))) = 
   let _ = d_printf "groupEl: points = %s" (mk_pval_str pval_opt) in
   let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
+  let _ = d_printf "groupEl: points summed = %s" (mk_pval_str pvalsum_opt) in
   let lopt = labelOptEl lopt in
   let pvalnew = fix_pval pval_opt pvalsum_opt in 
     (pvalnew, Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)))
