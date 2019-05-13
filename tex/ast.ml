@@ -123,12 +123,14 @@ let mk_pval_str pvalopt=
   |  None -> "0.0"
   |  Some x -> Float.to_string x
  
-let fix_pval pval_opt pvalsum = 
+let fix_pval pval_opt pvalsum_opt = 
   (* If no pval is declared, pass the sum out. 
    * Otherwise, use the declared point value.
    *)
     match pval_opt with
-    | None -> pvalsum
+    | None -> match pvalsum_opt with 
+              | None -> 0.0
+              | Some p -> p
     | Some pval -> pval
 
 let map f xs = 
@@ -146,12 +148,12 @@ let map_and_sum_pts f xs =
   let pts_total_opt = List.reduce pvals (fun x y -> x +. y) in
     (pts_total_opt, xs)  
 
-let sum_pval_opt pv_a pv_b = 
+let pval_opts_sum pv_a pv_b = 
   match (pv_a, pv_b) with 
   | (None, None) -> None
   | (None, Some p) -> Some p
   | (Some p, None) -> Some p
-  | (Some p_a, Some p_b) -> Some (p_a + p_b)
+  | (Some p_a, Some p_b) -> Some (p_a +. p_b)
 
 let newline = "\n"
 
@@ -662,9 +664,9 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
 
 let groupEl (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))) = 
   let _ = d_printf "groupEl: points = %s" (mk_pval_str pval_opt) in
-  let (pvalsum, ats) = map_and_sum_pts atomEl ats in
+  let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
   let lopt = labelOptEl lopt in
-  let pvalnew = fix_pval pval_opt pvalsum in 
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
     (pvalnew, Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)))
 
 let elementEl b = 
@@ -678,8 +680,8 @@ let elementEl b =
 
 let paragraphEl (Paragraph (heading, pval_opt, topt, lopt, es, tt)) = 
   let _ = d_printf "paragraphEl" in
-  let (pvalsum, es) = map_and_sum_pts elementEl es in
-  let pvalnew = fix_pval pval_opt pvalsum in 
+  let (pvalsum_opt, es) = map_and_sum_pts elementEl es in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let _ = d_printf "paragraphEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
     (pvalnew, Paragraph  (heading, Some pvalnew, topt, lopt, es, tt))
@@ -687,39 +689,41 @@ let paragraphEl (Paragraph (heading, pval_opt, topt, lopt, es, tt)) =
 let blockEl x = 
   let _ = d_printf "blockEl" in
     match x with
-    | Block_Paragraph c -> Block_Paragraph (paragraphEl c)
+    | Block_Paragraph c -> 
+      let (pval, b) = paragraphEl c in
+        (pval, Block_Paragraph b)
     | Block_Element b -> 
-      let (_, b) = elementEl b in
-        Block_Element b 
+      let (pval, b) = elementEl b in
+        (pval, Block_Element b) 
 
 let subsubsectionEl (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
-  let (pvalsum, bs) = map_and_sum_pts blockEl bs in
-  let pvalnew = fix_pval pval_opt pvalsum in 
+  let (pvalsum_opt, bs) = map_and_sum_pts blockEl bs in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let lopt = labelOptEl lopt in
     (pvalnew, Subsubsection (heading, Some pvalnew, t, lopt, bs, tt))
 
 let subsectionEl (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
-  let (pval_1, bs) = map_and_sum_pts blockEl bs in
-  let (pval_2, ss) = map_and_sum_pts subsubsectionEl ss in
-  let pvalsum = pval_1 + pval_2 in
-  let pvalnew = fix_pval pval_opt pvalsum in 
+  let (pval_1_opt, bs) = map_and_sum_pts blockEl bs in
+  let (pval_2_opt, ss) = map_and_sum_pts subsubsectionEl ss in
+  let pvalsum_opt = pval_opts_sum pval_1_opt pval_2_opt in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let lopt = labelOptEl lopt in
     (pvalnew, Subsection (heading, Some pvalnew, t, lopt, bs, tt, ss))
 
 let sectionEl (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
-  let (pval_1, bs) = map_and_sum_pts blockEl bs in
+  let (pval_1_opt, bs) = map_and_sum_pts blockEl bs in
 (*  let _ = d_printf "sectionEl: elements = %s" elements in *)
-  let (pval_2, ss) = map subsectionEl ss in
-  let pvalsum = pval_sum pval_1 + pval_2 in
-  let pvalnew = fix_pval pval_opt pvalsum in 
+  let (pval_2_opt, ss) = map_and_sum_pts subsectionEl ss in
+  let pvalsum_opt = pval_opts_sum pval_1_opt pval_2_opt in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let lopt = labelOptEl lopt in
     (pvalnew, Section (heading, Some pvalnew, t, lopt, bs, tt, ss))
 
 let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
-  let (pval_1, bs) = map_and_sum_pts blockEl bs in
-  let (pval_2, ss) = map_and_sum_pts sectionEl ss in
-  let pvalsum = pval_1 + pval_2 in
-  let pvalnew = fix_pval pval_opt pvalsum in 
+  let (pval_1_opt, bs) = map_and_sum_pts blockEl bs in
+  let (pval_2_opt, ss) = map_and_sum_pts sectionEl ss in
+  let pvalsum_opt = pval_opts_sum pval_1_opt pval_2_opt in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let l = labelEl l in
     (Chapter (preamble, (heading, Some pvalnew, t, l, bs, tt, ss)))
 
