@@ -299,7 +299,7 @@ block:
   tt = boxes;
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
-     Ast.block (es, tt)
+     Ast.Block (es, tt)
   }
 
 /**********************************************************************

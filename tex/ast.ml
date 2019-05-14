@@ -850,11 +850,11 @@ let blockTR (Block(es, tt)) =
   let es = map elementTR es in 
     Block(es, tt)
 
-let paragraphTR (Paragraph(heading, pval_opt, t, lopt, b, tt)) = 
+let paragraphTR (Paragraph(heading, pval_opt, t, lopt, b)) = 
   let _ = d_printf "paragraphTR" in
   let b = blockTR b in
   let lopt = labelOptTR lopt in
-    Paragraph (heading, pval_opt, t, lopt, b, tt)
+    Paragraph (heading, pval_opt, t, lopt, b)
 
 let paragraphsTR ps = 
   map paragraphTR ps 
@@ -873,18 +873,18 @@ let subsectionTR (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
     Subsection (heading, pval_opt, t, lopt, b, ps, ss)
 
 let sectionTR (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
-  let b = map blockTR b in
+  let b = blockTR b in
   let ps = paragraphsTR ps in
   let ss = map subsectionTR ss in
   let lopt = labelOptTR lopt in
     Section (heading, pval_opt, t, lopt, b, ps, ss)
 
 let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
-  let b = map blockTR b in
+  let b = blockTR b in
   let ps = paragraphsTR ps in
   let ss = map sectionTR ss in
   let l = labelTR l in
-    (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss)))
+    (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss)))
 
 (**********************************************************************
  ** END: AST TRAVERSAL
