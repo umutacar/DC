@@ -4,11 +4,14 @@ open Utils
 (**********************************************************************
  ** BEGIN: Constants
  *********************************************************************)
+let newline = TexSyntax.newline
+let space = TexSyntax.space
+let correct_choice_indicator = TexSyntax.correct_choice_indicator
 
 let points_correct = 1.0
 let points_incorrect = 0.0
-let space = " "
-let correct_choice_indicator = "*"
+
+
 
 (**********************************************************************
  ** END: Constants
@@ -156,7 +159,6 @@ let pval_opts_sum pv_a pv_b =
   | (Some p, None) -> Some p
   | (Some p_a, Some p_b) -> Some (p_a +. p_b)
 
-let newline = "\n"
 
 let index = ref 0
 let mk_index () = 
@@ -539,64 +541,72 @@ let elementToXml tex2html b =
   | Element_Atom a -> atomToXml  tex2html a
 
 
-let paragraphToXml tex2html (Paragraph(heading, pval_opt, t, lopt, es, tt)) = 
+let blockToXml tex2html (Block(es, tt)) =   
+  let elements = map_concat (elementToXml tex2html) es in
+    elements
+
+let paragraphToXml tex2html (Paragraph(heading, pval_opt, t, lopt, b)) = 
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
-  let elements = map_concat (elementToXml tex2html) es in
+  let block = blockToXml tex2html b in
+  let body = block in
   let r = XmlSyntax.mk_paragraph ~pval:pval_str_opt 
                                  ~title:t ~title_xml:t_xml
-                                 ~lopt:lsopt ~body:elements in
+                                 ~lopt:lsopt ~body:body in
     r
 
-let blockToXml tex2html x = 
-  match x with
-  | Block_Element b -> elementToXml tex2html b
-  | Block_Paragraph c -> paragraphToXml tex2html c
 
-let subsubsectionToXml  tex2html (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
+let paragraphsToXml tex2html ps = 
+  map_concat (paragraphToXml tex2html) ps
+
+let subsubsectionToXml  tex2html (Subsubsection (heading, pval_opt, t, lopt, b, ps)) =
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
-  let blocks = map_concat (blockToXml  tex2html) bs in
-  let body = blocks in
+  let block = (blockToXml  tex2html) b in
+  let paragraphs = paragraphsToXml tex2html ps in
+  let body = block ^ newline ^ paragraphs in
   let r = XmlSyntax.mk_subsubsection ~pval:pval_str_opt
                                      ~title:t ~title_xml:t_xml
                                      ~lopt:lsopt ~body:body in
     r
 
-let subsectionToXml  tex2html (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
+let subsectionToXml  tex2html (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
-  let blocks = map_concat (blockToXml  tex2html) bs in
+  let block = (blockToXml  tex2html) b in
+  let paragraphs = paragraphsToXml tex2html ps in
   let nesteds = map_concat (subsubsectionToXml  tex2html) ss in
-  let body = blocks ^ newline ^ nesteds in
+  let body = block ^ newline ^ paragraphs ^ newline ^ nesteds in
   let r = XmlSyntax.mk_subsection ~pval:pval_str_opt 
                                   ~title:t ~title_xml:t_xml
                                   ~lopt:lsopt ~body:body in
     r
 
-let sectionToXml  tex2html (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
+let sectionToXml  tex2html (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
-  let blocks = map_concat (blockToXml  tex2html) bs in
+  let block = (blockToXml  tex2html) b in
+  let paragraphs = paragraphsToXml tex2html ps in
   let nesteds = map_concat (subsectionToXml  tex2html) ss in
-  let body = blocks ^ newline ^ nesteds in
+  let body = block ^ newline ^ paragraphs ^ newline ^ nesteds in
   let r = XmlSyntax.mk_section ~pval:pval_str_opt 
                                ~title:t ~title_xml:t_xml
                                ~lopt:lsopt ~body:body in
     r
 
-let chapterToXml  tex2html (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
+let chapterToXml  tex2html (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let Label(heading, label) = l in 
   let _ = d_printf "chapter label, heading = %s  = %s\n" heading label in
   let t_xml = titleToXml tex2html t in
-  let blocks = map_concat (blockToXml  tex2html) bs in
+  let block = (blockToXml  tex2html) b in
+  let paragraphs = paragraphsToXml tex2html ps in
   let sections = map_concat (sectionToXml  tex2html) ss in
-  let body = blocks ^ newline ^ sections in
+  let body = block ^ newline ^ paragraphs ^ newline ^ sections in
   let r = XmlSyntax.mk_chapter ~pval:pval_str_opt 
                                ~title:t ~title_xml:t_xml 
                                ~label:label ~body:body in
