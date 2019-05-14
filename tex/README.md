@@ -34,7 +34,7 @@ $ lexer.native
 
 # Grammar
 
-## Note: Plural items, sections, atoms, etc can be tricky.  I try to make sure that these are non-empty, so that they can be wrapped inside options.  If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.
+## Note: Plural items, sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
 
 ## preambles and tailtexts
 
@@ -42,10 +42,8 @@ $ lexer.native
 
   To solve this problem, I allow 
    * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
-   * each sequence of atoms/groups (elements) to have a "tailtext".  this tail text in the ast is given to the segment that contains this sequence and is thought as a piece of text hanging off that segment at th. end.
+   * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext".  this tail text is represented is part of the block node in the ast.
  
-  I think this covers all the cases, though there might be bugs.
-
 
 ## Chapters and sections
 
@@ -55,14 +53,24 @@ $ lexer.native
   These have to be "properly nested" as in the order above.  For example, "subsubsection" inside "section" is disallowed.
 
   Each section has the form: 
-  X ::= heading + label + blocks + subX
+  X ::= heading + label + block + paragraphs + subX
   where X = chapter | section | subsection | subsubsection
   and subX = section | subsection | subsubsection | "nothing"
   respectively
 
-* In addition, we have "paragraphs" that can float and appear as part of any section.  A paragraph contains "elements" each of which is a group or an atom.
+  A paragraph is a paragraph heading followed by a "block"
 
-  
+  A block is a sequence of elements with tail text.
+
+  An element is either an atom or a group 
+
+  A group is a preamble text followed by a sequence of atoms
+
+  An atom is a preamble text followed by \begin{atom}...\end{atom}
+
+  Note that paragraphs are "floating" sections and can appear anywhere
+
+  We refer to all sections and paragraph as a *_segment_*  
  
 # OVERALL STRATEGY
 

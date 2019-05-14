@@ -39,6 +39,12 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [May 14]
+  * Completed quiz.  
+    Introduced blocks, cleaned up terminology and fixed some bugs.
+
+
+
 - [May 13]
   * Add point value to all segments.  Author should be able so specify and if not they should be computed during evaluation.
     Updated lexer, parser and elaboration
