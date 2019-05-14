@@ -225,7 +225,7 @@ let mk_item (keyword, pvalopt, body) =
 let mktex_optarg x = 
   "[" ^ x ^ "]"
 
-let mktex_section name pvalopt t = 
+let mktex_section_heading name pvalopt t = 
   let b = "\\" ^ name in
   let p = match pvalopt with 
           | None -> ""
@@ -345,7 +345,7 @@ let elementToTex b =
 
 let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, es, tt)) = 
   let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let h_begin = mktex_section "paragraph" pval_opt t in
+  let heading = mktex_section_heading TexSyntax.kw_paragraph pval_opt t in
   let elements = map_concat elementToTex es in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
@@ -362,8 +362,9 @@ let blockToTex x =
     r
 
 let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
-  let blocks = map_concat blockToTex bs in
+  let blocks = map_concat blockToTex bs in  
   let label = labelOptToTex lopt in
+  let heading = mktex_section_heading TexSyntax.kw_subsubsection pval_opt t in
     heading ^ label ^ 
     blocks ^ tt
 
@@ -371,6 +372,7 @@ let subsectionToTex (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
+  let heading = mktex_section_heading TexSyntax.kw_subsection pval_opt t in
     heading ^ label ^ 
     blocks ^ tt ^ 
     nesteds
@@ -380,6 +382,7 @@ let sectionToTex (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
 (*  let _ = d_printf "sectionToTex: elements = %s" elements in *)
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
+  let heading = mktex_section_heading TexSyntax.kw_section pval_opt t in
     heading ^ label ^ 
     blocks ^ tt ^ nesteds
 
@@ -388,6 +391,7 @@ let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, sbs, tt, ss))) =
   let sections = map_concat sectionToTex ss in
   let _ = d_printf "ast.chapterToTex: blocks = [begin: blocks] %s... [end: blocks] " blocks in
   let label = labelToTex l in
+  let heading = mktex_section_heading TexSyntax.kw_chapter pval_opt t in
     preamble ^ 
     heading ^ label ^ 
     blocks ^ tt ^ 

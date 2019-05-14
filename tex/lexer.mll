@@ -107,7 +107,7 @@ let p_com_correct_choice = '\\' "choice*"
 let p_com_explain = '\\' "explain"
 let p_com_hint = '\\' "help"
 let p_com_rubric = '\\' "rubric"
-let p_com_refsol = '\\' "solution"
+let p_com_refsol = '\\' "sol"
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
@@ -326,7 +326,7 @@ rule token = parse
 | p_e_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
 *)
-| p_begin_group as x
+| p_begin_group
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin group: %s" kind;
        KW_BEGIN_GROUP(kind, all, None)
@@ -530,7 +530,7 @@ and ilist =
               ("", l, e)                           
         }
 
-  | p_end_ilist as x 
+  | p_end_ilist
       {
   	   let all = e ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: end of ilist: %s\n" all in
@@ -558,7 +558,7 @@ and rubric =
 
 and explain = 
   parse 
-  | p_com_rubric as h
+  | p_com_rubric
       {
        let _ = d_printf "!lexer: begin rubric\n" in
        let (body, h_e) = rubric lexbuf in
@@ -586,14 +586,14 @@ and refsol =
          let _ = d_printf "!lexer: exiting refsol\n" in
            ("", None, None, (kind, all))
         }
-  | p_com_explain as h
+  | p_com_explain
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, rubric_opt, h_e) = explain lexbuf in
        let _ = d_printf "explain matched = %s" body in
          ("", Some body, rubric_opt, h_e)
       }   
-  | p_com_rubric as h
+  | p_com_rubric
       {
        let _ = d_printf "!lexer: begin rubric\n" in
        let (body, h_e) = rubric lexbuf in
@@ -617,7 +617,7 @@ and hint =
         }
 
   (* hint + refsol plus optional explanation *) 
-  | p_com_refsol as h
+  | p_com_refsol
       {
        let _ = d_printf "!lexer: begin refsol\n" in
        let (body, exp_opt, rubric_opt, h_e) = refsol lexbuf in
@@ -626,7 +626,7 @@ and hint =
       }   
 
   (* hint + explanation, no solution *)
-  | p_com_explain as h
+  | p_com_explain
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, rubric_opt, h_e) = explain lexbuf in
@@ -635,7 +635,7 @@ and hint =
       }   
 
   (* hint + rubric, no solution, no explanation *)
-  | p_com_rubric as h
+  | p_com_rubric
       {
        let _ = d_printf "!lexer: begin rubric\n" in
        let (body, h_e) = rubric lexbuf in
