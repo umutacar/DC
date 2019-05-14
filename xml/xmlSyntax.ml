@@ -20,7 +20,7 @@ let tag_diderot_end = "</diderot>"
 let tag_item = "item"
 let tag_atom = "atom"
 let tag_group = "group"
-let tag_block = "block"
+let tag_segment = "segment"
 let tag_field = "field"
 let tag_ilist = "ilist"
 
@@ -134,11 +134,11 @@ let mk_begin_atom(kind) =
 let mk_begin_group(kind) =
   "<" ^ tag_group ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
 
-let mk_begin_block(name) =
-  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
+let mk_begin_segment(name) =
+  "<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
 
-let mk_begin_block_with_kind name kind =
-  "<" ^ tag_block ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
+let mk_begin_segment_with_kind name kind =
+  "<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
                               (mk_attr_val attr_kind kind) ^ 
   ">"
 
@@ -154,11 +154,11 @@ let mk_end_atom(kind) =
 let mk_end_group(kind) =
   "</" ^ tag_group ^ ">" ^ C.space ^ mk_comment(kind)
 
-let mk_end_block(name) =
-  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name)
+let mk_end_segment(name) =
+  "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name)
 
-let mk_end_block_with_kind name kind =
-  "</" ^ tag_block ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
+let mk_end_segment_with_kind name kind =
+  "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
 
 let mk_end_field(name) =
   "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(name)
@@ -335,11 +335,11 @@ let mk_unique(x) =
 
 
 (**********************************************************************
- ** BEGIN: Block makers
+ ** BEGIN: Segment makers
  **********************************************************************)
 
-let mk_block_atom kind fields =
-  let _ = d_printf "mk_block_atom: %s" kind in
+let mk_segment_atom kind fields =
+  let _ = d_printf "mk_segment_atom: %s" kind in
   let b = mk_begin_atom(kind) in
   let e = mk_end_atom(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
@@ -347,8 +347,8 @@ let mk_block_atom kind fields =
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_block_group kind fields =
-  let _ = d_printf "mk_block_group: %s" kind in
+let mk_segment_group kind fields =
+  let _ = d_printf "mk_segment_group: %s" kind in
   let b = mk_begin_group(kind) in
   let e = mk_end_group(kind) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
@@ -356,19 +356,19 @@ let mk_block_group kind fields =
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_block_generic name fields =
-  let _ = d_printf "mk_block_generic: %s" name in
-  let b = mk_begin_block(name) in
-  let e = mk_end_block(name) in  
+let mk_segment_generic name fields =
+  let _ = d_printf "mk_segment_generic: %s" name in
+  let b = mk_begin_segment(name) in
+  let e = mk_end_segment(name) in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None ->  b ^ C.newline ^ e ^ C.newline
     | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_block_generic_with_kind name kind fields =
-  let _ = d_printf "mk_block_generic: %s" name in
-  let b = mk_begin_block_with_kind name kind in
-  let e = mk_end_block_with_kind name kind in  
+let mk_segment_generic_with_kind name kind fields =
+  let _ = d_printf "mk_segment_generic: %s" name in
+  let b = mk_begin_segment_with_kind name kind in
+  let e = mk_end_segment_with_kind name kind in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
     match result with 
     | None ->  b ^ C.newline ^ e ^ C.newline
@@ -379,13 +379,13 @@ let mk_item ~pval ~body_src ~body_xml =
   let pval_xml = mk_point_value_opt pval in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
-    mk_block_generic item [pval_xml; label_xml; body_xml; body_src] 
+    mk_segment_generic item [pval_xml; label_xml; body_xml; body_src] 
 
 let mk_ilist ~kind ~pval ~body = 
   let kind_xml = ilist_kind_to_xml kind in
   let pval_xml = mk_point_value_opt pval in
   let label_xml = mk_label_opt None in
-    mk_block_generic_with_kind ilist kind_xml [pval_xml; label_xml; body]
+    mk_segment_generic_with_kind ilist kind_xml [pval_xml; label_xml; body]
 
 let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
   let pval_xml = mk_point_value_opt pval in
@@ -403,14 +403,14 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_
   let rubrics = mk_rubrics_opt rubric_opt in
   let fields = fields_base @ hints @ refsols @ explains @ rubrics in
   let fields = append_opt ilist_opt fields in
-    mk_block_atom kind fields
+    mk_segment_atom kind fields
 
 let mk_group ~kind ~pval ~topt ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
   let fields = [pval_xml] @ titles @ [label_xml; body] in
-    mk_block_group kind fields
+    mk_segment_group kind fields
 
 let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
@@ -418,7 +418,7 @@ let mk_paragraph ~pval ~title ~title_xml ~lopt ~body =
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
   let fields = [pval_xml] @ [title_src; title_xml; label_xml; body] in
-    mk_block_generic paragraph fields
+    mk_segment_generic paragraph fields
 
 let mk_subsubsection ~pval ~title ~title_xml ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
@@ -426,7 +426,7 @@ let mk_subsubsection ~pval ~title ~title_xml ~lopt ~body =
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
   let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
-    mk_block_generic subsubsection fields 
+    mk_segment_generic subsubsection fields 
 
 let mk_subsection ~pval ~title ~title_xml ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
@@ -434,7 +434,7 @@ let mk_subsection ~pval ~title ~title_xml ~lopt ~body =
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
   let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
-    mk_block_generic subsection fields
+    mk_segment_generic subsection fields
 
 let mk_section ~pval ~title ~title_xml ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
@@ -442,7 +442,7 @@ let mk_section ~pval ~title ~title_xml ~lopt ~body =
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
   let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
-    mk_block_generic section fields
+    mk_segment_generic section fields
 
 let mk_chapter ~pval ~title ~title_xml ~label ~body = 
   let pval_xml = mk_point_value_opt pval in
@@ -450,12 +450,12 @@ let mk_chapter ~pval ~title ~title_xml ~label ~body =
   let title_xml = mk_title title_xml in
   let label_xml:string = mk_label label in
   let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
-  let chapter_xml = mk_block_generic chapter fields in 
+  let chapter_xml = mk_segment_generic chapter fields in 
     tag_xml_version ^ C.newline ^ chapter_xml
 
 
 (**********************************************************************
- ** END: Block makers
+ ** END: Segment makers
  **********************************************************************)
 
 (**********************************************************************
