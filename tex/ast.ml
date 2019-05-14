@@ -26,7 +26,7 @@ type t_item_body = string
 type t_ilist_body = string
 type t_ilist_kind = string
 type t_ilist_item = string
-type t_tailtex = string
+type t_tailtext = string
 type t_keyword = string
 type t_label_val = string
 type t_title = string
@@ -69,12 +69,12 @@ type atom = Atom of t_preamble
 type group = 
   Group of t_preamble 
            * (t_group_kind * t_keyword * t_point_val option * t_title option * t_label option * 
-              atom list * t_tailtex * t_keyword) 
+              atom list * t_tailtext * t_keyword) 
 
 type problem_cluster = 
   ProblemCluster of t_preamble 
            * (t_keyword * t_title option * t_label option * 
-              atom list * t_tailtex * t_keyword) 
+              atom list * t_tailtext * t_keyword) 
 
 type chapter = 
   Chapter of t_preamble
@@ -96,7 +96,7 @@ and subsubsection =
 and paragraph = 
   Paragraph of (t_keyword * t_point_val option * t_title * t_label option * block)
 
-and block = element list
+and block = element list * t_tailtext
 
 and element = 
   | Element_Group of group

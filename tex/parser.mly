@@ -233,33 +233,35 @@ mk_heading(kw_heading):
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
   l = option(label); 
-  bs = blocks;
+  b = block;
+  ps = paragraphs;
   nso = option(mk_sections(nested_section));
   {
    let (heading, pval_opt, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
    let ns = sections_option nso in
-   let tt = "" in
-     (heading, pval_opt, t, l, bs, tt, ns)
+     (heading, pval_opt, t, l, b, ps, ns)
   }	  
-
+/*
 mk_sections(my_section):
 | s = my_section; {[s]}
 | ss = mk_sections(my_section); s = my_section
   {List.append ss [s]}
+*/
 
 chapter:
   preamble = boxes;
   h = mk_heading(KW_CHAPTER); 
   l = label; 
-  bs = blocks; 
+  b = block; 
+  ps = paragraphs;
   sso = option(mk_sections(section)); 
   EOF 
   {
    let (heading, pval_opt, t) = h in
    let ss = sections_option sso in
    let tt = "" in
-     Ast.Chapter(preamble, (heading, None, t, l, bs, tt, ss))
+     Ast.Chapter(preamble, (heading, None, t, l, b, ps, ss))
   }	
 
 section: 
@@ -277,22 +279,22 @@ subsection:
 subsubsection:
   h = mk_heading(KW_SUBSUBSECTION); 
   l = option(label); 
-  bs = blocks;
+  b = block;
+  ps = paragraphs;
   {
    let (heading, pval_opt, t) = h in
    let tt = "" in
-     Ast.Subsubsection (heading, pval_opt, t, l, bs, tt)
+     Ast.Subsubsection (heading, pval_opt, t, l, b, ps)
   }	  
 
 paragraph:  
   h = mk_heading(KW_PARAGRAPH); 
   l = option(label); 
-  estt = elements_and_tailtext;
+  b = block;
   {
    let _ = d_printf ("Parser matched: paragraph.\n") in
    let (heading, pval_opt, t) = h in
-   let (es, tt) = estt in
-     Ast.Paragraph (heading, None, t, l, es, tt) 
+     Ast.Paragraph (heading, None, t, l, b) 
   }	  
 
 paragraphs:
@@ -312,15 +314,12 @@ paragraphs:
  ** A blocks is  sequence of atoms/groups followed by paragraphs
  **********************************************************************/
 
-blocks: 
-| estt = elements_and_tailtext;
-  ps = paragraphs;
+block: 
+| es = elements; 
+  tt = boxes;
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
-   let (es, tt_es) = estt in
-   let es = List.map es ~f:(fun e -> Ast.Block_Element e) in
-   let ps = List.map ps ~f:(fun p -> Ast.Block_Paragraph p) in
-     es @ ps
+     Ast.block (es, tt)
   }
 
 /**********************************************************************
@@ -354,10 +353,6 @@ elements:
   {List.append es [e]}
 */
 
-elements_and_tailtext:
-  es = elements; 
-  tt = boxes;
-  {(es, tt)}			
 
 /**********************************************************************
  ** END: Elements
