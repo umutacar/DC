@@ -845,38 +845,43 @@ let elementTR b =
   | Element_Group g -> Element_Group (groupTR g)
   | Element_Atom a -> Element_Atom (atomTR a)
 
-let paragraphTR (Paragraph(heading, pval_opt, t, lopt, es, tt)) = 
-  let _ = d_printf "paragraphTR" in
-  let es = map elementTR es in
-  let lopt = labelOptTR lopt in
-    Paragraph (heading, pval_opt, t, lopt, es, tt)
-
-let blockTR x = 
+let blockTR (Block(es, tt)) =
   let _ = d_printf "blockTR" in
-    match x with
-    | Block_Paragraph c -> Block_Paragraph (paragraphTR c)
-    | Block_Element b -> Block_Element (elementTR b)
+  let es = map elementTR es in 
+    Block(es, tt)
 
-let subsubsectionTR (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
-  let bs = map blockTR bs in
+let paragraphTR (Paragraph(heading, pval_opt, t, lopt, b, tt)) = 
+  let _ = d_printf "paragraphTR" in
+  let b = blockTR b in
   let lopt = labelOptTR lopt in
-    Subsubsection (heading, pval_opt, t, lopt, bs, tt)
+    Paragraph (heading, pval_opt, t, lopt, b, tt)
 
-let subsectionTR (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
-  let bs = map blockTR bs in
+let paragraphsTR ps = 
+  map paragraphTR ps 
+
+let subsubsectionTR (Subsubsection (heading, pval_opt, t, lopt, b, ps)) =
+  let b = blockTR b in
+  let ps = paragraphsTR ps in
+  let lopt = labelOptTR lopt in
+    Subsubsection (heading, pval_opt, t, lopt, b, ps)
+
+let subsectionTR (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
+  let b = blockTR b in
+  let ps = paragraphsTR ps in
   let ss = map subsubsectionTR ss in
   let lopt = labelOptTR lopt in
-    Subsection (heading, pval_opt, t, lopt, bs, tt, ss)
+    Subsection (heading, pval_opt, t, lopt, b, ps, ss)
 
-let sectionTR (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
-  let bs = map blockTR bs in
-(*  let _ = d_printf "sectionTR: elements = %s" elements in *)
+let sectionTR (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
+  let b = map blockTR b in
+  let ps = paragraphsTR ps in
   let ss = map subsectionTR ss in
   let lopt = labelOptTR lopt in
-    Section (heading, pval_opt, t, lopt, bs, tt, ss)
+    Section (heading, pval_opt, t, lopt, b, ps, ss)
 
-let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
-  let bs = map blockTR bs in
+let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
+  let b = map blockTR b in
+  let ps = paragraphsTR ps in
   let ss = map sectionTR ss in
   let l = labelTR l in
     (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss)))
