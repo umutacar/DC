@@ -5,23 +5,6 @@ open Ast
 open Utils
 
 let parse_error s = printf "Parse Error: %s"
-let kw_atom_definition = "definition"
-
-let sections_option vo = 
-  match vo with 
-  |	None -> []
-  |	Some v -> v
-
-let blocks_option vo = 
-  match vo with 
-  |	None -> []
-  |	Some v -> v
-
-let element_option vo = 
-  match vo with 
-  |	None -> []
-  |	Some v -> v
-
 
 let mk_point_val_f_opt (s: string option) = 
   match s with
@@ -235,19 +218,17 @@ mk_section(kw_section, nested_section):
   l = option(label); 
   b = block;
   ps = paragraphs;
-  nso = option(mk_sections(nested_section));
+  ns = mk_sections(nested_section);
   {
    let (heading, pval_opt, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
-   let ns = sections_option nso in
      (heading, pval_opt, t, l, b, ps, ns)
   }	  
-/*
+
 mk_sections(my_section):
-| s = my_section; {[s]}
+|  {[]}
 | ss = mk_sections(my_section); s = my_section
   {List.append ss [s]}
-*/
 
 chapter:
   preamble = boxes;
@@ -255,11 +236,10 @@ chapter:
   l = label; 
   b = block; 
   ps = paragraphs;
-  sso = option(mk_sections(section)); 
+  ss = mk_sections(section); 
   EOF 
   {
    let (heading, pval_opt, t) = h in
-   let ss = sections_option sso in
    let tt = "" in
      Ast.Chapter(preamble, (heading, None, t, l, b, ps, ss))
   }	

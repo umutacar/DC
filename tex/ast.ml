@@ -96,7 +96,7 @@ and subsubsection =
 and paragraph = 
   Paragraph of (t_keyword * t_point_val option * t_title * t_label option * block)
 
-and block = element list * t_tailtext
+and block = Block of (element list * t_tailtext)
 
 and element = 
   | Element_Group of group
@@ -337,59 +337,58 @@ let elementToTex b =
   | Element_Group g -> groupToTex g
   | Element_Atom a -> atomToTex a
 
-let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, es, tt)) = 
+let blockToTex (Block(es, tt)) = 
+  let _ = d_printf "blockToTex" in
+  let elements = map_concat elementToTex es in
+    elements ^ tt
+
+let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, b)) = 
   let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
   let heading = mktex_section_heading TexSyntax.kw_paragraph pval_opt t in
-  let elements = map_concat elementToTex es in
+  let block = blockToTex b in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
-    elements ^ tt 
+    block
 
-let blockToTex x = 
-  let _ = d_printf "blockToTex" in
-  let r = 
-    match x with
-    | Block_Paragraph p -> paragraphToTex p
-    | Block_Element b -> elementToTex b
-  in
-  let _ = d_printf ("ast.blockToTex: %s\n") r  in
-    r
+let paragraphsToTex ps = 
+  map_concat paragraphToTex ps
 
-let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
-  let blocks = map_concat blockToTex bs in  
+let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, b, ps)) =
+  let block = blockToTex b in
+  let paragraphs = paragraphsToTex ps in
   let label = labelOptToTex lopt in
   let heading = mktex_section_heading TexSyntax.kw_subsubsection pval_opt t in
     heading ^ label ^ 
-    blocks ^ tt
+    block ^ paragraphs
 
-let subsectionToTex (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
-  let blocks = map_concat blockToTex bs in
+let subsectionToTex (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
+  let block = blockToTex b in
+  let paragraphs = paragraphsToTex ps in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
   let heading = mktex_section_heading TexSyntax.kw_subsection pval_opt t in
     heading ^ label ^ 
-    blocks ^ tt ^ 
-    nesteds
+    block ^ paragraphs ^ nesteds
 
-let sectionToTex (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
-  let blocks = map_concat blockToTex bs in
-(*  let _ = d_printf "sectionToTex: elements = %s" elements in *)
+let sectionToTex (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
+  let block = blockToTex b in
+  let paragraphs = paragraphsToTex ps in
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
   let heading = mktex_section_heading TexSyntax.kw_section pval_opt t in
     heading ^ label ^ 
-    blocks ^ tt ^ nesteds
+    block ^ paragraphs ^ nesteds
 
-let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, sbs, tt, ss))) =
-  let blocks = map_concat blockToTex sbs in
+let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
+  let block = blockToTex b in
+  let paragraphs = paragraphsToTex ps in
   let sections = map_concat sectionToTex ss in
-  let _ = d_printf "ast.chapterToTex: blocks = [begin: blocks] %s... [end: blocks] " blocks in
+  let _ = d_printf "ast.chapterToTex: block = [begin: block] %s... [end: block] " block in
   let label = labelToTex l in
   let heading = mktex_section_heading TexSyntax.kw_chapter pval_opt t in
     preamble ^ 
     heading ^ label ^ 
-    blocks ^ tt ^ 
-    sections
+    block ^ paragraphs ^ sections
 
 (**********************************************************************
  ** END: AST To LaTeX
