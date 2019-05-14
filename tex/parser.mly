@@ -61,17 +61,11 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string list * string> KW_DEPEND
 %token <string * string> KW_LABEL_AND_NAME
 
-%token <string> KW_CHAPTER
-%token <string> KW_SECTION
-%token <string> KW_SUBSECTION
-%token <string> KW_SUBSUBSECTION	
-%token <string> KW_PARAGRAPH	
-
-/* cluster is heading and point value option */
-%token <string * string option> KW_BEGIN_CLUSTER 
-%token <string> KW_END_CLUSTER
-
-/*%token <string> KW_BEGIN_GROUP KW_END_GROUP */
+%token <string * string option> KW_CHAPTER
+%token <string * string option> KW_SECTION
+%token <string * string option> KW_SUBSECTION
+%token <string * string option> KW_SUBSUBSECTION	
+%token <string * string option> KW_PARAGRAPH	
 
 %token <string * string * string option> KW_BEGIN_GROUP
 %token <string * string> KW_END_GROUP 	
@@ -229,8 +223,12 @@ depend:
  **********************************************************************/
 /* Return  heading and title pair. */ 
 mk_heading(kw_heading):
-  hc = kw_heading; b = curly_box 
-  {let (bo, bb, bc) = b in (hc ^ bo ^ bb ^ bc, bb) }
+  h = kw_heading; b = curly_box 
+  {let (heading, pval_opt) = h in 
+   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
+   let (bo, bb, bc) = b in 
+     (heading ^ bo ^ bb ^ bc, pval_f_opt, bb) 
+  }
 
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
@@ -238,11 +236,11 @@ mk_section(kw_section, nested_section):
   bs = blocks;
   nso = option(mk_sections(nested_section));
   {
-   let (heading, t) = h in
+   let (heading, pval_opt, t) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
    let ns = sections_option nso in
    let tt = "" in
-     (heading, t, l, bs, tt, ns)
+     (heading, pval_opt, t, l, bs, tt, ns)
   }	  
 
 mk_sections(my_section):
@@ -258,10 +256,10 @@ chapter:
   sso = option(mk_sections(section)); 
   EOF 
   {
-   let (heading, t) = h in
+   let (heading, pval_opt, t) = h in
    let ss = sections_option sso in
    let tt = "" in
-     Ast.Chapter(preamble, (heading, t, l, bs, tt, ss))
+     Ast.Chapter(preamble, (heading, None, t, l, bs, tt, ss))
   }	
 
 section: 
@@ -281,9 +279,9 @@ subsubsection:
   l = option(label); 
   bs = blocks;
   {
-   let (heading, t) = h in
+   let (heading, pval_opt, t) = h in
    let tt = "" in
-     Ast.Subsubsection (heading, t, l, bs, tt)
+     Ast.Subsubsection (heading, pval_opt, t, l, bs, tt)
   }	  
 
 paragraph:  
@@ -292,7 +290,7 @@ paragraph:
   estt = elements_and_tailtext;
   {
    let _ = d_printf ("Parser matched: paragraph.\n") in
-   let (heading, t) = h in
+   let (heading, pval_opt, t) = h in
    let (es, tt) = estt in
      Ast.Paragraph (heading, None, t, l, es, tt) 
   }	  

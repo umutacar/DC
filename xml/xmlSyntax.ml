@@ -379,13 +379,13 @@ let mk_item ~pval ~body_src ~body_xml =
   let pval_xml = mk_point_value_opt pval in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
-    mk_block_generic item [label_xml; pval_xml; body_xml; body_src] 
+    mk_block_generic item [pval_xml; label_xml; body_xml; body_src] 
 
 let mk_ilist ~kind ~pval ~body = 
   let kind_xml = ilist_kind_to_xml kind in
   let pval_xml = mk_point_value_opt pval in
   let label_xml = mk_label_opt None in
-    mk_block_generic_with_kind ilist kind_xml [label_xml; pval_xml; body]
+    mk_block_generic_with_kind ilist kind_xml [pval_xml; label_xml; body]
 
 let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
   let pval_xml = mk_point_value_opt pval in
@@ -409,7 +409,7 @@ let mk_group ~kind ~pval ~topt ~lopt ~body =
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
-  let fields = titles @ [label_xml; pval_xml; body] in
+  let fields = [pval_xml] @ titles @ [label_xml; body] in
     mk_block_group kind fields
 
 let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 
@@ -417,38 +417,40 @@ let mk_paragraph ~pval ~title ~title_xml ~lopt ~body =
   let title_src = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-  let fields = [title_src; title_xml; pval_xml; label_xml; body] in
+  let fields = [pval_xml] @ [title_src; title_xml; label_xml; body] in
     mk_block_generic paragraph fields
 
-let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 
+let mk_subsubsection ~pval ~title ~title_xml ~lopt ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let title_src = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic paragraph [title_xml; title_src; label_xml; body]
+  let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
+    mk_block_generic subsubsection fields 
 
-let mk_subsubsection ~title ~title_xml ~lopt ~body = 
+let mk_subsection ~pval ~title ~title_xml ~lopt ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let title_src = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic subsubsection [title_xml; title_src; label_xml; body]
+  let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
+    mk_block_generic subsection fields
 
-let mk_subsection ~title ~title_xml ~lopt ~body = 
+let mk_section ~pval ~title ~title_xml ~lopt ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let title_src = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml = mk_label_opt lopt in
-    mk_block_generic subsection [title_xml; title_src; label_xml; body]
+  let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
+    mk_block_generic section fields
 
-let mk_section ~title ~title_xml ~lopt ~body = 
-  let title_src = mk_title_src title in
-  let title_xml = mk_title title_xml in
-  let label_xml = mk_label_opt lopt in
-    mk_block_generic section [title_xml; title_src; label_xml; body]
-
-let mk_chapter ~title ~title_xml ~label ~body = 
+let mk_chapter ~pval ~title ~title_xml ~label ~body = 
+  let pval_xml = mk_point_value_opt pval in
   let title_src:string = mk_title_src title in
   let title_xml = mk_title title_xml in
   let label_xml:string = mk_label label in
-  let chapter_xml = mk_block_generic chapter [title_xml; title_src; label_xml; body] in 
+  let fields = [pval_xml] @ [title_xml; title_src; label_xml; body] in
+  let chapter_xml = mk_block_generic chapter fields in 
     tag_xml_version ^ C.newline ^ chapter_xml
 
 

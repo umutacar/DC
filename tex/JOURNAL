@@ -38,9 +38,15 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [May 13]
+  * Add point value to all segments.  Author should be able so specify and if not they should be computed during evaluation.
+    Updated lexer, parser and elaboration
+    TODO: Update printing and to xml conversion to take points into account.
+
 - [May 12]
   * cluster is now a group.  
-  * TODO: add paragraphs as floatin sections.
+  * adding paragraphs as floatin sections.
     - This is tricky.  The problem is that paragraphs don't have a proper end.  As a result if you have \paragrah{P} atom1 atom2, does atom2 stand on its own or does it go under the paragraph.  To prevent this, paragraphs should be treated as nested objects.  a block can start with elements followed by a sequence of paragraphs, so a block is a lot like a section.  once you start a paragraph, you cannot exit.
 
    - I was able to resolve this but only by taking the "intertext" treatment out.  Intertext makes things more complicated because it can be ambigous where the intertext belongs to.  I will have to study this separately.
@@ -61,9 +67,7 @@ So whatever latex produces must be mediated through this.
       Now, are we covered?  
       It seems that this will go a long way because all others (segments) consist of as elements as leaves so it should suffice.
   
-      OK, this is probaly a good place to test things a bit.
-
-      TODO: I am dropping tailtext from elements rigt now.
+      OK, this is probaly a good place to test things a bit... Done and merged.
 
 
 

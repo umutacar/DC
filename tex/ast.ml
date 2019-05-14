@@ -78,19 +78,19 @@ type problem_cluster =
 
 type chapter = 
   Chapter of t_preamble
-             *  (t_keyword * t_title * t_label * 
+             *  (t_keyword * t_point_val option * t_title * t_label * 
                  block list * t_tailtex * section list) 
 
 and section = 
-  Section of (t_keyword * t_title * t_label option *
+  Section of (t_keyword * t_point_val option * t_title * t_label option *
               block list * t_tailtex * subsection list)
 
 and subsection = 
-  Subsection of (t_keyword * t_title * t_label option *
+  Subsection of (t_keyword * t_point_val option * t_title * t_label option *
                  block list * t_tailtex * subsubsection list)
 
 and subsubsection = 
-  Subsubsection of (t_keyword * t_title * t_label option *
+  Subsubsection of (t_keyword * t_point_val option * t_title * t_label option *
                     block list * t_tailtex)
 
 and paragraph = 
@@ -123,6 +123,20 @@ let mk_pval_str pvalopt=
   |  None -> "0.0"
   |  Some x -> Float.to_string x
  
+let fix_pval pval_opt pvalsum_opt = 
+  (* If no pval is declared, pass the sum out. 
+   * Otherwise, use the declared point value.
+   *)  
+    let _ = d_printf "fix_pval: pval_opt = %s pval_sum_opt = %s" 
+                     (mk_pval_str pval_opt) 
+                     (mk_pval_str pvalsum_opt) 
+    in
+      match (pval_opt, pvalsum_opt) with
+      | (Some p, _) -> p
+      | (None, None) -> 0.0
+      | (None, Some p) -> p
+
+
 let map f xs = 
   List.map xs f
 
@@ -136,12 +150,14 @@ let map_and_sum_pts f xs =
   let pvals = map fst pvals_and_xs in
   let xs = map snd pvals_and_xs in
   let pts_total_opt = List.reduce pvals (fun x y -> x +. y) in
-(*
-    match List.reduce pvals (fun x y -> x +. y) with 
-    | None -> 0.0
-    | Some r -> r
-*)
     (pts_total_opt, xs)  
+
+let pval_opts_sum pv_a pv_b = 
+  match (pv_a, pv_b) with 
+  | (None, None) -> None
+  | (None, Some p) -> Some p
+  | (Some p, None) -> Some p
+  | (Some p_a, Some p_b) -> Some (p_a +. p_b)
 
 let newline = "\n"
 
@@ -209,7 +225,7 @@ let mk_item (keyword, pvalopt, body) =
 let mktex_optarg x = 
   "[" ^ x ^ "]"
 
-let mktex_section name pvalopt t = 
+let mktex_section_heading name pvalopt t = 
   let b = "\\" ^ name in
   let p = match pvalopt with 
           | None -> ""
@@ -329,7 +345,7 @@ let elementToTex b =
 
 let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, es, tt)) = 
   let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let h_begin = mktex_section "paragraph" pval_opt t in
+  let heading = mktex_section_heading TexSyntax.kw_paragraph pval_opt t in
   let elements = map_concat elementToTex es in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
@@ -345,33 +361,37 @@ let blockToTex x =
   let _ = d_printf ("ast.blockToTex: %s\n") r  in
     r
 
-let subsubsectionToTex (Subsubsection (heading, t, lopt, bs, tt)) =
-  let blocks = map_concat blockToTex bs in
+let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
+  let blocks = map_concat blockToTex bs in  
   let label = labelOptToTex lopt in
+  let heading = mktex_section_heading TexSyntax.kw_subsubsection pval_opt t in
     heading ^ label ^ 
     blocks ^ tt
 
-let subsectionToTex (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionToTex (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let blocks = map_concat blockToTex bs in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
+  let heading = mktex_section_heading TexSyntax.kw_subsection pval_opt t in
     heading ^ label ^ 
     blocks ^ tt ^ 
     nesteds
 
-let sectionToTex (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionToTex (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let blocks = map_concat blockToTex bs in
 (*  let _ = d_printf "sectionToTex: elements = %s" elements in *)
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
+  let heading = mktex_section_heading TexSyntax.kw_section pval_opt t in
     heading ^ label ^ 
     blocks ^ tt ^ nesteds
 
-let chapterToTex (Chapter (preamble, (heading, t, l, sbs, tt, ss))) =
+let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, sbs, tt, ss))) =
   let blocks = map_concat blockToTex sbs in
   let sections = map_concat sectionToTex ss in
   let _ = d_printf "ast.chapterToTex: blocks = [begin: blocks] %s... [end: blocks] " blocks in
   let label = labelToTex l in
+  let heading = mktex_section_heading TexSyntax.kw_chapter pval_opt t in
     preamble ^ 
     heading ^ label ^ 
     blocks ^ tt ^ 
@@ -541,43 +561,52 @@ let blockToXml tex2html x =
   | Block_Element b -> elementToXml tex2html b
   | Block_Paragraph c -> paragraphToXml tex2html c
 
-let subsubsectionToXml  tex2html (Subsubsection (heading, t, lopt, bs, tt)) =
+let subsubsectionToXml  tex2html (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let body = blocks in
-  let r = XmlSyntax.mk_subsubsection ~title:t ~title_xml:t_xml
+  let r = XmlSyntax.mk_subsubsection ~pval:pval_str_opt
+                                     ~title:t ~title_xml:t_xml
                                      ~lopt:lsopt ~body:body in
     r
 
-let subsectionToXml  tex2html (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionToXml  tex2html (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (subsubsectionToXml  tex2html) ss in
   let body = blocks ^ newline ^ nesteds in
-  let r = XmlSyntax.mk_subsection ~title:t ~title_xml:t_xml
+  let r = XmlSyntax.mk_subsection ~pval:pval_str_opt 
+                                  ~title:t ~title_xml:t_xml
                                   ~lopt:lsopt ~body:body in
     r
 
-let sectionToXml  tex2html (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionToXml  tex2html (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let nesteds = map_concat (subsectionToXml  tex2html) ss in
   let body = blocks ^ newline ^ nesteds in
-  let r = XmlSyntax.mk_section ~title:t ~title_xml:t_xml
+  let r = XmlSyntax.mk_section ~pval:pval_str_opt 
+                               ~title:t ~title_xml:t_xml
                                ~lopt:lsopt ~body:body in
     r
 
-let chapterToXml  tex2html (Chapter (preamble, (heading, t, l, bs, tt, ss))) =
+let chapterToXml  tex2html (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
+  let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let Label(heading, label) = l in 
   let _ = d_printf "chapter label, heading = %s  = %s\n" heading label in
   let t_xml = titleToXml tex2html t in
   let blocks = map_concat (blockToXml  tex2html) bs in
   let sections = map_concat (sectionToXml  tex2html) ss in
   let body = blocks ^ newline ^ sections in
-  let r = XmlSyntax.mk_chapter ~title:t ~title_xml:t_xml ~label:label ~body:body in
+  let r = XmlSyntax.mk_chapter ~pval:pval_str_opt 
+                               ~title:t ~title_xml:t_xml 
+                               ~label:label ~body:body in
     r
 
 (**********************************************************************
@@ -651,17 +680,13 @@ let atomEl (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
 
 
 let groupEl (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))) = 
-  let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
   let _ = d_printf "groupEl: points = %s" (mk_pval_str pval_opt) in
+  let (pvalsum_opt, ats) = map_and_sum_pts atomEl ats in
+  let _ = d_printf "groupEl: points summed = %s" (mk_pval_str pvalsum_opt) in
   let lopt = labelOptEl lopt in
-    (* If no pval is declared, pass the sum out. 
-     * Otherwise, use the declared point value.
-     *)
-    match pval_opt with
-    | None -> (mk_pval pvalsum_opt, 
-               Group (preamble, (kind, h_begin, pvalsum_opt, topt, lopt, ats, tt, h_end)))
-    | Some pval -> (pval,
-                    Group (preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)))
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
+    (pvalnew, Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)))
+
 let elementEl b = 
   match b with
   | Element_Group g -> 
@@ -673,42 +698,52 @@ let elementEl b =
 
 let paragraphEl (Paragraph (heading, pval_opt, topt, lopt, es, tt)) = 
   let _ = d_printf "paragraphEl" in
-  let (pval_opt, es) = map_and_sum_pts elementEl es in
+  let (pvalsum_opt, es) = map_and_sum_pts elementEl es in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let _ = d_printf "paragraphEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
-    Paragraph  (heading, pval_opt, topt, lopt, es, tt)
+    (pvalnew, Paragraph  (heading, Some pvalnew, topt, lopt, es, tt))
 
 let blockEl x = 
   let _ = d_printf "blockEl" in
     match x with
-    | Block_Paragraph c -> Block_Paragraph (paragraphEl c)
+    | Block_Paragraph c -> 
+      let (pval, b) = paragraphEl c in
+        (pval, Block_Paragraph b)
     | Block_Element b -> 
-      let (_, b) = elementEl b in
-        Block_Element b 
+      let (pval, b) = elementEl b in
+        (pval, Block_Element b) 
 
-let subsubsectionEl (Subsubsection (heading, t, lopt, bs, tt)) =
-  let bs = map blockEl bs in
+let subsubsectionEl (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
+  let (pvalsum_opt, bs) = map_and_sum_pts blockEl bs in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let lopt = labelOptEl lopt in
-    Subsubsection (heading, t, lopt, bs, tt)
+    (pvalnew, Subsubsection (heading, Some pvalnew, t, lopt, bs, tt))
 
-let subsectionEl (Subsection (heading, t, lopt, bs, tt, ss)) =
-  let bs = map blockEl bs in
-  let ss = map subsubsectionEl ss in
+let subsectionEl (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
+  let (pval_1_opt, bs) = map_and_sum_pts blockEl bs in
+  let (pval_2_opt, ss) = map_and_sum_pts subsubsectionEl ss in
+  let pvalsum_opt = pval_opts_sum pval_1_opt pval_2_opt in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let lopt = labelOptEl lopt in
-    Subsection (heading, t, lopt, bs, tt, ss)
+    (pvalnew, Subsection (heading, Some pvalnew, t, lopt, bs, tt, ss))
 
-let sectionEl (Section (heading, t, lopt, bs, tt, ss)) =
-  let bs = map blockEl bs in
+let sectionEl (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
+  let (pval_1_opt, bs) = map_and_sum_pts blockEl bs in
 (*  let _ = d_printf "sectionEl: elements = %s" elements in *)
-  let ss = map subsectionEl ss in
+  let (pval_2_opt, ss) = map_and_sum_pts subsectionEl ss in
+  let pvalsum_opt = pval_opts_sum pval_1_opt pval_2_opt in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let lopt = labelOptEl lopt in
-    Section (heading, t, lopt, bs, tt, ss)
+    (pvalnew, Section (heading, Some pvalnew, t, lopt, bs, tt, ss))
 
-let chapterEl (Chapter (preamble, (heading, t, l, bs, tt, ss))) =
-  let bs = map blockEl bs in
-  let ss = map sectionEl ss in
+let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
+  let (pval_1_opt, bs) = map_and_sum_pts blockEl bs in
+  let (pval_2_opt, ss) = map_and_sum_pts sectionEl ss in
+  let pvalsum_opt = pval_opts_sum pval_1_opt pval_2_opt in
+  let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let l = labelEl l in
-    (Chapter (preamble, (heading, t, l, bs, tt, ss)))
+    (Chapter (preamble, (heading, Some pvalnew, t, l, bs, tt, ss)))
 
 (**********************************************************************
  ** END: AST ELABORATION
@@ -801,29 +836,29 @@ let blockTR x =
     | Block_Paragraph c -> Block_Paragraph (paragraphTR c)
     | Block_Element b -> Block_Element (elementTR b)
 
-let subsubsectionTR (Subsubsection (heading, t, lopt, bs, tt)) =
+let subsubsectionTR (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
   let bs = map blockTR bs in
   let lopt = labelOptTR lopt in
-    Subsubsection (heading, t, lopt, bs, tt)
+    Subsubsection (heading, pval_opt, t, lopt, bs, tt)
 
-let subsectionTR (Subsection (heading, t, lopt, bs, tt, ss)) =
+let subsectionTR (Subsection (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let bs = map blockTR bs in
   let ss = map subsubsectionTR ss in
   let lopt = labelOptTR lopt in
-    Subsection (heading, t, lopt, bs, tt, ss)
+    Subsection (heading, pval_opt, t, lopt, bs, tt, ss)
 
-let sectionTR (Section (heading, t, lopt, bs, tt, ss)) =
+let sectionTR (Section (heading, pval_opt, t, lopt, bs, tt, ss)) =
   let bs = map blockTR bs in
 (*  let _ = d_printf "sectionTR: elements = %s" elements in *)
   let ss = map subsectionTR ss in
   let lopt = labelOptTR lopt in
-    Section (heading, t, lopt, bs, tt, ss)
+    Section (heading, pval_opt, t, lopt, bs, tt, ss)
 
-let chapterTR (Chapter (preamble, (heading, t, l, bs, tt, ss))) =
+let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss))) =
   let bs = map blockTR bs in
   let ss = map sectionTR ss in
   let l = labelTR l in
-    (Chapter (preamble, (heading, t, l, bs, tt, ss)))
+    (Chapter (preamble, (heading, pval_opt, t, l, bs, tt, ss)))
 
 (**********************************************************************
  ** END: AST TRAVERSAL

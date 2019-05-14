@@ -91,8 +91,8 @@ let p_separator = [':' '.' '-' '_' '/']
 let p_backslash = '\\'
 let p_o_curly = p_ws '{' p_ws
 let p_c_curly = p_ws '}' p_ws
-let p_o_sq = p_ws '[' p_ws
-let p_c_sq = p_ws ']' p_ws											
+let p_o_sq = '[' p_ws
+let p_c_sq = ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
 let p_com_depend = '\\' "depend" p_ws p_o_curly p_ws												 
@@ -107,7 +107,7 @@ let p_com_correct_choice = '\\' "choice*"
 let p_com_explain = '\\' "explain"
 let p_com_hint = '\\' "help"
 let p_com_rubric = '\\' "rubric"
-let p_com_refsol = '\\' "solution"
+let p_com_refsol = '\\' "sol"
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
@@ -129,12 +129,15 @@ let p_end_parts = p_com_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 (* end: parts *)
 
 let p_chapter = '\\' "chapter" p_ws
+let p_chapter_with_points = '\\' "chapter" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_section = '\\' "section" p_ws
-let p_titled_question = '\\' "titledsection" p_ws
-let p_subsection = '\\' "subsection" p_ws
-let p_subsubsection = '\\' "subsubsection" p_ws
+let p_section_with_points = '\\' "section" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsection = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsection_with_points = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsubsection = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsubsection_with_points = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_paragraph = '\\' "paragraph" p_ws												
-let p_subparagraph = '\\' "subparagraph" p_ws												
+let p_paragraph_with_points = '\\' "paragraph" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
 let p_cluster = "cluster"
 let p_flex = "flex"
@@ -287,15 +290,34 @@ rule token = parse
 *)
 				
 | p_chapter as x
-  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
+  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, None)}		
+| p_chapter_with_points as x
+  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, Some point_val)}		
 | p_section as x
-  	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
+  	{d_printf "!lexer matched: %s." x; KW_SECTION(x, None)}		
+| p_section_with_points as x
+  	{let _ = d_printf "lexer matched section with points: %s" x in
+       KW_SECTION(x, Some point_val)
+    }		
 | p_subsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
+  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x, None)}
+| p_subsection_with_points as x
+  	{let _ = d_printf "lexer matched subsection with points: %s" x in
+       KW_SUBSECTION(x, Some point_val)
+    }		
 | p_subsubsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
+  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x, None)}
+
+| p_subsubsection_with_points as x
+  	{let _ = d_printf "lexer matched subsubsection with points: %s" x in
+       KW_SUBSUBSECTION(x, Some point_val)
+    }		
 | p_paragraph as x
-  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}
+  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x, None)}
+| p_paragraph_with_points as x
+  	{let _ = d_printf "!lexer matched: %s." x in 
+       KW_PARAGRAPH(x, Some point_val)
+    }
 (*
 | p_b_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		
@@ -304,7 +326,7 @@ rule token = parse
 | p_e_cluster as x
   	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
 *)
-| p_begin_group as x
+| p_begin_group
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin group: %s" kind;
        KW_BEGIN_GROUP(kind, all, None)
@@ -508,7 +530,7 @@ and ilist =
               ("", l, e)                           
         }
 
-  | p_end_ilist as x 
+  | p_end_ilist
       {
   	   let all = e ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: end of ilist: %s\n" all in
@@ -536,7 +558,7 @@ and rubric =
 
 and explain = 
   parse 
-  | p_com_rubric as h
+  | p_com_rubric
       {
        let _ = d_printf "!lexer: begin rubric\n" in
        let (body, h_e) = rubric lexbuf in
@@ -564,14 +586,14 @@ and refsol =
          let _ = d_printf "!lexer: exiting refsol\n" in
            ("", None, None, (kind, all))
         }
-  | p_com_explain as h
+  | p_com_explain
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, rubric_opt, h_e) = explain lexbuf in
        let _ = d_printf "explain matched = %s" body in
          ("", Some body, rubric_opt, h_e)
       }   
-  | p_com_rubric as h
+  | p_com_rubric
       {
        let _ = d_printf "!lexer: begin rubric\n" in
        let (body, h_e) = rubric lexbuf in
@@ -595,7 +617,7 @@ and hint =
         }
 
   (* hint + refsol plus optional explanation *) 
-  | p_com_refsol as h
+  | p_com_refsol
       {
        let _ = d_printf "!lexer: begin refsol\n" in
        let (body, exp_opt, rubric_opt, h_e) = refsol lexbuf in
@@ -604,7 +626,7 @@ and hint =
       }   
 
   (* hint + explanation, no solution *)
-  | p_com_explain as h
+  | p_com_explain
       {
        let _ = d_printf "!lexer: begin explain\n" in
        let (body, rubric_opt, h_e) = explain lexbuf in
@@ -613,7 +635,7 @@ and hint =
       }   
 
   (* hint + rubric, no solution, no explanation *)
-  | p_com_rubric as h
+  | p_com_rubric
       {
        let _ = d_printf "!lexer: begin rubric\n" in
        let (body, h_e) = rubric lexbuf in
