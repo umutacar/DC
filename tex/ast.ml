@@ -699,23 +699,21 @@ let elementEl b =
     let (pval, a) = atomEl a in
       (pval, Element_Atom a)
 
-let paragraphEl (Paragraph (heading, pval_opt, topt, lopt, es, tt)) = 
+
+let blockEl (Block (es, tt)) = 
+  let _ = d_printf "blockEl" in
+    map_and_sum_pts elementEl es
+
+let paragraphEl (Paragraph (heading, pval_opt, topt, lopt, b)) = 
   let _ = d_printf "paragraphEl" in
-  let (pvalsum_opt, es) = map_and_sum_pts elementEl es in
+  let (pvalsum_opt, es) = blockEl b in   
   let pvalnew = fix_pval pval_opt pvalsum_opt in 
   let _ = d_printf "paragraphEl: points = %s" (mk_pval_str pval_opt) in
   let lopt = labelOptEl lopt in
     (pvalnew, Paragraph  (heading, Some pvalnew, topt, lopt, es, tt))
 
-let blockEl x = 
-  let _ = d_printf "blockEl" in
-    match x with
-    | Block_Paragraph c -> 
-      let (pval, b) = paragraphEl c in
-        (pval, Block_Paragraph b)
-    | Block_Element b -> 
-      let (pval, b) = elementEl b in
-        (pval, Block_Element b) 
+let paragraphsEl ps = 
+  map_and_sum_pts paragraphEl ps 
 
 let subsubsectionEl (Subsubsection (heading, pval_opt, t, lopt, bs, tt)) =
   let (pvalsum_opt, bs) = map_and_sum_pts blockEl bs in
