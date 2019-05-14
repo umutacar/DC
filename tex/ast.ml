@@ -79,31 +79,29 @@ type problem_cluster =
 type chapter = 
   Chapter of t_preamble
              *  (t_keyword * t_point_val option * t_title * t_label * 
-                 block list * t_tailtex * section list) 
+                 block * paragraph list * section list) 
 
 and section = 
   Section of (t_keyword * t_point_val option * t_title * t_label option *
-              block list * t_tailtex * subsection list)
+              block * paragraph list * subsection list)
 
 and subsection = 
   Subsection of (t_keyword * t_point_val option * t_title * t_label option *
-                 block list * t_tailtex * subsubsection list)
+                 block * paragraph list * subsubsection list)
 
 and subsubsection = 
   Subsubsection of (t_keyword * t_point_val option * t_title * t_label option *
-                    block list * t_tailtex)
+                    block * paragraph list)
 
 and paragraph = 
-  Paragraph of (t_keyword * t_point_val option * t_title * t_label option *
-                element list * t_tailtex)
+  Paragraph of (t_keyword * t_point_val option * t_title * t_label option * block)
 
-and block = 
-  | Block_Element of element
-  | Block_Paragraph of paragraph
+and block = element list
 
 and element = 
   | Element_Group of group
   | Element_Atom of atom
+
 
 (**********************************************************************
  ** END: AST Data Types
@@ -135,7 +133,6 @@ let fix_pval pval_opt pvalsum_opt =
       | (Some p, _) -> p
       | (None, None) -> 0.0
       | (None, Some p) -> p
-
 
 let map f xs = 
   List.map xs f
@@ -176,7 +173,6 @@ let contains_substring search target =
     | Some x -> let _ = d_printf "contains_substring: found match %d\n" x in true 
   in
     res
-
 
 let pval_opt_to_string pval = 
   match pval with 
@@ -253,7 +249,6 @@ let dependOptToTex dopt =
               |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" in
      r
 
-
 let labelToTex (Label(h, label_string)) = h
 let labelOptToTex lopt = 
   let r = match lopt with 
@@ -299,7 +294,6 @@ let rubricOptToTex rubric_opt =
                   heading ^ "\n" ^ x)
   in
      r
-
 
 let itemToTex (Item(keyword, pval, body)) = 
   match pval with 
