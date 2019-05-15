@@ -173,9 +173,12 @@ let p_slide = "slide"
 let p_solution = "solution"
 let p_syntax = "syntax"
 let p_task = "task"
-let p_teachask = "teachask"
-let p_teachnote = "teachnote"
 let p_theorem = "theorem"
+
+(* Treat teach atoms as tail text, thus they will not be loaded as atoms *)
+let p_teachask = "xx__teachask__xx"
+let p_teachnote = "xx__teachnote__xx"
+
 
 (* Ilists *)
 let p_chooseone = "xchoice"
