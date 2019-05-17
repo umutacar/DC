@@ -212,15 +212,23 @@ let process_title kind topt =
   let 
     extract_all t = 
       let tokens = Str.split (Str.regexp (",[ ]*"))  t in
-        d_printf ("!ast.process_title: title has multiple parts");
-        tokens       
+        (* splits the string at comma-space* 's.  
+           if none is found, returns the whole string.
+          *)
+        if List.length tokens > 1 then
+          (d_printf ("!ast.process_title: title has multiple parts");
+           tokens)       
+        else
+          (d_printf ("!ast.process_title: title has no parts");
+           tokens)       
+
   in
     match topt with 
     | None -> None
     | Some t -> 
-      let _ = extract_all t in
         if kind = TexSyntax.kw_code then
-          topt      
+          let _ = extract_all t in 
+            topt      
         else
           topt
 

@@ -21,6 +21,15 @@ $ make tex2xml.native
   Completing this translation is currently what I am working on.
 
 
+
+
+##
+## OCAML
+
+To load a module into the ocaml REPL use #load, e.g.,
+# #load "Str.cma";;
+# Str.split (Str.regexp (",[ ]*"))  "x = y y = z";;
+
 ######################################################################
 ## Pre-OCAML README, September 2018
 
