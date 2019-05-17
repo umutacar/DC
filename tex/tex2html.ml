@@ -9,8 +9,13 @@ open Core
 (**********************************************************************
  ** BEGIN: Globals
  **********************************************************************)
-let latex_extension = "tex"
+
+type translation_options = Generic of bool | Code of unit 
+
 let html_extension = "html"
+let latex_extension = "tex"
+let md_extension = "md"
+
 
 let latex_document_header = "\\documentclass{article}" 
 let latex_begin_document = "\\begin{document}"
@@ -80,7 +85,7 @@ let md_file_to_html (md_file_name, html_file_name) =
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
-    let command = pandoc_md ^ " " ^ md_file_name ^  " -o" ^ html_file_name  in
+    let command = pandoc ^ " " ^ md_file_name ^  " -o" ^ html_file_name  in
     let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -153,7 +158,7 @@ let code_to_html tmp_dir  unique contents =
   let md_file = Out_channel.create md_file_name in
 
   (* TODO: update this *)
-  let heading = "~~~~{.c .numberLines startFrom="100"}" in
+  let heading = "~~~~{.c .numberLines startFrom=\"100\"}" in
   let ending = "~~~~" in
   let () = Out_channel.output_string md_file (heading ^ "\n") in
   let () = Out_channel.output_string md_file (contents ^ "\n") in
