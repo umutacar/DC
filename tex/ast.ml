@@ -208,6 +208,22 @@ let pval_opt_to_string_opt pval =
     let _ = d_printf ("pval_opt_to_string_opt: points = %f\n") x in
       Some f
 
+let process_title kind topt =   
+  let 
+    extract_all t = 
+      let tokens = Str.split (Str.regexp (",[ ]*"))  t in
+        d_printf ("!ast.process_title: title has multiple parts");
+        tokens       
+  in
+    match topt with 
+    | None -> None
+    | Some t -> 
+      let _ = extract_all t in
+        if kind = TexSyntax.kw_code then
+          topt      
+        else
+          topt
+
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
@@ -520,6 +536,7 @@ let atomToXml tex2html
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
+  let _ = process_title kind topt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = 
     if kind = TexSyntax.kw_code then
