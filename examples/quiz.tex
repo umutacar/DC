@@ -8,6 +8,14 @@ This is an example quiz.
 \end{preamble}
 Some tailtex with some \command
 
+\begin{code}
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
 \begin{teachask}
 teach atom.
 \end{teachask}
@@ -65,6 +73,7 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 \texttt{false}\}$.
 %; for a set $A$ of type $\sss$.
 %, $\means{A}$ denotes the  (mathematical) set of keys in the set.
+
 \end{datatype}
 
 Some preamble \somecommand
@@ -253,6 +262,18 @@ Some flavor text for problem 1.
 \begin{gram}
 \label{quiz-ii::1::1}
 Para I of Multipart problem I.
+
+Here is a quick check on understanding:
+Above why did we assume X
+
+\begin{xchoice}
+\choice Because we could not assume Y.
+\choice* If we didn't, then we would have ... contradicting...
+\end{xchoice}
+
+\sol
+this is a solution
+
 \end{gram}
 
 \begin{problem}[20][Problem I.1]

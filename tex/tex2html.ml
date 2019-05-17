@@ -23,12 +23,11 @@ let latex_end_document = "\\end{document}"
  **)
 
 (* pandoc_standalone = "pandoc --mathml -s" *)
-let pandoc_standalone = "pandoc --from latex+smart  --mathjax -s"
+(* let pandoc_standalone = "pandoc --from latex+smart  --mathjax -s" *)
 let pandoc_standalone = "pandoc  --mathjax -s"
 
-
 (* generate non-standalone html files *)
-let pandoc_minor = "pandoc --from latex+smart  --mathjax"
+(* let pandoc_minor = "pandoc --from latex+smart  --mathjax" *)
 let pandoc_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
 
@@ -73,6 +72,30 @@ let latex_file_to_html (latex_file_name, html_file_name) =
         end
 
 
+(* Translate the contents of wd_file_name and write it into
+ *  html_file_name
+ *)
+let md_file_to_html (md_file_name, html_file_name) = 
+    (** Beware: pandoc converts everything to unicode
+     ** HTML is therefore unicode string.
+     ** This matters when printing to terminal which is ASCII
+     **)
+    let command = pandoc_md ^ " " ^ md_file_name ^  " -o" ^ html_file_name  in
+    let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
+    let exit_code = Sys.command command in 
+      if exit_code <> 0 then
+        begin
+          printf "Error in html translation.\n";
+          printf "Command exited with code: %d\n" exit_code;
+          printf "Now exiting.";
+          exit exit_code
+        end
+      else
+        begin
+          printf "Markdown code is in file: %s\n" md_file_name;
+          printf "HTML code is in file: %s\n" html_file_name
+        end
+
 (**********************************************************************
  ** Translate latex (contents) to html
  ** tmp_dir is /tmp/ or similar
@@ -115,6 +138,45 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
             "FATAL ERROR in LaTeX to html translation"
 
 (**********************************************************************)
+
+
+(**********************************************************************
+ ** Translate code contents to html using markdown
+ ** tmp_dir is /tmp/ or similar
+ ** unique is a unique name that can be used for translation files
+ ** contents is the contents to be translated
+ **)
+
+let code_to_html tmp_dir  unique contents = 
+  (* prep for translation *)
+  let md_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
+  let md_file = Out_channel.create md_file_name in
+
+  (* TODO: update this *)
+  let heading = "~~~~{.c .numberLines startFrom="100"}" in
+  let ending = "~~~~" in
+  let () = Out_channel.output_string md_file (heading ^ "\n") in
+  let () = Out_channel.output_string md_file (contents ^ "\n") in
+  let () = Out_channel.output_string md_file (ending ^ "\n") in
+  let () = Out_channel.close md_file in
+
+  (** translate to html **)
+  let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
+  let () = md_file_to_html (md_file_name, html_file_name) in
+  let html = In_channel.read_all html_file_name in
+    html
+
+(**********************************************************************)
+
+
+(**
+ **
+ **)
+let contents_to_html tmp_dir  unique preamble contents options = 
+  match options with 
+  | Generic is_single_paragraph -> tex_to_html tmp_dir unique preamble contents is_single_paragraph
+  | Code _ -> code_to_html tmp_dir unique contents 
+
 
 (**********************************************************************
  ** mk_translator makes a tex to html translator function 
