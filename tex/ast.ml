@@ -427,7 +427,7 @@ let hint_is_single_par = Tex2html.Generic false
 let refsol_is_single_par = Tex2html.Generic false
 let rubric_is_single_par = Tex2html.Generic false
 let title_is_single_par = Tex2html.Generic true
-let is_code_atom = Tex2html.Code ()
+let atom_is_code = Tex2html.Code ()
 
 let extract_label lopt = 
   let r = match lopt with 
@@ -521,7 +521,12 @@ let atomToXml tex2html
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
   let title_opt = titleOptToXml tex2html topt in
-  let body_xml = tex2html (mk_index ()) body body_is_single_par in
+  let body_xml = 
+    if kind = TexSyntax.kw_code then
+      tex2html (mk_index ()) body atom_is_code
+    else
+      tex2html (mk_index ()) body body_is_single_par 
+  in
   let ilist_xml_opt = ilistOptToXml tex2html ilist_opt in
   let hints_opt = hintOptToXml tex2html hint_opt in
   let refsols_opt = refsolOptToXml tex2html refsol_opt in
