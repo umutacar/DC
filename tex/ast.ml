@@ -421,13 +421,13 @@ let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
  *  "true" means that this was a single paragraph and the
  * <p> </p> annotations must be removed.
  *) 
-let body_is_single_par = false
-let explain_is_single_par = false
-let hint_is_single_par = false
-let refsol_is_single_par = false
-let rubric_is_single_par = false
-let title_is_single_par = true
-
+let body_is_single_par = Tex2html.Generic false
+let explain_is_single_par = Tex2html.Generic false
+let hint_is_single_par = Tex2html.Generic false
+let refsol_is_single_par = Tex2html.Generic false
+let rubric_is_single_par = Tex2html.Generic false
+let title_is_single_par = Tex2html.Generic true
+let is_code_atom = Tex2html.Code ()
 
 let extract_label lopt = 
   let r = match lopt with 

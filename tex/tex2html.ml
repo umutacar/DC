@@ -192,9 +192,10 @@ let mk_translator (tmp_dir, preamble) =
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  
    (* translator *)
-   let translate unique contents match_single_paragraph = 
+   let translate unique contents options = 
      let contents = text_prep contents in 
-       tex_to_html tmp_dir unique preamble contents match_single_paragraph
+(*       tex_to_html tmp_dir unique preamble contents match_single_paragraph *)
+       contents_to_html tmp_dir unique preamble contents options
    in
      translate
 
