@@ -39,8 +39,8 @@ let pandoc_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
 
 let pandoc_highlight langname = 
-  let xml_definition = "./kate" ^ langname ^ "." ^ "xml" in
-    pandoc ^ "--syntax-definition=" ^ xml_definition
+  let xml_definition = "./kate/" ^ langname ^ "." ^ "xml" in
+    pandoc ^ " --syntax-definition=" ^ xml_definition
 
 (* Regular expressions *)
 let pattern_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
@@ -65,7 +65,7 @@ let latex_file_to_html (latex_file_name, html_file_name) =
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
-    let command = pandoc ^ " " ^ latex_file_name ^  " -o" ^ html_file_name  in
+    let command = pandoc ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
     let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -92,10 +92,10 @@ let md_file_to_html lang_opt (md_file_name, html_file_name) =
      **)
     let command = 
       match lang_opt with 
-        None -> pandoc ^ " " ^ md_file_name ^  " -o" ^ html_file_name
+        None -> pandoc ^ " " ^ md_file_name ^  " -o " ^ html_file_name
       | Some lang ->
         let cmd_pandoc = pandoc_highlight lang in
-          cmd_pandoc ^ " " ^ md_file_name ^  " -o" ^ html_file_name
+          cmd_pandoc ^ " " ^ md_file_name ^  " -o " ^ html_file_name
     in
     let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
