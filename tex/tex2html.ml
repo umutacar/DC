@@ -191,17 +191,20 @@ let code_to_html tmp_dir lang_opt unique arg_opt contents =
 (**
  **
  **)
-let contents_to_html tmp_dir default_code_lang unique preamble contents options = 
+let contents_to_html tmp_dir lang_opt_default unique preamble contents options = 
   match options with 
   | Generic is_single_paragraph -> tex_to_html tmp_dir unique preamble contents is_single_paragraph
-  | Code (lang_opt, arg_opt) -> code_to_html tmp_dir lang_opt unique arg_opt contents 
+  | Code (lang_opt, arg_opt) -> 
+    match lang_opt with 
+    | None -> code_to_html tmp_dir lang_opt_default unique arg_opt contents 
+    | Some lang -> code_to_html tmp_dir (Some lang) unique arg_opt contents 
 
 
 (**********************************************************************
  ** mk_translator makes a tex to html translator function 
  ** and returns it
  **********************************************************************)
-let mk_translator tmp_dir default_code_lang preamble = 
+let mk_translator tmp_dir lang_opt preamble = 
    (* Create tmp dir *) 
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  
@@ -209,7 +212,7 @@ let mk_translator tmp_dir default_code_lang preamble =
    (* translator *)
    let translate unique contents options = 
      let contents = text_prep contents in 
-       contents_to_html tmp_dir default_code_lang unique preamble contents options
+       contents_to_html tmp_dir lang_opt unique preamble contents options
    in
      translate
 
