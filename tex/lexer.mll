@@ -547,7 +547,7 @@ and ilist =
 
 and rubric = 
   parse 
-  | p_end_problem
+  | p_end_atom
         { 
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
@@ -568,7 +568,7 @@ and explain =
        let _ = d_printf "rubric matched = %s" body in
          ("", Some body, h_e)
       }   
-  | p_end_problem
+  | p_end_atom
         { 
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
@@ -582,7 +582,7 @@ and explain =
 
 and refsol =
   parse
-  | p_end_problem
+  | p_end_atom
         { 
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
@@ -611,7 +611,7 @@ and refsol =
 and hint =
   parse
   (* just a hint, no solution, no explanation *)
-  | p_end_problem
+  | p_end_atom
         { 
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end problem: %s" kind in
