@@ -385,28 +385,28 @@ let pointvalOptToTex p =
   | Some pts -> mktex_optarg (Float.to_string pts)
 
 let hintOptToTex hint_opt = 
-  let heading = "\\help" in
+  let heading = TexSyntax.com_hint in
   let r = match hint_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
 let expOptToTex exp_opt = 
-  let heading = "\\explain" in
+  let heading = TexSyntax.com_explain in
   let r = match exp_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
 let refsolOptToTex refsol_opt = 
-  let heading = "\\solution" in
+  let heading = TexSyntax.com_solution in
   let r = match refsol_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
 let rubricOptToTex rubric_opt = 
-  let heading = "\\rubric" in
+  let heading = TexSyntax.com_rubric in
   let r = match rubric_opt with 
               |  None -> ""
               |  Some x -> 
