@@ -132,10 +132,13 @@ let p_chapter = '\\' "chapter" p_ws
 let p_chapter_with_points = '\\' "chapter" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_section = '\\' "section" p_ws
 let p_section_with_points = '\\' "section" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
-let p_subsection = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+
+let p_subsection = '\\' "subsection" p_ws 
 let p_subsection_with_points = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
-let p_subsubsection = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+
+let p_subsubsection = '\\' "subsubsection" p_ws 
 let p_subsubsection_with_points = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+
 let p_paragraph = '\\' "paragraph" p_ws												
 let p_paragraph_with_points = '\\' "paragraph" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
@@ -303,7 +306,8 @@ rule token = parse
        KW_SECTION(x, Some point_val)
     }		
 | p_subsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x, None)}
+  	{d_printf "!lexer matched subsection: %s." x; KW_SUBSECTION(x, None)}
+
 | p_subsection_with_points as x
   	{let _ = d_printf "lexer matched subsection with points: %s" x in
        KW_SUBSECTION(x, Some point_val)
