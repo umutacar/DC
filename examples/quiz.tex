@@ -8,6 +8,39 @@ This is an example quiz.
 \end{preamble}
 Some tailtex with some \command
 
+\begin{code}
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+\begin{code}[language=cnot, numbers=none, firstline = 100, lastline = 1001]
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+\begin{code}[language=cnot, numbers=left, firstline = 100, lastline = 1002]
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+
+\begin{code}[title = some cnut code, numbers = left, language=cnot, firstline = 100, lastline = 1003]
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
 \begin{teachask}
 teach atom.
 \end{teachask}
@@ -65,6 +98,7 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 \texttt{false}\}$.
 %; for a set $A$ of type $\sss$.
 %, $\means{A}$ denotes the  (mathematical) set of keys in the set.
+
 \end{datatype}
 
 Some preamble \somecommand
@@ -250,10 +284,22 @@ Standalone Problem
 Some flavor text for problem 1.
 \end{gram}
 
-\begin{gram}
+\begin{problem}
 \label{quiz-ii::1::1}
 Para I of Multipart problem I.
-\end{gram}
+
+Here is a quick check on understanding:
+Above why did we assume X
+
+\begin{xchoice}
+\choice Because we could not assume Y.
+\choice* If we didn't, then we would have ... contradicting...
+\end{xchoice}
+
+\sol
+this is a solution
+
+\end{problem}
 
 \begin{problem}[20][Problem I.1]
 \depend{quiz::ii::1::1}
