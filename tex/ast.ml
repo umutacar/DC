@@ -209,25 +209,42 @@ let pval_opt_to_string_opt pval =
       Some f
 
 let process_title kind topt =   
-  let 
-    extract_all t = 
-      let tokens = Str.split (Str.regexp (",[ ]*"))  t in
-        (* splits the string at comma-space* 's.  
-           if none is found, returns the whole string.
-          *)
-        if List.length tokens > 1 then
-          (d_printf ("!ast.process_title: title has multiple parts");
-           tokens)       
-        else
-          (d_printf ("!ast.process_title: title has no parts");
-           tokens)       
+  let extract_key_value kv = 
+      let _ = d_printf "ast.extract_key_value kv = %s" kv in
+      (* split "key = value" pairs *)
+      let k_and_v = Str.split (Str.regexp ("[ ]*=[ ]*")) kv in
+        match k_and_v with 
+        | x::[] ->
+          (printf "FATAL ERROR in LaTeX to html translation: case 1 x = %s \n" x;
+           exit ErrorCode.parse_error_arg_expecting_key_value)
+        | k::v::[] -> (d_printf "ast.extract_key_value: %s = %s\n" k v;
+                        (k, v)) 
+        | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
+                exit ErrorCode.parse_error_arg_expecting_key_value)
+  in
+  (* takes string of the form s = "part_a , part_b,   part_c"
+   * splits the string into its parts
+   * and extracts key-value pairs from each part.
+   *)
+  let extract_parts s = 
+    let tokens = Str.split (Str.regexp ("[ ]*,[ ]*"))  s in
+      (* splits the string at comma-space* 's.  
+         if none is found, returns the whole string.
+        *)
+      if List.length tokens > 1 then
+        (d_printf ("!ast.process_title: title has multiple parts");
+         List.map tokens extract_key_value; 
+         tokens)       
+      else
+        (d_printf ("!ast.process_title: title has no parts");
+         tokens)       
 
   in
     match topt with 
     | None -> None
     | Some t -> 
         if kind = TexSyntax.kw_code then
-          let _ = extract_all t in 
+          let _ = extract_parts t in 
             topt      
         else
           topt
