@@ -208,6 +208,9 @@ let pval_opt_to_string_opt pval =
     let _ = d_printf ("pval_opt_to_string_opt: points = %f\n") x in
       Some f
 
+(* Take the title argument and returns
+ *  title option * code language option * all the arguments in markdown
+ *)
 let process_title kind topt =   
   let extract_key_value kv = 
         let _ = d_printf "ast.extract_key_value input = %s\n" kv in
@@ -221,10 +224,22 @@ let process_title kind topt =
           | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
                   exit ErrorCode.parse_error_arg_expecting_key_value)
   in
+  let find_lang kv = 
+    try let x = List.find_exn kv ~f:(fun (k, v) -> k = TexSyntax.language) in
+          Some x
+    with Caml.Not_found -> None
+  in
   let title_and_args kvs = 
         let k_and_v_all = List.map kvs extract_key_value in
+
+        (* Language if any *)
+        let lang_opt = find_lang k_and_v_all in  
+
+        (* Split into title and other arguments *)
         let key_is_title (key, value) = (key = TexSyntax.kw_title) in
         let (title, args) =  List.partition_tf k_and_v_all key_is_title in
+
+        (* Title *)
         let t_opt =  match title with 
                      | [] -> None 
                      | (k_title, v_title)::[] -> 
@@ -233,6 +248,7 @@ let process_title kind topt =
                      | _ -> (printf "FATAL ERROR in LaTeX to html translation\n";
                              exit ErrorCode.parse_error_multiple_titles)
         in
+        (* Translate the rest of the arguments to markdown *)
         let arg_to_md (key, value) = 
           if (key = TexSyntax.language) then
             MdSyntax.mk_code_block_arg_indicate value
@@ -253,7 +269,7 @@ let process_title kind topt =
             let _ = d_printf "ast.process_title: new args = %s\n" args in
               Some args
          in
-           (t_opt, arg_opt)
+           (t_opt, lang_opt, arg_opt)
   in
   (* takes string of the form s = "part_a , part_b,   part_c"
    * splits the string into its parts
@@ -269,18 +285,19 @@ let process_title kind topt =
       | [] -> (printf "ast.process_title: FATAL ERROR in LaTeX to html translation.\n";
                exit ErrorCode.parse_error_arg_expecting_nonempty_string)
       | title::[] -> (d_printf "!ast.process_title: title only";
-                      (Some title, None))
-      | _ -> (d_printf ("!ast.process_title: title has multiple parts");
-              title_and_args tokens)
+                      (Some title, None, None))
+      | _ -> let _ = d_printf ("!ast.process_title: title has multiple parts") in
+             let (topt, lang_opt, arg_opt) =  title_and_args tokens in
+               (topt, lang_opt, arg_opt)
   in
     match topt with 
-    | None -> (None, None)
+    | None -> (None, None, None)
     | Some t -> 
         if kind = TexSyntax.kw_code then
-          let (topt, arg_opt) = process_parts t in 
-            (topt, arg_opt)      
+          let (topt, lang_opt, arg_opt) = process_parts t in 
+            (topt, lang_opt, arg_opt)      
         else
-          (topt, None)
+          (topt, None, None)
 
 (**********************************************************************
  ** END Utilities
@@ -594,7 +611,7 @@ let atomToXml tex2html
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
-  let (topt, atom_arg_opt) = process_title kind topt in
+  let (topt, lang_opt, atom_arg_opt) = process_title kind topt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = 
     if kind = TexSyntax.kw_code then
