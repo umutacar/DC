@@ -6,7 +6,7 @@ let default_tmp_dir = "/tmp"
 
 let mk_translator preamble_filename = 
   let preamble = In_channel.read_all preamble_filename in
-    Tex2html.mk_translator (default_tmp_dir, preamble) 
+    Tex2html.mk_translator default_tmp_dir None preamble 
 
 let tex2ast infile = 
 	let ic = In_channel.create infile in
