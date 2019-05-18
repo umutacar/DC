@@ -235,9 +235,9 @@ let process_title kind topt =
         in
         let arg_to_md (key, value) = 
           if (key = TexSyntax.language) then
-            MdSyntax.mk_code_block_language value
+            MdSyntax.mk_code_block_arg_indicate value
           else if (key = TexSyntax.numbers) then
-            MdSyntax.mk_code_block_arg MdSyntax.numbers value
+            MdSyntax.mk_code_block_arg_indicate MdSyntax.numbers value
           else if (key = TexSyntax.firstline) then
             MdSyntax.mk_code_block_arg MdSyntax.firstline value
           else 
