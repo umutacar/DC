@@ -224,12 +224,12 @@ let process_title kind topt =
           | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
                   exit ErrorCode.parse_error_arg_expecting_key_value)
   in
-  let find_lang kv = 
-    try let x = List.find_exn kv ~f:(fun (k, v) -> k = TexSyntax.language) in
-          Some x
+  let find_lang (kv: (string * string) list): string option = 
+    try let (_, lang) = List.find_exn kv ~f:(fun (k, v) -> k = TexSyntax.language) in
+          Some lang
     with Caml.Not_found -> None
   in
-  let title_and_args kvs = 
+  let title_and_args (kvs: string list): string option * string option * string option = 
         let k_and_v_all = List.map kvs extract_key_value in
 
         (* Language if any *)
@@ -518,7 +518,7 @@ let hint_is_single_par = Tex2html.Generic false
 let refsol_is_single_par = Tex2html.Generic false
 let rubric_is_single_par = Tex2html.Generic false
 let title_is_single_par = Tex2html.Generic true
-let atom_is_code arg_opt = Tex2html.Code arg_opt
+let atom_is_code lang_opt arg_opt = Tex2html.Code (lang_opt, arg_opt)
 
 let extract_label lopt = 
   let r = match lopt with 
@@ -615,7 +615,7 @@ let atomToXml tex2html
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = 
     if kind = TexSyntax.kw_code then
-      tex2html (mk_index ()) body (atom_is_code atom_arg_opt)
+      tex2html (mk_index ()) body (atom_is_code lang_opt atom_arg_opt)
     else
       tex2html (mk_index ()) body body_is_single_par 
   in

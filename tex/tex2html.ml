@@ -10,7 +10,9 @@ open Core
  ** BEGIN: Globals
  **********************************************************************)
 
-type translation_options = Generic of bool | Code of string option
+type translation_options = 
+  Generic of bool 
+| Code of string option * string option (* code is language name and other argument *) 
 
 let html_extension = "html"
 let latex_extension = "tex"
@@ -36,6 +38,9 @@ let pandoc_standalone = "pandoc  --mathjax -s"
 let pandoc_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
 
+let pandoc_highlight langname = 
+  let xml_definition = "./kate" ^ langname ^ "." ^ "xml" in
+    pandoc ^ "--syntax-definition=" ^ xml_definition
 
 (* Regular expressions *)
 let pattern_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
@@ -77,15 +82,21 @@ let latex_file_to_html (latex_file_name, html_file_name) =
         end
 
 
-(* Translate the contents of wd_file_name and write it into
+(* Translate the contents of md_file_name and write it into
  *  html_file_name
  *)
-let md_file_to_html (md_file_name, html_file_name) = 
+let md_file_to_html lang_opt (md_file_name, html_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
-    let command = pandoc ^ " " ^ md_file_name ^  " -o" ^ html_file_name  in
+    let command = 
+      match lang_opt with 
+        None -> pandoc ^ " " ^ md_file_name ^  " -o" ^ html_file_name
+      | Some lang ->
+        let cmd_pandoc = pandoc_highlight lang in
+          cmd_pandoc ^ " " ^ md_file_name ^  " -o" ^ html_file_name
+    in
     let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -152,7 +163,7 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
  ** contents is the contents to be translated
  **)
 
-let code_to_html tmp_dir default_code_lang unique arg_opt contents = 
+let code_to_html tmp_dir lang_opt unique arg_opt contents = 
   (* prep for translation *)
   let md_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
   let md_file = Out_channel.create md_file_name in
@@ -161,7 +172,6 @@ let code_to_html tmp_dir default_code_lang unique arg_opt contents =
             | None -> ""
             | Some x -> x
   in
-  (* TODO: update this *)
   let heading = "~~~~{ " ^ arg ^ " }" in
   let ending = "~~~~" in
   let () = Out_channel.output_string md_file (heading ^ "\n") in
@@ -171,7 +181,7 @@ let code_to_html tmp_dir default_code_lang unique arg_opt contents =
 
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let () = md_file_to_html (md_file_name, html_file_name) in
+  let () = md_file_to_html lang_opt (md_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
     html
 
@@ -184,7 +194,7 @@ let code_to_html tmp_dir default_code_lang unique arg_opt contents =
 let contents_to_html tmp_dir default_code_lang unique preamble contents options = 
   match options with 
   | Generic is_single_paragraph -> tex_to_html tmp_dir unique preamble contents is_single_paragraph
-  | Code arg_opt -> code_to_html tmp_dir default_code_lang unique arg_opt contents 
+  | Code (lang_opt, arg_opt) -> code_to_html tmp_dir lang_opt unique arg_opt contents 
 
 
 (**********************************************************************
