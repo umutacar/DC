@@ -10,7 +10,7 @@ open Core
  ** BEGIN: Globals
  **********************************************************************)
 
-type translation_options = Generic of bool | Code of unit 
+type translation_options = Generic of bool | Code of string option
 
 let html_extension = "html"
 let latex_extension = "tex"
@@ -152,13 +152,17 @@ let tex_to_html tmp_dir  unique preamble contents match_single_paragraph =
  ** contents is the contents to be translated
  **)
 
-let code_to_html tmp_dir  unique contents = 
+let code_to_html tmp_dir unique arg_opt contents = 
   (* prep for translation *)
   let md_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
   let md_file = Out_channel.create md_file_name in
 
+  let arg = match arg_opt with 
+            | None -> ""
+            | Some x -> x
+  in
   (* TODO: update this *)
-  let heading = "~~~~{.c .numberLines startFrom=\"100\"}" in
+  let heading = "~~~~{ " ^ arg ^ " }" in
   let ending = "~~~~" in
   let () = Out_channel.output_string md_file (heading ^ "\n") in
   let () = Out_channel.output_string md_file (contents ^ "\n") in
@@ -177,10 +181,10 @@ let code_to_html tmp_dir  unique contents =
 (**
  **
  **)
-let contents_to_html tmp_dir  unique preamble contents options = 
+let contents_to_html tmp_dir unique preamble contents options = 
   match options with 
   | Generic is_single_paragraph -> tex_to_html tmp_dir unique preamble contents is_single_paragraph
-  | Code _ -> code_to_html tmp_dir unique contents 
+  | Code arg_opt -> code_to_html tmp_dir unique arg_opt contents 
 
 
 (**********************************************************************
@@ -194,7 +198,6 @@ let mk_translator (tmp_dir, preamble) =
    (* translator *)
    let translate unique contents options = 
      let contents = text_prep contents in 
-(*       tex_to_html tmp_dir unique preamble contents match_single_paragraph *)
        contents_to_html tmp_dir unique preamble contents options
    in
      translate

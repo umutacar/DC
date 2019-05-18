@@ -210,44 +210,77 @@ let pval_opt_to_string_opt pval =
 
 let process_title kind topt =   
   let extract_key_value kv = 
-      let _ = d_printf "ast.extract_key_value kv = %s" kv in
-      (* split "key = value" pairs *)
-      let k_and_v = Str.split (Str.regexp ("[ ]*=[ ]*")) kv in
-        match k_and_v with 
-        | x::[] ->
-          (printf "FATAL ERROR in LaTeX to html translation: case 1 x = %s \n" x;
-           exit ErrorCode.parse_error_arg_expecting_key_value)
-        | k::v::[] -> (d_printf "ast.extract_key_value: %s = %s\n" k v;
-                        (k, v)) 
-        | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
-                exit ErrorCode.parse_error_arg_expecting_key_value)
+        let _ = d_printf "ast.extract_key_value input = %s\n" kv in
+        (* split "key = value" pairs *)
+        let k_and_v = Str.split (Str.regexp ("[ ]*=[ ]*")) kv in
+          match k_and_v with 
+          | x::[] -> (printf "FATAL ERROR in LaTeX to html translation: case 1 x = %s \n" x;
+                      exit ErrorCode.parse_error_arg_expecting_key_value)
+          | k::v::[] -> (d_printf "ast.extract_key_value: %s = %s\n" k v;
+                         (k, v)) 
+          | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
+                  exit ErrorCode.parse_error_arg_expecting_key_value)
+  in
+  let title_and_args kvs = 
+        let k_and_v_all = List.map kvs extract_key_value in
+        let key_is_title (key, value) = (key = TexSyntax.kw_title) in
+        let (title, args) =  List.partition_tf k_and_v_all key_is_title in
+        let t_opt =  match title with 
+                     | [] -> None 
+                     | (k_title, v_title)::[] -> 
+                       let _ = d_printf "ast.process_title: title = %s\n" v_title in
+                         Some v_title
+                     | _ -> (printf "FATAL ERROR in LaTeX to html translation\n";
+                             exit ErrorCode.parse_error_multiple_titles)
+        in
+        let arg_to_md (key, value) = 
+          if (key = TexSyntax.language) then
+            MdSyntax.mk_code_block_language value
+          else if (key = TexSyntax.numbers) then
+            MdSyntax.mk_code_block_arg MdSyntax.numbers value
+          else if (key = TexSyntax.firstline) then
+            MdSyntax.mk_code_block_arg MdSyntax.firstline value
+          else 
+            MdSyntax.mk_code_block_arg key value
+        in
+        let arg_opt =            
+          match args with 
+          | [] -> None
+          | kvs -> 
+            (* translate argument to markdown *)
+            let args = List.map kvs arg_to_md in
+            let args = String.concat ~sep:" " args in
+            let _ = d_printf "ast.process_title: new args = %s\n" args in
+              Some args
+         in
+           (t_opt, arg_opt)
   in
   (* takes string of the form s = "part_a , part_b,   part_c"
    * splits the string into its parts
-   * and extracts key-value pairs from each part.
+   * extracts key-value pairs from each part,
+   * splits them into a title and other arguments
    *)
-  let extract_parts s = 
+  let process_parts s = 
     let tokens = Str.split (Str.regexp ("[ ]*,[ ]*"))  s in
       (* splits the string at comma-space* 's.  
          if none is found, returns the whole string.
         *)
-      if List.length tokens > 1 then
-        (d_printf ("!ast.process_title: title has multiple parts");
-         List.map tokens extract_key_value; 
-         tokens)       
-      else
-        (d_printf ("!ast.process_title: title has no parts");
-         tokens)       
-
+      match tokens with 
+      | [] -> (printf "ast.process_title: FATAL ERROR in LaTeX to html translation.\n";
+               exit ErrorCode.parse_error_arg_expecting_nonempty_string)
+      | title::[] -> (d_printf "!ast.process_title: title only";
+                      (Some title, None))
+      | _ -> (d_printf ("!ast.process_title: title has multiple parts");
+              title_and_args tokens)
   in
     match topt with 
-    | None -> None
+    | None -> (None, None)
     | Some t -> 
         if kind = TexSyntax.kw_code then
-          let _ = extract_parts t in 
-            topt      
+          let (topt, arg_opt) = process_parts t in 
+            (topt, arg_opt)      
         else
-          topt
+          (topt, None)
 
 (**********************************************************************
  ** END Utilities
@@ -468,7 +501,7 @@ let hint_is_single_par = Tex2html.Generic false
 let refsol_is_single_par = Tex2html.Generic false
 let rubric_is_single_par = Tex2html.Generic false
 let title_is_single_par = Tex2html.Generic true
-let atom_is_code = Tex2html.Code ()
+let atom_is_code arg_opt = Tex2html.Code arg_opt
 
 let extract_label lopt = 
   let r = match lopt with 
@@ -561,11 +594,11 @@ let atomToXml tex2html
   let pval_str_opt = pval_opt_to_string_opt pval_opt in
   let lsopt = extract_label lopt in
   let dsopt = extract_depend dopt in
-  let _ = process_title kind topt in
+  let (topt, atom_arg_opt) = process_title kind topt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = 
     if kind = TexSyntax.kw_code then
-      tex2html (mk_index ()) body atom_is_code
+      tex2html (mk_index ()) body (atom_is_code atom_arg_opt)
     else
       tex2html (mk_index ()) body body_is_single_par 
   in
