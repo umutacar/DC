@@ -196,8 +196,14 @@ let contents_to_html tmp_dir lang_opt_default unique preamble contents options =
   | Generic is_single_paragraph -> tex_to_html tmp_dir unique preamble contents is_single_paragraph
   | Code (lang_opt, arg_opt) -> 
     match lang_opt with 
-    | None -> code_to_html tmp_dir lang_opt_default unique arg_opt contents 
-    | Some lang -> code_to_html tmp_dir (Some lang) unique arg_opt contents 
+    | None -> 
+      (match lang_opt_default with 
+       | None -> code_to_html tmp_dir None unique arg_opt contents
+       | Some lang -> let lang_arg = MdSyntax.mk_code_block_arg_indicate lang in
+                      let arg_opt_new = MdSyntax.add_to_code_block_arg lang_arg arg_opt in 
+                        code_to_html tmp_dir lang_opt_default unique arg_opt_new contents 
+      )
+    | Some lang -> code_to_html tmp_dir (Some lang) unique arg_opt contents
 
 
 (**********************************************************************
