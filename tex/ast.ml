@@ -212,7 +212,11 @@ let pval_opt_to_string_opt pval =
  *  title option * code language option * all the arguments in markdown
  *)
 let process_title kind topt =   
-  let extract_key_value kv = 
+
+  (* split the string of the form "key = value" to a (key, value) pair.
+     strip white spaces around keys and values.
+   *)
+  let string_to_key_value kv = 
         let _ = d_printf "ast.extract_key_value input = %s\n" kv in
         (* split "key = value" pairs *)
         let k_and_v = Str.split (Str.regexp ("[ ]*=[ ]*")) kv in
@@ -220,7 +224,7 @@ let process_title kind topt =
           | x::[] -> (printf "FATAL ERROR in LaTeX to html translation: case 1 x = %s \n" x;
                       exit ErrorCode.parse_error_arg_expecting_key_value)
           | k::v::[] -> (d_printf "ast.extract_key_value: %s = %s\n" k v;
-                         (k, v)) 
+                         (String.strip k, String.strip v)) 
           | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
                   exit ErrorCode.parse_error_arg_expecting_key_value)
   in
@@ -230,7 +234,9 @@ let process_title kind topt =
     with Caml.Not_found -> None
   in
   let title_and_args (kvs: string list): string option * string option * string option = 
-        let k_and_v_all = List.map kvs extract_key_value in
+
+        (* Make a list of key value pairs *)
+        let k_and_v_all = List.map kvs string_to_key_value in
 
         (* Language if any *)
         let lang_opt = find_lang k_and_v_all in  
