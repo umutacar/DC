@@ -14,6 +14,12 @@ let numbers = "numbers"
 
 (* END: lstlisting arguments *)
 
+let com_explain = "\\explain"
+let com_hint = "\\help"
+let com_rubric = "\\rubric"
+let com_solution = "\\sol"
+
+
 let kw_title = "title"
 
 let kw_chapter = "chapter"
