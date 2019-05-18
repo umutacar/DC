@@ -259,10 +259,15 @@ let process_title kind topt =
           if (key = TexSyntax.language) then
             MdSyntax.mk_code_block_arg_indicate value
           else if (key = TexSyntax.numbers) then
-            MdSyntax.mk_code_block_arg MdSyntax.numbers value
+            if value = TexSyntax.none then 
+              ""
+            else
+              (* in Markdown we only indicate that lines will be numbered *)
+              MdSyntax.mk_code_block_arg_indicate MdSyntax.numbers
           else if (key = TexSyntax.firstline) then
             MdSyntax.mk_code_block_arg MdSyntax.firstline value
           else 
+            (* Pass the other arguments along *)
             MdSyntax.mk_code_block_arg key value
         in
         let arg_opt =            

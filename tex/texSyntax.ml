@@ -6,8 +6,10 @@ let space = " "
 let correct_choice_indicator = "*"
 
 (* BEGIN: lstlisting arguments *)
+
 let firstline = "firstline"
 let language = "language"
+let none = "none"
 let numbers = "numbers"
 
 (* END: lstlisting arguments *)
