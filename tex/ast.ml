@@ -879,6 +879,35 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
  **********************************************************************)
 
 
+(**********************************************************************
+ ** BEGIN: AST LABELING
+ **********************************************************************)
+let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
+  let labelTable = Hashtbl.create (module String) in
+
+  let Label (_, ls) = l in
+
+  let () = 
+      try let _ = Hashtbl.find_exn labelTable ls  in
+            (printf "ast.labelTable: FATAL ERROR in Labeling.\n";
+             exit ErrorCode.labeling_error_hash_table_corrupted)
+      with Caml.Not_found -> 
+        match Hashtbl.add labelTable ~key:ls ~data:() with
+        | `Duplicate -> 
+                    (printf "ast.labelTable: FATAL ERROR in Labeling.\n";
+                     exit ErrorCode.labeling_error_hash_table_corrupted)
+        | `Ok -> ()
+  in
+     Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))
+
+
+
+
+(**********************************************************************
+ ** END: AST LABELING
+ **********************************************************************)
+
+
 
 (**********************************************************************
  ** BEGIN: AST  TRAVERSAL
@@ -997,3 +1026,4 @@ let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
 (**********************************************************************
  ** END: AST TRAVERSAL
  **********************************************************************)
+
