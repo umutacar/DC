@@ -882,6 +882,20 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
 (**********************************************************************
  ** BEGIN: AST LABELING
  **********************************************************************)
+let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
+(*
+  let b = blockTR b in
+  let ps = paragraphsTR ps in
+  let ss = map subsectionTR ss in
+*)
+    match lopt with 
+    | Some _ -> Section (heading, pval_opt, t, lopt, b, ps, ss)
+    | None -> 
+
+
+
+    
+
 let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let labelTable = Hashtbl.create (module String) in
 
@@ -895,7 +909,7 @@ let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
         match Hashtbl.add labelTable ~key:ls ~data:() with
         | `Duplicate -> 
                     (printf "ast.labelTable: FATAL ERROR in Labeling.\n";
-                     exit ErrorCode.labeling_error_hash_table_corrupted)
+                     exit ErrorCode.labeling_errtor_hash_table_corrupted)
         | `Ok -> ()
   in
      Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))

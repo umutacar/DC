@@ -38,7 +38,7 @@ let tex2tex infile =
   let ast_elaborated = Ast.chapterEl ast in
 
   (* Elaborate AST *)
-  let ast_labeled = Ast.chapterLabel ast_elaborated in
+  let ast_labeled = Ast.labelChapter ast_elaborated in
 
   (* Make TeX *)
   let result = ast2tex ast_elaborated in
