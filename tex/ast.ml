@@ -882,20 +882,59 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
 (**********************************************************************
  ** BEGIN: AST LABELING
  **********************************************************************)
+let findWord s = 
+  (* Delete all latex commands *)
+  let s = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" s in
+  (* Replace all non-alpha-numeric letters with space *)
+  let s = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " s in
+
+  (* Now split *)
+  let tokens = Str.split (Str.regexp ("[ ]*")) s in
+      (* splits the string at space* 's.  
+         if none is found, returns the whole string.
+        *)
+    match tokens with 
+    | h::nil -> h
+    | h:: t -> h
+let addLabel table label = 
+      try let _ = Hashtbl.find_exn table label  in
+            (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
+             false)
+      with Caml.Not_found -> 
+        match Hashtbl.add table ~key:label ~data:() with
+        | `Duplicate -> 
+                    (printf "ast.addLabel: FATAL ERROR in Labeling.\n";
+                     exit ErrorCode.labeling_error_hash_table_corrupted)
+        | `Ok -> true
+
+let createLabel kind prefix s = 
+  let label = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_seperator ^ s  in
+  let heading = "\\label{" ^ label ^ "}" in
+    (heading, label) 
+
 let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
 (*
   let b = blockTR b in
   let ps = paragraphsTR ps in
   let ss = map subsectionTR ss in
 *)
+  let () = () in   
     match lopt with 
     | Some _ -> Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
-
-
-
-    
-
+      let r = findWord t in
+      let (heading, label) = createLabel TexSyntax.label_prefix_section prefix r in
+      let () = 
+        if addLabel table label then 
+          (d_printf "ast.addLabel: Label = %s added  the table.\n" label;
+           ())
+        else
+          (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
+           ())
+      in
+      let lopt_new = Some (Label (heading, label)) in
+        Section (heading, pval_opt, t, lopt_new, b, ps, ss)
+      
 let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let labelTable = Hashtbl.create (module String) in
 
@@ -909,10 +948,17 @@ let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
         match Hashtbl.add labelTable ~key:ls ~data:() with
         | `Duplicate -> 
                     (printf "ast.labelTable: FATAL ERROR in Labeling.\n";
-                     exit ErrorCode.labeling_errtor_hash_table_corrupted)
-        | `Ok -> ()
+                     exit ErrorCode.labeling_error_hash_table_corrupted)
+        | `Ok -> () 
   in
-     Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))
+
+  let prefix = ls in
+  let folder ss s = 
+    let s_new = labelSection labelTable prefix s in
+      ss @ [s_new]
+  in             
+  let ss_new = List.fold_left ss ~init:[] ~f:folder in
+     Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss_new))
 
 
 

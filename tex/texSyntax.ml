@@ -3,7 +3,10 @@
  **********************************************************************)
 let newline = "\n"
 let space = " "
+let colon = ":"
 let correct_choice_indicator = "*"
+let label_seperator = colon
+let label_prefix_section = "sec"
 
 (* BEGIN: lstlisting arguments *)
 
@@ -13,6 +16,13 @@ let none = "none"
 let numbers = "numbers"
 
 (* END: lstlisting arguments *)
+
+(* BEGIN: label prefixes *)
+let kw_label_prefix_ch = "ch"
+let kw_label_prefix_sec = "sec"
+let kw_label_prefix_def = "def"
+
+(* END: label prefixes *)
 
 let com_explain = "\\explain"
 let com_hint = "\\help"
