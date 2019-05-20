@@ -1061,10 +1061,33 @@ let labelBlock table prefix (Block(es, tt)) =
   let es = map (labelElement table prefix) es in 
     Block(es, tt)
 
+let labelParagraph table prefix par = 
+(*
+  let ps = paragraphsTR ps in
+  let ss = map subsectionTR ss in
+*)
+  let Paragraph(heading, pval_opt, t, lopt, b) = par in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+        Paragraph (heading, pval_opt, t, lopt, b)
+    | None -> 
+      let _ = d_printf "ast.labelParagraph: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_paragraph in
+      let body = None in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Paragraph (heading, pval_opt, t, lopt_new, b)
+
 
 let labelSection table prefix sec = 
 (*
-  let b = blockTR b in
   let ps = paragraphsTR ps in
   let ss = map subsectionTR ss in
 *)
@@ -1077,13 +1100,15 @@ let labelSection table prefix sec =
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       (* TODO: use force *)
-      let _ = d_printf "ast.labelSection.\n"  in
+      let _ = d_printf "ast.labelSection: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_paragraph in
       let body = None in
+      let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
       let prefix = mkLabelPrefix ls_new in
       let b = labelBlock table prefix b in
-      let lopt_new = Some (Label (heading_new, ls)) in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
         Section (heading, pval_opt, t, lopt_new, b, ps, ss)
       
 let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =

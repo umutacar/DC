@@ -10,7 +10,6 @@ let colon = ":"
 let correct_choice_indicator = "*"
 let label_seperator = colon
 let label_nestor = colon ^ colon
-let label_prefix_section = "sec"
 
 
 (* BEGIN: Keywords *)
@@ -80,6 +79,8 @@ let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 
 
 (* BEGIN: label prefixes *)
+let label_prefix_section = "sec"
+let label_prefix_paragraph = "sec"
 let label_prefix_cluster = "grp"
 let label_prefix_problem_cluster = "grp"
 let label_prefix_flex = "grp"
