@@ -1033,7 +1033,6 @@ let labelAtom table prefix atom =
 
 let labelGroup table prefix group = 
   let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
-(*  let ats = map labelAtom ats in *)
     match lopt with 
     | Some l -> 
       let _ = d_printf "ast.labelGroup: has label.\n" in

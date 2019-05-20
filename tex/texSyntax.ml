@@ -29,14 +29,13 @@ let kw_subsection = "subsection"
 let kw_subsubsection = "subsubsection"
 let kw_paragraph = "paragraph"
 
-let kw_cluster = "sec"
-let kw_problem_cluster = "sec"
-let kw_flex = "sec"
+let kw_cluster = "cluster"
+let kw_problem_cluster = "mproblem"
+let kw_flex = "flex"
 
 let kw_code = "code"
 let kw_algorithm = "algorithm"
 let kw_assumption = "assumption"
-let kw_code = "code"
 let kw_corollary = "corollary"
 let kw_costspec = "costspec"
 let kw_datastr = "datastr"
@@ -154,8 +153,6 @@ let label_prefix_of_kind =
    kw_task, label_prefix_task;
    kw_theorem, label_prefix_theorem;
   ]
-
-(*   kw_xxx, label_prefix_xxx; *)
 
 let mk_label_prefix_from_kind kind = 
    match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
@@ -311,7 +308,8 @@ let stopWords =
    kw_subsection;
    kw_subsubsection;
    kw_paragraph;
-   kw_code;
+   kw_flex;
+   kw_problem_cluster;
    kw_algorithm;
    kw_assumption;
    kw_code;
@@ -345,7 +343,7 @@ let stopWordsTable =
     match Hashtbl.of_alist (module String) stopWords with
     | `Ok t -> t
     | `Duplicate_key x ->
-       (printf "Fatal Error: Duplicate entry in the stop words table %s"  x;
+       (printf "Fatal Error: Duplicate entry in the stop words table %s\n"  x;
         exit 1)
 
 let labelGood x =      
