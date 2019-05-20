@@ -360,8 +360,8 @@ let mktex_section_heading name pvalopt t =
   in 
     b ^ p ^ "{" ^ t ^ "}" ^ "\n"
 
-let mktex_begin block_name pvalopt topt = 
-  let b = "\\begin{" ^ block_name ^ "}" in
+let mktex_begin kind pvalopt topt = 
+  let b = "\\begin{" ^ kind ^ "}" in
   let p = match pvalopt with 
           | None -> ""
           | Some pts -> if pts = 0.0 then ""
@@ -372,6 +372,10 @@ let mktex_begin block_name pvalopt topt =
           | Some t -> mktex_optarg t
   in
     b ^ p ^ t ^ "\n"
+
+
+let mktex_header_atom kind pval_opt topt = 
+  mktex_begin kind pval_opt topt 
 
 let dependOptToTex dopt = 
   let r = match dopt with 
@@ -443,6 +447,7 @@ let ilistToTex (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) =
     preamble ^ h_begin ^ ils ^ h_end
       
 let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
+  let h_begin = mktex_header_atom kind pval_opt topt in
   let label = labelOptToTex lopt in
   let depend = dependOptToTex dopt in
   let hint = hintOptToTex hint_opt in
