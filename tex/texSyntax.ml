@@ -2,6 +2,7 @@
  ** tex/texSyntax.ml
  **********************************************************************)
 open Core
+open Utils
 
 let newline = "\n"
 let space = " "
@@ -156,5 +157,188 @@ let mkArg arg =
 
 let mkLabel label = 
    com_label ^ (mkArg label)
+
+let stopWords = 
+  (* English stopwords *)
+  ["i";
+   "me";
+   "my";
+   "myself";
+   "we";
+   "our";
+   "ours";
+   "ourselves";
+   "you";
+   "your";
+   "yours";
+   "yourself";
+   "yourselves";
+   "he";
+   "him";
+   "his";
+   "himself";
+   "she";
+   "her";
+   "hers";
+   "herself";
+   "it";
+   "its";
+   "itself";
+   "they";
+   "them";
+   "their";
+   "theirs";
+   "themselves";
+   "what";
+   "which";
+   "who";
+   "whom";
+   "this";
+   "that";
+   "these";
+   "those";
+   "am";
+   "is";
+   "are";
+   "was";
+   "were";
+   "be";
+   "been";
+   "being";
+   "have";
+   "has";
+   "had";
+   "having";
+   "do";
+   "does";
+   "did";
+   "doing";
+   "a";
+   "an";
+   "the";
+   "and";
+   "but";
+   "if";
+   "or";
+   "because";
+   "as";
+   "until";
+   "while";
+   "of";
+   "at";
+   "by";
+   "for";
+   "with";
+   "about";
+   "against";
+   "between";
+   "into";
+   "through";
+   "during";
+   "before";
+   "after";
+   "above";
+   "below";
+   "to";
+   "from";
+   "up";
+   "down";
+   "in";
+   "out";
+   "on";
+   "off";
+   "over";
+   "under";
+   "again";
+   "further";
+   "then";
+   "once";
+   "here";
+   "there";
+   "when";
+   "where";
+   "why";
+   "how";
+   "all";
+   "any";
+   "both";
+   "each";
+   "few";
+   "more";
+   "most";
+   "other";
+   "some";
+   "such";
+   "no";
+   "nor";
+   "not";
+   "only";
+   "own";
+   "same";
+   "so";
+   "than";
+   "too";
+   "very";
+   "s";
+   "t";
+   "can";
+   "will";
+   "just";
+   "don";
+   "should";
+   "now";
+   "several"
+  ]
+  @
+  (* Diderot stopwords *)
+  [kw_chapter;
+   kw_section;
+   kw_subsection;
+   kw_subsubsection;
+   kw_paragraph;
+   kw_code;
+   kw_algorithm;
+   kw_assumption;
+   kw_code;
+   kw_corollary;
+   kw_costspec;
+   kw_datastr;
+   kw_datatype;
+   kw_definition;
+   kw_example;
+   kw_exercise;
+   kw_hint;
+   kw_important;
+   kw_lemma;
+   kw_note;
+   kw_gram;
+   kw_preamble;
+   kw_problem;
+   kw_proof;
+   kw_proposition;
+   kw_remark;
+   kw_reminder;
+   kw_slide;
+   kw_solution;
+   kw_syntax;
+   kw_task;
+   kw_theorem
+  ]
+
+let stopWordsTable = 
+  let stopWords = List.map stopWords ~f:(fun x -> (x, ())) in
+    match Hashtbl.of_alist (module String) stopWords with
+    | `Ok t -> t
+    | `Duplicate_key x ->
+       (printf "Fatal Error: Duplicate entry in the stop words table %s"  x;
+        exit 1)
+
+let labelGood x =      
+  (String.length x > 1) 
+  & 
+  (try let _ = Hashtbl.find_exn stopWordsTable x  in
+          false
+    with Caml.Not_found -> true
+  )
 
 

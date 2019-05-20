@@ -947,7 +947,7 @@ let tokenize_spaces body =
         *)
   let tokens = List.map tokens  String.lowercase in 
   (* Delete all words less than or equal to 2 characters *)
-  let tokens = List.filter tokens ~f:(fun x -> String.length x > 1) in
+  let tokens = List.filter tokens ~f:TexSyntax.labelGood in
   let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
     tokens
 
