@@ -27,9 +27,10 @@ let regexp_whitespace = Str.regexp "\n\r\x0c\t"
 
 
 (* BEGIN: label prefixes *)
-let kw_label_prefix_ch = "ch"
-let kw_label_prefix_sec = "sec"
-let kw_label_prefix_def = "def"
+let label_prefix_ch = "ch"
+let label_prefix_sec = "sec"
+let label_prefix_group = "gr"
+let label_prefix_def = "def"
 
 
 (* END: label prefixes *)

@@ -975,6 +975,51 @@ let createLabel table kind prefix body =
      in
        find candidates
 
+(*
+let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
+  let dopt = dependOptTR dopt in
+  let lopt = labelOptTR lopt in
+  let hint_opt = hintOptTR hint_opt in
+  let refsol_opt = refsolOptTR refsol_opt in
+  let exp_opt = expOptTR exp_opt in
+  let rubric_opt = rubricOptTR rubric_opt in
+  let ilist_opt = ilistOptTR ilist_opt in
+    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
+*)
+
+let labelAtom table prefix atom = 
+  let Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end)) = atom in
+    atom
+
+let labelGroup table prefix group = 
+  let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
+(*  let ats = map labelAtom ats in *)
+  let _ = d_printf "labelGroup:" in
+    match lopt with 
+    | Some _ -> group
+    | None -> 
+        match topt with 
+        | None -> 
+          let _ = d_printf "ast.labelGroup: no title.  Using unique.\n" in
+             group
+        | Some t -> 
+          match createLabel table TexSyntax.label_prefix_group prefix t with 
+          | None -> group
+          | Some (heading_new, label) -> 
+            let _ = d_printf "labelGroup: heading = %s, label = %s" heading_new label in
+            let lopt_new = Some (Label (heading_new, label)) in
+              Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
+
+let labelElement table prefix b = 
+  match b with
+  | Element_Group g -> Element_Group (labelGroup table prefix g)
+  | Element_Atom a -> Element_Atom (labelAtom table prefix a)
+
+let labelBlock table prefix (Block(es, tt)) =
+  let _ = d_printf "labelBlock" in
+  let es = map (labelElement table prefix) es in 
+    Block(es, tt)
+
 
 let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
 (*
@@ -984,13 +1029,19 @@ let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) 
 *)
   let () = () in   
     match lopt with 
-    | Some _ -> Section (heading, pval_opt, t, lopt, b, ps, ss)
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+        Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       match createLabel table TexSyntax.label_prefix_section prefix t with 
       | None -> Section (heading, pval_opt, t, lopt, b, ps, ss)
-      | Some (heading_new, label) -> 
-          let _ = d_printf "labelSection: heading = %s, label = %s" heading_new label in
-          let lopt_new = Some (Label (heading_new, label)) in
+      | Some (heading_new, ls) -> 
+          let _ = d_printf "labelSection: heading = %s, label = %s" heading_new ls in
+          let prefix = mkLabelPrefix ls in
+          let b = labelBlock table prefix b in
+          let lopt_new = Some (Label (heading_new, ls)) in
             Section (heading, pval_opt, t, lopt_new, b, ps, ss)
       
 let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
