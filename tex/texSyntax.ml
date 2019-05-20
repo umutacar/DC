@@ -80,9 +80,9 @@ let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 
 
 (* BEGIN: label prefixes *)
-let label_prefix_cluster = "sec"
-let label_prefix_problem_cluster = "sec"
-let label_prefix_flex = "sec"
+let label_prefix_cluster = "grp"
+let label_prefix_problem_cluster = "grp"
+let label_prefix_flex = "grp"
 
 
 let label_prefix_auto_pre = "_"

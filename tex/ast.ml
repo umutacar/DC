@@ -1062,13 +1062,13 @@ let labelBlock table prefix (Block(es, tt)) =
     Block(es, tt)
 
 
-let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
+let labelSection table prefix sec = 
 (*
   let b = blockTR b in
   let ps = paragraphsTR ps in
   let ss = map subsectionTR ss in
 *)
-  let () = () in   
+  let Section (heading, pval_opt, t, lopt, b, ps, ss) = sec in
     match lopt with 
     | Some l -> 
       let Label (_, ls) = l in
@@ -1077,14 +1077,14 @@ let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) 
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       (* TODO: use force *)
-      match createLabel table TexSyntax.label_prefix_section prefix t with 
-      | None -> Section (heading, pval_opt, t, lopt, b, ps, ss)
-      | Some (heading_new, ls) -> 
-          let _ = d_printf "labelSection: heading = %s, label = %s\n" heading_new ls in
-          let prefix = mkLabelPrefix ls in
-          let b = labelBlock table prefix b in
-          let lopt_new = Some (Label (heading_new, ls)) in
-            Section (heading, pval_opt, t, lopt_new, b, ps, ss)
+      let _ = d_printf "ast.labelSection.\n"  in
+      let body = None in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let lopt_new = Some (Label (heading_new, ls)) in
+        Section (heading, pval_opt, t, lopt_new, b, ps, ss)
       
 let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let labelTable = Hashtbl.create (module String) in
