@@ -70,7 +70,8 @@ let numbers = "numbers"
 
 (* END: lstlisting arguments *)
 
-(* BEGIN: Regular Expressions *)
+(* BEGIN: Patterns Regular Expressions *)
+let pattern_newline = "[ \n\r\x0c]+"
 let regexp_ch_prefix = Str.regexp "ch[:]+"
 let regexp_sec_prefix = Str.regexp "sec[:]+"
 let regexp_gr_prefix = Str.regexp "gr[:]+"

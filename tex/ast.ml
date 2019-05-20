@@ -164,6 +164,11 @@ let map_concat f xs: string =
   let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ x) in
     result
 
+let map_concat_with connective f xs: string = 
+  let xs_s: string list = List.map xs f in
+  let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ connective ^ x) in
+    result
+
 let strListToStr (xs: string list): string = 
   String.concat ~sep:", " xs
 (*
@@ -321,6 +326,8 @@ let process_title kind topt =
           (topt, None, None)
 
 let tokenize_spaces body = 
+  (* Delete all comments *)
+  let body = Str.global_replace (Str.regexp ("%[.]*" ^ TexSyntax.pattern_newline)) "" body in
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
   (* Replace all non-alpha-numeric letters with space *)
@@ -332,7 +339,9 @@ let tokenize_spaces body =
          if none is found, returns the whole string.
         *)
   let tokens = List.map tokens  String.lowercase in 
-  (* Delete all words less than or equal to 2 characters *)
+  let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
+  (* Reorder so small words are not preferred *)
+  let tokens = tokens_big @ tokens_small in
   let tokens = List.filter tokens ~f:TexSyntax.labelGood in
   let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
     tokens
@@ -343,9 +352,24 @@ let collect_body_atom atom =
     let tokens = List.drop tokens (List.length tokens / 2) in
       String.concat ~sep:" " tokens
 
+let collect_title_atom atom = 
+  let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
+    match topt with 
+    | None -> ""
+    | Some title ->
+      let tokens = tokenize_spaces title in 
+        String.concat ~sep:" " tokens
+
 let collect_body_group group = 
   let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
-    map_concat collect_body_atom ats
+    map_concat_with " " collect_body_atom ats
+
+let collect_title_group group = 
+  let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
+    map_concat_with " " collect_title_atom ats
+
+let collect_text_group group = 
+  (collect_title_group group) ^ " " ^ (collect_body_group group)
 
 (**********************************************************************
  ** END Utilities
@@ -1047,16 +1071,24 @@ let labelGroup table prefix group =
     | Some l -> 
       let _ = d_printf "ast.labelGroup: has label.\n" in
       let Label (_, ls) = l in
-      let prefix = mkLabelPrefix ls in
+(*      let prefix = mkLabelPrefix ls in *)
+      (* For simplicity, do not add group's label as prefix. 
+         Groups should basically be invisible.
+       *)
+      let prefix = prefix in
       let ats = map (labelAtom table prefix) ats in 
         Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
     | None -> 
       let _ = d_printf "ast.labelGroup: kind = %s.\n" kind in
       let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
-      let body = Some (collect_body_group group) in
+      let body = Some (collect_text_group group) in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelGroup: label = %s\n" ls_new in
-      let prefix = mkLabelPrefix ls_new in
+(*      let prefix = mkLabelPrefix ls_new in *)
+      (* For simplicity, do not add group's label as prefix. 
+         Groups should basically be invisible.
+       *)
+      let prefix = prefix in 
       let ats = map (labelAtom table prefix) ats in 
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
