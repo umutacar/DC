@@ -922,23 +922,22 @@ let mkLabelPrefix label =
          rest
       else
         label
-
-let findWord s = 
+let tokenize_spaces body = 
   (* Delete all latex commands *)
-  let s = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" s in
+  let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
   (* Replace all non-alpha-numeric letters with space *)
-  let s = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " s in
+  let body = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " body in
 
-  (* Now split *)
-  let tokens = Str.split (Str.regexp ("[ ]+")) s in
+  (* Now split at all whitespaces, including for windows form feed \x0c *)
+  let tokens = Str.split TexSyntax.regexp_whitespace body in
       (* splits the string at space* 's.  
          if none is found, returns the whole string.
         *)
   let tokens = List.map tokens  String.lowercase in 
-  let _ = d_printf "findwork: tokens = %s" (strListToStr tokens) in
-    match tokens with 
-    | h::nil -> h
-    | h:: t -> h
+  (* Delete all words less than or equal to 2 characters *)
+  let tokens = List.filter tokens ~f:(fun x -> String.length x > 1) in
+  let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
+    tokens
 
 let addLabel table label = 
       try let _ = Hashtbl.find_exn table label  in
@@ -951,10 +950,31 @@ let addLabel table label =
                      exit ErrorCode.labeling_error_hash_table_corrupted)
         | `Ok -> true
 
-let createLabel kind prefix s = 
-  let label = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_seperator ^ s  in
-  let heading = TexSyntax.mkLabel label in
-    (heading, label) par
+(* Take kind, e.g., sec, gr, and prefix and a string s make
+   kind:prefix::s
+ *)
+
+let createLabel table kind prefix body = 
+  let candidates = tokenize_spaces body in
+  let rec find candidates = 
+    let _ = d_printf "ast.createLabel: candidates = %s\n" (strListToStr candidates) in
+      match candidates with 
+      | [] -> 
+         let _ = d_printf "ast.createLabel: failed to find a unique word.  Using unique.\n" in
+           None
+      | label_str::rest ->
+        let label = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ label_str in
+        let _ = d_printf "ast.createLabel: trying label = %s\n" label in
+          if addLabel table label then 
+           let heading = TexSyntax.mkLabel label in
+           let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" label in
+             Some (heading, label)
+          else
+            let _ = d_printf "ast.addLabel: Label = %s found in the table.\n" label in
+              find rest
+     in
+       find candidates
+
 
 let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
 (*
@@ -966,18 +986,12 @@ let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) 
     match lopt with 
     | Some _ -> Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
-      let r = findWord t in
-      let (heading, label) = createLabel TexSyntax.label_prefix_section prefix r in
-      let () = 
-        if addLabel table label then 
-          (d_printf "ast.addLabel: Label = %s added to  the table.\n" label;
-           ())
-        else
-          (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
-           ())
-      in
-      let lopt_new = Some (Label (heading, label)) in
-        Section (heading, pval_opt, t, lopt_new, b, ps, ss)
+      match createLabel table TexSyntax.label_prefix_section prefix t with 
+      | None -> Section (heading, pval_opt, t, lopt, b, ps, ss)
+      | Some (heading_new, label) -> 
+          let _ = d_printf "labelSection: heading = %s, label = %s" heading_new label in
+          let lopt_new = Some (Label (heading_new, label)) in
+            Section (heading, pval_opt, t, lopt_new, b, ps, ss)
       
 let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let labelTable = Hashtbl.create (module String) in

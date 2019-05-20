@@ -6,6 +6,7 @@ let space = " "
 let colon = ":"
 let correct_choice_indicator = "*"
 let label_seperator = colon
+let label_nestor = colon ^ colon
 let label_prefix_section = "sec"
 
 (* BEGIN: lstlisting arguments *)
@@ -17,10 +18,19 @@ let numbers = "numbers"
 
 (* END: lstlisting arguments *)
 
+(* BEGIN: Regular Expressions *)
+let regexp_ch_prefix = Str.regexp "ch[:]+"
+let regexp_sec_prefix = Str.regexp "sec[:]+"
+let regexp_gr_prefix = Str.regexp "gr[:]+"
+let regexp_whitespace = Str.regexp "\n\r\x0c\t"
+(* END: Regular Expressions *)
+
+
 (* BEGIN: label prefixes *)
 let kw_label_prefix_ch = "ch"
 let kw_label_prefix_sec = "sec"
 let kw_label_prefix_def = "def"
+
 
 (* END: label prefixes *)
 
@@ -46,6 +56,4 @@ let mkArg arg =
 let mkLabel label = 
    com_label ^ (mkArg label)
 
-let regexp_ch_prefix = Str.regexp "ch[:]+"
-let regexp_sec_prefix = Str.regexp "sec[:]+"
-let regexp_gr_prefix = Str.regexp "gr[:]+"
+
