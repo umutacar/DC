@@ -989,7 +989,26 @@ let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ili
 
 let labelAtom table prefix atom = 
   let Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end)) = atom in
-    atom
+    match lopt with 
+    | Some _ -> 
+      let _ = d_printf "ast.labelAtom: has label.\n" in
+        atom
+    | None -> 
+        match topt with 
+        | None -> 
+          let _ = d_printf "ast.labelAtom: no title.  Using unique.\n" in
+             atom
+        | Some t ->
+          let kind_prefix = TexSyntax.mk_label_prefix_atom kind in
+          let _ = d_printf "ast.labelAtom: title = %s, prefix = %s\n" t prefix in
+            match createLabel table kind_prefix prefix t with 
+            | None -> atom
+            | Some (heading_new, label) -> 
+              let _ = d_printf "labelAtom: heading = %s, label = %s\n" heading_new label in
+              let lopt_new = Some (Label (heading_new, label)) in
+                Atom(preamble, (kind, h_begin, pval_opt, topt, lopt_new, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
+
+
 
 let labelGroup table prefix group = 
   let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
