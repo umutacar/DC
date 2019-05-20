@@ -320,6 +320,14 @@ let process_title kind topt =
         else
           (topt, None, None)
 
+let collect_body_atom atom = 
+  let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
+    String.suffix body ((String.length body) / 2)
+
+let collect_body_group group = 
+  let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
+    map_concat collect_body_atom ats
+
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
@@ -1058,9 +1066,10 @@ let labelElement table prefix b =
 
 let labelBlock table prefix (Block(es, tt)) =
   let _ = d_printf "labelBlock\n" in
-  let es = map (labelElement table prefix) es in 
+  let es = List.map es ~f:(labelElement table prefix) in 
     Block(es, tt)
 
+  
 let labelParagraph table prefix par = 
 (*
   let ps = paragraphsTR ps in
@@ -1086,6 +1095,10 @@ let labelParagraph table prefix par =
         Paragraph (heading, pval_opt, t, lopt_new, b)
 
 
+let labelParagraphs table prefix ps = 
+  List.map ps  ~f:(labelParagraph table prefix) 
+
+
 let labelSection table prefix sec = 
 (*
   let ps = paragraphsTR ps in
@@ -1096,6 +1109,7 @@ let labelSection table prefix sec =
     | Some l -> 
       let Label (_, ls) = l in
       let prefix = mkLabelPrefix ls in
+      let ps = labelParagraphs table prefix ps in
       let b = labelBlock table prefix b in
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
@@ -1107,6 +1121,7 @@ let labelSection table prefix sec =
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
       let prefix = mkLabelPrefix ls_new in
+      let ps = labelParagraphs table prefix ps in
       let b = labelBlock table prefix b in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Section (heading, pval_opt, t, lopt_new, b, ps, ss)
