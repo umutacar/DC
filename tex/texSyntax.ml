@@ -48,4 +48,4 @@ let mkLabel label =
 
 let regexp_ch_prefix = Str.regexp "ch[:]+"
 let regexp_sec_prefix = Str.regexp "sec[:]+"
-let regexp_par_prefix = Str.regexp "par[:]+"
+let regexp_gr_prefix = Str.regexp "gr[:]+"

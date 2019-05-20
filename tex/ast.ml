@@ -918,7 +918,7 @@ let mkLabelPrefix label =
     let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") label 2 in
       if str_match_prefix TexSyntax.regexp_ch_prefix kind ||
          str_match_prefix TexSyntax.regexp_sec_prefix kind ||
-         str_match_prefix TexSyntax.regexp_par_prefix kind then
+         str_match_prefix TexSyntax.regexp_gr_prefix kind then
          rest
       else
         label
@@ -954,7 +954,7 @@ let addLabel table label =
 let createLabel kind prefix s = 
   let label = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_seperator ^ s  in
   let heading = TexSyntax.mkLabel label in
-    (heading, label) 
+    (heading, label) par
 
 let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
 (*
