@@ -895,6 +895,25 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
 (**********************************************************************
  ** BEGIN: AST LABELING
  **********************************************************************)
+
+(* Assuming that the label has of the form 
+   (prefix as e.g., [ch | sec | cl ]) (separator as [:_-]) label_name
+   delete the prefix before the separator
+   the idea is to use bounded_full_split
+ *)
+
+let mkLabelPrefix label = 
+  let tokens = Str.split (Str.regexp ("[:-_]")) label in
+  if List.length tokens <= 1 then
+    (* label does not have a kind prefixer *)
+    label
+  else
+    TODO : complete
+    let Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") x 2
+
+    let kind::_ = tokens in 
+      Str.replace_first (Str.regexp "ch:o") "" s
+
 let findWord s = 
   (* Delete all latex commands *)
   let s = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" s in
@@ -968,7 +987,7 @@ let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
         | `Ok -> () 
   in
 
-  let prefix = ls in
+  let prefix = mkLabelPrefix ls in
   let folder ss s = 
     let s_new = labelSection labelTable prefix s in
       ss @ [s_new]
