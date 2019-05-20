@@ -359,7 +359,7 @@ mk_group (kw_b, kw_e):
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (ats, tt) = ats_tt in
    let (kind_, h_end) = h_e in
-   let _ = d_printf ("!parser: group matched with points = %s\n") pval_opt_str in
+   let _ = d_printf ("!parser: group matched with no title and points = %s\n") pval_opt_str in
      Ast.Group (preamble, (kind, h_bb, pval_f_opt, None, l, ats, tt, h_end))
   }
 
@@ -371,13 +371,13 @@ mk_group (kw_b, kw_e):
   h_e = mk_group_end (kw_e);
   {let (kind, h_bb, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
-   let (bo, tt, bc) = t in
-   let title_part = bo ^ tt ^ bc in
+   let (bo, title, bc) = t in
+   let title_part = bo ^ title ^ bc in
    let h_begin = h_bb ^ title_part in
    let (kind_, h_end) = h_e in
    let (ats, tt) = ats_tt in
-   let _ = d_printf ("!parser: group matched with points = %s\n") pval_opt_str in
-     Ast.Group (preamble, (kind, h_begin, pval_f_opt, Some tt, l, ats, tt, h_end))
+   let _ = d_printf ("!parser: group matched with title = %s and points = %s\n") tt pval_opt_str in
+     Ast.Group (preamble, (kind, h_begin, pval_f_opt, Some title, l, ats, tt, h_end))
   }
 
 group:

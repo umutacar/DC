@@ -994,21 +994,23 @@ let labelAtom table prefix atom =
 let labelGroup table prefix group = 
   let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
 (*  let ats = map labelAtom ats in *)
-  let _ = d_printf "labelGroup:" in
     match lopt with 
-    | Some _ -> group
+    | Some _ -> 
+      let _ = d_printf "ast.labelGroup: has label.\n" in
+        group
     | None -> 
         match topt with 
         | None -> 
           let _ = d_printf "ast.labelGroup: no title.  Using unique.\n" in
              group
-        | Some t -> 
-          match createLabel table TexSyntax.label_prefix_group prefix t with 
-          | None -> group
-          | Some (heading_new, label) -> 
-            let _ = d_printf "labelGroup: heading = %s, label = %s" heading_new label in
-            let lopt_new = Some (Label (heading_new, label)) in
-              Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
+        | Some t ->
+          let _ = d_printf "ast.labelGroup: title = %s.\n" t in
+            match createLabel table TexSyntax.label_prefix_group prefix t with 
+            | None -> group
+            | Some (heading_new, label) -> 
+              let _ = d_printf "labelGroup: heading = %s, label = %s\n" heading_new label in
+              let lopt_new = Some (Label (heading_new, label)) in
+                Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
 
 let labelElement table prefix b = 
   match b with
@@ -1016,7 +1018,7 @@ let labelElement table prefix b =
   | Element_Atom a -> Element_Atom (labelAtom table prefix a)
 
 let labelBlock table prefix (Block(es, tt)) =
-  let _ = d_printf "labelBlock" in
+  let _ = d_printf "labelBlock\n" in
   let es = map (labelElement table prefix) es in 
     Block(es, tt)
 
@@ -1038,7 +1040,7 @@ let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) 
       match createLabel table TexSyntax.label_prefix_section prefix t with 
       | None -> Section (heading, pval_opt, t, lopt, b, ps, ss)
       | Some (heading_new, ls) -> 
-          let _ = d_printf "labelSection: heading = %s, label = %s" heading_new ls in
+          let _ = d_printf "labelSection: heading = %s, label = %s\n" heading_new ls in
           let prefix = mkLabelPrefix ls in
           let b = labelBlock table prefix b in
           let lopt_new = Some (Label (heading_new, ls)) in
@@ -1156,7 +1158,7 @@ let blockTR (Block(es, tt)) =
     Block(es, tt)
 
 let paragraphTR (Paragraph(heading, pval_opt, t, lopt, b)) = 
-  let _ = d_printf "paragraphTR" in
+  let _ = d_printf "paragraphTR\n" in
   let b = blockTR b in
   let lopt = labelOptTR lopt in
     Paragraph (heading, pval_opt, t, lopt, b)
