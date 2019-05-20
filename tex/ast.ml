@@ -1019,8 +1019,11 @@ let labelGroup table prefix group =
   let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
 (*  let ats = map labelAtom ats in *)
     match lopt with 
-    | Some _ -> 
+    | Some l -> 
       let _ = d_printf "ast.labelGroup: has label.\n" in
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let ats = map (labelAtom table prefix) ats in 
         group
     | None -> 
         match topt with 
@@ -1031,9 +1034,11 @@ let labelGroup table prefix group =
           let _ = d_printf "ast.labelGroup: title = %s.\n" t in
             match createLabel table TexSyntax.label_prefix_group prefix t with 
             | None -> group
-            | Some (heading_new, label) -> 
-              let _ = d_printf "labelGroup: heading = %s, label = %s\n" heading_new label in
-              let lopt_new = Some (Label (heading_new, label)) in
+            | Some (heading_new, ls) -> 
+              let _ = d_printf "labelGroup: heading = %s, label = %s\n" heading_new ls in
+              let prefix = mkLabelPrefix ls in
+              let ats = map (labelAtom table prefix) ats in 
+              let lopt_new = Some (Label (heading_new, ls)) in
                 Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
 
 let labelElement table prefix b = 
