@@ -114,6 +114,9 @@ and element =
 (**********************************************************************
  ** BEGIN: Utilities
 *********************************************************************)
+let str_match_prefix pattern s = 
+  Str.string_match pattern s 0 
+
 let mk_pval pvalopt= 
   match pvalopt with 
   |  None -> 0.0
@@ -897,22 +900,28 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
  **********************************************************************)
 
 (* Assuming that the label has of the form 
-   (prefix as e.g., [ch | sec | cl ]) (separator as [:_-]) label_name
+   (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
    delete the prefix before the separator
-   the idea is to use bounded_full_split
  *)
 
 let mkLabelPrefix label = 
-  let tokens = Str.split (Str.regexp ("[:-_]")) label in
+  let tokens = Str.split (Str.regexp (":")) label in
   if List.length tokens <= 1 then
     (* label does not have a kind prefixer *)
     label
   else
-    TODO : complete
-    let Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") x 2
+    (* Split into two at the colon 
+     * kind has the form Str.Delim "xyz[:]+"
+     * rest has the form Str.Text  "xyz..." 
+     *)
 
-    let kind::_ = tokens in 
-      Str.replace_first (Str.regexp "ch:o") "" s
+    let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") label 2 in
+      if str_match_prefix TexSyntax.regexp_ch_prefix kind ||
+         str_match_prefix TexSyntax.regexp_sec_prefix kind ||
+         str_match_prefix TexSyntax.regexp_par_prefix kind then
+         rest
+      else
+        label
 
 let findWord s = 
   (* Delete all latex commands *)
