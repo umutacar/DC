@@ -29,6 +29,10 @@ let kw_subsection = "subsection"
 let kw_subsubsection = "subsubsection"
 let kw_paragraph = "paragraph"
 
+let kw_cluster = "sec"
+let kw_problem_cluster = "sec"
+let kw_flex = "sec"
+
 let kw_code = "code"
 let kw_algorithm = "algorithm"
 let kw_assumption = "assumption"
@@ -77,11 +81,15 @@ let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 
 
 (* BEGIN: label prefixes *)
+let label_prefix_cluster = "sec"
+let label_prefix_problem_cluster = "sec"
+let label_prefix_flex = "sec"
+
+
 let label_prefix_auto_pre = "_"
 let label_prefix_auto_post = "_"
 let label_prefix_ch = "ch"
 let label_prefix_sec = "sec"
-let label_prefix_group = "grp"
 let label_prefix_def = "def"
 let label_prefix_algorithm = "alg"
 let label_prefix_assumption = "asm"
@@ -111,7 +119,14 @@ let label_prefix_task = "task"
 let label_prefix_theorem = "thm"
 
 
-let label_prefix_atoms = 
+let label_prefix_of_kind = 
+  [
+   kw_cluster, label_prefix_cluster;
+   kw_flex, label_prefix_flex;
+   kw_problem_cluster, label_prefix_problem_cluster
+  ]
+  @
+  (* atoms *)
   [kw_algorithm, label_prefix_algorithm;
    kw_assumption, label_prefix_assumption;
    kw_code, label_prefix_code;
@@ -142,8 +157,8 @@ let label_prefix_atoms =
 
 (*   kw_xxx, label_prefix_xxx; *)
 
-let mk_label_prefix_atom kind = 
-   match List.Assoc.find label_prefix_atoms ~equal: String.equal kind with 
+let mk_label_prefix_from_kind kind = 
+   match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
    | Some prefix -> prefix
    | None -> (printf "FATAL ERROR: unknown atom encountered.\n";
               exit ErrorCode.labeling_error_unknown_atom)
@@ -159,7 +174,7 @@ let mkLabel label =
    com_label ^ (mkArg label)
 
 let stopWords = 
-  (* English stopwords *)
+  (* English stopwords, from python NLTK package *)
   ["i";
    "me";
    "my";

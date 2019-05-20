@@ -987,7 +987,21 @@ let createLabel table kind prefix body =
      in
        find candidates
 
-let forceCreateLabel table kind prefix topt body = 
+let forceCreateLabel table kind prefix topt body_opt = 
+  match (topt, body_opt) with 
+  | (None, None) -> 
+    (* Generate based on numbers *)
+    let ls = mk_new_label () in 
+    let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+    let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
+    let heading = TexSyntax.mkLabel ls in
+      (heading, ls)
+  | _ ->
+  let body =
+     match body_opt with 
+    | None -> ""
+    | Some body  -> body
+  in
   let all = 
     match topt with 
     | None -> body
@@ -1011,8 +1025,8 @@ let labelAtom table prefix atom =
         atom
     | None -> 
       let _ = d_printf "ast.labelAtom: kind = %s.\n" kind in
-      let kind_prefix = TexSyntax.mk_label_prefix_atom kind in
-      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt (Some body) in
       let _ = d_printf "ast.labelAtom: label = %s\n" ls_new in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Atom(preamble, (kind, h_begin, pval_opt, topt, lopt_new, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
@@ -1028,23 +1042,15 @@ let labelGroup table prefix group =
       let ats = map (labelAtom table prefix) ats in 
         Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
     | None -> 
-        match topt with 
-        | None -> 
-          let _ = d_printf "ast.labelGroup: no title.  Using unique.\n" in
-          (* TODO: we need to generate a label here *)
-          let prefix = prefix in
-          let ats = map (labelAtom table prefix) ats in 
-            Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
-        | Some t ->
-          let _ = d_printf "ast.labelGroup: title = %s.\n" t in
-            match createLabel table TexSyntax.label_prefix_group prefix t with 
-            | None -> group
-            | Some (heading_new, ls) -> 
-              let _ = d_printf "labelGroup: heading = %s, label = %s\n" heading_new ls in
-              let prefix = mkLabelPrefix ls in
-              let ats = map (labelAtom table prefix) ats in 
-              let lopt_new = Some (Label (heading_new, ls)) in
-                Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
+      let _ = d_printf "ast.labelGroup: kind = %s.\n" kind in
+      let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
+      let body = None in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelGroup: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let ats = map (labelAtom table prefix) ats in 
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
 
 let labelElement table prefix b = 
   match b with
@@ -1071,6 +1077,7 @@ let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) 
       let b = labelBlock table prefix b in
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
+      (* TODO: use force *)
       match createLabel table TexSyntax.label_prefix_section prefix t with 
       | None -> Section (heading, pval_opt, t, lopt, b, ps, ss)
       | Some (heading_new, ls) -> 
