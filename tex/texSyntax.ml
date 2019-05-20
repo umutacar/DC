@@ -26,6 +26,7 @@ let kw_label_prefix_def = "def"
 
 let com_explain = "\\explain"
 let com_hint = "\\help"
+let com_label = "\\label"
 let com_rubric = "\\rubric"
 let com_solution = "\\sol"
 
@@ -39,3 +40,8 @@ let kw_subsubsection = "subsubsection"
 let kw_paragraph = "paragraph"
 
 let kw_code = "code"
+
+let mkArg arg = 
+  "{" ^ arg ^ "}"
+let mkLabel label = 
+   com_label ^ (mkArg label)

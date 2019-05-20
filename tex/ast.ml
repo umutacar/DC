@@ -373,15 +373,21 @@ let mktex_begin block_name pvalopt topt =
 let dependOptToTex dopt = 
   let r = match dopt with 
               |  None -> ""
-              |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" in
-     r
+              |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
+  in
+    r
 
-let labelToTex (Label(h, label_string)) = h
+
+(* Drop heading and consruct from label string *)
+let labelToTex (Label(h, label_string)) = 
+  ((TexSyntax.mkLabel label_string) ^ newline)
+
 let labelOptToTex lopt = 
   let r = match lopt with 
               |  None -> ""
-              |  Some Label(heading, l) -> heading  in
-     r
+              |  Some label -> labelToTex label
+  in
+     r 
 
 let pointvalToTex p = 
   mktex_optarg (Float.to_string p)
@@ -514,7 +520,7 @@ let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let label = labelToTex l in
   let heading = mktex_section_heading TexSyntax.kw_chapter pval_opt t in
     preamble ^ 
-    heading ^ label ^ 
+    heading ^ label ^
     block ^ paragraphs ^ sections
 
 (**********************************************************************
@@ -905,6 +911,7 @@ let findWord s =
     match tokens with 
     | h::nil -> h
     | h:: t -> h
+
 let addLabel table label = 
       try let _ = Hashtbl.find_exn table label  in
             (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
@@ -918,7 +925,7 @@ let addLabel table label =
 
 let createLabel kind prefix s = 
   let label = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_seperator ^ s  in
-  let heading = "\\label{" ^ label ^ "}" in
+  let heading = TexSyntax.mkLabel label in
     (heading, label) 
 
 let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
