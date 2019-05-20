@@ -161,6 +161,13 @@ let map_concat f xs: string =
   let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ x) in
     result
 
+let strListToStr (xs: string list): string = 
+  String.concat ~sep:", " xs
+(*
+  let result = List.fold_left xs  ~init:"" ~f:(fun result x -> result ^ x) in
+    result
+*)
+
 let map_and_sum_pts f xs =   
   let pvals_and_xs = map f xs in
   let pvals = map fst pvals_and_xs in
@@ -889,10 +896,12 @@ let findWord s =
   let s = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " s in
 
   (* Now split *)
-  let tokens = Str.split (Str.regexp ("[ ]*")) s in
+  let tokens = Str.split (Str.regexp ("[ ]+")) s in
       (* splits the string at space* 's.  
          if none is found, returns the whole string.
         *)
+  let tokens = List.map tokens  String.lowercase in 
+  let _ = d_printf "findwork: tokens = %s" (strListToStr tokens) in
     match tokens with 
     | h::nil -> h
     | h:: t -> h
@@ -926,7 +935,7 @@ let labelSection table prefix (Section (heading, pval_opt, t, lopt, b, ps, ss)) 
       let (heading, label) = createLabel TexSyntax.label_prefix_section prefix r in
       let () = 
         if addLabel table label then 
-          (d_printf "ast.addLabel: Label = %s added  the table.\n" label;
+          (d_printf "ast.addLabel: Label = %s added to  the table.\n" label;
            ())
         else
           (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
@@ -959,7 +968,6 @@ let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   in             
   let ss_new = List.fold_left ss ~init:[] ~f:folder in
      Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss_new))
-
 
 
 
