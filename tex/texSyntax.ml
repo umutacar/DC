@@ -22,7 +22,7 @@ let numbers = "numbers"
 let regexp_ch_prefix = Str.regexp "ch[:]+"
 let regexp_sec_prefix = Str.regexp "sec[:]+"
 let regexp_gr_prefix = Str.regexp "gr[:]+"
-let regexp_whitespace = Str.regexp "\n\r\x0c\t"
+let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 (* END: Regular Expressions *)
 
 
