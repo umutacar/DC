@@ -320,9 +320,28 @@ let process_title kind topt =
         else
           (topt, None, None)
 
+let tokenize_spaces body = 
+  (* Delete all latex commands *)
+  let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
+  (* Replace all non-alpha-numeric letters with space *)
+  let body = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " body in
+
+  (* Now split at all whitespaces, including for windows form feed \x0c *)
+  let tokens = Str.split TexSyntax.regexp_whitespace body in
+      (* splits the string at space* 's.  
+         if none is found, returns the whole string.
+        *)
+  let tokens = List.map tokens  String.lowercase in 
+  (* Delete all words less than or equal to 2 characters *)
+  let tokens = List.filter tokens ~f:TexSyntax.labelGood in
+  let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
+    tokens
+
 let collect_body_atom atom = 
   let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
-    String.suffix body ((String.length body) / 2)
+    let tokens = tokenize_spaces body in 
+    let tokens = List.drop tokens (List.length tokens / 2) in
+      String.concat ~sep:" " tokens
 
 let collect_body_group group = 
   let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
@@ -942,23 +961,6 @@ let mkLabelPrefix label =
          rest
       else
         label
-let tokenize_spaces body = 
-  (* Delete all latex commands *)
-  let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
-  (* Replace all non-alpha-numeric letters with space *)
-  let body = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " body in
-
-  (* Now split at all whitespaces, including for windows form feed \x0c *)
-  let tokens = Str.split TexSyntax.regexp_whitespace body in
-      (* splits the string at space* 's.  
-         if none is found, returns the whole string.
-        *)
-  let tokens = List.map tokens  String.lowercase in 
-  (* Delete all words less than or equal to 2 characters *)
-  let tokens = List.filter tokens ~f:TexSyntax.labelGood in
-  let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
-    tokens
-
 let addLabel table label = 
       try let _ = Hashtbl.find_exn table label  in
             (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
@@ -1051,7 +1053,7 @@ let labelGroup table prefix group =
     | None -> 
       let _ = d_printf "ast.labelGroup: kind = %s.\n" kind in
       let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
-      let body = None in
+      let body = Some (collect_body_group group) in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelGroup: label = %s\n" ls_new in
       let prefix = mkLabelPrefix ls_new in
