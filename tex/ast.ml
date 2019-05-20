@@ -904,6 +904,13 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
  ** BEGIN: AST LABELING
  **********************************************************************)
 
+let label_counter = ref 0
+let mk_new_label () = 
+  let _ = label_counter := !label_counter + 1 in
+    TexSyntax.label_prefix_auto_pre ^ 
+    (Int.to_string !label_counter) ^ 
+    TexSyntax.label_prefix_auto_pre  
+
 (* Assuming that the label has of the form 
    (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
    delete the prefix before the separator
@@ -967,31 +974,35 @@ let createLabel table kind prefix body =
       | [] -> 
          let _ = d_printf "ast.createLabel: failed to find a unique word.  Using unique.\n" in
            None
-      | label_str::rest ->
-        let label = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ label_str in
-        let _ = d_printf "ast.createLabel: trying label = %s\n" label in
-          if addLabel table label then 
-           let heading = TexSyntax.mkLabel label in
-           let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" label in
-             Some (heading, label)
+      | ls::rest ->
+        let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+        let _ = d_printf "ast.createLabel: trying label = %s\n" ls in
+          if addLabel table ls then 
+           let heading = TexSyntax.mkLabel ls in
+           let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" ls in
+             Some (heading, ls)
           else
-            let _ = d_printf "ast.addLabel: Label = %s found in the table.\n" label in
+            let _ = d_printf "ast.addLabel: Label = %s found in the table.\n" ls in
               find rest
      in
        find candidates
 
-(*
-let atomTR (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
-  let dopt = dependOptTR dopt in
-  let lopt = labelOptTR lopt in
-  let hint_opt = hintOptTR hint_opt in
-  let refsol_opt = refsolOptTR refsol_opt in
-  let exp_opt = expOptTR exp_opt in
-  let rubric_opt = rubricOptTR rubric_opt in
-  let ilist_opt = ilistOptTR ilist_opt in
-    Atom (preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
-*)
-
+let forceCreateLabel table kind prefix topt body = 
+  let all = 
+    match topt with 
+    | None -> body
+    | Some title  ->  (title ^ " " ^ body)
+  in 
+    match createLabel table kind prefix all with 
+    | None ->
+      let ls = mk_new_label () in 
+      let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+      let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
+      let heading = TexSyntax.mkLabel ls in
+        (heading, ls)
+    | Some (heading, ls) -> 
+        (heading, ls)
+    
 let labelAtom table prefix atom = 
   let Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end)) = atom in
     match lopt with 
@@ -999,21 +1010,12 @@ let labelAtom table prefix atom =
       let _ = d_printf "ast.labelAtom: has label.\n" in
         atom
     | None -> 
-        match topt with 
-        | None -> 
-          let _ = d_printf "ast.labelAtom: no title.  Using unique.\n" in
-             atom
-        | Some t ->
-          let kind_prefix = TexSyntax.mk_label_prefix_atom kind in
-          let _ = d_printf "ast.labelAtom: title = %s, prefix = %s\n" t prefix in
-            match createLabel table kind_prefix prefix t with 
-            | None -> atom
-            | Some (heading_new, label) -> 
-              let _ = d_printf "labelAtom: heading = %s, label = %s\n" heading_new label in
-              let lopt_new = Some (Label (heading_new, label)) in
-                Atom(preamble, (kind, h_begin, pval_opt, topt, lopt_new, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
-
-
+      let _ = d_printf "ast.labelAtom: kind = %s.\n" kind in
+      let kind_prefix = TexSyntax.mk_label_prefix_atom kind in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelAtom: label = %s\n" ls_new in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Atom(preamble, (kind, h_begin, pval_opt, topt, lopt_new, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
 
 let labelGroup table prefix group = 
   let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
@@ -1024,12 +1026,15 @@ let labelGroup table prefix group =
       let Label (_, ls) = l in
       let prefix = mkLabelPrefix ls in
       let ats = map (labelAtom table prefix) ats in 
-        group
+        Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
     | None -> 
         match topt with 
         | None -> 
           let _ = d_printf "ast.labelGroup: no title.  Using unique.\n" in
-             group
+          (* TODO: we need to generate a label here *)
+          let prefix = prefix in
+          let ats = map (labelAtom table prefix) ats in 
+            Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
         | Some t ->
           let _ = d_printf "ast.labelGroup: title = %s.\n" t in
             match createLabel table TexSyntax.label_prefix_group prefix t with 

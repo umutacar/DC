@@ -76,6 +76,8 @@ let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 
 
 (* BEGIN: label prefixes *)
+let label_prefix_auto_pre = "_"
+let label_prefix_auto_post = "_"
 let label_prefix_ch = "ch"
 let label_prefix_sec = "sec"
 let label_prefix_group = "grp"
