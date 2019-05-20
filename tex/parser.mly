@@ -241,7 +241,7 @@ chapter:
   {
    let (heading, pval_opt, t) = h in
    let tt = "" in
-     Ast.Chapter(preamble, (heading, None, t, l, b, ps, ss))
+     Ast.Chapter(preamble, (heading, pval_opt, t, l, b, ps, ss))
   }	
 
 section: 
