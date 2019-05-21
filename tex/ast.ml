@@ -950,11 +950,11 @@ let elementEl b =
     let kind = "cluster" in
     let pval_opt = Some pval in
     let topt = None in
-    let h_begin = mktex_begin kind pval_opt topt in
+    let h_begin = newline ^ (mktex_begin kind pval_opt topt) in
     let lopt = None in  
     let ats = [a] in
     let tt = "" in
-    let h_end = "\\end{cluster}" in
+    let h_end = "\\end{cluster}" ^ newline in
     let g = Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) in
       (pval, Element_Group g)
 
