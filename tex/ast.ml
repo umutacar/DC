@@ -339,6 +339,9 @@ let tokenize_spaces body =
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
 
   (* Delete all latex environments *)
+  (* TODO: This does not work, even though the operation works on caml 
+   * repl.  Unsure what the problem is.
+   *)
   let body = Str.global_replace (Str.regexp "\\\\begin{[^}]*}") "" body in
   let body = Str.global_replace (Str.regexp "\\\\end{[^}]*}") "" body in
 

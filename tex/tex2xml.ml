@@ -19,9 +19,13 @@ let tex2ast infile =
 let ast2xml lang_opt ast_chapter preamble_filename = 
   (* Elaborate AST *)
   let ast_elaborated = Ast.chapterEl ast_chapter in
+
+  (* Label AST *)
+  let ast_labeled = Ast.labelChapter ast_elaborated in
+
   (* Make XML *)
   let tex2html = mk_translator lang_opt preamble_filename in
-  let chapter_xml = Ast.chapterToXml tex2html ast_elaborated in
+  let chapter_xml = Ast.chapterToXml tex2html ast_labeled in
     printf "Parsed successfully chapter.\n";
     chapter_xml
 
