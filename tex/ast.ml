@@ -330,9 +330,11 @@ let tokenize_spaces body =
   let body = Str.global_replace (Str.regexp ("%.*" ^ TexSyntax.pattern_newline)) "" body in
 
   (* Delete labels *)
-  (* Don't delete the contents of labels.  It is good if you can reuse them.
+  (* It might seem like a good idea to reuse them but this can be bad
+   * because it could generate permutations of the same words.
+   *) 
   let body = Str.global_replace (Str.regexp "\\\\label{[^}]*}") "" body in
-  *)
+
   
   (* Delete depends. These refer to other content should be reused for labeling. *)
   let body = Str.global_replace (Str.regexp "\\\\depend{[^}]*}") "" body in
