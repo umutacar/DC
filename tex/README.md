@@ -1,3 +1,19 @@
+# Executables
+
+## tex2tex
+
+This reads the tex file and elobarates it such that 
+* Each atom has a group (no orphan atoms)
+* Each node of the document tree has point scores
+* Each node of the document tree has a unique label.
+
+It then prints out the resulting tex file.
+
+## tex2xml
+
+This reads the tex file and elobarates as in tex2tex translation and translates it to xml using pandoc.
+
+
 # DEVELOPMENT
 ## USAGE
   To compile run the parser 
