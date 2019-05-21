@@ -1,3 +1,19 @@
+# Executables
+
+## tex2tex
+
+This reads the tex file and elobarates it such that 
+* Each atom has a group (no orphan atoms)
+* Each node of the document tree has point scores
+* Each node of the document tree has a unique label.
+
+It then prints out the resulting tex file.
+
+## tex2xml
+
+This reads the tex file and elobarates as in tex2tex translation and translates it to xml using pandoc.
+
+
 # DEVELOPMENT
 ## USAGE
   To compile run the parser 
@@ -64,7 +80,8 @@ $ lexer.native
 
   An element is either an atom or a group 
 
-  A group is a preamble text followed by a sequence of atoms
+  A group is a preamble text followed by a sequence of atoms and tailtext.
+  Note that the tailtext belong to the sequence of atoms.
 
   An atom is a preamble text followed by \begin{atom}...\end{atom}
 

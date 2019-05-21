@@ -330,9 +330,13 @@ let tokenize_spaces body =
   let body = Str.global_replace (Str.regexp ("%.*" ^ TexSyntax.pattern_newline)) "" body in
 
   (* Delete labels *)
+  (* It might seem like a good idea to reuse them but this can be bad
+   * because it could generate permutations of the same words.
+   *) 
   let body = Str.global_replace (Str.regexp "\\\\label{[^}]*}") "" body in
 
-  (* Delete depends *)
+  
+  (* Delete depends. These refer to other content should be reused for labeling. *)
   let body = Str.global_replace (Str.regexp "\\\\depend{[^}]*}") "" body in
 
   (* Delete all latex commands *)
@@ -468,6 +472,9 @@ let mktex_begin kind pvalopt topt =
     b ^ p ^ t ^ "\n"
 
 
+let mktex_end kind = 
+  "\\end{" ^ kind ^ "}" ^ "\n"
+
 let mktex_header_atom kind pval_opt topt = 
   mktex_begin kind pval_opt topt 
 
@@ -542,6 +549,7 @@ let ilistToTex (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) =
       
 let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
   let h_begin = mktex_header_atom kind pval_opt topt in
+  let h_end = mktex_end kind in
   let label = labelOptToTex lopt in
   let depend = dependOptToTex dopt in
   let hint = hintOptToTex hint_opt in
@@ -560,11 +568,12 @@ let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, 
 
 let groupToTex (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))) = 
   let h_begin = mktex_begin kind pval_opt topt in
+  let h_end = mktex_end kind in
   let atoms = map_concat atomToTex ats in
   let label = labelOptToTex lopt in
-    preamble ^
+    preamble ^ newline ^ (* extra newline for readability *)
     h_begin ^ label ^ 
-    atoms ^ tt ^ 
+    atoms ^ tt ^   (* Tailtext comes after atoms *)
     h_end
 
 let elementToTex b = 
@@ -884,7 +893,6 @@ let labelOptEl lopt =
 let refsolOptEl refsol_opt = 
   refsol_opt
 
-
 (* Identity function *)
 let expOptEl exp_opt = 
   exp_opt
@@ -935,9 +943,20 @@ let elementEl b =
     let (pval, g) = groupEl g in 
       (pval, Element_Group g)
   | Element_Atom a -> 
+    (* This is an orphan atom.  Elaborate first, and then create a group for it. *)
     let (pval, a) = atomEl a in
-      (pval, Element_Atom a)
-
+    (* Create empty group. *)
+    let preamble = "" in
+    let kind = "cluster" in
+    let pval_opt = Some pval in
+    let topt = None in
+    let h_begin = (mktex_begin kind pval_opt topt) in
+    let lopt = None in  
+    let ats = [a] in
+    let tt = "" in
+    let h_end = "\\end{cluster}" in
+    let g = Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) in
+      (pval, Element_Group g)
 
 let blockEl (Block (es, tt)) = 
   let _ = d_printf "blockEl" in
