@@ -64,7 +64,8 @@ $ lexer.native
 
   An element is either an atom or a group 
 
-  A group is a preamble text followed by a sequence of atoms
+  A group is a preamble text followed by a sequence of atoms and tailtext.
+  Note that the tailtext belong to the sequence of atoms.
 
   An atom is a preamble text followed by \begin{atom}...\end{atom}
 
