@@ -884,7 +884,6 @@ let labelOptEl lopt =
 let refsolOptEl refsol_opt = 
   refsol_opt
 
-
 (* Identity function *)
 let expOptEl exp_opt = 
   exp_opt
@@ -935,9 +934,19 @@ let elementEl b =
     let (pval, g) = groupEl g in 
       (pval, Element_Group g)
   | Element_Atom a -> 
+    (* This is an orphan atom.  Elaborate first, and then create a group for it. *)
     let (pval, a) = atomEl a in
+    (* Create empty group. *)
+    let kind = "cluster"
+    let pval_opt = Some pval in
+    let topt = None in
+    let h_begin = mktex_begin kind pval_opt topt in
+    let lopt = None in  
+    let ats = [a] in
+    let tt = "" in
+    let h_end = "\\end{cluster}"
+    let g = Group("", (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))) = 
       (pval, Element_Atom a)
-
 
 let blockEl (Block (es, tt)) = 
   let _ = d_printf "blockEl" in
