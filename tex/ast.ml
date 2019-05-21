@@ -328,8 +328,16 @@ let process_title kind topt =
 let tokenize_spaces body = 
   (* Delete all comments *)
   let body = Str.global_replace (Str.regexp ("%.*" ^ TexSyntax.pattern_newline)) "" body in
+
+  (* Delete labels *)
+  let body = Str.global_replace (Str.regexp "\\\\label{[^}]*}") "" body in
+
+  (* Delete depends *)
+  let body = Str.global_replace (Str.regexp "\\\\depend{[^}]*}") "" body in
+
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
+
   (* Replace all non-alpha-numeric letters with space *)
   let body = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " body in
 
