@@ -1154,7 +1154,7 @@ let labelParagraph table prefix par =
     | None -> 
       let _ = d_printf "ast.labelParagraph: title = %s.\n" t  in
       let kind_prefix = TexSyntax.label_prefix_paragraph in
-      let body = None in
+      let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
@@ -1167,8 +1167,6 @@ let labelParagraph table prefix par =
 let labelParagraphs table prefix ps = 
   List.map ps  ~f:(labelParagraph table prefix) 
 
-
-
 let labelSubsubsection table prefix sec = 
   let Subsubsection (heading, pval_opt, t, lopt, b, ps) = sec in
     match lopt with 
@@ -1179,9 +1177,9 @@ let labelSubsubsection table prefix sec =
       let ps = labelParagraphs table prefix ps in
         Subsubsection (heading, pval_opt, t, lopt, b, ps)
     | None -> 
-      let _ = d_printf "ast.labelSection: title = %s.\n" t  in
+      let _ = d_printf "ast.labelSubsubsection: title = %s.\n" t  in
       let kind_prefix = TexSyntax.label_prefix_subsection in
-      let body = None in
+      let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSubsubsection: label = %s\n" ls_new in
@@ -1202,9 +1200,9 @@ let labelSubsection table prefix sec =
       let ss = List.map ss ~f:(labelSubsubsection table prefix) in
         Subsection (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
-      let _ = d_printf "ast.labelSection: title = %s.\n" t  in
+      let _ = d_printf "ast.labelSubsection: title = %s.\n" t  in
       let kind_prefix = TexSyntax.label_prefix_subsection in
-      let body = None in
+      let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSubsection: label = %s\n" ls_new in
@@ -1229,7 +1227,7 @@ let labelSection table prefix sec =
     | None -> 
       let _ = d_printf "ast.labelSection: title = %s.\n" t  in
       let kind_prefix = TexSyntax.label_prefix_section in
-      let body = None in
+      let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
@@ -1240,8 +1238,6 @@ let labelSection table prefix sec =
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Section (heading, pval_opt, t, lopt_new, b, ps, ss)
 
-
-      
 let labelChapter chapter = 
   let Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss)) = chapter in
   let table = Hashtbl.create (module String) in
