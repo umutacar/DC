@@ -90,20 +90,22 @@ let label_prefix_cluster = "grp"
 let label_prefix_problem_cluster = "grp"
 let label_prefix_flex = "grp"
 
-(* Atoms *)
+(* Atoms
+ * give long prefixes to rare atoms.
+ *)
 let label_prefix_auto_pre = "_"
 let label_prefix_auto_post = "_"
 
 let label_prefix_algorithm = "alg"
 let label_prefix_assumption = "asm"
 let label_prefix_code = "cd"
-let label_prefix_corollary = "cor"
+let label_prefix_corollary = "corollary"
 let label_prefix_costspec = "cst"
-let label_prefix_datastr = "ds"
+let label_prefix_datastr = "dtstr"
 let label_prefix_datatype = "adt"
 let label_prefix_definition = "def"
-let label_prefix_example = "ex"
-let label_prefix_exercise = "exr"
+let label_prefix_example = "xmpl"
+let label_prefix_exercise = "xrcs"
 let label_prefix_hint = "hint"
 let label_prefix_important = "imp"
 let label_prefix_lemma = "lem"
