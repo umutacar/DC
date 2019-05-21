@@ -378,9 +378,33 @@ let collect_title_group group =
   let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
     map_concat_with " " collect_title_atom ats
 
+let collect_title_element e = 
+  match e with 
+  | Element_Atom a -> collect_title_atom a
+  | Element_Group g -> collect_title_group g
+
+let collect_body_element e = 
+  match e with 
+  | Element_Atom a -> collect_body_atom a
+  | Element_Group g -> collect_body_group g
+
+let collect_title_block block = 
+  let Block(es, tt) = block in
+    map_concat_with " " collect_title_element es
+
+let collect_body_block block = 
+  let Block(es, tt) = block in
+    map_concat_with " " collect_body_element es
+
 let collect_text_group group = 
   (* Title has priority *)
   (collect_title_group group) ^ " " ^ (collect_body_group group)
+
+let collect_text_block block = 
+  (* Title has priority *)
+  (collect_title_block block) ^ " " ^ (collect_body_block block)
+
+
 
 (**********************************************************************
  ** END Utilities
