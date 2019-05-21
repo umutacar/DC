@@ -81,6 +81,8 @@ let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 
 (* BEGIN: label prefixes *)
 let label_prefix_section = "sec"
+let label_prefix_subsection = "sec"
+let label_prefix_subsubsection = "sec"
 let label_prefix_paragraph = "sec"
 
 (* All groups the same *)

@@ -1144,32 +1144,79 @@ let labelParagraphs table prefix ps =
   List.map ps  ~f:(labelParagraph table prefix) 
 
 
+
+let labelSubsubsection table prefix sec = 
+  let Subsubsection (heading, pval_opt, t, lopt, b, ps) = sec in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+        Subsubsection (heading, pval_opt, t, lopt, b, ps)
+    | None -> 
+      let _ = d_printf "ast.labelSection: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_subsection in
+      let body = None in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSubsubsection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Subsubsection (heading, pval_opt, t, lopt_new, b, ps)
+
+let labelSubsection table prefix sec = 
+  let Subsection (heading, pval_opt, t, lopt, b, ps, ss) = sec in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsubsection table prefix) in
+        Subsection (heading, pval_opt, t, lopt, b, ps, ss)
+    | None -> 
+      let _ = d_printf "ast.labelSection: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_subsection in
+      let body = None in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSubsection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsubsection table prefix) in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Subsection (heading, pval_opt, t, lopt_new, b, ps, ss)
+
+
 let labelSection table prefix sec = 
-(*
-  let ps = paragraphsTR ps in
-  let ss = map subsectionTR ss in
-*)
   let Section (heading, pval_opt, t, lopt, b, ps, ss) = sec in
     match lopt with 
     | Some l -> 
       let Label (_, ls) = l in
       let prefix = mkLabelPrefix ls in
-      let ps = labelParagraphs table prefix ps in
       let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsection table prefix) in
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
-      (* TODO: use force *)
       let _ = d_printf "ast.labelSection: title = %s.\n" t  in
-      let kind_prefix = TexSyntax.label_prefix_paragraph in
+      let kind_prefix = TexSyntax.label_prefix_section in
       let body = None in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
       let prefix = mkLabelPrefix ls_new in
-      let ps = labelParagraphs table prefix ps in
       let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsection table prefix) in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Section (heading, pval_opt, t, lopt_new, b, ps, ss)
+
+
       
 let labelChapter chapter = 
   let Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss)) = chapter in
@@ -1192,14 +1239,6 @@ let labelChapter chapter =
   let b = labelBlock table prefix b in
   let ps = labelParagraphs table prefix ps in
   let ss = List.map ss ~f:(labelSection table prefix) in
-
-(*
-  let folder ss s = 
-    let s_new = labelSection table prefix s in
-      ss @ [s_new]
-  in             
-  let ss_new = List.fold_left ss ~init:[] ~f:folder in
-*)
      Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))
 
 
