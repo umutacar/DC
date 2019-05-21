@@ -1171,30 +1171,36 @@ let labelSection table prefix sec =
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Section (heading, pval_opt, t, lopt_new, b, ps, ss)
       
-let labelChapter (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
-  let labelTable = Hashtbl.create (module String) in
-
+let labelChapter chapter = 
+  let Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss)) = chapter in
+  let table = Hashtbl.create (module String) in
   let Label (_, ls) = l in
 
+  (* Insert label string into the hash table *)
   let () = 
-      try let _ = Hashtbl.find_exn labelTable ls  in
-            (printf "ast.labelTable: FATAL ERROR in Labeling.\n";
+      try let _ = Hashtbl.find_exn table ls  in
+            (printf "ast.labelChapter: FATAL ERROR in Labeling.\n";
              exit ErrorCode.labeling_error_hash_table_corrupted)
       with Caml.Not_found -> 
-        match Hashtbl.add labelTable ~key:ls ~data:() with
+        match Hashtbl.add table ~key:ls ~data:() with
         | `Duplicate -> 
-                    (printf "ast.labelTable: FATAL ERROR in Labeling.\n";
+                    (printf "ast.table: FATAL ERROR in Labeling.\n";
                      exit ErrorCode.labeling_error_hash_table_corrupted)
         | `Ok -> () 
   in
-
   let prefix = mkLabelPrefix ls in
+  let b = labelBlock table prefix b in
+  let ps = labelParagraphs table prefix ps in
+  let ss = List.map ss ~f:(labelSection table prefix) in
+
+(*
   let folder ss s = 
-    let s_new = labelSection labelTable prefix s in
+    let s_new = labelSection table prefix s in
       ss @ [s_new]
   in             
   let ss_new = List.fold_left ss ~init:[] ~f:folder in
-     Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss_new))
+*)
+     Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))
 
 
 
