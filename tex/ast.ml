@@ -338,8 +338,13 @@ let tokenize_spaces body =
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
 
-  (* Replace all non-alpha-numeric letters with space *)
-  let body = Str.global_replace (Str.regexp "[^0-9^A-Z^a-z]+") " " body in
+  (* Delete all latex environments *)
+  let body = Str.global_replace (Str.regexp "\\\\begin{[^}]*}") "" body in
+  let body = Str.global_replace (Str.regexp "\\\\end{[^}]*}") "" body in
+
+  (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
+  (* Regexp for this may seem strange. *)
+  let body = Str.global_replace (Str.regexp "[^-^_^0-9^A-Z^a-z]+") " " body in
 
   (* Now split at all whitespaces, including for windows form feed \x0c *)
   let tokens = Str.split TexSyntax.regexp_whitespace body in

@@ -71,7 +71,30 @@ $ lexer.native
   Note that paragraphs are "floating" sections and can appear anywhere
 
   We refer to all sections and paragraph as a *_segment_*  
- 
+
+## Automatic labeling
+
+The idea is to require the user to follow some discipline in labeling segments such as 
+ch:chapter_label
+sec:section_label
+sec:paragraph_label 
+(encourage using the same prefix, because paragraph can become section later and you don't want to change all the references to the label)
+grp:cluster_label
+grp:flex_label
+(here gr stands for group)
+
+We then generate labels automatically.  The algorithm employs a few heuristics so that the labels can be reasonably good.
+* We maintain a hash table of all the labels in the chapter and check against it to make sure that all labels are unique.
+* We try out words from the title (for sections) or title + body for atoms, giving priority to titles.
+* We avoid some common stop words and diderot keywords.
+* We avoid contents of comments, latex commands etc, and contents of \label{} and \depend commands.
+* For groups, which usually don't have a title, and therefore we use the titles and bodies of nested atoms.  For the bodies, we take the latter 1/3 of each atom's body, for no real good reason other than avoiding conflict with nested atoms.  Note that because of the prefix difference, the same label can be used for an atom and its group and there will be no collision (hence this is not a good reason).   
+* For sections (section/subsection/subsection/paragraph), we expect a title.  In the odd case that the title is empty, we look into the titles and bodies of the atoms & groups up until the first nested section if any.
+*  If all this fails, we generate a unique number.   
+
+### Limitation
+* The labeling algorithm revolves around the constants sec:/grp: etc.  What if the user does not follow these?
+
 # OVERALL STRATEGY
 
 Our strategy rests on several observations.
