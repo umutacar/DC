@@ -327,7 +327,7 @@ let process_title kind topt =
 
 let tokenize_spaces body = 
   (* Delete all comments *)
-  let body = Str.global_replace (Str.regexp ("%[.]*" ^ TexSyntax.pattern_newline)) "" body in
+  let body = Str.global_replace (Str.regexp ("%.*" ^ TexSyntax.pattern_newline)) "" body in
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
   (* Replace all non-alpha-numeric letters with space *)
@@ -349,7 +349,9 @@ let tokenize_spaces body =
 let collect_body_atom atom = 
   let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
     let tokens = tokenize_spaces body in 
-    let tokens = List.drop tokens (List.length tokens / 2) in
+
+    (* Take the last 1/3 of the body *)
+    let tokens = List.drop tokens (2 * List.length tokens / 3) in
       String.concat ~sep:" " tokens
 
 let collect_title_atom atom = 
@@ -369,6 +371,7 @@ let collect_title_group group =
     map_concat_with " " collect_title_atom ats
 
 let collect_text_group group = 
+  (* Title has priority *)
   (collect_title_group group) ^ " " ^ (collect_body_group group)
 
 (**********************************************************************
