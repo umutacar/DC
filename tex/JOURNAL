@@ -39,11 +39,16 @@ So whatever latex produces must be mediated through this.
 
 # JOURNAL
 
+- [May 20]
+  * Set up the infrastructure for label generation
+  * TODO: we must be able to generate labels always.
+
+- [May 19]
+  * Started working on elaboration for labeling.
+
 - [May 14]
   * Completed quiz.  
     Introduced blocks, cleaned up terminology and fixed some bugs.
-
-
 
 - [May 13]
   * Add point value to all segments.  Author should be able so specify and if not they should be computed during evaluation.

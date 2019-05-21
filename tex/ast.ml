@@ -114,6 +114,9 @@ and element =
 (**********************************************************************
  ** BEGIN: Utilities
 *********************************************************************)
+let str_match_prefix pattern s = 
+  Str.string_match pattern s 0 
+
 let mk_pval pvalopt= 
   match pvalopt with 
   |  None -> 0.0
@@ -160,6 +163,18 @@ let map_concat f xs: string =
   let xs_s: string list = List.map xs f in
   let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ x) in
     result
+
+let map_concat_with connective f xs: string = 
+  let xs_s: string list = List.map xs f in
+  let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ connective ^ x) in
+    result
+
+let strListToStr (xs: string list): string = 
+  String.concat ~sep:", " xs
+(*
+  let result = List.fold_left xs  ~init:"" ~f:(fun result x -> result ^ x) in
+    result
+*)
 
 let map_and_sum_pts f xs =   
   let pvals_and_xs = map f xs in
@@ -310,6 +325,95 @@ let process_title kind topt =
         else
           (topt, None, None)
 
+let tokenize_spaces body = 
+  (* Delete all comments *)
+  let body = Str.global_replace (Str.regexp ("%.*" ^ TexSyntax.pattern_newline)) "" body in
+
+  (* Delete labels *)
+  let body = Str.global_replace (Str.regexp "\\\\label{[^}]*}") "" body in
+
+  (* Delete depends *)
+  let body = Str.global_replace (Str.regexp "\\\\depend{[^}]*}") "" body in
+
+  (* Delete all latex commands *)
+  let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
+
+  (* Delete all latex environments *)
+  (* TODO: This does not work, even though the operation works on caml 
+   * repl.  Unsure what the problem is.
+   *)
+  let body = Str.global_replace (Str.regexp "\\\\begin{[^}]*}") "" body in
+  let body = Str.global_replace (Str.regexp "\\\\end{[^}]*}") "" body in
+
+  (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
+  (* Regexp for this may seem strange. *)
+  let body = Str.global_replace (Str.regexp "[^-^_^0-9^A-Z^a-z]+") " " body in
+
+  (* Now split at all whitespaces, including for windows form feed \x0c *)
+  let tokens = Str.split TexSyntax.regexp_whitespace body in
+      (* splits the string at space* 's.  
+         if none is found, returns the whole string.
+        *)
+  let tokens = List.map tokens  String.lowercase in 
+  let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
+  (* Reorder so small words are not preferred *)
+  let tokens = tokens_big @ tokens_small in
+  let tokens = List.filter tokens ~f:TexSyntax.labelGood in
+  let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
+    tokens
+
+let collect_body_atom atom = 
+  let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
+    let tokens = tokenize_spaces body in 
+
+    (* Take the first half of the body *)
+    let tokens = List.take tokens (List.length tokens / 2) in
+      String.concat ~sep:" " tokens
+
+let collect_title_atom atom = 
+  let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
+    match topt with 
+    | None -> ""
+    | Some title ->
+      let tokens = tokenize_spaces title in 
+        String.concat ~sep:" " tokens
+
+let collect_body_group group = 
+  let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
+    map_concat_with " " collect_body_atom ats
+
+let collect_title_group group = 
+  let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
+    map_concat_with " " collect_title_atom ats
+
+let collect_title_element e = 
+  match e with 
+  | Element_Atom a -> collect_title_atom a
+  | Element_Group g -> collect_title_group g
+
+let collect_body_element e = 
+  match e with 
+  | Element_Atom a -> collect_body_atom a
+  | Element_Group g -> collect_body_group g
+
+let collect_title_block block = 
+  let Block(es, tt) = block in
+    map_concat_with " " collect_title_element es
+
+let collect_body_block block = 
+  let Block(es, tt) = block in
+    map_concat_with " " collect_body_element es
+
+let collect_text_group group = 
+  (* Title has priority *)
+  (collect_title_group group) ^ " " ^ (collect_body_group group)
+
+let collect_text_block block = 
+  (* Title has priority *)
+  (collect_title_block block) ^ " " ^ (collect_body_block block)
+
+
+
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
@@ -350,8 +454,8 @@ let mktex_section_heading name pvalopt t =
   in 
     b ^ p ^ "{" ^ t ^ "}" ^ "\n"
 
-let mktex_begin block_name pvalopt topt = 
-  let b = "\\begin{" ^ block_name ^ "}" in
+let mktex_begin kind pvalopt topt = 
+  let b = "\\begin{" ^ kind ^ "}" in
   let p = match pvalopt with 
           | None -> ""
           | Some pts -> if pts = 0.0 then ""
@@ -363,18 +467,28 @@ let mktex_begin block_name pvalopt topt =
   in
     b ^ p ^ t ^ "\n"
 
+
+let mktex_header_atom kind pval_opt topt = 
+  mktex_begin kind pval_opt topt 
+
 let dependOptToTex dopt = 
   let r = match dopt with 
               |  None -> ""
-              |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" in
-     r
+              |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
+  in
+    r
 
-let labelToTex (Label(h, label_string)) = h
+
+(* Drop heading and consruct from label string *)
+let labelToTex (Label(h, label_string)) = 
+  ((TexSyntax.mkLabel label_string) ^ newline)
+
 let labelOptToTex lopt = 
   let r = match lopt with 
               |  None -> ""
-              |  Some Label(heading, l) -> heading  in
-     r
+              |  Some label -> labelToTex label
+  in
+     r 
 
 let pointvalToTex p = 
   mktex_optarg (Float.to_string p)
@@ -427,6 +541,7 @@ let ilistToTex (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) =
     preamble ^ h_begin ^ ils ^ h_end
       
 let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
+  let h_begin = mktex_header_atom kind pval_opt topt in
   let label = labelOptToTex lopt in
   let depend = dependOptToTex dopt in
   let hint = hintOptToTex hint_opt in
@@ -507,7 +622,7 @@ let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let label = labelToTex l in
   let heading = mktex_section_heading TexSyntax.kw_chapter pval_opt t in
     preamble ^ 
-    heading ^ label ^ 
+    heading ^ label ^
     block ^ paragraphs ^ sections
 
 (**********************************************************************
@@ -879,6 +994,288 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
  **********************************************************************)
 
 
+(**********************************************************************
+ ** BEGIN: AST LABELING
+ **********************************************************************)
+
+let label_counter = ref 0
+let mk_new_label () = 
+  let _ = label_counter := !label_counter + 1 in
+    TexSyntax.label_prefix_auto_pre ^ 
+    (Int.to_string !label_counter) ^ 
+    TexSyntax.label_prefix_auto_pre  
+
+(* Assuming that the label has of the form 
+   (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
+   delete the prefix before the separator
+ *)
+
+let mkLabelPrefix label = 
+  let tokens = Str.split (Str.regexp (":")) label in
+  if List.length tokens <= 1 then
+    (* label does not have a kind prefixer *)
+    label
+  else
+    (* Split into two at the colon 
+     * kind has the form Str.Delim "xyz[:]+"
+     * rest has the form Str.Text  "xyz..." 
+     *)
+
+    let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") label 2 in
+      if str_match_prefix TexSyntax.regexp_ch_prefix kind ||
+         str_match_prefix TexSyntax.regexp_sec_prefix kind ||
+         str_match_prefix TexSyntax.regexp_gr_prefix kind then
+         rest
+      else
+        label
+let addLabel table label = 
+      try let _ = Hashtbl.find_exn table label  in
+            (d_printf "ast.addLabel: Label = %s found in the table.\n" label;
+             false)
+      with Caml.Not_found -> 
+        match Hashtbl.add table ~key:label ~data:() with
+        | `Duplicate -> 
+                    (printf "ast.addLabel: FATAL ERROR in Labeling.\n";
+                     exit ErrorCode.labeling_error_hash_table_corrupted)
+        | `Ok -> true
+
+(* Take kind, e.g., sec, gr, and prefix and a string s make
+   kind:prefix::s
+ *)
+
+let createLabel table kind prefix body = 
+  let candidates = tokenize_spaces body in
+  let rec find candidates = 
+    let _ = d_printf "ast.createLabel: candidates = %s\n" (strListToStr candidates) in
+      match candidates with 
+      | [] -> 
+         let _ = d_printf "ast.createLabel: failed to find a unique word.  Using unique.\n" in
+           None
+      | ls::rest ->
+        let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+        let _ = d_printf "ast.createLabel: trying label = %s\n" ls in
+          if addLabel table ls then 
+           let heading = TexSyntax.mkLabel ls in
+           let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" ls in
+             Some (heading, ls)
+          else
+            let _ = d_printf "ast.addLabel: Label = %s found in the table.\n" ls in
+              find rest
+     in
+       find candidates
+
+let forceCreateLabel table kind prefix topt body_opt = 
+  match (topt, body_opt) with 
+  | (None, None) -> 
+    (* Generate based on numbers *)
+    let ls = mk_new_label () in 
+    let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+    let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
+    let heading = TexSyntax.mkLabel ls in
+      (heading, ls)
+  | _ ->
+  let body =
+     match body_opt with 
+    | None -> ""
+    | Some body  -> body
+  in
+  let all = 
+    match topt with 
+    | None -> body
+    | Some title  ->  (title ^ " " ^ body)
+  in 
+    match createLabel table kind prefix all with 
+    | None ->
+      let ls = mk_new_label () in 
+      let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+      let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
+      let heading = TexSyntax.mkLabel ls in
+        (heading, ls)
+    | Some (heading, ls) -> 
+        (heading, ls)
+    
+let labelAtom table prefix atom = 
+  let Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end)) = atom in
+    match lopt with 
+    | Some _ -> 
+      let _ = d_printf "ast.labelAtom: has label.\n" in
+        atom
+    | None -> 
+      let _ = d_printf "ast.labelAtom: kind = %s.\n" kind in
+      let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt (Some body) in
+      let _ = d_printf "ast.labelAtom: label = %s\n" ls_new in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Atom(preamble, (kind, h_begin, pval_opt, topt, lopt_new, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))
+
+let labelGroup table prefix group = 
+  let Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
+    match lopt with 
+    | Some l -> 
+      let _ = d_printf "ast.labelGroup: has label.\n" in
+      let Label (_, ls) = l in
+(*      let prefix = mkLabelPrefix ls in *)
+      (* For simplicity, do not add group's label as prefix. 
+         Groups should basically be invisible.
+       *)
+      let prefix = prefix in
+      let ats = map (labelAtom table prefix) ats in 
+        Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
+    | None -> 
+      let _ = d_printf "ast.labelGroup: kind = %s.\n" kind in
+      let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
+      let body = Some (collect_text_group group) in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelGroup: label = %s\n" ls_new in
+(*      let prefix = mkLabelPrefix ls_new in *)
+      (* For simplicity, do not add group's label as prefix. 
+         Groups should basically be invisible.
+       *)
+      let prefix = prefix in 
+      let ats = map (labelAtom table prefix) ats in 
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Group(preamble, (kind, h_begin, pval_opt, topt, lopt_new, ats, tt, h_end))
+
+let labelElement table prefix b = 
+  match b with
+  | Element_Group g -> Element_Group (labelGroup table prefix g)
+  | Element_Atom a -> Element_Atom (labelAtom table prefix a)
+
+let labelBlock table prefix (Block(es, tt)) =
+  let _ = d_printf "labelBlock\n" in
+  let es = List.map es ~f:(labelElement table prefix) in 
+    Block(es, tt)
+
+  
+let labelParagraph table prefix par = 
+(*
+  let ps = paragraphsTR ps in
+  let ss = map subsectionTR ss in
+*)
+  let Paragraph(heading, pval_opt, t, lopt, b) = par in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+        Paragraph (heading, pval_opt, t, lopt, b)
+    | None -> 
+      let _ = d_printf "ast.labelParagraph: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_paragraph in
+      let body = Some (collect_text_block b) in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Paragraph (heading, pval_opt, t, lopt_new, b)
+
+
+let labelParagraphs table prefix ps = 
+  List.map ps  ~f:(labelParagraph table prefix) 
+
+let labelSubsubsection table prefix sec = 
+  let Subsubsection (heading, pval_opt, t, lopt, b, ps) = sec in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+        Subsubsection (heading, pval_opt, t, lopt, b, ps)
+    | None -> 
+      let _ = d_printf "ast.labelSubsubsection: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_subsection in
+      let body = Some (collect_text_block b) in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSubsubsection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Subsubsection (heading, pval_opt, t, lopt_new, b, ps)
+
+let labelSubsection table prefix sec = 
+  let Subsection (heading, pval_opt, t, lopt, b, ps, ss) = sec in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsubsection table prefix) in
+        Subsection (heading, pval_opt, t, lopt, b, ps, ss)
+    | None -> 
+      let _ = d_printf "ast.labelSubsection: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_subsection in
+      let body = Some (collect_text_block b) in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSubsection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsubsection table prefix) in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Subsection (heading, pval_opt, t, lopt_new, b, ps, ss)
+
+
+let labelSection table prefix sec = 
+  let Section (heading, pval_opt, t, lopt, b, ps, ss) = sec in
+    match lopt with 
+    | Some l -> 
+      let Label (_, ls) = l in
+      let prefix = mkLabelPrefix ls in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsection table prefix) in
+        Section (heading, pval_opt, t, lopt, b, ps, ss)
+    | None -> 
+      let _ = d_printf "ast.labelSection: title = %s.\n" t  in
+      let kind_prefix = TexSyntax.label_prefix_section in
+      let body = Some (collect_text_block b) in
+      let topt = Some t in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
+      let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
+      let prefix = mkLabelPrefix ls_new in
+      let b = labelBlock table prefix b in
+      let ps = labelParagraphs table prefix ps in
+      let ss = List.map ss ~f:(labelSubsection table prefix) in
+      let lopt_new = Some (Label (heading_new, ls_new)) in
+        Section (heading, pval_opt, t, lopt_new, b, ps, ss)
+
+let labelChapter chapter = 
+  let Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss)) = chapter in
+  let table = Hashtbl.create (module String) in
+  let Label (_, ls) = l in
+
+  (* Insert label string into the hash table *)
+  let () = 
+      try let _ = Hashtbl.find_exn table ls  in
+            (printf "ast.labelChapter: FATAL ERROR in Labeling.\n";
+             exit ErrorCode.labeling_error_hash_table_corrupted)
+      with Caml.Not_found -> 
+        match Hashtbl.add table ~key:ls ~data:() with
+        | `Duplicate -> 
+                    (printf "ast.table: FATAL ERROR in Labeling.\n";
+                     exit ErrorCode.labeling_error_hash_table_corrupted)
+        | `Ok -> () 
+  in
+  let prefix = mkLabelPrefix ls in
+  let b = labelBlock table prefix b in
+  let ps = labelParagraphs table prefix ps in
+  let ss = List.map ss ~f:(labelSection table prefix) in
+     Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))
+
+
+
+(**********************************************************************
+ ** END: AST LABELING
+ **********************************************************************)
+
+
 
 (**********************************************************************
  ** BEGIN: AST  TRAVERSAL
@@ -959,7 +1356,7 @@ let blockTR (Block(es, tt)) =
     Block(es, tt)
 
 let paragraphTR (Paragraph(heading, pval_opt, t, lopt, b)) = 
-  let _ = d_printf "paragraphTR" in
+  let _ = d_printf "paragraphTR\n" in
   let b = blockTR b in
   let lopt = labelOptTR lopt in
     Paragraph (heading, pval_opt, t, lopt, b)
@@ -997,3 +1394,4 @@ let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
 (**********************************************************************
  ** END: AST TRAVERSAL
  **********************************************************************)
+
