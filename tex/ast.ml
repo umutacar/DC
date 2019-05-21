@@ -363,8 +363,8 @@ let collect_body_atom atom =
   let (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = atom in
     let tokens = tokenize_spaces body in 
 
-    (* Take the last 1/3 of the body *)
-    let tokens = List.drop tokens (2 * List.length tokens / 3) in
+    (* Take the first half of the body *)
+    let tokens = List.take tokens (List.length tokens / 2) in
       String.concat ~sep:" " tokens
 
 let collect_title_atom atom = 
