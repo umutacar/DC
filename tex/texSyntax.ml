@@ -176,6 +176,8 @@ let mkArg arg =
 let mkLabel label = 
    com_label ^ (mkArg label)
 
+let mk_plural s = s ^ "s"
+
 let stopWords = 
   (* English stopwords, from python NLTK package *)
   ["i";
@@ -309,39 +311,39 @@ let stopWords =
   ]
   @
   (* Diderot stopwords *)
-  [kw_chapter;
-   kw_section;
-   kw_subsection;
-   kw_subsubsection;
-   kw_paragraph;
-   kw_flex;
-   kw_problem_cluster;
-   kw_algorithm;
-   kw_assumption;
-   kw_code;
-   kw_corollary;
-   kw_costspec;
-   kw_datastr;
-   kw_datatype;
-   kw_definition;
-   kw_example;
-   kw_exercise;
-   kw_hint;
-   kw_important;
-   kw_lemma;
-   kw_note;
-   kw_gram;
-   kw_preamble;
-   kw_problem;
-   kw_proof;
-   kw_proposition;
-   kw_remark;
-   kw_reminder;
-   kw_slide;
-   kw_solution;
-   kw_syntax;
-   kw_task;
-   kw_theorem
+  [kw_chapter; mk_plural kw_chapter;
+   kw_section; mk_plural kw_section;
+   kw_subsection; mk_plural kw_subsection;
+   kw_subsubsection; mk_plural kw_subsubsection;
+   kw_paragraph; mk_plural kw_paragraph;
+   kw_flex; mk_plural kw_flex;
+   kw_problem_cluster; mk_plural kw_problem_cluster;
+   kw_algorithm; mk_plural kw_algorithm;
+   kw_assumption; mk_plural kw_assumption;
+   kw_code; mk_plural kw_code;
+   kw_corollary; mk_plural kw_corollary;
+   kw_costspec; mk_plural kw_costspec;
+   kw_datastr; mk_plural kw_datastr;
+   kw_datatype; mk_plural kw_datatype;
+   kw_datatype; mk_plural kw_definition;
+   kw_example; mk_plural kw_example;
+   kw_exercise; mk_plural kw_exercise;
+   kw_hint; mk_plural kw_hint;
+   kw_important; mk_plural 
+   kw_lemma; mk_plural kw_lemma;
+   kw_note; mk_plural kw_note;
+   kw_gram; mk_plural kw_gram;
+   kw_preamble; mk_plural kw_preamble;
+   kw_problem; mk_plural kw_problem;
+   kw_proof; mk_plural kw_proof;
+   kw_proposition; mk_plural kw_proposition;
+   kw_remark; mk_plural kw_remark;
+   kw_reminder; mk_plural kw_reminder;
+   kw_slide; mk_plural kw_slide;
+   kw_solution; mk_plural kw_solution;
+   kw_syntax; mk_plural 
+   kw_task; mk_plural kw_task;
+   kw_theorem; mk_plural kw_theorem
   ]
 
 let stopWordsTable = 
