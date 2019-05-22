@@ -337,17 +337,18 @@ let tokenize_spaces body =
 
   
   (* Delete depends. These refer to other content should be reused for labeling. *)
+
   let body = Str.global_replace (Str.regexp "\\\\depend{[^}]*}") "" body in
+
+  (* Delete all latex environments *)
+  let body = Str.global_replace (Str.regexp "\\\\begin{[^}]*}") "" body in
+  let body = Str.global_replace (Str.regexp "\\\\end{[^}]+}") "" body in
+  (* Delete all math *)
+  let body = Str.global_replace (Str.regexp "\\$[^\\$]*\\$") "" body in
+
 
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
-
-  (* Delete all latex environments *)
-  (* TODO: This does not work, even though the operation works on caml 
-   * repl.  Unsure what the problem is.
-   *)
-  let body = Str.global_replace (Str.regexp "\\\\begin{[^}]*}") "" body in
-  let body = Str.global_replace (Str.regexp "\\\\end{[^}]*}") "" body in
 
   (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
   (* Regexp for this may seem strange. *)
