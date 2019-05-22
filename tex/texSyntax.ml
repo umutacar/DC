@@ -306,8 +306,7 @@ let stopWords =
    "just";
    "don";
    "should";
-   "now";
-   "several"
+   "now"
   ]
   @
   (* Diderot stopwords *)
@@ -325,11 +324,11 @@ let stopWords =
    kw_costspec; mk_plural kw_costspec;
    kw_datastr; mk_plural kw_datastr;
    kw_datatype; mk_plural kw_datatype;
-   kw_datatype; mk_plural kw_definition;
+   kw_definition; mk_plural kw_definition;
    kw_example; mk_plural kw_example;
    kw_exercise; mk_plural kw_exercise;
    kw_hint; mk_plural kw_hint;
-   kw_important; mk_plural 
+   kw_important; 
    kw_lemma; mk_plural kw_lemma;
    kw_note; mk_plural kw_note;
    kw_gram; mk_plural kw_gram;
@@ -341,7 +340,7 @@ let stopWords =
    kw_reminder; mk_plural kw_reminder;
    kw_slide; mk_plural kw_slide;
    kw_solution; mk_plural kw_solution;
-   kw_syntax; mk_plural 
+   kw_syntax; 
    kw_task; mk_plural kw_task;
    kw_theorem; mk_plural kw_theorem
   ]
@@ -357,6 +356,76 @@ let stopWords =
    "plenty";
    "several"
   ] 
+  @
+  (* adverbs *)
+  [ 
+   "actually";
+   "accordingly";
+   "across";
+   "adjacent";
+   "afterward";
+   "ahead";
+   "along";
+   "also";
+   "another";
+   "background";
+   "begin";
+   "behind";
+   "besides";
+   "beyond";
+   "briefly";
+   "consequence";
+   "consequently";
+   "contrast";
+   "contrary";
+   "conversely";
+   "currently";
+   "directly";
+   "fact";
+   "finally";
+   "first";
+   "following";
+   "furthermore";
+   "gradually";
+   "hence";
+   "however";
+   "last";
+   "lastly";
+   "later";
+   "left";
+   "like";
+   "manner";
+   "meantime";
+   "meanwhile";
+   "moreover";
+   "nearby";
+   "next";
+   "nevertheless";
+   "nonetheless";
+   "presently";
+   "opposite";
+   "result";
+   "right";
+   "second";
+   "short";
+   "side";
+   "similarly";
+   "since";
+   "soon";
+   "specific";
+   "specifically";
+   "spite";
+   "still";
+   "summary";
+   "subsequently";
+   "thereafter";
+   "therefore";
+   "thus";
+   "top";
+   "ultimately";
+   "yet"
+  ]
+
 let stopWordsTable = 
   let stopWords = List.map stopWords ~f:(fun x -> (x, ())) in
     match Hashtbl.of_alist (module String) stopWords with
