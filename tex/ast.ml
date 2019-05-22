@@ -1175,8 +1175,9 @@ let labelParagraph table prefix par =
     match lopt with 
     | Some l -> 
       let Label (_, ls) = l in
-      let prefix = mkLabelPrefix ls in
-      let b = labelBlock table prefix b in
+(*      let prefix_p = mkLabelPrefix ls in *)
+      let prefix_p = prefix in
+      let b = labelBlock table prefix_p b in
         Paragraph (heading, pval_opt, t, lopt, b)
     | None -> 
       let _ = d_printf "ast.labelParagraph: title = %s.\n" t  in
@@ -1185,11 +1186,11 @@ let labelParagraph table prefix par =
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
-      let prefix = mkLabelPrefix ls_new in
-      let b = labelBlock table prefix b in
+(*      let prefix_p = mkLabelPrefix ls_new in *)
+      let prefix_p = prefix in
+      let b = labelBlock table prefix_p b in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Paragraph (heading, pval_opt, t, lopt_new, b)
-
 
 let labelParagraphs table prefix ps = 
   List.map ps  ~f:(labelParagraph table prefix) 
@@ -1199,9 +1200,10 @@ let labelSubsubsection table prefix sec =
     match lopt with 
     | Some l -> 
       let Label (_, ls) = l in
-      let prefix = mkLabelPrefix ls in
-      let b = labelBlock table prefix b in
-      let ps = labelParagraphs table prefix ps in
+(*      let prefix_s = mkLabelPrefix ls in *)
+      let prefix_s = prefix in
+      let b = labelBlock table prefix_s b in
+      let ps = labelParagraphs table prefix_s ps in
         Subsubsection (heading, pval_opt, t, lopt, b, ps)
     | None -> 
       let _ = d_printf "ast.labelSubsubsection: title = %s.\n" t  in
@@ -1210,9 +1212,10 @@ let labelSubsubsection table prefix sec =
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSubsubsection: label = %s\n" ls_new in
-      let prefix = mkLabelPrefix ls_new in
-      let b = labelBlock table prefix b in
-      let ps = labelParagraphs table prefix ps in
+(*      let prefix_s = mkLabelPrefix ls_new in *)
+      let prefix_s = prefix in
+      let b = labelBlock table prefix_s b in
+      let ps = labelParagraphs table prefix_s ps in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Subsubsection (heading, pval_opt, t, lopt_new, b, ps)
 
@@ -1221,10 +1224,11 @@ let labelSubsection table prefix sec =
     match lopt with 
     | Some l -> 
       let Label (_, ls) = l in
-      let prefix = mkLabelPrefix ls in
-      let b = labelBlock table prefix b in
-      let ps = labelParagraphs table prefix ps in
-      let ss = List.map ss ~f:(labelSubsubsection table prefix) in
+(*      let prefix_s = mkLabelPrefix ls in *)
+      let prefix_s = prefix in
+      let b = labelBlock table prefix_s b in
+      let ps = labelParagraphs table prefix_s ps in
+      let ss = List.map ss ~f:(labelSubsubsection table prefix_s) in
         Subsection (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       let _ = d_printf "ast.labelSubsection: title = %s.\n" t  in
@@ -1233,23 +1237,24 @@ let labelSubsection table prefix sec =
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSubsection: label = %s\n" ls_new in
-      let prefix = mkLabelPrefix ls_new in
-      let b = labelBlock table prefix b in
-      let ps = labelParagraphs table prefix ps in
-      let ss = List.map ss ~f:(labelSubsubsection table prefix) in
+(*      let prefix_s = mkLabelPrefix ls_new in *)
+      let prefix_s = prefix in 
+      let b = labelBlock table prefix_s b in
+      let ps = labelParagraphs table prefix_s ps in
+      let ss = List.map ss ~f:(labelSubsubsection table prefix_s) in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Subsection (heading, pval_opt, t, lopt_new, b, ps, ss)
-
 
 let labelSection table prefix sec = 
   let Section (heading, pval_opt, t, lopt, b, ps, ss) = sec in
     match lopt with 
     | Some l -> 
       let Label (_, ls) = l in
-      let prefix = mkLabelPrefix ls in
-      let b = labelBlock table prefix b in
-      let ps = labelParagraphs table prefix ps in
-      let ss = List.map ss ~f:(labelSubsection table prefix) in
+(*      let prefix_s = mkLabelPrefix ls in *)
+      let prefix_s = prefix in
+      let b = labelBlock table prefix_s b in
+      let ps = labelParagraphs table prefix_s ps in
+      let ss = List.map ss ~f:(labelSubsection table prefix_s) in
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       let _ = d_printf "ast.labelSection: title = %s.\n" t  in
@@ -1258,10 +1263,11 @@ let labelSection table prefix sec =
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelSection: label = %s\n" ls_new in
-      let prefix = mkLabelPrefix ls_new in
-      let b = labelBlock table prefix b in
-      let ps = labelParagraphs table prefix ps in
-      let ss = List.map ss ~f:(labelSubsection table prefix) in
+(*      let prefix_s = mkLabelPrefix ls_new in *)
+      let prefix_s = prefix in
+      let b = labelBlock table prefix_s b in
+      let ps = labelParagraphs table prefix_s ps in
+      let ss = List.map ss ~f:(labelSubsection table prefix_s) in
       let lopt_new = Some (Label (heading_new, ls_new)) in
         Section (heading, pval_opt, t, lopt_new, b, ps, ss)
 
@@ -1287,8 +1293,6 @@ let labelChapter chapter =
   let ps = labelParagraphs table prefix ps in
   let ss = List.map ss ~f:(labelSection table prefix) in
      Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))
-
-
 
 (**********************************************************************
  ** END: AST LABELING

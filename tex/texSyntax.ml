@@ -74,7 +74,7 @@ let numbers = "numbers"
 let pattern_newline = "[ \n\r\x0c]+"
 let regexp_ch_prefix = Str.regexp "ch[:]+"
 let regexp_sec_prefix = Str.regexp "sec[:]+"
-let regexp_gr_prefix = Str.regexp "gr[:]+"
+let regexp_gr_prefix = Str.regexp "grp[:]+"
 let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
 (* END: Regular Expressions *)
 
@@ -175,6 +175,8 @@ let mkArg arg =
 
 let mkLabel label = 
    com_label ^ (mkArg label)
+
+let mk_plural s = s ^ "s"
 
 let stopWords = 
   (* English stopwords, from python NLTK package *)
@@ -304,44 +306,124 @@ let stopWords =
    "just";
    "don";
    "should";
-   "now";
-   "several"
+   "now"
   ]
   @
   (* Diderot stopwords *)
-  [kw_chapter;
-   kw_section;
-   kw_subsection;
-   kw_subsubsection;
-   kw_paragraph;
-   kw_flex;
-   kw_problem_cluster;
-   kw_algorithm;
-   kw_assumption;
-   kw_code;
-   kw_corollary;
-   kw_costspec;
-   kw_datastr;
-   kw_datatype;
-   kw_definition;
-   kw_example;
-   kw_exercise;
-   kw_hint;
-   kw_important;
-   kw_lemma;
-   kw_note;
-   kw_gram;
-   kw_preamble;
-   kw_problem;
-   kw_proof;
-   kw_proposition;
-   kw_remark;
-   kw_reminder;
-   kw_slide;
-   kw_solution;
-   kw_syntax;
-   kw_task;
-   kw_theorem
+  [kw_chapter; mk_plural kw_chapter;
+   kw_section; mk_plural kw_section;
+   kw_subsection; mk_plural kw_subsection;
+   kw_subsubsection; mk_plural kw_subsubsection;
+   kw_paragraph; mk_plural kw_paragraph;
+   kw_flex; mk_plural kw_flex;
+   kw_problem_cluster; mk_plural kw_problem_cluster;
+   kw_algorithm; mk_plural kw_algorithm;
+   kw_assumption; mk_plural kw_assumption;
+   kw_code; mk_plural kw_code;
+   kw_corollary; mk_plural kw_corollary;
+   kw_costspec; mk_plural kw_costspec;
+   kw_datastr; mk_plural kw_datastr;
+   kw_datatype; mk_plural kw_datatype;
+   kw_definition; mk_plural kw_definition;
+   kw_example; mk_plural kw_example;
+   kw_exercise; mk_plural kw_exercise;
+   kw_hint; mk_plural kw_hint;
+   kw_important; 
+   kw_lemma; mk_plural kw_lemma;
+   kw_note; mk_plural kw_note;
+   kw_gram; mk_plural kw_gram;
+   kw_preamble; mk_plural kw_preamble;
+   kw_problem; mk_plural kw_problem;
+   kw_proof; mk_plural kw_proof;
+   kw_proposition; mk_plural kw_proposition;
+   kw_remark; mk_plural kw_remark;
+   kw_reminder; mk_plural kw_reminder;
+   kw_slide; mk_plural kw_slide;
+   kw_solution; mk_plural kw_solution;
+   kw_syntax; 
+   kw_task; mk_plural kw_task;
+   kw_theorem; mk_plural kw_theorem
+  ]
+  @
+  (* quantifers, those not included in the stopwords above *)
+  [
+   "couple";
+   "enough";
+   "lots";
+   "little";
+   "many";
+   "much";
+   "plenty";
+   "several"
+  ] 
+  @
+  (* adverbs *)
+  [ 
+   "actually";
+   "accordingly";
+   "across";
+   "adjacent";
+   "afterward";
+   "ahead";
+   "along";
+   "also";
+   "another";
+   "background";
+   "begin";
+   "behind";
+   "besides";
+   "beyond";
+   "briefly";
+   "consequence";
+   "consequently";
+   "contrast";
+   "contrary";
+   "conversely";
+   "currently";
+   "directly";
+   "fact";
+   "finally";
+   "first";
+   "following";
+   "furthermore";
+   "gradually";
+   "hence";
+   "however";
+   "last";
+   "lastly";
+   "later";
+   "left";
+   "like";
+   "manner";
+   "meantime";
+   "meanwhile";
+   "moreover";
+   "nearby";
+   "next";
+   "nevertheless";
+   "nonetheless";
+   "presently";
+   "opposite";
+   "result";
+   "right";
+   "second";
+   "short";
+   "side";
+   "similarly";
+   "since";
+   "soon";
+   "specific";
+   "specifically";
+   "spite";
+   "still";
+   "summary";
+   "subsequently";
+   "thereafter";
+   "therefore";
+   "thus";
+   "top";
+   "ultimately";
+   "yet"
   ]
 
 let stopWordsTable = 

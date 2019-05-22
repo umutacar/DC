@@ -55,7 +55,7 @@ let main () =
         let outfile = args.(2) in
         let result = tex2tex infile in
         let _ = Out_channel.write_all outfile ~data:result in
-        let _ = printf "Successfully tranlated chapter. Output in %s\n" outfile in
+        let _ = printf "Successfully translated chapter. Output in %s\n" outfile in
            ()
       else
          printf "Usage: main <input latex file> [<output latex file>]\n" ;;
