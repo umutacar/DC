@@ -345,7 +345,18 @@ let stopWords =
    kw_task; mk_plural kw_task;
    kw_theorem; mk_plural kw_theorem
   ]
-
+  @
+  (* quantifers, those not included in the stopwords above *)
+  [
+   "couple";
+   "enough";
+   "lots";
+   "little";
+   "many";
+   "much";
+   "plenty";
+   "several"
+  ] 
 let stopWordsTable = 
   let stopWords = List.map stopWords ~f:(fun x -> (x, ())) in
     match Hashtbl.of_alist (module String) stopWords with
