@@ -347,14 +347,6 @@ let mk_segment_atom kind fields =
     | None -> b ^ C.newline ^ e ^ C.newline
     | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
-let mk_segment_group kind fields =
-  let _ = d_printf "mk_segment_group: %s" kind in
-  let b = mk_begin_group(kind) in
-  let e = mk_end_group(kind) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
-    match result with 
-    | None -> b ^ C.newline ^ e ^ C.newline
-    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
 let mk_segment_generic name fields =
   let _ = d_printf "mk_segment_generic: %s" name in
@@ -365,8 +357,9 @@ let mk_segment_generic name fields =
     | None ->  b ^ C.newline ^ e ^ C.newline
     | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
 
+
 let mk_segment_generic_with_kind name kind fields =
-  let _ = d_printf "mk_segment_generic: %s" name in
+  let _ = d_printf "mk_segment_generic_with_kind: %s" name in
   let b = mk_begin_segment_with_kind name kind in
   let e = mk_end_segment_with_kind name kind in  
   let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
@@ -405,12 +398,28 @@ let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~ilist_opt ~hints_
   let fields = append_opt ilist_opt fields in
     mk_segment_atom kind fields
 
+(* This is unused
+let mk_segment_group kind fields =
+  let _ = d_printf "mk_segment_group: %s" kind in
+  let b = mk_begin_group(kind) in
+  let e = mk_end_group(kind) in  
+  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
+    match result with 
+    | None -> b ^ C.newline ^ e ^ C.newline
+    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
+*)
+
 let mk_group ~kind ~pval ~topt ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
   let fields = [pval_xml] @ titles @ [label_xml; body] in
-    mk_segment_group kind fields
+(*    mk_segment_group kind fields *)
+(* We will use the kind of the group as a segment name.
+   Because these are unique this creates no ambiguity.
+   We know which segments are groups.
+ *)
+    mk_segment_generic kind fields
 
 let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 
   let pval_xml = mk_point_value_opt pval in
