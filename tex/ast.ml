@@ -384,11 +384,12 @@ let collect_title_atom atom =
         String.concat ~sep:" " tokens
 
 let collect_body_group group = 
-  let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
+  let _ = d_printf "collect_body_group\n" in
+  let Group (preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
     map_concat_with " " collect_body_atom ats
 
 let collect_title_group group = 
-  let Group (preamble, (kind, h_begin, Some pvalnew, topt, lopt, ats, tt, h_end)) = group in
+  let Group (preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end)) = group in
     map_concat_with " " collect_title_atom ats
 
 let collect_title_element e = 
