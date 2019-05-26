@@ -868,8 +868,9 @@ let chapterToXml  tex2html (Chapter (preamble, (heading, pval_opt, t, l, b, ps, 
 
 (**********************************************************************
  ** BEGIN: AST ELABORATION
- ** Elaboration is currently very basic. 
- ** It traverses the code and calculates point scores for groups.
+ ** Traverses the AST and 
+ ** 1) calculates point scores for all nodes
+ ** 2) makes sure that atoms are not orphans.
  **********************************************************************)
 
 (* Identity function *)
