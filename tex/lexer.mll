@@ -205,7 +205,6 @@ let p_latex_env = (p_alpha)+('*')?
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
              ((p_assumption as kind) p_ws as kindws) |
-             ((p_code as kind) p_ws as kindws) |
              ((p_corollary as kind) p_ws as kindws) |
              ((p_costspec as kind) p_ws as kindws) |
              ((p_datastr as kind) p_ws as kindws) |
@@ -236,6 +235,9 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
 let p_begin_atom = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
 let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
+
+let p_begin_code_atom = (p_com_begin p_ws as b) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) 
+let p_end_code_atom = (p_com_end p_ws as e) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
 let p_end_problem = (p_com_end p_ws as e) (p_o_curly as o) ((p_problem as kind) p_ws as kindws) (p_c_curly as c) 
@@ -372,6 +374,22 @@ rule token = parse
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
+
+| p_begin_code_atom as h
+    {
+       let _ = d_printf "!lexer: begin code atom\n" in
+       let (label_opt, body, h_e) = code_atom lexbuf in
+       let (h_e_a, h_e_b) = h_e in
+       let _ = d_printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
+         KW_CODE_ATOM(h, None, label_opt, body, h_e)
+    }		
+(*
+| p_begin_code_atom_with_arg
+  	{let all = b ^ o ^ kindws ^ c in
+       d_printf "lexer matched begin atom: %s" kind;
+       KW_BEGIN_ATOM(kind, all, None)
+    }		
+*)
 | p_begin_ilist 
       {let kw_b = b ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
@@ -527,6 +545,34 @@ and depend =
       {
          ([], x)
       }
+and code_atom =
+  parse
+  | p_end_code_atom
+    { 
+  	 let all = e ^ o ^ kindws ^ c in
+     let _ = d_printf "lexer matched end code atom kind: %s" kindws in
+     let _ = d_printf "!lexer: exiting code atom\n" in
+       (None, "", (kindws, all))
+    }
+  | p_label_and_name as x
+  	{
+     let _ = d_printf "!lexer.code_atom: matched label %s." x in
+     let (label_all, name) = (label_pre ^ label_name ^ label_post, label_name) in
+     let (_, body, h_e) = code_atom lexbuf in
+       (
+        Some (label_all, name),
+        body, 
+        h_e
+       )
+    }
+  | _  as x
+        { match code_atom lexbuf with 
+          | (Some l, body, h_e) -> 
+            (printf "Syntax Error: a label definition within code atoms not allowed!"; exit (-1))
+          | (None, body, h_e) ->
+            (None, (char_to_str x) ^ body, h_e)
+        }
+
 and ilist = 
   parse
   | p_ilist_separator as x
