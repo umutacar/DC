@@ -91,7 +91,7 @@ let p_separator = [':' '.' '-' '_' '/']
 let p_keyalpha = (p_alpha)+
 (* value is everything but white space, comma, or equal *)
 let p_valueofkey = [^ ' ' '\t' '\n' '\r' ',' '=']+
-let p_key_value_pair = p_keyalpha p_ws '=' p_ws p_valueofkey
+let p_key_value_pair = (p_keyalpha as key) p_ws '=' p_ws (p_valueofkey as value)
 let p_key_value_list = (p_key_value_pair) (p_ws ',' p_ws p_key_value_pair)*
 (* END: key value pairs *)
 
@@ -237,6 +237,9 @@ let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (
 let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
 let p_begin_code_atom = (p_com_begin p_ws as b) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) 
+
+let p_begin_code_atom_arg = (p_com_begin p_ws as b) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) (p_o_sq as o_sq) p_key_value_pair (p_c_sq as c_sq) 
+
 let p_end_code_atom = (p_com_end p_ws as e) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) 
 
 (* This is special, we use it to detect the end of a solution *)
@@ -375,6 +378,15 @@ rule token = parse
        KW_END_ATOM(kind, all)
     }		
 
+| p_begin_code_atom_arg as h_b
+    {
+       let _ = printf "!lexer: begin code atom with arg\n" in
+       let (label_opt, body, h_e) = code_atom lexbuf in
+       let (h_e_a, h_e_b) = h_e in
+       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h_b h_e_a h_e_b in
+         KW_CODE_ATOM((kindws, h_b), Some [(key, value)], label_opt, body, h_e)
+    }		
+
 | p_begin_code_atom as h_b
     {
        let _ = printf "!lexer: begin code atom\n" in
@@ -383,6 +395,8 @@ rule token = parse
        let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h_b h_e_a h_e_b in
          KW_CODE_ATOM((kindws, h_b), None, label_opt, body, h_e)
     }		
+
+
 (*
 | p_begin_code_atom_with_arg
   	{let all = b ^ o ^ kindws ^ c in

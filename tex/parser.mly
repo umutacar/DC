@@ -42,12 +42,12 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string> KW_END_ATOM 
 /* code atom is 
    (kind, heading)
-   (string * string * string) option for argument: "[" * argument * "]" 
+   (string * string list) option for argument key-value pairs,
    (label heading, label string) option
    body 
    end string
  */
-%token <(string * string) * (string * string * string) option * (string * string) option * string * (string * string)> KW_CODE_ATOM
+%token <(string * string) * ((string * string) list) option * (string * string) option * string * (string * string)> KW_CODE_ATOM
 
 
 %token <string> KW_LABEL
@@ -530,6 +530,7 @@ code_atom:
    let sol = None in
    let exp = None in
    let rubric = None in
+   let topt = None in
    let (_, h_end) = h_e in
      match topt with 
      | None -> 
