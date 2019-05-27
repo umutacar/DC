@@ -86,6 +86,14 @@ let p_float = p_digit* p_frac? p_exp?
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 
+(* BEGIN: key value pairs *)
+(* key is alphas *)
+let p_keyalpha = (p_alpha)+
+(* value is everything but white space, comma, or equal *)
+let p_valueofkey = [^ ' ' '\t' '\n' '\r' ',' '=']+
+let p_key_value_pair = p_keyalpha p_ws '=' p_ws p_valueofkey
+let p_key_value_list = (p_key_value_pair) (p_ws ',' p_ws p_key_value_pair)*
+(* END: key value pairs *)
 
 (* No white space after backslash *)
 let p_backslash = '\\'
