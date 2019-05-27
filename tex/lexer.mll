@@ -375,13 +375,13 @@ rule token = parse
        KW_END_ATOM(kind, all)
     }		
 
-| p_begin_code_atom as h
+| p_begin_code_atom as h_b
     {
-       let _ = d_printf "!lexer: begin code atom\n" in
+       let _ = printf "!lexer: begin code atom\n" in
        let (label_opt, body, h_e) = code_atom lexbuf in
        let (h_e_a, h_e_b) = h_e in
-       let _ = d_printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-         KW_CODE_ATOM(h, None, label_opt, body, h_e)
+       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h_b h_e_a h_e_b in
+         KW_CODE_ATOM((kindws, h_b), None, label_opt, body, h_e)
     }		
 (*
 | p_begin_code_atom_with_arg
@@ -550,13 +550,13 @@ and code_atom =
   | p_end_code_atom
     { 
   	 let all = e ^ o ^ kindws ^ c in
-     let _ = d_printf "lexer matched end code atom kind: %s" kindws in
-     let _ = d_printf "!lexer: exiting code atom\n" in
+     let _ = printf "lexer matched end code atom kind: %s" kindws in
+     let _ = printf "!lexer: exiting code atom\n" in
        (None, "", (kindws, all))
     }
   | p_label_and_name as x
   	{
-     let _ = d_printf "!lexer.code_atom: matched label %s." x in
+     let _ = printf "!lexer.code_atom: matched label %s." x in
      let (label_all, name) = (label_pre ^ label_name ^ label_post, label_name) in
      let (_, body, h_e) = code_atom lexbuf in
        (

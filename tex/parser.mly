@@ -41,13 +41,13 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string * string option> KW_BEGIN_ATOM
 %token <string * string> KW_END_ATOM 
 /* code atom is 
-   heading
-   arguments option
-   (label heading and label string) option
+   (kind, heading)
+   (string * string * string) option for argument: "[" * argument * "]" 
+   (label heading, label string) option
    body 
    end string
  */
-%token <string * string option * (string * string) option * string * (string * string)> KW_CODE_ATOM
+%token <(string * string) * (string * string * string) option * (string * string) option * string * (string * string)> KW_CODE_ATOM
 
 
 %token <string> KW_LABEL
@@ -513,10 +513,42 @@ mk_atom(kw_b, kw_e):
      Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, None, bs, il, hint, sol, exp, rubric, h_end))
   }
 
+
+code_atom:
+| preamble = boxes;
+  ca = KW_CODE_ATOM
+  {let (h_b, topt, lopt, body, h_e) = ca in
+   let _ = printf ("!parser: code atom matched") in     
+   let (kind, h_bb) = h_b in
+   let lopt = match lopt with 
+              | None -> None 
+              | Some (hl, label) -> Some (Ast.Label (hl, label))
+   in
+   let dopt = None in
+   let il = None in
+   let hint = None in
+   let sol = None in
+   let exp = None in
+   let rubric = None in
+   let (_, h_end) = h_e in
+     match topt with 
+     | None -> 
+       let h_begin = h_bb in
+       let _ = printf "\n \n Parsed Cod Atom kind = %s h_begin = %s" kind h_begin in
+         Atom (preamble, (kind, h_begin, None, None, lopt, dopt, body, il, hint, sol, exp, rubric, h_end))
+     | Some t ->
+       let (bo, tt, bc) = t in
+       let h_begin = h_bb ^ bo ^ tt ^ bc in   
+       let _ = printf "\n Parsed Code Atom.2 kind = %s title = %s " kind tt in
+         Atom (preamble, (kind, h_begin, None, Some tt, lopt, dopt, body, il, hint, sol, exp, rubric, h_end))
+  }
+
+
 atom:
 |	x = mk_atom(KW_BEGIN_ATOM, KW_END_ATOM)
   { x }
-
+| x = code_atom 
+  { x }
 
 
 /**********************************************************************
