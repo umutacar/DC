@@ -358,14 +358,7 @@ rule token = parse
   	{let _ = d_printf "!lexer matched: %s." x in 
        KW_PARAGRAPH(x, Some point_val)
     }
-(*
-| p_b_cluster as x
-  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, None)}		
-| p_b_cluster_with_points as x
-  	{d_printf "!lexer matched: %s." x; KW_BEGIN_CLUSTER(x, Some pval)}		
-| p_e_cluster as x
-  	{d_printf "!lexer matched: %s." x; KW_END_CLUSTER(x)}
-*)
+
 | p_begin_group
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin group: %s" kind;
@@ -470,20 +463,6 @@ rule token = parse
        let _ = d_printf "!lexer: rubric matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
          RUBRIC(h, body, h_e)
       }   
-
-| p_part as x           (* treat as comment *)
-    {COMMENT_LINE(x)}
-(*    {token lexbuf}		*)
-| p_part_arg as x            (* treat as comment *)
-    {COMMENT_LINE(x)}
-(*    {token lexbuf}		*)
-| p_begin_parts as x    (* treat as comment *)
-    {COMMENT_LINE(x)}
-(*    {token lexbuf}		*)
-| p_end_parts as x      (* treat as comment *)
-    {COMMENT_LINE(x)}
-(*    {token lexbuf}		*)
-
 
 | p_begin_latex_env as x
       { 
@@ -646,36 +625,6 @@ and take_atom_body =
   | _  as x
         { let (body, h_e) = take_atom_body lexbuf in
             ((char_to_str x) ^ body, h_e)
-        }
-
-
-  
-and code_atom =
-  parse
-  | p_end_code_atom
-    { 
-  	 let all = e ^ o ^ kindws ^ c in
-     let _ = printf "lexer matched end code atom kind: %s" kindws in
-     let _ = printf "!lexer: exiting code atom\n" in
-       (None, "", (kindws, all))
-    }
-  | p_label_and_name as x
-  	{
-     let _ = printf "!lexer.code_atom: matched label %s." x in
-     let (label_all, name) = (label_pre ^ label_name ^ label_post, label_name) in
-     let (_, body, h_e) = code_atom lexbuf in
-       (
-        Some (label_all, name),
-        body, 
-        h_e
-       )
-    }
-  | _  as x
-        { match code_atom lexbuf with 
-          | (Some l, body, h_e) -> 
-            (printf "Syntax Error: a label definition within code atoms not allowed!"; exit (-1))
-          | (None, body, h_e) ->
-            (None, (char_to_str x) ^ body, h_e)
         }
 
 and ilist = 
