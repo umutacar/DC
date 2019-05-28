@@ -225,6 +225,7 @@ let p_latex_env = (p_alpha)+('*')?
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
              ((p_assumption as kind) p_ws as kindws) |
+             ((p_code as kind) p_ws as kindws) |
              ((p_corollary as kind) p_ws as kindws) |
              ((p_costspec as kind) p_ws as kindws) |
              ((p_datastr as kind) p_ws as kindws) |
@@ -318,31 +319,28 @@ rule token = parse
 | p_label_and_name as x
   	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
 | p_backslash as x
-(*
-| p_com_label as x
-  	{d_printf "!lexer matched %s." x; KW_LABEL(x)}		
-*)
-				
+
 | p_chapter as x
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, None)}		
 | p_chapter_with_points as x
   	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, Some point_val)}		
+
 | p_section as x
   	{d_printf "!lexer matched: %s." x; KW_SECTION(x, None)}		
 | p_section_with_points as x
   	{let _ = d_printf "lexer matched section with points: %s" x in
        KW_SECTION(x, Some point_val)
     }		
+
 | p_subsection as x
   	{d_printf "!lexer matched subsection: %s." x; KW_SUBSECTION(x, None)}
-
 | p_subsection_with_points as x
   	{let _ = d_printf "lexer matched subsection with points: %s" x in
        KW_SUBSECTION(x, Some point_val)
     }		
+
 | p_subsubsection as x
   	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x, None)}
-
 | p_subsubsection_with_points as x
   	{let _ = d_printf "lexer matched subsubsection with points: %s" x in
        KW_SUBSUBSECTION(x, Some point_val)
@@ -370,22 +368,10 @@ rule token = parse
        d_printf "lexer matched end group: %s" kind;
        KW_END_GROUP(kind, all)
     }		
-| p_begin_atom
-  	{let all = b ^ o ^ kindws ^ c in
-       d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all, None)
-    }		
-| p_begin_atom_with_points
-  	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
-       d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all, Some point_val)
-    }		
-| p_end_atom
-  	{let all = e ^ o ^ kindws ^ c in
-       d_printf "lexer matched end atom: %s" kind;
-       KW_END_ATOM(kind, all)
-    }		
 
+(* Code atoms are special.
+ * We "skip" over their body.
+ *)
 | (p_begin_code_atom as h_b) p_ws (p_o_sq as o_sq)
     {
        let _ = printf "!lexer: begin code atom with arg\n" in
@@ -403,6 +389,24 @@ rule token = parse
          KW_CODE_ATOM(kind, None, label_opt, depend_opt, body, h_e)
     }		
 
+(* Atoms *)
+| p_begin_atom
+  	{let all = b ^ o ^ kindws ^ c in
+       d_printf "lexer matched begin atom: %s" kind;
+       KW_BEGIN_ATOM(kind, all, None)
+    }		
+| p_begin_atom_with_points
+  	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
+       d_printf "lexer matched begin atom: %s" kind;
+       KW_BEGIN_ATOM(kind, all, Some point_val)
+    }		
+| p_end_atom
+  	{let all = e ^ o ^ kindws ^ c in
+       d_printf "lexer matched end atom: %s" kind;
+       KW_END_ATOM(kind, all)
+    }		
+
+(* Ilists *)
 | p_begin_ilist 
       {let kw_b = b ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
@@ -414,19 +418,8 @@ rule token = parse
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, None, l, kw_e)          
       }   
-(* point values now go with atoms
-| p_begin_ilist_arg 
-      {let kw_b = b ^ o ^ kindws ^ c  in
-       let kw_b_arg = kw_b ^ o_sq ^ point_val ^ c_sq in
-       let _ = d_printf "!lexer: begin ilist: %s\n" kw_b_arg in
-       let _ = do_begin_ilist () in
-       let (_, l, kw_e) = ilist lexbuf in
-       let l_joined = List.map (fun (x, y, z) -> x ^ (pvalopt_to_str y) ^ z) l in
-       let sl = kw_b_arg ^ String.concat "," l_joined ^ kw_e in
-       let _ = d_printf "!lexer: ilist matched = %s" sl in
-            ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
-      }   
-*)
+
+(* Hints *)
 | p_com_hint as h 
       {
        let _ = d_printf "!lexer: begin hint\n" in
@@ -448,15 +441,6 @@ rule token = parse
        let _ = d_printf_opt_str "explain" exp_opt in
        let _ = d_printf_opt_str "rubric" rubric_opt in
          REFSOL(h, body, exp_opt, rubric_opt, h_e)
-      }   
-
-| p_com_rubric as h 
-      {
-       let _ = d_printf "!lexer: begin rubric\n" in
-       let (body, h_e) = rubric lexbuf in
-       let (h_e_a, h_e_b) = h_e in
-       let _ = d_printf "!lexer: rubric matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-         RUBRIC(h, body, h_e)
       }   
 
 | p_begin_latex_env as x

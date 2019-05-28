@@ -488,7 +488,7 @@ let dependOptToTex dopt =
     r
 
 
-(* Drop heading and consruct from label string *)
+(* Drop heading and construct from label string *)
 let labelToTex (Label(h, label_string)) = 
   ((TexSyntax.mkLabel label_string) ^ newline)
 
