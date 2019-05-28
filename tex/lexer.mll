@@ -374,18 +374,18 @@ rule token = parse
  *)
 | (p_begin_code_atom as h_b) p_ws (p_o_sq as o_sq)
     {
-       let _ = printf "!lexer: begin code atom with arg\n" in
+       let _ = d_printf "!lexer: begin code atom with arg\n" in
        let _ = inc_sq_depth () in
        let (arg, label_opt, depend_opt, body, h_e) = take_atom_arg lexbuf in
-       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
+       let _ = d_printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
          KW_CODE_ATOM(kind, Some arg, label_opt, depend_opt, body, h_e)
     }		
 
 | p_begin_code_atom as h_b
     {
-       let _ = printf "!lexer: begin code atom without arg\n" in
+       let _ = d_printf "!lexer: begin code atom without arg\n" in
        let (label_opt, depend_opt, body, h_e) = take_atom_label lexbuf in
-       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
+       let _ = d_printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
          KW_CODE_ATOM(kind, None, label_opt, depend_opt, body, h_e)
     }		
 
@@ -557,16 +557,16 @@ and take_atom_label =
   parse
   | p_label_and_name as x
   	{
-     let _ = printf "!lexer matched %s." x in
+     let _ = d_printf "!lexer matched %s." x in
      let (dopt, body, he) = take_atom_depend lexbuf in 
        (Some label_name, dopt, body, he)
     }
   | p_com_depend as h_b 
       {
-       let _ = printf "!lexer: begin depend:\n" in
+       let _ = d_printf "!lexer: begin depend:\n" in
        let (l, h_e) = depend lexbuf in
        let sl =  h_b ^ (String.concat "," l) ^ h_e in
-       let _ = printf "!lexer: depend matched = %s" sl in
+       let _ = d_printf "!lexer: depend matched = %s" sl in
        let (body, he) = take_atom_body lexbuf in 
          (None, Some l, body, he)
       }   
@@ -579,10 +579,10 @@ and take_atom_depend =
   parse
   | p_com_depend as h_b 
       {
-       let _ = printf "!lexer: begin depend:\n" in
+       let _ = d_printf "!lexer: begin depend:\n" in
        let (l, h_e) = depend lexbuf in
        let sl =  h_b ^ (String.concat "," l) ^ h_e in
-       let _ = printf "!lexer: depend matched = %s" sl in
+       let _ = d_printf "!lexer: depend matched = %s" sl in
        let (body, he) = take_atom_body lexbuf in 
          (Some l, body, he)
       }   

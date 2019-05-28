@@ -172,6 +172,7 @@ let code_to_html tmp_dir lang_opt unique arg_opt contents =
             | None -> ""
             | Some x -> x
   in
+  let _ = printf "code_to_html: arg = %s\n" arg in
   let heading = "~~~~{ " ^ arg ^ " }" in
   let ending = "~~~~" in
   let () = Out_channel.output_string md_file (heading ^ "\n") in
