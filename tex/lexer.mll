@@ -46,6 +46,26 @@ let do_end_latex_env () =
  ** END: latex env machinery 
  **********************************************************************)
 
+(**********************************************************************
+ ** BEGIN: latex env machinery 
+ **********************************************************************)
+
+let sq_depth = ref 0  
+
+let inc_sq_depth () =
+  sq_depth := !sq_depth + 1
+
+let dec_sq_depth () =
+  sq_depth := !sq_depth - 1
+
+let sq_depth () =
+  !sq_depth
+
+
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
+
 
 (**********************************************************************
  ** BEGIN: verbatim machinery 
@@ -378,32 +398,23 @@ rule token = parse
        KW_END_ATOM(kind, all)
     }		
 
-| p_begin_code_atom_arg as h_b
+| (p_begin_code_atom as h_b) p_ws (p_o_sq as o_sq)
     {
        let _ = printf "!lexer: begin code atom with arg\n" in
-       let (label_opt, body, h_e) = code_atom lexbuf in
-       let (h_e_a, h_e_b) = h_e in
-       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h_b h_e_a h_e_b in
-         KW_CODE_ATOM((kindws, h_b), Some (o_sq, keyval, c_sq), label_opt, body, h_e)
+       let _ = inc_sq_depth () in
+       let (arg, label_opt, depend_opt, body, h_e) = take_atom_arg lexbuf in
+       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
+         KW_CODE_ATOM(kindws, Some arg, label_opt, depend_opt, body, h_e)
     }		
 
 | p_begin_code_atom as h_b
     {
-       let _ = printf "!lexer: begin code atom\n" in
-       let (label_opt, body, h_e) = code_atom lexbuf in
-       let (h_e_a, h_e_b) = h_e in
-       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s, %s" body h_b h_e_a h_e_b in
-         KW_CODE_ATOM((kindws, h_b), None, label_opt, body, h_e)
+       let _ = printf "!lexer: begin code atom without arg\n" in
+       let (label_opt, depend_opt, body, h_e) = take_atom_label lexbuf in
+       let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
+         KW_CODE_ATOM(kindws, None, label_opt, depend_opt, body, h_e)
     }		
 
-
-(*
-| p_begin_code_atom_with_arg
-  	{let all = b ^ o ^ kindws ^ c in
-       d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all, None)
-    }		
-*)
 | p_begin_ilist 
       {let kw_b = b ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
@@ -559,6 +570,86 @@ and depend =
       {
          ([], x)
       }
+and take_atom_arg = 
+  parse 
+  | '[' as x
+    {
+     let _ = inc_sq_depth () in
+     let (arg, lopt, dopt, body, he) = take_atom_arg lexbuf in 
+       ((char_to_str x) ^ arg, lopt, dopt, body, he)
+    }
+  | ']' as x
+    {
+     let _ = dec_sq_depth () in
+       if sq_depth () = 0 then
+         let (lopt, dopt, body, he) = take_atom_label lexbuf in 
+           ("", lopt, dopt, body, he)
+       else
+         let (arg, lopt, dopt, body, he) = take_atom_arg lexbuf in 
+           ((char_to_str x) ^ arg, lopt, dopt, body, he)       
+    }
+
+  | _ as x
+    {
+     let (arg, lopt, dopt, body, he) = take_atom_arg lexbuf in 
+       ((char_to_str x) ^ arg, lopt, dopt, body, he)
+    }
+
+and take_atom_label =
+  parse
+  | p_label_and_name as x
+  	{
+     let _ = printf "!lexer matched %s." x in
+     let (dopt, body, he) = take_atom_depend lexbuf in 
+       (Some label_name, dopt, body, he)
+    }
+  | p_com_depend as h_b 
+      {
+       let _ = printf "!lexer: begin depend:\n" in
+       let (l, h_e) = depend lexbuf in
+       let sl =  h_b ^ (String.concat "," l) ^ h_e in
+       let _ = printf "!lexer: depend matched = %s" sl in
+       let (body, he) = take_atom_body lexbuf in 
+         (None, Some l, body, he)
+      }   
+  | _ as x
+    {
+     let (body, he) = take_atom_body lexbuf in 
+       (None, None, (char_to_str x) ^ body, he)
+    } 
+and take_atom_depend = 
+  parse
+  | p_com_depend as h_b 
+      {
+       let _ = printf "!lexer: begin depend:\n" in
+       let (l, h_e) = depend lexbuf in
+       let sl =  h_b ^ (String.concat "," l) ^ h_e in
+       let _ = printf "!lexer: depend matched = %s" sl in
+       let (body, he) = take_atom_body lexbuf in 
+         (Some l, body, he)
+      }   
+  | _  as x
+    {
+     let (body, he) = take_atom_body lexbuf in 
+       (None, (char_to_str x) ^ body, he)
+    }
+
+and take_atom_body = 
+  parse
+  | p_end_code_atom
+        { 
+  	     let all = e ^ o ^ kindws ^ c in
+         let _ = d_printf "lexer matched end atom: %s" kindws in
+         let _ = d_printf "!lexer: exiting refsol\n" in
+           ("", kindws)
+        }
+  | _  as x
+        { let (body, h_e) = take_atom_body lexbuf in
+            ((char_to_str x) ^ body, h_e)
+        }
+
+
+  
 and code_atom =
   parse
   | p_end_code_atom
