@@ -4,6 +4,7 @@ open Printf
 open Ast
 open Utils
 
+let dummy_heading = "dummy heading"
 let parse_error s = printf "Parse Error: %s"
 
 let mk_point_val_f_opt (s: string option) = 
@@ -24,8 +25,6 @@ let mk_point_val_f_opt (s: string option) =
 /* A ref sol is heading, body, explain option, rubric option, ending */
 %token <string * string * string option * string option * (string * string)> REFSOL 
 
-/* A rubric is heading, body, ending */
-%token <string * string * (string * string)> RUBRIC
 
 /* ilist is 
  * kind * kw_begin * point-value option * (item-separator-keyword, point value option, item-body) list * kw_end list 
@@ -40,7 +39,27 @@ let mk_point_val_f_opt (s: string option) =
 
 %token <string * string * string option> KW_BEGIN_ATOM
 %token <string * string> KW_END_ATOM 
-%token <string> KW_LABEL
+
+/*
+token < string *                 heading  
+         string option *          argument 
+         string option *          label 
+         (string list) option *  depend 
+         string *                 body  
+         (string * string)       ending 
+       >  KW_CODE_ATOM
+*/
+
+%token <string *               
+        (string option) *        
+        (string option) *        
+        ((string list) option) * 
+        string *              
+        string>  
+        KW_CODE_ATOM      
+         
+
+
 %token <string * string list * string> KW_DEPEND
 %token <string * string> KW_LABEL_AND_NAME
 
@@ -503,8 +522,40 @@ mk_atom(kw_b, kw_e):
      Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, None, bs, il, hint, sol, exp, rubric, h_end))
   }
 
+
+code_atom:
+| preamble = boxes;
+  ca = KW_CODE_ATOM
+  {let (kind, topt, lopt, dopt, body, h_end) = ca in
+   let _ = d_printf ("!parser: code atom matched") in     
+   let lopt = match lopt with 
+              | None -> None 
+              | Some (label) -> Some (Ast.Label (dummy_heading, label))
+   in
+   let dopt = match dopt with 
+              | None -> None 
+              | Some (dl) -> Some (Ast.Depend (dummy_heading, dl))
+   in
+   (* Code atoms don't have solution tails *)
+   let il = None in
+   let hint = None in
+   let sol = None in
+   let exp = None in
+   let rubric = None in
+     match topt with 
+     | None -> 
+       let _ = d_printf "\n \n Parsed Code Atom kind = %s" kind in
+         Atom (preamble, (kind, dummy_heading, None, None, lopt, dopt, body, il, hint, sol, exp, rubric, h_end))
+     | Some t ->
+       let _ = d_printf "\n Parsed Code Atom kind = %s title = %s " kind t in
+         Atom (preamble, (kind, dummy_heading, None, Some t, lopt, dopt, body, il, hint, sol, exp, rubric, h_end))
+  }
+
+
 atom:
 |	x = mk_atom(KW_BEGIN_ATOM, KW_END_ATOM)
+  { x }
+| x = code_atom 
   { x }
 
 
