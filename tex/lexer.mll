@@ -256,14 +256,9 @@ let p_begin_atom = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as
 let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
-let p_begin_code_atom = (p_com_begin p_ws as b) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) 
+let p_begin_code_atom = (p_com_begin p_ws as b) (p_o_curly as o) ((p_code as kind) p_ws as kindws) (p_c_curly as c) 
 
-let p_begin_code_atom_arg = (p_com_begin p_ws as b) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) (p_o_sq as o_sq) (p_key_value_list as keyval) (p_c_sq as c_sq) 
-
-let p_end_code_atom = (p_com_end p_ws as e) (p_o_curly as o) (p_ws p_code p_ws as kindws) (p_c_curly as c) 
-
-(* This is special, we use it to detect the end of a solution *)
-let p_end_problem = (p_com_end p_ws as e) (p_o_curly as o) ((p_problem as kind) p_ws as kindws) (p_c_curly as c) 
+let p_end_code_atom = (p_com_end p_ws as e) (p_o_curly as o) ((p_code as kind) p_ws as kindws) (p_c_curly as c) 
 
 let p_ilist_kinds = (p_chooseone | p_chooseany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
@@ -397,7 +392,7 @@ rule token = parse
        let _ = inc_sq_depth () in
        let (arg, label_opt, depend_opt, body, h_e) = take_atom_arg lexbuf in
        let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
-         KW_CODE_ATOM(kindws, Some arg, label_opt, depend_opt, body, h_e)
+         KW_CODE_ATOM(kind, Some arg, label_opt, depend_opt, body, h_e)
     }		
 
 | p_begin_code_atom as h_b
@@ -405,7 +400,7 @@ rule token = parse
        let _ = printf "!lexer: begin code atom without arg\n" in
        let (label_opt, depend_opt, body, h_e) = take_atom_label lexbuf in
        let _ = printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
-         KW_CODE_ATOM(kindws, None, label_opt, depend_opt, body, h_e)
+         KW_CODE_ATOM(kind, None, label_opt, depend_opt, body, h_e)
     }		
 
 | p_begin_ilist 
@@ -615,12 +610,12 @@ and take_atom_depend =
 
 and take_atom_body = 
   parse
-  | p_end_code_atom
+  | p_end_atom
         { 
   	     let all = e ^ o ^ kindws ^ c in
          let _ = d_printf "lexer matched end atom: %s" kindws in
          let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", kindws)
+           ("", kind)
         }
   | _  as x
         { let (body, h_e) = take_atom_body lexbuf in
