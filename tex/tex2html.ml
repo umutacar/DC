@@ -31,9 +31,9 @@ let latex_end_document = "\\end{document}"
 
 let pandoc_metadata = "--metadata link-citations:true"
 let pandoc_filters = "--filter pandoc-citeproc"
-let pandoc_cmd = "pandoc --verbose --mathjax" ^
+let pandoc_cmd = "pandoc --verbose --mathjax" ^ " " ^
                   pandoc_metadata ^ " " ^
-                  pandoc_filters ^ 
+                  pandoc_filters 
                    
 
 (* generate non-standalone html files *)
@@ -44,7 +44,7 @@ let pandoc_minor = pandoc_cmd
 (* let pandoc_standalone = "pandoc --from latex+smart  --mathjax -s" *)
 let pandoc_standalone = pandoc_minor ^ " -s"
 
-let pandoc =  pandoc_minor ^ "--bibliography=/tmp/main.bib"
+let pandoc =  pandoc_minor ^ " --bibliography=/tmp/main.bib"
 
 let pandoc_highlight langname = 
   let xml_definition = "./kate/" ^ langname ^ "." ^ "xml" in
