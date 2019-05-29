@@ -6,7 +6,7 @@ OCB_FLAGS = -use-ocamlfind -package re2 -package core -I tex -I xml -I pervasive
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = pervasives/utils.ml pervasives/errorCode.ml tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/texSyntax.ml tex/preprocessor.ml xml/xmlConstants.ml xml/xmlSyntax.ml 
 
-all: labeltex.native traverse.native tex2tex.native tex2xml.native 
+all: labeltex.native traverse.native tex2tex.native tex2xml.native texmlt.native
 
 clean:
 	$(OCB) -clean
@@ -35,6 +35,15 @@ tex2xml.profile: $(DEPEND) tex/tex2xml.ml
 tex2xml.debug: $(DEPEND) tex/tex2xml.ml
 	$(OCB) -tag debug tex2xml.byte
 
+# texmlt
+texmlt.native: $(DEPEND) tex/texmlt.ml
+	$(OCB) texmlt.native
+
+texmlt.profile: $(DEPEND) tex/texmlt.ml
+	$(OCB) -tag profile texmlt.native
+
+texmlt.debug: $(DEPEND) tex/texmlt.ml
+	$(OCB) -tag debug texmlt.byte
 
 
 # traverse
