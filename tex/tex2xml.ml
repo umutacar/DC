@@ -2,8 +2,10 @@ open Core
 open Lexer
 open Lexing
 
+let file_extension_xml = ".xml"
 let verbose = ref false
-let default_lang = ref "C"
+let do_inline = ref false
+let default_lang = ref None
 let tmp_dir = ref "/tmp"
 let bib_file = ref None
 let preamble_file = ref None
@@ -91,9 +93,10 @@ let main () =
 					
 let main () = 
   let spec = [
-              ("-v", Arg.Set verbose, "Enables verbose mode");
+              ("-v", Arg.Set verbose, "Enables verbose mode; default is false");
+              ("-inline", Arg.Set do_inline, "Inline latex input directives; default is false");
               ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp");
-              ("-lang", Arg.Set_string default_lang, "Sets the default programming language, default is C");
+              ("-lang", Arg.String (set_str_arg default_lang), "Sets the default programming language, default is None");
               ("-bib", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any");
               ("-o", Arg.String (set_str_arg out_file), "Sets output file")
              ]
@@ -118,6 +121,15 @@ let main () =
     | (Some p, Some i) -> (p, i)
   in
   let _ = printf "Executing command: tex2xml %s %s" preamble_file_name in_file_name in
-    ()
+  let out_file_name = match !out_file with 
+          | None ->
+            let in_file_name_first = Stdlib.Filename.remove_extension in_file_name in
+            let out_file_name = in_file_name_first ^ file_extension_xml in
+              (out_file := Some out_file_name; out_file_name)  
+          | Some out_file_name -> out_file_name
+  in
+  let xml_chapter = tex2xml !do_inline in_file_name preamble_file_name !default_lang in      
+       Out_channel.write_all out_file_name ~data:xml_chapter 
+
 let _ = main ()
 
