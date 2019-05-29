@@ -35,9 +35,6 @@ tex2xml.profile: $(DEPEND) tex/tex2xml.ml
 tex2xml.debug: $(DEPEND) tex/tex2xml.ml
 	$(OCB) -tag debug tex2xml.byte
 
-simple.native: $(DEPEND) ./simple.ml
-	$(OCB) simple.native
-
 
 # traverse
 traverse.native: $(DEPEND) tex/traverse.ml
