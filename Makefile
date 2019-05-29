@@ -6,24 +6,10 @@ OCB_FLAGS = -use-ocamlfind -package re2 -package core -I tex -I xml -I pervasive
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = pervasives/utils.ml pervasives/errorCode.ml tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/texSyntax.ml tex/preprocessor.ml xml/xmlConstants.ml xml/xmlSyntax.ml 
 
-all: labeltex.native traverse.native tex2tex.native tex2xml.native texmlt.native
+all: traverse.native tex2xml.native texel.native texmlt.native 
 
 clean:
 	$(OCB) -clean
-
-# tex2tex
-labeltex.native: $(DEPEND) tex/labeltex.ml
-	$(OCB) labeltex.native
-
-# tex2tex
-tex2tex.native: $(DEPEND) tex/tex2tex.ml
-	$(OCB) tex2tex.native
-
-tex2tex.profile: $(DEPEND) tex/tex2tex.ml
-	$(OCB) -tag profile tex2tex.native
-
-tex2tex.debug: $(DEPEND) tex/tex2tex.ml
-	$(OCB) -tag debug tex2tex.byte
 
 # tex2xml
 tex2xml.native: $(DEPEND) tex/tex2xml.ml
@@ -34,6 +20,17 @@ tex2xml.profile: $(DEPEND) tex/tex2xml.ml
 
 tex2xml.debug: $(DEPEND) tex/tex2xml.ml
 	$(OCB) -tag debug tex2xml.byte
+
+# texel
+texel.native: $(DEPEND) tex/texel.ml
+	$(OCB) texel.native
+
+texel.profile: $(DEPEND) tex/texel.ml
+	$(OCB) -tag profile texel.native
+
+texel.debug: $(DEPEND) tex/texel.ml
+	$(OCB) -tag debug texel.byte
+
 
 # texmlt
 texmlt.native: $(DEPEND) tex/texmlt.ml
