@@ -1,3 +1,4 @@
+(* This is depracated.  Please use texmlt utility. *)
 open Core
 open Core.Std
 open Lexer
