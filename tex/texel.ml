@@ -87,7 +87,7 @@ let main () =
     | Some _ -> (printf "Warning: multiple input files specified, taking first.\n")
   in
 
-  let usage_msg = "texel elaborates latex. \n Usage: texel <latex file>.\n Options available:" 
+  let usage_msg = "texel elaborates latex by giving each atom a label. \n Usage: texel <latex file>.\n Options available:" 
   in
   let _  = Arg.parse spec take_infile_name usage_msg in
   let in_file_name =  
