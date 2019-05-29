@@ -85,7 +85,7 @@ let main () =
     | Some _ -> (printf "Warning: multiple input files specified, taking first.\n")
   in
 
-  let usage_msg = "xmltex translates latex to XML. \n Usage: xmltex <latex file>.\n Options available:" 
+  let usage_msg = "texmlt translates latex to XML. \n Usage: texmlt <latex file>.\n Options available:" 
   in
   let _  = Arg.parse spec take_infile_name usage_msg in
   let in_file_name =  
@@ -93,7 +93,7 @@ let main () =
     | None -> (printf "Error: Missing input Latex file! \n%s" (Arg.usage_string spec usage_msg); exit 1)
     | Some x -> x
   in
-  let _ = printf "Executing command: xmltex %s" in_file_name in
+  let _ = printf "Executing command: texmlt %s" in_file_name in
   let outfile_name = match !out_file with 
           | None -> 
             let x = Utils.mk_xml_filename in_file_name in
