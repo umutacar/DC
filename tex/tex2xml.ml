@@ -3,11 +3,13 @@ open Lexer
 open Lexing
 
 let verbose = ref false
+let default_lang = ref "C"
 let tmp_dir = ref "/tmp"
 let bib_file = ref None
 let preamble_file = ref None
 let in_file = ref None
 let out_file = ref None
+
 
 (* Set string argument *)
 let set_str_arg r v = r := Some v
@@ -91,6 +93,7 @@ let main () =
   let spec = [
               ("-v", Arg.Set verbose, "Enables verbose mode");
               ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp");
+              ("-lang", Arg.Set_string default_lang, "Sets the default programming language, default is C");
               ("-bib", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any");
               ("-o", Arg.String (set_str_arg out_file), "Sets output file")
              ]
