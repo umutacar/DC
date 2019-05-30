@@ -488,7 +488,7 @@ mk_atom(kw_b, kw_e):
   topt = option (sq_box);
   d = depend;
   bs = boxes;
-  tail = mk_atom_tail_with_label_opt (kw_e)
+  tail = mk_atom_tail (kw_e)
   {
    let (kind, h_bb, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
@@ -510,7 +510,7 @@ mk_atom(kw_b, kw_e):
 | preamble = boxes;
   h_b = kw_b;
   bs = boxes_start_no_sq; 
-  tail = mk_atom_tail_with_label_opt (kw_e)
+  tail = mk_atom_tail (kw_e)
   {
    let (kind, h_begin, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
