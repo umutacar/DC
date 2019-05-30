@@ -436,6 +436,22 @@ mk_atom_tail (kw_e):
      (il, Some h_b, Some body, sol_opt, exp_opt, rubric_opt, h_e)
   }
 
+mk_atom_tail_with_label_opt (kw_e):
+|  il = option(ilist); 
+   lopt = option(label);
+   h_e = kw_e
+  { (il, None, None, None, None, None, h_e) }
+| il = option(ilist); 
+  s = refsol
+  {let (h_b, body, exp_opt, rubric_opt, h_e) = s in
+     (il, Some h_b, None, Some body, exp_opt, rubric_opt, h_e)
+  }
+| il = option(ilist); 
+  s = hint
+  {let (h_b, body, sol_opt, exp_opt, rubric_opt, h_e) = s in
+     (il, Some h_b, Some body, sol_opt, exp_opt, rubric_opt, h_e)
+  }
+
 
 /*  diderot atom */
 
@@ -466,13 +482,13 @@ mk_atom(kw_b, kw_e):
          Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, Some l, dopt, bs, il, hint, sol, exp, rubric, h_end))
   }
 
-/* atoms without labels but with depends, may have titles or not */
+/* atoms without "begin labels" but with depends, may have titles or not */
 | preamble = boxes;
   h_b = kw_b;
   topt = option (sq_box);
   d = depend;
   bs = boxes;
-  tail = mk_atom_tail (kw_e)
+  tail = mk_atom_tail_with_label_opt (kw_e)
   {
    let (kind, h_bb, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
@@ -490,11 +506,11 @@ mk_atom(kw_b, kw_e):
          Atom (preamble, (kind, h_begin, pval_f_opt, Some tt, None, Some d, bs, il, hint, sol, exp, rubric, h_end))
   }
 
-/* atoms without labels, without depends, without titles */
+/* atoms without "begin labels", without depends, without titles */
 | preamble = boxes;
   h_b = kw_b;
   bs = boxes_start_no_sq; 
-  tail = mk_atom_tail (kw_e)
+  tail = mk_atom_tail_with_label_opt (kw_e)
   {
    let (kind, h_begin, pval_opt) = h_b in
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
