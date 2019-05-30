@@ -23,7 +23,15 @@ Assuming you got OPAM as described above:
 
  ## Installing MeTaL ##
 - clone this repo and run `make` in the `MeTaL` directory
-- the file `tex2xml.native` is the main executable, so copy that to where you want it
+- The executable `texmlt` or `texmlt.native` generates xml from latex.
+  Example usage from within the root of MeTaL.
+  ```
+  $./texmlt examples/genome.tex -preamble examples/preamble.tex -o genome.xml
+  ```
+- The executable `texel` or `texel.native` elaborates the input latex file in several ways.
+  ```
+  $./texel examples/genome.tex -o genome_elaborated.xml
+
 
  #### Disabling debug output ####
 If you get lots of debug output when compiling to xml, (eg: `!lexer matched` and `!found word:`) you can disable debugging output to get rid of it
