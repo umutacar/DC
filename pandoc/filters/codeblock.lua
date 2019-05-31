@@ -1,7 +1,7 @@
 -- This script promotes the language attribute of a pandoc
 -- codeBlock to a class.  
--- This should allows us to use custom languages with 
--- Kate XML specifications.
+-- This should allows using custom languages with 
+-- Kate (XML) specifications.
 
 function CodeBlock(block)
   
@@ -17,7 +17,6 @@ function CodeBlock(block)
 
     -- make lang a class, lua counts from 1.
     table.insert (block.classes, 1, l)
---    block.classes[1] = l      
 
     return block
   end

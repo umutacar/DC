@@ -134,7 +134,11 @@ END: C0  Additions
         <HlCChar attribute="Char" context="#stay"/>
         <DetectChar attribute="String" context="String" char="&quot;"/>
         <IncludeRules context="##Doxygen" />
+<!--
         <Detect2Chars attribute="Comment" context="Commentar 1" char="/" char1="/"/>
+-->
+        <StringDetect attribute="Comment" context="Commentar 1" String="// "/>
+
         <Detect2Chars attribute="Comment" context="Commentar 2" char="/" char1="*" beginRegion="Comment"/>
         <AnyChar attribute="Symbol" context="#stay" String=":!%&amp;()+,-/.*&lt;=&gt;?[]|~^&#59;"/>
       </context>
