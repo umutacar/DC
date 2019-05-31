@@ -41,9 +41,9 @@ let pandoc =  pandoc_minor
 
 let set_pandoc be_verbose = 
   if be_verbose then
-    pandoc_verbose_minor
+    pandoc_verbose_minor ^ " --lua-filter ./pandoc/filters/codeblock.lua --syntax-definition=./kate/cnot.xml"
   else
-    pandoc_minor
+    pandoc_minor ^  " --lua-filter ./pandoc/filters/codeblock.lua --syntax-definition=./kate/cnot.xml"
 
 let pandoc_highlight langname = 
   let xml_definition = "./kate/" ^ langname ^ "." ^ "xml" in
