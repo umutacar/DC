@@ -30,6 +30,23 @@ let do_end_latex_env () =
  ** END: latex env machinery 
  **********************************************************************)
 
+(**********************************************************************
+ ** BEGIN: curly bracked depth machinery
+ **********************************************************************)
+let curly_depth = ref 0  
+
+let inc_curly_depth () =
+  curly_depth := !curly_depth + 1
+
+let dec_curly_depth () =
+  curly_depth := !curly_depth - 1
+
+let curly_depth () =
+  !curly_depth
+(**********************************************************************
+ ** END: curly bracked depth machinery
+ **********************************************************************)
+
 }
 (** END: HEADER **)
 
@@ -348,6 +365,31 @@ and verbatim =
         { let y = verbatim lexbuf in
             (char_to_str x) ^ y
         }
+and take_arg = 
+  parse 
+  | '{' as x
+    {
+     let _ = inc_curly_depth () in
+     let (arg, c_curly) = take_arg lexbuf in 
+       ((char_to_str x) ^ arg, c_curly)
+    }
+  | '}' as x
+    {
+     let _ = dec_curly_depth () in
+       if curly_depth () = 0 then
+           ("", "}")
+       else
+         let (arg, c_curly) = take_arg lexbuf in 
+           ((char_to_str x) ^ arg, c_curly)       
+    }
+
+  | _ as x
+    {
+     let (arg, c_curly) = take_arg lexbuf in 
+       ((char_to_str x) ^ arg, c_curly)
+    }
+
+
 
 (** BEGIN TRAILER **)
 {
