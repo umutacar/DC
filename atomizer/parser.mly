@@ -27,6 +27,7 @@ let mk_point_val_f_opt (s: string option) =
 %token <string * string option> KW_PARAGRAPH	
 
 %start chapter
+%type <string> chapter
 
 /*  BEGIN RULES */
 %%
@@ -85,11 +86,11 @@ commentpars:
  **********************************************************************/
 /* Return  heading and title pair. */ 
 mk_heading(kw_heading):
-  h = kw_heading; b = curly_box 
+  h = kw_heading
   {let (heading, pval_opt) = h in 
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
    let (bo, bb, bc) = b in 
-     (heading ^ bo ^ bb ^ bc, pval_f_opt, bb) 
+     (heading, pval_f_opt) 
   }
 
 mk_section(kw_section, nested_section):
@@ -98,9 +99,9 @@ mk_section(kw_section, nested_section):
   ps = paragraphs;
   ns = mk_sections(nested_section);
   {
-   let (heading, pval_opt, t) = h in
+   let (heading, pval_opt) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
-     heading ^ b ^ ps ^ ns
+     heading ^ ps ^ ns
   }	  
 
 mk_sections(my_section):
