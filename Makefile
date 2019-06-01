@@ -2,14 +2,24 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core -I tex -I xml -I pervasives
+OCB_FLAGS = -use-ocamlfind -package re2 -package core -I atomizer -I tex -I xml -I pervasives 
 OCB = ocamlbuild $(OCB_FLAGS)
-DEPEND = pervasives/utils.ml pervasives/errorCode.ml tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/texSyntax.ml tex/preprocessor.ml xml/xmlConstants.ml xml/xmlSyntax.ml 
+DEPEND = \
+  pervasives/utils.ml pervasives/errorCode.ml \
+  tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/texSyntax.ml tex/preprocessor.ml \
+  xml/xmlConstants.ml xml/xmlSyntax.ml \
+  atomizer/atomize.ml atomizer/lexer.mll atomizer/parser.mly
 
-all: traverse.native tex2xml.native texel.native texmlt.native 
+all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
 
 clean:
 	$(OCB) -clean
+
+
+# atomizer
+atomize.native: $(DEPEND) atomizer/atomize.ml
+	$(OCB) atomize.native
+
 
 # tex2xml
 tex2xml.native: $(DEPEND) tex/tex2xml.ml

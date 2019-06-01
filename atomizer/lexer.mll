@@ -12,6 +12,27 @@ let pvalopt_to_str x =
   | None -> "None"
   | Some x -> "Some" ^ x
 
+
+(**********************************************************************
+ ** BEGIN: latex env machinery 
+ **********************************************************************)
+
+let latex_env_pos = ref 0  
+let latex_env_depth = ref 0  
+
+let do_begin_latex_env () =
+  latex_env_depth := !latex_env_depth + 1
+
+let do_end_latex_env () =
+  let () = latex_env_depth := !latex_env_depth - 1 in
+    (!latex_env_depth = 0)
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
+
+}
+(** END: HEADER **)
+
 (** BEGIN: PATTERNS *)	
 let p_comma = ','
 let p_space = ' '
@@ -257,6 +278,16 @@ rule token = parse
        KW_PARAGRAPH(x, Some point_val)
     }
 
+| p_begin_latex_env as x
+      { 
+          let _ = d_printf "!lexer: begin latex env: %s\n" x in
+          let _ = do_begin_latex_env () in
+          let y = latex_env lexbuf in
+          let _ = d_printf "!lexer: latex env matched = %s" (x ^ y) in
+            ENV(x ^ y)
+          
+      }   
+
 | p_nonemptyline as x
 		{d_printf "!lexer found: nonempty line%s." x;
      LINE(x)
@@ -266,6 +297,57 @@ rule token = parse
 | _
     {token lexbuf}		
 		
+and latex_env =
+  parse
+  | p_begin_verbatim as x
+      { 
+          let _ = d_printf "!lexer: entering verbatim\n" in
+          let _ = enter_verbatim lexbuf in
+          let y = verbatim lexbuf in
+          let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
+          let z = latex_env lexbuf in
+            x ^ y ^ z          
+      }   
+  | p_begin_latex_env as x
+        {
+            let _ = d_printf "!lexer: begin latex env: %s\n" x in
+            let _ = do_begin_latex_env () in
+            let y = latex_env lexbuf in
+                x ^ y              
+        }
+
+  | p_end_latex_env as x
+        { 
+            let _ = d_printf "!lexer: end latex env: %s\n" x in
+            let do_exit = do_end_latex_env () in
+                if do_exit then
+                    let _ = d_printf "!lexer: exiting latex env\n" in
+                        x
+                else
+                    let y = latex_env lexbuf in
+                      x ^ y  
+        }      
+  | p_comment_line as x   (* skip over comments *)
+      	{ 
+            let y = latex_env lexbuf in 
+                x ^ y
+        } 
+  | _  as x
+        { let y = latex_env lexbuf in
+            (char_to_str x) ^ y
+        }
+and verbatim =
+  parse
+  | p_end_verbatim as x
+        { 
+            let _ = d_printf "!lexer: exiting verbatim\n" in
+            let _ = exit_verbatim lexbuf in 
+                x
+        }
+  | _  as x
+        { let y = verbatim lexbuf in
+            (char_to_str x) ^ y
+        }
 
 (** BEGIN TRAILER **)
 {
