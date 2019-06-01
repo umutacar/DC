@@ -262,38 +262,52 @@ rule token = parse
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 
-| p_chapter as x
-  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, None)}		
-| p_chapter_with_points as x
-  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, Some point_val)}		
+| p_chapter as x p_ws
+    {
+     let _ = d_printf "!lexer matched chapter: %s." x in
+     let arg = take_arg lexbuf in
+     let h = x ^ arg in
+     let _ = d_printf "!lexer matched chapter: %s." h in
+       KW_CHAPTER(h, None)
+    }		
 
 | p_section as x
-  	{d_printf "!lexer matched: %s." x; KW_SECTION(x, None)}		
-| p_section_with_points as x
-  	{let _ = d_printf "lexer matched section with points: %s" x in
-       KW_SECTION(x, Some point_val)
+    {
+     let _ = d_printf "!lexer matched section: %s." x in
+     let arg = take_arg lexbuf in
+     let h = x ^ arg in
+     let _ = d_printf "!lexer matched section: %s." h in
+       KW_SECTION(h, None)
     }		
+
 
 | p_subsection as x
-  	{d_printf "!lexer matched subsection: %s." x; KW_SUBSECTION(x, None)}
-| p_subsection_with_points as x
-  	{let _ = d_printf "lexer matched subsection with points: %s" x in
-       KW_SUBSECTION(x, Some point_val)
+    {
+     let _ = d_printf "!lexer matched subsection: %s." x in
+     let arg = take_arg lexbuf in
+     let h = x ^ arg in
+     let _ = d_printf "!lexer matched subsection: %s." h in
+       KW_SUBSECTION(h, None)
     }		
 
+
 | p_subsubsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x, None)}
-| p_subsubsection_with_points as x
-  	{let _ = d_printf "lexer matched subsubsection with points: %s" x in
-       KW_SUBSUBSECTION(x, Some point_val)
+    {
+     let _ = d_printf "!lexer matched subsubsection: %s." x in
+     let arg = take_arg lexbuf in
+     let h = x ^ arg in
+     let _ = d_printf "!lexer matched subsubsection: %s." h in
+       KW_SUBSUBSECTION(h, None)
     }		
 
 | p_paragraph as x
-  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x, None)}
-| p_paragraph_with_points as x
-  	{let _ = d_printf "!lexer matched: %s." x in 
-       KW_PARAGRAPH(x, Some point_val)
-    }
+    {
+     let _ = d_printf "!lexer matched paragraph: %s." x in
+     let arg = take_arg lexbuf in
+     let h = x ^ arg in
+     let _ = d_printf "!lexer matched paragraph: %s." h in
+       KW_PARAGRAPH(h, None)
+    }		
 
 | p_begin_latex_env as x
       { 
@@ -370,23 +384,23 @@ and take_arg =
   | '{' as x
     {
      let _ = inc_curly_depth () in
-     let (arg, c_curly) = take_arg lexbuf in 
-       ((char_to_str x) ^ arg, c_curly)
+     let arg = take_arg lexbuf in 
+       (char_to_str x) ^ arg
     }
   | '}' as x
     {
      let _ = dec_curly_depth () in
        if curly_depth () = 0 then
-           ("", "}")
+         "}"
        else
-         let (arg, c_curly) = take_arg lexbuf in 
-           ((char_to_str x) ^ arg, c_curly)       
+         let arg = take_arg lexbuf in 
+           (char_to_str x) ^ arg
     }
 
   | _ as x
     {
-     let (arg, c_curly) = take_arg lexbuf in 
-       ((char_to_str x) ^ arg, c_curly)
+     let arg = take_arg lexbuf in 
+       (char_to_str x) ^ arg
     }
 
 
