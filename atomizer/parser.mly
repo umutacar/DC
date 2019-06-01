@@ -89,7 +89,6 @@ mk_heading(kw_heading):
   h = kw_heading
   {let (heading, pval_opt) = h in 
    let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
-   let (bo, bb, bc) = b in 
      (heading, pval_f_opt) 
   }
 
@@ -105,7 +104,7 @@ mk_section(kw_section, nested_section):
   }	  
 
 mk_sections(my_section):
-|  {[]}
+|  {""}
 | ss = mk_sections(my_section); s = my_section
   {ss ^ s}
 
@@ -117,7 +116,7 @@ chapter:
   ss = mk_sections(section); 
   EOF 
   {
-   let (heading, pval_opt, t) = h in
+   let (heading, pval_opt) = h in
    let tt = "" in
      p ^
      heading ^
@@ -143,7 +142,7 @@ subsubsection:
   b = block;
   ps = paragraphs;
   {
-   let (heading, pval_opt, t) = h in
+   let (heading, pval_opt) = h in
      heading ^ 
      b ^
      ps
@@ -154,13 +153,13 @@ paragraph:
   b = block;
   {
    let _ = d_printf ("Parser matched: paragraph.\n") in
-   let (heading, pval_opt, t) = h in
+   let (heading, pval_opt) = h in
      heading ^ b 
   }	  
 
 paragraphs:
 | 
- { [ ] }
+ { "" }
 | p = paragraph; 
   ps = paragraphs;
   {ps ^ p}
