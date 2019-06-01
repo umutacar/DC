@@ -140,6 +140,7 @@ lookAhead="true" />
         <HlCChar attribute="Char" context="#stay"/>
         <DetectChar attribute="String" context="String" char="&quot;"/>
         <IncludeRules context="##Doxygen" />
+        <StringDetect attribute="Contract" context="Commentar Contract" String="//@"/>
         <Detect2Chars attribute="Comment" context="Commentar 1" char="/" char1="/"/>
         <Detect2Chars attribute="Comment" context="Commentar 2" char="/" char1="*" beginRegion="Comment"/>
         <AnyChar attribute="Symbol" context="#stay" String=":!%&amp;()+,-/.*&lt;=&gt;?[]|~^&#59;"/>
@@ -158,6 +159,10 @@ lookAhead="true" />
 
       <context attribute="Region Marker" lineEndContext="#pop" name="Region Marker">
       </context>
+
+      <context attribute="Contract" lineEndContext="#pop" name="Commentar Contract">
+      </context>
+
 
       <context attribute="Comment" lineEndContext="#pop" name="Commentar 1">
         <DetectChar attribute="Normal Text" context="Contract" char="@" lookAhead="true" /> 
