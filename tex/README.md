@@ -36,6 +36,14 @@ This reads the tex file and elobarates as in tex2tex translation and translates 
 Turn this on to see the various parser steps.
 $ export OCAMLRUNPARAM='p'
 
+## Re2
+We use Re2 expressions alot see here.
+* https://ocaml.janestreet.com/ocaml-core/109.55.00/tmp/re2/Regex.html
+
+
+* https://regex-golang.appspot.com/assets/html/index.html
+
+* https://github.com/google/re2/wiki/Syntax
 
 ## OCAML 
 

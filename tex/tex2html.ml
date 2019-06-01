@@ -5,6 +5,7 @@
  **********************************************************************)
 
 open Core
+open Utils
 
 (**********************************************************************
  ** BEGIN: Globals
@@ -61,8 +62,40 @@ let text_prep(s) =
    *)
   Str.global_replace pattern_newline " \n" s
 
-(** END: Globals
+(*********************************************************************
+ ** END: Globals
+ *********************************************************************)
+
+(**********************************************************************
+ ** BEGIN: Utils
  **********************************************************************)
+
+(* Return the list of languages used in the contents 
+   TODO: Will also catch languages inside comments
+ *)
+let findLang contents  =
+  let extract_lang (m: Re2.Match.t) =
+    let source = Re2.Match.get ~sub:(`Name "lang") m in
+      match source with 
+      | None -> let _ = d_printf "tex2html.findLang: None" in []
+      | Some x -> let _ = d_printf "tex2html.findLang: Some %s" x in [x]
+  in
+  (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
+  let regex = Re2.create_exn
+                  "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
+  in
+  let pattern = Re2.pattern regex in
+  let _ = printf "tex2html.findLang: Pattern for this regex = %s\n" pattern in 
+  let all_matches = Re2.get_matches_exn regex contents in
+  let languages: string list = List.concat_map all_matches ~f:extract_lang in
+  let _ = printf_strlist "tex2html.findLange: languages" languages in 
+    languages
+
+(**********************************************************************
+ ** END: Utils
+ **********************************************************************)
+
+
 
 (* Translate the contents of latex_file_name and write it into
  *  html_file_name
@@ -133,6 +166,7 @@ let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) =
 let tex_to_html be_verbose tmp_dir  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
+  let languages = findLang contents  in
   let latex_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ latex_extension in
   let latex_file = Out_channel.create latex_file_name in
   let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
