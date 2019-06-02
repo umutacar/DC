@@ -90,14 +90,6 @@ emptyline:
   nl = newline
   {s ^ nl}
 
-emptylines:
-  {""}
-| els = emptylines;
-  el = emptyline
-  {let _ = d_printf "!Parser mached: emptylines.\n" in
-     els; el
-   }
-
 /* A comment line. */
 commentline:
   hs = hspaces;
