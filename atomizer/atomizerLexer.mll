@@ -70,16 +70,22 @@ let p_comma = ','
 (* horizontal space *)
 let p_hspace = ' ' | '\t'
 (* non-space character *)
-let p_nschar = [^ ' ' 't' '\n' '\r']
+let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
 (* newline *)
 let p_newline = '\n' | ('\r' '\n')
+let p_percent = '%'	
+let p_percent_esc = "\\%"	
 
-let p_tab = '\t'	
-let p_ws = [' ' '\t' '\n' '\r']*	
-let p_percent = '%'
+let p_newline = '\n' | ('\r' '\n')
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_comment = p_percent [^ '\n']*
+
+
+let p_tab = '\t'	
+let p_hs = [' ' '\t']*	
+let p_ws = [' ' '\t' '\n' '\r']*	
 let p_skip = p_ws
+
 let p_emptyline = [' ' '\t' '\r']* '\n'
 let p_emptyline = [' ' '\t' '\r']* '\n'
 let p_nonemptyline = [' ' '\t']* [^ ' ' '\t' 'r' '\n']+ [^ '\r' '\n']*  ['r']? '\n' 
@@ -278,9 +284,6 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 
 rule token = parse
-| p_comment as x
-  	{d_printf "!lexer matched comment line %s." x; COMMENT(x)}		
-
 | p_chapter as x
     {
      let _ = d_printf "!lexer matched chapter: %s." x in
@@ -348,9 +351,19 @@ rule token = parse
      HSPACE(char_to_str x)
     }
 
-| p_nschar as x
-		{d_printf "!lexer found: char: %s." (char_to_str x);
-     NSCHAR(char_to_str x)
+| p_sigchar as x
+		{d_printf "!%s" (char_to_str x);
+     SIGCHAR(char_to_str x)
+    }
+
+| p_percent_esc as x 
+		{d_printf "!lexer found: espaced percent char: %s." x;
+     PERCENT_ESC(x)
+    }
+
+| p_percent as x 
+		{d_printf "!lexer found: percent char: %s." (char_to_str x);
+     PERCENT(char_to_str x)
     }
 
 | eof

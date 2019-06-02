@@ -15,13 +15,16 @@ let mk_point_val_f_opt (s: string option) =
 
 %token EOF
 
-%token <string> COMMENT
+
 %token <string> NEWLINE
 %token <string> HSPACE
-%token <string> NSCHAR
+%token <string> SIGCHAR
 %token <string> PERCENT
 %token <string> PERCENT_ESC
+%token <string> COMMENT
+%token <string> NEWLINE_COMMENT
 %token <string> ENV
+
 
 %token <string * string option> KW_CHAPTER
 %token <string * string option> KW_SECTION
@@ -54,25 +57,29 @@ hspaces:
   {xs ^ x}
 
 /* Non-space char */
-nschar: 
-  d = NSCHAR
-  {d}
-| d = PERCENT
+sigchar: 
+  d = SIGCHAR
   {d}
 | d = PERCENT_ESC
   {d}
+| e = ENV
+  {e}
  
+/* All characters */
 char: 
   s = hspace
   {s}
-| d = nschar
+| p = PERCENT
+  {p}
+| d = sigchar
   {d} 
+
 
 chars: 
   {""}
 | xs = chars;
   x = char
-  {x ^ xs}
+  {xs ^ x}
 
 /* A newline. */
 newline: 
@@ -93,13 +100,36 @@ emptylines:
      els; el
    }
 
-/* A nonempty line. */
-line: 
+/* A comment line. */
+commentline:
   hs = hspaces;
-  d = nschar;
+  p = PERCENT;
   cs = chars;
   nl = newline
-  {hs ^ d ^ cs ^ nl}
+ {let _ = d_printf "!Parser mached: commentline.\n" in
+   hs ^ p ^ cs ^ newline
+  }
+   
+/* A nonempty, non-comment line. */
+line: 
+  hs = hspaces;
+  d = sigchar;
+  cs = chars;
+  nl = newline
+  {let l = hs ^ d ^ cs ^ nl in
+   let _ = d_printf "!Parser mached: significant line %s.\n" l in
+     l
+  }
+
+ignorables:
+  {""}
+| i = ignorables
+  x = emptyline
+  {i ^ x }
+| i = ignorables
+  x = commentline
+  {i ^ x }
+
 
 /* A latex environment. */
 env: 
@@ -109,10 +139,21 @@ env:
 /* A text paragraph. */
 textpar: 
   x = line;
-  y = emptyline
-  {x ^ y}  
+  tail = textpar_tail
+  {x ^ tail}  
+
+textpar_tail:
+  el = emptyline
+  {el}
+| cl = commentline
+  {cl}
 | x = line;
-  tp = textpar
+  tp = textpar_tail
+  { 
+    x ^ tp
+  } 
+| x = commentline;
+  tp = textpar_tail
   { 
     x ^ tp
   } 
@@ -136,7 +177,7 @@ mk_section(kw_section, nested_section):
   {
    let (heading, pval_opt) = h in
    let _ = d_printf ("!parser: section %s matched") heading in
-     heading ^ ps ^ ns
+     heading ^ b ^ ps ^ ns
   }	  
 
 mk_sections(my_section):
@@ -152,10 +193,9 @@ chapter:
   EOF 
   {
    let (heading, pval_opt) = h in
-     heading ^
-     b ^
-     ps ^
-     ss
+   let result = heading ^ b ^ ps ^ ss in
+   let _ = d_printf "Chapter mached:\n %s\n" result in
+     result
   }	
 
 section: 
@@ -208,9 +248,10 @@ paragraphs:
 
 block: 
 | es = elements; 
+  tt = ignorables
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
-     es
+     es ^ tt
   }
 
 /**********************************************************************
@@ -223,10 +264,17 @@ block:
  **********************************************************************/
 
 element:
-	e = env;  
-  {e}
-| tp = textpar;
-  {"\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}"}
+  ft = ignorables;
+	e = env  
+  {let _ = d_printf "!Parser: matched element %s" e in
+     ft ^ e
+  }
+| ft = ignorables;
+  tp = textpar;
+  {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}" in
+   let _ = d_printf "!Parser: matched text paragraph\n %s" para in
+     para
+  }
 
 elements:
   {""}
