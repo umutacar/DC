@@ -16,20 +16,23 @@ let mk_point_val_f_opt (s: string option) =
 %token EOF
 
 
-%token <string> NEWLINE
-%token <string> HSPACE
-%token <string> SIGCHAR
-%token <string> PERCENT
-%token <string> PERCENT_ESC
-%token <string> COMMENT
-%token <string> ENV
-
-
 %token <string * string option> KW_CHAPTER
 %token <string * string option> KW_SECTION
 %token <string * string option> KW_SUBSECTION
 %token <string * string option> KW_SUBSUBSECTION	
 %token <string * string option> KW_PARAGRAPH	
+
+%token <string * string> KW_LABEL_AND_NAME
+
+%token <string> COMMENT
+%token <string> ENV
+%token <string> HSPACE
+%token <string> NEWLINE
+%token <string> PERCENT
+%token <string> PERCENT_ESC
+%token <string> SIGCHAR
+
+
 
 %start chapter
 %type <string> chapter
@@ -146,9 +149,19 @@ textpar_tail:
     x ^ tp
   } 
 
+
+
 /**********************************************************************
  ** BEGIN: Latex Sections
  **********************************************************************/
+
+label:
+  l = KW_LABEL_AND_NAME
+  {let (all, label) = l in 
+   let _ = d_printf "Parser matched label = %s all = %s" label all in
+     all
+  }
+
 /* Return  heading and title pair. */ 
 mk_heading(kw_heading):
   h = kw_heading
@@ -159,6 +172,7 @@ mk_heading(kw_heading):
 
 mk_section(kw_section, nested_section):
   h = mk_heading(kw_section); 
+  l = option(label); 
   b = block;
   ps = paragraphs;
   ns = mk_sections(nested_section);

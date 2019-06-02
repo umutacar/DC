@@ -99,19 +99,12 @@ let p_float = p_digit* p_frac? p_exp?
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 
-(* BEGIN: key value pairs *)
-(* key is alphas *)
-let p_keyalpha = (p_alpha)+
-(* value is everything but white space, comma, or equal *)
-let p_valueofkey = [^ ',' '=']+
-let p_key_value_pair = (p_keyalpha as key) p_hs '=' p_hs (p_valueofkey as value)
-let p_key_value_list = (p_key_value_pair) (p_hs ',' p_hs p_key_value_pair)*
-(* END: key value pairs *)
-
 (* No white space after backslash *)
 let p_backslash = '\\'
-let p_o_curly = p_hs '{' p_ws
-let p_c_curly = p_hs '}' p_hs
+let p_o_curly = p_ws '{' p_ws
+(* don't take newline with close *)
+let p_c_curly = p_ws '}' p_hs
+
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 let p_special_percent = p_backslash p_percent
@@ -126,6 +119,8 @@ let p_com_hint = '\\' "help"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
+let p_label_name = (p_alpha | p_digit | p_separator)*
+let p_label_and_name = (p_ws as fspace) (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -285,7 +280,6 @@ rule token = parse
        KW_SECTION(h, None)
     }		
 
-
 | p_subsection as x
     {
      let _ = d_printf "!lexer matched subsection: %s." x in
@@ -323,6 +317,8 @@ rule token = parse
             ENV(x ^ y)
           
       }   
+| p_label_and_name as x
+  	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(fspace ^ label_pre ^ label_name ^ label_post, label_name)}		
 
 | p_newline as x
 		{d_printf "!lexer found: newline: %s." x;
@@ -427,25 +423,24 @@ and take_arg =
   | '{' as x
     {
      let _ = inc_curly_depth () in
-     let arg = take_arg lexbuf in 
-       (char_to_str x) ^ arg
+     let (arg, lopt, dopt) = take_arg lexbuf in 
+       ((char_to_str x) ^ arg, lopt, dopt)
     }
   | '}' as x
     {
      let _ = dec_curly_depth () in
        if curly_depth () = 0 then
-         "}"
+         let (lopt, dopt) = take_label_depend lexbuf in
+           ("}", lopt, dopt)
        else
-         let arg = take_arg lexbuf in 
-           (char_to_str x) ^ arg
+         let (arg, lopt, dopt) = take_arg lexbuf in 
+           ((char_to_str x) ^ arg, lopt, dopt)
     }
-
   | _ as x
     {
-     let arg = take_arg lexbuf in 
-       (char_to_str x) ^ arg
+     let (arg, lopt, dopt) = take_arg lexbuf in 
+       ((char_to_str x) ^ arg, lopt, dopt)
     }
-
 
 
 (** BEGIN TRAILER **)
