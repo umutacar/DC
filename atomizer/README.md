@@ -1,5 +1,9 @@
 # Grammar
 
+## TODO
+
+* because we don't identify labels in the grammar or the lexer, we may wrap them inside a gram.  This is not good.  Labels should be matched as part of the heading.
+
 ## Idea
 The basic idea is to scan the document at the level of 
 * lines

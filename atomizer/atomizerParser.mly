@@ -259,7 +259,7 @@ element:
   }
 | ft = ignorables;
   tp = textpar;
-  {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}" in
+  {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
