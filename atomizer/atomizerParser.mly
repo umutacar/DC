@@ -16,8 +16,9 @@ let mk_point_val_f_opt (s: string option) =
 %token EOF
 
 %token <string> COMMENT_LINE
-%token <string> LINE
-%token <string> EMPTY_LINE
+%token <string> NEWLINE
+%token <string> HSPACE
+%token <string> NSCHAR
 %token <string> ENV
 
 %token <string * string option> KW_CHAPTER
@@ -36,21 +37,64 @@ let mk_point_val_f_opt (s: string option) =
  ** BEGIN: Lines, Textparagraphs, and environments
  **********************************************************************/
 
+hspace: 
+  s = HSPACE
+  {s}
+
+hspaces: 
+  {""}
+| xs = hspaces;
+  x = HSPACE;
+  {xs ^ x}
+
+hchar: 
+  s = HSPACE
+  {s}
+| c = NSCHAR
+  {c} 
+
+hchars: 
+  {""}
+| xs = hchars;
+  x = hchar
+  {x ^ xs}
+
+/* A newline. */
+newline: 
+  nl = NEWLINE
+  {nl}
+
+/* An empty line. */
+emptyline: 
+  s = hspaces;
+  nl = newline
+  {s ^ nl}
+
+emptylines:
+  {""}
+| els = emptylines;
+  el = emptyline
+  {let _ = d_printf "!Parser mached: emptylines.\n" in
+     els; el
+   }
+
 /* A nonempty line. */
 line: 
-  l = LINE
-  {l}
+  hs = hspaces;
+  nsc = NSCHAR;
+  hcs = hchars;
+  nl = newline
+  {hs ^ nsc ^ hcs ^ nl}
 
 /* A latex environment. */
 env: 
   x = ENV
   {x}  
 
-
 /* A text paragraph. */
 textpar: 
   x = line;
-  y = EMPTY_LINE  
+  y = emptyline
   {x ^ y}  
 | x = line;
   tp = textpar
@@ -60,27 +104,35 @@ textpar:
 
 comments:
   x = COMMENT_LINE
-  { x }
+  {d_printf "!parser matched: comment line\n";
+   x 
+  }
 | x = COMMENT_LINE;  
-  y = comments
-  { x ^ y}
-| x = COMMENT_LINE;
   y = comments
   { x ^ y}
 
 commentpar:
   x = comments;
-  y = EMPTY_LINE
-  { x ^ y }
-
-commentpars:
-  x = commentpar;
-  { x }
-| x = commentpar;
-  y = commentpars;
-  { x ^ y
+  el = emptyline;
+  {let _ = d_printf "parser matched: commentpar.\n" in
+     x ^ el 
   }
 
+commentpars:
+  xs = commentpars;
+  els = emptylines;
+  x = commentpar;
+  { 
+    xs ^ els ^ x
+  }
+
+ignorables:
+  els_f = emptylines; 
+  cps = commentpars;
+  els_t = emptylines
+  {let _ = d_printf "parser mached: ignorables: emptylines + commentpars + emptylines\n" in
+     els_f ^ cps ^ els_t
+  }
 /**********************************************************************
  ** BEGIN: Latex Sections
  **********************************************************************/
@@ -109,7 +161,6 @@ mk_sections(my_section):
   {ss ^ s}
 
 chapter:
-  p = commentpars;
   h = mk_heading(KW_CHAPTER); 
   b = block; 
   ps = paragraphs;
@@ -117,8 +168,6 @@ chapter:
   EOF 
   {
    let (heading, pval_opt) = h in
-   let tt = "" in
-     p ^
      heading ^
      b ^
      ps ^
@@ -175,9 +224,10 @@ paragraphs:
 
 block: 
 | es = elements; 
+  tt = ignorables;
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
-     es
+     es ^ tt
   }
 
 /**********************************************************************
@@ -190,16 +240,18 @@ block:
  **********************************************************************/
 
 element:
-	e = env
-  {e}
-| tp = textpar
-  {"\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}"}
+  ft = ignorables;
+	e = env;  
+  {ft ^ e}
+| ft = ignorables;
+  tp = textpar;
+  {ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}"}
 
 elements:
   {""}
 | es = elements;
   e = element; 
-  {es ^ "\n" ^ e}
+  {es ^ e}
 
 /**********************************************************************
  ** END: Elements

@@ -2,7 +2,7 @@
  * Elaborator tool for LaTex.
  *) 
 open Core
-open Lexer
+open AtomizerLexer
 open Lexing
 
 let verbose = ref false
@@ -24,53 +24,18 @@ let get_str_arg r v =
 let handle_parser_error () = 
   printf ("Parse Error\n.")
 
-let tex2ast infile = 
-	let ic = In_channel.create infile in
-   	try 
-      let lexbuf = Lexing.from_channel ic in
-	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
-        ast_chapter
-    with | End_of_file -> exit 0
-         | Parser.Error as exn -> 
-           handle_parser_error (); 
-           raise exn
-
-
-let tex2ast infile = 
-	let ic = In_channel.create infile in
-   	try 
-      let lexbuf = Lexing.from_channel ic in
-	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
-        ast_chapter
-    with End_of_file -> exit 0
-
-
-let ast2tex ast_chapter = 
-  Ast.chapterToTex ast_chapter
-
 
 let elaborate do_inline do_groups infile = 
+  let data = In_channel.read_all infile in
+(*  let _ = printf "data = %s" data in *)
+	let ic = In_channel.create infile in
 
-  let infile_inlined = 
-    if do_inline then
-      Preprocessor.inline_file infile 
-    else
-      infile
-  in
-  (* Make AST *)
-  let ast = tex2ast infile_inlined in
-  let ast =     
-    if do_groups then
-      Ast.chapterEl ast
-    else 
-      ast
-  in
-  (* Label AST *)
-  let ast_labeled = Ast.labelChapter ast in
+   	try 
+      let lexbuf = Lexing.from_channel ic in
+	    let result = AtomizerParser.chapter AtomizerLexer.token lexbuf in
+        result
+    with End_of_file -> exit 0
 
-  (* Make TeX *)
-  let result = ast2tex ast_labeled in
-    result
 					
 let main () = 
   let spec = [
@@ -87,7 +52,7 @@ let main () =
     | Some _ -> (printf "Warning: multiple input files specified, taking first.\n")
   in
 
-  let usage_msg = "texel elaborates latex by giving each atom a label. \n Usage: texel <latex file>.\n Options available:" 
+  let usage_msg = "atomize elaborates latex by giving each atom a label. \n Usage: texel <latex file>.\n Options available:" 
   in
   let _  = Arg.parse spec take_infile_name usage_msg in
   let in_file_name =  
@@ -95,7 +60,7 @@ let main () =
     | None -> (printf "Error: Missing input Latex file! \n%s" (Arg.usage_string spec usage_msg); exit 1)
     | Some x -> x
   in
-  let _ = printf "Executing command: texel %s\n" in_file_name in
+  let _ = printf "Executing command: atomize %s\n" in_file_name in
   let result = elaborate !do_inline !do_groups in_file_name  in
     match !out_file with 
     | None -> 

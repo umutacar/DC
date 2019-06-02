@@ -1,7 +1,7 @@
 (** BEGIN: HEADER **)
 {
 open Printf
-open Parser
+open AtomizerParser
 open Utils
 
 (* Some Utilities *)
@@ -67,15 +67,21 @@ let curly_depth () =
 
 (** BEGIN: PATTERNS *)	
 let p_comma = ','
-let p_space = ' '
-let p_newline = '\n'
+(* horizontal space *)
+let p_hspace = ' ' | '\t'
+(* non-space character *)
+let p_nschar = [^ ' ' 't' '\n' '\r']
+(* newline *)
+let p_newline = '\n' | ('\r' '\n')
+
 let p_tab = '\t'	
 let p_ws = [' ' '\t' '\n' '\r']*	
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_skip = p_ws
-let p_emptyline = [' ' '\t' '\r']*	'\n'
-let p_nonemptyline = [^ ' ' '\t' '\r']+	'\n'
+let p_emptyline = [' ' '\t' '\r']* '\n'
+let p_emptyline = [' ' '\t' '\r']* '\n'
+let p_nonemptyline = [' ' '\t']* [^ ' ' '\t' 'r' '\n']+ [^ '\r' '\n']*  ['r']? '\n' 
 
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
@@ -271,13 +277,10 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 
 rule token = parse
-| p_emptyline as x
-    {d_printf "!lexer matched: empty line"; EMPTY_LINE x}
-
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 
-| p_chapter as x p_ws
+| p_chapter as x
     {
      let _ = d_printf "!lexer matched chapter: %s." x in
      let arg = take_arg lexbuf in
@@ -334,10 +337,21 @@ rule token = parse
           
       }   
 
-| p_nonemptyline as x
-		{d_printf "!lexer found: nonempty line%s." x;
-     LINE(x)
+| p_newline as x
+		{d_printf "!lexer found: newline: %s." x;
+     NEWLINE(x)
     }
+
+| p_hspace as x
+		{d_printf "!lexer found: horizontal space: %s." (char_to_str x);
+     HSPACE(char_to_str x)
+    }
+
+| p_nschar as x
+		{d_printf "!lexer found: char: %s." (char_to_str x);
+     NSCHAR(char_to_str x)
+    }
+
 | eof
 		{EOF}
 | _

@@ -8,7 +8,7 @@ DEPEND = \
   pervasives/utils.ml pervasives/errorCode.ml \
   tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/texSyntax.ml tex/preprocessor.ml \
   xml/xmlConstants.ml xml/xmlSyntax.ml \
-  atomizer/atomize.ml atomizer/lexer.mll atomizer/parser.mly
+  atomizer/atomize.ml atomizer/atomizerLexer.mll atomizer/atomizerParser.mly
 
 all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
 
