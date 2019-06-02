@@ -22,7 +22,6 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> PERCENT
 %token <string> PERCENT_ESC
 %token <string> COMMENT
-%token <string> NEWLINE_COMMENT
 %token <string> ENV
 
 
@@ -49,7 +48,6 @@ hspace:
   s = HSPACE
   {s}
 
-
 hspaces: 
   {""}
 | xs = hspaces;
@@ -63,14 +61,14 @@ sigchar:
 | d = PERCENT_ESC
   {d}
 | e = ENV
-  {e}
+  {let _ = d_printf "parser matched: sigchar, env = %s" e in
+     e
+  }
  
 /* All characters */
 char: 
   s = hspace
   {s}
-| p = PERCENT
-  {p}
 | d = sigchar
   {d} 
 
@@ -103,11 +101,9 @@ emptylines:
 /* A comment line. */
 commentline:
   hs = hspaces;
-  p = PERCENT;
-  cs = chars;
-  nl = newline
+  c = COMMENT;
  {let _ = d_printf "!Parser mached: commentline.\n" in
-   hs ^ p ^ cs ^ newline
+   hs ^ c
   }
    
 /* A nonempty, non-comment line. */

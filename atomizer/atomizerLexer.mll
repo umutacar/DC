@@ -84,7 +84,7 @@ let p_comment = p_percent [^ '\n']*
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
-let p_skip = p_ws
+let p_skip = p_hs
 
 let p_emptyline = [' ' '\t' '\r']* '\n'
 let p_emptyline = [' ' '\t' '\r']* '\n'
@@ -104,22 +104,18 @@ let p_separator = [':' '.' '-' '_' '/']
 let p_keyalpha = (p_alpha)+
 (* value is everything but white space, comma, or equal *)
 let p_valueofkey = [^ ',' '=']+
-let p_key_value_pair = (p_keyalpha as key) p_ws '=' p_ws (p_valueofkey as value)
-let p_key_value_list = (p_key_value_pair) (p_ws ',' p_ws p_key_value_pair)*
+let p_key_value_pair = (p_keyalpha as key) p_hs '=' p_hs (p_valueofkey as value)
+let p_key_value_list = (p_key_value_pair) (p_hs ',' p_hs p_key_value_pair)*
 (* END: key value pairs *)
 
 (* No white space after backslash *)
 let p_backslash = '\\'
-let p_o_curly = p_ws '{' p_ws
-let p_c_curly = p_ws '}' p_ws
+let p_o_curly = p_hs '{' p_ws
+let p_c_curly = p_hs '}' p_hs
 let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_ws											
+let p_c_sq = ']' p_hs											
 let p_special_percent = p_backslash p_percent
 
-let p_com_depend = '\\' "depend" p_ws p_o_curly p_ws												 
-let p_com_label = '\\' "label" p_ws												 
-let p_label_name = (p_alpha | p_digit | p_separator)*
-let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
 let p_com_choice = '\\' "choice"
@@ -130,8 +126,6 @@ let p_com_hint = '\\' "help"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
-let p_part = '\\' "part"
-let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -140,14 +134,6 @@ let p_verbatim = "verbatim"
 let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
-
-(* begin: parts
- * we will ignore these.
- *)
-let p_parts = "parts"
-let p_begin_parts = p_com_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
-let p_end_parts = p_com_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
-(* end: parts *)
 
 let p_chapter = '\\' "chapter" p_ws
 let p_chapter_with_points = '\\' "chapter" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
@@ -167,9 +153,6 @@ let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
-let p_xxx = "xxx"
-let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
-let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
 
 let p_diderot_atom = "diderot" ['a'-'z''A'-'Z']*	
 let p_algorithm = "algorithm"
@@ -335,7 +318,7 @@ rule token = parse
       { 
           let _ = d_printf "!lexer: begin latex env: %s\n" x in
           let _ = do_begin_latex_env () in
-          let y = latex_env lexbuf in
+          let y = take_env lexbuf in
           let _ = d_printf "!lexer: latex env matched = %s" (x ^ y) in
             ENV(x ^ y)
           
@@ -362,16 +345,27 @@ rule token = parse
     }
 
 | p_percent as x 
-		{d_printf "!lexer found: percent char: %s." (char_to_str x);
-     PERCENT(char_to_str x)
+		{let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in
+     let comment = take_comment lexbuf in
+       COMMENT((char_to_str x) ^ comment)
     }
 
 | eof
 		{EOF}
 | _
     {token lexbuf}		
-		
-and latex_env =
+and take_comment = 		
+  parse
+  | p_newline as x
+    {let _ = d_printf "take_comment: newline %s" x in
+        x
+    } 
+  | _ as x 
+    {let _ = d_printf "take_comment: %s" (char_to_str x) in
+     let comment = take_comment lexbuf in 
+       (char_to_str x) ^ comment
+    }
+and take_env =
   parse
   | p_begin_verbatim as x
       { 
@@ -379,14 +373,14 @@ and latex_env =
           let _ = enter_verbatim lexbuf in
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let z = latex_env lexbuf in
+          let z = take_env lexbuf in
             x ^ y ^ z          
       }   
   | p_begin_latex_env as x
         {
             let _ = d_printf "!lexer: begin latex env: %s\n" x in
             let _ = do_begin_latex_env () in
-            let y = latex_env lexbuf in
+            let y = take_env lexbuf in
                 x ^ y              
         }
 
@@ -398,16 +392,22 @@ and latex_env =
                     let _ = d_printf "!lexer: exiting latex env\n" in
                         x
                 else
-                    let y = latex_env lexbuf in
+                    let y = take_env lexbuf in
                       x ^ y  
         }      
-  | p_comment_line as x   (* skip over comments *)
-      	{ 
-            let y = latex_env lexbuf in 
-                x ^ y
-        } 
+  | p_percent_esc as x 
+		{let _ = d_printf "!lexer found: espaced percent char: %s." x in
+     let y = take_env lexbuf in
+          x ^ y
+    }
+  | p_percent as x   (* skip over comments *)
+   	{ 
+     let y = take_comment lexbuf in
+     let z = take_env lexbuf in 
+          (char_to_str x) ^ y ^ z
+     } 
   | _  as x
-        { let y = latex_env lexbuf in
+        { let y = take_env lexbuf in
             (char_to_str x) ^ y
         }
 and verbatim =
