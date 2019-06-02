@@ -78,6 +78,7 @@ let p_tab = '\t'
 let p_ws = [' ' '\t' '\n' '\r']*	
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
+let p_comment = p_percent [^ '\n']*
 let p_skip = p_ws
 let p_emptyline = [' ' '\t' '\r']* '\n'
 let p_emptyline = [' ' '\t' '\r']* '\n'
@@ -277,8 +278,8 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 
 rule token = parse
-| p_comment_line as x
-  	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
+| p_comment as x
+  	{d_printf "!lexer matched comment line %s." x; COMMENT(x)}		
 
 | p_chapter as x
     {

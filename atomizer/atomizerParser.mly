@@ -15,10 +15,12 @@ let mk_point_val_f_opt (s: string option) =
 
 %token EOF
 
-%token <string> COMMENT_LINE
+%token <string> COMMENT
 %token <string> NEWLINE
 %token <string> HSPACE
 %token <string> NSCHAR
+%token <string> PERCENT
+%token <string> PERCENT_ESC
 %token <string> ENV
 
 %token <string * string option> KW_CHAPTER
@@ -37,26 +39,39 @@ let mk_point_val_f_opt (s: string option) =
  ** BEGIN: Lines, Textparagraphs, and environments
  **********************************************************************/
 
+/* Horizontal space.
+   Includes comments.
+ */
 hspace: 
   s = HSPACE
   {s}
 
+
 hspaces: 
   {""}
 | xs = hspaces;
-  x = HSPACE;
+  x = hspace
   {xs ^ x}
 
-hchar: 
-  s = HSPACE
+/* Non-space char */
+nschar: 
+  d = NSCHAR
+  {d}
+| d = PERCENT
+  {d}
+| d = PERCENT_ESC
+  {d}
+ 
+char: 
+  s = hspace
   {s}
-| c = NSCHAR
-  {c} 
+| d = nschar
+  {d} 
 
-hchars: 
+chars: 
   {""}
-| xs = hchars;
-  x = hchar
+| xs = chars;
+  x = char
   {x ^ xs}
 
 /* A newline. */
@@ -64,7 +79,7 @@ newline:
   nl = NEWLINE
   {nl}
 
-/* An empty line. */
+/* A visibly empty line. */
 emptyline: 
   s = hspaces;
   nl = newline
@@ -81,10 +96,10 @@ emptylines:
 /* A nonempty line. */
 line: 
   hs = hspaces;
-  nsc = NSCHAR;
-  hcs = hchars;
+  d = nschar;
+  cs = chars;
   nl = newline
-  {hs ^ nsc ^ hcs ^ nl}
+  {hs ^ d ^ cs ^ nl}
 
 /* A latex environment. */
 env: 
@@ -102,37 +117,6 @@ textpar:
     x ^ tp
   } 
 
-comments:
-  x = COMMENT_LINE
-  {d_printf "!parser matched: comment line\n";
-   x 
-  }
-| x = COMMENT_LINE;  
-  y = comments
-  { x ^ y}
-
-commentpar:
-  x = comments;
-  el = emptyline;
-  {let _ = d_printf "parser matched: commentpar.\n" in
-     x ^ el 
-  }
-
-commentpars:
-  xs = commentpars;
-  els = emptylines;
-  x = commentpar;
-  { 
-    xs ^ els ^ x
-  }
-
-ignorables:
-  els_f = emptylines; 
-  cps = commentpars;
-  els_t = emptylines
-  {let _ = d_printf "parser mached: ignorables: emptylines + commentpars + emptylines\n" in
-     els_f ^ cps ^ els_t
-  }
 /**********************************************************************
  ** BEGIN: Latex Sections
  **********************************************************************/
@@ -224,10 +208,9 @@ paragraphs:
 
 block: 
 | es = elements; 
-  tt = ignorables;
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
-     es ^ tt
+     es
   }
 
 /**********************************************************************
@@ -240,12 +223,10 @@ block:
  **********************************************************************/
 
 element:
-  ft = ignorables;
 	e = env;  
-  {ft ^ e}
-| ft = ignorables;
-  tp = textpar;
-  {ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}"}
+  {e}
+| tp = textpar;
+  {"\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}"}
 
 elements:
   {""}
