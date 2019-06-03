@@ -130,12 +130,10 @@ ignorables:
   {i ^ x }
 
 
-/* A latex environment. */
-env: 
-  x = ENV
-  {x}  
-
-/* A text paragraph. */
+/* A text paragraph. 
+   It contains environments because environments are 
+   significant characters.
+*/
 textpar: 
   x = line;
   tail = textpar_tail
@@ -154,8 +152,6 @@ textpar_tail:
   { 
     x ^ tp
   } 
-
-
 
 /**********************************************************************
  ** BEGIN: Latex Sections
@@ -215,7 +211,8 @@ chapter:
    let _ = d_printf "Chapter mached:\n %s\n" result in
      result
   }	
-| h = mk_heading(KW_CHAPTER); 
+| h = mk_heading(KW_CHAPTER);  
+  i = ignorables;
   l = label;
   b = block; 
   ps = paragraphs;
@@ -294,17 +291,13 @@ block:
  **********************************************************************/
 
 element:
-  ft = ignorables;
-	e = env  
-  {let _ = d_printf "!Parser: matched element %s" e in
-     ft ^ e
-  }
-| ft = ignorables;
+ ft = ignorables;
   tp = textpar;
   {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
+
 
 elements:
   {""}

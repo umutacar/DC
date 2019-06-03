@@ -2,7 +2,8 @@
 
 ## TODO
 
-* because we don't identify labels in the grammar or the lexer, we may wrap them inside a gram.  This is not good.  Labels should be matched as part of the heading.
+There are some details about how how to deal with headings and various whitespaces in them.  Should they all be taken as part of the heading or shoud they be accounted for in the parser.  Trying to account for them in the parser complicates the parser, and leads complex code and conflicts.  So perhaps best to deal with them in the lexer.
+
 
 ## Idea
 The basic idea is to scan the document at the level of 
