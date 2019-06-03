@@ -101,9 +101,9 @@ let p_separator = [':' '.' '-' '_' '/']
 
 (* No white space after backslash *)
 let p_backslash = '\\'
-let p_o_curly = p_ws '{' p_ws
+let p_o_curly = '{' p_ws
 (* don't take newline with close *)
-let p_c_curly = p_ws '}' p_hs
+let p_c_curly = '}' p_hs
 
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
@@ -120,7 +120,7 @@ let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
-let p_label_and_name = (p_ws as fspace) (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
+let p_label_and_name = (p_hs as fspace) (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -313,7 +313,7 @@ rule token = parse
           let _ = d_printf "!lexer: begin latex env: %s\n" x in
           let _ = do_begin_latex_env () in
           let y = take_env lexbuf in
-          let _ = d_printf "!lexer: latex env matched = %s" (x ^ y) in
+          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in
             ENV(x ^ y)
           
       }   
@@ -423,23 +423,22 @@ and take_arg =
   | '{' as x
     {
      let _ = inc_curly_depth () in
-     let (arg, lopt, dopt) = take_arg lexbuf in 
-       ((char_to_str x) ^ arg, lopt, dopt)
+     let arg = take_arg lexbuf in 
+       (char_to_str x) ^ arg
     }
   | '}' as x
     {
      let _ = dec_curly_depth () in
        if curly_depth () = 0 then
-         let (lopt, dopt) = take_label_depend lexbuf in
-           ("}", lopt, dopt)
+           "}"
        else
-         let (arg, lopt, dopt) = take_arg lexbuf in 
-           ((char_to_str x) ^ arg, lopt, dopt)
+         let arg = take_arg lexbuf in 
+           (char_to_str x) ^ arg
     }
   | _ as x
     {
-     let (arg, lopt, dopt) = take_arg lexbuf in 
-       ((char_to_str x) ^ arg, lopt, dopt)
+     let arg = take_arg lexbuf in 
+       (char_to_str x) ^ arg
     }
 
 

@@ -136,8 +136,6 @@ textpar:
 textpar_tail:
   el = emptyline
   {el}
-| cl = commentline
-  {cl}
 | x = line;
   tp = textpar_tail
   { 
@@ -171,8 +169,7 @@ mk_heading(kw_heading):
   }
 
 mk_section(kw_section, nested_section):
-  h = mk_heading(kw_section); 
-  l = option(label); 
+  h = mk_heading(kw_section);
   b = block;
   ps = paragraphs;
   ns = mk_sections(nested_section);
