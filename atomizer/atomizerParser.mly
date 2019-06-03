@@ -215,6 +215,18 @@ chapter:
    let _ = d_printf "Chapter mached:\n %s\n" result in
      result
   }	
+| h = mk_heading(KW_CHAPTER); 
+  l = label;
+  b = block; 
+  ps = paragraphs;
+  ss = mk_sections(section); 
+  EOF 
+  {
+   let (heading, pval_opt) = h in
+   let result = heading ^ l ^ b ^ ps ^ ss in
+   let _ = d_printf "Chapter mached:\n %s\n" result in
+     result
+  }	
 
 section: 
   s = mk_section(KW_SECTION, subsection)
