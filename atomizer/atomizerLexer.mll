@@ -445,6 +445,28 @@ and take_arg =
 
 (** BEGIN TRAILER **)
 {
+let lexer: Lexing.lexbuf -> Parser.token = 
+  chapter lexbuf 
+
+type t_lexer_state = 
+	|  ParBegin
+	|  Newline 
+	|  NewlineSpace
+	|  Other
+ 
+let state_to_string st = 
+	match st with 
+	|  ParBegin -> "ParBegin"
+	|  Newline -> "NewLine"
+	|  NewlineSpace -> "NewlineSpace"
+	|  Other -> "Other"
+
+let lexer: Lexing.lexbuf -> Parser.token =
+	let st = ref Other in
+  fun lexbuf ->
+		let _ = d_printf "!lexer: state = %s" (state_to_string st) in
+  		lexer lexbuf
+
 }
 (** END TRAILER **)
 

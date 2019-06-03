@@ -5,7 +5,7 @@
 OCB_FLAGS = -use-ocamlfind -package re2 -package core -I atomizer -I tex -I xml -I pervasives 
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = \
-  pervasives/utils.ml pervasives/errorCode.ml \
+  pervasives/utils.ml pervasives/errorCodes.ml \
   tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/texSyntax.ml tex/preprocessor.ml \
   xml/xmlConstants.ml xml/xmlSyntax.ml \
   atomizer/atomize.ml atomizer/atomizerLexer.mll atomizer/atomizerParser.mly
