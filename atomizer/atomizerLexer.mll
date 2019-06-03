@@ -426,14 +426,14 @@ and take_arg =
      let arg = take_arg lexbuf in 
        (char_to_str x) ^ arg
     }
-  | '}' as x
+  | (p_c_curly p_ws) as x
     {
      let _ = dec_curly_depth () in
        if curly_depth () = 0 then
-           "}"
+           x
        else
          let arg = take_arg lexbuf in 
-           (char_to_str x) ^ arg
+           x ^ arg
     }
   | _ as x
     {

@@ -111,6 +111,14 @@ line:
    let _ = d_printf "!Parser mached: significant line %s.\n" l in
      l
   }
+| hs = hspaces;
+  d = sigchar;
+  cs = chars;
+  c = COMMENT;
+  {let l = hs ^ d ^ cs ^ c in
+   let _ = d_printf "!Parser mached: significant line %s.\n" l in
+     l
+  }
 
 ignorables:
   {""}
@@ -178,6 +186,17 @@ mk_section(kw_section, nested_section):
    let _ = d_printf ("!parser: section %s matched") heading in
      heading ^ b ^ ps ^ ns
   }	  
+| h = mk_heading(kw_section);
+  l = label;
+  b = block;
+  ps = paragraphs;
+  ns = mk_sections(nested_section);
+  {
+   let (heading, pval_opt) = h in
+   let _ = d_printf ("!parser: section %s matched") heading in
+     heading ^ l ^ b ^ ps ^ ns
+  }	  
+
 
 mk_sections(my_section):
 |  {""}
