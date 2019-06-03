@@ -2,7 +2,31 @@
 
 ## TODO
 
-There are some details about how how to deal with headings and various whitespaces in them.  Should they all be taken as part of the heading or shoud they be accounted for in the parser.  Trying to account for them in the parser complicates the parser, and leads complex code and conflicts.  So perhaps best to deal with them in the lexer.  I left an example such conflict in the parser.
+* There is a conflict because of environments.
+
+  Distinguish between environments in paragraph for 
+
+  \begin{env}
+  \end{env}
+
+  and those that are in the middle
+  
+  some stuff here and there \begin{itemize} ... \end{itemize}
+
+  this is going to require splitting the content line into multiple rules to make sure that a env is not alone by itself.
+
+* [Don't follow] One idea would be start each paragraph with an empty line.
+  The question is how to determine the end.  We want to say that when we encounter an empty line, but then in the lexer, we would have to consume that empty line and include in the paragraph, this in turn makes it impossible to include it in the next paragraph.
+
+  I think this is a bad idea.  For example
+
+  \subsection{x}
+  \label{y}
+  In this section...
+
+this will require a new line.
+
+* There are some details about how how to deal with headings and various whitespaces in them.  Should they all be taken as part of the heading or shoud they be accounted for in the parser.  Trying to account for them in the parser complicates the parser, and leads complex code and conflicts.  So perhaps best to deal with them in the lexer.  I left an example such conflict in the parser.
 
 It seems that it would be best to deal with these in the lexer, though this seems not easy without restricting the grammar is some fashion.
 

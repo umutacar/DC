@@ -130,6 +130,11 @@ ignorables:
   {i ^ x }
 
 
+/* A latex environment. */
+env: 
+  x = ENV
+  {x}  
+
 /* A text paragraph. 
    It contains environments because environments are 
    significant characters.
@@ -213,7 +218,7 @@ chapter:
   }	
 /* Including this causes conflicts because
    block above could be empty (reduce) and could end with 
-   ignorables.  Thus a newline causes a conflict.
+   ignorables.  
    So we get a reduce reduce conflict.
 */
 | h = mk_heading(KW_CHAPTER);  
@@ -296,6 +301,12 @@ block:
  **********************************************************************/
 
 element:
+  ft = ignorables;
+	e = env  
+  {let _ = d_printf "!Parser: matched element %s" e in
+     ft ^ e
+  }
+|
  ft = ignorables;
   tp = textpar;
   {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in

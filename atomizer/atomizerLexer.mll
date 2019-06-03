@@ -68,7 +68,7 @@ let curly_depth () =
 (** BEGIN: PATTERNS *)	
 let p_comma = ','
 (* horizontal space *)
-let p_hspace = ' ' | '\t'
+let p_hspace = ' ' | '\t' | '\r' 
 (* non-space character *)
 let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
 (* newline *)
@@ -79,7 +79,7 @@ let p_percent_esc = "\\%"
 let p_newline = '\n' | ('\r' '\n')
 let p_comment_line = p_percent [^ '\n']* '\n'
 let p_comment = p_percent [^ '\n']*
-
+let p_headerskip = ('\n' | p_comment_line | p_hspace)*
 
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
@@ -120,7 +120,7 @@ let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
-let p_label_and_name = (p_hs as fspace) (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
+let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -280,6 +280,7 @@ rule token = parse
        KW_SECTION(h, None)
     }		
 
+
 | p_subsection as x
     {
      let _ = d_printf "!lexer matched subsection: %s." x in
@@ -318,11 +319,11 @@ rule token = parse
           
       }   
 | p_label_and_name as x
-  	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(fspace ^ label_pre ^ label_name ^ label_post, label_name)}		
+  	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
 
 | p_newline as x
 		{d_printf "!lexer found: newline: %s." x;
-     NEWLINE(x)
+       NEWLINE(x)
     }
 
 | p_hspace as x
