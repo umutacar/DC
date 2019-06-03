@@ -211,6 +211,11 @@ chapter:
    let _ = d_printf "Chapter mached:\n %s\n" result in
      result
   }	
+/* Including this causes conflicts because
+   block above could be empty (reduce) and could end with 
+   ignorables.  Thus a newline causes a conflict.
+   So we get a reduce reduce conflict.
+*/
 | h = mk_heading(KW_CHAPTER);  
   i = ignorables;
   l = label;

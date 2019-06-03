@@ -2,7 +2,11 @@
 
 ## TODO
 
-There are some details about how how to deal with headings and various whitespaces in them.  Should they all be taken as part of the heading or shoud they be accounted for in the parser.  Trying to account for them in the parser complicates the parser, and leads complex code and conflicts.  So perhaps best to deal with them in the lexer.
+There are some details about how how to deal with headings and various whitespaces in them.  Should they all be taken as part of the heading or shoud they be accounted for in the parser.  Trying to account for them in the parser complicates the parser, and leads complex code and conflicts.  So perhaps best to deal with them in the lexer.  I left an example such conflict in the parser.
+
+It seems that it would be best to deal with these in the lexer, though this seems not easy without restricting the grammar is some fashion.
+
+
 
 
 ## Idea
