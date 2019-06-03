@@ -261,7 +261,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 (** END PATTERNS *)			
 
 
-rule token = parse
+rule initial = parse
 | p_chapter as x
     {
      let _ = d_printf "!lexer matched chapter: %s." x in
@@ -350,7 +350,7 @@ rule token = parse
 | eof
 		{EOF}
 | _
-    {token lexbuf}		
+    {initial lexbuf}		
 and take_comment = 		
   parse
   | p_newline as x
@@ -445,8 +445,8 @@ and take_arg =
 
 (** BEGIN TRAILER **)
 {
-let lexer: Lexing.lexbuf -> Parser.token = 
-  chapter lexbuf 
+let lexer: Lexing.lexbuf -> AtomizerParser.token = 
+		initial
 
 type t_lexer_state = 
 	|  ParBegin
@@ -461,10 +461,10 @@ let state_to_string st =
 	|  NewlineSpace -> "NewlineSpace"
 	|  Other -> "Other"
 
-let lexer: Lexing.lexbuf -> Parser.token =
+let lexer: Lexing.lexbuf -> AtomizerParser.token =
 	let st = ref Other in
   fun lexbuf ->
-		let _ = d_printf "!lexer: state = %s" (state_to_string st) in
+		let _ = d_printf "!lexer: state = %s" (state_to_string !st) in
   		lexer lexbuf
 
 }
