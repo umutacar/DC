@@ -1,7 +1,7 @@
 (** BEGIN: HEADER **)
 {
 open Printf
-open AtomParser
+open Atom_parser
 open Utils
 
 
@@ -473,11 +473,11 @@ and take_arg =
 
 (** BEGIN TRAILER **)
 {
-let lexer: Lexing.lexbuf -> AtomParser.token = 
+let lexer: Lexing.lexbuf -> Atom_parser.token = 
 		initial
 
 
-let lexer: Lexing.lexbuf -> AtomParser.token =
+let lexer: Lexing.lexbuf -> Atom_parser.token =
   fun lexbuf ->
 (*		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in *)
     let old_state = get_state () in

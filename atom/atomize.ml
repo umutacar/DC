@@ -32,7 +32,7 @@ let elaborate do_inline do_groups infile =
 
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let result = AtomParser.chapter AtomLexer.lexer lexbuf in
+	    let result = Atom_parser.chapter Atom_lexer.lexer lexbuf in
         result
     with End_of_file -> exit 0
 
