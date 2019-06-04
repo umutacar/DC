@@ -523,9 +523,13 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
 						| ParIn -> set_state ParIn)
 							
 				| COMMENT _ -> 
+            (* This might seem counterintuitive:
+             * A comment ends with a newline, so we have to 
+             * determine the next state accordingly.
+             *)
 						(match !state with 
-   					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParIn
+   					| Newline -> set_state Newline
+   					| NewlineSpace -> set_state Newline
 						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
 				| ENV x -> 
@@ -550,7 +554,10 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
 			in  
       let _ = if old_state = ParBegin && (get_state () = ParIn) then
         printf "!!START PARAGRAPH!!\n"
-      in tk
+      in 
+        match !next_tk with 
+        | None -> tk
+        | Some ntk -> ntk
 }
 (** END TRAILER **)
 

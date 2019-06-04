@@ -70,6 +70,17 @@ sigchar:
   {let _ = d_printf "parser matched: sigchar, env = %s" e in
      e
   }
+
+/* Non-space char at the beginning of a paragraph */
+parsigchar: 
+  d = PAR_SIGCHAR
+  {d}
+| d = PAR_PERCENT_ESC
+  {d}
+| e = PAR_ENV
+  {let _ = d_printf "parser matched: sigchar, env = %s" e in
+     e
+  }
  
 /* All characters */
 char: 
@@ -123,6 +134,26 @@ line:
      l
   }
 
+/* A nonempty, non-comment line. */
+parline: 
+  hs = hspaces;
+  d = parsigchar;
+  cs = chars;
+  nl = newline
+  {let l = hs ^ d ^ cs ^ nl in
+   let _ = d_printf "!Parser mached: par begin %s.\n" l in
+     l
+  }
+| hs = hspaces;
+  d = parsigchar;
+  cs = chars;
+  c = COMMENT;
+  {let l = hs ^ d ^ cs ^ c in
+   let _ = d_printf "!Parser mached: significant line %s.\n" l in
+     l
+  }
+
+
 ignorables:
   {""}
 | i = ignorables
@@ -143,7 +174,7 @@ env:
    significant characters.
 */
 textpar: 
-  x = line;
+  x = parline;
   tail = textpar_tail
   {x ^ tail}  
 
