@@ -32,6 +32,9 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> PERCENT_ESC
 %token <string> SIGCHAR
 
+%token <string> PAR_ENV
+%token <string> PAR_PERCENT_ESC
+%token <string> PAR_SIGCHAR
 
 
 %start chapter

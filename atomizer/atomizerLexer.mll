@@ -481,7 +481,10 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
   fun lexbuf ->
 (*		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in *)
     let old_state = get_state () in
+    let next_tk = ref None in
+    let start_par tk = (set_state ParIn; next_tk := Some tk) in
   	let tk = lexer lexbuf in 
+
       let _ =
 				match tk with 
 				| NEWLINE _ -> 
@@ -491,45 +494,45 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
 						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state Newline)
 
-				| HSPACE _ -> 
+				| HSPACE x -> 
 						(match !state with 
    					| Newline -> set_state NewlineSpace
    					| NewlineSpace -> set_state NewlineSpace
-						| ParBegin -> set_state ParIn
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
 
-				| SIGCHAR _ -> 
+				| SIGCHAR x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
    					| NewlineSpace -> set_state ParIn
-						| ParBegin -> set_state ParIn
+						| ParBegin -> start_par (PAR_SIGCHAR x)
 						| ParIn -> set_state ParIn)
 
-				| PERCENT _ -> 
+				| PERCENT x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
    					| NewlineSpace -> set_state ParIn
-						| ParBegin -> set_state ParIn
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
 							
-				| PERCENT_ESC _ ->
+				| PERCENT_ESC x ->
 						(match !state with 
    					| Newline -> set_state ParIn
    					| NewlineSpace -> set_state ParIn
-						| ParBegin -> set_state ParIn
+						| ParBegin -> start_par (PAR_PERCENT_ESC x)
 						| ParIn -> set_state ParIn)
 							
 				| COMMENT _ -> 
 						(match !state with 
    					| Newline -> set_state ParIn
    					| NewlineSpace -> set_state ParIn
-						| ParBegin -> set_state ParIn
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
-				| ENV _ -> 
+				| ENV x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
    					| NewlineSpace -> set_state ParIn
-						| ParBegin -> set_state ParIn
+						| ParBegin -> start_par (PAR_ENV x)
 						| ParIn -> set_state ParIn)
 				| KW_LABEL_AND_NAME _ -> set_state ParBegin
 				| KW_CHAPTER _ 
