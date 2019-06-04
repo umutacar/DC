@@ -29,10 +29,10 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> ENV
 %token <string> HSPACE
 %token <string> NEWLINE
-%token <string> PERCENT
 %token <string> PERCENT_ESC
 %token <string> SIGCHAR
 
+%token <string> PAR_COMMENT
 %token <string> PAR_ENV
 %token <string> PAR_PERCENT_ESC
 %token <string> PAR_SIGCHAR
@@ -116,14 +116,14 @@ commentline:
    hs ^ c
   }
    
-/* A nonempty, non-comment line. */
+/* A nonempty line. */
 line: 
   hs = hspaces;
   d = sigchar;
   cs = chars;
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
-   let _ = d_printf "!Parser mached: significant line %s.\n" l in
+   let _ = d_printf "!Parser mached: significant line: %s.\n" l in
      l
   }
 | hs = hspaces;
@@ -131,11 +131,17 @@ line:
   cs = chars;
   c = COMMENT;
   {let l = hs ^ d ^ cs ^ c in
-   let _ = d_printf "!Parser mached: significant line %s.\n" l in
+   let _ = d_printf "!Parser mached: significant line: %s.\n" l in
      l
   }
+| hs = hspaces;
+  c = COMMENT;
+ {let l =  hs ^ c in 
+  let _ = d_printf "!Parser mached: line (comment): %s\n" l in
+    l  
+  }
 
-/* A nonempty, non-comment line. */
+/* A nonempty line at the start of a paragraph. */
 parline: 
   hs = hspaces;
   d = parsigchar;
@@ -153,17 +159,19 @@ parline:
    let _ = d_printf "!Parser mached: significant line %s.\n" l in
      l
   }
+| hs = hspaces;
+  c = PAR_COMMENT;
+  {let l = hs ^ c in
+   let _ = d_printf "!Parser mached: significant line %s.\n" l in
+     l
+  }
 
 
 ignorables:
   {""}
 | i = ignorables
   x = emptyline
-  {i ^ x }
-| i = ignorables
-  x = commentline
-  {i ^ x }
-
+  {i ^ x}
 
 /* A latex environment. */
 env: 
@@ -183,11 +191,6 @@ textpar_tail:
   el = emptyline
   {el}
 | x = line;
-  tp = textpar_tail
-  { 
-    x ^ tp
-  } 
-| x = commentline;
   tp = textpar_tail
   { 
     x ^ tp
@@ -228,10 +231,9 @@ segment:
   }	  
 
 segments:
-
 	{ " "}
-| s = segment; 
-  ss = segments;
+| ss = segments; 
+  s = segment;
   { ss ^ s }
 
 /**********************************************************************

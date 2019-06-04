@@ -478,13 +478,6 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						| ParBegin -> start_par (PAR_SIGCHAR x)
 						| ParIn -> set_state ParIn)
 
-				| PERCENT x -> 
-						(match !state with 
-   					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParIn
-						| ParBegin -> set_state ParBegin
-						| ParIn -> set_state ParIn)
-							
 				| PERCENT_ESC x ->
 						(match !state with 
    					| Newline -> set_state ParIn
@@ -492,16 +485,16 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						| ParBegin -> start_par (PAR_PERCENT_ESC x)
 						| ParIn -> set_state ParIn)
 							
-				| COMMENT _ -> 
+				| COMMENT x -> 
             (* This might seem counterintuitive:
              * A comment ends with a newline, so we have to 
              * determine the next state accordingly.
              *)
 						(match !state with 
    					| Newline -> set_state Newline
-   					| NewlineSpace -> set_state Newline
-						| ParBegin -> set_state ParBegin
-						| ParIn -> set_state ParIn)
+   					| NewlineSpace -> set_state ParIn
+						| ParBegin -> start_par (PAR_COMMENT x)
+						| ParIn -> set_state Newline)
 				| ENV x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
