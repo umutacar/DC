@@ -4,6 +4,26 @@ open Printf
 open AtomizerParser
 open Utils
 
+
+type t_lexer_state = 
+	|  ParBegin
+	|  ParIn
+	|  Newline 
+	|  NewlineSpace
+
+ 
+
+let state_to_string st = 
+	match st with 
+	|  ParBegin -> "ParBegin"
+	|  ParIn -> "ParIn"
+	|  Newline -> "NewLine"
+	|  NewlineSpace -> "NewlineSpace"
+
+let state = ref ParBegin
+let set_state s = 
+  state := s
+
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
@@ -448,25 +468,63 @@ and take_arg =
 let lexer: Lexing.lexbuf -> AtomizerParser.token = 
 		initial
 
-type t_lexer_state = 
-	|  ParBegin
-	|  Newline 
-	|  NewlineSpace
-	|  Other
- 
-let state_to_string st = 
-	match st with 
-	|  ParBegin -> "ParBegin"
-	|  Newline -> "NewLine"
-	|  NewlineSpace -> "NewlineSpace"
-	|  Other -> "Other"
 
 let lexer: Lexing.lexbuf -> AtomizerParser.token =
-	let st = ref Other in
   fun lexbuf ->
-		let _ = d_printf "!lexer: state = %s" (state_to_string !st) in
-  		lexer lexbuf
+		let _ = d_printf "!lexer: state = %s" (state_to_string !state) in
+  	let tk = lexer lexbuf in 
+      let _ =
+				match tk with 
+				| NEWLINE _ -> 
+						(match !state with 
+   					| Newline -> set_state NewlineSpace
+   					| NewlineSpace -> set_state NewlineSpace
+						| ParBegin -> set_state Newline
+						| ParIn -> set_state Newline)
 
+				| HSPACE _ -> 
+						(match !state with 
+   					| Newline -> set_state NewlineSpace
+   					| NewlineSpace -> set_state NewlineSpace
+						| ParBegin -> set_state ParIn
+						| ParIn -> set_state ParIn)
+				| SIGCHAR _ -> 
+						(match !state with 
+   					| Newline -> set_state ParIn
+   					| NewlineSpace -> set_state ParBegin
+						| ParBegin -> set_state ParIn
+						| ParIn -> set_state ParIn)
+				| PERCENT _ -> 
+						(match !state with 
+   					| Newline -> set_state ParIn
+   					| NewlineSpace -> set_state ParBegin
+						| ParBegin -> set_state ParIn
+						| ParIn -> set_state ParIn)
+							
+				| PERCENT_ESC _ ->
+						(match !state with 
+   					| Newline -> set_state ParIn
+   					| NewlineSpace -> set_state ParBegin
+						| ParBegin -> set_state ParIn
+						| ParIn -> set_state ParIn)
+							
+				| COMMENT _ -> 
+						(match !state with 
+   					| Newline -> set_state ParIn
+   					| NewlineSpace -> set_state ParBegin
+						| ParBegin -> set_state ParIn
+						| ParIn -> set_state ParIn)
+				| KW_CHAPTER _
+				| KW_SECTION _ 
+				| KW_SUBSECTION _ 
+				| KW_SUBSUBSECTION _
+				| KW_PARAGRAPH _ -> 
+						(match !state with 
+   					| Newline -> set_state ParBegin
+   					| NewlineSpace -> set_state ParBegin
+						| ParBegin -> set_state ParBegin
+						| ParIn -> set_state ParBegin)
+			in tk
 }
 (** END TRAILER **)
 
