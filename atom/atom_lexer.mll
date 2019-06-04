@@ -151,19 +151,19 @@ let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
-let p_chapter = '\\' "chapter" p_ws
-let p_chapter_with_points = '\\' "chapter" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
-let p_section = '\\' "section" p_ws
-let p_section_with_points = '\\' "section" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_chapter = ("chapter" as kind)
+let p_chapter_with_points = ("chapter" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_section = ("section" as kind) p_ws
+let p_section_with_points = ("section" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
-let p_subsection = '\\' "subsection" p_ws 
-let p_subsection_with_points = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsection = ("subsection" as kind) p_ws 
+let p_subsection_with_points = ("subsection" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
-let p_subsubsection = '\\' "subsubsection" p_ws 
-let p_subsubsection_with_points = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsubsection = ("subsubsection" as kind) p_ws 
+let p_subsubsection_with_points = ("subsubsection" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
-let p_paragraph = '\\' "paragraph" p_ws												
-let p_paragraph_with_points = '\\' "paragraph" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_paragraph = ("paragraph" as kind) p_ws												
+let p_paragraph_with_points = ("paragraph" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
 let p_cluster = "cluster"
 let p_flex = "flex"
@@ -213,6 +213,13 @@ let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_flo
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_latex_env = (p_alpha)+('*')?
+
+let p_segment = p_chapter |
+                p_section |
+                p_subsection |
+                p_subsubsection |
+                p_paragraph 
+let p_heading = '\\' p_segment
 
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
@@ -283,50 +290,13 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 
 rule initial = parse
-| p_chapter as x
+| p_heading as x
     {
+     let _ = d_printf "!lexer matched segment %s." kind in
      let arg = take_arg lexbuf in
      let h = x ^ arg in
-     let _ = d_printf "!lexer matched chapter: %s." h in
-       KW_CHAPTER(h, None)
-    }		
-
-| p_section as x
-    {
-(*     let _ = d_printf "!lexer matched section: %s." x in *)
-     let arg = take_arg lexbuf in
-     let h = x ^ arg in
-     let _ = d_printf "!lexer matched section: %s." h in
-       KW_SECTION(h, None)
-    }		
-
-
-| p_subsection as x
-    {
-(*     let _ = d_printf "!lexer matched subsection: %s." x in *)
-     let arg = take_arg lexbuf in
-     let h = x ^ arg in
-     let _ = d_printf "!lexer matched subsection: %s." h in
-       KW_SUBSECTION(h, None)
-    }		
-
-
-| p_subsubsection as x
-    {
-(*     let _ = d_printf "!lexer matched subsubsection: %s." x in *)
-     let arg = take_arg lexbuf in
-     let h = x ^ arg in
-     let _ = d_printf "!lexer matched subsubsection: %s." h in
-       KW_SUBSUBSECTION(h, None)
-    }		
-
-| p_paragraph as x
-    {
-(*     let _ = d_printf "!lexer matched paragraph: %s." x in *)
-     let arg = take_arg lexbuf in
-     let h = x ^ arg in
-     let _ = d_printf "!lexer matched paragraph: %s." h in
-       KW_PARAGRAPH(h, None)
+     let _ = d_printf "!lexer matched segment all: %s." h in
+       KW_HEADING(kind, h, None)
     }		
 
 | p_begin_latex_env as x
@@ -479,7 +449,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 
 let lexer: Lexing.lexbuf -> Atom_parser.token =
   fun lexbuf ->
-(*		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in *)
+		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in 
     let old_state = get_state () in
     let next_tk = ref None in
     let start_par tk = (set_state ParIn; next_tk := Some tk) in

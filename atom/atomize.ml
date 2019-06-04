@@ -2,7 +2,7 @@
  * Elaborator tool for LaTex.
  *) 
 open Core
-open AtomLexer
+open Atom_lexer
 open Lexing
 
 let verbose = ref false
@@ -32,7 +32,7 @@ let elaborate do_inline do_groups infile =
 
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let result = Atom_parser.chapter Atom_lexer.lexer lexbuf in
+	    let result = Atom_parser.top Atom_lexer.lexer lexbuf in
         result
     with End_of_file -> exit 0
 

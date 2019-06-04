@@ -16,6 +16,7 @@ let mk_point_val_f_opt (s: string option) =
 %token EOF
 
 
+%token <string * string * string option> KW_HEADING
 %token <string * string option> KW_CHAPTER
 %token <string * string option> KW_SECTION
 %token <string * string option> KW_SUBSECTION
@@ -37,8 +38,8 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> PAR_SIGCHAR
 
 
-%start chapter
-%type <string> chapter
+%start top
+%type <string> top
 
 /*  BEGIN RULES */
 %%
@@ -193,7 +194,7 @@ textpar_tail:
   } 
 
 /**********************************************************************
- ** BEGIN: Latex Sections
+ ** BEGIN: Latex Segments
  **********************************************************************/
 
 label:
@@ -203,118 +204,43 @@ label:
      all
   }
 
-/* Return  heading and title pair. */ 
-mk_heading(kw_heading):
-  h = kw_heading
-  {let (heading, pval_opt) = h in 
-   let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
-     (heading, pval_f_opt) 
-  }
+heading:
+  h = KW_HEADING 
+		{ let (kind, heading, pval_opt) = h in 
+  		let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in
+			(kind, heading, pval_f_opt) 
+		}
 
-mk_section(kw_section, nested_section):
-  h = mk_heading(kw_section);
+top:
+  s = segment;
+  EOF
+  {s}
+
+segment: 
+  h = heading;
+  l = option(label);
   b = block;
-  ps = paragraphs;
-  ns = mk_sections(nested_section);
+  ss = segments
   {
-   let (heading, pval_opt) = h in
-   let _ = d_printf ("!parser: section %s matched") heading in
-     heading ^ b ^ ps ^ ns
-  }	  
-| h = mk_heading(kw_section);
-  l = label;
-  b = block;
-  ps = paragraphs;
-  ns = mk_sections(nested_section);
-  {
-   let (heading, pval_opt) = h in
-   let _ = d_printf ("!parser: section %s matched") heading in
-     heading ^ l ^ b ^ ps ^ ns
+   let (kind, heading, pval_opt) = h in
+   let _ = d_printf ("!parser: %s %s matched") kind heading in
+     heading ^ b ^ ss
   }	  
 
+segments:
 
-mk_sections(my_section):
-|  {""}
-| ss = mk_sections(my_section); s = my_section
-  {ss ^ s}
-
-chapter:
-  h = mk_heading(KW_CHAPTER); 
-  b = block; 
-  ps = paragraphs;
-  ss = mk_sections(section); 
-  EOF 
-  {
-   let (heading, pval_opt) = h in
-   let result = heading ^ b ^ ps ^ ss in
-   let _ = d_printf "Chapter mached:\n %s\n" result in
-     result
-  }	
-/* Including this causes conflicts because
-   block above could be empty (reduce) and could end with 
-   ignorables.  
-   So we get a reduce reduce conflict.
-*/
-| h = mk_heading(KW_CHAPTER);  
-  i = ignorables;
-  l = label;
-  b = block; 
-  ps = paragraphs;
-  ss = mk_sections(section); 
-  EOF 
-  {
-   let (heading, pval_opt) = h in
-   let result = heading ^ l ^ b ^ ps ^ ss in
-   let _ = d_printf "Chapter mached:\n %s\n" result in
-     result
-  }	
-
-section: 
-  s = mk_section(KW_SECTION, subsection)
-  {
-   s   
-  }	  
-
-subsection: 
-  s = mk_section(KW_SUBSECTION, subsubsection)
-  {
-   s
-  }	  	
-
-subsubsection:
-  h = mk_heading(KW_SUBSUBSECTION); 
-  b = block;
-  ps = paragraphs;
-  {
-   let (heading, pval_opt) = h in
-     heading ^ 
-     b ^
-     ps
-  }	  
-
-paragraph:  
-  h = mk_heading(KW_PARAGRAPH); 
-  b = block;
-  {
-   let _ = d_printf ("Parser matched: paragraph.\n") in
-   let (heading, pval_opt) = h in
-     heading ^ b 
-  }	  
-
-paragraphs:
-| 
- { "" }
-| p = paragraph; 
-  ps = paragraphs;
-  {ps ^ p}
+	{ " "}
+| s = segment; 
+  ss = segments;
+  { ss ^ s }
 
 /**********************************************************************
- ** END: Latex Sections
+ ** END: Latex Segments
  **********************************************************************/
 
 /**********************************************************************
  ** BEGIN: Blocks
- ** A blocks is  sequence of atoms/groups followed by paragraphs
+ ** A blocks is sequence of elements
  **********************************************************************/
 
 block: 
