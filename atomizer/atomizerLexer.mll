@@ -364,7 +364,9 @@ rule initial = parse
 | p_percent as x 
 		{let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in
      let comment = take_comment lexbuf in
-       COMMENT((char_to_str x) ^ comment)
+     let result = (char_to_str x) ^ comment in
+     let _ = d_printf "!lexer found: comment: %s." result in
+       COMMENT(result)
     }
 
 | eof
@@ -471,14 +473,14 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
 
 let lexer: Lexing.lexbuf -> AtomizerParser.token =
   fun lexbuf ->
-		let _ = d_printf "!lexer: state = %s" (state_to_string !state) in
+		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in
   	let tk = lexer lexbuf in 
       let _ =
 				match tk with 
 				| NEWLINE _ -> 
 						(match !state with 
    					| Newline -> set_state NewlineSpace
-   					| NewlineSpace -> set_state NewlineSpace
+   					| NewlineSpace -> set_state ParBegin
 						| ParBegin -> set_state Newline
 						| ParIn -> set_state Newline)
 
@@ -514,7 +516,14 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
    					| NewlineSpace -> set_state ParBegin
 						| ParBegin -> set_state ParIn
 						| ParIn -> set_state ParIn)
-				| KW_CHAPTER _
+				| ENV _ -> 
+						(match !state with 
+   					| Newline -> set_state ParIn
+   					| NewlineSpace -> set_state ParBegin
+						| ParBegin -> set_state ParIn
+						| ParIn -> set_state ParIn)
+				| KW_LABEL_AND_NAME _ -> set_state ParBegin
+				| KW_CHAPTER _ 
 				| KW_SECTION _ 
 				| KW_SUBSECTION _ 
 				| KW_SUBSUBSECTION _
@@ -524,6 +533,8 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
    					| NewlineSpace -> set_state ParBegin
 						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParBegin)
+        | EOF -> set_state ParBegin
+        | _ -> printf "Fatal Error: token match not found!!!\n"
 			in tk
 }
 (** END TRAILER **)
