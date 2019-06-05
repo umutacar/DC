@@ -29,12 +29,10 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> ENV
 %token <string> HSPACE
 %token <string> NEWLINE
-%token <string> PERCENT_ESC
 %token <string> SIGCHAR
 
 %token <string> PAR_COMMENT
 %token <string> PAR_ENV
-%token <string> PAR_PERCENT_ESC
 %token <string> PAR_SIGCHAR
 
 %start top
@@ -63,8 +61,6 @@ hspaces:
 sigchar: 
   d = SIGCHAR
   {d}
-| d = PERCENT_ESC
-  {d}
 | e = ENV
   {let _ = d_printf "parser matched: sigchar, env = %s" e in
      e
@@ -73,8 +69,6 @@ sigchar:
 /* Non-space char at the beginning of a paragraph */
 parsigchar: 
   d = PAR_SIGCHAR
-  {d}
-| d = PAR_PERCENT_ESC
   {d}
 | e = PAR_ENV
   {let _ = d_printf "parser matched: sigchar, env = %s" e in
@@ -135,6 +129,19 @@ line_parstart:
      l
   }
 
+/* A nonempty line at the start of a paragraph. 
+ * TODO: complete
+*/
+line_parstart_env: 
+  hs = hspaces;
+  e = ENV;
+  cs = chars;
+  nl = newline
+  {let l = hs ^ e ^ cs ^ nl in
+   let _ = d_printf "!Parser mached: par begin with env %s.\n" l in
+     l
+  }
+
 
 /* A text paragraph. 
    It contains environments because environments are 
@@ -153,6 +160,17 @@ textpar_tail:
   { 
     x ^ tp
   } 
+/* TODO: complete */
+envpar: 
+  fs = hspaces;
+  e = PAR_ENV
+  ts = hspaces;
+  nl = newline
+  {let p = fs ^ e ^ ts ^ nl in
+   let _ = d_printf "!Parser mached: par env %s.\n" p in
+     p
+  }
+
 
 /**********************************************************************
  ** BEGIN: Latex Segments

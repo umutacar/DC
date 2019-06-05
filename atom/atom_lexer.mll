@@ -331,7 +331,7 @@ rule initial = parse
 | p_percent_esc as x 
 		{
 (*     d_printf "!lexer found: espaced percent char: %s." x; *)
-     PERCENT_ESC(x)
+     SIGCHAR(x)
     }
 
 | p_percent as x 
@@ -512,13 +512,6 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						| ParBegin -> start_par (PAR_SIGCHAR x)
 						| ParIn -> set_state ParIn)
 
-				| PERCENT_ESC x ->
-						(match !state with 
-   					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParIn
-						| ParBegin -> start_par (PAR_PERCENT_ESC x)
-						| ParIn -> set_state ParIn)
-							
 				| COMMENT x -> 
             (* This might seem counterintuitive:
              * A comment ends with a newline, so we have to 
