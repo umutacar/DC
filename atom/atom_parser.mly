@@ -36,7 +36,6 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> PAR_ENV
 %token <string> PAR_PERCENT_ESC
 %token <string> PAR_SIGCHAR
-%token <string> PAREND_NEWLINE
 
 %start top
 %type <string> top
@@ -101,8 +100,7 @@ chars:
 newline: 
   nl = NEWLINE
   {nl}
-| nl = PAREND_NEWLINE
-  {nl}
+
 
 /* A visibly empty line. */
 emptyline: 
@@ -167,7 +165,6 @@ line_parstart:
    let _ = d_printf "!Parser mached: significant line %s.\n" l in
      l
   }
-
 
 ignorables:
   {""}

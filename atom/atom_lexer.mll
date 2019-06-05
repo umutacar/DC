@@ -443,9 +443,20 @@ and take_arg =
 
 (** BEGIN TRAILER **)
 {
+(* This is the default lexer *)
 let lexer: Lexing.lexbuf -> Atom_parser.token = 
 		initial
 
+(* This is the spiced up lexer that modifies the token stream in
+ * several ways.
+ * First, it maintains a state and implements a state transition 
+ * system that allows it to detect the beginning of paragraps.
+ *
+ * It also emits an additional newline token to force end a paragraph
+ * when a heading or EOF is encountered but a paragraph is not 
+ * completed.  When an extra token is emitted, the current token
+ * is cached and emitted at the next request.
+ *)
 
 let lexer: Lexing.lexbuf -> Atom_parser.token =
   let cache = ref None in
@@ -481,8 +492,8 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				match tk with 
 				| NEWLINE x -> 
 						(match !state with 
-   					| Newline -> end_par (PAREND_NEWLINE x) None
-   					| NewlineSpace -> end_par (PAREND_NEWLINE x) None
+   					| Newline -> end_par tk None
+   					| NewlineSpace -> end_par tk None
 						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state Newline)
 
@@ -526,20 +537,20 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				| KW_LABEL_AND_NAME _ -> set_state ParBegin
 				| KW_HEADING x ->
 						(match !state with 
-   					| Newline -> end_par (PAREND_NEWLINE "\n") (Some tk)
-   					| NewlineSpace -> end_par (PAREND_NEWLINE "\n") (Some tk)
+   					| Newline -> end_par (NEWLINE "\n") (Some tk)
+   					| NewlineSpace -> end_par (NEWLINE "\n") (Some tk)
 						| ParBegin -> set_state ParBegin
-						| ParIn -> end_par (PAREND_NEWLINE "\n") (Some tk))
+						| ParIn -> end_par (NEWLINE "\n") (Some tk))
         | EOF -> 
 						(match !state with 
-   					| Newline -> end_par (PAREND_NEWLINE "\n") (Some tk)
-   					| NewlineSpace -> end_par (PAREND_NEWLINE "\n") (Some tk)
+   					| Newline -> end_par (NEWLINE "\n") (Some tk)
+   					| NewlineSpace -> end_par (NEWLINE "\n") (Some tk)
 						| ParBegin -> set_state ParBegin
-						| ParIn -> end_par (PAREND_NEWLINE "\n") (Some tk))
+						| ParIn -> end_par (NEWLINE "\n") (Some tk))
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = ParBegin && (get_state () = ParIn) then
-        printf "!!START PARAGRAPH!!\n"
+        d_printf "!!START PARAGRAPH!!\n"
       in 
         match !next_tk with 
         | None -> tk
