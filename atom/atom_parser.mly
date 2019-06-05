@@ -135,10 +135,6 @@ line_parstart:
      l
   }
 
-/* A latex environment. */
-env: 
-  x = ENV
-  {x}  
 
 /* A text paragraph. 
    It contains environments because environments are 
@@ -225,12 +221,6 @@ block:
  **********************************************************************/
 
 element:
-  ft = emptylines;
-	e = env  
-  {let _ = d_printf "!Parser: matched element %s" e in
-     ft ^ e
-  }
-|
   ft = emptylines;
   tp = textpar;
   {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
