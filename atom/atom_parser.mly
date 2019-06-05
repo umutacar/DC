@@ -48,7 +48,6 @@ let mk_point_val_f_opt (s: string option) =
  **********************************************************************/
 
 /* Horizontal space.
-   Includes comments.
  */
 hspace: 
   s = HSPACE
@@ -114,14 +113,6 @@ emptylines:
   x = emptyline
   {i ^ x}
 
-/* A comment line. */
-commentline:
-  hs = hspaces;
-  c = COMMENT;
- {let _ = d_printf "!Parser mached: commentline.\n" in
-   hs ^ c
-  }
-   
 /* A nonempty line. */
 line: 
   hs = hspaces;
@@ -132,20 +123,6 @@ line:
    let _ = d_printf "!Parser mached: significant line: %s.\n" l in
      l
   }
-| hs = hspaces;
-  d = sigchar;
-  cs = chars;
-  c = COMMENT;
-  {let l = hs ^ d ^ cs ^ c in
-   let _ = d_printf "!Parser mached: significant line: %s.\n" l in
-     l
-  }
-| hs = hspaces;
-  c = COMMENT;
- {let l =  hs ^ c in 
-  let _ = d_printf "!Parser mached: line (comment): %s\n" l in
-    l  
-  }
 
 /* A nonempty line at the start of a paragraph. */
 line_parstart: 
@@ -155,20 +132,6 @@ line_parstart:
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
    let _ = d_printf "!Parser mached: par begin %s.\n" l in
-     l
-  }
-| hs = hspaces;
-  d = parsigchar;
-  cs = chars;
-  c = COMMENT;
-  {let l = hs ^ d ^ cs ^ c in
-   let _ = d_printf "!Parser mached: significant line %s.\n" l in
-     l
-  }
-| hs = hspaces;
-  c = PAR_COMMENT;
-  {let l = hs ^ c in
-   let _ = d_printf "!Parser mached: significant line %s.\n" l in
      l
   }
 
@@ -226,7 +189,7 @@ segment:
   {
    let (kind, heading, pval_opt) = h in
    let _ = d_printf ("!parser: %s %s matched") kind heading in
-     heading ^ b ^ ss
+     "\n" ^ heading ^ b ^ ss
   }	  
 
 segments:
