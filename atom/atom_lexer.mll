@@ -6,21 +6,20 @@ open Utils
 
 
 type t_lexer_state = 
-	|  ParBegin
-	|  ParIn
-	|  Newline 
-	|  NewlineSpace
-
+	| Start
+	| Busy
+	| Slow 
+	| Idle
  
 
 let state_to_string st = 
 	match st with 
-	|  ParBegin -> "ParBegin"
-	|  ParIn -> "ParIn"
-	|  Newline -> "NewLine"
-	|  NewlineSpace -> "NewlineSpace"
+	|  Start -> "Start"
+	|  Busy -> "Busy"
+	|  Slow -> "Slow"
+	|  Idle -> "Idle"
 
-let state = ref ParBegin
+let state = ref Start
 let set_state s = 
   state := s
 let get_state = fun () -> !state 
@@ -479,9 +478,9 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
       let old_state = get_state () in
 
       let next_tk = ref None in
-			let start_par tk = (set_state ParIn; next_tk := Some tk) in
+			let start_par tk = (set_state Busy; next_tk := Some tk) in
 			let end_par tk tk_to_cache =       
-        (set_state ParBegin; 
+        (set_state Start; 
          set_cache tk_to_cache;
          next_tk := Some tk) 
       in
@@ -492,58 +491,55 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
-						(match !state with 
-   					| Newline -> end_par tk None
-   					| NewlineSpace -> end_par tk None
-						| ParBegin -> set_state ParBegin
-						| ParIn -> set_state Newline)
+						(d_printf "token = newline \n";
+             match !state with 
+             | Start -> set_state Start (* TODO: not right *)
+   					 | Slow -> end_par (PAR_END ()) None
+   					 | Idle -> set_state Idle
+						 | Busy -> set_state Slow)
 
 				| HSPACE x -> 
-						(match !state with 
-   					| Newline -> set_state NewlineSpace
-   					| NewlineSpace -> set_state NewlineSpace
-						| ParBegin -> set_state ParBegin
-						| ParIn -> set_state ParIn)
+            (* TODO: no effect on state *)
+						(d_printf "token = hspace \n";
+						 match !state with 
+             | Start -> set_state Start (* TODO: not right *)
+   					 | Slow -> set_state Slow
+   					 | Idle -> set_state Idle
+						 | Busy -> set_state Busy)
 
 				| SIGCHAR x -> 
-						(match !state with 
-   					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParIn
-						| ParBegin -> start_par (PAR_SIGCHAR x)
-						| ParIn -> set_state ParIn)
+  					(d_printf "token = sigchar %s \n" x;
+						 match !state with 
+						 | Start -> start_par (PAR_SIGCHAR x)
+   					 | Slow -> set_state Busy
+   					 | Idle -> end_par (PAR_END ()) (Some tk)
+						 | Busy -> set_state Busy)
 
-				| COMMENT x -> 
-            (* This might seem counterintuitive:
-             * A comment ends with a newline, so we have to 
-             * determine the next state accordingly.
-             *)
-						(match !state with 
-   					| Newline -> set_state Newline
-   					| NewlineSpace -> set_state ParIn
-						| ParBegin -> start_par (PAR_COMMENT x)
-						| ParIn -> set_state Newline)
 				| ENV x -> 
-						(match !state with 
-   					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParIn
-						| ParBegin -> start_par (PAR_ENV x)
-						| ParIn -> set_state ParIn)
-				| KW_LABEL_AND_NAME _ -> set_state ParBegin
+  					(d_printf "token = env %s \n" x;
+						 match !state with 
+						 | Start -> start_par (PAR_ENV x)
+   					 | Slow -> set_state Busy
+   					 | Idle -> end_par (PAR_END ()) (Some tk)
+						 | Busy -> set_state Busy)
+				| KW_LABEL_AND_NAME _ -> set_state Start
 				| KW_HEADING x ->
-						(match !state with 
-   					| Newline -> end_par (NEWLINE "\n") (Some tk)
-   					| NewlineSpace -> end_par (NEWLINE "\n") (Some tk)
-						| ParBegin -> set_state ParBegin
-						| ParIn -> end_par (NEWLINE "\n") (Some tk))
+  					(d_printf "token = heading \n" ;
+						 match !state with 
+						 | Start -> set_state Start
+   					 | Slow -> end_par (PAR_END ()) (Some tk)
+   					 | Idle -> end_par (PAR_END ()) (Some tk)
+						 | Busy -> end_par (PAR_END ()) (Some tk))
         | EOF -> 
-						(match !state with 
-   					| Newline -> end_par (NEWLINE "\n") (Some tk)
-   					| NewlineSpace -> end_par (NEWLINE "\n") (Some tk)
-						| ParBegin -> set_state ParBegin
-						| ParIn -> end_par (NEWLINE "\n") (Some tk))
+  					(d_printf "token = EOF \n";
+						 match !state with 
+						 | Start -> set_state Start
+   					 | Slow -> end_par (PAR_END ()) (Some tk)
+   					 | Idle -> end_par (PAR_END ()) (Some tk)
+						 | Busy -> end_par (PAR_END ()) (Some tk))
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
-      let _ = if old_state = ParBegin && (get_state () = ParIn) then
+      let _ = if old_state = Start && (get_state () = Busy) then
         d_printf "!!START PARAGRAPH!!\n"
       in 
         match !next_tk with 

@@ -31,7 +31,7 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> NEWLINE
 %token <string> SIGCHAR
 
-%token <string> PAR_COMMENT
+%token <unit> PAR_END
 %token <string> PAR_ENV
 %token <string> PAR_SIGCHAR
 
@@ -174,8 +174,9 @@ textpar:
 			{x ^ tail}  
 
 textpar_tail:
-  el = emptyline
-  {el}
+  el = emptylines;
+  e = PAR_END
+  {"\n"}
 | x = line;
   tp = textpar_tail
   { 
@@ -184,7 +185,8 @@ textpar_tail:
 
 textpar_tail_sig:
 | x = line;
-  el = emptyline
+  el = emptylines;
+  e = PAR_END
   {x ^ el}
 | x = line;
   tp = textpar_tail_sig
@@ -195,10 +197,10 @@ textpar_tail_sig:
 /* TODO: complete */
 envpar: 
   fs = hspaces;
-  e = PAR_ENV
-  ts = hspaces;
-  nl = newline
-  {let p = fs ^ e ^ ts ^ nl in
+  env = PAR_ENV
+  el = emptylines;
+  e = PAR_END
+  {let p = fs ^ env ^ el in
    let _ = d_printf "!Parser mached: par env %s.\n" p in
      p
   }
@@ -228,6 +230,7 @@ top:
   {s}
 
 segment: 
+
   h = heading;
   l = option(label);
   b = block;
@@ -280,7 +283,7 @@ element:
 | ft = emptylines;
   ep = envpar;
   {let para = ft ^ ep in
-   let _ = d_printf "!Parser: matched text paragraph\n %s" para in
+   let _ = d_printf "!Parser: matched env paragraph\n %s" para in
      para
   }
 
