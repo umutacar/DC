@@ -292,7 +292,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 rule initial = parse
 | p_heading as x
     {
-     let _ = d_printf "!lexer matched segment %s." kind in
+     let _ = d_printf "!lexer matched segment: %s." kind in
      let arg = take_arg lexbuf in
      let h = x ^ arg in
      let _ = d_printf "!lexer matched segment all: %s." h in
@@ -340,7 +340,8 @@ rule initial = parse
      let comment = take_comment lexbuf in
      let result = (char_to_str x) ^ comment in
      let _ = d_printf "!lexer found: comment: %s." result in
-       COMMENT(result)
+      (* Drop comments, but issue a newline to keep formatting *)
+       NEWLINE "\n"
     }
 
 | eof
