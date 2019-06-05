@@ -76,14 +76,7 @@ parsigchar:
 | d = PAR_SIGCHAR
   {d}
 
-/* Non-space char at the beginning of a paragraph */
-parbigchar: 
-| d = PAR_SIGCHAR
-  {d}
-| e = PAR_ENV
-  {let _ = d_printf "parser matched: sigchar, env = %s" e in
-     e
-  }
+
  
 /* All characters */
 char: 
@@ -145,7 +138,7 @@ line_parstart_sig:
 */
 line_parstart_env_alone: 
   fs = hspaces;
-  e = ENV;
+  e = PAR_ENV;
   ts = hspaces;
   nl = newline
   {let l = fs ^ e ^ ts ^ nl in
@@ -155,7 +148,7 @@ line_parstart_env_alone:
 
 line_parstart_env_nonalone: 
   fs = hspaces;
-  e = ENV;
+  e = PAR_ENV;
   ts = hspaces;
   s = bigchar;
   cs = chars;
@@ -192,7 +185,7 @@ textpar_tail:
 textpar_tail_sig:
 | x = line;
   el = emptyline
-  {el}
+  {x ^ el}
 | x = line;
   tp = textpar_tail_sig
   { 
