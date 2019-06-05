@@ -36,7 +36,7 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> PAR_ENV
 %token <string> PAR_PERCENT_ESC
 %token <string> PAR_SIGCHAR
-
+%token <string> PAREND_NEWLINE
 
 %start top
 %type <string> top
@@ -101,6 +101,8 @@ chars:
 newline: 
   nl = NEWLINE
   {nl}
+| nl = PAREND_NEWLINE
+  {nl}
 
 /* A visibly empty line. */
 emptyline: 
@@ -142,7 +144,7 @@ line:
   }
 
 /* A nonempty line at the start of a paragraph. */
-parline: 
+line_parstart: 
   hs = hspaces;
   d = parsigchar;
   cs = chars;
@@ -183,7 +185,7 @@ env:
    significant characters.
 */
 textpar: 
-  x = parline;
+  x = line_parstart;
   tail = textpar_tail
   {x ^ tail}  
 

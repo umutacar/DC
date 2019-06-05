@@ -448,19 +448,41 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 
 
 let lexer: Lexing.lexbuf -> Atom_parser.token =
-  fun lexbuf ->
-		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in 
-    let old_state = get_state () in
-    let next_tk = ref None in
-    let start_par tk = (set_state ParIn; next_tk := Some tk) in
-  	let tk = lexer lexbuf in 
+  let cache = ref None in
+  let get_cache () = !cache in
 
-      let _ =
+  let reset_cache () = 
+    match !cache with 
+    | None -> (printf "Fatal Error: cache is empty"; exit 1)
+		| Some x -> (cache := None; x)
+  in
+  let set_cache tk = 
+    match !cache with 
+    | None -> cache := tk 
+		| Some _ -> (printf "Fatal Error: cache is full"; exit 1)
+
+  in
+    fun lexbuf ->
+  		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in 
+      let old_state = get_state () in
+
+      let next_tk = ref None in
+			let start_par tk = (set_state ParIn; next_tk := Some tk) in
+			let end_par tk tk_to_cache =       
+        (set_state ParBegin; 
+         set_cache tk_to_cache;
+         next_tk := Some tk) 
+      in
+  		let tk = match get_cache () with 
+			| None -> lexer lexbuf 
+			| Some x -> reset_cache ()
+			in 
+			let _ =
 				match tk with 
-				| NEWLINE _ -> 
+				| NEWLINE x -> 
 						(match !state with 
-   					| Newline -> set_state ParBegin
-   					| NewlineSpace -> set_state ParBegin
+   					| Newline -> end_par (PAREND_NEWLINE x) None
+   					| NewlineSpace -> end_par (PAREND_NEWLINE x) None
 						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state Newline)
 
@@ -502,17 +524,18 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						| ParBegin -> start_par (PAR_ENV x)
 						| ParIn -> set_state ParIn)
 				| KW_LABEL_AND_NAME _ -> set_state ParBegin
-				| KW_CHAPTER _ 
-				| KW_SECTION _ 
-				| KW_SUBSECTION _ 
-				| KW_SUBSUBSECTION _
-				| KW_PARAGRAPH _ -> 
+				| KW_HEADING x ->
 						(match !state with 
-   					| Newline -> set_state ParBegin
-   					| NewlineSpace -> set_state ParBegin
+   					| Newline -> end_par (PAREND_NEWLINE "\n") (Some tk)
+   					| NewlineSpace -> end_par (PAREND_NEWLINE "\n") (Some tk)
 						| ParBegin -> set_state ParBegin
-						| ParIn -> set_state ParBegin)
-        | EOF -> set_state ParBegin
+						| ParIn -> end_par (PAREND_NEWLINE "\n") (Some tk))
+        | EOF -> 
+						(match !state with 
+   					| Newline -> end_par (PAREND_NEWLINE "\n") (Some tk)
+   					| NewlineSpace -> end_par (PAREND_NEWLINE "\n") (Some tk)
+						| ParBegin -> set_state ParBegin
+						| ParIn -> end_par (PAREND_NEWLINE "\n") (Some tk))
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = ParBegin && (get_state () = ParIn) then
