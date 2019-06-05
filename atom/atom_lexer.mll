@@ -340,8 +340,8 @@ rule initial = parse
      let comment = take_comment lexbuf in
      let result = (char_to_str x) ^ comment in
      let _ = d_printf "!lexer found: comment: %s." result in
-      (* Drop comments, but issue a newline to keep formatting *)
-       NEWLINE "\n"
+      (* Drop comments *)
+       initial lexbuf
     }
 
 | eof

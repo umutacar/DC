@@ -59,16 +59,26 @@ hspaces:
 
 /* Non-space char */
 sigchar: 
-  d = SIGCHAR
+| d = SIGCHAR
+  {d}
+
+bigchar:
+| d = SIGCHAR
   {d}
 | e = ENV
   {let _ = d_printf "parser matched: sigchar, env = %s" e in
      e
   }
 
+
 /* Non-space char at the beginning of a paragraph */
 parsigchar: 
-  d = PAR_SIGCHAR
+| d = PAR_SIGCHAR
+  {d}
+
+/* Non-space char at the beginning of a paragraph */
+parbigchar: 
+| d = PAR_SIGCHAR
   {d}
 | e = PAR_ENV
   {let _ = d_printf "parser matched: sigchar, env = %s" e in
@@ -79,7 +89,7 @@ parsigchar:
 char: 
   s = hspace
   {s}
-| d = sigchar
+| d = bigchar
   {d} 
 
 
@@ -110,7 +120,7 @@ emptylines:
 /* A nonempty line. */
 line: 
   hs = hspaces;
-  d = sigchar;
+  d = bigchar;
   cs = chars;
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
@@ -118,8 +128,10 @@ line:
      l
   }
 
-/* A nonempty line at the start of a paragraph. */
-line_parstart: 
+/* A nonempty line at the start of a paragraph. 
+ * Starts with a sigchar
+ */
+line_parstart_sig: 
   hs = hspaces;
   d = parsigchar;
   cs = chars;
@@ -129,28 +141,44 @@ line_parstart:
      l
   }
 
-/* A nonempty line at the start of a paragraph. 
- * TODO: complete
+/* A nonempty line at the start of a paragraph, starts with an env.
 */
-line_parstart_env: 
-  hs = hspaces;
+line_parstart_env_alone: 
+  fs = hspaces;
   e = ENV;
+  ts = hspaces;
+  nl = newline
+  {let l = fs ^ e ^ ts ^ nl in
+   let _ = d_printf "!Parser mached: par begin with env %s.\n" l in
+     l
+  }
+
+line_parstart_env_nonalone: 
+  fs = hspaces;
+  e = ENV;
+  ts = hspaces;
+  s = bigchar;
   cs = chars;
   nl = newline
-  {let l = hs ^ e ^ cs ^ nl in
+  {let l = fs ^ e ^ ts ^ s ^ cs ^ nl in
    let _ = d_printf "!Parser mached: par begin with env %s.\n" l in
      l
   }
 
 
 /* A text paragraph. 
-   It contains environments because environments are 
-   significant characters.
-*/
+ *
+ */
 textpar: 
-  x = line_parstart;
-  tail = textpar_tail
-  {x ^ tail}  
+	| x = line_parstart_sig;
+		tail = textpar_tail
+			{x ^ tail}  
+	| x = line_parstart_env_nonalone;
+		tail = textpar_tail
+			{x ^ tail}  
+	| x = line_parstart_env_alone;
+		tail = textpar_tail_sig
+			{x ^ tail}  
 
 textpar_tail:
   el = emptyline
@@ -160,6 +188,17 @@ textpar_tail:
   { 
     x ^ tp
   } 
+
+textpar_tail_sig:
+| x = line;
+  el = emptyline
+  {el}
+| x = line;
+  tp = textpar_tail_sig
+  { 
+    x ^ tp
+  } 
+
 /* TODO: complete */
 envpar: 
   fs = hspaces;
@@ -239,9 +278,15 @@ block:
  **********************************************************************/
 
 element:
-  ft = emptylines;
+| ft = emptylines;
   tp = textpar;
   {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
+   let _ = d_printf "!Parser: matched text paragraph\n %s" para in
+     para
+  }
+| ft = emptylines;
+  ep = envpar;
+  {let para = ft ^ ep in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
