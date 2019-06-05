@@ -108,6 +108,12 @@ emptyline:
   nl = newline
   {s ^ nl}
 
+emptylines:
+  {""}
+| i = emptylines
+  x = emptyline
+  {i ^ x}
+
 /* A comment line. */
 commentline:
   hs = hspaces;
@@ -165,12 +171,6 @@ line_parstart:
    let _ = d_printf "!Parser mached: significant line %s.\n" l in
      l
   }
-
-ignorables:
-  {""}
-| i = ignorables
-  x = emptyline
-  {i ^ x}
 
 /* A latex environment. */
 env: 
@@ -246,7 +246,7 @@ segments:
 
 block: 
 | es = elements; 
-  tt = ignorables
+  tt = emptylines
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
      es ^ tt
@@ -262,19 +262,18 @@ block:
  **********************************************************************/
 
 element:
-  ft = ignorables;
+  ft = emptylines;
 	e = env  
   {let _ = d_printf "!Parser: matched element %s" e in
      ft ^ e
   }
 |
- ft = ignorables;
+  ft = emptylines;
   tp = textpar;
   {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
-
 
 elements:
   {""}
