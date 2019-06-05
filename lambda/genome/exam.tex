@@ -1,0 +1,306 @@
+\chapter{Practice Exam}
+\label{ch:exam-practice}
+
+\begin{preamble}
+Good luck!
+\end{preamble}
+
+\begin{cluster}[True or False]
+
+\begin{gram}
+Select for each question whether it is true or false.
+\end{gram}
+
+\begin{parts}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[blah][2]
+Say you take a deterministic C program and make it
+parallel by converting some \texttt{for} loops to \texttt{cilk\_for},
+and adding some \texttt{cilk\_spawn} and \texttt{cilk\_sync} commands.
+Assuming the resulting program has no race conditions, it always
+returns the same result as the original sequential program.
+
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+Concurrency is just another word for parellelism.  
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+A race condition can occur both in purely functional and non-purely
+functional parallel programs.
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+Locks are the only way to prevent race conditions.
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+When executing a parallel algorithm, we organize the computation into
+collection of threads, which are then mapped to the processors by a
+thread scheduler.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+
+When executing a parallel algorithm, we organize the computation into
+collection of threads and assign the threads to processors by using a
+thread scheduler.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+A fork-join parallel computation can be represented as a DAG of
+threads.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+\end{problem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+Centralized schedulers that maintain a single pool of threads to
+execute can perform well in practice, partly because they can balance
+the total load relatively evenly between existing processors.
+
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+Distributed schedulers are perfectly greedy schedulers.
+
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}
+
+Distributed schedulers are not perfectly greedy schedulers, but they
+still perform well because they can reduce contention. 
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+
+
+\end{problem}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+We can measure the work efficiency of a parallel algorithm by
+measuring the running time (work) of the algorithm on a single core,
+divided by the running time (work) of the sequential elision of the
+algorithm.
+
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+
+\end{problem}
+ 
+%% Comparison should be with respect to the best baseline.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+We can improve the work efficiency of a parallel algorithm by using
+granularity control.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+One way to improve the empirical work efficiency and thus the speedup
+of a parallel algorithm is to switch to a serial algorithm when the
+problem size is small. This is called granularity control.
+
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+In class, you have learned of a technique for controlling granularity
+automatically by using asypmtotic cost annotations specifying the span
+of the  computation to be controlled.
+
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+In class, you have learned of a technique for controlling granularity
+automatically by using asypmtotic cost annotations specifying the work
+of the  computation to be controlled.
+
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+Atomic read-modify-write operations such as compare-and-swap aim to
+provide for performing multiple instructions such as loading from a
+memory location and writing into that memory atomically.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+
+
+\end{problem} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+Some atomic read-modify-write operations such as compare-and-swap
+suffer from the ABA problem.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+
+
+\end{problem} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+Some atomic read-modify-write operations such as
+load-link/store-conditional can prevent the ABA problem.
+
+\begin{pickone}
+\correctchoice True
+\choice False
+\end{pickone}
+\end{problem}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{problem}[2]
+
+The ``ABA problem'' was nomed after the Swedish pop band ``ABBA''.
+
+\begin{pickone}
+\choice True
+\correctchoice False
+\end{pickone}
+
+\end{problem}
+
+\end{parts}
+\end{cluster}
+
+\begin{cluster}{(Cost Analysis) Recurrences}
+
+\begin{gram}
+Recall that $f(n)$ is $\Theta(g(n))$
+if $f(n) \in O(g(n))$ and $g(n) \in O(f(n))$.
+%Find tight bounds in
+%terms of $\Theta$ for the following recurrences.
+Give a closed-form
+solution in terms of $\Theta$ for the following recurrences.
+Also, state whether the recurrence is dominated at the root, the
+leaves, or equally at all levels of the recurrence tree.
+You do not have to show your work, but it might help you get partial
+credit.
+\end{gram}
+
+\begin{parts}
+
+\begin{problem}[2]
+\[
+f(n) = 3 f(n/2) + n^2
+\]
+
+\begin{pickone}
+\correctchoice Root dominated
+\choice Leaves Dominated
+\choice Approximately Balanced
+\end{pickone}
+\solution
+$n^2$
+\end{problem}
+
+\begin{solution}
+$n^2$
+\end{solution}
+
+\end{parts}
+\end{cluster}

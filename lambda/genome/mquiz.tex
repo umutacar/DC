@@ -1,0 +1,265 @@
+\chapter{Example Quiz I}
+\label{ch:quiz-ii}
+
+\begin{preamble}
+This is an example quiz.
+\end{preamble}
+
+\newpage
+\section{Basics}
+
+\begin{problem}[10][First Problem]
+Standalone Problem
+\end{problem}
+
+\begin{mproblem}[Multipart Problem I]
+\label{cl:quiz-ii::1}
+
+\begin{gram}
+Some flavor text for problem 1.
+\end{gram}
+
+\begin{gram}
+\label{quiz-ii::1::1}
+Para I of Multipart problem I.
+\end{gram}
+
+\begin{problem}[20][Problem I.1]
+\depend{quiz::ii::1::1}
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+\solution
+This is a solution 1 .
+
+\explain
+This is an explanation 1.
+
+\rubric
+Rubric for problem I.1
+\end{problem}
+
+
+\begin{problem}[20][Problem I.2]
+%\depend{quiz-ii::1::1}
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+
+\help 
+Hint  for Problem I.2.
+
+\solution
+This is a solution I.2.
+
+\explain
+This is an explanation I.
+
+\end{problem}
+
+
+
+
+
+
+
+\begin{problem}[40][Problem I.3]
+\label{quiz-ii:2}
+\depend { quiz-ii::1::1,  quiz-ii::1::2}
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+\help  for Problem I.3
+
+\rubric
+Rubric for problem I.3
+\end{problem}
+
+\end{mproblem}
+
+\newpage
+\section{Sequences}
+\label{sec:quiz-ii::middle}
+
+\begin{gram}
+Here are some assumptions
+\begin{description}
+\item[A] Assumption A
+\begin{enumerate}
+\item Assumption A.1
+\item Assumption A.2
+\end{enumerate}
+
+\item[B] Assumption B
+\end{description}
+\end{gram}
+
+
+\begin{problem}[70][Xchoice I]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+\begin{problem}[80][Xchoice I.2]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+\begin{problem}[90][Xchoice II]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+\begin{problem}[100][Xchoice III]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+\newpage
+\section{Graphs}
+
+\begin{problem}[110][Harder Xchoice I]
+Select one of the following
+\begin{xchoice}
+\choice This is the first harder choice $a = z^2$.
+\choice This is the second harder choice $b = y^2$.
+\choice* This is the third harder choice $c$.
+\choice* This is the fourth harder choice $d$.
+\choice This is the fifth harder choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+\begin{problem}[120][Harder Xchoice II]
+Select one of the following
+\begin{xchoice}
+\choice This is the first harder choice $a = z^2$.
+\choice This is the second harder choice $b = y^2$.
+\choice* This is the third harder choice $c$.
+\choice* This is the fourth harder choice $d$.
+\choice This is the fifth harder choice $d$.
+\end{xchoice}
+\end{problem}
+
+\begin{problem}[130][Harder Xchoice III]
+Select one of the following
+\begin{xchoice}
+\choice This is the first harder choice $a = z^2$.
+\choice This is the second harder choice $b = y^2$.
+\choice* This is the third harder choice $c$.
+\choice* This is the fourth harder choice $d$.
+\choice This is the fifth harder choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+
+\begin{mproblem}[2000][Multipart Problem II]
+\begin{gram}[200]
+Para I of Problem II
+\end{gram}
+
+
+\begin{problem}[210][Problem II.1]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\help Hint  for Problem II.1
+\end{problem}
+
+
+\begin{problem}[220][Problem II.2]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\help 
+Hint  for Problem II.2
+\end{problem}
+
+\begin{problem}[230][Problem II.3]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+\help
+Hint  for Problem II.3
+\end{problem}
+
+
+\begin{problem}[240][Problem II.4]
+This is a free response question.
+
+\help
+(Hint Field:) Here is a hint II.
+
+\solution
+Here is the solution II.
+
+\explain
+This is an explanation II.
+
+\help
+Hint  for Problem II.4
+\end{problem}
+
+
+\end{mproblem}

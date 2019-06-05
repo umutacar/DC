@@ -1,0 +1,543 @@
+\chapter[100]{Example Quiz I}
+\label{ch:quiz-ii}
+
+Some preamble \somecommand
+
+\begin{preamble}
+This is an example quiz.
+\end{preamble}
+Some tailtex with some \command
+
+\begin{code}
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+\begin{code}[language=cnot, numbers=none, firstline = 100, lastline = 1001]
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+\begin{code}[language=cnot, numbers=left, firstline = 100, lastline = 1002]
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+
+\begin{code}[title = some cnut code, numbers = left, language=cnot, firstline = 100, lastline = 1003]
+  for (int i = 0; i < n; i++)  
+  //@loop_invariant 0 <= i;  
+  {  
+    A[i] = i * i * i;  
+  }  
+\end{code}
+
+\begin{teachask}
+teach atom.
+\end{teachask}
+
+\paragraph{First paragraph of chapter.}
+
+Atom preamble
+\begin{gram}
+First paragraph of chapter.
+\end{gram}
+Some tailtex with some \command
+\newpage
+
+\section{Material}
+
+\paragraph{First Paragraph of Material}
+
+Some preamble \somecommand
+\begin{cluster}
+\begin{datatype}[Sets]
+\label{XXadt:sets} 
+For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
+\adt{SET} abstract data type is a type $\sss$ representing the power 
+set of $\uuu$ (i.e., all subsets of $\uuu$) limited to sets of finite 
+size, along with the functions below. 
+{\normalsize
+input{./sets-and-tables/sig-sets}
+}
+Where $\tynat$ is 
+the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
+\texttt{false}\}$.
+%; for a set $A$ of type $\sss$.
+%, $\means{A}$ denotes the  (mathematical) set of keys in the set.
+\end{datatype}
+Some tailtex with some \command
+\end{cluster}
+
+Some tailtex with some \command
+
+\section{Sets ADT}
+
+Some preamble \somecommand
+\begin{cluster}
+\begin{datatype}[Sets]
+\label{XXadt:sets} 
+For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
+\adt{SET} abstract data type is a type $\sss$ representing the power 
+set of $\uuu$ (i.e., all subsets of $\uuu$) limited to sets of finite 
+size, along with the functions below. 
+{\normalsize
+input{./sets-and-tables/sig-sets}
+}
+Where $\tynat$ is 
+the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
+\texttt{false}\}$.
+%; for a set $A$ of type $\sss$.
+%, $\means{A}$ denotes the  (mathematical) set of keys in the set.
+
+\end{datatype}
+
+Some preamble \somecommand
+\begin{syntax}[Sets] 
+\label{XXsyn:sets}
+In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
+  indicate a set.  The notation $\emptyset$ or $\cset{}$ refers to an
+  empty set. We also use the conventional mathematical syntax for set
+  functions such as $|S|$ (size), $\cup$ (union), $\cap$
+  (intersection), and $\setminus$ (difference).  In addition, we use
+  set comprehensions for $\cdvar{filter}$ and for constructing sets from
+  other sets.
+\end{syntax}
+
+Some preamble \somecommand
+\begin{gram}
+  The objects that are contained in a set are called~\defn{members}~or the~\defn{elements}~of the set.  Recall that a~\defn{set}~is a collection of distinct objects.  This requires that
+  the universe $\uuu$ they come from support equality.  It might seem that
+  all universes support equality, but consider functions.  When are
+  two functions equal?   It is not even decidable whether two
+  functions are equal.   From a practical matter, there is no way to
+  implement sets without an equality function over potential
+  elements.   In fact efficient implementations additionally require
+  either a hash function over the elements of $\uuu$ and/or a total ordering.
+\end{gram}
+
+Some preamble \somecommand
+\begin{problem}[10][Problem within Cluster]
+Body of Problem within Cluster
+\end{problem}
+
+Some tailtex with some \command
+
+\end{cluster}
+
+Some preamble \somecommand
+\begin{gram}
+The Set ADT consists of basic functions on sets.  
+%
+The function $\cdvar{size}$ takes a set and returns the number of elements
+in the set.
+% 
+The function $\cdvar{toSeq}$ converts a set to a sequence by ordering the
+elements of the set in an unspecified way. 
+%
+Since elements of a set do not necessarily have a total ordering, the
+resulting order is arbitrary.
+%
+This means that $\cdvar{toSeq}$ is possibly non-deterministic---it could
+return different orderings in different implementations.
+%, or even on different runs of the same implementation.
+%
+We specify $\cdvar{toSeq}$ as follows
+\[
+\cdvar{toSeq}~(\{x_0,x_1,\ldots,x_n\} : \sss): seq = \cseq{x_0,x_1,\ldots,x_n}
+\]
+where the $x_i$ are an arbitrary ordering. 
+\end{gram}
+
+
+Some preamble \somecommand
+\begin{gram}
+Several functions enable constructing sets.
+%
+The function $\cdvar{empty}$ returns an empty set:
+%
+\[
+\cdvar{empty} : \sss = \emptyset
+\]
+%
+The function $\cdvar{singleton}$ constructs a singleton set from a given
+element.
+%
+\[
+\cdvar{singleton} (x : \uuu) : \sss = \{x \}
+\]
+%
+The function $\cdvar{fromSeq}$ takes a sequence and returns a set consisting of the
+distinct elements of the sequence, eliminating duplicate elements.
+%
+We can specify $\cdvar{fromSeq}$ as returning the range of the sequence
+$A$ (recall that a sequence is a partial function mapping from natural numbers
+to elements of the sequence).
+%
+\[
+\cdvar{fromSeq}~(a : seq) : \sss = \cdvar{range}~a
+\]
+%
+\end{gram}
+
+Some preamble \somecommand
+\begin{gram}
+%
+Several functions operate on sets to produce new sets.
+%
+The function $\cdvar{filter}$ selects the elements of a sequence that
+satisfy a given Boolean function, i.e., 
+%
+\[
+\cdvar{filter}~(f : \uuu \ra \tybool)~(a : \sss) : \sss = \{ x \in a \sucht f(x)\} .
+\]
+%
+The functions $\cdvar{intersection}$, $\cdvar{difference}$, and $\cdvar{union}$
+perform the corresponding set operation on their arguments:
+%
+\[
+\begin{array}{l}
+\cdvar{intersection}~(a : \sss)~(b : \sss) : \sss = a \cap b\\
+\cdvar{difference}~(a  : \sss)~(b : \sss) : \sss = a \setminus b\\
+\cdvar{union}~(a : \sss)~(b : \sss) : \sss = a \cup b
+\end{array}
+\]
+%
+We refer to the functions  $\cdvar{intersection}$, $\cdvar{difference}$, and $\cdvar{union}$
+as \defn{bulk updates}, because they allow updating with a large set
+of elements ``in bulk.''
+\end{gram}
+
+\begin{gram}
+The functions $\cdvar{find}$, $\cdvar{insert}$, and $\cdvar{delete}$ are singular
+versions of the bulk functions $\cdvar{intersection}$, $\cdvar{union}$, and
+$\cdvar{difference}$ respectively.
+%
+The $\cdvar{find}$ function checks whether an element is in a set---it is
+the basic membership test for sets.
+%
+\[
+find~(a  : \sss)~(x : \uuu) : \tybool = \left\{
+                \begin{array}{ll}
+                \cd{true} & \cd{if}~x \in A \\
+                \cd{false} & \cd{otherwise}
+                \end{array} \right.
+\]
+%
+We can also specify the $\cdvar{find}$ function is in terms of set
+intersection:
+\[
+find~(a : \sss)~(x : \uuu) : \tybool = \csetsize{a \cap \cset{x}} = 1.
+\]
+%
+The functions $\cdvar{delete}$ and $\cdvar{insert}$ 
+%
+delete an existing element from a set, and
+%
+insert a new element into a set,
+%
+respectively:
+%
+\[
+\begin{array}{l}
+\cdvar{delete}~(a  : \sss)~(x  : \uuu) : \sss = a \setminus \cset{x}.\\
+\cdvar{insert}~(a : \sss)~(x : \uuu) : \sss = a \cup \cset{x}
+\end{array}
+\]
+%
+\end{gram}
+
+\begin{gram}
+Iteration and reduction over sets can be easily defined by converting
+them to sequences, as in
+
+\[
+\begin{array}{l}
+\cdvar{iterate}~f~x~a = \cdvar{Sequence.iterate}~f~(\cdvar{toSeq}~a)\\
+\cdvar{reduce}~f~x~a = \cdvar{Sequence.reduce}~f~(\cdvar{toSeq}~a)
+\end{array}
+\]
+\end{gram}
+
+Some tailtex with some \command
+
+
+\section[50]{Basics}
+
+\begin{problem}[10][First Problem]
+Standalone Problem
+\end{problem}
+
+\begin{mproblem}[Multipart Problem I]
+\label{cl:quiz-ii::1}
+
+\begin{gram}
+Some flavor text for problem 1.
+\end{gram}
+
+\begin{problem}
+\label{quiz-ii::1::1}
+Para I of Multipart problem I.
+
+Here is a quick check on understanding:
+Above why did we assume X
+
+\begin{xchoice}
+\choice Because we could not assume Y.
+\choice* If we didn't, then we would have ... contradicting...
+\end{xchoice}
+
+\sol
+this is a solution
+
+\end{problem}
+
+\begin{gram}[20][Problem gram with xchoice I.1]
+\depend{quiz::ii::1::1}
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+\sol
+This is a solution 1 .
+
+\explain
+This is an explanation 1.
+
+\rubric
+Rubric for problem I.1
+\end{gram}
+
+
+\begin{problem}[20][Problem I.2]
+%\depend{quiz-ii::1::1}
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+
+\help 
+Hint  for Problem I.2.
+
+\sol
+This is a solution I.2.
+
+\explain
+This is an explanation I.
+
+\end{problem}
+
+
+
+
+
+
+
+\begin{problem}[40][Problem I.3]
+\label{quiz-ii:2}
+\depend { quiz-ii::1::1,  quiz-ii::1::2}
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+\help  for Problem I.3
+
+\rubric
+Rubric for problem I.3
+\end{problem}
+
+\end{mproblem}
+Some tailtex with some \command
+
+
+\section[50]{Sequences}
+\label{sec:quiz-ii::middle}
+
+\begin{gram}
+Here are some assumptions
+\begin{description}
+\item[A] Assumption A
+\begin{enumerate}
+\item Assumption A.1
+\item Assumption A.2
+\end{enumerate}
+
+\item[B] Assumption B
+\end{description}
+\end{gram}
+
+
+\begin{problem}[70][Xchoice I]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+\begin{problem}[80][Xchoice I.2]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+\begin{problem}[90][Xchoice II]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+
+\begin{problem}[100][Xchoice III]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\end{problem}
+Some tailtex with some \command
+
+
+\section[100]{Graphs}
+
+\begin{problem}[110][Harder Xchoice I]
+Select one of the following
+\begin{xchoice}
+\choice This is the first harder choice $a = z^2$.
+\choice This is the second harder choice $b = y^2$.
+\choice* This is the third harder choice $c$.
+\choice* This is the fourth harder choice $d$.
+\choice This is the fifth harder choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+\begin{problem}[120][Harder Xchoice II]
+Select one of the following
+\begin{xchoice}
+\choice This is the first harder choice $a = z^2$.
+\choice This is the second harder choice $b = y^2$.
+\choice* This is the third harder choice $c$.
+\choice* This is the fourth harder choice $d$.
+\choice This is the fifth harder choice $d$.
+\end{xchoice}
+\end{problem}
+
+\begin{problem}[130][Harder Xchoice III]
+Select one of the following
+\begin{xchoice}
+\choice This is the first harder choice $a = z^2$.
+\choice This is the second harder choice $b = y^2$.
+\choice* This is the third harder choice $c$.
+\choice* This is the fourth harder choice $d$.
+\choice This is the fifth harder choice $d$.
+\end{xchoice}
+\end{problem}
+
+
+
+\begin{mproblem}[2000][Multipart Problem II]
+\begin{gram}[200]
+Para I of Problem II
+\end{gram}
+
+
+\begin{problem}[210][Problem II.1]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\help Hint  for Problem II.1
+\end{problem}
+
+
+\begin{problem}[220][Problem II.2]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+\help 
+Hint  for Problem II.2
+\end{problem}
+
+\begin{problem}[230][Problem II.3]
+Select one of the following
+\begin{xchoice}
+\choice This is the first choice $a = z^2$.
+\choice This is the second choice $b = y^2$.
+\choice* This is the third choice $c$.
+\choice* This is the fourth choice $d$.
+\choice This is the fifth choice $d$.
+\end{xchoice}
+
+\help
+Hint  for Problem II.3
+\end{problem}
+
+
+\begin{problem}[240][Problem II.4]
+This is a free response question.
+
+\help
+(Hint Field:) Here is a hint II.
+
+\sol
+Here is the solution II.
+
+\explain
+This is an explanation II.
+
+\help
+Hint  for Problem II.4
+\end{problem}
+
+
+\end{mproblem}
