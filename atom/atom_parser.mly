@@ -31,7 +31,7 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> NEWLINE
 %token <string> SIGCHAR
 
-%token <unit> PAR_END
+%token <string> PAR_BREAK
 %token <string> PAR_ENV
 %token <string> PAR_SIGCHAR
 
@@ -64,9 +64,10 @@ sigchar:
 
 bigchar:
 | d = SIGCHAR
-  {d}
+  {let _ = d_printf "parser matched: bigchar, d = %s" d in
+  	d}
 | e = ENV
-  {let _ = d_printf "parser matched: sigchar, env = %s" e in
+  {let _ = d_printf "parser matched: bigchar, env = %s" e in
      e
   }
 
@@ -100,9 +101,12 @@ newline:
 
 /* A visibly empty line. */
 emptyline: 
-  s = hspaces;
+| s = hspaces;
   nl = newline
   {s ^ nl}
+| s = hspaces;
+  pb = PAR_BREAK
+  {s ^ pb}
 
 emptylines:
   {""}
@@ -130,7 +134,7 @@ line_parstart_sig:
   cs = chars;
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
-   let _ = d_printf "!Parser mached: par begin %s.\n" l in
+   let _ = d_printf "!Parser matched: par begin %s.\n" l in
      l
   }
 
@@ -174,9 +178,8 @@ textpar:
 			{x ^ tail}  
 
 textpar_tail:
-  el = emptylines;
-  e = PAR_END
-  {"\n"}
+  e = PAR_BREAK
+  {e}
 | x = line;
   tp = textpar_tail
   { 
@@ -185,9 +188,8 @@ textpar_tail:
 
 textpar_tail_sig:
 | x = line;
-  el = emptylines;
-  e = PAR_END
-  {x ^ el}
+  e = PAR_BREAK
+  {x ^ e}
 | x = line;
   tp = textpar_tail_sig
   { 
@@ -198,9 +200,8 @@ textpar_tail_sig:
 envpar: 
   fs = hspaces;
   env = PAR_ENV
-  el = emptylines;
-  e = PAR_END
-  {let p = fs ^ env ^ el in
+  e = PAR_BREAK
+  {let p = fs ^ env ^ e in
    let _ = d_printf "!Parser mached: par env %s.\n" p in
      p
   }
@@ -230,15 +231,16 @@ top:
   {s}
 
 segment: 
-
   h = heading;
+  pba = option(PAR_BREAK);
   l = option(label);
+  pbb = option(PAR_BREAK);
   b = block;
   ss = segments
   {
    let (kind, heading, pval_opt) = h in
    let _ = d_printf ("!parser: %s %s matched") kind heading in
-     "\n" ^ heading ^ b ^ ss
+     heading ^ b ^ ss
   }	  
 
 segments:
@@ -274,15 +276,15 @@ block:
  **********************************************************************/
 
 element:
-| ft = emptylines;
+| fs = emptylines;
   tp = textpar;
-  {let para = ft ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
+  {let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
-| ft = emptylines;
+| fs = emptylines;
   ep = envpar;
-  {let para = ft ^ ep in
+  {let para = fs ^ ep in
    let _ = d_printf "!Parser: matched env paragraph\n %s" para in
      para
   }
