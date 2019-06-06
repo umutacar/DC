@@ -17,22 +17,13 @@ let mk_point_val_f_opt (s: string option) =
 
 
 %token <string * string * string option> KW_HEADING
-%token <string * string option> KW_CHAPTER
-%token <string * string option> KW_SECTION
-%token <string * string option> KW_SUBSECTION
-%token <string * string option> KW_SUBSUBSECTION	
-%token <string * string option> KW_PARAGRAPH	
 
 %token <string * string> KW_LABEL_AND_NAME
 
 %token <string> COMMENT
-%token <string> ENV
 %token <string> HSPACE
 %token <string> NEWLINE
 %token <string> SIGCHAR
-
-%token <string> PAR_BREAK
-%token <string> PAR_ENV
 %token <string> PAR_SIGCHAR
 
 %start top

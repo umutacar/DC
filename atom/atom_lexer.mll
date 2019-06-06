@@ -31,6 +31,39 @@ let set_trace t =
 let get_trace () = 
 	!trace
 
+(* Indicates the depth at which the lexer is operating at
+   0 = surface level
+   1 = inside of an env
+ *)
+let lexer_depth = ref 0
+let get_lexer_depth () =
+	!lexer_depth
+let inc_lexer_depth () = 
+  (assert (!lexer_depth = 0);
+   lexer_depth := !lexer_depth + 1
+		 )
+let dec_lexer_depth () = 
+  (assert (!lexer_depth = 1);
+   lexer_depth := !lexer_depth - 1
+		 )
+
+		
+(* Indicates that the current line is empty *)
+let lexer_line_status = ref true
+let set_line_empty () = 
+	if get_lexer_depth () = 0 then
+		lexer_line_status := true
+
+let set_line_nonempty () = 
+	if get_lexer_depth () = 0 then
+		lexer_line_status := false
+let line_is_empty () = 
+	if get_lexer_depth () = 0 then
+		!lexer_line_status
+	else
+		(* Always return true, empty lines are harmless *)
+		true
+
 type t_cache = Atom_parser.token list
 let cache = ref [ ]
 let cache_is_empty () =
@@ -58,11 +91,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "token = newline."
 	| HSPACE x ->  "token = hspace."
-	| PAR_BREAK x -> "token = par break: " ^ x
-	| PAR_ENV x -> "token = par env: " ^ x
 	| PAR_SIGCHAR x -> "token = par sigchar: " ^ x
 	| SIGCHAR x ->  "token = sigchar: " ^ x 
-	| ENV x ->  "token = env: " ^ x
 	| KW_LABEL_AND_NAME _ -> "token = label" 
 	| KW_HEADING (x, _, _) -> "token = heading: " ^ x
   | EOF -> "token = EOF.";
@@ -331,32 +361,41 @@ rule initial = parse
      let _ = d_printf "!lexer matched segment: %s." kind in
      let arg = take_arg lexbuf in
      let h = x ^ arg in
-     let _ = d_printf "!lexer matched segment all: %s." h in
+(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+     let _ =  set_line_nonempty () in
        KW_HEADING(kind, h, None)
     }		
 
 | p_begin_latex_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_latex_env () in
+          let _ = do_begin_latex_env () in		
+					let _ = inc_lexer_depth () in
           let y = take_env lexbuf in
-          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in
+(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
+					let _ = dec_lexer_depth () in
+					let _ =  set_line_nonempty () in
             SIGCHAR(x ^ y)
           
       }   
 
 | p_label_and_name as x
-  	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
+  	{ let _ = d_printf "!lexer matched %s." x in
+      let _ =  set_line_nonempty () in
+			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)
+		}		
 
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (char_to_str x); *)
+     let _ =  set_line_nonempty () in
      SIGCHAR(char_to_str x)
     }
 
 | p_percent_esc as x 
 		{
 (*     d_printf "!lexer found: espaced percent char: %s." x; *)
+     let _ =  set_line_nonempty () in
      SIGCHAR(x)
     }
 
@@ -366,12 +405,16 @@ rule initial = parse
      let comment = take_comment lexbuf in
      let result = (char_to_str x) ^ comment in
      let _ = d_printf "!lexer found: comment: %s." result in
+		 if line_is_empty () then
       (* Drop comments *)
        initial lexbuf
+		 else
+			 NEWLINE comment
     }
 
 | p_newline as x
 		{d_printf "!lexer found: newline: %s." x;
+     let _ =  set_line_empty () in
        NEWLINE(x)
     }
 
@@ -389,6 +432,7 @@ and take_comment =
   parse
   | p_newline as x
     { (* let _ = d_printf "take_comment: newline %s" x in *)
+     let _ =  set_line_empty () in
         x
     } 
   | _ as x 
@@ -556,14 +600,15 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 									
 						end
 				| HSPACE x -> 
-						let _ = d_printf "** token = hspace %s \n" x in
+(*						let _ = d_printf "** token = hspace %s \n" x in *)
 						begin
 						match get_trace () with 
 						| Ver_space -> set_trace Ver_space
 						| _ -> set_trace Hor_space 
 						end
 				| SIGCHAR x -> 
-						let _ = d_printf "** token = sigchar %s \n" x in
+(*						let _ = d_printf "** token = sigchar %s \n" x in *)
+						let _ = d_printf "%s" x in
 						let _ = set_trace No_space in
 						begin
 						match !state with 
