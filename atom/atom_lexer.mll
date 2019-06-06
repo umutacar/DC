@@ -31,6 +31,17 @@ let set_trace t =
 let get_trace () = 
 	!trace
 
+type t_cache = Atom_parser.token list
+let cache = ref [ ]
+let cache_insert t =
+  cache := !cache @ [ t ]
+let cache_remove () =
+  match !cache with 
+	| [ ] -> None
+	| h::t -> 
+			(cache := t;
+			 Some h)
+
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
@@ -484,19 +495,6 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 
 
 let lexer: Lexing.lexbuf -> Atom_parser.token =
-  let cache = ref None in
-  let get_cache () = !cache in
-
-  let reset_cache () = 
-    match !cache with 
-    | None -> (printf "Fatal Error: cache is empty"; exit 1)
-		| Some x -> (cache := None; x)
-  in
-  let set_cache tk = 
-    match !cache with 
-    | None -> cache := tk 
-		| Some _ -> (printf "Fatal Error: cache is full"; exit 1)
-  in
   let prev_token = ref None in
 
 	let rec take_spaces lexbuf =
@@ -516,11 +514,6 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 			let set_next_token t = next_token := t in
 
 			let start_par tk = (set_state Busy; next_token := Some tk) in
-			let end_par tk tk_to_cache =       
-        (set_state Idle; 
-         set_cache tk_to_cache;
-         next_token := Some tk) 
-      in
 
 			let return_tk tk = 
 				let tk_ret = 
@@ -532,10 +525,10 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				 d_printf "returning token: %s\n" (token_to_str tk_ret);
 				 tk_ret)
 			in
-  		let tk = match get_cache () with 
-			| None -> lexer lexbuf
-			| Some x -> reset_cache ()
-			in 
+  		let tk = 
+				match cache_remove () with 
+				| None -> lexer lexbuf
+				| Some t -> t in
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
@@ -550,19 +543,19 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 								  ()
 						| Ver_space ->
 								let (ntk, n) = take_spaces lexbuf in
-								let _ = d_printf "took %s spacen and next token = %s \n" (string_of_int n) (token_to_str ntk) in
-								match !state with 
-   							| Idle -> (set_state Idle; ())
-								| Busy -> (set_state Idle;
-													 set_cache (Some ntk))
+								let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in
+								let _ = cache_insert ntk in
+								  set_state Idle
 						end
 				| HSPACE x -> 
-						let _ = d_printf "token = hspace %s \n" x in
-						let _ = set_trace Hor_space in
-						  ()
-
+						let _ = d_printf "** token = hspace %s \n" x in
+						begin
+						match get_trace () with 
+						| Ver_space -> set_trace Ver_space
+						| _ -> set_trace Hor_space 
+						end
 				| SIGCHAR x -> 
-						let _ = d_printf "token = sigchar %s \n" x in
+						let _ = d_printf "** token = sigchar %s \n" x in
 						let _ = set_trace No_space in
 						begin
 						match !state with 
@@ -571,18 +564,21 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_LABEL_AND_NAME _ -> 
-  					let _ = d_printf "token = label \n" in 
+  					let _ = d_printf "** token = label \n" in 
 						let _ = set_trace No_space in
 						  ()
+
 				| KW_HEADING x ->
-  					let _ = d_printf "token = heading \n"  in
+  					let _ = d_printf "** token = heading \n"  in
 						let _ = set_trace No_space in
-            (* TODO THIS IS NOT ENOUGH 
-               WE NEED TWO NEWLINES. *)
 						begin
 						match !state with 
    					| Idle -> set_state Idle
-						| Busy -> (set_cache (Some tk); set_next_token (Some (NEWLINE "\n")))
+						| Busy -> 
+								let _ = cache_insert (NEWLINE "\n") in
+								let _ = cache_insert tk in
+								let _ = set_next_token (Some (NEWLINE "\n")) in
+								set_state Busy
 						end
         | EOF -> 
 						let _ = d_printf "token = EOF \n" in
@@ -591,7 +587,11 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						begin
 						match !state with 
    					| Idle -> set_state Idle
-						| Busy -> (set_cache (Some tk); set_next_token (Some (NEWLINE "\n")))
+						| Busy -> 
+								let _ = set_next_token (Some (NEWLINE "\n")) in
+								let _ = cache_insert (NEWLINE "\n") in
+								let _ = cache_insert tk in
+								  set_state Busy
 						end
 
         | _ -> printf "Fatal Error: token match not found!!!\n"
