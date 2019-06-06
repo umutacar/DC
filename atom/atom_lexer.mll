@@ -33,6 +33,10 @@ let get_trace () =
 
 type t_cache = Atom_parser.token list
 let cache = ref [ ]
+let cache_is_empty () =
+  match !cache with 
+	| [ ] -> true
+	| _ -> false
 let cache_insert t =
   cache := !cache @ [ t ]
 let cache_remove () =
@@ -525,10 +529,11 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				 d_printf "returning token: %s\n" (token_to_str tk_ret);
 				 tk_ret)
 			in
+			let is_token_from_cache = ref false in
   		let tk = 
 				match cache_remove () with 
 				| None -> lexer lexbuf
-				| Some t -> t in
+				| Some t -> (is_token_from_cache := true; t) in
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
@@ -542,10 +547,13 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 								let _ = set_trace Ver_space in
 								  ()
 						| Ver_space ->
-								let (ntk, n) = take_spaces lexbuf in
-								let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in
-								let _ = cache_insert ntk in
-								  set_state Idle
+								let _ = set_trace Ver_space in
+								let _ = set_state Idle in
+								if !is_token_from_cache then
+									let (ntk, n) = take_spaces lexbuf in
+									let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in
+									cache_insert ntk
+									
 						end
 				| HSPACE x -> 
 						let _ = d_printf "** token = hspace %s \n" x in
@@ -570,14 +578,16 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 
 				| KW_HEADING x ->
   					let _ = d_printf "** token = heading \n"  in
-						let _ = set_trace No_space in
-						begin
+            						begin
 						match !state with 
-   					| Idle -> set_state Idle
+   					| Idle -> 
+								let _ = set_trace No_space in
+								set_state Idle
 						| Busy -> 
 								let _ = cache_insert (NEWLINE "\n") in
 								let _ = cache_insert tk in
 								let _ = set_next_token (Some (NEWLINE "\n")) in
+								let _ = set_trace Ver_space in (* Because we will return a newline *)
 								set_state Busy
 						end
         | EOF -> 
@@ -588,9 +598,10 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						match !state with 
    					| Idle -> set_state Idle
 						| Busy -> 
-								let _ = set_next_token (Some (NEWLINE "\n")) in
 								let _ = cache_insert (NEWLINE "\n") in
 								let _ = cache_insert tk in
+								let _ = set_next_token (Some (NEWLINE "\n")) in
+								let _ = set_trace Ver_space in (* Because we will return a newline *)
 								  set_state Busy
 						end
 
@@ -601,134 +612,6 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
       in 
         return_tk tk
 
-
-(*
-
-
-
-let old_lexer: Lexing.lexbuf -> Atom_parser.token =
-  let cache = ref None in
-  let get_cache () = !cache in
-
-  let reset_cache () = 
-    match !cache with 
-    | None -> (printf "Fatal Error: cache is empty"; exit 1)
-		| Some x -> (cache := None; x)
-  in
-  let set_cache tk = 
-    match !cache with 
-    | None -> cache := tk 
-		| Some _ -> (printf "Fatal Error: cache is full"; exit 1)
-  in
-  let prev_token = ref None in
-
-    fun lexbuf ->
-  		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in 
-      let old_state = get_state () in
-
-			let next_token = ref None in
-
-			let start_par tk = (set_state Busy; next_token := Some tk) in
-			let end_par tk tk_to_cache =       
-        (set_state Idle; 
-         set_cache tk_to_cache;
-         next_token := Some tk) 
-      in
-
-			let return_tk tk = 
-				let tk_ret = 
-					match !next_token with 
-					| None -> tk
-					| Some ntk -> ntk
-				in
-				(prev_token := Some tk_ret;
-				 d_printf "returning token: %s\n" (token_to_str tk_ret);
-				 tk_ret)
-			in
-  		let tk = match get_cache () with 
-			| None -> lexer lexbuf
-			| Some x -> reset_cache ()
-			in 
-			let _ =
-				match tk with 
-				| NEWLINE x -> 
-						(d_printf "token = newline \n";
-             match !state with 
-   					 | Idle -> set_state Idle
-						 | Busy -> 
-               match !prev_token with 
-               | None -> set_state Busy
-							 | Some ptk ->
-                 (match ptk with 
-                 | NEWLINE _ -> end_par (PAR_BREAK "\n") None
-								 | _ -> set_state Busy
-											 ) )
-
-				| HSPACE x -> 
-            (* TODO: no effect on state *)
-						(d_printf "token = hspace \n";
-						 match !state with 
-   					 | Idle -> set_state Idle
-						 | Busy -> set_state Busy)
-
-				| PAR_BREAK x -> 
-						(d_printf "token = par break: %s.\n" x;
-             match !state with 
-   					 | Idle -> set_state Idle
-						 | Busy -> 
-                 (* If there was a comment at the end of previous line
-                    We could have dropped it.  Insert it back.
-                    This is pretty darn hacky.
-                  *)
-                 let _ = () in
-								 match !prev_token with 
-								 | None -> 
-										 (d_printf "prev token None, ret newline";
-											end_par (NEWLINE "\n") (Some tk))
-								 | Some ptk ->
-										 (match ptk with 
-										 | NEWLINE _ -> 
-		 										 (d_printf "prev token Newline continue.";
-													end_par tk None)
-										 | _ ->
-												 (d_printf "prev token not newline, ret newline"; 
-													end_par (NEWLINE "\n") (Some tk)))
-            )
-											 
-
-				| SIGCHAR x -> 
-  					(d_printf "token = sigchar %s \n" x;
-						 match !state with 
-   					 | Idle -> start_par (PAR_SIGCHAR x)
-						 | Busy -> set_state Busy)
-
-				| ENV x -> 
-  					(d_printf "token = env %s \n" x;
-						 match !state with 
-   					 | Idle -> start_par (PAR_ENV x)
-						 | Busy -> set_state Busy)
-				| KW_LABEL_AND_NAME _ -> 
-  					(d_printf "token = label \n" ;
-						 match !state with 
-   					 | Idle -> set_state Idle
-						 | Busy -> set_state Idle)
-				| KW_HEADING x ->
-  					(d_printf "token = heading \n" ;
-						 match !state with 
-   					 | Idle -> set_state Idle
-						 | Busy -> end_par (PAR_BREAK "\n") (Some tk))
-        | EOF -> 
-  					(d_printf "token = EOF \n";
-						 match !state with 
-   					 | Idle -> set_state Idle
-						 | Busy -> end_par (PAR_BREAK "\n") (Some tk))
-        | _ -> printf "Fatal Error: token match not found!!!\n"
-			in  
-      let _ = if old_state = Idle && (get_state () = Busy) then
-        d_printf "!!START PARAGRAPH!!\n"
-      in 
-        return_tk tk
-*)
 }
 (** END TRAILER **)
 
