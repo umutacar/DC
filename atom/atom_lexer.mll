@@ -30,6 +30,12 @@ let set_trace t =
   trace := t
 let get_trace () = 
 	!trace
+let trace_to_string () =
+	match !trace with  
+	| No_space -> "No space"
+	| Hor_space -> "Hor space"
+	| Ver_space -> "Ver space"
+
 
 (* Indicates the depth at which the lexer is operating at
    0 = surface level
@@ -583,6 +589,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				match tk with 
 				| NEWLINE x -> 
 						let _ = d_printf "\n **token = newline! \n" in
+						let _ = d_printf " **trace = %s! \n" (trace_to_string ()) in
 						begin
             match get_trace () with 
 						| No_space ->
@@ -595,6 +602,8 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 								let _ = set_trace Ver_space in
 								let _ = set_state Idle in
 								if !is_token_from_cache then
+									d_printf "token is from cache.\n" 
+								else 
 									let (ntk, n) = take_spaces lexbuf in
 									let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in
 									cache_insert ntk

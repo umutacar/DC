@@ -190,7 +190,8 @@ block:
   tt = emptylines
   {
    let _ = d_printf ("parser matched: blocks.\n") in 
-     es ^ tt
+     (* Drop empty lines *)
+     es
   }
 
 /**********************************************************************
