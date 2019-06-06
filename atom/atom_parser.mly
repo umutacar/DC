@@ -62,15 +62,6 @@ sigchar:
 | d = SIGCHAR
   {d}
 
-bigchar:
-| d = SIGCHAR
-  {let _ = d_printf "parser matched: bigchar, d = %s" d in
-  	d}
-| e = ENV
-  {let _ = d_printf "parser matched: bigchar, env = %s" e in
-     e
-  }
-
 
 /* Non-space char at the beginning of a paragraph */
 parsigchar: 
@@ -78,12 +69,11 @@ parsigchar:
   {d}
 
 
- 
 /* All characters */
 char: 
   s = hspace
   {s}
-| d = bigchar
+| d = sigchar
   {d} 
 
 
@@ -117,7 +107,7 @@ emptylines:
 /* A nonempty line. */
 line: 
   hs = hspaces;
-  d = bigchar;
+  d = sigchar;
   cs = chars;
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
@@ -128,37 +118,13 @@ line:
 /* A nonempty line at the start of a paragraph. 
  * Starts with a sigchar
  */
-line_parstart_sig: 
+line_parstart: 
   hs = hspaces;
   d = parsigchar;
   cs = chars;
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
-   let _ = d_printf "!Parser matched: par begin %s.\n" l in
-     l
-  }
-
-/* A nonempty line at the start of a paragraph, starts with an env.
-*/
-line_parstart_env_alone: 
-  fs = hspaces;
-  e = PAR_ENV;
-  ts = hspaces;
-  nl = newline
-  {let l = fs ^ e ^ ts ^ nl in
-   let _ = d_printf "!Parser mached: par begin with env %s.\n" l in
-     l
-  }
-
-line_parstart_env_nonalone: 
-  fs = hspaces;
-  e = PAR_ENV;
-  ts = hspaces;
-  s = bigchar;
-  cs = chars;
-  nl = newline
-  {let l = fs ^ e ^ ts ^ s ^ cs ^ nl in
-   let _ = d_printf "!Parser mached: par begin with env %s.\n" l in
+   let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in
      l
   }
 
@@ -167,14 +133,8 @@ line_parstart_env_nonalone:
  *
  */
 textpar: 
-	| x = line_parstart_sig;
+	| x = line_parstart;
 		tail = textpar_tail
-			{x ^ tail}  
-	| x = line_parstart_env_nonalone;
-		tail = textpar_tail
-			{x ^ tail}  
-	| x = line_parstart_env_alone;
-		tail = textpar_tail_sig
 			{x ^ tail}  
 
 textpar_tail:
@@ -185,26 +145,6 @@ textpar_tail:
   { 
     x ^ tp
   } 
-
-textpar_tail_sig:
-| x = line;
-  e = PAR_BREAK
-  {x ^ e}
-| x = line;
-  tp = textpar_tail_sig
-  { 
-    x ^ tp
-  } 
-
-/* TODO: complete */
-envpar: 
-  fs = hspaces;
-  env = PAR_ENV
-  e = PAR_BREAK
-  {let p = fs ^ env ^ e in
-   let _ = d_printf "!Parser mached: par env %s.\n" p in
-     p
-  }
 
 
 /**********************************************************************
@@ -280,12 +220,6 @@ element:
   tp = textpar;
   {let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
-     para
-  }
-| fs = emptylines;
-  ep = envpar;
-  {let para = fs ^ ep in
-   let _ = d_printf "!Parser: matched env paragraph\n %s" para in
      para
   }
 

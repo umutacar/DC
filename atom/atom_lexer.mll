@@ -315,7 +315,7 @@ rule initial = parse
           let _ = do_begin_latex_env () in
           let y = take_env lexbuf in
           let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in
-            ENV(x ^ y)
+            SIGCHAR(x ^ y)
           
       }   
 
