@@ -94,9 +94,6 @@ emptyline:
 | s = hspaces;
   nl = newline
   {s ^ nl}
-| s = hspaces;
-  pb = PAR_BREAK
-  {s ^ pb}
 
 emptylines:
   {""}
@@ -138,8 +135,8 @@ textpar:
 			{x ^ tail}  
 
 textpar_tail:
-  e = PAR_BREAK
-  {e}
+  el = emptyline
+  {el}
 | x = line;
   tp = textpar_tail
   { 
@@ -172,9 +169,8 @@ top:
 
 segment: 
   h = heading;
-  pba = option(PAR_BREAK);
   l = option(label);
-  pbb = option(PAR_BREAK);
+  eb = emptylines;
   b = block;
   ss = segments
   {

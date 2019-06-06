@@ -20,6 +20,17 @@ let set_state s =
   state := s
 let get_state = fun () -> !state 
 
+type t_space_trace = 
+	| No_space
+	| Hor_space
+	| Ver_space
+
+let trace = ref No_space
+let set_trace t = 
+  trace := t
+let get_trace () = 
+	!trace
+
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
@@ -344,11 +355,6 @@ rule initial = parse
        initial lexbuf
     }
 
-| p_par_break as x
-		{d_printf "!lexer found: par break %s." x;
-      PAR_BREAK(x)
-    }
-
 | p_newline as x
 		{d_printf "!lexer found: newline: %s." x;
        NEWLINE(x)
@@ -475,7 +481,132 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
  * is cached and emitted at the next request.
  *)
 
+
+
 let lexer: Lexing.lexbuf -> Atom_parser.token =
+  let cache = ref None in
+  let get_cache () = !cache in
+
+  let reset_cache () = 
+    match !cache with 
+    | None -> (printf "Fatal Error: cache is empty"; exit 1)
+		| Some x -> (cache := None; x)
+  in
+  let set_cache tk = 
+    match !cache with 
+    | None -> cache := tk 
+		| Some _ -> (printf "Fatal Error: cache is full"; exit 1)
+  in
+  let prev_token = ref None in
+
+	let rec take_spaces lexbuf =
+		let t = lexer lexbuf in
+		match t with
+		| HSPACE _ -> take_spaces lexbuf 
+		| NEWLINE _ -> 
+				let (ntk, m) = take_spaces lexbuf in
+				(ntk, m+1)
+		| _ -> (t, 0) 
+	in
+    fun lexbuf ->
+  		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in 
+      let old_state = get_state () in
+
+			let next_token = ref None in
+			let set_next_token t = next_token := t in
+
+			let start_par tk = (set_state Busy; next_token := Some tk) in
+			let end_par tk tk_to_cache =       
+        (set_state Idle; 
+         set_cache tk_to_cache;
+         next_token := Some tk) 
+      in
+
+			let return_tk tk = 
+				let tk_ret = 
+					match !next_token with 
+					| None -> tk
+					| Some ntk -> ntk
+				in
+				(prev_token := Some tk_ret;
+				 d_printf "returning token: %s\n" (token_to_str tk_ret);
+				 tk_ret)
+			in
+  		let tk = match get_cache () with 
+			| None -> lexer lexbuf
+			| Some x -> reset_cache ()
+			in 
+			let _ =
+				match tk with 
+				| NEWLINE x -> 
+						let _ = d_printf "\n **token = newline! \n" in
+						begin
+            match get_trace () with 
+						| No_space ->
+								let _ = set_trace Ver_space in
+								  ()
+						| Hor_space ->
+								let _ = set_trace Ver_space in
+								  ()
+						| Ver_space ->
+								let (ntk, n) = take_spaces lexbuf in
+								let _ = d_printf "took %s spacen and next token = %s \n" (string_of_int n) (token_to_str ntk) in
+								match !state with 
+   							| Idle -> (set_state Idle; ())
+								| Busy -> (set_state Idle;
+													 set_cache (Some ntk))
+						end
+				| HSPACE x -> 
+						let _ = d_printf "token = hspace %s \n" x in
+						let _ = set_trace Hor_space in
+						  ()
+
+				| SIGCHAR x -> 
+						let _ = d_printf "token = sigchar %s \n" x in
+						let _ = set_trace No_space in
+						begin
+						match !state with 
+   					| Idle -> start_par (PAR_SIGCHAR x)
+						| Busy -> set_state Busy
+						end
+
+				| KW_LABEL_AND_NAME _ -> 
+  					let _ = d_printf "token = label \n" in 
+						let _ = set_trace No_space in
+						  ()
+				| KW_HEADING x ->
+  					let _ = d_printf "token = heading \n"  in
+						let _ = set_trace No_space in
+            (* TODO THIS IS NOT ENOUGH 
+               WE NEED TWO NEWLINES. *)
+						begin
+						match !state with 
+   					| Idle -> set_state Idle
+						| Busy -> (set_cache (Some tk); set_next_token (Some (NEWLINE "\n")))
+						end
+        | EOF -> 
+						let _ = d_printf "token = EOF \n" in
+            (* TODO THIS IS NOT ENOUGH 
+               WE NEED TWO NEWLINES. *)
+						begin
+						match !state with 
+   					| Idle -> set_state Idle
+						| Busy -> (set_cache (Some tk); set_next_token (Some (NEWLINE "\n")))
+						end
+
+        | _ -> printf "Fatal Error: token match not found!!!\n"
+			in  
+      let _ = if old_state = Idle && (get_state () = Busy) then
+        d_printf "!!START PARAGRAPH!!\n"
+      in 
+        return_tk tk
+
+
+(*
+
+
+
+let old_lexer: Lexing.lexbuf -> Atom_parser.token =
   let cache = ref None in
   let get_cache () = !cache in
 
@@ -515,7 +646,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				 tk_ret)
 			in
   		let tk = match get_cache () with 
-			| None -> lexer lexbuf 
+			| None -> lexer lexbuf
 			| Some x -> reset_cache ()
 			in 
 			let _ =
@@ -545,6 +676,10 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
              match !state with 
    					 | Idle -> set_state Idle
 						 | Busy -> 
+                 (* If there was a comment at the end of previous line
+                    We could have dropped it.  Insert it back.
+                    This is pretty darn hacky.
+                  *)
                  let _ = () in
 								 match !prev_token with 
 								 | None -> 
@@ -593,6 +728,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
         d_printf "!!START PARAGRAPH!!\n"
       in 
         return_tk tk
+*)
 }
 (** END TRAILER **)
 
