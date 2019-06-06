@@ -471,6 +471,7 @@ and take_env =
                     let y = take_env lexbuf in
                       x ^ y  
         }      
+  (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
@@ -576,7 +577,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 			let is_token_from_cache = ref false in
   		let tk = 
 				match cache_remove () with 
-				| None -> lexer lexbuf
+				| None -> (is_token_from_cache := false; lexer lexbuf)
 				| Some t -> (is_token_from_cache := true; t) in
 			let _ =
 				match tk with 
@@ -623,7 +624,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 
 				| KW_HEADING x ->
   					let _ = d_printf "** token = heading \n"  in
-            						begin
+            begin
 						match !state with 
    					| Idle -> 
 								let _ = set_trace No_space in

@@ -127,7 +127,7 @@ textpar:
 
 textpar_tail:
   el = emptyline
-  {el}
+  {""}
 | x = line;
   tp = textpar_tail
   { 
@@ -205,7 +205,7 @@ block:
 element:
 | fs = emptylines;
   tp = textpar;
-  {let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n" in
+  {let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
