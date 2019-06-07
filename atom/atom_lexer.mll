@@ -45,11 +45,9 @@ let lexer_depth = ref 0
 let get_lexer_depth () =
 	!lexer_depth
 let inc_lexer_depth () = 
-  (assert (!lexer_depth = 0);
    lexer_depth := !lexer_depth + 1
-		 )
 let dec_lexer_depth () = 
-  (assert (!lexer_depth = 1);
+  (assert (!lexer_depth > 0);
    lexer_depth := !lexer_depth - 1
 		 )
 
@@ -105,34 +103,19 @@ let token_to_str tk =
   | _ ->  "Fatal Error: token match not found!!!"
 
 (**********************************************************************
- ** BEGIN: verbatim machinery 
- **********************************************************************)
-
-let verbatim_pos = ref 0  
-
-let enter_verbatim lexbuf =
-  verbatim_pos := start lexbuf
-
-let exit_verbatim lexbuf =
-  ()
-
-(**********************************************************************
- ** END: verbatim machinery 
- **********************************************************************)
-
-(**********************************************************************
  ** BEGIN: latex env machinery 
  **********************************************************************)
 
-let latex_env_pos = ref 0  
-let latex_env_depth = ref 0  
+let env_pos = ref 0  
+let env_depth = ref 0  
 
-let do_begin_latex_env () =
-  latex_env_depth := !latex_env_depth + 1
+let do_begin_env () =
+  inc_lexer_depth ()
 
-let do_end_latex_env () =
-  let () = latex_env_depth := !latex_env_depth - 1 in
-    (!latex_env_depth = 0)
+let do_end_env () =
+  let _ = dec_lexer_depth () in
+    get_lexer_depth () = 0
+
 (**********************************************************************
  ** END: latex env machinery 
  **********************************************************************)
@@ -284,7 +267,7 @@ let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_flo
                             | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
 
 (* A latex environment consists of alphabethical chars plus an optional star *)
-let p_latex_env = (p_alpha)+('*')?
+let p_env = (p_alpha)+('*')?
 
 let p_segment = p_chapter |
                 p_section |
@@ -343,8 +326,8 @@ let p_begin_ilist_arg = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_cu
  
 let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-let p_begin_latex_env = (p_com_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
-let p_end_latex_env = (p_com_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) 
+let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
 
 
 let p_group = ((p_cluster as kind) p_ws as kindws) |
@@ -372,14 +355,12 @@ rule initial = parse
        KW_HEADING(kind, h, None)
     }		
 
-| p_begin_latex_env as x
+| p_begin_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_latex_env () in		
-					let _ = inc_lexer_depth () in
+          let _ = do_begin_env () in		
           let y = take_env lexbuf in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-					let _ = dec_lexer_depth () in
 					let _ =  set_line_nonempty () in
             SIGCHAR(x ^ y)
           
@@ -452,24 +433,23 @@ and take_env =
   | p_begin_verbatim as x
       { 
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
-          let _ = enter_verbatim lexbuf in
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
           let z = take_env lexbuf in
             x ^ y ^ z          
       }   
-  | p_begin_latex_env as x
+  | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-            let _ = do_begin_latex_env () in
+            let _ = do_begin_env () in
             let y = take_env lexbuf in
                 x ^ y              
         }
 
-  | p_end_latex_env as x
+  | p_end_env as x
         { 
 (*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
-            let do_exit = do_end_latex_env () in
+            let do_exit = do_end_env () in
                 if do_exit then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
                         x
@@ -499,7 +479,6 @@ and verbatim =
   | p_end_verbatim as x
         { 
             let _ = d_printf "!lexer: exiting verbatim\n" in
-            let _ = exit_verbatim lexbuf in 
                 x
         }
   | _  as x
