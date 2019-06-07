@@ -101,6 +101,8 @@ let token_to_str tk =
 	| PAR_LABEL_AND_NAME (x, y) -> "token = par label %s " ^ x
 	| SIGCHAR x ->  "token = sigchar: " ^ x 
 	| KW_LABEL_AND_NAME _ -> "token = label" 
+	| KW_BEGIN_GROUP (x, _, _) -> "token = begin group " ^ x
+	| KW_END_GROUP (x, _) -> "token = end group " ^ x
 	| KW_HEADING (x, _, _) -> "token = heading: " ^ x
   | EOF -> "token = EOF.";
   | _ ->  "Fatal Error: token match not found!!!"
@@ -357,17 +359,32 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_HEADING(kind, h, None)
     }		
-(*
-| p_group as x
+
+| p_begin_group as x
     {
-     let _ = d_printf "!lexer matched group %s." kind in
-     let arg = take_opt_arg lexbuf in
-     let h = x ^ arg in
-(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+     let _ = d_printf "!lexer matched begin group %s." kind in
      let _ =  set_line_nonempty () in
-       KW_GROUP(kind, h, None)
+       KW_BEGIN_GROUP(kind, x, None)
     }		
-*)
+
+| (p_begin_group as x) (p_o_sq as a)
+    {
+     let _ = d_printf "!lexer matched begin group %s." kind in
+     let _ = inc_arg_depth () in
+     let arg = take_opt_arg lexbuf in
+     let h = x ^ a ^ arg in
+     let _ = d_printf "!lexer matched group all: %s." h in 
+     let _ =  set_line_nonempty () in
+       KW_BEGIN_GROUP(kind, h, None)
+    }		
+| p_end_group as x
+    {
+     let _ = d_printf "!lexer matched end group %s." kind in
+     let _ =  set_line_nonempty () in
+       KW_END_GROUP(kind, x)
+    }		
+
+
 | p_begin_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -608,6 +625,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				match cache_remove () with 
 				| None -> (is_token_from_cache := false; lexer lexbuf)
 				| Some t -> (is_token_from_cache := true; t) in
+			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in 
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
@@ -666,6 +684,36 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						match !state with 
    					| Idle -> start_par (PAR_LABEL_AND_NAME x)
 						| Busy -> set_state Busy
+						end
+
+				| KW_BEGIN_GROUP x ->
+  					let _ = d_printf "** token = begin group \n"  in 
+            begin
+						match !state with 
+   					| Idle -> 
+								let _ = set_trace No_space in
+								set_state Idle
+						| Busy -> 
+								let _ = cache_insert (NEWLINE "\n") in
+								let _ = cache_insert tk in
+								let _ = set_next_token (Some (NEWLINE "\n")) in
+								let _ = set_trace Ver_space in (* Because we will return a newline *)
+								set_state Busy
+						end
+
+				| KW_END_GROUP x ->
+  					let _ = d_printf "** token = begin group \n"  in 
+            begin
+						match !state with 
+   					| Idle -> 
+								let _ = set_trace No_space in
+								set_state Idle
+						| Busy -> 
+								let _ = cache_insert (NEWLINE "\n") in
+								let _ = cache_insert tk in
+								let _ = set_next_token (Some (NEWLINE "\n")) in
+								let _ = set_trace Ver_space in (* Because we will return a newline *)
+								set_state Busy
 						end
 
 				| KW_HEADING x ->

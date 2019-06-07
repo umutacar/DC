@@ -17,7 +17,8 @@ let mk_point_val_f_opt (s: string option) =
 
 
 %token <string * string * string option> KW_HEADING
-%token <string * string * string option> KW_GROUP
+%token <string * string * string option> KW_BEGIN_GROUP
+%token <string * string> KW_END_GROUP
 
 %token <string * string> KW_LABEL_AND_NAME
 
@@ -220,13 +221,36 @@ block:
  ** An element is a group, a problem cluster, or an atom 
  **********************************************************************/
 
-element:
-| fs = emptylines;
+group: 
+| aa = atoms;
+  { aa }
+
+
+atom: 
+  fs = emptylines;
   tp = textpar;
   {let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }
+
+atoms:
+| 
+	{ "" }
+| aa = atoms;
+	a = atom
+		{ aa ^ a }
+
+element:
+| a = atom
+  { a  }
+
+/*
+| g = group;
+  {let _ = d_printf "!Parser: matched group\n %s" g in
+     g
+  }
+*/
 
 elements:
   {""}
