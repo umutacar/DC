@@ -96,6 +96,7 @@ let token_to_str tk =
 	| NEWLINE x -> "token = newline."
 	| HSPACE x ->  "token = hspace."
 	| PAR_SIGCHAR x -> "token = par sigchar: " ^ x
+	| PAR_LABEL_AND_NAME (x, y) -> "token = par label %s " ^ x
 	| SIGCHAR x ->  "token = sigchar: " ^ x 
 	| KW_LABEL_AND_NAME _ -> "token = label" 
 	| KW_HEADING (x, _, _) -> "token = heading: " ^ x
@@ -605,10 +606,14 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						| Busy -> set_state Busy
 						end
 
-				| KW_LABEL_AND_NAME _ -> 
+				| KW_LABEL_AND_NAME x -> 
   					let _ = d_printf "** token = label \n" in 
 						let _ = set_trace No_space in
-						  ()
+						begin
+						match !state with 
+   					| Idle -> start_par (PAR_LABEL_AND_NAME x)
+						| Busy -> set_state Busy
+						end
 
 				| KW_HEADING x ->
   					let _ = d_printf "** token = heading \n"  in

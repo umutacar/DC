@@ -20,10 +20,11 @@ let mk_point_val_f_opt (s: string option) =
 
 %token <string * string> KW_LABEL_AND_NAME
 
-%token <string> COMMENT
+
 %token <string> HSPACE
 %token <string> NEWLINE
 %token <string> SIGCHAR
+%token <string * string> PAR_LABEL_AND_NAME
 %token <string> PAR_SIGCHAR
 
 %start top
@@ -48,16 +49,33 @@ hspaces:
   x = hspace
   {xs ^ x}
 
+label:
+  l = KW_LABEL_AND_NAME
+  {let (all, label) = l in 
+   let _ = d_printf "Parser matched label = %s all = %s" label all in
+     all
+  }
+
 /* Non-space char */
 sigchar: 
 | d = SIGCHAR
   {d}
-
+| l = KW_LABEL_AND_NAME
+  {let (all, label) = l in 
+   let _ = d_printf "Parser matched label = %s all = %s" label all in
+     all
+  }
 
 /* Non-space char at the beginning of a paragraph */
 parsigchar: 
 | d = PAR_SIGCHAR
   {d}
+| l = PAR_LABEL_AND_NAME
+  {let (all, label) = l in 
+   let _ = d_printf "Parser matched par_label = %s all = %s" label all in
+     all
+  }
+
 
 
 /* All characters */
@@ -139,13 +157,6 @@ textpar_tail:
  ** BEGIN: Latex Segments
  **********************************************************************/
 
-label:
-  l = KW_LABEL_AND_NAME
-  {let (all, label) = l in 
-   let _ = d_printf "Parser matched label = %s all = %s" label all in
-     all
-  }
-
 heading:
   h = KW_HEADING 
 		{ let (kind, heading, pval_opt) = h in 
@@ -160,8 +171,6 @@ top:
 
 segment: 
   h = heading;
-  l = option(label);
-  eb = emptylines;
   b = block;
   ss = segments
   {
