@@ -458,6 +458,11 @@ and take_env =
                     let y = take_env lexbuf in
                       x ^ y  
         }      
+  | p_label_and_name as x
+  		{ let _ = d_printf "!lexer matched %s." x in
+        let _ =  set_line_nonempty () in
+				KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)
+			}		
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{

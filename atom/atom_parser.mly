@@ -49,13 +49,6 @@ hspaces:
   x = hspace
   {xs ^ x}
 
-label:
-  l = KW_LABEL_AND_NAME
-  {let (all, label) = l in 
-   let _ = d_printf "Parser matched label = %s all = %s" label all in
-     all
-  }
-
 /* Non-space char */
 sigchar: 
 | d = SIGCHAR
@@ -179,8 +172,9 @@ segment:
      heading ^ b ^ ss
   }	  
 
+/* segments */
 segments:
-	{ " "}
+  { "" }
 | ss = segments; 
   s = segment;
   { ss ^ s }
