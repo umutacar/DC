@@ -126,16 +126,16 @@ let do_end_env () =
 (**********************************************************************
  ** BEGIN: curly bracked depth machinery
  **********************************************************************)
-let curly_depth = ref 0  
+let arg_depth = ref 0  
 
-let inc_curly_depth () =
-  curly_depth := !curly_depth + 1
+let inc_arg_depth () =
+  arg_depth := !arg_depth + 1
 
-let dec_curly_depth () =
-  curly_depth := !curly_depth - 1
+let dec_arg_depth () =
+  arg_depth := !arg_depth - 1
 
-let curly_depth () =
-  !curly_depth
+let arg_depth () =
+  !arg_depth
 (**********************************************************************
  ** END: curly bracked depth machinery
  **********************************************************************)
@@ -358,6 +358,16 @@ rule initial = parse
        KW_HEADING(kind, h, None)
     }		
 
+| p_group as x
+    {
+     let _ = d_printf "!lexer matched group %s." kind in
+     let arg = take_opt_arg lexbuf in
+     let h = x ^ arg in
+(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+     let _ =  set_line_nonempty () in
+       KW_GROUP(kind, h, None)
+    }		
+
 | p_begin_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -499,14 +509,14 @@ and take_arg =
   parse 
   | '{' as x
     {
-     let _ = inc_curly_depth () in
+     let _ = inc_arg_depth () in
      let arg = take_arg lexbuf in 
        (char_to_str x) ^ arg
     }
   | (p_c_curly p_ws) as x
     {
-     let _ = dec_curly_depth () in
-       if curly_depth () = 0 then
+     let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
            x
        else
          let arg = take_arg lexbuf in 
@@ -517,6 +527,30 @@ and take_arg =
      let arg = take_arg lexbuf in 
        (char_to_str x) ^ arg
     }
+and take_opt_arg = 
+  parse 
+  | p_o_sq as x
+    {
+     let _ = inc_arg_depth () in
+     let arg = take_opt_arg lexbuf in 
+       x ^ arg
+    }
+  | (p_c_sq p_ws) as x
+    {
+     let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
+           x
+       else
+         let arg = take_opt_arg lexbuf in 
+           x ^ arg
+    }
+  | _ as x
+    {
+     let arg = take_opt_arg lexbuf in 
+       (char_to_str x) ^ arg
+    }
+
+
 
 
 (** BEGIN TRAILER **)

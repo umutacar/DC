@@ -17,6 +17,7 @@ let mk_point_val_f_opt (s: string option) =
 
 
 %token <string * string * string option> KW_HEADING
+%token <string * string * string option> KW_GROUP
 
 %token <string * string> KW_LABEL_AND_NAME
 
