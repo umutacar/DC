@@ -221,11 +221,6 @@ block:
  ** An element is a group, a problem cluster, or an atom 
  **********************************************************************/
 
-group: 
-| aa = atoms;
-  { aa }
-
-
 atom: 
   fs = emptylines;
   tp = textpar;
@@ -241,16 +236,21 @@ atoms:
 	a = atom
 		{ aa ^ a }
 
+
+group: 
+| b = KW_BEGIN_GROUP
+  aa = atoms;
+  e = KW_END_GROUP
+  { aa }
+
+
 element:
 | a = atom
   { a  }
-
-/*
 | g = group;
   {let _ = d_printf "!Parser: matched group\n %s" g in
      g
   }
-*/
 
 elements:
   {""}
