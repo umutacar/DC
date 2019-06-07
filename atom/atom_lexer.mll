@@ -357,7 +357,7 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_HEADING(kind, h, None)
     }		
-
+(*
 | p_group as x
     {
      let _ = d_printf "!lexer matched group %s." kind in
@@ -367,7 +367,7 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_GROUP(kind, h, None)
     }		
-
+*)
 | p_begin_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -507,11 +507,11 @@ and verbatim =
         }
 and take_arg = 
   parse 
-  | '{' as x
+  | p_o_curly as x
     {
      let _ = inc_arg_depth () in
      let arg = take_arg lexbuf in 
-       (char_to_str x) ^ arg
+       x ^ arg
     }
   | (p_c_curly p_ws) as x
     {
