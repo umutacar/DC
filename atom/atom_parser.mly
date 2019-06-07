@@ -240,13 +240,23 @@ atoms:
 group: 
 | b = KW_BEGIN_GROUP
   aa = atoms;
+  ls = emptylines;
   e = KW_END_GROUP
-  { aa }
+  { let (kb, hb, _) = b in
+	  let (ke, he) = e in
+	    if kb = ke then
+				hb ^ aa ^ he
+			else
+				(printf "Error: group start and end should match.";
+				 exit 1)
+ }
 
 
 element:
 | a = atom
-  { a  }
+  {let _ = d_printf "!Parser: matched element: atom\n %s" a in
+	   a 
+  }
 | g = group;
   {let _ = d_printf "!Parser: matched group\n %s" g in
      g

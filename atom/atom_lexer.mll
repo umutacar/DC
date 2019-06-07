@@ -702,7 +702,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_END_GROUP x ->
-  					let _ = d_printf "** token = begin group \n"  in 
+  					let _ = d_printf "** token = end group \n"  in 
             begin
 						match !state with 
    					| Idle -> 
