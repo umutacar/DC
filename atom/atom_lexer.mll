@@ -95,6 +95,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "token = newline."
 	| HSPACE x ->  "token = hspace."
+	| ENV (x, lopt) ->  "token = env = " ^ x
+	| PAR_ENV (x, lopt) ->  "token = env = " ^ x
 	| PAR_SIGCHAR x -> "token = par sigchar: " ^ x
 	| PAR_LABEL_AND_NAME (x, y) -> "token = par label %s " ^ x
 	| SIGCHAR x ->  "token = sigchar: " ^ x 
@@ -360,10 +362,10 @@ rule initial = parse
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_env () in		
-          let y = take_env lexbuf in
+          let (y, lopt) = take_env lexbuf in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            SIGCHAR(x ^ y)
+            ENV(x ^ y, lopt)
           
       }   
 
@@ -436,15 +438,15 @@ and take_env =
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let z = take_env lexbuf in
-            x ^ y ^ z          
+          let (z, lopt) = take_env lexbuf in
+            (x ^ y ^ z, lopt)          
       }   
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
             let _ = do_begin_env () in
-            let y = take_env lexbuf in
-                x ^ y              
+            let (y, lopt) = take_env lexbuf in
+                (x ^ y, lopt)              
         }
 
   | p_end_env as x
@@ -453,32 +455,34 @@ and take_env =
             let do_exit = do_end_env () in
                 if do_exit then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        x
+                        (x, None)
                 else
-                    let y = take_env lexbuf in
-                      x ^ y  
+                    let (y, lopt) = take_env lexbuf in
+                      (x ^ y, lopt)  
         }      
   | p_label_and_name as x
-  		{ let _ = d_printf "!lexer matched %s." x in
-        let _ =  set_line_nonempty () in
-				KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)
+  		{ let _ = d_printf "!lexer matched label %s." x in
+				let all = label_pre ^ label_name ^ label_post in
+        let (y, lopt) = take_env lexbuf in
+          (* Important: Drop inner label lopt *)
+          (all ^ y, Some label_name)  
 			}		
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let y = take_env lexbuf in
-          x ^ y
+     let (y, lopt) = take_env lexbuf in
+          (x ^ y, lopt)
     }
   | p_percent as x   (* skip over comments *)
    	{ 
      let y = take_comment lexbuf in
-     let z = take_env lexbuf in 
-          (char_to_str x) ^ y ^ z
+     let (z, lopt) = take_env lexbuf in 
+          ((char_to_str x) ^ y ^ z, lopt)
      } 
   | _  as x
-        { let y = take_env lexbuf in
-            (char_to_str x) ^ y
+        { let (y, lopt) = take_env lexbuf in
+            ((char_to_str x) ^ y, lopt)
         }
 and verbatim =
   parse
@@ -562,7 +566,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 					| Some ntk -> ntk
 				in
 				(prev_token := Some tk_ret;
-				 d_printf "returning token: %s\n" (token_to_str tk_ret);
+				 d_printf "returning token: %s\n" (token_to_str tk_ret); 
 				 tk_ret)
 			in
 			let is_token_from_cache = ref false in
@@ -573,8 +577,8 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
-						let _ = d_printf "\n **token = newline! \n" in
-						let _ = d_printf " **trace = %s! \n" (trace_to_string ()) in
+(*						let _ = d_printf "\n **token = newline! \n" in *)
+(*						let _ = d_printf " **trace = %s! \n" (trace_to_string ()) in *)
 						begin
             match get_trace () with 
 						| No_space ->
@@ -587,10 +591,11 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 								let _ = set_trace Ver_space in
 								let _ = set_state Idle in
 								if !is_token_from_cache then
-									d_printf "token is from cache.\n" 
+									()
+(*									d_printf "token is from cache.\n"  *)
 								else 
 									let (ntk, n) = take_spaces lexbuf in
-									let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in
+(*									let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in *)
 									cache_insert ntk
 									
 						end
@@ -603,11 +608,20 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 				| SIGCHAR x -> 
 (*						let _ = d_printf "** token = sigchar %s \n" x in *)
-						let _ = d_printf "%s" x in
+(*						let _ = d_printf "%s" x in *)
 						let _ = set_trace No_space in
 						begin
 						match !state with 
    					| Idle -> start_par (PAR_SIGCHAR x)
+						| Busy -> set_state Busy
+						end
+
+				| ENV x -> 
+						let _ = d_printf "** token = env %s \n" (fst x) in 
+						let _ = set_trace No_space in
+						begin
+						match !state with 
+   					| Idle -> start_par (PAR_ENV x)
 						| Busy -> set_state Busy
 						end
 
@@ -621,7 +635,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_HEADING x ->
-  					let _ = d_printf "** token = heading \n"  in
+(*  					let _ = d_printf "** token = heading \n"  in *)
             begin
 						match !state with 
    					| Idle -> 
@@ -652,7 +666,8 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = Idle && (get_state () = Busy) then
-        d_printf "!!START PARAGRAPH!!\n"
+(*        d_printf "!!START PARAGRAPH!!\n" *)
+				()
       in 
         return_tk tk
 

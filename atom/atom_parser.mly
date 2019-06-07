@@ -24,8 +24,10 @@ let mk_point_val_f_opt (s: string option) =
 %token <string> HSPACE
 %token <string> NEWLINE
 %token <string> SIGCHAR
+%token <string * string option> ENV
 %token <string * string> PAR_LABEL_AND_NAME
 %token <string> PAR_SIGCHAR
+%token <string * string option> PAR_ENV
 
 %start top
 %type <string> top
@@ -47,28 +49,39 @@ hspaces:
   {""}
 | xs = hspaces;
   x = hspace
-  {xs ^ x}
+  { xs ^ x }
 
 /* Non-space char */
 sigchar: 
 | d = SIGCHAR
-  {d}
+  { d }
+| e = ENV
+  { let (es, lopt) = e in
+    let label = match lopt with | None -> "" | Some l -> l in
+    let _ = d_printf "Parser matched env, label = %s env = %s" label es in
+  	  es
+  }
 | l = KW_LABEL_AND_NAME
-  {let (all, label) = l in 
-   let _ = d_printf "Parser matched label = %s all = %s" label all in
-     all
+  { let (all, label) = l in 
+    let _ = d_printf "Parser matched label = %s all = %s" label all in
+      all
   }
 
 /* Non-space char at the beginning of a paragraph */
-parsigchar: 
+parstart: 
 | d = PAR_SIGCHAR
-  {d}
-| l = PAR_LABEL_AND_NAME
-  {let (all, label) = l in 
-   let _ = d_printf "Parser matched par_label = %s all = %s" label all in
-     all
+  { d }
+| e = PAR_ENV
+  { let (es, lopt) = e in
+    let label = match lopt with | None -> "" | Some l -> l in
+    let _ = d_printf "Parser matched par_env, label = %s env = %s" label es in
+  	  es
   }
-
+| l = PAR_LABEL_AND_NAME
+  { let (all, label) = l in 
+    let _ = d_printf "Parser matched par_label = %s all = %s" label all in
+      all
+  }
 
 
 /* All characters */
@@ -119,7 +132,7 @@ line:
  */
 line_parstart: 
   hs = hspaces;
-  d = parsigchar;
+  d = parstart;
   cs = chars;
   nl = newline
   {let l = hs ^ d ^ cs ^ nl in
