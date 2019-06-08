@@ -11,7 +11,7 @@ let mk_point_val_f_opt (s: string option) =
   | None -> (None, "None")
   | Some x -> (Some (float_of_string x), "Some " ^ x)
 
-
+module Ast = Ast_ast
 
 %}	
 
@@ -227,23 +227,26 @@ atom:
   fs = emptylines;
   tp = textpar;
   {let tp = String.strip tp in
-	 let single = string_of_bool (Tex.is_single_env tp) in
-	 let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\\end{gram}\n" in
-   let _ = d_printf "!Parser: matched text paragraph: single?: %s\n %s" single para in
-     para
+	 let single = Tex.take_single_env tp in
+	 let (kind, a) = 
+	   match single with 
+		 | None -> (Tex.kw_gram, "\n\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n")
+		 | Some env -> (env, "\n" ^ tp ^ "\n")
+	 in
+	   Ast.mk_atom ~kind:kind ~body:tp ()
   }
 
 atoms:
 | 
-	{ "" }
+	{ [ ] }
 | aa = atoms;
 	el = emptylines;
   f = KW_FOLD
 	a = atom
-		{ aa ^ el ^ f ^ a }
+		{ aa @ [ a ] }
 | aa = atoms;
 	a = atom
-		{ aa ^ a }
+		{ aa @ a }
 
 atoms_and_tailspace:
   aa = atoms;

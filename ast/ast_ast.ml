@@ -106,6 +106,17 @@ type ast =
 *********************************************************************)
 
 
+	type t = 
+			{	kind: string;
+				point_val: string option;
+				title: string option;
+				label: string option; 
+				depend: string list option;
+				atoms: atom list
+			} 
+
+
+
 (**********************************************************************
  ** BEGIN: Utilities
 *********************************************************************)
@@ -125,6 +136,7 @@ let mk_index () =
  *********************************************************************)
 
 
+
 let is_wellformed ast = 
   match ast with 
 	| Atom a -> true
@@ -142,6 +154,26 @@ let is_wellformed ast =
 			| Some flag -> flag
 
 
+
+(**********************************************************************
+ ** BEGIN: Constructors
+ *********************************************************************)
+
+let mk_atom ?kind: (kind = Tex.kw_gram) 
+            ?point_val: (point_val = None) 
+            ?title: (title = None) 
+            ?label: (label = None) 
+            ?depend: (depend = None)
+            ?body: (body = "") 
+		        () = 
+ Atom {kind; point_val; title; label; depend; body}
+
+
+
+
+(**********************************************************************
+ ** END: Constructors
+*********************************************************************)
 
 
 (*

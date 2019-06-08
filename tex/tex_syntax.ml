@@ -307,9 +307,9 @@ let find_all_env contents  =
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
 
-let is_single_env contents = 
+let take_single_env contents = 
   match find_all_env contents with 
-	| None -> false
+	| None -> None
 	| Some (all_envs, _) -> 
 	  if List.length all_envs = 1 then
 			let env:string = List.nth_exn all_envs 0 in
@@ -319,12 +319,15 @@ let is_single_env contents =
       let _ = d_printf "suffix = %s" suffix in
 			let ok_end = str_match_at suffix contents pos in
 			let _ = 
-				d_printf "tex_syntax: is_single_env: ok_begin: %s ok_end: %s" 
+				d_printf "tex_syntax: take_single_env: ok_begin: %s ok_end: %s" 
 					(string_of_bool ok_begin) (string_of_bool ok_end)
 			in
-			  ok_begin && ok_end
+			  if ok_begin && ok_end then
+					Some env
+				else
+					None
 		else
-			false
+			None
 
 
 (**********************************************************************
