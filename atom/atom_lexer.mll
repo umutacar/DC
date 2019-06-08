@@ -103,6 +103,7 @@ let token_to_str tk =
 	| KW_LABEL_AND_NAME _ -> "token = label" 
 	| KW_BEGIN_GROUP (x, _, _) -> "token = begin group " ^ x
 	| KW_END_GROUP (x, _) -> "token = end group " ^ x
+	| KW_FOLD (x) -> "token = fold: " ^ x
 	| KW_HEADING (x, _, _) -> "token = heading: " ^ x
   | EOF -> "token = EOF.";
   | _ ->  "Fatal Error: token match not found!!!"
@@ -195,6 +196,7 @@ let p_com_end = '\\' "end" p_ws
 let p_com_choice = '\\' "choice"
 let p_com_correct_choice = '\\' "choice*"
 
+let p_com_fold = '\\' "fold"
 let p_com_explain = '\\' "explain"
 let p_com_hint = '\\' "help"
 let p_com_rubric = '\\' "rubric"
@@ -377,6 +379,14 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, h, None)
     }		
+
+| p_com_fold as x
+    {
+     let _ = d_printf "!lexer matched fold %s." x in
+     let _ =  set_line_nonempty () in
+       KW_FOLD(x)
+    }		
+
 | p_end_group as x
     {
      let _ = d_printf "!lexer matched end group %s." kind in
@@ -703,6 +713,21 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 
 				| KW_END_GROUP x ->
   					let _ = d_printf "** token = end group \n"  in 
+            begin
+						match !state with 
+   					| Idle -> 
+								let _ = set_trace No_space in
+								set_state Idle
+						| Busy -> 
+								let _ = cache_insert (NEWLINE "\n") in
+								let _ = cache_insert tk in
+								let _ = set_next_token (Some (NEWLINE "\n")) in
+								let _ = set_trace Ver_space in (* Because we will return a newline *)
+								set_state Busy
+						end
+
+				| KW_FOLD x ->
+  					let _ = d_printf "** token = fold \n"  in 
             begin
 						match !state with 
    					| Idle -> 

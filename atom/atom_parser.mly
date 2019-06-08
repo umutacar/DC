@@ -16,10 +16,10 @@ let mk_point_val_f_opt (s: string option) =
 %token EOF
 
 
+%token <string> KW_FOLD
 %token <string * string * string option> KW_HEADING
 %token <string * string * string option> KW_BEGIN_GROUP
 %token <string * string> KW_END_GROUP
-
 %token <string * string> KW_LABEL_AND_NAME
 
 
@@ -236,11 +236,16 @@ atoms:
 	a = atom
 		{ aa ^ a }
 
+atoms_and_tailspace:
+  aa = atoms;
+	ts = emptylines
+		{ aa }
+
 
 group: 
-| b = KW_BEGIN_GROUP
-  aa = atoms;
-  ls = emptylines;
+| fs = emptylines;
+	b = KW_BEGIN_GROUP
+  aa = atoms_and_tailspace;  
   e = KW_END_GROUP
   { let (kb, hb, _) = b in
 	  let (ke, he) = e in
