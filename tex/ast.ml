@@ -4,9 +4,9 @@ open Utils
 (**********************************************************************
  ** BEGIN: Constants
  *********************************************************************)
-let newline = TexSyntax.newline
-let space = TexSyntax.space
-let correct_choice_indicator = TexSyntax.correct_choice_indicator
+let newline = Tex_syntax.newline
+let space = Tex_syntax.space
+let correct_choice_indicator = Tex_syntax.correct_choice_indicator
 
 let points_correct = 1.0
 let points_incorrect = 0.0
@@ -235,7 +235,7 @@ let process_title kind topt =
                   exit ErrorCode.parse_error_arg_expecting_key_value)
   in
   let find_lang (kv: (string * string) list): string option = 
-    try let (_, lang) = List.find_exn kv ~f:(fun (k, v) -> k = TexSyntax.language) in
+    try let (_, lang) = List.find_exn kv ~f:(fun (k, v) -> k = Tex_syntax.language) in
         let _ = printf "ast.process_title: lang = %s\n" lang in 
           Some lang
     with Caml.Not_found -> None
@@ -249,7 +249,7 @@ let process_title kind topt =
         let lang_opt = find_lang k_and_v_all in  
 
         (* Split into title and other arguments *)
-        let key_is_title (key, value) = (key = TexSyntax.kw_title) in
+        let key_is_title (key, value) = (key = Tex_syntax.kw_title) in
         let (title, args) =  List.partition_tf k_and_v_all key_is_title in
 
         (* Title *)
@@ -263,15 +263,15 @@ let process_title kind topt =
         in
         (* Translate the rest of the arguments to markdown *)
         let arg_to_md (key, value) = 
-          if (key = TexSyntax.language) then
+          if (key = Tex_syntax.language) then
             MdSyntax.mk_code_block_arg_indicate value
-          else if (key = TexSyntax.numbers) then
-            if value = TexSyntax.none then 
+          else if (key = Tex_syntax.numbers) then
+            if value = Tex_syntax.none then 
               ""
             else
               (* in Markdown we only indicate that lines will be numbered *)
               MdSyntax.mk_code_block_arg_indicate MdSyntax.numbers
-          else if (key = TexSyntax.firstline) then
+          else if (key = Tex_syntax.firstline) then
             MdSyntax.mk_code_block_arg MdSyntax.firstline value
           else 
             (* Pass the other arguments along *)
@@ -312,7 +312,7 @@ let process_title kind topt =
          (None, None, None)
     | Some t -> 
         let _ = printf "ast.process_title title = %s" t in
-          if kind = TexSyntax.kw_code then
+          if kind = Tex_syntax.kw_code then
             let (topt, lang_opt, arg_opt) = process_parts t in 
               (topt, lang_opt, arg_opt)      
           else
@@ -320,7 +320,7 @@ let process_title kind topt =
 
 let tokenize_spaces body = 
   (* Delete all comments *)
-  let body = Str.global_replace (Str.regexp ("%.*" ^ TexSyntax.pattern_newline)) "" body in
+  let body = Str.global_replace (Str.regexp ("%.*" ^ Tex_syntax.pattern_newline)) "" body in
 
   (* Delete labels *)
   (* It might seem like a good idea to reuse them but this can be bad
@@ -348,7 +348,7 @@ let tokenize_spaces body =
   let body = Str.global_replace (Str.regexp "[^-^_^0-9^A-Z^a-z]+") " " body in
 
   (* Now split at all whitespaces, including for windows form feed \x0c *)
-  let tokens = Str.split TexSyntax.regexp_whitespace body in
+  let tokens = Str.split Tex_syntax.regexp_whitespace body in
       (* splits the string at space* 's.  
          if none is found, returns the whole string.
         *)
@@ -356,7 +356,7 @@ let tokenize_spaces body =
   let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
   (* Reorder so small words are not preferred *)
   let tokens = tokens_big @ tokens_small in
-  let tokens = List.filter tokens ~f:TexSyntax.labelGood in
+  let tokens = List.filter tokens ~f:Tex_syntax.labelGood in
   let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
     tokens
 
@@ -483,7 +483,7 @@ let dependOptToTex dopt =
 
 (* Drop heading and construct from label string *)
 let labelToTex (Label(h, label_string)) = 
-  ((TexSyntax.mk_label label_string) ^ newline)
+  ((Tex_syntax.mk_label label_string) ^ newline)
 
 let labelOptToTex lopt = 
   let r = match lopt with 
@@ -501,28 +501,28 @@ let pointvalOptToTex p =
   | Some pts -> mktex_optarg (Float.to_string pts)
 
 let hintOptToTex hint_opt = 
-  let heading = TexSyntax.com_hint in
+  let heading = Tex_syntax.com_hint in
   let r = match hint_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
 let expOptToTex exp_opt = 
-  let heading = TexSyntax.com_explain in
+  let heading = Tex_syntax.com_explain in
   let r = match exp_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
 let refsolOptToTex refsol_opt = 
-  let heading = TexSyntax.com_solution in
+  let heading = Tex_syntax.com_solution in
   let r = match refsol_opt with 
               |  None -> ""
               |  Some x -> heading ^ "\n" ^ x  in
      r
 
 let rubricOptToTex rubric_opt = 
-  let heading = TexSyntax.com_rubric in
+  let heading = Tex_syntax.com_rubric in
   let r = match rubric_opt with 
               |  None -> ""
               |  Some x -> 
@@ -583,7 +583,7 @@ let blockToTex (Block(es, tt)) =
 
 let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, b)) = 
   let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let heading = mktex_section_heading TexSyntax.kw_paragraph pval_opt t in
+  let heading = mktex_section_heading Tex_syntax.kw_paragraph pval_opt t in
   let block = blockToTex b in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
@@ -596,7 +596,7 @@ let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, b, ps)) =
   let block = blockToTex b in
   let paragraphs = paragraphsToTex ps in
   let label = labelOptToTex lopt in
-  let heading = mktex_section_heading TexSyntax.kw_subsubsection pval_opt t in
+  let heading = mktex_section_heading Tex_syntax.kw_subsubsection pval_opt t in
     heading ^ label ^ 
     block ^ paragraphs
 
@@ -605,7 +605,7 @@ let subsectionToTex (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
   let paragraphs = paragraphsToTex ps in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
-  let heading = mktex_section_heading TexSyntax.kw_subsection pval_opt t in
+  let heading = mktex_section_heading Tex_syntax.kw_subsection pval_opt t in
     heading ^ label ^ 
     block ^ paragraphs ^ nesteds
 
@@ -614,7 +614,7 @@ let sectionToTex (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
   let paragraphs = paragraphsToTex ps in
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
-  let heading = mktex_section_heading TexSyntax.kw_section pval_opt t in
+  let heading = mktex_section_heading Tex_syntax.kw_section pval_opt t in
     heading ^ label ^ 
     block ^ paragraphs ^ nesteds
 
@@ -624,7 +624,7 @@ let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let sections = map_concat sectionToTex ss in
   let _ = d_printf "ast.chapterToTex: block = [begin: block] %s... [end: block] " block in
   let label = labelToTex l in
-  let heading = mktex_section_heading TexSyntax.kw_chapter pval_opt t in
+  let heading = mktex_section_heading Tex_syntax.kw_chapter pval_opt t in
     preamble ^ 
     heading ^ label ^
     block ^ paragraphs ^ sections
@@ -744,7 +744,7 @@ let atomToXml tex2html
   let (topt, lang_opt, atom_arg_opt) = process_title kind topt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = 
-    if kind = TexSyntax.kw_code then
+    if kind = Tex_syntax.kw_code then
       tex2html (mk_index ()) body (atom_is_code lang_opt atom_arg_opt)
     else
       tex2html (mk_index ()) body body_is_single_par 
@@ -1016,9 +1016,9 @@ let chapterEl (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
 let label_counter = ref 0
 let mk_new_label () = 
   let _ = label_counter := !label_counter + 1 in
-    TexSyntax.label_prefix_auto_pre ^ 
+    Tex_syntax.label_prefix_auto_pre ^ 
     (Int.to_string !label_counter) ^ 
-    TexSyntax.label_prefix_auto_pre  
+    Tex_syntax.label_prefix_auto_pre  
 
 (* Assuming that the label has of the form 
    (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
@@ -1037,9 +1037,9 @@ let mkLabelPrefix label =
      *)
 
     let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") label 2 in
-      if str_match_prefix TexSyntax.regexp_ch_prefix kind ||
-         str_match_prefix TexSyntax.regexp_sec_prefix kind ||
-         str_match_prefix TexSyntax.regexp_gr_prefix kind then
+      if str_match_prefix Tex_syntax.regexp_ch_prefix kind ||
+         str_match_prefix Tex_syntax.regexp_sec_prefix kind ||
+         str_match_prefix Tex_syntax.regexp_gr_prefix kind then
          rest
       else
         label
@@ -1067,10 +1067,10 @@ let createLabel table kind prefix body =
          let _ = d_printf "ast.createLabel: failed to find a unique word.  Using unique.\n" in
            None
       | ls::rest ->
-        let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+        let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
         let _ = d_printf "ast.createLabel: trying label = %s\n" ls in
           if addLabel table ls then 
-           let heading = TexSyntax.mk_label ls in
+           let heading = Tex_syntax.mk_label ls in
            let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" ls in
              Some (heading, ls)
           else
@@ -1084,9 +1084,9 @@ let forceCreateLabel table kind prefix topt body_opt =
   | (None, None) -> 
     (* Generate based on numbers *)
     let ls = mk_new_label () in 
-    let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+    let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
     let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
-    let heading = TexSyntax.mk_label ls in
+    let heading = Tex_syntax.mk_label ls in
       (heading, ls)
   | _ ->
   let body =
@@ -1102,9 +1102,9 @@ let forceCreateLabel table kind prefix topt body_opt =
     match createLabel table kind prefix all with 
     | None ->
       let ls = mk_new_label () in 
-      let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
+      let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
       let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
-      let heading = TexSyntax.mk_label ls in
+      let heading = Tex_syntax.mk_label ls in
         (heading, ls)
     | Some (heading, ls) -> 
         (heading, ls)
@@ -1117,7 +1117,7 @@ let labelAtom table prefix atom =
         atom
     | None -> 
       let _ = d_printf "ast.labelAtom: kind = %s.\n" kind in
-      let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
+      let kind_prefix = Tex_syntax.mk_label_prefix_from_kind kind in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt (Some body) in
       let _ = d_printf "ast.labelAtom: label = %s\n" ls_new in
       let lopt_new = Some (Label (heading_new, ls_new)) in
@@ -1138,7 +1138,7 @@ let labelGroup table prefix group =
         Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))
     | None -> 
       let _ = d_printf "ast.labelGroup: kind = %s.\n" kind in
-      let kind_prefix = TexSyntax.mk_label_prefix_from_kind kind in
+      let kind_prefix = Tex_syntax.mk_label_prefix_from_kind kind in
       let body = Some (collect_text_group group) in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
       let _ = d_printf "ast.labelGroup: label = %s\n" ls_new in
@@ -1177,7 +1177,7 @@ let labelParagraph table prefix par =
         Paragraph (heading, pval_opt, t, lopt, b)
     | None -> 
       let _ = d_printf "ast.labelParagraph: title = %s.\n" t  in
-      let kind_prefix = TexSyntax.label_prefix_paragraph in
+      let kind_prefix = Tex_syntax.label_prefix_paragraph in
       let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
@@ -1203,7 +1203,7 @@ let labelSubsubsection table prefix sec =
         Subsubsection (heading, pval_opt, t, lopt, b, ps)
     | None -> 
       let _ = d_printf "ast.labelSubsubsection: title = %s.\n" t  in
-      let kind_prefix = TexSyntax.label_prefix_subsection in
+      let kind_prefix = Tex_syntax.label_prefix_subsection in
       let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
@@ -1228,7 +1228,7 @@ let labelSubsection table prefix sec =
         Subsection (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       let _ = d_printf "ast.labelSubsection: title = %s.\n" t  in
-      let kind_prefix = TexSyntax.label_prefix_subsection in
+      let kind_prefix = Tex_syntax.label_prefix_subsection in
       let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
@@ -1254,7 +1254,7 @@ let labelSection table prefix sec =
         Section (heading, pval_opt, t, lopt, b, ps, ss)
     | None -> 
       let _ = d_printf "ast.labelSection: title = %s.\n" t  in
-      let kind_prefix = TexSyntax.label_prefix_section in
+      let kind_prefix = Tex_syntax.label_prefix_section in
       let body = Some (collect_text_block b) in
       let topt = Some t in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt body in
