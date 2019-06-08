@@ -233,7 +233,7 @@ atom:
 		 | None -> (Tex.kw_gram, "\n\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n")
 		 | Some env -> (env, "\n" ^ tp ^ "\n")
 	 in
-	   Ast.mk_atom ~kind:kind ~body:tp ()
+	   Ast.mk_atom  ~body:tp
   }
 
 atoms:
@@ -262,7 +262,7 @@ group:
   { let (kb, hb, _) = b in
 	  let (ke, he) = e in
 	    if kb = ke then
-				hb ^ aa ^ he
+				Ast.mk_group ~atoms:aa
 			else
 				(printf "Error: group start and end should match.";
 				 exit 1)

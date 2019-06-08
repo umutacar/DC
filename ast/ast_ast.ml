@@ -69,8 +69,8 @@ end
 type group = Group.t
 
 type element = 
-  | Element_Group of atom
-  | Element_Atom of group
+  | Element_group of atom
+  | Element_atom of group
 
 
 module Segment =
@@ -159,15 +159,29 @@ let is_wellformed ast =
  ** BEGIN: Constructors
  *********************************************************************)
 
-let mk_atom ?kind: (kind = Tex.kw_gram) 
-            ?point_val: (point_val = None) 
-            ?title: (title = None) 
-            ?label: (label = None) 
-            ?depend: (depend = None)
-            ?body: (body = "") 
-		        () = 
- Atom {kind; point_val; title; label; depend; body}
+let mk_atom 
+		?kind: (kind = Tex.kw_gram) 
+    ?point_val: (point_val = None) 
+    ?title: (title = None) 
+    ?label: (label = None) 
+    ?depend: (depend = None)
+    body = 
+	Atom {kind; point_val; title; label; depend; body}
 
+let mk_group 
+		?kind: (kind = Tex.kw_gram) 
+    ?point_val: (point_val = None) 
+    ?title: (title = None) 
+    ?label: (label = None) 
+    ?depend: (depend = None)
+    ~atoms = 
+ Group {kind; point_val; title; label; depend; atoms}
+
+let mk_element_from_group g = 
+	Element_group g
+
+let mk_element_from_atom a = 
+	Element_group a
 
 
 
