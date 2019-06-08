@@ -58,7 +58,14 @@ let map_concat_with connective f xs: string =
   let xs_s: string list = List.map xs f in
   let result = List.fold_left xs_s  ~init:"" ~f:(fun result x -> result ^ connective ^ x) in
     result
+
+let map_reduce (f: 'a -> 'b) (g: 'b -> 'b -> 'c) (xs: 'a list) : 'c option = 
+  let xs = List.map xs f in
+    List.reduce xs g
+
 (* END Operations on string lists *)
+
+
 
 (* BEGIN: String and substring search *) 
 

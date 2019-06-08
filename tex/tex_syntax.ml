@@ -254,6 +254,26 @@ let rubric_opt rubric_opt =
       (d_printf "rubricOptToTex: rubric = %s" x; 
        heading ^ "\n" ^ x)
 
+let is_group kw = 
+  kw = kw_cluster ||
+  kw = kw_flex ||
+  kw = kw_problem_cluster 
+
+
+(* is subseg nested in segment seg ? *)
+let segment_is_nested subseg seg = 
+  if seg = kw_section then
+		subseg = kw_subsection ||
+    subseg = kw_subsubsection ||
+    subseg = kw_paragraph
+  else if seg = kw_subsection then
+    subseg = kw_subsubsection ||
+    subseg = kw_paragraph
+  else if seg = kw_subsubsection then
+    subseg = kw_paragraph 
+	else
+		false
+
 
 (**********************************************************************
  ** Tokenization

@@ -1,12 +1,13 @@
 open Core
 open Utils
+module Tex = Tex_syntax
 
 (**********************************************************************
  ** BEGIN: Constants
  *********************************************************************)
-let newline = Tex_syntax.newline
-let space = Tex_syntax.space
-let correct_choice_indicator = Tex_syntax.correct_choice_indicator
+let newline = Tex.newline
+let space = Tex.space
+let correct_choice_indicator = Tex.correct_choice_indicator
 
 let points_correct = 1.0
 let points_incorrect = 0.0
@@ -33,7 +34,7 @@ struct
 				label: string option; 
 				depend: string list option;
 				body: string
-			}
+			} [@@deriving fields]
 end
 type atom = Atom.t
 
@@ -46,7 +47,7 @@ struct
 				label: string option; 
 				depend: string list option;
 				atoms: atom list
-			}
+			} [@@deriving fields]
 end
 
 type group = Group.t
@@ -65,12 +66,14 @@ struct
 				label: string option; 
 				block: element list;
 				subsegments: t list
-			}
+			} [@@deriving fields]
 end
 type segment = Segment.t
 
-type ast = segment
-
+type ast = 
+		Ast_Segment of segment 
+	| Ast_Group of group
+	| Ast_Atom of atom
 
 
 
@@ -93,13 +96,25 @@ let mk_index () =
   let _ = index := !index + 1 in
     r
 
-
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
 
-let is_nested subs seg = 
-  if seg = tex_
+
+let is_wellformed ast = 
+  match ast with 
+	| Ast_Atom a -> true
+	| Ast_Group g -> true
+	| Ast_Segment s -> 
+			let wf = 
+				List.reduce 
+					(Segment.subsegments s) 
+					(fun ss -> Tex.segment_is_nested ss s) 
+			in
+			match wf with 
+				None -> true
+			| Some flag -> flag
+
 
 (*
 
@@ -159,7 +174,7 @@ let blockToTex (Block(es, tt)) =
 
 let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, b)) = 
   let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let heading = mktex_section_heading Tex_syntax.kw_paragraph pval_opt t in
+  let heading = mktex_section_heading Tex.kw_paragraph pval_opt t in
   let block = blockToTex b in
   let label = labelOptToTex lopt in
     heading ^ label ^ 
@@ -172,7 +187,7 @@ let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, b, ps)) =
   let block = blockToTex b in
   let paragraphs = paragraphsToTex ps in
   let label = labelOptToTex lopt in
-  let heading = mktex_section_heading Tex_syntax.kw_subsubsection pval_opt t in
+  let heading = mktex_section_heading Tex.kw_subsubsection pval_opt t in
     heading ^ label ^ 
     block ^ paragraphs
 
@@ -181,7 +196,7 @@ let subsectionToTex (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
   let paragraphs = paragraphsToTex ps in
   let nesteds = map_concat subsubsectionToTex ss in
   let label = labelOptToTex lopt in
-  let heading = mktex_section_heading Tex_syntax.kw_subsection pval_opt t in
+  let heading = mktex_section_heading Tex.kw_subsection pval_opt t in
     heading ^ label ^ 
     block ^ paragraphs ^ nesteds
 
@@ -190,7 +205,7 @@ let sectionToTex (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
   let paragraphs = paragraphsToTex ps in
   let nesteds = map_concat subsectionToTex ss in
   let label = labelOptToTex lopt in
-  let heading = mktex_section_heading Tex_syntax.kw_section pval_opt t in
+  let heading = mktex_section_heading Tex.kw_section pval_opt t in
     heading ^ label ^ 
     block ^ paragraphs ^ nesteds
 
@@ -200,7 +215,7 @@ let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
   let sections = map_concat sectionToTex ss in
   let _ = d_printf "ast.chapterToTex: block = [begin: block] %s... [end: block] " block in
   let label = labelToTex l in
-  let heading = mktex_section_heading Tex_syntax.kw_chapter pval_opt t in
+  let heading = mktex_section_heading Tex.kw_chapter pval_opt t in
     preamble ^ 
     heading ^ label ^
     block ^ paragraphs ^ sections
@@ -320,7 +335,7 @@ let atomToXml tex2html
   let (topt, lang_opt, atom_arg_opt) = process_title kind topt in
   let title_opt = titleOptToXml tex2html topt in
   let body_xml = 
-    if kind = Tex_syntax.kw_code then
+    if kind = Tex.kw_code then
       tex2html (mk_index ()) body (atom_is_code lang_opt atom_arg_opt)
     else
       tex2html (mk_index ()) body body_is_single_par 
