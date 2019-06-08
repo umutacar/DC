@@ -49,7 +49,7 @@ struct
 			?label: (label = None) 
 			?depend: (depend = None)
 			body = 
-		{kind; point_val; title; label; depend; body}
+		{kind; point_val; title; label; depend; body=body}
 end
 
 type atom = Atom.t
@@ -85,8 +85,8 @@ end
 type group = Group.t
 
 type element = 
-  | Element_group of atom
-  | Element_atom of group
+  | Element_group of group
+  | Element_atom of atom
 
 module Segment =
 struct
@@ -106,6 +106,18 @@ struct
 	let depend g = g.depend
 	let block s = s.block
 	let subsegments s = s.subsegments
+
+	let make  
+			?kind: (kind = Tex.kw_gram) 
+			?point_val: (point_val = None) 
+			?title: (title = None) 
+			?label: (label = None) 
+			?depend: (depend = None)
+			block
+			subsegments = 
+		{kind; point_val; title; label; depend; 
+		 block = block; subsegments = subsegments}
+
 end
 type segment = Segment.t
 
@@ -163,7 +175,7 @@ let mk_element_from_group g =
 	Element_group g
 
 let mk_element_from_atom a = 
-	Element_group a
+	Element_atom a
 
 let mk_segment
 		~kind

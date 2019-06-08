@@ -1,7 +1,6 @@
 %{
 open Core
 open Printf
-open Ast
 open Utils
 
 let parse_error s = printf "Parse Error: %s"
@@ -12,7 +11,7 @@ let mk_point_val_f_opt (s: string option) =
   | Some x -> (Some (float_of_string x), "Some " ^ x)
 
 module Ast = Ast_ast
-
+module Tex = Tex_syntax
 %}	
 
 %token EOF
@@ -177,7 +176,7 @@ heading:
 top:
   s = segment;
   EOF
-  {s}
+  {"segment"}
 
 segment: 
   h = heading;
@@ -186,15 +185,15 @@ segment:
   {
    let (kind, heading, pval_opt) = h in
    let _ = d_printf ("!parser: %s %s matched") kind heading in
-     heading ^ b ^ ss
+     Ast.Segment.make ~kind:kind b ss
   }	  
 
 /* segments */
 segments:
-  { "" }
+  { [ ] }
 | ss = segments; 
   s = segment;
-  { ss ^ s }
+  { ss @ [ s ] }
 
 /**********************************************************************
  ** END: Latex Segments
@@ -246,7 +245,7 @@ atoms:
 		{ aa @ [ a ] }
 | aa = atoms;
 	a = atom
-		{ aa @ a }
+		{ aa @ [ a ] }
 
 atoms_and_tailspace:
   aa = atoms;
