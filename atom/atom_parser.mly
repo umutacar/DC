@@ -233,6 +233,11 @@ atoms:
 | 
 	{ "" }
 | aa = atoms;
+	el = emptylines;
+  f = KW_FOLD
+	a = atom
+		{ aa ^ el ^ f ^ a }
+| aa = atoms;
 	a = atom
 		{ aa ^ a }
 
