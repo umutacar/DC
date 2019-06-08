@@ -33,6 +33,11 @@ To load a module into the ocaml REPL use #load, e.g.,
 # #load "Str.cma";;
 # Str.split (Str.regexp (",[ ]*"))  "x = y y = z";;
 
+# PPX 
+To get access to fancy record accessors use 
+- `opam install ppx_deriving`
+
+
 ######################################################################
 ## Pre-OCAML README, September 2018
 

@@ -34,7 +34,15 @@ struct
 				label: string option; 
 				depend: string list option;
 				body: string
-			} [@@deriving fields]
+			} 
+  let kind a = a.kind
+  let point_val a = a.point_val
+  let title a = a.title
+	let label a = a.label
+	let depend a = a.depend
+	let body a = a.body
+
+
 end
 type atom = Atom.t
 
@@ -47,7 +55,15 @@ struct
 				label: string option; 
 				depend: string list option;
 				atoms: atom list
-			} [@@deriving fields]
+			} 
+
+  let kind g = g.kind
+  let point_val g = g.point_val
+  let title g = g.title
+	let label g = g.label
+	let depend g = g.depend
+	let atoms g = g.atoms
+
 end
 
 type group = Group.t
@@ -64,16 +80,24 @@ struct
 				point_val: string option;
  				title: string option;
 				label: string option; 
+				depend: string list option;
 				block: element list;
 				subsegments: t list
-			} [@@deriving fields]
+			} 
+  let kind s = s.kind
+  let point_val s = s.point_val
+  let title s = s.title
+	let label s = s.label
+	let depend g = g.depend
+	let block s = s.block
+	let subsegments s = s.subsegments
 end
 type segment = Segment.t
 
 type ast = 
-		Ast_Segment of segment 
-	| Ast_Group of group
-	| Ast_Atom of atom
+		Segment of segment 
+	| Group of group
+	| Atom of atom
 
 
 
@@ -103,17 +127,21 @@ let mk_index () =
 
 let is_wellformed ast = 
   match ast with 
-	| Ast_Atom a -> true
-	| Ast_Group g -> true
-	| Ast_Segment s -> 
+	| Atom a -> true
+	| Group g -> true
+	| Segment s -> 
 			let wf = 
-				List.reduce 
+				map_reduce 
+					(fun ss -> Tex.segment_is_nested (Segment.kind ss) (Segment.kind s)) 
+					(fun x y -> x || y)
 					(Segment.subsegments s) 
-					(fun ss -> Tex.segment_is_nested ss s) 
+
 			in
 			match wf with 
-				None -> true
+			|	None -> true
 			| Some flag -> flag
+
+
 
 
 (*

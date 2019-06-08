@@ -20,7 +20,8 @@
  ## Installing packages for MeTaL ##
 Assuming you got OPAM as described above:
 - `opam install core getopt menhir`
-- `opam install ppx_deriving`
+and add  -package ppx_fields_conv
+to the Makefile
 
 ## Ocaml interpreter
 Place the following in your root directory file .ocamlinit
