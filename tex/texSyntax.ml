@@ -13,6 +13,7 @@ let label_nestor = colon ^ colon
 
 
 (* BEGIN: Keywords *)
+let com_depend = "\\depend"
 let com_explain = "\\explain"
 let com_hint = "\\help"
 let com_label = "\\label"
@@ -177,17 +178,18 @@ let mk_opt_arg x =
   "[" ^ x ^ "]"
 
 let mk_label label = 
-   com_label ^ (mkArg label)
+   com_label ^ (mk_arg label)
 
 let mk_label_opt lopt = 
   match lopt with 
   |  None -> ""
-  |  Some label -> labelToTex label
+  |  Some label -> mk_label label
 
 let mk_depend_opt dopt = 
+  let heading = com_depend in
 	match dopt with 
   |  None -> ""
-  |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
+  |  Some ls -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
 
 let mk_heading name pvalopt t = 
   let b = "\\" ^ name in
@@ -207,44 +209,45 @@ let mk_begin name pvalopt topt =
 		| None -> ""
     | Some pts -> 
 				if pts = 0.0 then ""
-				else mktex_optarg (Float.to_string pts)
+				else mk_opt_arg (Float.to_string pts)
   in 
   let t = 
 		match topt with 
     | None -> ""
-    | Some t -> mktex_optarg t
+    | Some t -> mk_opt_arg t
   in
   b ^ p ^ t ^ "\n"
 
 
 let mk_pointval pts = 
-  mk_optarg (Float.to_string pts)
+  mk_opt_arg (Float.to_string pts)
 
 let mk_pointval_opt pts_opt = 
   match pts_opt with 
   | None -> ""
-  | Some pts -> mktex_optarg (Float.to_string pts)
+  | Some pts -> mk_opt_arg (Float.to_string pts)
 
 let mk_hint_opt hint_opt = 
-  let heading = TexSyntax.com_hint in
+  let heading = com_hint in
   match hint_opt with 
   |  None -> ""
-  |  Some x -> heading ^ "\n" ^ x  in
+  |  Some x -> heading ^ "\n" ^ x  
+
 
 let mk_exp_opt exp_opt = 
-  let heading = TexSyntax.com_explain in
+  let heading = com_explain in
   match exp_opt with 
   |  None -> ""
-  |  Some x -> heading ^ "\n" ^ x  in
+  |  Some x -> heading ^ "\n" ^ x  
 
 let refsol_opt refsol_opt = 
-  let heading = TexSyntax.com_solution in
+  let heading = com_solution in
   match refsol_opt with 
   |  None -> ""
-  |  Some x -> heading ^ "\n" ^ x  in
+  |  Some x -> heading ^ "\n" ^ x  
 
 let rubric_opt rubric_opt = 
-  let heading = TexSyntax.com_rubric in
+  let heading = com_rubric in
   match rubric_opt with 
   |  None -> ""
   |  Some x -> 

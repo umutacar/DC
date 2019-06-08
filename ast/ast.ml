@@ -24,40 +24,48 @@ type t_label = Label of string
 type t_depend = Depend of string list 
 type t_point_val = float
 
+module Atom  = 
+struct
+	type t = 
+			{	kind: string,
+				point_val: string option,
+				title: string option,
+				label: string option, 
+				depend: string list option,
+				body: string
+			}
+end
 
-type atom = 
-	{	kind: string,
-		point_val: string option,
-		title: string option,
-    label: string option, 
-		depend: string list option,
-		body: string
-	}
+module Group =
+struct
+	type t = 
+			{	kind: string,
+				point_val: string option,
+				title: string option,
+				label: string option, 
+				depend: string list option,
+				atoms: atom list
+			}
+end
 
-type group =
-	{	kind: string,
-		point_val: string option,
-		title: string option,
-    label: string option, 
-		depend: string list option,
-    atoms: atom list
-	}
+type element = 
+  | Element_Group of Group.t
+  | Element_Atom of Atom.t
 
-type segment =
-	{	kind: string,
-		point_val: string option,
- 		title: string option,
-    label: string option, 
-		block: block,
-    paragraphs: paragraph list,
-    section: section list
-	}
-and block = Block of (element list)
 
-and element = 
-  | Element_Group of group
-  | Element_Atom of atom
-	}   
+module Segment =
+struct
+	type t = 
+			{	kind: string,
+				point_val: string option,
+ 				title: string option,
+				label: string option, 
+				block: element list,
+				paragraphs: paragraph list,
+				section: section list
+			}
+end
+
 
 
 (**********************************************************************
@@ -84,132 +92,26 @@ let mk_index () =
  ** END Utilities
  *********************************************************************)
 
-(**********************************************************************
- ** BEGIN: Makers
- **********************************************************************)
 
-let item_keyword_to_point keyword = 
-  let _ = d_printf "item_keyword_to_point: keyword = %s\n" keyword in
-  let pval = 
-    if contains_substring correct_choice_indicator keyword then
-      points_correct
-    else
-      points_incorrect
-  in
-  let _ = d_printf "item_keyword_to_point: pval = %f\n" pval in
-    pval
-  
-let mk_item (keyword, pvalopt, body) = 
-  let pval = match pvalopt with
-             | None -> item_keyword_to_point keyword
-             | Some pts -> pts
-  in
-    Item (keyword, Some pval, body)
+
+(*
+
 (**********************************************************************
  ** BEGIN: AST To LaTeX
  **********************************************************************)
-let mktex_optarg x = 
-  "[" ^ x ^ "]"
 
-let mktex_section_heading name pvalopt t = 
-  let b = "\\" ^ name in
-  let p = match pvalopt with 
-          | None -> ""
-          | Some pts -> if pts = 0.0 then ""
-                        else mktex_optarg (Float.to_string pts)
-  in 
-    b ^ p ^ "{" ^ t ^ "}" ^ "\n"
-
-let mktex_begin kind pvalopt topt = 
-  let b = "\\begin{" ^ kind ^ "}" in
-  let p = match pvalopt with 
-          | None -> ""
-          | Some pts -> if pts = 0.0 then ""
-                        else mktex_optarg (Float.to_string pts)
-  in 
-  let t = match topt with 
-          | None -> ""
-          | Some t -> mktex_optarg t
-  in
-    b ^ p ^ t ^ "\n"
-
-
-let mktex_end kind = 
-  "\\end{" ^ kind ^ "}" ^ "\n"
-
-let mktex_header_atom kind pval_opt topt = 
-  mktex_begin kind pval_opt topt 
-
-let dependOptToTex dopt = 
-  let r = match dopt with 
-              |  None -> ""
-              |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
-  in
-    r
-
-
-(* Drop heading and construct from label string *)
-let labelToTex (Label(h, label_string)) = 
-  ((TexSyntax.mkLabel label_string) ^ newline)
-
-let labelOptToTex lopt = 
-  let r = match lopt with 
-              |  None -> ""
-              |  Some label -> labelToTex label
-  in
-     r 
-
-let pointvalToTex p = 
-  mktex_optarg (Float.to_string p)
-
-let pointvalOptToTex p = 
-  match p with 
-  | None -> ""
-  | Some pts -> mktex_optarg (Float.to_string pts)
-
-let hintOptToTex hint_opt = 
-  let heading = TexSyntax.com_hint in
-  let r = match hint_opt with 
-              |  None -> ""
-              |  Some x -> heading ^ "\n" ^ x  in
-     r
-
-let expOptToTex exp_opt = 
-  let heading = TexSyntax.com_explain in
-  let r = match exp_opt with 
-              |  None -> ""
-              |  Some x -> heading ^ "\n" ^ x  in
-     r
-
-let refsolOptToTex refsol_opt = 
-  let heading = TexSyntax.com_solution in
-  let r = match refsol_opt with 
-              |  None -> ""
-              |  Some x -> heading ^ "\n" ^ x  in
-     r
-
-let rubricOptToTex rubric_opt = 
-  let heading = TexSyntax.com_rubric in
-  let r = match rubric_opt with 
-              |  None -> ""
-              |  Some x -> 
-                 (d_printf "rubricOptToTex: rubric = %s" x; 
-                  heading ^ "\n" ^ x)
-  in
-     r
-
-let itemToTex (Item(keyword, pval, body)) = 
-  match pval with 
-  | None -> keyword ^ body
-  | Some p -> keyword ^ (pointvalToTex p) ^ space ^ body
-
-let ilistToTex (IList(preamble, (kind, h_begin, pval_opt, itemslist, h_end))) = 
-  let h_begin = mktex_begin kind pval_opt None in
-  let il = List.map itemslist itemToTex in
-  let ils = String.concat ~sep:"" il in
-    preamble ^ h_begin ^ ils ^ h_end
       
-let atomToTex (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
+let atom_to_tex atom = 
+	match atom with
+ 	{	kind: string,
+		point_val: string option,
+		title: string option,
+    label: string option, 
+		depend: string list option,
+		body: string
+	}
+
+(Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
   let h_begin = mktex_header_atom kind pval_opt topt in
   let h_end = mktex_end kind in
   let label = labelOptToTex lopt in
@@ -796,3 +698,4 @@ let chapterTR (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
  ** END: AST TRAVERSAL
  **********************************************************************)
 
+*)

@@ -197,15 +197,6 @@ let mk_index () =
   let _ = index := !index + 1 in
     r
 
-let contains_substring search target =
-  let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
-  let found = String.substr_index ~pos:0 ~pattern:search target in
-  let res = 
-    match found with 
-    | None -> let _ = d_printf "contains_substring: found none\n" in false
-    | Some x -> let _ = d_printf "contains_substring: found match %d\n" x in true 
-  in
-    res
 
 let pval_opt_to_string pval = 
   match pval with 
@@ -492,7 +483,7 @@ let dependOptToTex dopt =
 
 (* Drop heading and construct from label string *)
 let labelToTex (Label(h, label_string)) = 
-  ((TexSyntax.mkLabel label_string) ^ newline)
+  ((TexSyntax.mk_label label_string) ^ newline)
 
 let labelOptToTex lopt = 
   let r = match lopt with 
@@ -1079,7 +1070,7 @@ let createLabel table kind prefix body =
         let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
         let _ = d_printf "ast.createLabel: trying label = %s\n" ls in
           if addLabel table ls then 
-           let heading = TexSyntax.mkLabel ls in
+           let heading = TexSyntax.mk_label ls in
            let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" ls in
              Some (heading, ls)
           else
@@ -1095,7 +1086,7 @@ let forceCreateLabel table kind prefix topt body_opt =
     let ls = mk_new_label () in 
     let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
     let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
-    let heading = TexSyntax.mkLabel ls in
+    let heading = TexSyntax.mk_label ls in
       (heading, ls)
   | _ ->
   let body =
@@ -1113,7 +1104,7 @@ let forceCreateLabel table kind prefix topt body_opt =
       let ls = mk_new_label () in 
       let ls = kind ^ TexSyntax.label_seperator ^ prefix ^ TexSyntax.label_nestor ^ ls in
       let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
-      let heading = TexSyntax.mkLabel ls in
+      let heading = TexSyntax.mk_label ls in
         (heading, ls)
     | Some (heading, ls) -> 
         (heading, ls)
