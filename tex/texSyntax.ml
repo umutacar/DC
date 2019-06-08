@@ -170,11 +170,91 @@ let mk_label_prefix_from_kind kind =
 
 
 (* Utilities *)
-let mkArg arg = 
+let mk_arg arg = 
   "{" ^ arg ^ "}"
 
-let mkLabel label = 
+let mk_opt_arg x = 
+  "[" ^ x ^ "]"
+
+let mk_label label = 
    com_label ^ (mkArg label)
+
+let mk_label_opt lopt = 
+  match lopt with 
+  |  None -> ""
+  |  Some label -> labelToTex label
+
+let mk_depend_opt dopt = 
+	match dopt with 
+  |  None -> ""
+  |  Some Depend(heading, ls) -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
+
+let mk_heading name pvalopt t = 
+  let b = "\\" ^ name in
+  let p = 
+		match pvalopt with 
+    | None -> ""
+    | Some pts -> 
+				if pts = 0.0 then ""
+				else mk_opt_arg (Float.to_string pts)
+  in 
+    b ^ p ^ "{" ^ t ^ "}" ^ "\n"
+
+let mk_begin name pvalopt topt = 
+  let b = "\\begin{" ^ name ^ "}" in
+  let p = 
+		match pvalopt with 
+		| None -> ""
+    | Some pts -> 
+				if pts = 0.0 then ""
+				else mktex_optarg (Float.to_string pts)
+  in 
+  let t = 
+		match topt with 
+    | None -> ""
+    | Some t -> mktex_optarg t
+  in
+  b ^ p ^ t ^ "\n"
+
+
+let mk_pointval pts = 
+  mk_optarg (Float.to_string pts)
+
+let mk_pointval_opt pts_opt = 
+  match pts_opt with 
+  | None -> ""
+  | Some pts -> mktex_optarg (Float.to_string pts)
+
+let mk_hint_opt hint_opt = 
+  let heading = TexSyntax.com_hint in
+  match hint_opt with 
+  |  None -> ""
+  |  Some x -> heading ^ "\n" ^ x  in
+
+let mk_exp_opt exp_opt = 
+  let heading = TexSyntax.com_explain in
+  match exp_opt with 
+  |  None -> ""
+  |  Some x -> heading ^ "\n" ^ x  in
+
+let refsol_opt refsol_opt = 
+  let heading = TexSyntax.com_solution in
+  match refsol_opt with 
+  |  None -> ""
+  |  Some x -> heading ^ "\n" ^ x  in
+
+let rubric_opt rubric_opt = 
+  let heading = TexSyntax.com_rubric in
+  match rubric_opt with 
+  |  None -> ""
+  |  Some x -> 
+      (d_printf "rubricOptToTex: rubric = %s" x; 
+       heading ^ "\n" ^ x)
+
+
+(**********************************************************************
+ ** Tokenization
+ **********************************************************************)
 
 let mk_plural s = s ^ "s"
 
