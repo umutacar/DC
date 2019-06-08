@@ -20,6 +20,18 @@
  ## Installing packages for MeTaL ##
 Assuming you got OPAM as described above:
 - `opam install core getopt menhir`
+- `opam install ppx_deriving`
+
+## Ocaml interpreter
+Place the following in your root directory file .ocamlinit
+
+```
+#use "topfind";;
+#thread;;
+#camlp4o;;
+#require "core.top";;
+#require "core.syntax";;
+```
 
  ## Installing MeTaL ##
 - clone this repo and run `make` in the `MeTaL` directory
