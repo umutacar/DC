@@ -233,7 +233,7 @@ atom:
 		 | None -> (Tex.kw_gram, "\n\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n")
 		 | Some env -> (env, "\n" ^ tp ^ "\n")
 	 in
-	   Ast.mk_atom  ~body:tp
+	   Ast.Atom.make tp
   }
 
 atoms:
@@ -262,7 +262,7 @@ group:
   { let (kb, hb, _) = b in
 	  let (ke, he) = e in
 	    if kb = ke then
-				Ast.mk_group ~atoms:aa
+				Ast.Group.make aa
 			else
 				(printf "Error: group start and end should match.";
 				 exit 1)
@@ -271,19 +271,19 @@ group:
 
 element:
 | a = atom
-  {let _ = d_printf "!Parser: matched element: atom\n %s" a in
-	   a 
+  {let _ = d_printf "!Parser: matched element: atom\n %s" "a" in
+	 [Ast.mk_element_from_atom a] 
   }
 | g = group;
-  {let _ = d_printf "!Parser: matched group\n %s" g in
-     g
+  { let _ = d_printf "!Parser: matched group\n %s" "g" in
+      [Ast.mk_element_from_group g] 
   }
 
 elements:
-  {""}
+  {[ ]}
 | es = elements;
   e = element; 
-  {es ^ e}
+  {es @ e}
 
 /**********************************************************************
  ** END: Elements

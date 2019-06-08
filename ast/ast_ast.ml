@@ -42,8 +42,16 @@ struct
 	let depend a = a.depend
 	let body a = a.body
 
-
+  let make   
+			?kind: (kind = Tex.kw_gram) 
+			?point_val: (point_val = None) 
+			?title: (title = None) 
+			?label: (label = None) 
+			?depend: (depend = None)
+			body = 
+		{kind; point_val; title; label; depend; body}
 end
+
 type atom = Atom.t
 
 module Group =
@@ -64,6 +72,14 @@ struct
 	let depend g = g.depend
 	let atoms g = g.atoms
 
+	let make  
+			?kind: (kind = Tex.kw_gram) 
+			?point_val: (point_val = None) 
+			?title: (title = None) 
+			?label: (label = None) 
+			?depend: (depend = None)
+			atoms = 
+		{kind; point_val; title; label; depend; atoms=atoms}
 end
 
 type group = Group.t
@@ -71,7 +87,6 @@ type group = Group.t
 type element = 
   | Element_group of atom
   | Element_atom of group
-
 
 module Segment =
 struct
@@ -94,27 +109,13 @@ struct
 end
 type segment = Segment.t
 
-type ast = 
-		Segment of segment 
-	| Group of group
-	| Atom of atom
+type ast = Segment of segment 
 
 
 
 (**********************************************************************
  ** END: AST Data Types
 *********************************************************************)
-
-
-	type t = 
-			{	kind: string;
-				point_val: string option;
-				title: string option;
-				label: string option; 
-				depend: string list option;
-				atoms: atom list
-			} 
-
 
 
 (**********************************************************************
@@ -131,27 +132,25 @@ let mk_index () =
   let _ = index := !index + 1 in
     r
 
+
+(* Check that the nesting structure of the ast is correct *)
+
+let is_wellformed ast = 
+  let Segment s = ast in
+	let wf = 
+		map_reduce 
+			(fun ss -> Tex.segment_is_nested (Segment.kind ss) (Segment.kind s)) 
+			(fun x y -> x || y)
+			(Segment.subsegments s) 
+	in
+	match wf with 
+	|	None -> true
+	| Some flag -> flag
+
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
 
-
-
-let is_wellformed ast = 
-  match ast with 
-	| Atom a -> true
-	| Group g -> true
-	| Segment s -> 
-			let wf = 
-				map_reduce 
-					(fun ss -> Tex.segment_is_nested (Segment.kind ss) (Segment.kind s)) 
-					(fun x y -> x || y)
-					(Segment.subsegments s) 
-
-			in
-			match wf with 
-			|	None -> true
-			| Some flag -> flag
 
 
 
@@ -159,23 +158,6 @@ let is_wellformed ast =
  ** BEGIN: Constructors
  *********************************************************************)
 
-let mk_atom 
-		?kind: (kind = Tex.kw_gram) 
-    ?point_val: (point_val = None) 
-    ?title: (title = None) 
-    ?label: (label = None) 
-    ?depend: (depend = None)
-    body = 
-	Atom {kind; point_val; title; label; depend; body}
-
-let mk_group 
-		?kind: (kind = Tex.kw_gram) 
-    ?point_val: (point_val = None) 
-    ?title: (title = None) 
-    ?label: (label = None) 
-    ?depend: (depend = None)
-    ~atoms = 
- Group {kind; point_val; title; label; depend; atoms}
 
 let mk_element_from_group g = 
 	Element_group g
@@ -183,7 +165,15 @@ let mk_element_from_group g =
 let mk_element_from_atom a = 
 	Element_group a
 
-
+let mk_segment
+		~kind
+    ?point_val: (point_val = None) 
+    ?title: (title = None) 
+    ?label: (label = None) 
+    ?depend: (depend = None)
+    ?block: (block = [ ])
+    subsegments = 
+	Segment {kind; point_val; title; label; depend; block; subsegments = subsegments} 
 
 (**********************************************************************
  ** END: Constructors
