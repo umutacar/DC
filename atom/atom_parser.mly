@@ -226,9 +226,10 @@ block:
 atom: 
   fs = emptylines;
   tp = textpar;
-  {let _ = Tex.find_env tp in
+  {let tp = String.strip tp in
+	 let single = string_of_bool (Tex.is_single_env tp) in
 	 let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\\end{gram}\n" in
-   let _ = d_printf "!Parser: matched text paragraph\n %s" para in
+   let _ = d_printf "!Parser: matched text paragraph: single?: %s\n %s" single para in
      para
   }
 

@@ -69,9 +69,21 @@ let map_reduce (f: 'a -> 'b) (g: 'b -> 'b -> 'c) (xs: 'a list) : 'c option =
 
 (* BEGIN: String and substring search *) 
 
-let str_match_prefix search target = 
-  Str.string_match search target 0 
+(* Example "here" "here is there" will return true. *)
+let str_match_prefix (search:string) (target:string) = 
+	let re = Str.regexp search in
+  Str.string_match re target 0 
 
+(* Example "here" "this is here" will return true. *)
+let str_match_suffix (search:string) (target:string) = 
+	let re = Str.regexp search in
+	let i =  (String.length target) - (String.length search)   in
+	Str.string_match re target i
+
+let str_match_at (search:string) (target:string) (pos: int) = 
+	let re = Str.regexp search in
+	Str.string_match re target pos
+ 
 let contains_substring search target =
   let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
   let found = String.substr_index ~pos:0 ~pattern:search target in

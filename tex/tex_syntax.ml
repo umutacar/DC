@@ -279,7 +279,7 @@ let segment_is_nested subseg seg =
    Important: assumes comments are removed.  
 	 The function looks inside comments as well.
  *)
-let find_env contents  =
+let find_all_env contents  =
   let extract_env (m: Re2.Match.t) =
     let source = Re2.Match.get ~sub:(`Name "envname") m in
       match source with 
@@ -306,6 +306,25 @@ let find_env contents  =
 			 Some (all_begin, all_end))
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
+
+let is_single_env contents = 
+  match find_all_env contents with 
+	| None -> false
+	| Some (all_envs, _) -> 
+	  if List.length all_envs = 1 then
+			let env:string = List.nth_exn all_envs 0 in
+			let ok_begin = str_match_prefix "\\\\begin" contents in
+      let suffix = "\\\\end{" ^ env ^ "}" in 	
+			let pos =  (String.length contents) - (String.length env) - 6 in		
+      let _ = d_printf "suffix = %s" suffix in
+			let ok_end = str_match_at suffix contents pos in
+			let _ = 
+				d_printf "tex_syntax: is_single_env: ok_begin: %s ok_end: %s" 
+					(string_of_bool ok_begin) (string_of_bool ok_end)
+			in
+			  ok_begin && ok_end
+		else
+			false
 
 
 (**********************************************************************
