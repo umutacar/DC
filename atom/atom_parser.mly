@@ -12,30 +12,6 @@ let mk_point_val_f_opt (s: string option) =
   | Some x -> (Some (float_of_string x), "Some " ^ x)
 
 
-(* Return the list of languages used in the contents 
-   TODO: this looks into comments
- *)
-let find_env contents  =
-  let extract_env (m: Re2.Match.t) =
-    let source = Re2.Match.get ~sub:(`Name "envname") m in
-      match source with 
-      | None -> let _ = d_printf "parser.find_env None" in []
-      | Some x -> let _ = d_printf "parser.find_env Some %s" x in [x]
-  in
-  (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
-  let regex_begin = Re2.create_exn "\\\\begin{(?P<envname>[[:alnum:]]*)}" in
-  let regex_end = Re2.create_exn "\\\\end{(?P<envname>[[:alnum:]]*)}" in
-
-  let pattern = Re2.pattern regex_begin in
-  let _ = printf "parser.find_env: Pattern for this regex = %s\n" pattern in 
-
-  let all_begin_ = Re2.get_matches_exn regex_begin contents in
-  let all_end_ = Re2.get_matches_exn regex_end contents in
-  let all_begin: string list = List.concat_map all_begin_ ~f:extract_env in
-  let all_end: string list = List.concat_map all_end_ ~f:extract_env in
-  let _ = printf_strlist "parser.find_env: all_begin" all_begin in 
-  let _ = printf_strlist "parser.find_env: all_end" all_end in 
-	()
 
 %}	
 
@@ -250,7 +226,8 @@ block:
 atom: 
   fs = emptylines;
   tp = textpar;
-  {let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\\end{gram}\n" in
+  {let _ = Tex.find_env tp in
+	 let para = fs ^ "\\begin{gram}" ^ "\n" ^ tp ^ "\\end{gram}\n" in
    let _ = d_printf "!Parser: matched text paragraph\n %s" para in
      para
   }

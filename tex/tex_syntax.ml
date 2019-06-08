@@ -275,6 +275,39 @@ let segment_is_nested subseg seg =
 		false
 
 
+(* Return the list of environments used in the contents 
+   Important: assumes comments are removed.  
+	 The function looks inside comments as well.
+ *)
+let find_env contents  =
+  let extract_env (m: Re2.Match.t) =
+    let source = Re2.Match.get ~sub:(`Name "envname") m in
+      match source with 
+      | None -> let _ = d_printf "tex_syntax.find_env None" in []
+      | Some x -> let _ = d_printf "tex_syntax.find_env Some %s" x in [x]
+  in
+  (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
+  let regex_begin = Re2.create_exn "\\\\begin{(?P<envname>[[:alnum:]]*)}" in
+  let regex_end = Re2.create_exn "\\\\end{(?P<envname>[[:alnum:]]*)}" in
+
+  let pattern = Re2.pattern regex_begin in
+(*
+  let _ = printf "tex_syntax.find_env: Pattern for this regex = %s\n" pattern in 
+*)
+  let all_begin_ = Re2.get_matches_exn regex_begin contents in
+  let all_end_ = Re2.get_matches_exn regex_end contents in
+  let all_begin: string list = List.concat_map all_begin_ ~f:extract_env in
+  let all_end: string list = List.concat_map all_end_ ~f:extract_env in
+  let _ = printf_strlist "tex_syntax.find_env: all_begin" all_begin in 
+  let _ = printf_strlist "tex_syntax.find_env: all_end" all_end in 
+	try
+	let ok = List.fold2_exn all_begin all_end ~init:true ~f:(fun r x y -> r && (x = y)) in
+		  (assert ok;
+			 Some (all_begin, all_end))
+	with
+    Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
+
+
 (**********************************************************************
  ** Tokenization
  **********************************************************************)

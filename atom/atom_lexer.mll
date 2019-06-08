@@ -354,7 +354,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 rule initial = parse
 | p_heading as x
     {
-     let _ = d_printf "!lexer matched segment: %s." kind in
+(*     let _ = d_printf "!lexer matched segment: %s." kind in *)
      let arg = take_arg lexbuf in
      let h = x ^ arg in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
@@ -364,32 +364,32 @@ rule initial = parse
 
 | p_begin_group as x
     {
-     let _ = d_printf "!lexer matched begin group %s." kind in
+(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
      let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, x, None)
     }		
 
 | (p_begin_group as x) (p_o_sq as a)
     {
-     let _ = d_printf "!lexer matched begin group %s." kind in
+(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
      let _ = inc_arg_depth () in
      let arg = take_opt_arg lexbuf in
      let h = x ^ a ^ arg in
-     let _ = d_printf "!lexer matched group all: %s." h in 
+(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, h, None)
     }		
 
 | p_com_fold as x
     {
-     let _ = d_printf "!lexer matched fold %s." x in
+(*     let _ = d_printf "!lexer matched fold %s." x in *)
      let _ =  set_line_nonempty () in
        KW_FOLD(x)
     }		
 
 | p_end_group as x
     {
-     let _ = d_printf "!lexer matched end group %s." kind in
+(*     let _ = d_printf "!lexer matched end group %s." kind in *)
      let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
@@ -407,7 +407,8 @@ rule initial = parse
       }   
 
 | p_label_and_name as x
-  	{ let _ = d_printf "!lexer matched %s." x in
+ 		{ 
+(*	    let _ = d_printf "!lexer matched %s." x in *)
       let _ =  set_line_nonempty () in
 			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)
 		}		
@@ -431,7 +432,7 @@ rule initial = parse
 (*     let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in *)
      let comment = take_comment lexbuf in
      let result = (char_to_str x) ^ comment in
-     let _ = d_printf "!lexer found: comment: %s." result in
+(*     let _ = d_printf "!lexer found: comment: %s." result in *)
 		 if line_is_empty () then
       (* Drop comments *)
        initial lexbuf
@@ -440,7 +441,8 @@ rule initial = parse
     }
 
 | p_newline as x
-		{d_printf "!lexer found: newline: %s." x;
+		{
+(*	   d_printf "!lexer found: newline: %s." x; *)
      let _ =  set_line_empty () in
        NEWLINE(x)
     }
@@ -498,7 +500,8 @@ and take_env =
                       (x ^ y, lopt)  
         }      
   | p_label_and_name as x
-  		{ let _ = d_printf "!lexer matched label %s." x in
+  		{ 
+(*		    let _ = d_printf "!lexer matched label %s." x in *)
 				let all = label_pre ^ label_name ^ label_post in
         let (y, lopt) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
@@ -612,7 +615,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 		| _ -> (t, 0) 
 	in
     fun lexbuf ->
-  		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in 
+(*  		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in *)
       let old_state = get_state () in
 
 			let next_token = ref None in
@@ -627,7 +630,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 					| Some ntk -> ntk
 				in
 				(prev_token := Some tk_ret;
-				 d_printf "returning token: %s\n" (token_to_str tk_ret); 
+(*				 d_printf "returning token: %s\n" (token_to_str tk_ret); *)
 				 tk_ret)
 			in
 			let is_token_from_cache = ref false in
@@ -635,7 +638,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 				match cache_remove () with 
 				| None -> (is_token_from_cache := false; lexer lexbuf)
 				| Some t -> (is_token_from_cache := true; t) in
-			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in 
+(*			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in *)
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
@@ -679,7 +682,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| ENV x -> 
-						let _ = d_printf "** token = env %s \n" (fst x) in 
+(*						let _ = d_printf "** token = env %s \n" (fst x) in  *)
 						let _ = set_trace No_space in
 						begin
 						match !state with 
@@ -688,7 +691,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_LABEL_AND_NAME x -> 
-  					let _ = d_printf "** token = label \n" in 
+(*  					let _ = d_printf "** token = label \n" in *)
 						let _ = set_trace No_space in
 						begin
 						match !state with 
@@ -697,7 +700,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_BEGIN_GROUP x ->
-  					let _ = d_printf "** token = begin group \n"  in 
+(*  					let _ = d_printf "** token = begin group \n"  in *)
             begin
 						match !state with 
    					| Idle -> 
@@ -712,7 +715,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_END_GROUP x ->
-  					let _ = d_printf "** token = end group \n"  in 
+(*  					let _ = d_printf "** token = end group \n"  in *)
             begin
 						match !state with 
    					| Idle -> 
@@ -727,7 +730,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						end
 
 				| KW_FOLD x ->
-  					let _ = d_printf "** token = fold \n"  in 
+(*  					let _ = d_printf "** token = fold \n"  in *)
             begin
 						match !state with 
    					| Idle -> 
@@ -756,7 +759,7 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 								set_state Busy
 						end
         | EOF -> 
-						let _ = d_printf "token = EOF \n" in
+(*						let _ = d_printf "token = EOF \n" in *)
             (* TODO THIS IS NOT ENOUGH 
                WE NEED TWO NEWLINES. *)
 						begin
