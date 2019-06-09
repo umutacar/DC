@@ -231,12 +231,12 @@ atom:
 	 let (tp, topt, lopt) = tp_all in
 	 let tp = String.strip tp in
 	 let single = Tex.take_single_env tp in
-	 let (kind, a) = 
+	 let (kind, body) = 
 	   match single with 
-		 | None -> (Tex.kw_gram, "\n\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n")
-		 | Some env -> (env, "\n" ^ tp ^ "\n")
+		 | None -> (Tex.kw_gram, tp)
+		 | Some (env, body) -> (env,  body)
 	 in
-	   Ast.Atom.make kind ~title:topt ~label:lopt tp
+	   Ast.Atom.make ~title:topt ~label:lopt  kind  body
   }
 
 atoms:

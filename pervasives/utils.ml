@@ -69,6 +69,38 @@ let map_reduce (f: 'a -> 'b) (g: 'b -> 'b -> 'c) (xs: 'a list) : 'c option =
 
 (* BEGIN: String and substring search *) 
 
+(* Example "here" "here is an apple" will return ("here", "is an apple". 
+   Requires:  there be at most one match of "here".
+*)
+let str_match_one_first (search:string) (target:string): (string * string) option = 
+	let _ = d_printf "first: searching: %s\n" search in
+	let _ = d_printf "       in %s\n" target in
+	let re = Str.regexp search in
+	let chunks = Str.full_split re target in
+	match chunks with
+	| h::[ ] -> (d_printf "no match\n"; None) 
+	| ha::hb::_ -> 
+			begin
+			match (ha, hb) with 
+			| (Str.Delim ha, Str.Text hb) -> Some (ha, hb)
+			| _ -> None
+			end
+
+
+(* Example "there" "here is there" will return ("there", "here is"). *)
+let str_match_last (search:string) (target:string): (string * string) option = 
+	let _ = d_printf "last: searching: %s\n" search in
+	let re = Str.regexp search in
+	let chunks = List.rev (Str.full_split re target) in
+	match chunks with
+	| h::[ ] -> (d_printf "no match\n"; None) 
+	| ha::hb::_ -> 
+			begin
+			match (ha, hb) with 
+			| (Str.Delim ha, Str.Text hb) -> Some (ha, hb)
+			| _ -> None
+			end
+
 (* Example "here" "here is there" will return true. *)
 let str_match_prefix (search:string) (target:string) = 
 	let re = Str.regexp search in
@@ -84,7 +116,7 @@ let str_match_at (search:string) (target:string) (pos: int) =
 	let re = Str.regexp search in
 	Str.string_match re target pos
  
-let contains_substring search target =
+let contains_substring (search: string) (target: string) =
   let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
   let found = String.substr_index ~pos:0 ~pattern:search target in
   let res = 
