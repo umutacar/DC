@@ -236,7 +236,7 @@ atom:
 		 | None -> (Tex.kw_gram, "\n\\begin{gram}" ^ "\n" ^ tp ^ "\n" ^ "\\end{gram}\n")
 		 | Some env -> (env, "\n" ^ tp ^ "\n")
 	 in
-	   Ast.Atom.make ~title:topt ~label:lopt tp
+	   Ast.Atom.make kind ~title:topt ~label:lopt tp
   }
 
 atoms:

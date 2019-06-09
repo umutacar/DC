@@ -54,11 +54,11 @@ struct
 	let body a = a.body
 
   let make   
-			?kind: (kind = Tex.kw_gram) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
+			kind
 			body = 
 		{kind; point_val; title; label; depend; body=body}
  
