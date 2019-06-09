@@ -231,40 +231,6 @@ let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
-
-let p_diderot_atom = "diderot" ['a'-'z''A'-'Z']*	
-let p_algorithm = "algorithm"
-let p_assumption = "assumption"
-let p_code = "code"
-let p_corollary = "corollary"
-let p_costspec = "costspec"
-let p_datastr = "datastr"
-let p_datatype = "datatype"
-let p_definition = "definition"
-let p_example = "example"
-let p_exercise = "exercise"
-let p_hint = "hint"
-let p_important = "important"
-let p_lemma = "lemma"
-let p_note = "note"
-let p_gram = "gram"
-let p_preamble = "preamble"
-let p_problem = "problem"
-let p_proof = "proof"
-let p_proposition = "proposition"
-let p_remark = "remark"
-let p_reminder = "reminder"
-let p_slide = "slide"
-let p_solution = "solution"
-let p_syntax = "syntax"
-let p_task = "task"
-let p_theorem = "theorem"
-
-(* Treat teach atoms as tail text, thus they will not be loaded as atoms *)
-let p_teachask = "xx__teachask__xx"
-let p_teachnote = "xx__teachnote__xx"
-
-
 (* Ilists *)
 let p_chooseone = "xchoice"
 let p_chooseany = "anychoice"
@@ -276,51 +242,24 @@ let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_flo
 (* A latex environment consists of alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
 
-let p_segment = p_chapter |
-                p_section |
-                p_subsection |
-                p_subsubsection |
-                p_paragraph 
+let p_segment = 
+	p_chapter |
+  p_section |
+  p_subsection |
+  p_subsubsection |
+  p_paragraph  
+
+
+let p_segment_with_points =
+	p_chapter_with_points | 
+  p_section_with_points | 
+  p_subsection_with_points | 
+  p_subsubsection_with_points | 
+  p_paragraph_with_points
+
 let p_heading = '\\' p_segment
+let p_heading_with_poiths = '\\' p_segment_with_points
 
-let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
-             ((p_algorithm as kind) p_ws as kindws) |
-             ((p_assumption as kind) p_ws as kindws) |
-             ((p_code as kind) p_ws as kindws) |
-             ((p_corollary as kind) p_ws as kindws) |
-             ((p_costspec as kind) p_ws as kindws) |
-             ((p_datastr as kind) p_ws as kindws) |
-             ((p_datatype as kind) p_ws as kindws) |
-             ((p_definition as kind) p_ws as kindws) |
-             ((p_example as kind) p_ws as kindws) |
-             ((p_exercise as kind) p_ws as kindws) |
-             ((p_gram as kind) p_ws as kindws) |
-             ((p_hint as kind) p_ws as kindws) |
-             ((p_important as kind) p_ws as kindws) |
-             ((p_lemma as kind) p_ws as kindws) |
-             ((p_note as kind) p_ws as kindws) |
-             ((p_preamble as kind) p_ws as kindws) |
-             ((p_problem as kind) p_ws as kindws) |
-             ((p_proof as kind) p_ws as kindws) |
-             ((p_proposition as kind) p_ws as kindws) |
-             ((p_remark as kind) p_ws as kindws) |
-             ((p_reminder as kind) p_ws as kindws) |
-             ((p_slide as kind) p_ws as kindws) |
-             ((p_solution as kind) p_ws as kindws) |
-             ((p_syntax as kind) p_ws as kindws) |
-             ((p_task as kind) p_ws as kindws) |
-             ((p_teachask as kind) p_ws as kindws) |
-             ((p_teachnote as kind) p_ws as kindws) |
-             ((p_theorem as kind) p_ws as kindws) 
-
-
-let p_begin_atom = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
-let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
-
-let p_begin_code_atom = (p_com_begin p_ws as b) (p_o_curly as o) ((p_code as kind) p_ws as kindws) (p_c_curly as c) 
-
-let p_end_code_atom = (p_com_end p_ws as e) (p_o_curly as o) ((p_code as kind) p_ws as kindws) (p_c_curly as c) 
 
 let p_ilist_kinds = (p_chooseone | p_chooseany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
@@ -361,6 +300,17 @@ rule initial = parse
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
        KW_HEADING(kind, arg, None)
+    }		
+
+| (p_heading_with_poiths as x) (p_o_curly as o_c)
+    {
+(*     let _ = d_printf "!lexer matched segment: %s." kind in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_c) = take_arg lexbuf in
+     let h = x ^ o_c ^ arg ^ c_c in
+(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+     let _ =  set_line_nonempty () in
+       KW_HEADING(kind, arg, Some point_val)
     }		
 
 | p_begin_group as x
