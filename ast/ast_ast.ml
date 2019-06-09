@@ -65,10 +65,11 @@ struct
   let to_tex atom = 
 		let {kind; point_val; title; label; depend; body} = atom in
 		let point_val = normalize_point_val point_val in
+		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
-		let l_opt = Tex.mk_label_opt label in
-		let d_opt = Tex.mk_depend_opt depend in
+		let l_opt = Tex.mk_label label in
+		let d_opt = Tex.mk_depend depend in
 		  h_begin ^
 		  l_opt ^ 
 		  d_opt ^ 
@@ -108,10 +109,11 @@ struct
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
+		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
-		let l_opt = Tex.mk_label_opt label in
-		let d_opt = Tex.mk_depend_opt depend in
+		let l_opt = Tex.mk_label label in
+		let d_opt = Tex.mk_depend depend in
 		let atoms = map_concat_with newline Atom.to_tex atoms in
 		  h_begin ^ 
 		  l_opt ^ 
@@ -193,8 +195,8 @@ struct
 		let point_val = normalize_point_val point_val in
 		let h_begin = Tex.mk_segment_header kind point_val title in
 		let h_end = Tex.mk_end kind in
-		let l_opt = Tex.mk_label_opt label in
-		let d_opt = Tex.mk_depend_opt depend in
+		let l_opt = Tex.mk_label label in
+		let d_opt = Tex.mk_depend depend in
 		let block = Block.to_tex block in
 		let subsegments = map_concat_with "\n" to_tex subsegments in
 		  h_begin ^ 

@@ -483,9 +483,9 @@ let dependOptToTex dopt =
 
 (* Drop heading and construct from label string *)
 let labelToTex (Label(h, label_string)) = 
-  ((Tex_syntax.mk_label label_string) ^ newline)
+  ((Tex_syntax.mk_label_force label_string) ^ newline)
 
-let labelOptToTex lopt = 
+let labelOptToTex lopt =
   let r = match lopt with 
               |  None -> ""
               |  Some label -> labelToTex label
@@ -1070,7 +1070,7 @@ let createLabel table kind prefix body =
         let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
         let _ = d_printf "ast.createLabel: trying label = %s\n" ls in
           if addLabel table ls then 
-           let heading = Tex_syntax.mk_label ls in
+           let heading = Tex_syntax.mk_label_force ls in
            let _ = d_printf "ast.addLabel: Label = %s added to  the table.\n" ls in
              Some (heading, ls)
           else
@@ -1086,7 +1086,7 @@ let forceCreateLabel table kind prefix topt body_opt =
     let ls = mk_new_label () in 
     let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
     let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
-    let heading = Tex_syntax.mk_label ls in
+    let heading = Tex_syntax.mk_label_force ls in
       (heading, ls)
   | _ ->
   let body =
@@ -1104,7 +1104,7 @@ let forceCreateLabel table kind prefix topt body_opt =
       let ls = mk_new_label () in 
       let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
       let _ = d_printf "ast.forceCreateLabel: label = %s\n" ls in
-      let heading = Tex_syntax.mk_label ls in
+      let heading = Tex_syntax.mk_label_force ls in
         (heading, ls)
     | Some (heading, ls) -> 
         (heading, ls)

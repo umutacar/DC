@@ -185,33 +185,35 @@ let mk_arg arg =
 let mk_opt_arg x = 
   "[" ^ x ^ "]"
 
-let mk_label label = 
-   com_label ^ (mk_arg label)
+let mk_label_force label = 
+  com_label ^ (mk_arg label)
 
-let mk_label_opt lopt = 
+let mk_label lopt = 
   match lopt with 
   |  None -> ""
-  |  Some label -> (mk_label label) ^ newline
+  |  Some label -> 
+			let l = com_label ^ (mk_arg label) in
+			l ^ newline
 
-let mk_depend_opt dopt = 
+let mk_depend dopt = 
   let heading = com_depend in
 	match dopt with 
   |  None -> ""
   |  Some ls -> heading ^ (mk_arg (String.concat ~sep:", " ls)) ^ "\n" 
+
+let mk_title topt = 
+  match topt with 
+  |  None -> ""
+  |  Some t -> mk_opt_arg t
 
 let mk_segment_header kind p t = 
   let b = "\\" ^ kind in
   let p = mk_opt_arg p in 
     b ^ p ^ (mk_arg t) ^ "\n"
 
-let mk_begin name p topt = 
+let mk_begin name p t = 
   let b = "\\begin" ^ (mk_arg name) in
-  let t = 
-		match topt with 
-    | None -> ""
-    | Some t -> t
-  in
-  b ^ (mk_opt_arg p) ^ (mk_opt_arg t) ^ "\n"
+  b ^  p ^  t ^ "\n"
 
 let mk_end kind = 
   "\\end" ^ (mk_arg kind) ^ "\n"
