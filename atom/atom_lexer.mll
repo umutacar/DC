@@ -95,8 +95,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "token = newline."
 	| HSPACE x ->  "token = hspace."
-	| ENV (x, topt, lopt) ->  "token = env = " ^ x
-	| PAR_ENV (x, topt, lopt) ->  "token = env = " ^ x
+	| ENV (topt, lopt, x, all) ->  "token = env = " ^ all
+	| PAR_ENV (topt, lopt, x, all) ->  "token = env = " ^ all
 	| PAR_SIGCHAR x -> "token = par sigchar: " ^ x
 	| PAR_LABEL_AND_NAME (x, y) -> "token = par label %s " ^ x
 	| SIGCHAR x ->  "token = sigchar: " ^ x 
@@ -400,10 +400,10 @@ rule initial = parse
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_env () in		
-          let (y, lopt) = take_env lexbuf in
+          let (lopt, body, h_e) = take_env lexbuf in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(x ^ y, None, lopt)
+            ENV(None, lopt, body, x ^ body ^ h_e)
           
       }   
 
@@ -412,12 +412,12 @@ rule initial = parse
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_opt_arg lexbuf in
-     let h = x ^ a ^ arg ^ c_sq in
+     let h_b = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ = do_begin_env () in		
-     let (y, lopt) = take_env lexbuf in
+      let (lopt, body, h_e) = take_env lexbuf in
      let _ =  set_line_nonempty () in
-            ENV(h ^ y, Some arg, lopt)
+            ENV(Some arg, lopt, body, h_b ^ body ^ h_e)
 }
 
 | p_label_and_name as x
@@ -491,15 +491,15 @@ and take_env =
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let (z, lopt) = take_env lexbuf in
-            (x ^ y ^ z, lopt)          
+          let (lopt, z, h_e) = take_env lexbuf in
+            (lopt, x ^ y ^ z, h_e)          
       }   
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
             let _ = do_begin_env () in
-            let (y, lopt) = take_env lexbuf in
-                (x ^ y, lopt)              
+            let (lopt, y, h_e) = take_env lexbuf in
+                (lopt, x ^ y, h_e)              
         }
 
   | p_end_env as x
@@ -508,35 +508,35 @@ and take_env =
             let do_exit = do_end_env () in
                 if do_exit then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        (x, None)
+                        ( None, "", x)
                 else
-                    let (y, lopt) = take_env lexbuf in
-                      (x ^ y, lopt)  
+                    let (lopt, y, h_e) = take_env lexbuf in
+                      (lopt, x ^ y, h_e)  
         }      
   | p_label_and_name as x
   		{ 
 (*		    let _ = d_printf "!lexer matched label %s." x in *)
 				let all = label_pre ^ label_name ^ label_post in
-        let (y, lopt) = take_env lexbuf in
+        let (lopt, y, h_e) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
-          (all ^ y, Some label_name)  
+          (Some label_name, all ^ y, h_e)  
 			}		
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (y, lopt) = take_env lexbuf in
-          (x ^ y, lopt)
+     let (lopt, y, h_e) = take_env lexbuf in
+          (lopt, x ^ y, h_e)
     }
   | p_percent as x   (* skip over comments *)
    	{ 
      let y = take_comment lexbuf in
-     let (z, lopt) = take_env lexbuf in 
-          ((char_to_str x) ^ y ^ z, lopt)
+     let (lopt, z, h_e) = take_env lexbuf in 
+          (lopt, (char_to_str x) ^ y ^ z, h_e)
      } 
   | _  as x
-        { let (y, lopt) = take_env lexbuf in
-            ((char_to_str x) ^ y, lopt)
+        { let (lopt, y, h_e) = take_env lexbuf in
+            (lopt, (char_to_str x) ^ y, h_e)
         }
 and verbatim =
   parse

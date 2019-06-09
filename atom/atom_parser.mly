@@ -27,10 +27,10 @@ module Tex = Tex_syntax
 %token <string> HSPACE
 %token <string> NEWLINE
 %token <string> SIGCHAR
-%token <string * string option * string option> ENV
+%token <string option * string option * string * string> ENV
 %token <string * string> PAR_LABEL_AND_NAME
 %token <string> PAR_SIGCHAR
-%token <string * string option * string option> PAR_ENV
+%token <string option * string option * string * string> PAR_ENV
 
 %start top
 %type <Ast_ast.ast> top
@@ -59,10 +59,10 @@ sigchar:
 | d = SIGCHAR
   { d }
 | e = ENV
-  { let (es, topt, lopt) = e in
+  { let (topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "Parser matched env, label = %s env = %s" label es in
-  	  es
+    let _ = d_printf "Parser matched env, label = %s env = %s" label all in
+  	  all
   }
 | l = KW_LABEL_AND_NAME
   { let (all, label) = l in 
@@ -73,17 +73,17 @@ sigchar:
 /* Non-space char at the beginning of a paragraph */
 parstart: 
 | d = PAR_SIGCHAR
-  { (d, None, None) }
+  { (None, None, d, d) }
 | e = PAR_ENV
-  { let (es, topt, lopt) = e in
+  { let (topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "Parser matched par_env, label = %s env = %s" label es in
-  	  (es, topt, lopt)
+    let _ = d_printf "Parser matched par_env, label = %s env = %s" label in
+  	  (topt, lopt, body, all)
   }
 | l = PAR_LABEL_AND_NAME
   { let (all, label) = l in 
     let _ = d_printf "Parser matched par_label = %s all = %s" label all in
-      (all, None, None)
+      (None, None, all, all)
   }
 
 
@@ -137,10 +137,10 @@ line_parstart:
   cs = chars;
   nl = newline
   {
-		let (d, topt, lopt) = ps in
-		let l = hs ^ d ^ cs ^ nl in
+		let (topt, lopt, body, all) = ps in
+		let l = hs ^ all  ^ cs ^ nl in
 		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in
-    (l, topt, lopt)
+    (topt, lopt, body, all)
   }
 
 
@@ -151,8 +151,8 @@ textpar:
 	| lp = line_parstart;
 		tail = textpar_tail;
 		{ 
-  	  let (x, topt, lopt) = lp in
- 	 		(x ^ tail, topt, lopt)
+  	  let (topt, lopt, body, all) = lp in
+ 	 		(topt, lopt, body, all ^ tail)
 	}  
 
 textpar_tail:
@@ -228,13 +228,14 @@ atom:
   fs = emptylines;
   tp_all = textpar;
   {
-	 let (tp, topt, lopt) = tp_all in
-	 let tp = String.strip tp in
-	 let single = Tex.take_single_env tp in
+	 let (topt, lopt, body, all) = tp_all in
+	 let all = String.strip all in
+	 let single = Tex.take_single_env all in
 	 let (kind, body) = 
 	   match single with 
-		 | None -> (Tex.kw_gram, tp)
-		 | Some (env, body) -> (env,  body)
+		 | None -> (Tex.kw_gram, all)
+		 | Some (env, _) -> (env,  body)  (* favor body computed by the lexer *)
+					 
 	 in
 	   Ast.Atom.make ~title:topt ~label:lopt  kind  (String.strip body)
   }
