@@ -27,10 +27,10 @@ module Tex = Tex_syntax
 %token <string> HSPACE
 %token <string> NEWLINE
 %token <string> SIGCHAR
-%token <string option * string option * string * string> ENV
+%token <string option * string option * string option * string * string> ENV
 %token <string * string> PAR_LABEL_AND_NAME
 %token <string> PAR_SIGCHAR
-%token <string option * string option * string * string> PAR_ENV
+%token <string option * string option * string option * string * string> PAR_ENV
 
 %start top
 %type <Ast_ast.ast> top
@@ -59,7 +59,7 @@ sigchar:
 | d = SIGCHAR
   { d }
 | e = ENV
-  { let (topt, lopt, body, all) = e in
+  { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
     let _ = d_printf "Parser matched env, label = %s env = %s" label all in
   	  all
@@ -73,17 +73,17 @@ sigchar:
 /* Non-space char at the beginning of a paragraph */
 parstart: 
 | d = PAR_SIGCHAR
-  { (None, None, d, d) }
+  { (None, None, None, d, d) }
 | e = PAR_ENV
-  { let (topt, lopt, body, all) = e in
+  { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
     let _ = d_printf "Parser matched par_env, label = %s env = %s" label in
-  	  (topt, lopt, body, all)
+  	  (popt, topt, lopt, body, all)
   }
 | l = PAR_LABEL_AND_NAME
   { let (all, label) = l in 
     let _ = d_printf "Parser matched par_label = %s all = %s" label all in
-      (None, None, all, all)
+      (None, None, None, all, all)
   }
 
 
@@ -137,10 +137,10 @@ line_parstart:
   cs = chars;
   nl = newline
   {
-		let (topt, lopt, body, all) = ps in
+		let (popt, topt, lopt, body, all) = ps in
 		let l = hs ^ all  ^ cs ^ nl in
 		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in
-    (topt, lopt, body, all)
+    (popt, topt, lopt, body, all)
   }
 
 
@@ -151,8 +151,8 @@ textpar:
 	| lp = line_parstart;
 		tail = textpar_tail;
 		{ 
-  	  let (topt, lopt, body, all) = lp in
- 	 		(topt, lopt, body, all ^ tail)
+  	  let (popt, topt, lopt, body, all) = lp in
+ 	 		(popt, topt, lopt, body, all ^ tail)
 	}  
 
 textpar_tail:
@@ -228,7 +228,7 @@ atom:
   fs = emptylines;
   tp_all = textpar;
   {
-	 let (topt, lopt, body, all) = tp_all in
+	 let (popt, topt, lopt, body, all) = tp_all in
 	 let all = String.strip all in
 	 let single = Tex.take_single_env all in
 	 let (kind, body) = 
@@ -237,7 +237,7 @@ atom:
 		 | Some (env, _) -> (env,  body)  (* favor body computed by the lexer *)
 					 
 	 in
-	   Ast.Atom.make ~title:topt ~label:lopt  kind  (String.strip body)
+	   Ast.Atom.make ~point_val:popt ~title:topt ~label:lopt  kind  (String.strip body)
   }
 
 atoms:

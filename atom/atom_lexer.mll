@@ -95,8 +95,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "token = newline."
 	| HSPACE x ->  "token = hspace."
-	| ENV (topt, lopt, x, all) ->  "token = env = " ^ all
-	| PAR_ENV (topt, lopt, x, all) ->  "token = env = " ^ all
+	| ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
+	| PAR_ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
 	| PAR_SIGCHAR x -> "token = par sigchar: " ^ x
 	| PAR_LABEL_AND_NAME (x, y) -> "token = par label %s " ^ x
 	| SIGCHAR x ->  "token = sigchar: " ^ x 
@@ -202,6 +202,8 @@ let p_com_hint = '\\' "help"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
 
@@ -214,18 +216,18 @@ let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
 let p_chapter = ("chapter" as kind)
-let p_chapter_with_points = ("chapter" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_chapter_with_points = ("chapter" as kind) p_ws (p_point_val as points)
 let p_section = ("section" as kind) p_ws
-let p_section_with_points = ("section" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_section_with_points = ("section" as kind) p_ws (p_point_val as points)
 
 let p_subsection = ("subsection" as kind) p_ws 
-let p_subsection_with_points = ("subsection" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsection_with_points = ("subsection" as kind) p_ws (p_point_val as points)
 
 let p_subsubsection = ("subsubsection" as kind) p_ws 
-let p_subsubsection_with_points = ("subsubsection" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subsubsection_with_points = ("subsubsection" as kind) p_ws (p_point_val as points)
 
 let p_paragraph = ("paragraph" as kind) p_ws												
-let p_paragraph_with_points = ("paragraph" as kind) p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_paragraph_with_points = ("paragraph" as kind) p_ws (p_point_val as points)
 
 let p_cluster = "cluster"
 let p_flex = "flex"
@@ -272,7 +274,8 @@ let p_begin_ilist_arg = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_cu
  
 let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) 
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
 
 
@@ -307,7 +310,7 @@ rule initial = parse
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
      let _ = inc_arg_depth () in
      let (arg, c_c) = take_arg lexbuf in
-     let h = x ^ o_c ^ arg ^ c_c in
+(*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
        KW_HEADING(kind, arg, Some point_val)
@@ -346,14 +349,41 @@ rule initial = parse
     }		
 
 
+| p_begin_env_with_points as x
+      { 
+(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
+          let _ = do_begin_env () in		
+          let (lopt, body, h_e) = take_env lexbuf in
+					let all = x ^ body ^ h_e in
+(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
+					let _ =  set_line_nonempty () in
+            ENV(Some point_val, None, lopt, body, all)
+          
+      }   
+
+| (p_begin_env_with_points as x) (p_o_sq as a)
+    {
+(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ = inc_arg_depth () in
+     let (title, c_sq) = take_opt_arg lexbuf in
+     let h_b = x ^ a ^ title ^ c_sq in
+(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
+     let _ = do_begin_env () in		
+     let (lopt, body, h_e) = take_env lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ =  set_line_nonempty () in
+            ENV(Some point_val, Some title, lopt, body, all)
+}
+
 | p_begin_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_env () in		
           let (lopt, body, h_e) = take_env lexbuf in
+   				let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(None, lopt, body, x ^ body ^ h_e)
+            ENV(None, None, lopt, body, all)
           
       }   
 
@@ -361,13 +391,14 @@ rule initial = parse
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
      let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ arg ^ c_sq in
+     let (title, c_sq) = take_opt_arg lexbuf in
+     let h_b = x ^ a ^ title ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ = do_begin_env () in		
       let (lopt, body, h_e) = take_env lexbuf in
+   		let all = h_b ^ body ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(Some arg, lopt, body, h_b ^ body ^ h_e)
+            ENV(None, Some title, lopt, body, all)
 }
 
 | p_label_and_name as x
