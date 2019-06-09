@@ -202,37 +202,24 @@ let mk_heading name pvalopt t =
   in 
     b ^ p ^ "{" ^ t ^ "}" ^ "\n"
 
-let mk_begin name pvalopt topt = 
+let mk_begin name p topt = 
   let b = "\\begin{" ^ name ^ "}" in
-  let p = 
-		match pvalopt with 
-		| None -> ""
-    | Some pts -> 
-				if pts = 0.0 then ""
-				else mk_opt_arg (Float.to_string pts)
-  in 
   let t = 
 		match topt with 
     | None -> ""
-    | Some t -> mk_opt_arg t
+    | Some t -> t
   in
-  b ^ p ^ t ^ "\n"
+  b ^ (mk_opt_arg p) ^ (mk_opt_arg t) ^ "\n"
 
+let mk_end kind = 
+  "\\end{" ^ kind ^ "}" ^ "\n"
 
-let mk_pointval pts = 
-  mk_opt_arg (Float.to_string pts)
-
-let mk_pointval_opt pts_opt = 
-  match pts_opt with 
-  | None -> ""
-  | Some pts -> mk_opt_arg (Float.to_string pts)
 
 let mk_hint_opt hint_opt = 
   let heading = com_hint in
   match hint_opt with 
   |  None -> ""
   |  Some x -> heading ^ "\n" ^ x  
-
 
 let mk_exp_opt exp_opt = 
   let heading = com_explain in
@@ -300,6 +287,8 @@ let find_all_env contents  =
   let all_end: string list = List.concat_map all_end_ ~f:extract_env in
   let _ = printf_strlist "tex_syntax.find_env: all_begin" all_begin in 
   let _ = printf_strlist "tex_syntax.find_env: all_end" all_end in 
+	let all_begin = List.sort Pervasives.compare all_begin in
+	let all_end = List.sort Pervasives.compare all_end in
 	try
 	let ok = List.fold2_exn all_begin all_end ~init:true ~f:(fun r x y -> r && (x = y)) in
 		  (assert ok;
@@ -328,6 +317,9 @@ let take_single_env contents =
 					None
 		else
 			None
+
+
+
 
 
 (**********************************************************************

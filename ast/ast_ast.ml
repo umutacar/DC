@@ -12,6 +12,17 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 let points_correct = 1.0
 let points_incorrect = 0.0
 
+(* if points (po) is None or 0.0 then
+   empty string, else the points *)
+let normalize_point_val po = 
+	match po with 
+  | None -> ""
+  | Some p -> 
+			let pts = float_of_string p in
+			if pts = 0.0 then ""
+      else Float.to_string pts
+
+
 (**********************************************************************
  ** END: Constants
  **********************************************************************)
@@ -50,6 +61,18 @@ struct
 			?depend: (depend = None)
 			body = 
 		{kind; point_val; title; label; depend; body=body}
+ 
+  let to_tex atom = 
+		let {kind; point_val; title; label; depend; body} = atom in
+		let point_val = normalize_point_val point_val in
+		let h_begin = Tex.mk_begin kind point_val title in
+		let h_end = Tex.mk_end kind in
+		let l_opt = Tex.mk_label_opt label in
+		let d_opt = Tex.mk_depend_opt depend in
+		  h_begin ^ newline ^
+		  l_opt ^ newline ^
+		  d_opt ^ newline ^
+		  body ^ h_end		
 end
 
 type atom = Atom.t
@@ -80,13 +103,59 @@ struct
 			?depend: (depend = None)
 			atoms = 
 		{kind; point_val; title; label; depend; atoms=atoms}
+
+  let to_tex group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+		let h_begin = Tex.mk_begin kind point_val title in
+		let h_end = Tex.mk_end kind in
+		let l_opt = Tex.mk_label_opt label in
+		let d_opt = Tex.mk_depend_opt depend in
+		let atoms = map_concat_with newline Atom.to_tex atoms in
+		  h_begin ^ newline ^
+		  l_opt ^ newline ^
+		  d_opt ^ newline ^
+		  atoms ^ h_end		
 end
 
 type group = Group.t
 
-type element = 
-  | Element_group of group
-  | Element_atom of atom
+module Element = 
+struct
+	type t = 
+		| Element_group of group
+		| Element_atom of atom
+
+	let mk_from_group g = 
+		Element_group g
+
+	let mk_from_atom a = 
+		Element_atom a
+
+
+	let to_tex e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_tex a
+		| Element_group g ->
+				Group.to_tex g
+end
+
+type element = Element.t
+
+module Block = 
+struct
+	type t = element list
+
+  let make es = 
+		es
+
+	let to_tex b = 
+		map_concat_with "\n" Element.to_tex b
+  
+end
+
+type block = Block.t
 
 module Segment =
 struct
@@ -96,7 +165,7 @@ struct
  				title: string option;
 				label: string option; 
 				depend: string list option;
-				block: element list;
+				block: block;
 				subsegments: t list
 			} 
   let kind s = s.kind
@@ -118,11 +187,25 @@ struct
 		{kind; point_val; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
+  let rec to_tex segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+		let h_begin = Tex.mk_begin kind point_val title in
+		let h_end = Tex.mk_end kind in
+		let l_opt = Tex.mk_label_opt label in
+		let d_opt = Tex.mk_depend_opt depend in
+		let block = Block.to_tex block in
+		let subsegments = map_concat_with "\n" to_tex subsegments in
+		  h_begin ^ newline ^
+		  l_opt ^ newline ^
+		  d_opt ^ newline ^
+		  block ^ subsegments ^ 
+		  h_end		
+
 end
 type segment = Segment.t
 
-type ast = Segment of segment 
-
+type ast = segment 
 
 
 (**********************************************************************
@@ -148,7 +231,7 @@ let mk_index () =
 (* Check that the nesting structure of the ast is correct *)
 
 let is_wellformed ast = 
-  let Segment s = ast in
+  let s = ast in
 	let wf = 
 		map_reduce 
 			(fun ss -> Tex.segment_is_nested (Segment.kind ss) (Segment.kind s)) 
@@ -163,40 +246,12 @@ let is_wellformed ast =
  ** END Utilities
  *********************************************************************)
 
-
-
-
-(**********************************************************************
- ** BEGIN: Constructors
- *********************************************************************)
-
-
-let mk_element_from_group g = 
-	Element_group g
-
-let mk_element_from_atom a = 
-	Element_atom a
-
-let mk_segment
-		~kind
-    ?point_val: (point_val = None) 
-    ?title: (title = None) 
-    ?label: (label = None) 
-    ?depend: (depend = None)
-    ?block: (block = [ ])
-    subsegments = 
-	Segment {kind; point_val; title; label; depend; block; subsegments = subsegments} 
-
-(**********************************************************************
- ** END: Constructors
-*********************************************************************)
-
+let to_tex ast = 
+	Segment.to_tex ast
 
 (*
 
-(**********************************************************************
- ** BEGIN: AST To LaTeX
- **********************************************************************)
+
 
       
 let atom_to_tex atom = 

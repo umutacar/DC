@@ -2,8 +2,10 @@
  * Elaborator tool for LaTex.
  *) 
 open Core
-open Atom_lexer
 open Lexing
+open Atom_lexer
+
+module Ast = Ast_ast
 
 let verbose = ref false
 let do_groups = ref false
@@ -24,7 +26,6 @@ let get_str_arg r v =
 let handle_parser_error () = 
   printf ("Parse Error\n.")
 
-
 let elaborate do_inline do_groups infile = 
   let data = In_channel.read_all infile in
 (*  let _ = printf "data = %s" data in *)
@@ -32,7 +33,8 @@ let elaborate do_inline do_groups infile =
 
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let result = Atom_parser.top Atom_lexer.lexer lexbuf in
+	    let ast = Atom_parser.top Atom_lexer.lexer lexbuf in
+			let result = Ast.to_tex ast in
         result
     with End_of_file -> exit 0
 
