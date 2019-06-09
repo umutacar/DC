@@ -186,9 +186,9 @@ segment:
   b = block;
   ss = segments
   {
-   let (kind, heading, pval_opt) = h in
-   let _ = d_printf ("!parser: %s %s matched") kind heading in
-     Ast.Segment.make ~kind:kind b ss
+   let (kind, title, pval_opt) = h in
+   let _ = d_printf ("!parser: %s %s matched") kind title in
+     Ast.Segment.make ~kind:kind title b ss
   }	  
 
 /* segments */

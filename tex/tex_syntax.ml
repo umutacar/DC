@@ -191,15 +191,9 @@ let mk_depend_opt dopt =
   |  None -> ""
   |  Some ls -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
 
-let mk_heading name pvalopt t = 
-  let b = "\\" ^ name in
-  let p = 
-		match pvalopt with 
-    | None -> ""
-    | Some pts -> 
-				if pts = 0.0 then ""
-				else mk_opt_arg (Float.to_string pts)
-  in 
+let mk_segment_header kind p t = 
+  let b = "\\" ^ kind in
+  let p = mk_opt_arg p in 
     b ^ p ^ "{" ^ t ^ "}" ^ "\n"
 
 let mk_begin name p topt = 

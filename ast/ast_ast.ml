@@ -162,7 +162,7 @@ struct
 	type t = 
 			{	kind: string;
 				point_val: string option;
- 				title: string option;
+ 				title: string;
 				label: string option; 
 				depend: string list option;
 				block: block;
@@ -179,9 +179,9 @@ struct
 	let make  
 			?kind: (kind = Tex.kw_gram) 
 			?point_val: (point_val = None) 
-			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
+			title
 			block
 			subsegments = 
 		{kind; point_val; title; label; depend; 
@@ -190,7 +190,7 @@ struct
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
-		let h_begin = Tex.mk_begin kind point_val title in
+		let h_begin = Tex.mk_segment_header kind point_val title in
 		let h_end = Tex.mk_end kind in
 		let l_opt = Tex.mk_label_opt label in
 		let d_opt = Tex.mk_depend_opt depend in

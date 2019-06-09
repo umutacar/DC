@@ -352,14 +352,15 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 
 rule initial = parse
-| p_heading as x
+| (p_heading as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-     let arg = take_arg lexbuf in
-     let h = x ^ arg in
+     let _ = inc_arg_depth () in
+     let (arg, c_c) = take_arg lexbuf in
+     let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
-       KW_HEADING(kind, h, None)
+       KW_HEADING(kind, arg, None)
     }		
 
 | p_begin_group as x
@@ -553,22 +554,22 @@ and take_arg =
   | p_o_curly as x
     {
      let _ = inc_arg_depth () in
-     let arg = take_arg lexbuf in 
-       x ^ arg
+     let (arg, c_c) = take_arg lexbuf in 
+       (x ^ arg, c_c)
     }
   | (p_c_curly p_ws) as x
     {
      let _ = dec_arg_depth () in
        if arg_depth () = 0 then
-           x
+           ("", x)
        else
-         let arg = take_arg lexbuf in 
-           x ^ arg
+         let (arg, c_c) = take_arg lexbuf in 
+           (x ^ arg, c_c)
     }
   | _ as x
     {
-     let arg = take_arg lexbuf in 
-       (char_to_str x) ^ arg
+     let (arg, c_c) = take_arg lexbuf in 
+       ((char_to_str x) ^ arg, c_c)
     }
 and take_opt_arg = 
   parse 
