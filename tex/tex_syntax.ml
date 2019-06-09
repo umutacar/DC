@@ -11,7 +11,7 @@ let correct_choice_indicator = "*"
 let label_seperator = colon
 let label_nestor = colon ^ colon
 
-let pattern_hs = "[' ']*"  
+let pattern_hs = "[ \t]*"  
 let pattern_begin env =
 	"\\\\begin" ^ pattern_hs ^ "{" ^ 
 	pattern_hs ^ env ^ pattern_hs ^ "}"
@@ -191,21 +191,21 @@ let mk_label label =
 let mk_label_opt lopt = 
   match lopt with 
   |  None -> ""
-  |  Some label -> mk_label label
+  |  Some label -> (mk_label label) ^ newline
 
 let mk_depend_opt dopt = 
   let heading = com_depend in
 	match dopt with 
   |  None -> ""
-  |  Some ls -> heading ^ (String.concat ~sep:", " ls) ^ "}" ^ "\n" 
+  |  Some ls -> heading ^ (mk_arg (String.concat ~sep:", " ls)) ^ "\n" 
 
 let mk_segment_header kind p t = 
   let b = "\\" ^ kind in
   let p = mk_opt_arg p in 
-    b ^ p ^ "{" ^ t ^ "}" ^ "\n"
+    b ^ p ^ (mk_arg t) ^ "\n"
 
 let mk_begin name p topt = 
-  let b = "\\begin{" ^ name ^ "}" in
+  let b = "\\begin" ^ (mk_arg name) in
   let t = 
 		match topt with 
     | None -> ""
@@ -214,7 +214,7 @@ let mk_begin name p topt =
   b ^ (mk_opt_arg p) ^ (mk_opt_arg t) ^ "\n"
 
 let mk_end kind = 
-  "\\end{" ^ kind ^ "}" ^ "\n"
+  "\\end" ^ (mk_arg kind) ^ "\n"
 
 
 let mk_hint_opt hint_opt = 
@@ -298,48 +298,50 @@ let find_all_env contents  =
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
 
-let take_single_env contents = 
-  match find_all_env contents with 
+let take_env_body env contents = 
+  let pb = pattern_begin env in
+	let pe = pattern_end env in
+  let mb = str_match_one_first pb contents in
+	match mb with 
 	| None -> None
-	| Some (all_envs, _) -> 
-	  if List.length all_envs = 1 then
-			let env:string = List.nth_exn all_envs 0 in
-			let ok_begin = str_match_prefix "\\\\begin" contents in
-      let suffix = "\\\\end{" ^ env ^ "}" in 	
-			let suffix_begin_pos =  (String.length contents) - (String.length env) - 6 in		
-      let _ = d_printf "suffix = %s" suffix in
-			let ok_end = str_match_at suffix contents suffix_begin_pos in
-			let _ = 
-				d_printf "tex_syntax: take_single_env: ok_begin: %s ok_end: %s" 
-					(string_of_bool ok_begin) (string_of_bool ok_end)
-			in
-			  if ok_begin && ok_end then
-					Some env
-				else
-					None
-		else
-			None
+	| Some (_, rest) ->
+			let me = str_match_last pe rest in
+			match me with 
+			| None -> None
+			| Some (se, body) ->
+					let _ = d_printf "tex_syntax.take_env_body matched body: \n %s" body in
+					Some (env, body)
 
 let take_single_env contents = 
   match find_all_env contents with 
 	| None -> None
 	| Some (all_envs, _) -> 
-	  if List.length all_envs = 1 then
-			let env:string = List.nth_exn all_envs 0 in      
-      let pb = pattern_begin env in
-			let pe = pattern_end env in
-      let mb = str_match_one_first pb contents in
-			match mb with 
-			| None -> None
-			| Some (_, rest) ->
-					let me = str_match_last pe rest in
-					match me with 
-					| None -> None
-					| Some (se, body) ->
-							let _ = d_printf "tex_syntax: take_single_env: matched body: \n %s" body in
-							Some (env, body)
-		else
-			None
+			let envs = uniques_of_list all_envs in
+			let check env =
+				let pb = pattern_begin env in
+				let pe = pattern_end env in
+				let mb = str_match_one_first pb contents in
+				match mb with 
+				| None -> None
+				| Some (_, rest) ->
+						let me = str_match_last pe rest in
+						match me with 
+						| None -> None
+						| Some (se, body) ->
+								let _ = d_printf "tex_syntax.take_env_body matched body: \n %s" body in
+								Some (env, body)
+			in
+			let rec check_all envs = 
+				match envs with 
+				| [ ] -> None 
+				| h::t -> 
+						begin
+							match check h with 
+							| None -> check_all t
+							| Some (env, body) -> Some (env, body)
+						end
+			in
+			check_all envs
 
 (**********************************************************************
  ** Tokenization

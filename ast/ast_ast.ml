@@ -69,10 +69,11 @@ struct
 		let h_end = Tex.mk_end kind in
 		let l_opt = Tex.mk_label_opt label in
 		let d_opt = Tex.mk_depend_opt depend in
-		  h_begin ^ newline ^
-		  l_opt ^ newline ^
-		  d_opt ^ newline ^
-		  body ^ h_end		
+		  h_begin ^
+		  l_opt ^ 
+		  d_opt ^ 
+		  body ^ newline ^
+      h_end		
 end
 
 type atom = Atom.t
@@ -112,9 +113,9 @@ struct
 		let l_opt = Tex.mk_label_opt label in
 		let d_opt = Tex.mk_depend_opt depend in
 		let atoms = map_concat_with newline Atom.to_tex atoms in
-		  h_begin ^ newline ^
-		  l_opt ^ newline ^
-		  d_opt ^ newline ^
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
 		  atoms ^ h_end		
 end
 
@@ -196,12 +197,11 @@ struct
 		let d_opt = Tex.mk_depend_opt depend in
 		let block = Block.to_tex block in
 		let subsegments = map_concat_with "\n" to_tex subsegments in
-		  h_begin ^ newline ^
-		  l_opt ^ newline ^
-		  d_opt ^ newline ^
-		  block ^ subsegments ^ 
-		  h_end		
-
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
+		  block ^ newline ^ 
+      subsegments
 end
 type segment = Segment.t
 

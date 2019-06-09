@@ -236,7 +236,7 @@ atom:
 		 | None -> (Tex.kw_gram, tp)
 		 | Some (env, body) -> (env,  body)
 	 in
-	   Ast.Atom.make ~title:topt ~label:lopt  kind  body
+	   Ast.Atom.make ~title:topt ~label:lopt  kind  (String.strip body)
   }
 
 atoms:

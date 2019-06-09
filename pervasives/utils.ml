@@ -63,6 +63,21 @@ let map_reduce (f: 'a -> 'b) (g: 'b -> 'b -> 'c) (xs: 'a list) : 'c option =
   let xs = List.map xs f in
     List.reduce xs g
 
+(* Return a sublist of input consisting of elements of l that are unique in l.
+   For example l = [0, 1, 1, 2] returns 0 and 2.
+ *)
+let uniques_of_list l = 
+	let rec uniques rest = 
+		match rest with 
+		| [ ] -> [ ]
+		| h::t ->
+				if List.count l (fun x -> x = h) > 1 then
+					uniques t
+				else
+					h:: (uniques t)
+	in
+	uniques l	 
+
 (* END Operations on string lists *)
 
 
@@ -115,6 +130,20 @@ let str_match_suffix (search:string) (target:string) =
 let str_match_at (search:string) (target:string) (pos: int) = 
 	let re = Str.regexp search in
 	Str.string_match re target pos
+
+(* Check that search string matches target exactly. *)
+let str_match_full (search:string) (target:string): bool = 
+	let _ = d_printf "last: searching: %s\n" search in
+	let re = Str.regexp search in
+	let chunks = List.rev (Str.full_split re target) in
+	match chunks with
+	| h::[ ] -> 
+			begin
+			match h with 
+			| Str.Delim ha -> ha = target
+			| _ -> false
+			end
+	| _ -> false
  
 let contains_substring (search: string) (target: string) =
   let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
