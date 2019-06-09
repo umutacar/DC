@@ -16,11 +16,11 @@ let points_incorrect = 0.0
    empty string, else the points *)
 let normalize_point_val po = 
 	match po with 
-  | None -> ""
+  | None -> None
   | Some p -> 
 			let pts = float_of_string p in
-			if pts = 0.0 then ""
-      else Float.to_string pts
+			if pts = 0.0 then None
+      else Some (Float.to_string pts)
 
 
 (**********************************************************************
@@ -65,6 +65,7 @@ struct
   let to_tex atom = 
 		let {kind; point_val; title; label; depend; body} = atom in
 		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
@@ -109,6 +110,7 @@ struct
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
@@ -193,6 +195,7 @@ struct
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
 		let h_begin = Tex.mk_segment_header kind point_val title in
 		let h_end = Tex.mk_end kind in
 		let l_opt = Tex.mk_label label in

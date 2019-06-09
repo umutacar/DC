@@ -188,6 +188,12 @@ let mk_opt_arg x =
 let mk_label_force label = 
   com_label ^ (mk_arg label)
 
+let mk_point_val popt = 
+  match popt with 
+  |  None -> ""
+  |  Some pts -> mk_opt_arg pts
+
+
 let mk_label lopt = 
   match lopt with 
   |  None -> ""
