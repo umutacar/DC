@@ -297,7 +297,7 @@ group:
   { let (kb, hb, _) = b in
 	  let (ke, he) = e in
 	    if kb = ke then
-				Ast.Group.make aa
+				Ast.Group.make ~kind:kb aa
 			else
 				(printf "Error: group start and end should match.";
 				 exit 1)

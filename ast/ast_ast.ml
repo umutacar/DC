@@ -112,7 +112,7 @@ struct
 	let atoms g = g.atoms
 
 	let make  
-			?kind: (kind = Tex.kw_gram) 
+			?kind: (kind = Tex.kw_cluster) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?label: (label = None) 
