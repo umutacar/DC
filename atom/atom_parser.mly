@@ -246,7 +246,7 @@ block:
 atom: 
   fs = emptylines;
   tp_all = textpar;
-  {
+  {	 
 	 let (popt, topt, lopt, body, all) = tp_all in
 	 let all = String.strip all in
 	 let single = Tex.take_single_env all in
@@ -254,9 +254,21 @@ atom:
 	   match single with 
 		 | None -> (Tex.kw_gram, all)
 		 | Some (env, _) -> (env,  body)  (* favor body computed by the lexer *)
-					 
-	 in
-	   Ast.Atom.make ~point_val:popt ~title:topt ~label:lopt  kind  (String.strip body)
+	 in 
+	 let _ = d_printf "parser matched atom: body = \n %s \n" body in
+	 let body = String.strip body in
+	   if Tex.is_label_only body then
+			 let _ = d_printf "atom is label only" in
+			 [ ]
+		 else
+			 let a = Ast.Atom.make 
+					 ~point_val:popt 
+					 ~title:topt 
+					 ~label:lopt  
+					 kind  
+					 body
+			 in
+			 [ a ]
   }
 
 atoms:
@@ -266,10 +278,10 @@ atoms:
 	el = emptylines;
   f = KW_FOLD
 	a = atom
-		{ aa @ [ a ] }
+		{ aa @ a }
 | aa = atoms;
 	a = atom
-		{ aa @ [ a ] }
+		{ aa @ a }
 
 atoms_and_tailspace:
   aa = atoms;
@@ -294,8 +306,10 @@ group:
 
 element:
 | a = atom
-  {let _ = d_printf "!Parser: matched element: atom\n %s" "a" in
-	 [Ast.Element.mk_from_atom a] 
+  { let _ = d_printf "!Parser: matched element: atom\n %s" "a" in
+	  match a with 
+		| [ ] -> [ ]
+		| a::[ ] -> [Ast.Element.mk_from_atom a] 
   }
 | g = group;
   { let _ = d_printf "!Parser: matched group\n %s" "g" in

@@ -344,8 +344,8 @@ let take_single_env contents =
 			check_all envs
 
 let is_label_only contents = 
-  let content = String.strip contents in
-  Str.string_match (Str.regexp pattern_label) contents 0
+  let contents = String.strip contents in
+  str_match_full pattern_label contents 
   
 
 (**********************************************************************

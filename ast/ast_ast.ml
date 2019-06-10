@@ -44,7 +44,8 @@ struct
 				title: string option;
 				label: string option; 
 				depend: string list option;
-				body: string
+				body: string;
+				label_is_given: bool
 			} 
   let kind a = a.kind
   let point_val a = a.point_val
@@ -52,6 +53,7 @@ struct
 	let label a = a.label
 	let depend a = a.depend
 	let body a = a.body
+	let label_is_given a = a.label_is_given
 
   let make   
 			?point_val: (point_val = None) 
@@ -60,7 +62,11 @@ struct
 			?depend: (depend = None)
 			kind
 			body = 
-		{kind; point_val; title; label; depend; body=body}
+		match label with 
+		| None -> 
+				{kind; point_val; title; label; depend; body=body; label_is_given=false}
+		| Some _ -> 
+				{kind; point_val; title; label; depend; body=body; label_is_given=true}
  
   let to_tex atom = 
 		let {kind; point_val; title; label; depend; body} = atom in
@@ -69,11 +75,18 @@ struct
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
-		let l_opt = Tex.mk_label label in
-		let d_opt = Tex.mk_depend depend in
+		let l = 
+			if label_is_given atom then
+				""
+			else 
+				Tex.mk_label label 
+
+		in
+		let d = Tex.mk_depend depend in
+		
 		  h_begin ^
-		  l_opt ^ 
-		  d_opt ^ 
+		  l ^ 
+		  d ^ 
 		  body ^ newline ^
       h_end		
 end
@@ -287,7 +300,8 @@ let atom_to_tex atom =
 		title: string option;
     label: string option; 
 		depend: string list option;
-		body: string
+		body: string;
+    label_generated: bool
 	}
 
 (Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
