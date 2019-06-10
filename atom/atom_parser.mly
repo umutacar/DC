@@ -12,6 +12,20 @@ let mk_point_val_f_opt (s: string option) =
 
 module Ast = Ast_ast
 module Tex = Tex_syntax
+
+let labels: (string list) ref = ref [ ] 
+let insert_label l =
+  labels := l::(!labels)
+let get_labels () = 
+	!labels
+let get_label () = 
+	match !labels with 
+	| [ ] -> None
+	| h::_ -> Some h
+
+let reset_labels () = 
+	labels := [ ]
+
 %}	
 
 %token EOF
@@ -67,6 +81,7 @@ sigchar:
 | l = KW_LABEL_AND_NAME
   { let (all, label) = l in 
     let _ = d_printf "Parser matched label = %s all = %s" label all in
+		let _ = insert_label label in
       all
   }
 
@@ -83,6 +98,7 @@ parstart:
 | l = PAR_LABEL_AND_NAME
   { let (all, label) = l in 
     let _ = d_printf "Parser matched par_label = %s all = %s" label all in
+		let _ = insert_label label in
       (None, None, None, all, all)
   }
 
@@ -211,8 +227,11 @@ block:
 | es = elements; 
   tt = emptylines
   {
-   let _ = d_printf ("parser matched: blocks.\n") in 
-     Ast.Block.make es
+   let _ = d_printf "parser matched: block.\n" in 
+	 let _ = d_printf_strlist "block labels = " (get_labels ()) in
+	 let label = get_label () in 
+	 let _ = reset_labels () in 
+     Ast.Block.make ~label es
   }
 
 /**********************************************************************

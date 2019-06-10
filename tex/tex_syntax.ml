@@ -214,7 +214,6 @@ let mk_title topt =
 
 let mk_segment_header kind p t = 
   let b = "\\" ^ kind in
-  let p = mk_opt_arg p in 
     b ^ p ^ (mk_arg t) ^ "\n"
 
 let mk_begin name p t = 

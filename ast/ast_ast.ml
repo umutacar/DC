@@ -150,13 +150,24 @@ type element = Element.t
 
 module Block = 
 struct
-	type t = element list
-
-  let make es = 
-		es
+	type t = 
+			{	
+				point_val: string option;
+				label: string option; 
+				elements: element list
+			} 
+			
+  let point_val b = b.point_val
+	let label b = b.label
+	let elements b = b.elements
+  let make 
+			?point_val:(point_val = None)  
+			?label:(label = None)  
+			es = 
+		{point_val; label; elements = es}
 
 	let to_tex b = 
-		map_concat_with "\n" Element.to_tex b
+		map_concat_with "\n" Element.to_tex (elements b)
   
 end
 
@@ -189,6 +200,16 @@ struct
 			title
 			block
 			subsegments = 
+		let label = 
+			match label with 
+			| None ->
+					begin
+						match Block.label block with 
+						| None -> None
+						| Some l -> Some l
+					end
+			| Some l -> Some l
+		in
 		{kind; point_val; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
