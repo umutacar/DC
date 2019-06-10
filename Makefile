@@ -12,6 +12,7 @@ DEPEND = \
   xml/xmlConstants.ml xml/xmlSyntax.ml 
 
 
+default: atomize.native
 all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
 
 clean:

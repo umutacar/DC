@@ -11,7 +11,9 @@ let correct_choice_indicator = "*"
 let label_seperator = colon
 let label_nestor = colon ^ colon
 
+
 let pattern_hs = "[ \t]*"  
+let pattern_ws = "[ \t\r\n]*"  
 let pattern_begin env =
 	"\\\\begin" ^ pattern_hs ^ "{" ^ 
 	pattern_hs ^ env ^ pattern_hs ^ "}"
@@ -19,6 +21,11 @@ let pattern_begin env =
 let pattern_end env =
 	"\\\\end" ^ pattern_hs ^ "{" ^ 
 	pattern_hs ^ env ^ pattern_hs ^ "}"
+
+
+
+let pattern_label = "\\\\label" ^ pattern_ws ^ "{" ^ pattern_ws ^ 
+	                  "[^} \r\t\n]*" ^ pattern_ws ^ "}"
 
 (* BEGIN: Keywords *)
 let com_depend = "\\depend"
@@ -305,20 +312,6 @@ let find_all_env contents  =
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
 
-let take_env_body env contents = 
-  let pb = pattern_begin env in
-	let pe = pattern_end env in
-  let mb = str_match_one_first pb contents in
-	match mb with 
-	| None -> None
-	| Some (_, rest) ->
-			let me = str_match_last pe rest in
-			match me with 
-			| None -> None
-			| Some (se, body) ->
-					let _ = d_printf "tex_syntax.take_env_body matched body: \n %s" body in
-					Some (env, body)
-
 let take_single_env contents = 
   match find_all_env contents with 
 	| None -> None
@@ -349,6 +342,11 @@ let take_single_env contents =
 						end
 			in
 			check_all envs
+
+let is_label_only contents = 
+  let content = String.strip contents in
+  Str.string_match (Str.regexp pattern_label) contents 0
+  
 
 (**********************************************************************
  ** Tokenization
