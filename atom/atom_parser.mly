@@ -297,7 +297,10 @@ group:
   { let (kb, hb, _) = b in
 	  let (ke, he) = e in
 	    if kb = ke then
-				Ast.Group.make ~kind:kb aa
+				let kind = kb in
+				let label = get_label () in 
+				let _ = reset_labels () in 
+				Ast.Group.make ~kind ~label aa
 			else
 				(printf "Error: group start and end should match.";
 				 exit 1)

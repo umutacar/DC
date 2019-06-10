@@ -76,10 +76,8 @@ struct
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
 		let l = 
-			if label_is_given atom then
-				""
-			else 
-				Tex.mk_label label 
+			if label_is_given atom then	""
+			else Tex.mk_label label 
 
 		in
 		let d = Tex.mk_depend depend in
@@ -118,7 +116,8 @@ struct
 			?label: (label = None) 
 			?depend: (depend = None)
 			atoms = 
-		{kind; point_val; title; label; depend; atoms=atoms}
+				{kind; point_val; title; label; depend; atoms=atoms}
+
 
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
@@ -127,12 +126,12 @@ struct
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
-		let l_opt = Tex.mk_label label in
-		let d_opt = Tex.mk_depend depend in
+		let l = Tex.mk_label label in
+		let d = Tex.mk_depend depend in
 		let atoms = map_concat_with newline Atom.to_tex atoms in
 		  h_begin ^ 
-		  l_opt ^ 
-		  d_opt ^ 
+		  l ^ 
+		  d ^ 
 		  atoms ^ h_end		
 end
 
