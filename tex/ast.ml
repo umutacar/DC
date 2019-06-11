@@ -232,20 +232,20 @@ let process_title kind topt =
      strip white spaces around keys and values.
    *)
   let string_to_key_value kv = 
-        let _ = printf "ast.extract_key_value input = %s\n" kv in
+        let _ = d_printf "ast.extract_key_value input = %s\n" kv in
         (* split "key = value" pairs *)
         let k_and_v = Str.split (Str.regexp ("[ ]*=[ ]*")) kv in
           match k_and_v with 
           | x::[] -> (printf "FATAL ERROR in LaTeX to html translation: case 1 x = %s \n" x;
                       exit ErrorCode.parse_error_arg_expecting_key_value)
-          | k::v::[] -> (printf "ast.extract_key_value: %s = %s\n" k v;
+          | k::v::[] -> (d_printf "ast.extract_key_value: %s = %s\n" k v;
                          (String.strip k, String.strip v)) 
           | _ -> (printf "FATAL ERROR in LaTeX to html translation case 3\n";
                   exit ErrorCode.parse_error_arg_expecting_key_value)
   in
   let find_lang (kv: (string * string) list): string option = 
     try let (_, lang) = List.find_exn kv ~f:(fun (k, v) -> k = TexSyntax.language) in
-        let _ = printf "ast.process_title: lang = %s\n" lang in 
+        let _ = d_printf "ast.process_title: lang = %s\n" lang in 
           Some lang
     with Caml.Not_found -> None
   in
@@ -311,16 +311,16 @@ let process_title kind topt =
       match tokens with 
       | [] -> (printf "ast.process_title: FATAL ERROR in LaTeX to html translation.\n";
                exit ErrorCode.parse_error_arg_expecting_nonempty_string)
-      | _ -> let _ = printf ("!ast.process_parts: title is non-empty") in
+      | _ -> let _ = d_printf ("!ast.process_parts: title is non-empty") in
              let (topt, lang_opt, arg_opt) =  title_and_args tokens in
                (topt, lang_opt, arg_opt)
   in
     match topt with 
     | None -> 
-        let _ = printf "ast.process_title title = %s" "None" in
+        let _ = d_printf "ast.process_title title = %s" "None" in
          (None, None, None)
     | Some t -> 
-        let _ = printf "ast.process_title title = %s" t in
+        let _ = d_printf "ast.process_title title = %s" t in
           if kind = TexSyntax.kw_code then
             let (topt, lang_opt, arg_opt) = process_parts t in 
               (topt, lang_opt, arg_opt)      

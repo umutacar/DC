@@ -5,6 +5,7 @@
  **********************************************************************)
 
 open Core
+open Utils
 
 (**********************************************************************
  ** BEGIN: Globals
@@ -39,15 +40,19 @@ let pandoc_minor = "pandoc --mathjax"
 let pandoc_verbose_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
 
-let set_pandoc be_verbose = 
-  if be_verbose then
-    pandoc_verbose_minor
-  else
-    pandoc_minor
+(* Returns "./kate/language.xml" *)
+let mk_kate_language l = "./kate/" ^ l ^ ".xml"
 
-let pandoc_highlight langname = 
-  let xml_definition = "./kate/" ^ langname ^ "." ^ "xml" in
-    pandoc ^ " --syntax-definition=" ^ xml_definition
+let set_pandoc be_verbose language = 
+  let lang = match language with 
+             | None -> ""
+             | Some l -> " --syntax-definition=" ^ (mk_kate_language l)
+  in
+    if be_verbose then
+      pandoc_verbose_minor ^ " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang 
+    else
+      pandoc_minor ^  " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang
+
 
 (* Regular expressions *)
 let pattern_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
@@ -61,19 +66,58 @@ let text_prep(s) =
    *)
   Str.global_replace pattern_newline " \n" s
 
-(** END: Globals
+(*********************************************************************
+ ** END: Globals
+ *********************************************************************)
+
+(**********************************************************************
+ ** BEGIN: Utils
  **********************************************************************)
+
+(* Return the list of languages used in the contents 
+   TODO: this looks into comments
+ *)
+let findLang contents  =
+  let extract_lang (m: Re2.Match.t) =
+    let source = Re2.Match.get ~sub:(`Name "lang") m in
+      match source with 
+      | None -> let _ = d_printf "tex2html.findLang: None" in []
+      | Some x -> let _ = d_printf "tex2html.findLang: Some %s" x in [x]
+  in
+  (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
+  let regex = Re2.create_exn
+                  "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
+  in
+  let pattern = Re2.pattern regex in
+  let _ = d_printf "tex2html.findLang: Pattern for this regex = %s\n" pattern in 
+
+  let all_matches = Re2.get_matches_exn regex contents in
+  let languages: string list = List.concat_map all_matches ~f:extract_lang in
+  let _ = d_printf_strlist "tex2html.findLange: languages" languages in 
+    languages
+
+(**********************************************************************
+ ** END: Utils
+ **********************************************************************)
+
+
 
 (* Translate the contents of latex_file_name and write it into
  *  html_file_name
+ * Ignores all but the first language
  *)
-let latex_file_to_html be_verbose (latex_file_name, html_file_name) = 
+let latex_file_to_html be_verbose languages (latex_file_name, html_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
 
-    let command = (set_pandoc be_verbose) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
+    let language = 
+       match languages with 
+       | [] -> None
+       | h::t -> Some h
+    in
+    let command = (set_pandoc be_verbose language) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
     let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -98,14 +142,8 @@ let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) =
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
-    let pandoc = set_pandoc be_verbose in
-    let command = 
-      match lang_opt with 
-        None -> pandoc ^ " " ^ md_file_name ^  " -o " ^ html_file_name
-      | Some lang ->
-        let cmd_pandoc = pandoc_highlight lang in
-          cmd_pandoc ^ " " ^ md_file_name ^  " -o " ^ html_file_name
-    in
+    let pandoc = set_pandoc be_verbose lang_opt in
+    let command = pandoc ^ " " ^ md_file_name ^  " -o " ^ html_file_name in
     let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -130,9 +168,16 @@ let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) =
  ** match specifies that what is expected is a single paragraph
  **)
 
-let tex_to_html be_verbose tmp_dir  unique preamble contents match_single_paragraph = 
+let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
+  let languages = findLang contents  in
+  let languages = match languages with 
+                  | [] -> (match default_lang with 
+                           | None -> []
+                           | Some x -> [x])
+                  | _ -> languages
+  in       
   let latex_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ latex_extension in
   let latex_file = Out_channel.create latex_file_name in
   let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
@@ -144,7 +189,7 @@ let tex_to_html be_verbose tmp_dir  unique preamble contents match_single_paragr
 
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let () = latex_file_to_html be_verbose (latex_file_name, html_file_name) in
+  let () = latex_file_to_html be_verbose languages (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
     if not match_single_paragraph then
 (*      let _ = printf "html: %s" html in *)
@@ -203,7 +248,7 @@ let code_to_html be_verbose tmp_dir lang_opt unique arg_opt contents =
  **)
 let contents_to_html be_verbose tmp_dir lang_opt_default unique preamble contents options = 
   match options with 
-  | Generic is_single_paragraph -> tex_to_html be_verbose tmp_dir unique preamble contents is_single_paragraph
+  | Generic is_single_paragraph -> tex_to_html be_verbose lang_opt_default tmp_dir unique preamble contents is_single_paragraph
   | Code (lang_opt, arg_opt) -> 
     match lang_opt with 
     | None -> 

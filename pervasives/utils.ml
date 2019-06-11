@@ -13,6 +13,14 @@ let d_printf_opt_str heading sopt =
   | None -> d_printf  "%s = None" heading
   | Some x -> d_printf "%s = %s " heading x 
 
+let printf_strlist heading (xs: string list) = 
+  let s = String.concat ~sep:", " xs in
+    printf "%s = %s \n" heading s  
+
+let d_printf_strlist heading (xs: string list) = 
+  let s = String.concat ~sep:", " xs in
+    d_printf "%s = %s \n" heading s  
+
 
 let file_derivative filename deriv = 
   let (filename_, ext) = Filename.split_extension filename in
