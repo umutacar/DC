@@ -89,11 +89,11 @@ let findLang contents  =
                   "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
   in
   let pattern = Re2.pattern regex in
-  let _ = printf "tex2html.findLang: Pattern for this regex = %s\n" pattern in 
+  let _ = d_printf "tex2html.findLang: Pattern for this regex = %s\n" pattern in 
 
   let all_matches = Re2.get_matches_exn regex contents in
   let languages: string list = List.concat_map all_matches ~f:extract_lang in
-  let _ = printf_strlist "tex2html.findLange: languages" languages in 
+  let _ = d_printf_strlist "tex2html.findLange: languages" languages in 
     languages
 
 (**********************************************************************
