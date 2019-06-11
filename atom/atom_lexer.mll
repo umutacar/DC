@@ -1,7 +1,7 @@
 (** BEGIN: HEADER **)
 {
 open Printf
-open AtomizerParser
+open Atom_parser
 open Utils
 
 
@@ -23,6 +23,7 @@ let state_to_string st =
 let state = ref ParBegin
 let set_state s = 
   state := s
+let get_state = fun () -> !state 
 
 (* Some Utilities *)
 let start = Lexing.lexeme_start
@@ -284,7 +285,6 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 rule initial = parse
 | p_chapter as x
     {
-     let _ = d_printf "!lexer matched chapter: %s." x in
      let arg = take_arg lexbuf in
      let h = x ^ arg in
      let _ = d_printf "!lexer matched chapter: %s." h in
@@ -293,7 +293,7 @@ rule initial = parse
 
 | p_section as x
     {
-     let _ = d_printf "!lexer matched section: %s." x in
+(*     let _ = d_printf "!lexer matched section: %s." x in *)
      let arg = take_arg lexbuf in
      let h = x ^ arg in
      let _ = d_printf "!lexer matched section: %s." h in
@@ -303,7 +303,7 @@ rule initial = parse
 
 | p_subsection as x
     {
-     let _ = d_printf "!lexer matched subsection: %s." x in
+(*     let _ = d_printf "!lexer matched subsection: %s." x in *)
      let arg = take_arg lexbuf in
      let h = x ^ arg in
      let _ = d_printf "!lexer matched subsection: %s." h in
@@ -313,7 +313,7 @@ rule initial = parse
 
 | p_subsubsection as x
     {
-     let _ = d_printf "!lexer matched subsubsection: %s." x in
+(*     let _ = d_printf "!lexer matched subsubsection: %s." x in *)
      let arg = take_arg lexbuf in
      let h = x ^ arg in
      let _ = d_printf "!lexer matched subsubsection: %s." h in
@@ -322,7 +322,7 @@ rule initial = parse
 
 | p_paragraph as x
     {
-     let _ = d_printf "!lexer matched paragraph: %s." x in
+(*     let _ = d_printf "!lexer matched paragraph: %s." x in *)
      let arg = take_arg lexbuf in
      let h = x ^ arg in
      let _ = d_printf "!lexer matched paragraph: %s." h in
@@ -331,7 +331,7 @@ rule initial = parse
 
 | p_begin_latex_env as x
       { 
-          let _ = d_printf "!lexer: begin latex env: %s\n" x in
+(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_latex_env () in
           let y = take_env lexbuf in
           let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in
@@ -347,22 +347,26 @@ rule initial = parse
     }
 
 | p_hspace as x
-		{d_printf "!lexer found: horizontal space: %s." (char_to_str x);
+		{
+(*     d_printf "!lexer found: horizontal space: %s." (char_to_str x); *)
      HSPACE(char_to_str x)
     }
 
 | p_sigchar as x
-		{d_printf "!%s" (char_to_str x);
+		{
+(*     d_printf "!%s" (char_to_str x); *)
      SIGCHAR(char_to_str x)
     }
 
 | p_percent_esc as x 
-		{d_printf "!lexer found: espaced percent char: %s." x;
+		{
+(*     d_printf "!lexer found: espaced percent char: %s." x; *)
      PERCENT_ESC(x)
     }
 
 | p_percent as x 
-		{let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in *)
      let comment = take_comment lexbuf in
      let result = (char_to_str x) ^ comment in
      let _ = d_printf "!lexer found: comment: %s." result in
@@ -376,11 +380,12 @@ rule initial = parse
 and take_comment = 		
   parse
   | p_newline as x
-    {let _ = d_printf "take_comment: newline %s" x in
+    { (* let _ = d_printf "take_comment: newline %s" x in *)
         x
     } 
   | _ as x 
-    {let _ = d_printf "take_comment: %s" (char_to_str x) in
+    {
+     (* let _ = d_printf "take_comment: %s" (char_to_str x) in *)
      let comment = take_comment lexbuf in 
        (char_to_str x) ^ comment
     }
@@ -388,7 +393,7 @@ and take_env =
   parse
   | p_begin_verbatim as x
       { 
-          let _ = d_printf "!lexer: entering verbatim\n" in
+(*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let _ = enter_verbatim lexbuf in
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
@@ -397,7 +402,7 @@ and take_env =
       }   
   | p_begin_latex_env as x
         {
-            let _ = d_printf "!lexer: begin latex env: %s\n" x in
+(*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
             let _ = do_begin_latex_env () in
             let y = take_env lexbuf in
                 x ^ y              
@@ -405,17 +410,18 @@ and take_env =
 
   | p_end_latex_env as x
         { 
-            let _ = d_printf "!lexer: end latex env: %s\n" x in
+(*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
             let do_exit = do_end_latex_env () in
                 if do_exit then
-                    let _ = d_printf "!lexer: exiting latex env\n" in
+(*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
                         x
                 else
                     let y = take_env lexbuf in
                       x ^ y  
         }      
   | p_percent_esc as x 
-		{let _ = d_printf "!lexer found: espaced percent char: %s." x in
+		{
+(*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
      let y = take_env lexbuf in
           x ^ y
     }
@@ -467,60 +473,70 @@ and take_arg =
 
 (** BEGIN TRAILER **)
 {
-let lexer: Lexing.lexbuf -> AtomizerParser.token = 
+let lexer: Lexing.lexbuf -> Atom_parser.token = 
 		initial
 
 
-let lexer: Lexing.lexbuf -> AtomizerParser.token =
+let lexer: Lexing.lexbuf -> Atom_parser.token =
   fun lexbuf ->
-		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in
+(*		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in *)
+    let old_state = get_state () in
+    let next_tk = ref None in
+    let start_par tk = (set_state ParIn; next_tk := Some tk) in
   	let tk = lexer lexbuf in 
+
       let _ =
 				match tk with 
 				| NEWLINE _ -> 
 						(match !state with 
-   					| Newline -> set_state NewlineSpace
+   					| Newline -> set_state ParBegin
    					| NewlineSpace -> set_state ParBegin
-						| ParBegin -> set_state Newline
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state Newline)
 
-				| HSPACE _ -> 
+				| HSPACE x -> 
 						(match !state with 
    					| Newline -> set_state NewlineSpace
    					| NewlineSpace -> set_state NewlineSpace
-						| ParBegin -> set_state ParIn
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
-				| SIGCHAR _ -> 
+
+				| SIGCHAR x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParBegin
-						| ParBegin -> set_state ParIn
+   					| NewlineSpace -> set_state ParIn
+						| ParBegin -> start_par (PAR_SIGCHAR x)
 						| ParIn -> set_state ParIn)
-				| PERCENT _ -> 
+
+				| PERCENT x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParBegin
-						| ParBegin -> set_state ParIn
+   					| NewlineSpace -> set_state ParIn
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
 							
-				| PERCENT_ESC _ ->
+				| PERCENT_ESC x ->
 						(match !state with 
    					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParBegin
-						| ParBegin -> set_state ParIn
+   					| NewlineSpace -> set_state ParIn
+						| ParBegin -> start_par (PAR_PERCENT_ESC x)
 						| ParIn -> set_state ParIn)
 							
 				| COMMENT _ -> 
+            (* This might seem counterintuitive:
+             * A comment ends with a newline, so we have to 
+             * determine the next state accordingly.
+             *)
 						(match !state with 
-   					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParBegin
-						| ParBegin -> set_state ParIn
+   					| Newline -> set_state Newline
+   					| NewlineSpace -> set_state Newline
+						| ParBegin -> set_state ParBegin
 						| ParIn -> set_state ParIn)
-				| ENV _ -> 
+				| ENV x -> 
 						(match !state with 
    					| Newline -> set_state ParIn
-   					| NewlineSpace -> set_state ParBegin
-						| ParBegin -> set_state ParIn
+   					| NewlineSpace -> set_state ParIn
+						| ParBegin -> start_par (PAR_ENV x)
 						| ParIn -> set_state ParIn)
 				| KW_LABEL_AND_NAME _ -> set_state ParBegin
 				| KW_CHAPTER _ 
@@ -535,7 +551,13 @@ let lexer: Lexing.lexbuf -> AtomizerParser.token =
 						| ParIn -> set_state ParBegin)
         | EOF -> set_state ParBegin
         | _ -> printf "Fatal Error: token match not found!!!\n"
-			in tk
+			in  
+      let _ = if old_state = ParBegin && (get_state () = ParIn) then
+        printf "!!START PARAGRAPH!!\n"
+      in 
+        match !next_tk with 
+        | None -> tk
+        | Some ntk -> ntk
 }
 (** END TRAILER **)
 
