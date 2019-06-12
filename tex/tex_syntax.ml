@@ -265,7 +265,12 @@ let is_group kw =
 
 (* is subseg nested in segment seg ? *)
 let segment_is_nested subseg seg = 
-  if seg = kw_section then
+  if seg = kw_chapter then
+		subseg = kw_section ||
+		subseg = kw_subsection ||
+    subseg = kw_subsubsection ||
+    subseg = kw_paragraph
+  else if seg = kw_section then
 		subseg = kw_subsection ||
     subseg = kw_subsubsection ||
     subseg = kw_paragraph

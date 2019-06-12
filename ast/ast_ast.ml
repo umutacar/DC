@@ -194,7 +194,7 @@ struct
 				label: string option; 
 				depend: string list option;
 				block: block;
-				subsegments: t list
+				mutable subsegments: t list
 			} 
   let kind s = s.kind
   let point_val s = s.point_val
@@ -240,6 +240,47 @@ struct
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
+
+  (* Given a flat list of segments with a unique top level segment
+	 * nest all segments, and return the top level segment.
+ 	 *)
+  let rec nest_segments (segments: t List.t): t option = 
+
+    (* Assuming segments are properly nested, 
+		 * take segments that are nested in home.
+		 * Properly nested means that the algorithm can stop
+		 * when it encounters the first segment that is not 
+		 * nested within it.
+		 *)
+		let rec take_nesteds home segments = 
+	 begin
+			match segments with 
+			| [ ] -> (home, [ ])
+			| h::t ->
+					if Tex.segment_is_nested (kind h) (kind home) then
+						let s = home.subsegments in
+						let _ = home.subsegments <- s @ [h] in
+						  take_nesteds home t 
+					else
+						(home, segments)
+	 end
+		in
+    (* Nest the tail.
+		 * Take the head and nest the tail with head
+     *)
+		let rec nest segments = 
+			match segments with 
+			| [ ] -> [ ]
+			| h::t ->				
+					let tt = nest t in 
+					let (hh, ttt) = take_nesteds h tt in
+					hh::ttt
+		in
+		match nest segments with 
+		| [ ] -> None
+		| h::[ ] -> Some h
+		| _ -> None
+				
 end
 type segment = Segment.t
 

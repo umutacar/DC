@@ -3,6 +3,10 @@ open Core
 open Printf
 open Utils
 
+
+module Ast = Ast_ast
+module Tex = Tex_syntax
+
 let parse_error s = printf "Parse Error: %s"
 
 let mk_point_val_f_opt (s: string option) = 
@@ -10,8 +14,6 @@ let mk_point_val_f_opt (s: string option) =
   | None -> (None, "None")
   | Some x -> (Some (float_of_string x), "Some " ^ x)
 
-module Ast = Ast_ast
-module Tex = Tex_syntax
 
 let labels: (string list) ref = ref [ ] 
 let insert_label l =
@@ -25,6 +27,16 @@ let get_label () =
 
 let reset_labels () = 
 	labels := [ ]
+
+(* Given kind and segments,
+ * partition segments into those that are subsegments of
+ * kind and that are not, return them in that order.
+ *)
+let nesteds_and_not kind (segments: Ast.segment List.t) = 
+	let is_subsegment s = 
+		Tex.segment_is_nested (Ast.Segment.kind s) kind 		
+	in
+	List.partition_tf segments is_subsegment
 
 %}	
 
@@ -47,7 +59,8 @@ let reset_labels () =
 %token <string option * string option * string option * string * string> PAR_ENV
 
 %start top
-%type <Ast_ast.ast> top
+
+%type <Ast_ast.ast option> top
 
 /*  BEGIN RULES */
 %%
@@ -193,26 +206,46 @@ heading:
 		}
 
 top:
-  s = segment;
+  ss = segments;
   EOF
-  { s }
+  {match Ast.Segment.nest_segments ss with
+	 | None -> 
+	 let _ = printf "Fatal Error.  There should be a top level chapter" in
+	 None
+	 | Some s -> Some s
+	 }
 
 segment: 
+  h = heading;
+  b = block;
+  {
+   let (kind, title, pval_opt) = h in
+   let _ = d_printf ("!parser: %s %s matched") kind title in
+     Ast.Segment.make ~kind:kind title b []
+  }	  
+/*
+|
   h = heading;
   b = block;
   ss = segments
   {
    let (kind, title, pval_opt) = h in
+	 let (subs, supers) = nesteds_and_not kind ss in
    let _ = d_printf ("!parser: %s %s matched") kind title in
-     Ast.Segment.make ~kind:kind title b ss
+     Ast.Segment.make ~kind:kind title b subs
   }	  
+
+*/
 
 /* segments */
 segments:
   { [ ] }
-| ss = segments; 
-  s = segment;
-  { ss @ [ s ] }
+| s = segment; 
+  ss = segments;
+  { 
+	 [ s ] @ ss 
+	 }
+
 
 /**********************************************************************
  ** END: Latex Segments

@@ -30,12 +30,14 @@ let elaborate do_inline do_groups infile =
   let data = In_channel.read_all infile in
 (*  let _ = printf "data = %s" data in *)
 	let ic = In_channel.create infile in
-
    	try 
       let lexbuf = Lexing.from_channel ic in
 	    let ast = Atom_parser.top Atom_lexer.lexer lexbuf in
-			let result = Ast.to_tex ast in
-        result
+			  match ast with 
+				| None -> exit 0
+				| Some ast ->
+						let result = Ast.to_tex ast in
+						result
     with End_of_file -> exit 0
 
 					
