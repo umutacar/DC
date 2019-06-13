@@ -225,6 +225,26 @@ struct
 		{kind; point_val; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
+  (* Convert to string with levels.
+   * Used for debugging only.
+   *)
+  let rec to_tex_level level segment = 		
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
+		let level_str = string_of_int level in
+		let h_begin = Tex.mk_segment_header (level_str ^ kind) point_val title in
+		let h_end = Tex.mk_end kind in
+		let l_opt = Tex.mk_label label in
+		let d_opt = Tex.mk_depend depend in
+		let block = Block.to_tex block in
+		let subsegments = map_concat_with "\n" (to_tex_level (level + 1)) subsegments in
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
+		  block ^ newline ^ 
+      subsegments
+
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
@@ -240,6 +260,10 @@ struct
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
+(*
+  let rec to_tex segment =
+		to_tex_level 0 segment
+*)
 
   (* Given a flat list of segments with a unique top level segment
 	 * nest all segments, and return the top level segment.

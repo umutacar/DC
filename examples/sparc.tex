@@ -1,0 +1,959 @@
+\chapter{The SPARC Language}
+\label{ch:sparc}
+
+\begin{preamble}
+This chapter presents \pml{}: a parallel and functional language used
+throughout the book for specifying algorithms.
+
+%
+\pml is a ``strict'' functional language similar to the ML class of
+languages such as Standard ML or SML, Caml, and F\#.
+%
+In pseudo code, we sometimes use mathematical notation, and even
+English descriptions in addition to \pml{} syntax.
+%
+This chapter describes the basic syntax and semantics of \pml{}; we
+introduce additional syntax as needed in the rest of the book.
+\end{preamble}
+
+\section{Syntax and Semantics of \pml{}}
+
+\begin{gram}
+This section describes the syntax and the semantics of the core subset
+of the \pml{} language.  The term~\defn{syntax}~refers to the
+structure of the program itself, whereas the
+term~\defn{semantics}~refers to what the program computes.
+%
+Since we wish to analyze the cost of algorithms, we are interested in
+not just what algorithms compute, but how they compute.
+%
+Semantics that capture how algorithms compute are
+called~\defn{operational semantics}, and when augmented with specific
+costs,~\defn{cost semantics}.
+%
+Here we describe the syntax of \pml{} and present an informal
+description of its operational semantics. 
+%
+We will cover the cost semantics of \pml in \chref{analysis::models}.
+%
+While we focus primarily on the core subset of \pml, we also describe
+some~\defn{syntactic sugar}~that makes it easier to read or write code
+without adding any real power.
+%
+Even though \pml is a strongly typed language, for our purposes in
+this book, we use types primarily as a means of describing and
+specifying the behavior of our algorithms.
+%
+We therefore do not present careful account of \pml's type system.
+\end{gram}
+
+
+\begin{gram}
+The definition below shows the syntax of \pml{}.
+%
+A \pml{} program is an expression, whose syntax,
+ describe the computations that can be expressed in \pml{}.
+%
+When evaluated an expression yield a value.
+%
+Informally speaking, evaluation of an expression proceeds involves
+evaluating its sub-expressions to values and then combining these
+values  to compute the value of the expression.
+%
+\pml{} is a strongly typed language, where every closed expression,
+which have no undefined (free) variables, evaluates to a value or runs
+forever.
+%
+\end{gram}
+
+\begin{definition}[\pml{} expressions]
+\label{def:sparc::syntax}
+\setlength{\tabcolsep}{20mm}
+\begin{tabular}{llcll}
+Identifier
+& $id$ & := & $\ldots$
+\\
+
+%
+Variables
+& $x$ & := & $id$
+\\
+
+Type Constructors 
+& $tycon$ & := & $id$
+\\
+
+Data Constructors 
+& $dcon$ & := & $id$
+\\
+
+Patterns & $p$ 
+& := & x & variable
+\\
+& & $\mid$  & $( p )$ & parenthesis
+\\
+& & $\mid$  & $p_1, p_2$ & pair
+\\
+& & $\mid$  & $dcon~( p )$ & data pattern
+\\
+
+Types & $\tau$ &  := & $\tyint$  & integers
+\\
+& &  $\mid$ &   $\tybool$  & booleans
+\\
+& &  $\mid$  & $\tau$ $[ * \tau ]^+$  & products
+\\
+& &  $\mid$  & $\tau \ra \tau$ & functions
+\\
+& & $\mid$ & $tycon$         &  type constructors
+\\
+& & $\mid$ & $dty$ & data types
+\\
+
+Data Types & $dty$
+& := &   $dcon~[\cd{of}~\tau]$ 
+\\
+&  & $\mid$ &  $dcon~[ \cd{of}~\tau ]~\cd{|}~dty$
+\\
+
+Values & $v$
+& := & $0  \mid  1  \mid  \ldots$ &  integers
+\\
+& & $\mid$ &  $-1  \mid -2  \mid \ldots$ &  integers
+\\
+& & $\mid$ & $\ctrue{} \mid  \cfalse{}$ & booleans
+\\
+& & $\mid$ & $\cd{not}  \mid \ldots$ & unary operations
+\\
+& & $\mid$ & $\cand  \mid  \cd{plus}  \mid  \ldots$ & binary operations
+\\
+& & $\mid$ & $v_1, v_2$  & pairs
+\\
+& & $\mid$ & $( v )$   & parenthesis
+\\
+& & $\mid$ & $dcon~( v )$  & constructed data
+\\
+& & $\mid$ & $\cfn{p}{e}$ & lambda functions
+\\
+
+Expression  & $e$ 
+& := & $x$ & variables
+\\
+& & $\mid$ & $v$ & values
+\\
+& & $\mid$ & $e_1$ op $e_2$ & infix operations
+\\
+& & $\mid$ & $e_1, e_2$ & sequential pair
+\\
+& & $\mid$ & $e_1 \cd{||} e_2$ & parallel pair
+\\
+& & $\mid$ & $( e )$ & parenthesis
+\\
+& & $\mid$ & $\ccase~e_1~[\cd{|}~p~\cdra~e_2]^+$  & case
+\\
+& & $\mid$ & $\cif~e_1~\cthen~e_2~\celse~e_3$  & conditionals
+\\
+& & $\mid$ & $e_1~e_2$ & \mbox{function application}
+\\
+& & $\mid$ & $\clet~b^+~\cin~e~\cend$ & \mbox{local bindings}
+\\
+
+Operations & $op$ & := & $+ \mid - \mid * \mid - \ldots$
+\\
+
+Bindings &  $b$ & := & 
+$x ( p )$ = $e$ & bind function
+\\
+&  & $\mid$ & $p = e$ & bind pattern
+\\
+&  & $\mid$ & $\ctype~tycon = \tau$ & bind type 
+\\
+&  & $\mid$ & $\ctype~tycon = dty$ & bind datatype
+\\
+
+\end{tabular}
+
+\end{definition}
+
+\begin{gram}[Identifiers]
+In \pml, variables, type constructors, and data constructors are given
+a name, or an~\defn{identifier}.  
+%
+An identifer consist of only alphabetic and numeric characters (a-z,
+A-Z, 0-9), the underscore character (``\_''), and optionally end with
+some number of ``primes''.  
+%
+Example identifiers include, $x'$, $x_1$, $x_l$, $\cdvar{myVar}$,
+$\cdvar{myType}$, $\cdvar{myData}$, and $\cdvar{my\_data}$.
+
+
+
+Program~\defn{variables},~\defn{type constructors}, and~\defn{data
+  constructors}~are all instances of identifiers.
+%
+%% Free or bound variables
+During evaluation of a \pml expression, variables are bound to values,
+which may then be used in  a computation later.  
+%
+In \pml, variable are~\defn{bound}~during function application, as part
+of matching the formal arguments to a function to those specified by
+the application, and also by $\cd{let}$ expressions.
+%
+If, however, a variable appears in an expression but it is not bound
+by the expression, then it is~\defn{free}~in the expression.
+%
+We say that an expression is~\defn{closed}~if it
+has no free variables.
+
+
+Types constructors give names to types.  For example, the type of
+binary trees may be given the type constructor $\cdvar{btree}$.
+%
+Since for the purposes of simplicity, we rely on mathematical rather
+than formal specifications, we usually name our types behind
+mathematical conventions.
+%
+For example, we denote the type of natural numbers by $\tynat$, the type
+of integers by $\tyint$, and the type of booleans by $\tybool$.
+
+
+Data constructors serve the purpose of making complex data structures.
+%
+By convention, we will capitalize data constructors, while starting
+variables always with lowercase letters.
+%
+\end{gram}
+
+
+\begin{gram}[Patterns]
+In \pml, variables and data constructors can be used to construct more
+complex~\defn{patterns}~over data.
+%
+For example, a pattern can be a pair $(x,y)$, or a triple of
+variables $(x,y,z)$, or it can consist of a data constructor
+followed by a pattern, e.g., $\cdvar{Cons}(x)$ or $\cdvar{Cons}(x,y).$
+%
+Patterns thus enable a convenient and concise way to pattern match
+over the data structures in \pml.
+\end{gram}
+
+\begin{gram}[Built-in Types]
+Types of \pml include base types such as integers $\tyint$, booleans
+$\tybool$, product types such as $\tau_1 * \tau_2 \ldots \tau_n$,
+function types $\tau_1 \ra \tau_2$ with domain $\tau_1$ and range
+$\tau_2$, as well as user defined data types.
+%
+\end{gram}
+
+\begin{gram}[Data Types]
+In addition to built-in types, a program can define new~\defn{data types}~as a
+union of tagged types, also called variants, by ``unioning'' them via
+distinct~\defn{data constructors}.
+%
+For example, the following data type defines a point as a
+two-dimensional or a three-dimensional coordinate of integers.
+%
+%
+\[
+\begin{array}{lcl}
+\cd{type}~\cdvar{point} & = & \cdvar{PointTwo}~\cd{of}~\tyint * \tyint
+\\
+           & | & \cdvar{Point3D}~\cd{of}~\tyint * \tyint * \tyint
+\end{array} 
+\]
+\end{gram}
+
+\begin{gram}[Recursive Data Types]
+In \pml recursive data types are relatively easy to define and compute
+with. For example, we can define a point list data type as follows
+%
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{plist} = \cdvar{Nil}~|~\cdvar{Cons}~\cd{of}~\cdvar{point} * \cdvar{plist}.
+\end{array}
+\] 
+%
+Based on this definition the list 
+%
+\[
+\begin{array}{l}
+\cdvar{Cons}(\cdvar{PointTwo} (0,0),  
+\\
+~~~~~~~~~~\cdvar{Cons}(\cdvar{PointTwo} (0,1), 
+\\
+~~~~~~~~~~~~~~~~~~~~\cdvar{Cons}(\cdvar{PointTwo}(0,2), \cdvar{Nil})))  
+\end{array} 
+\]
+%
+defines a list consisting of three points.
+\end{gram}
+
+\begin{flex}
+\begin{exercise}[Booleans]
+Some built-in types such as booleans, $\tybool$, are in fact syntactic
+sugar and can be defined by using union types as follows.
+%
+Describe how you can define booleans using data types of \pml{}.
+\end{exercise}
+
+\begin{solution}
+Booleans can be defined as folllows.
+
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{myBool} = \cdvar{myTrue}~|~\cdvar{myFalse} 
+\end{array}
+\] 
+%
+\end{solution}
+\end{flex}
+
+
+\begin{gram}[Option Type]
+Throughout the book, we use~\defn{option}~types quite frequently.
+%
+Option types for natural numbers can be defined as follows.
+%
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{option} = \cdvar{None} ~|~ \cdvar{Some}~\cd{of}~\tynat
+\end{array}
+\]
+%
+Similarly, we can define option types for integers.
+%
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{intOption} = \cdvar{INone} ~|~ \cdvar{ISome}~\cd{of}~\tyint
+\end{array}
+\]
+%
+Note that we used a different data constructor for naturals.  
+%
+This is necessary for type inference and type checking.
+%
+Since, however, types are secondary for our purposes in this book, we
+are sometimes sloppy in our use of types for the sake of simplicity.
+%
+For example, we use throughout $\cdvar{None}$ and $\cdvar{Some}$ for option
+types regardless of the type of the contents.
+\end{gram}
+
+\begin{teachnote}
+TODO: SEQUENCES etc.SETS.
+\end{teachnote}
+
+
+\begin{gram}[Values]
+Values of \pml, which are the irreducible units of computation
+include natural numbers, integers, Boolean values $\ctrue$ and $\cfalse$,
+unary primitive operations, such as boolean negation $\cd{not}$,
+arithmetic negation $\cminus$, as well as binary operations such as
+logical and $\cand$ and arithmetic operations such as $\cplus$.
+%
+Values also include constant-length tuples, which correspond to
+product types, whose components are values.
+%
+Example tuples used commonly through the book include binary tuples or
+pairs, and ternary tuples or triples.
+%
+Similarly, data constructors applied to values, which correspond to
+sum types, are also values.
+%
+
+As a functional language, \pml treats all function as values. 
+%
+The anonymous function
+%
+$\cd{lambda}~p.~e$
+%
+is a function whose arguments are specified by the pattern $p$, and
+whose body is the expression $e$.
+%
+\end{gram}
+
+\begin{example}
+
+\begin{itemize}
+
+\item
+
+The function 
+%
+$\cd{lambda}~x. x + 1$ takes a single variable as an argument and
+adds one to it.
+%
+
+\item
+The function 
+%
+$\cd{lambda}~(x,y).~x$ takes a pairs as an argument and
+returns the first component of the pair.
+\end{itemize}
+\end{example}
+
+
+\begin{gram}[Expressions]
+Expressions, denoted by $e$ and variants (with subscript, superscript,
+prime), are defined inductively, because in many cases, an expression
+contains other expressions.
+%
+Expressions describe the computations that can be expressed in \pml. 
+%
+Evaluating an expression via the operational semantics of \pml
+produce the value for that expression.
+%
+\end{gram}
+
+\begin{gram}[Infix Expressions]
+An~\defn{infix expression}, $e_1~\cdvar{op}~e_2$, involve two expressions
+and an infix operator $\cdvar{op}$.  The infix operators include $+$
+(plus), $-$ (minus), $*$ (multiply), $/$ (divide),
+$<$ (less), $>$ (greater), $\cd{or}$, and $\cd{and}.$
+%
+For all these operators the infix expression
+$e_1~\cdvar{op}~e_2$ is just syntactic sugar for $f(e_1, e_2)$ where
+$f$ is the function corresponding to the operator $\cdvar{op}$ (see
+parenthesized names that follow each operator above).  
+%
+
+We use standard precedence rules on the operators to indicate their
+parsing.  For example in the expression
+\[
+\cd{3 + 4 * 5}
+\]
+the $*$ has a higher precedence than $+$ and therefore the
+expression is equivalent to $3 + (4 * 5)$. 
+%
+
+Furthermore all operators are left associative unless stated
+otherwise, i.e., that is to say that $a~\cdvar{op}_1~b~\cdvar{op}_2~c =
+(a~\cdvar{op}_1~b)~\cdvar{op}_2~c$ if $\cdvar{op}_1$ and $\cdvar{op}_2$ have the
+same precedence.  
+\end{gram}
+
+%
+\begin{example}
+The expressions $5 - 4 + 2$ evaluates to $(5-4) + 2 = 3$ not
+$5 - (4 + 2) = -1$, because $-$ and $+$ have the same
+precedence.
+\end{example}
+
+\begin{gram}[Sequential and Parallel Composition]
+Expressions include two special infix operators: ``$,$'' and
+$||$, for generating ordered pairs, or tuples, either
+sequentially or in parallel.
+%
+
+The~\defn{comma} operator or~\defn{sequential composition}~as in the
+infix expression $(e_1, e_2)$, evaluates $e_1$ and
+$e_2$ sequentially, one after the other, and returns the ordered pair
+consisting of the two resulting values.
+%
+Parenthesis delimit  tuples.
+%
+%
+
+The~\defn{parallel} operator or~\defn{parallel composition}~``$||$'',
+as in the infix expression
+%
+$(e_1~||~e_2)$,
+%
+evaluates $e_1$ and $e_2$ in parallel, at the same time, and
+returns the ordered pair consisting of the two resulting values.
+%
+
+
+The two operators are identical in terms of their return values.
+%
+However, we will see later, their cost semantics differ: one is
+sequential and the other parallel.  The comma and parallel operators
+have the weakest, and equal, precedence.
+%
+\end{gram}
+
+\begin{teachnote}
+Cost model pointer.
+\end{teachnote}
+
+\begin{example}
+
+\begin{itemize}
+
+\item
+
+The expression 
+\[
+\begin{array}{l}
+\cd{lambda}~(x, y).~(x * x, y * y)
+\end{array}
+\]
+is a function that take two arguments $x$ and $y$ and returns a
+pair consisting of the squares $x$ and $y$.
+%
+
+\item
+The expression
+\[
+\begin{array}{l}
+\cd{lambda}~(x, y).~(x * x~||~y * y)
+\end{array}
+\]
+is a function that take two arguments $\cd{x}$ and $\cd{y}$ and returns a
+pair consisting of the squares $\cd{x}$ and $\cd{y}$ by squaring each of
+$\cd{x}$ and $\cd{y}$ in parallel.
+\end{itemize}
+
+\end{example}
+
+
+\begin{gram}[Case Expressions]
+A~\defn{case expression}~such as 
+%
+\[
+\begin{array}{l}
+\cd{case}~e_1 \\
+\cd{| Nil}\dra e_2 \\ 
+\cd{| Cons}~(x,y)\dra e_3 \\
+\end{array}
+\]
+%
+first evaluates the expression $e_1$ to a value $v_1$, which must
+return data type.
+%
+It then matches $v_1$ to one of the patterns, $\cdvar{Nil}$ or
+$\cdvar{Cons}~(x,y)$ in our example, binds the variable if any in the
+pattern to the respective sub-values of $v_1$, and evaluates the
+``right hand side'' of the matched pattern, i.e., the expression $e_2$
+or $e_3$.
+\end{gram}
+
+\begin{gram}[Conditionals]
+A conditional or an~\defn{if-then-else expression},
+$\cd{if}~e_1~\cd{then}~e_2~\cd{else}~e_3$, evaluates the expression $e_1$,
+which must return a Boolean.
+%
+If the value of $e_1$ is true then the result of the if-then-else
+expression is the result of evaluating $e_2$, otherwise it is the
+result of evaluating $e_3$.  
+%
+This allows for conditional evaluation of expressions.
+\end{gram}
+
+\begin{gram}[Function Application]
+A~\defn{function application}, $e_1~e_2$, applies the function
+generated by evaluating~$e_1$ to the value generated by
+evaluating~$e_2$.  
+%
+For example, lets say that~$e_1$ evaluates to the function~$f$
+and~$e_2$ evaluates to the value~$v$, then we apply~$f$ to~$v$ by
+first matching~$v$ to the argument of $f$, which is pattern, to
+determine the values of each variable in the pattern.
+%
+We then substitute in the body of~$f$ the value of each variable for
+the variable.  To~\defn{substitute}~a value in place of a variable~$x$
+in an expression~$e$, we replace each instance of~$x$ with~$v$.
+%
+
+For example if function $\cd{lambda}~(x,y).~e$ is applied to the pair
+$\cd{(2,3)}$ then $x$ is given value $\cd{2}$ and $y$ is given value
+$\cd{3}$. 
+%
+Any free occurrences of the variables $x$ and $y$ in the
+expression $e$ will now be bound to the values $\cd{2}$ and $\cd{3}$
+respectively.  
+%
+We can think of function application as substituting
+the argument (or its parts) into the free occurrences of the variables
+in its body $e$.
+%
+The treatment of function application is why we call \pml{} a~\defn{strict}~language. 
+%
+In strict or call-by-value languages, the argument to the function is
+always evaluated to a value before applying the function.
+%
+In contrast non-strict languages wait to see if the argument will be
+used before evaluating it to a value. 
+% 
+\end{gram}
+
+\begin{example}
+\begin{itemize}
+
+\item
+The expression
+\[
+(\cd{lambda}~(x,y).~x / y)~(8,2)
+\]
+\\
+evaluates to $4$ since $8$ and 
+$2$ are bound to $x$ and $y$, respectively, and then divided.
+
+\item
+The expression 
+\[
+(\cd{lambda}~(f,x).~f(x,x))~(\cdvar{plus},3)
+\] 
+%
+evaluates to $6$ because $f$ is bound to the function
+$\cdvar{plus}$, $x$ is bound to $3$, and then $\cdvar{plus}$ is applied
+to the pair $(3,3)$.
+
+\item
+The expression
+\[
+(\cd{lambda}~x.~(\cd{lambda}~y .~x + y ) )~3
+\]
+\\
+%
+evaluates to a function that adds $3$ to any integer.
+\end{itemize}
+\end{example}
+
+\begin{gram}[Bindings]
+
+The~\defn{let expression}, 
+\[
+\cd{let}~b^+\cd{in}~e~\cd{end},
+\] 
+%
+consists of a sequence of bindings $b^+$, which define local variables
+and types, followed by an expression $e$, in which those bindings are
+visible.  In the syntax for the bindings, the superscript $+$ means
+that $b$ is repeated one or more times.  Each binding $b$ is either a
+variable binding, a function binding, or a type binding.
+%
+The let expressionevaluates to the result of evaluating $e$ given the
+variable bindings defined in $b$.
+
+A~\defn{function binding}, $x (p) = e$, consists of a function
+name, $x$ (technically a variable), the arguments for the function,
+$p$, which are themselves a pattern, and the body of the function,
+$e$. 
+
+%
+
+Each~\defn{type binding}~equates a type to a base type or a data type.
+\end{gram}
+
+\begin{example}
+Consider the following let expression.
+\[
+\begin{array}{l}
+\cd{let}\\ 
+~~~~x = 2 + 3\\
+~~~~f (w) = (w * 4, w - 2)\\
+~~~~(y,z) = f(x-1)\\
+\cd{in}\\ 
+~~~~x + y + z\\
+\cd{end} 
+\end{array}
+\]
+
+The first  binding the variable $x$ to $\cd{2 + 3 = 5}$;
+%
+The second binding defines a function $f(w)$ which returns a pair;
+%
+The third binding applies the function $f$ to $x - 1 = 4$
+returning the pair $(4 * 4, 4 -2) = (16, 2)$, which
+  $y$ and $z$ are bound to, respectively (i.e., $y = 16$ and
+  $z = 2$.
+%
+Finally the let expressions adds $x, y, z$ and yields $5 + 16 + 2$.
+The result of the expression is therefore $23$.
+\end{example}
+
+
+\begin{note}
+Be careful about defining which variables each binding can see, as
+this is important in being able to define recursive functions.  In
+\pml{} the expression on the right of each binding in a $\cd{let}$ can
+see all the variables defined in previous variable bindings, and can
+see the function name variables of all binding (including itself)
+within the $\cd{let}$.
+%
+Therefore the function binding
+%
+\[
+\cd{x}(p) = e
+\]
+%
+is not equivalent to the variable binding
+%
+\[
+\cd{x} = \cd{lambda}~p.e,
+\]
+%
+because in the prior $x$ can be used
+in $e$ and in the later it cannot.
+%
+Function bindings therefore allow for the definition of
+recursive functions.  
+%
+Indeed they allow for mutually recursive functions since the body of
+function bindings within the same $\cd{let}$ can reference each other.
+\end{note}
+
+\begin{example}
+The expression
+%
+\[
+\begin{array}{l}
+\cd{let}\\
+~~~~f(i) = \cd{if} ~(i < 2) ~\cd{then}~ i ~\cd{else}~ i  * 
+f(i - 1) \\
+\cd{in} \\ 
+~~~~f(5) \\
+\cd{end} 
+\end{array}
+\]
+will evaluate to the factorial of $5$, i.e., $5 * 4 * 3 * 2
+* 1$, which is $120$.
+\end{example}
+
+
+\begin{example}
+The piece of code below illustrates an example use of data types and
+higher-order functions.
+%
+\[
+\begin{array}{l}
+\cd{let}
+\\ 
+~~~~\cd{type}~\cdvar{point} = \cdvar{PointTwo}~\cd{of}~\tyint * \tyint
+\\ 
+~~~~~~~~~~~~~~~~~~~~~~~~|~~\cdvar{PointThree}~\cd{of}~ \tyint * \tyint * \tyint
+\\
+~~~~\cdvar{injectThree}~(\cdvar{PointTwo}~(x, y)) = \cdvar{PointThree}~(x, y, 0)
+\\  
+~~~~\cdvar{projectTwo}~(\cdvar{PointThree}~(x, y, z)) = \cdvar{PointTwo}~(x, y)
+\\ 
+~~~~\cdvar{compose}~f~g = f~g  
+\\
+~~~~p0 = \cdvar{PointTwo}~(0,0)
+\\
+~~~~q0 = \cdvar{injectThree}~p0
+\\
+~~~~p1 = (\cdvar{compose}~\cdvar{projectTwo}~\cdvar{injectThree})~p0
+\\
+\cd{in} 
+\\
+~~~~(p0, q0)
+\\
+\cd{end}
+\end{array}
+\]
+
+The example code above defines a $\cdvar{point}$ as a two (consisting of
+$x$ and $y$ axes) or three dimensional (consisting of $x$, $y$, and
+$z$ axes) point in space.
+%
+The function $\cdvar{injectThree}$ takes a 2D point and transforms it to a 3D
+point by mapping it to a point on the $z=0$ plane. 
+%
+The function $\cdvar{projectTwo}$ takes a 3D point and transforms it to a 2D
+point by dropping its $z$ coordinate.
+%
+The function $\cdvar{compose}$ takes two functions $f$ and $g$ and composes
+them.
+%
+The function $\cdvar{compose}$ is a higher-order function, since id operates
+on functions.
+
+The point $p0$ is the origin in 2D.  The point $q0$ is then computed
+as the origin in 3D.  The point $p1$ is computed by injecting $p0$ to
+3D and then projecting it back to 2D by dropping the $z$ components,
+which yields again $p0$.  
+%
+In the end we thus have $p0 = p1 = (0,0)$. 
+
+\end{example}
+
+
+\begin{example}
+The following \pml code, which defines a binary tree whose leaves and
+internal nodes holds keys of integer type.
+%
+The function $\cdvar{find}$ performs a lookup in a given binary-search tree
+$t$, by recursively comparing the key $x$ to the keys along a path in
+the tree.
+
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{tree} = \cdvar{Leaf}~\cd{of}~\tyint~|~\cdvar{Node}~\cd{of}~(\cdvar{tree}, \tyint, \cdvar{tree})
+\\
+\cdvar{find}~(t, x) = 
+\\
+~~~~\cd{case}~t
+\\ 
+~~~~|~\cdvar{Leaf}~y \dra x = y 
+\\
+~~~~|~\cdvar{Node}~(\cdvar{left}, y, \cdvar{right}) \dra
+\\
+~~~~~~~~~\cd{if}~x = y~\cd{then} 
+\\
+~~~~~~~~~~~~~\cd{return}~\cd{true}
+\\
+~~~~~~~~~\cd{else}~\cd{if}~x < y~\cd{then} 
+\\
+~~~~~~~~~~~~~\cdvar{find}~(\cdvar{left}, x)
+\\
+~~~~~~~~~\cd{else}
+\\
+~~~~~~~~~~~~~\cdvar{find}~(\cdvar{right}, x)
+\end{array}
+\]
+\end{example}
+
+
+%% \begin{example}
+%% The expression: \[(\cfn{(x,y)}{x / y})~(8,2)\] evaluates to $4$ since $8$ and 
+%% $2$ are bound to $x$ and $y$, respectively, and then divided.
+%% The expression: \[(\cfn{(f,x)}{f(x,x)})~(\cdvar{plus},3)\] evaluates to $6$
+%% since $f$ is bound to the function \cdvar{plus}, $x$ is bound to $3$,
+%% and then \cdvar{plus} is applied to the pair $(3,3)$.
+%% The expression: \[(\cfn{x}{(\cfn{y}{x + y})})~3\] evaluates to a
+%% function that adds $3$ to any integer.
+%% \end{example}
+
+
+
+\begin{remark}~\\
+The definition
+\[
+\cfn{x}{(\cfn{y}{f(x,y)})}
+\]
+  takes a function $f$ of a pair of arguments and converts it
+  into a function that takes one of the arguments and returns a
+  function which takes the second argument.  This technique can be
+  generalized to functions with multiple arguments and is often
+  referred to as~\defn{currying}, named after Haskell Curry
+  (1900-1982), who developed the idea.  It has nothing to do with the
+  popular dish from Southern Asia, although that might be an easy way
+  to remember the term.
+
+\end{remark}
+
+
+\section{Derived Syntax for Loops}
+
+\begin{gram}
+\pml{} does not have explicit syntax for loops but loops can be
+implemented with recursion.
+%
+We use the syntactic sugar, which is defined below, for expressing
+while loops.
+%
+\end{gram}
+
+\begin{syntax}[While loops]
+\label{syn:sparc::while}
+The~\defn{while loop}~can appear as one of the bindings $b$ in a
+\cd{let}~expression and has the syntax the following syntax.
+%
+\[
+\begin{array}{ll}
+xs = 
+& \cd{start}~p~\cd{and}
+\\
+& \cd{while}~e_{continue}~\cd{do}
+\\
+&~~~~~b^+
+\end{array}
+\]
+%
+Here $xs$ are the result variables holding the values computed by the
+while loop, the pattern $p$ is the initial value for $xs$.
+%
+Such a $\cd{while}$ loop evaluates by setting $xs$ to pattern $p$ and
+then evaluating the loop until $e_{continue}$ evaluates to $\cfalse$.
+%
+In a typical use the body of the loop $b^+$ defines the variables
+$xs$, whose final value will be the value of $xs$ when the loop terminates.
+
+We define the while loop syntax above  to be equivalent to the
+following pair of bindings.
+
+\[
+\begin{array}{l}
+f~xs = \cd{if not}~e_{continue}~\cd{then}~xs
+\\
+~~~~~~~~~~~~~~~~~\cd{else let}~b^+~\cd{in}~f~xs~\cd{end}
+\\
+xs =  f~p
+\end{array}
+\]
+
+%% \[
+%% \begin{align}
+%% f~xs  = & \cd{if not}~e_{continue}~\cd{then}~xs
+%% \\
+%%   & \cd{else let}~b^+~\cd{in}~f~xs~\cd{end}
+%% \\
+%% \cd{xs} & = & f~p
+%% \end{align}
+%% \]
+
+Here $xs$, $p$, $e_{continue}$ and $b^+$ are substituted
+verbatim.  
+%
+The loop is expressed as a function that takes $xs$ as an argument and
+runs the body of the loop until the expression $e_{continue}$ becomes
+false at which time the variables $xs$ is returned.
+%
+The variables $xs$ are passed from one iteration of the while to the next
+each of which might redefine them in the bindings.  
+%
+After the loop terminates, the variables take on the value they had at
+the end of the last iteration.
+
+When evaluated a while loop starts by matching the variables $xs$ to
+the pattern $p$ and then continues to evaluate the while loop in the
+usual fashion.
+%
+It first checks the value of $e_{continue}$, if it is false, then the
+evaluation completes.  
+%
+If not, then the  bindings in $b^{+}$, which can use the variables
+$xs$, are evaluated.
+%
+Having finished the body, evaluation jumps to the beginning of the
+$\cd{while}$ and evaluates the termination condition $e_{continue}$, and
+continues on executing the loop body and so on. 
+\end{syntax}
+
+
+\begin{example}
+The following code sums the squares of the integers from 1 to $n$.
+%
+\[
+\begin{array}{l}
+\cdvar{sumSquares}~(n) = 
+\\
+~~~~\cd{let}~(s,n) = \cd{start}~(0,n)~\cd{and} \\ 
+~~~~~~~~~~~~~~~~~~~~~~~~~~\cd{while}~n > 0~\cd{do} \\
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~s = s + n * n \\
+~~~~~~~~~~~~~n = n - 1\\
+~~~~\cd{in}~s~\cd{end}
+\end{array}
+\]
+%
+By definition it is equivalent
+to the following code.
+\[
+\begin{array}{l}
+\cdvar{sumSquares}~(n) =\\ 
+~~~~\cd{let}~f~(s, n) = \\ 
+~~~~~~~~~~~~~~~\cd{if}~\cd{not} (n > 0) ~\cd{then}\\
+~~~~~~~~~~~~~~~~~~~(s, n) \\
+~~~~~~~~~~~~~~~\cd{else}\\
+~~~~~~~~~~~~~~~~~~~\cd{let} \\
+~~~~~~~~~~~~~~~~~~~~~~~~s = s + n * n \\
+~~~~~~~~~~~~~~~~~~~~~~~~n = n - 1 \\
+~~~~~~~~~~~~~~~~~~~\cd{in}~f~(s, n)~\cd{end}\\
+~~~~~~~~~~~~~(s, n) = f~(0, n)\\
+~~~~\cd{in}~s~\cd{end}
+\end{array}
+\]
+\end{example}
+
