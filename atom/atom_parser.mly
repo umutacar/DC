@@ -91,12 +91,15 @@ sigchar:
     let _ = d_printf "Parser matched env, label = %s env = %s" label all in
   	  all
   }
+
+/*
 | l = KW_LABEL_AND_NAME
   { let (all, label) = l in 
     let _ = d_printf "Parser matched label = %s all = %s" label all in
 		let _ = insert_label label in
       all
   }
+*/
 
 /* Non-space char at the beginning of a paragraph */
 parstart: 
@@ -108,13 +111,14 @@ parstart:
     let _ = d_printf "Parser matched par_env, label = %s env = %s" label in
   	  (popt, topt, lopt, body, all)
   }
+/*
 | l = PAR_LABEL_AND_NAME
   { let (all, label) = l in 
     let _ = d_printf "Parser matched par_label = %s all = %s" label all in
 		let _ = insert_label label in
       (None, None, None, all, all)
   }
-
+*/
 
 /* All characters */
 char: 
