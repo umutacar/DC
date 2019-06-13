@@ -257,6 +257,18 @@ struct
 		{kind; point_val; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
+  (* Traverse (pre-order) group by applying f to its fields *) 
+  let rec traverse segment state f = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let s = f state ~kind:(Some kind) ~point_val ~title:(Some title) ~label ~depend ~contents:None in
+
+		let block_tr_f state block = Block.traverse block state f in
+		let subsegment_tr_f state subsegment = traverse subsegment state f in
+
+		let state_b = Block.traverse block state f in
+		let state_s = List.fold_left subsegments ~init:state_b ~f:subsegment_tr_f in
+		state_s
+
   (* Convert to string with levels.
    * Used for debugging only.
    *)
