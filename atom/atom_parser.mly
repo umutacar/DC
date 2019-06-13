@@ -223,19 +223,6 @@ segment:
    let _ = d_printf ("!parser: %s %s matched") kind title in
      Ast.Segment.make ~kind:kind title b []
   }	  
-/*
-|
-  h = heading;
-  b = block;
-  ss = segments
-  {
-   let (kind, title, pval_opt) = h in
-	 let (subs, supers) = nesteds_and_not kind ss in
-   let _ = d_printf ("!parser: %s %s matched") kind title in
-     Ast.Segment.make ~kind:kind title b subs
-  }	  
-
-*/
 
 /* segments */
 segments:

@@ -405,7 +405,9 @@ rule initial = parse
  		{ 
 (*	    let _ = d_printf "!lexer matched %s." x in *)
       let _ =  set_line_nonempty () in
-			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)
+			let all = label_pre ^ label_name ^ label_post in
+(*			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name) *)
+			SIGCHAR (all)
 		}		
 
 | p_sigchar as x
@@ -680,15 +682,6 @@ let lexer: Lexing.lexbuf -> Atom_parser.token =
 						begin
 						match !state with 
    					| Idle -> start_par (PAR_ENV x)
-						| Busy -> set_state Busy
-						end
-
-				| KW_LABEL_AND_NAME x -> 
-(*  					let _ = d_printf "** token = label \n" in *)
-						let _ = set_trace No_space in
-						begin
-						match !state with 
-   					| Idle -> start_par (PAR_LABEL_AND_NAME x)
 						| Busy -> set_state Busy
 						end
 
