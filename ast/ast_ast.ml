@@ -40,9 +40,9 @@ module Atom  =
 struct
 	type t = 
 			{	kind: string;
-				point_val: string option;
+				mutable point_val: string option;
 				title: string option;
-				label: string option; 
+				mutable label: string option; 
 				depend: string list option;
 				body: string;
 				label_is_given: bool
@@ -104,9 +104,9 @@ module Group =
 struct
 	type t = 
 			{	kind: string;
-				point_val: string option;
+				mutable point_val: string option;
 				title: string option;
-				label: string option; 
+				mutable label: string option; 
 				depend: string list option;
 				atoms: atom list
 			} 
@@ -190,8 +190,8 @@ module Block =
 struct
 	type t = 
 			{	
-				point_val: string option;
-				label: string option; 
+				mutable point_val: string option;
+				mutable label: string option; 
 				elements: element list
 			} 
 			
@@ -228,9 +228,9 @@ module Segment =
 struct
 	type t = 
 			{	kind: string;
-				point_val: string option;
+				mutable point_val: string option;
  				title: string;
-				label: string option; 
+				mutable label: string option; 
 				depend: string list option;
 				block: block;
 				mutable subsegments: t list
@@ -431,111 +431,13 @@ let collect_labels ast: Label_set.t =
   let _ = d_printf_strlist "All labels: " label_list in
 	  label_set
 
+
+let label_ast ast = 
+	let label_set = collect_labels ast in
+	  ()
+
+
 (*
-      
-let atom_to_tex atom = 
-	match atom with
- 	{	kind: string;
-		point_val: string option;
-		title: string option;
-    label: string option; 
-		depend: string list option;
-		body: string;
-    label_generated: bool
-	}
-
-(Atom(preamble, (kind, h_begin, pval_opt, topt, lopt, dopt, body, ilist_opt, hint_opt, refsol_opt, exp_opt, rubric_opt, h_end))) = 
-  let h_begin = mktex_header_atom kind pval_opt topt in
-  let h_end = mktex_end kind in
-  let label = labelOptToTex lopt in
-  let depend = dependOptToTex dopt in
-  let hint = hintOptToTex hint_opt in
-  let refsol = refsolOptToTex refsol_opt in
-  let exp = expOptToTex exp_opt in
-  let rubric = rubricOptToTex rubric_opt in
-    match ilist_opt with 
-    | None -> 
-      let _ = d_printf "atomToTex: h_begin = %s" h_begin in         
-      let r =  preamble ^ h_begin ^ label ^ depend ^ body ^ hint ^ refsol ^ exp ^ rubric ^ h_end in 
-(*      let _  = d_printf "atomToTex: atom =  %s" r in *)
-        r
-    | Some il ->
-      let ils = ilistToTex il in 
-        preamble ^ h_begin ^ label ^ depend ^ body ^ ils ^ hint ^ refsol ^ exp ^ rubric ^ h_end      
-
-let groupToTex (Group(preamble, (kind, h_begin, pval_opt, topt, lopt, ats, tt, h_end))) = 
-  let h_begin = mktex_begin kind pval_opt topt in
-  let h_end = mktex_end kind in
-  let atoms = map_concat atomToTex ats in
-  let label = labelOptToTex lopt in
-    preamble ^ newline ^ (* extra newline for readability *)
-    h_begin ^ label ^ 
-    atoms ^ tt ^   (* Tailtext comes after atoms *)
-    h_end
-
-let elementToTex b = 
-  match b with
-  | Element_Group g -> groupToTex g
-  | Element_Atom a -> atomToTex a
-
-let blockToTex (Block(es, tt)) = 
-  let _ = d_printf "blockToTex" in
-  let elements = map_concat elementToTex es in
-    elements ^ tt
-
-let paragraphToTex (Paragraph(heading, pval_opt, t, lopt, b)) = 
-  let _ = d_printf "paragraphToTex, points = %s\n" (pval_opt_to_string pval_opt) in
-  let heading = mktex_section_heading Tex.kw_paragraph pval_opt t in
-  let block = blockToTex b in
-  let label = labelOptToTex lopt in
-    heading ^ label ^ 
-    block
-
-let paragraphsToTex ps = 
-  map_concat paragraphToTex ps
-
-let subsubsectionToTex (Subsubsection (heading, pval_opt, t, lopt, b, ps)) =
-  let block = blockToTex b in
-  let paragraphs = paragraphsToTex ps in
-  let label = labelOptToTex lopt in
-  let heading = mktex_section_heading Tex.kw_subsubsection pval_opt t in
-    heading ^ label ^ 
-    block ^ paragraphs
-
-let subsectionToTex (Subsection (heading, pval_opt, t, lopt, b, ps, ss)) =
-  let block = blockToTex b in
-  let paragraphs = paragraphsToTex ps in
-  let nesteds = map_concat subsubsectionToTex ss in
-  let label = labelOptToTex lopt in
-  let heading = mktex_section_heading Tex.kw_subsection pval_opt t in
-    heading ^ label ^ 
-    block ^ paragraphs ^ nesteds
-
-let sectionToTex (Section (heading, pval_opt, t, lopt, b, ps, ss)) =
-  let block = blockToTex b in
-  let paragraphs = paragraphsToTex ps in
-  let nesteds = map_concat subsectionToTex ss in
-  let label = labelOptToTex lopt in
-  let heading = mktex_section_heading Tex.kw_section pval_opt t in
-    heading ^ label ^ 
-    block ^ paragraphs ^ nesteds
-
-let chapterToTex (Chapter (preamble, (heading, pval_opt, t, l, b, ps, ss))) =
-  let block = blockToTex b in
-  let paragraphs = paragraphsToTex ps in
-  let sections = map_concat sectionToTex ss in
-  let _ = d_printf "ast.chapterToTex: block = [begin: block] %s... [end: block] " block in
-  let label = labelToTex l in
-  let heading = mktex_section_heading Tex.kw_chapter pval_opt t in
-    preamble ^ 
-    heading ^ label ^
-    block ^ paragraphs ^ sections
-
-(**********************************************************************
- ** END: AST To LaTeX
- **********************************************************************)
-
-
 (**********************************************************************
  ** BEGIN: AST To XML
  **********************************************************************)
