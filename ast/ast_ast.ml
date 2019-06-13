@@ -68,6 +68,10 @@ struct
 		| Some _ -> 
 				{kind; point_val; title; label; depend; body=body; label_is_given=true}
  
+  let traverse atom state f = 
+		let {kind; point_val; title; label; depend; body} = atom in
+      f state ~kind ~point_val ~title ~label ~depend ~contents:(Some body)
+
   let to_tex atom = 
 		let {kind; point_val; title; label; depend; body} = atom in
 		let point_val = normalize_point_val point_val in
@@ -87,6 +91,8 @@ struct
 		  d ^ 
 		  body ^ newline ^
       h_end		
+
+
 end
 
 type atom = Atom.t
@@ -118,6 +124,13 @@ struct
 			atoms = 
 				{kind; point_val; title; label; depend; atoms=atoms}
 
+  let traverse group state f = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let s = f state ~kind ~point_val ~title ~label ~depend ~contents:None in
+
+		let atom_tr_f state atom = Atom.traverse atom state f
+		in 	
+		  List.fold_left atoms ~init:state ~f:atom_tr_f
 
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
@@ -351,6 +364,9 @@ let is_wellformed ast =
 
 let to_tex ast = 
 	Segment.to_tex ast
+
+
+
 
 (*
 
