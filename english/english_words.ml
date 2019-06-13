@@ -1,3 +1,6 @@
+open Core
+open Utils
+
 let mk_plural s = s ^ "s"
 
 let stop_words = 
@@ -132,39 +135,39 @@ let stop_words =
   ]
   @
   (* Diderot stopwords *)
-  [kw_chapter; mk_plural kw_chapter;
-   kw_section; mk_plural kw_section;
-   kw_subsection; mk_plural kw_subsection;
-   kw_subsubsection; mk_plural kw_subsubsection;
-   kw_paragraph; mk_plural kw_paragraph;
-   kw_flex; mk_plural kw_flex;
-   kw_problem_cluster; mk_plural kw_problem_cluster;
-   kw_algorithm; mk_plural kw_algorithm;
-   kw_assumption; mk_plural kw_assumption;
-   kw_code; mk_plural kw_code;
-   kw_corollary; mk_plural kw_corollary;
-   kw_costspec; mk_plural kw_costspec;
-   kw_datastr; mk_plural kw_datastr;
-   kw_datatype; mk_plural kw_datatype;
-   kw_definition; mk_plural kw_definition;
-   kw_example; mk_plural kw_example;
-   kw_exercise; mk_plural kw_exercise;
-   kw_hint; mk_plural kw_hint;
-   kw_important; 
-   kw_lemma; mk_plural kw_lemma;
-   kw_note; mk_plural kw_note;
-   kw_gram; mk_plural kw_gram;
-   kw_preamble; mk_plural kw_preamble;
-   kw_problem; mk_plural kw_problem;
-   kw_proof; mk_plural kw_proof;
-   kw_proposition; mk_plural kw_proposition;
-   kw_remark; mk_plural kw_remark;
-   kw_reminder; mk_plural kw_reminder;
-   kw_slide; mk_plural kw_slide;
-   kw_solution; mk_plural kw_solution;
-   kw_syntax; 
-   kw_task; mk_plural kw_task;
-   kw_theorem; mk_plural kw_theorem
+  [Tex_syntax.kw_chapter; mk_plural Tex_syntax.kw_chapter;
+   Tex_syntax.kw_section; mk_plural Tex_syntax.kw_section;
+   Tex_syntax.kw_subsection; mk_plural Tex_syntax.kw_subsection;
+   Tex_syntax.kw_subsubsection; mk_plural Tex_syntax.kw_subsubsection;
+   Tex_syntax.kw_paragraph; mk_plural Tex_syntax.kw_paragraph;
+   Tex_syntax.kw_flex; mk_plural Tex_syntax.kw_flex;
+   Tex_syntax.kw_problem_cluster; mk_plural Tex_syntax.kw_problem_cluster;
+   Tex_syntax.kw_algorithm; mk_plural Tex_syntax.kw_algorithm;
+   Tex_syntax.kw_assumption; mk_plural Tex_syntax.kw_assumption;
+   Tex_syntax.kw_code; mk_plural Tex_syntax.kw_code;
+   Tex_syntax.kw_corollary; mk_plural Tex_syntax.kw_corollary;
+   Tex_syntax.kw_costspec; mk_plural Tex_syntax.kw_costspec;
+   Tex_syntax.kw_datastr; mk_plural Tex_syntax.kw_datastr;
+   Tex_syntax.kw_datatype; mk_plural Tex_syntax.kw_datatype;
+   Tex_syntax.kw_definition; mk_plural Tex_syntax.kw_definition;
+   Tex_syntax.kw_example; mk_plural Tex_syntax.kw_example;
+   Tex_syntax.kw_exercise; mk_plural Tex_syntax.kw_exercise;
+   Tex_syntax.kw_hint; mk_plural Tex_syntax.kw_hint;
+   Tex_syntax.kw_important; 
+   Tex_syntax.kw_lemma; mk_plural Tex_syntax.kw_lemma;
+   Tex_syntax.kw_note; mk_plural Tex_syntax.kw_note;
+   Tex_syntax.kw_gram; mk_plural Tex_syntax.kw_gram;
+   Tex_syntax.kw_preamble; mk_plural Tex_syntax.kw_preamble;
+   Tex_syntax.kw_problem; mk_plural Tex_syntax.kw_problem;
+   Tex_syntax.kw_proof; mk_plural Tex_syntax.kw_proof;
+   Tex_syntax.kw_proposition; mk_plural Tex_syntax.kw_proposition;
+   Tex_syntax.kw_remark; mk_plural Tex_syntax.kw_remark;
+   Tex_syntax.kw_reminder; mk_plural Tex_syntax.kw_reminder;
+   Tex_syntax.kw_slide; mk_plural Tex_syntax.kw_slide;
+   Tex_syntax.kw_solution; mk_plural Tex_syntax.kw_solution;
+   Tex_syntax.kw_syntax; 
+   Tex_syntax.kw_task; mk_plural Tex_syntax.kw_task;
+   Tex_syntax.kw_theorem; mk_plural Tex_syntax.kw_theorem
   ]
   @
   (* quantifers, those not included in the stopwords above *)
@@ -257,9 +260,23 @@ let table_stop_words =
         exit 1)
 
 
+(* Predicate to check that the word is significant
+ * that is more than 1 character and not a stopword.
+ *)
+let is_significant_word (x: string): bool =      
+  (String.length x > 1) 
+  & 
+  (try let _ = Hashtbl.find_exn table_stop_words x  in
+          false
+    with Caml.Not_found -> true
+  )
+
+
 (* Tokenizes body with respect to spaces
  * after doing some sanitization such as 
- * removal of comments, deletion of \label, \depend, \begin \end, math
+ * removal of comments, deletion of \label, \depend, \begin \end, math.
+ * Drops stop words and trivial words of 1 character, and 
+ * returns a list of tokens where words with 4 or more characters come first.
  *)
 let tokenize_spaces body = 
   (* Delete all comments *)
@@ -291,26 +308,18 @@ let tokenize_spaces body =
   let body = Str.global_replace (Str.regexp "[^-^_^0-9^A-Z^a-z]+") " " body in
 
   (* Now split at all whitespaces, including for windows form feed \x0c *)
-  let tokens = Str.split Tex_syntax.regexp_whitespace body in
+  let tokens = Str.split (Str.regexp Tex_syntax.pattern_whitespace) body in
       (* splits the string at space* 's.  
          if none is found, returns the whole string.
         *)
   let tokens = List.map tokens  String.lowercase in 
+  let tokens = List.filter tokens ~f:is_significant_word in
   let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
   (* Reorder so small words are not preferred *)
   let tokens = tokens_big @ tokens_small in
-  let tokens = List.filter tokens ~f:Tex_syntax.labelGood in
-  let _ = d_printf "tokenize_spaces: tokens = %s\n" (strListToStr tokens) in
+  let _ = d_printf_strlist "tokenize_spaces: tokens = %s\n" tokens in
     tokens
 
 
-(* Predicate to check that this is a good label *)
-let label_good x =      
-  (String.length x > 1) 
-  & 
-  (try let _ = Hashtbl.find_exn table_stop_words x  in
-          false
-    with Caml.Not_found -> true
-  )
 
 

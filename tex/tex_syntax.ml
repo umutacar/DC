@@ -88,10 +88,10 @@ let numbers = "numbers"
 
 (* BEGIN: Patterns Regular Expressions *)
 let pattern_newline = "[ \n\r\x0c]+"
-let regexp_ch_prefix = Str.regexp "ch[:]+"
-let regexp_sec_prefix = Str.regexp "sec[:]+"
-let regexp_gr_prefix = Str.regexp "grp[:]+"
-let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
+let pattern_ch_prefix = "ch[:]+"
+let pattern_sec_prefix = "sec[:]+"
+let pattern_gr_prefix = "grp[:]+"
+let pattern_whitespace = "[ \n\r\x0c\t]+"
 (* END: Regular Expressions *)
 
 

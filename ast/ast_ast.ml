@@ -397,15 +397,23 @@ let to_tex ast =
 
 let collect_labels ast =
 	let label_set = Label_set.empty () in
-	let add_label label_set ~kind ~title ~label ~contents = 
+
+	let add_label 
+			label_set 
+			~(kind: string option)
+			~(point_val: string option) 
+			~(title: string option) 
+			~(label: string option) 
+			~(depend: (string list) option) 
+			~(contents: string option) = 
     match label with 
 		| None -> 
 				label_set
-		| Some l -> 
-				let _ = Label_set.add label_set l in
+		| Some (s: string) -> 
+				let _ = Label_set.add label_set s in
 				label_set
 	in
-	Segment.traverse label_set add_label 
+	Segment.traverse ast label_set add_label 
 
 (*
 

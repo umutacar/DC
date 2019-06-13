@@ -3,6 +3,10 @@ open Printf
 
 let debug = true
 
+let str_of_str_list (xs: string list): string = 
+  String.concat ~sep:", " xs
+
+
 (* BEGIN: Debug Prints *) 
 
 
@@ -26,6 +30,7 @@ let d_printf_strlist heading (xs: string list) =
     d_printf "%s = %s \n" heading s  
 
 (* END Debug Prints *) 
+
 
 
 (* BEGIN: File names etc *) 
