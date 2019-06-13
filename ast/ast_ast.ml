@@ -462,12 +462,42 @@ let collect_labels ast: Label_set.t =
 
 let assign_labels ast = 
 	let label_set = collect_labels ast in
+
+  (* Assign a label to ast member.
+   * Return the title and the body of members included.
+	*)
+	let assign_label 
+			(label_set, title_list, body_list) 
+			~(kind: string option)
+			~(point_val: string option) 
+			~(title: string option) 
+			~(label: string option) 
+			~(depend: (string list) option) 
+			~(contents: string option) = 
+		let title  = 
+			match title with
+			| None -> []  
+			| Some t = String.concat ~sep:" " (tokenize_spaces t) 
+		in 
+		let body  = 
+			match contents with
+			| None -> []  
+			| Some body = String.concat ~sep:" " (tokenize_spaces body) 
+    in
+    match label with 
+		| None -> 
+				(label_set,
+				 title_list @ [title],
+				 body_list @ [body])					
+		| Some (s: string) -> 
+				let _ = Label_set.add label_set s in
+				(label_set,
+				 title_list @ [title],
+				 body_list @ [body])					
 (*
-  let 
       let kind_prefix = Tex_syntax.mk_label_prefix_from_kind kind in
       let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt (Some body) in
 *)
-	  ()
 
 
 (*
