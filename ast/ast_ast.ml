@@ -376,7 +376,6 @@ let mk_index () =
 
 
 (* Check that the nesting structure of the ast is correct *)
-
 let is_wellformed ast = 
   let s = ast in
 	let wf = 
@@ -396,8 +395,17 @@ let is_wellformed ast =
 let to_tex ast = 
 	Segment.to_tex ast
 
-
-
+let collect_labels ast =
+	let label_set = Label_set.empty () in
+	let add_label label_set ~kind ~title ~label ~contents = 
+    match label with 
+		| None -> 
+				label_set
+		| Some l -> 
+				let _ = Label_set.add label_set l in
+				label_set
+	in
+	Segment.traverse label_set add_label 
 
 (*
 
