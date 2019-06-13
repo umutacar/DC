@@ -71,6 +71,8 @@ struct
   (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
 		let {kind; point_val; title; label; depend; body} = atom in
+		let _ = d_printf "Atom.traverse: %s " kind in
+    let _ = d_printf_optstr "label " label in
       f state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body)
 
   let to_tex atom = 
@@ -130,8 +132,9 @@ struct
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let s = f state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
 
-		let atom_tr_f state atom = Atom.traverse atom state f
-		in 	
+		let atom_tr_f state atom = Atom.traverse atom state f in
+		let _ = d_printf "Group.traverse: %s " kind in
+    let _ = d_printf_optstr "label " label in
 		  List.fold_left atoms ~init:state ~f:atom_tr_f
 
   let to_tex group = 
@@ -204,7 +207,11 @@ struct
   (* Traverse (pre-order) block by applying f to its fields *) 
   let traverse block state f = 
 		let {point_val; label; elements} = block in
+(*  Because block is essentially a dummy structure, 
+ *  we don't call traverse on block's state
+
 		let s = f state ~kind:None ~point_val ~title:None ~label ~depend:None ~contents:None in
+*)
 		let element_tr_f state e = Element.traverse e state f
 		in 	
 		  List.fold_left elements ~init:state ~f:element_tr_f
@@ -260,6 +267,8 @@ struct
   (* Traverse (pre-order) group by applying f to its fields *) 
   let rec traverse segment state f = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
+    let _ = d_printf_optstr "label " label in
 		let s = f state ~kind:(Some kind) ~point_val ~title:(Some title) ~label ~depend ~contents:None in
 
 		let block_tr_f state block = Block.traverse block state f in
@@ -367,13 +376,11 @@ type ast = segment
 let map f xs = 
   List.map xs f
 
-
 let index = ref 0
 let mk_index () = 
   let r = string_of_int !index in
   let _ = index := !index + 1 in
     r
-
 
 (* Check that the nesting structure of the ast is correct *)
 let is_wellformed ast = 
@@ -395,9 +402,13 @@ let is_wellformed ast =
 let to_tex ast = 
 	Segment.to_tex ast
 
-let collect_labels ast =
+(* Collect all the labels in the ast
+ * in a label set and return it.
+ *)
+let collect_labels ast: Label_set.t =
 	let label_set = Label_set.empty () in
 
+  (* Add a label to label set *)
 	let add_label 
 			label_set 
 			~(kind: string option)
@@ -413,12 +424,14 @@ let collect_labels ast =
 				let _ = Label_set.add label_set s in
 				label_set
 	in
-	Segment.traverse ast label_set add_label 
+	let label_list = Label_set.to_list label_set in
+  let _ = d_printf_strlist "Initial labels: " label_list in
+	let label_set = Segment.traverse ast label_set add_label in
+	let label_list = Label_set.to_list label_set in
+  let _ = d_printf_strlist "All labels: " label_list in
+	  label_set
 
 (*
-
-
-
       
 let atom_to_tex atom = 
 	match atom with

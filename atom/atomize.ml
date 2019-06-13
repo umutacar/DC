@@ -3,7 +3,9 @@
  *) 
 open Core
 open Lexing
+open Utils
 open Atom_lexer
+
 
 module Ast = Ast_ast
 
@@ -36,6 +38,8 @@ let elaborate do_inline do_groups infile =
 			  match ast with 
 				| None -> exit 0
 				| Some ast ->
+						let _ = d_printf "Collecting labels. \n" in
+						let _ = Ast.collect_labels ast in
 						let result = Ast.to_tex ast in
 						result
     with End_of_file -> exit 0

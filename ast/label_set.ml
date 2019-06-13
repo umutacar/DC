@@ -14,8 +14,9 @@ let empty:unit -> t = fun () -> Hashtbl.create ~size:1024 (module String)
 
 (* Add label to the set *)
 let add table label = 
+  let _ = d_printf "Label_set.add label = %s:\n" label in
   try let _ = Hashtbl.find_exn table label  in
-    (d_printf "label_table.add label = %s found in the table.\n" label;
+	    (d_printf "Label_set.add label = %s found in the table.\n" label;
      false)
     with Caml.Not_found -> 
       match Hashtbl.add table ~key:label ~data:() with
@@ -24,6 +25,10 @@ let add table label =
            exit ErrorCode.labeling_error_hash_table_corrupted)
       | `Ok -> true
 
+
+let to_list table = 
+	let all = Hashtbl.to_alist table in
+	  List.map all ~f:(fun (x,y) -> x)
 
 (* Create a new label from counter *)
 let mk_label_from_number () = 
