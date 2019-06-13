@@ -14,6 +14,19 @@ let mk_point_val_f_opt (s: string option) =
   | None -> (None, "None")
   | Some x -> (Some (float_of_string x), "Some " ^ x)
 
+let extend_labels ell elopt = 
+	match elopt with 
+	| None -> ell
+	| Some l -> ell @ [l]
+
+let d_print_labels ell =
+	d_printf_strlist "labels = " ell
+
+let take_label ell = 
+	match ell with 
+	| [ ] -> None
+	| h::_ -> Some h
+
 
 let labels: (string list) ref = ref [ ] 
 let insert_label l =
@@ -47,15 +60,13 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 %token <string * string * string option> KW_HEADING
 %token <string * string * string option> KW_BEGIN_GROUP
 %token <string * string> KW_END_GROUP
-%token <string * string> KW_LABEL_AND_NAME
 
 
 %token <string> HSPACE
 %token <string> NEWLINE
-%token <string> SIGCHAR
+%token <string * string option> SIGCHAR
 %token <string option * string option * string option * string * string> ENV
-%token <string * string> PAR_LABEL_AND_NAME
-%token <string> PAR_SIGCHAR
+%token <string * string option> PAR_SIGCHAR
 %token <string option * string option * string option * string * string> PAR_ENV
 
 %start top
@@ -84,55 +95,46 @@ hspaces:
 /* Non-space char */
 sigchar: 
 | d = SIGCHAR
-  { d }
+  { let (d, ellopt) = d in
+  	(d, ellopt) 
+	}
 | e = ENV
   { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
     let _ = d_printf "Parser matched env, label = %s env = %s" label all in
-  	  all
+  	  (all, None)
   }
-
-/*
-| l = KW_LABEL_AND_NAME
-  { let (all, label) = l in 
-    let _ = d_printf "Parser matched label = %s all = %s" label all in
-		let _ = insert_label label in
-      all
-  }
-*/
 
 /* Non-space char at the beginning of a paragraph */
 parstart: 
 | d = PAR_SIGCHAR
-  { (None, None, None, d, d) }
+  { let (d, elopt) = d in
+	  (None, None, None, d, d, elopt) 
+	}
 | e = PAR_ENV
   { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
     let _ = d_printf "Parser matched par_env, label = %s env = %s" label in
-  	  (popt, topt, lopt, body, all)
+  	  (popt, topt, lopt, body, all, None)
   }
-/*
-| l = PAR_LABEL_AND_NAME
-  { let (all, label) = l in 
-    let _ = d_printf "Parser matched par_label = %s all = %s" label all in
-		let _ = insert_label label in
-      (None, None, None, all, all)
-  }
-*/
 
 /* All characters */
 char: 
   s = hspace
-  {s}
+  { (s, None)}
 | d = sigchar
-  {d} 
+  { let (d, elopt) = d in 
+	  (d, elopt)
+	} 
 
 chars: 
-  {""}
-| xs = chars;
-  x = char
-  {xs ^ x}
-
+  {"", [ ]}
+| cs = chars;
+  c = char
+  { let (cs, ell) = cs in
+	  let (c, elopt) = c in
+		(cs ^ c, extend_labels ell elopt)
+	}
 /* A newline. */
 newline: 
   nl = NEWLINE
@@ -156,9 +158,11 @@ line:
   d = sigchar;
   cs = chars;
   nl = newline
-  {let l = hs ^ d ^ cs ^ nl in
-   let _ = d_printf "!Parser mached: significant line: %s.\n" l in
-     l
+  {let (d, elopt) = d in
+	 let (cs, ll) = cs in
+	 let l = hs ^ d ^ cs ^ nl in
+   let _ = d_printf "!Parser mached: significant line: %s.\n" l in	 
+     (l, extend_labels ll elopt)
   }
 
 /* A nonempty line at the start of a paragraph. 
@@ -170,10 +174,11 @@ line_parstart:
   cs = chars;
   nl = newline
   {
-		let (popt, topt, lopt, body, all) = ps in
+		let (popt, topt, lopt, body, all, elopt_ps) = ps in
+		let (cs, ell) = cs in
 		let l = hs ^ all  ^ cs ^ nl in
 		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in
-    (popt, topt, lopt, body, all)
+    (popt, topt, lopt, body, all, extend_labels ell elopt_ps)
   }
 
 
@@ -184,17 +189,20 @@ textpar:
 	| lp = line_parstart;
 		tail = textpar_tail;
 		{ 
-  	  let (popt, topt, lopt, body, all) = lp in
- 	 		(popt, topt, lopt, body, all ^ tail)
+  	  let (popt, topt, lopt, body, all, ell_lp) = lp in
+			let (tail, ell_tail) = tail in
+ 	 		(popt, topt, lopt, body, all ^ tail, ell_lp @ ell_tail)
 	}  
 
 textpar_tail:
   el = emptyline
-  {""}
-| x = line;
+  {"", [ ]}
+| l = line;
   tp = textpar_tail
   { 
-    x ^ tp
+		let (l, ell_l) = l in
+    let (tp, ell_tp) = tp in
+    (l ^ tp, ell_l @ ell_tp)
   } 
 
 
@@ -251,10 +259,10 @@ block:
 | es = elements; 
   tt = emptylines
   {
+	 let (es, ell_es) = es in
+	 let label = take_label ell_es in
    let _ = d_printf "parser matched: block.\n" in 
-	 let _ = d_printf_strlist "block labels = " (get_labels ()) in
-	 let label = get_label () in 
-	 let _ = reset_labels () in 
+   let _ = d_print_labels ell_es in
      Ast.Block.make ~label es
   }
 
@@ -271,7 +279,7 @@ atom:
   fs = emptylines;
   tp_all = textpar;
   {	 
-	 let (popt, topt, lopt, body, all) = tp_all in
+	 let (popt, topt, lopt, body, all, ell) = tp_all in
 	 let all = String.strip all in
 	 let single = Tex.take_single_env all in
 	 let (kind, body) = 
@@ -283,7 +291,7 @@ atom:
 	 let body = String.strip body in
 	   if Tex.is_label_only body then
 			 let _ = d_printf "atom is label only" in
-			 [ ]
+			 ([ ], ell)
 		 else
 			 let a = Ast.Atom.make 
 					 ~point_val:popt 
@@ -292,20 +300,26 @@ atom:
 					 kind  
 					 body
 			 in
-			 [ a ]
+			 ([ a ], ell)
   }
 
 atoms:
 | 
-	{ [ ] }
+	{ ([ ], [ ]) }
 | aa = atoms;
 	el = emptylines;
   f = KW_FOLD
 	a = atom
-		{ aa @ a }
+		{ let (aa, ell_aa) = aa in
+		  let (a, ell_a) = a in
+			  (aa @ a, ell_aa @ ell_a)
+		}
 | aa = atoms;
 	a = atom
-		{ aa @ a }
+		{ let (aa, ell_aa) = aa in
+		  let (a, ell_a) = a in
+			(aa @ a, ell_aa @ ell_a)
+		 }
 
 atoms_and_tailspace:
   aa = atoms;
@@ -318,7 +332,8 @@ group:
 	b = KW_BEGIN_GROUP
   aa = atoms_and_tailspace;  
   e = KW_END_GROUP
-  { let (kb, hb, _) = b in
+  { let (aa, ell_aa) = aa in
+		let (kb, hb, _) = b in
 	  let (ke, he) = e in
 	    if kb = ke then
 				let kind = kb in
@@ -335,19 +350,22 @@ element:
 | a = atom
   { let _ = d_printf "!Parser: matched element: atom\n %s" "a" in
 	  match a with 
-		| [ ] -> [ ]
-		| a::[ ] -> [Ast.Element.mk_from_atom a] 
+		| ([ ], ell) -> ([ ], ell)
+		| (a::[ ], ell) -> ([Ast.Element.mk_from_atom a], ell) 
   }
 | g = group;
   { let _ = d_printf "!Parser: matched group\n %s" "g" in
-      [Ast.Element.mk_from_group g] 
+      ([Ast.Element.mk_from_group g], [ ]) 
   }
 
 elements:
-  {[ ]}
+  {([ ], [ ])}
 | es = elements;
   e = element; 
-  {es @ e}
+  { let (es, ell_es) = es in
+	  let (e, ell_e) = e in
+  	  (es @ e, ell_es @ ell_e)
+ }
 
 /**********************************************************************
  ** END: Elements

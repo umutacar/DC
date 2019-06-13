@@ -97,10 +97,8 @@ let token_to_str tk =
 	| HSPACE x ->  "token = hspace."
 	| ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
 	| PAR_ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
-	| PAR_SIGCHAR x -> "token = par sigchar: " ^ x
-	| PAR_LABEL_AND_NAME (x, y) -> "token = par label %s " ^ x
-	| SIGCHAR x ->  "token = sigchar: " ^ x 
-	| KW_LABEL_AND_NAME _ -> "token = label" 
+	| PAR_SIGCHAR (x, lopt) -> "token = par sigchar: " ^ x
+	| SIGCHAR (x, lopt) ->  "token = sigchar: " ^ x 
 	| KW_BEGIN_GROUP (x, _, _) -> "token = begin group " ^ x
 	| KW_END_GROUP (x, _) -> "token = end group " ^ x
 	| KW_FOLD (x) -> "token = fold: " ^ x
@@ -407,21 +405,21 @@ rule initial = parse
       let _ =  set_line_nonempty () in
 			let all = label_pre ^ label_name ^ label_post in
 (*			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name) *)
-			SIGCHAR (all)
+			SIGCHAR (all, Some label_name)
 		}		
 
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (char_to_str x); *)
      let _ =  set_line_nonempty () in
-     SIGCHAR(char_to_str x)
+     SIGCHAR(char_to_str x, None)
     }
 
 | p_percent_esc as x 
 		{
 (*     d_printf "!lexer found: espaced percent char: %s." x; *)
      let _ =  set_line_nonempty () in
-     SIGCHAR(x)
+     SIGCHAR(x, None)
     }
 
 | p_percent as x 
