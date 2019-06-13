@@ -135,7 +135,16 @@ struct
 		let atom_tr_f state atom = Atom.traverse atom state f in
 		let _ = d_printf "Group.traverse: %s " kind in
     let _ = d_printf_optstr "label " label in
-		  List.fold_left atoms ~init:state ~f:atom_tr_f
+		  List.fold_left atoms ~init:s ~f:atom_tr_f
+
+  let traverse_post group state f = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let _ = d_printf "Group.traverse: %s " kind in
+    let _ = d_printf_optstr "label " label in    
+		let atom_tr_f state atom = Atom.traverse atom state f in
+    let s = List.fold_left atoms ~init:state ~f:atom_tr_f in
+		let s = f s ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
+		s
 
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
@@ -175,6 +184,10 @@ struct
 				Atom.traverse a state f
 		| Element_group g ->
 				Group.traverse g state f
+
+  (* Traverse element by applying f *) 
+  let traverse_post e state f = 
+		traverse e state f
 
 	let to_tex e = 
 		match e with
@@ -216,6 +229,8 @@ struct
 		in 	
 		  List.fold_left elements ~init:state ~f:element_tr_f
 
+	let traverse_post block state f = 
+		traverse block state f
 
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
@@ -277,6 +292,19 @@ struct
 		let state_b = Block.traverse block state f in
 		let state_s = List.fold_left subsegments ~init:state_b ~f:subsegment_tr_f in
 		state_s
+
+  (* Traverse (post-order) group by applying f to its fields *) 
+  let rec traverse_post segment state f = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
+    let _ = d_printf_optstr "label " label in
+
+		let subsegment_tr_f state subsegment = traverse subsegment state f in
+		let state_s = List.fold_left subsegments ~init:state ~f:subsegment_tr_f in
+		let block_tr_f state block = Block.traverse block state f in
+		let state_b = Block.traverse block state_s f in
+		let state_final = f state_b ~kind:(Some kind) ~point_val ~title:(Some title) ~label ~depend ~contents:None in
+		state_final
 
   (* Convert to string with levels.
    * Used for debugging only.
@@ -432,8 +460,13 @@ let collect_labels ast: Label_set.t =
 	  label_set
 
 
-let label_ast ast = 
+let assign_labels ast = 
 	let label_set = collect_labels ast in
+(*
+  let 
+      let kind_prefix = Tex_syntax.mk_label_prefix_from_kind kind in
+      let (heading_new, ls_new) = forceCreateLabel table kind_prefix prefix topt (Some body) in
+*)
 	  ()
 
 
