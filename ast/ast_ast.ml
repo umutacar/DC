@@ -67,10 +67,11 @@ struct
 				{kind; point_val; title; label; depend; body=body; label_is_given=false}
 		| Some _ -> 
 				{kind; point_val; title; label; depend; body=body; label_is_given=true}
- 
+
+  (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
 		let {kind; point_val; title; label; depend; body} = atom in
-      f state ~kind ~point_val ~title ~label ~depend ~contents:(Some body)
+      f state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body)
 
   let to_tex atom = 
 		let {kind; point_val; title; label; depend; body} = atom in
@@ -124,9 +125,10 @@ struct
 			atoms = 
 				{kind; point_val; title; label; depend; atoms=atoms}
 
+  (* Traverse (pre-order) group by applying f to its fields *) 
   let traverse group state f = 
 		let {kind; point_val; title; label; depend; atoms} = group in
-		let s = f state ~kind ~point_val ~title ~label ~depend ~contents:None in
+		let s = f state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
 
 		let atom_tr_f state atom = Atom.traverse atom state f
 		in 	
@@ -163,6 +165,14 @@ struct
 		Element_atom a
 
 
+  (* Traverse element by applying f *) 
+  let traverse e state f = 
+		match e with
+		| Element_atom a ->
+				Atom.traverse a state f
+		| Element_group g ->
+				Group.traverse g state f
+
 	let to_tex e = 
 		match e with
 		| Element_atom a ->
@@ -190,6 +200,15 @@ struct
 			?label:(label = None)  
 			es = 
 		{point_val; label; elements = es}
+
+  (* Traverse (pre-order) block by applying f to its fields *) 
+  let traverse block state f = 
+		let {point_val; label; elements} = block in
+		let s = f state ~kind:None ~point_val ~title:None ~label ~depend:None ~contents:None in
+		let element_tr_f state e = Element.traverse e state f
+		in 	
+		  List.fold_left elements ~init:state ~f:element_tr_f
+
 
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
