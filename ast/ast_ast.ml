@@ -118,7 +118,8 @@ struct
 		let _ = 
 			match (label atom) with 
 			| None ->
-					let l = Labels.mk_label_force label_set "kind" "prefix" (tt @ tb) in
+					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
+					let l = Labels.mk_label_force label_set lk "prefix" (tt @ tb) in
 					atom.label <- Some l
 		| Some _ -> ()
 		in
@@ -206,7 +207,8 @@ struct
 		let _ = 
 			match (label group) with 
 			| None ->
-					let l = Labels.mk_label_force label_set "kind" "prefix" ttb_a in
+					let lk = Tex_syntax.mk_label_prefix_from_kind (kind group) in
+					let l = Labels.mk_label_force label_set lk "prefix" ttb_a in
 					group.label <- Some l
 		| Some _ -> ()
 		in
@@ -290,10 +292,8 @@ struct
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
 
-  (* If block doesn't have a label, then
-	 * assign fresh label the block (unique wrt label_set).
-	 * To assign label use words from title and body.
-	 * Return the label assigned.
+  (* We don't assign labels to blocks, but 
+	 * tokenize the contents.
 	*)
 	let assign_label label_set block = 		
 		let t_a = List.map (elements block) ~f:(Element.assign_label label_set)  in
@@ -309,16 +309,7 @@ struct
 			| None -> [ ] 
 			| Some tb_a -> tb_a 						
 		in
-		let ttb_a = tt_a @ tb_a in
-			match (label block) with 
-			| None ->
-					begin
-						match Labels.mk_label label_set "kind" "prefix" ttb_a with
-						| None -> (None, ttb_a)
-						| Some l -> (block.label <- Some l; (Some l, ttb_a))
-					end
-			| Some l  -> (Some l, ttb_a)
-  
+		  tt_a @ tb_a  
 end
 
 type block = Block.t
@@ -471,27 +462,19 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let rec assign_label label_set segment = 		
-		let (l_b, t_b) = Block.assign_label label_set (block segment) in
-		let _ = List.map (subsegments segment) ~f:(assign_label label_set)
-		in
-		match (label segment) with 
+		let t_b = Block.assign_label label_set (block segment) in
+		let _ = List.map (subsegments segment) ~f:(assign_label label_set) in
+	  match (label segment) with 
 		| Some _ -> ()
 		| None ->
-				begin
-				let tt_s = Words.tokenize_spaces (title segment) in
-				match Labels.mk_label label_set "kind" "prefix" tt_s with
-				| None -> 
-						begin
-							match l_b with 
-							| Some l -> segment.label <- Some l
-							| None -> 
-									let tokens = tt_s @ t_b in
-									let l = Labels.mk_label_force label_set "kind" "prefix" tokens in
-									segment.label <- Some l
-
-						end
-				| Some l -> segment.label <- Some l
-				end
+  	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
+			let tt_s = Words.tokenize_spaces (title segment) in
+			match Labels.mk_label label_set lk "prefix" tt_s with
+			| None -> 
+	      let tokens = tt_s @ t_b in
+        let l = Labels.mk_label_force label_set lk "prefix" tokens in
+      	segment.label <- Some l
+    	| Some l -> segment.label <- Some l
 end
 type segment = Segment.t
 
