@@ -17,6 +17,25 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 let points_correct = 1.0
 let points_incorrect = 0.0
 
+(* *_single_par flags are used for html post-processing:
+ *  "true" means that this was a single paragraph and the
+ * <p> </p> annotations must be removed.
+ *) 
+let body_is_single_par = Tex2html.Generic false
+let explain_is_single_par = Tex2html.Generic false
+let hint_is_single_par = Tex2html.Generic false
+let refsol_is_single_par = Tex2html.Generic false
+let rubric_is_single_par = Tex2html.Generic false
+let title_is_single_par = Tex2html.Generic true
+let atom_is_code lang_opt arg_opt = Tex2html.Code (lang_opt, arg_opt)
+(**********************************************************************
+ ** END: Constants
+ **********************************************************************)
+
+(**********************************************************************
+ ** BEGIN: Utilities
+ **********************************************************************)
+
 (* if points (po) is None or 0.0 then
    empty string, else the points *)
 let normalize_point_val po = 
@@ -35,14 +54,26 @@ let tokenize sa_opt sb_opt =
 	in
 	(mk sa_opt, mk sb_opt)
 
+(* Translate string to xml *)
+let str_to_xml tex2html is_single_par x =
+	let x_xml = tex2html (mk_index()) x is_single_par in
+  Some (x_xml, x)
+
+(* Translate string option to xml *)
+let str_opt_to_xml tex2html is_single_par xo =
+   match xo with 
+   | None -> None 
+   | Some x -> 
+			 let x_xml = tex2html (mk_index()) x is_single_par in
+       Some (x_xml, x)
+
 (**********************************************************************
- ** END: Constants
+ ** END: Utilities
  **********************************************************************)
 
 (**********************************************************************
  ** BEGIN: AST Data Types
-*********************************************************************)
-
+ *********************************************************************)
 
 type t_label = Label of string
 type t_depend = Depend of string list 
