@@ -137,7 +137,7 @@ let str_match_at (search:string) (target:string) (pos: int) =
 
 (* Check that search string matches target exactly. *)
 let str_match_full (search:string) (target:string): bool = 
-	let _ = d_printf "last: searching: %s\n" search in
+(*	let _ = d_printf "last: searching: %s\n" search in *)
 	let re = Str.regexp search in
 	let chunks = Str.full_split re target in
 	match chunks with

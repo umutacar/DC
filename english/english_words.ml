@@ -271,6 +271,9 @@ let is_significant_word (x: string): bool =
           false
     with Caml.Not_found -> true
   )
+	 & 
+	 (* drop math *)
+	 (not (str_match_full "[\\^-_0123456789]+" x))
 
 
 (* Tokenizes body with respect to spaces
@@ -300,13 +303,13 @@ let tokenize_spaces body =
   (* Delete all math *)
   let body = Str.global_replace (Str.regexp "\\$[^\\$]*\\$") "" body in
 
-
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
 
   (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
   (* Regexp for this may seem strange. *)
-  let body = Str.global_replace (Str.regexp "[^-^_^0-9^A-Z^a-z]+") " " body in
+  let body = Str.global_replace (Str.regexp "[^-^0-9^A-Z^a-z]+") " " body in
+  let body = Str.global_replace (Str.regexp "[\\^]+") " " body in
 
   (* Now split at all whitespaces, including for windows form feed \x0c *)
   let tokens = Str.split (Str.regexp Tex.pattern_whitespace) body in
