@@ -73,6 +73,8 @@ let kw_slide = "slide"
 let kw_solution = "solution"
 let kw_syntax = "syntax"
 let kw_task = "task"
+let kw_teachask = "teachask"
+let kw_teachnote = "teachnote"
 let kw_theorem = "theorem"
 
 (* END: Keywords *)
@@ -137,6 +139,8 @@ let label_prefix_slide = "slide"
 let label_prefix_solution = "sol"
 let label_prefix_syntax = "syn"
 let label_prefix_task = "tsk"
+let label_prefix_teachask = "tch"
+let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
 
 
@@ -145,6 +149,13 @@ let label_prefix_of_kind =
    kw_cluster, label_prefix_cluster;
    kw_flex, label_prefix_flex;
    kw_problem_cluster, label_prefix_problem_cluster
+  ]
+  @
+  [
+   kw_section, label_prefix_section;
+   kw_subsection, label_prefix_subsection;
+   kw_subsubsection, label_prefix_subsubsection;
+   kw_paragraph, label_prefix_paragraph;
   ]
   @
   (* atoms *)
@@ -173,13 +184,15 @@ let label_prefix_of_kind =
    kw_solution, label_prefix_solution;
    kw_syntax, label_prefix_syntax;
    kw_task, label_prefix_task;
+   kw_teachask, label_prefix_teachask;
+   kw_teachnote, label_prefix_teachnote;
    kw_theorem, label_prefix_theorem;
   ]
 
 let mk_label_prefix_from_kind kind = 
    match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
    | Some prefix -> prefix
-   | None -> (printf "FATAL ERROR: unknown atom encountered.\n";
+   | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
               exit ErrorCode.labeling_error_unknown_atom)
 
 (* END: label prefixes *)
