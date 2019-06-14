@@ -205,9 +205,6 @@ let mk_arg arg =
 let mk_opt_arg x = 
   "[" ^ x ^ "]"
 
-let mk_label_force label = 
-  com_label ^ (mk_arg label)
-
 let mk_point_val popt = 
   match popt with 
   |  None -> ""

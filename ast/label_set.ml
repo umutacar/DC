@@ -50,11 +50,11 @@ let rec mk_label_from_number table =
 
 (* Assuming that the label has of the form 
    (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
-   ???????
+   return label_name
  *)
 
-let mk_label_prefix label = 
-  let tokens = Str.split (Str.regexp (":")) label in
+let drop_label_prefix label = 
+  let tokens = Str.split (Str.regexp ("[:_]+")) label in
   if List.length tokens <= 1 then
     (* label does not have a kind prefixer *)
     label
@@ -71,7 +71,6 @@ let mk_label_prefix label =
          rest
       else
         label
-
 
 
 

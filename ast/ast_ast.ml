@@ -113,13 +113,13 @@ struct
    * Return the updated label set.
 	 * To assign label use words from title and body.  
 	*)
-	let assign_label label_set atom = 		
+	let assign_label prefix label_set atom = 		
 		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
 		let _ = 
 			match (label atom) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
-					let l = Labels.mk_label_force label_set lk "prefix" (tt @ tb) in
+					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
 					atom.label <- Some l
 		| Some _ -> ()
 		in
@@ -187,8 +187,8 @@ struct
    * Return the updated label set.
 	 * To assign label use words from title and body.  
 	*)
-	let assign_label label_set group = 		
-		let t_a = List.map (atoms group) ~f:(Atom.assign_label label_set) in
+	let assign_label prefix label_set group = 		
+		let t_a = List.map (atoms group) ~f:(Atom.assign_label prefix label_set) in
 		let tt = List.map t_a ~f:(fun (x, y) -> x) in
 		let tb = List.map t_a ~f:(fun (x, y) -> y) in
 		let tt_a = 
@@ -208,7 +208,7 @@ struct
 			match (label group) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind group) in
-					let l = Labels.mk_label_force label_set lk "prefix" ttb_a in
+					let l = Labels.mk_label_force label_set lk prefix ttb_a in
 					group.label <- Some l
 		| Some _ -> ()
 		in
@@ -251,12 +251,12 @@ struct
 	 * To assign label use words from title and body.
 	 * Return the label assigned.
 	*)
-	let assign_label label_set e =
+	let assign_label prefix label_set e =
  		match e with
 		| Element_atom a ->
-				Atom.assign_label label_set a
+				Atom.assign_label prefix label_set a
 		| Element_group g ->
-				Group.assign_label label_set g
+				Group.assign_label prefix label_set g
 
 end
 
@@ -295,8 +295,8 @@ struct
   (* We don't assign labels to blocks, but 
 	 * tokenize the contents.
 	*)
-	let assign_label label_set block = 		
-		let t_a = List.map (elements block) ~f:(Element.assign_label label_set)  in
+	let assign_label prefix label_set block = 		
+		let t_a = List.map (elements block) ~f:(Element.assign_label prefix label_set)  in
 		let tt = List.map t_a ~f:(fun (x, y) -> x) in
 		let tb = List.map t_a ~f:(fun (x, y) -> y) in
 		let tt_a = 
@@ -461,9 +461,9 @@ struct
    * Return the updated label set.
 	 * To assign label use words from title and body.  
 	*)
-	let rec assign_label label_set segment = 		
-		let t_b = Block.assign_label label_set (block segment) in
-		let _ = List.map (subsegments segment) ~f:(assign_label label_set) in
+	let rec assign_label prefix label_set segment = 		
+		let t_b = Block.assign_label prefix label_set (block segment) in
+		let _ = List.map (subsegments segment) ~f:(assign_label prefix label_set) in
 	  match (label segment) with 
 		| Some _ -> ()
 		| None ->
@@ -554,6 +554,11 @@ let collect_labels ast: Labels.t =
 
 let assign_labels ast = 
 	let label_set = collect_labels ast in
-	Segment.assign_label label_set ast 
+  let chlabel = Segment.label ast in
+	 match chlabel with 
+	 | None -> (printf "Fatal Error." ; exit 1)
+	 | Some chl -> 
+     let prefix = Labels.drop_label_prefix chl in
+       Segment.assign_label prefix label_set ast 
 
  
