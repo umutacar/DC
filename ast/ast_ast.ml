@@ -56,15 +56,15 @@ let tokenize sa_opt sb_opt =
 
 (* Translate string to xml *)
 let str_to_xml tex2html is_single_par x =
-	let x_xml = tex2html (mk_index()) x is_single_par in
-  Some (x_xml, x)
+	let x_xml = tex2html x is_single_par in
+    (x_xml, x)
 
 (* Translate string option to xml *)
 let str_opt_to_xml tex2html is_single_par xo =
    match xo with 
    | None -> None 
    | Some x -> 
-			 let x_xml = tex2html (mk_index()) x is_single_par in
+			 let x_xml = tex2html x is_single_par in
        Some (x_xml, x)
 
 (**********************************************************************
@@ -544,12 +544,6 @@ type ast = segment
 
 let map f xs = 
   List.map xs f
-
-let index = ref 0
-let mk_index () = 
-  let r = string_of_int !index in
-  let _ = index := !index + 1 in
-    r
 
 (* Check that the nesting structure of the ast is correct *)
 let is_wellformed ast = 
