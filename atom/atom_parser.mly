@@ -337,8 +337,7 @@ group:
 	  let (ke, he) = e in
 	    if kb = ke then
 				let kind = kb in
-				let label = get_label () in 
-				let _ = reset_labels () in 
+				let label = take_label ell_aa in
 				Ast.Group.make ~kind ~label aa
 			else
 				(printf "Error: group start and end should match.";

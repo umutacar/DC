@@ -1,5 +1,7 @@
 open Core
 open Utils
+
+module Labels = Label_set
 module Tex = Tex_syntax
 module Words = English_words
 
@@ -25,6 +27,13 @@ let normalize_point_val po =
 			if pts = 0.0 then None
       else Some (Float.to_string pts)
 
+let tokenize sa_opt sb_opt = 
+	let mk sopt =
+		match sopt with 
+		| None -> [ ] 
+		| Some s -> Words.tokenize_spaces s
+	in
+	(mk sa_opt, mk sb_opt)
 
 (**********************************************************************
  ** END: Constants
@@ -90,13 +99,30 @@ struct
 			else Tex.mk_label label 
 
 		in
-		let d = Tex.mk_depend depend in
-		
+		let d = Tex.mk_depend depend in		
 		  h_begin ^
 		  l ^ 
 		  d ^ 
 		  body ^ newline ^
       h_end		
+
+
+
+  (* If atom doesn't have a label, then
+	 * assign fresh label to atom (unique wrt label_set).
+   * Return the updated label set.
+	 * To assign label use words from title and body.  
+	*)
+	let assign_label label_set atom = 		
+		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
+		let _ = 
+			match (label atom) with 
+			| None ->
+					let l = Labels.mk_label_force label_set "kind" "prefix" (tt @ tb) in
+					atom.label <- Some l
+		| Some _ -> ()
+		in
+    	(tt, tb)
 
 
 end
@@ -140,15 +166,6 @@ struct
     let _ = d_printf_optstr "label " label in
 		  List.fold_left atoms ~init:s ~f:atom_tr_f
 
-  let traverse_post group state f = 
-		let {kind; point_val; title; label; depend; atoms} = group in
-		let _ = d_printf "Group.traverse: %s " kind in
-    let _ = d_printf_optstr "label " label in    
-		let atom_tr_f state atom = Atom.traverse atom state f in
-    let s = List.fold_left atoms ~init:state ~f:atom_tr_f in
-		let s = f Ast_group s ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
-		s
-
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
@@ -163,6 +180,38 @@ struct
 		  l ^ 
 		  d ^ 
 		  atoms ^ h_end		
+
+  (* If group doesn't have a label, then
+	 * assign fresh label to_tex group atom (unique wrt label_set).
+   * Return the updated label set.
+	 * To assign label use words from title and body.  
+	*)
+	let assign_label label_set group = 		
+		let t_a = List.map (atoms group) ~f:(Atom.assign_label label_set) in
+		let tt = List.map t_a ~f:(fun (x, y) -> x) in
+		let tb = List.map t_a ~f:(fun (x, y) -> y) in
+		let tt_a = 
+			match List.reduce tt (fun x y -> x @ y) with
+			| None -> [ ]
+			| Some tt_a -> tt_a
+		in			
+		let tb_a =
+			match List.reduce tb (fun x y -> x @ y) with
+			| None -> [ ] 
+			| Some tb_a -> tb_a 
+		in
+		let tt_g = Words.tokenize_spaces_opt (title group) in
+		let ttb_a = tt_g @ tt_a @ tb_a
+		in
+		let _ = 
+			match (label group) with 
+			| None ->
+					let l = Labels.mk_label_force label_set "kind" "prefix" ttb_a in
+					group.label <- Some l
+		| Some _ -> ()
+		in
+		(tt_a, tb_a)
+
 end
 
 type group = Group.t
@@ -188,16 +237,25 @@ struct
 		| Element_group g ->
 				Group.traverse g state f
 
-  (* Traverse element by applying f *) 
-  let traverse_post e state f = 
-		traverse e state f
-
 	let to_tex e = 
 		match e with
 		| Element_atom a ->
 				Atom.to_tex a
 		| Element_group g ->
 				Group.to_tex g
+
+  (* If block doesn't have a label, then
+	 * assign fresh label the block (unique wrt label_set).
+	 * To assign label use words from title and body.
+	 * Return the label assigned.
+	*)
+	let assign_label label_set e =
+ 		match e with
+		| Element_atom a ->
+				Atom.assign_label label_set a
+		| Element_group g ->
+				Group.assign_label label_set g
+
 end
 
 type element = Element.t
@@ -223,20 +281,43 @@ struct
   (* Traverse (pre-order) block by applying f to its fields *) 
   let traverse block state f = 
 		let {point_val; label; elements} = block in
-(*  Because block is essentially a dummy structure, 
- *  we don't call traverse on block's state
+		let s = f Ast_block state ~kind:None ~point_val ~title:None ~label ~depend:None ~contents:None in
 
-		let s = f state ~kind:None ~point_val ~title:None ~label ~depend:None ~contents:None in
-*)
 		let element_tr_f state e = Element.traverse e state f
 		in 	
 		  List.fold_left elements ~init:state ~f:element_tr_f
 
-	let traverse_post block state f = 
-		traverse block state f
-
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
+
+  (* If block doesn't have a label, then
+	 * assign fresh label the block (unique wrt label_set).
+	 * To assign label use words from title and body.
+	 * Return the label assigned.
+	*)
+	let assign_label label_set block = 		
+		let t_a = List.map (elements block) ~f:(Element.assign_label label_set)  in
+		let tt = List.map t_a ~f:(fun (x, y) -> x) in
+		let tb = List.map t_a ~f:(fun (x, y) -> y) in
+		let tt_a = 
+			match List.reduce tt (fun x y -> x @ y) with 
+			| None -> [ ] 
+			| Some tt_a -> tt_a 						
+		in
+		let tb_a = 
+			match List.reduce tb (fun x y -> x @ y) with 
+			| None -> [ ] 
+			| Some tb_a -> tb_a 						
+		in
+		let ttb_a = tt_a @ tb_a in
+			match (label block) with 
+			| None ->
+					begin
+						match Labels.mk_label label_set "kind" "prefix" ttb_a with
+						| None -> (None, ttb_a)
+						| Some l -> (block.label <- Some l; (Some l, ttb_a))
+					end
+			| Some l  -> (Some l, ttb_a)
   
 end
 
@@ -275,7 +356,14 @@ struct
 					begin
 						match Block.label block with 
 						| None -> None
-						| Some l -> Some l
+						| Some l -> 
+								(* Steal blocks label.
+								 * Make sure it is set to None. 
+								 * Important because the block's label, if any, belongs to
+								 * the chapter.
+								*)
+								let _ = block.Block.label <- None in
+								Some l
 					end
 			| Some l -> Some l
 		in
@@ -295,19 +383,6 @@ struct
 		let state_b = Block.traverse block state f in
 		let state_s = List.fold_left subsegments ~init:state_b ~f:subsegment_tr_f in
 		state_s
-
-  (* Traverse (post-order) group by applying f to its fields *) 
-  let rec traverse_post segment state f = 
-		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
-    let _ = d_printf_optstr "label " label in
-
-		let subsegment_tr_f state subsegment = traverse subsegment state f in
-		let state_s = List.fold_left subsegments ~init:state ~f:subsegment_tr_f in
-		let block_tr_f state block = Block.traverse block state f in
-		let state_b = Block.traverse block state_s f in
-		let state_final = f Ast_segment state_b ~kind:(Some kind) ~point_val ~title:(Some title) ~label ~depend ~contents:None in
-		state_final
 
   (* Convert to string with levels.
    * Used for debugging only.
@@ -389,6 +464,34 @@ struct
 		| h::[ ] -> Some h
 		| _ -> None
 				
+
+  (* If group doesn't have a label, then
+	 * assign fresh label to_tex group atom (unique wrt label_set).
+   * Return the updated label set.
+	 * To assign label use words from title and body.  
+	*)
+	let rec assign_label label_set segment = 		
+		let (l_b, t_b) = Block.assign_label label_set (block segment) in
+		let _ = List.map (subsegments segment) ~f:(assign_label label_set)
+		in
+		match (label segment) with 
+		| Some _ -> ()
+		| None ->
+				begin
+				let tt_s = Words.tokenize_spaces (title segment) in
+				match Labels.mk_label label_set "kind" "prefix" tt_s with
+				| None -> 
+						begin
+							match l_b with 
+							| Some l -> segment.label <- Some l
+							| None -> 
+									let tokens = tt_s @ t_b in
+									let l = Labels.mk_label_force label_set "kind" "prefix" tokens in
+									segment.label <- Some l
+
+						end
+				| Some l -> segment.label <- Some l
+				end
 end
 type segment = Segment.t
 
@@ -436,10 +539,12 @@ let to_tex ast =
 (* Collect all the labels in the ast
  * in a label set and return it.
  *)
-let collect_labels ast: Label_set.t =
-	let label_set = Label_set.empty () in
+let collect_labels ast: Labels.t =
+	let label_set = Labels.empty () in
 
-  (* Add a label to label set *)
+  (* Traversal visit function to add the label
+	 * of an AST member to label set 
+ 	*)
 	let add_label 
 			member_kind
 			label_set 
@@ -453,54 +558,19 @@ let collect_labels ast: Label_set.t =
 		| None -> 
 				label_set
 		| Some (s: string) -> 
-				let _ = Label_set.add label_set s in
+				let _ = Labels.add label_set s in
 				label_set
 	in
-	let label_list = Label_set.to_list label_set in
+	let label_list = Labels.to_list label_set in
   let _ = d_printf_strlist "Initial labels: " label_list in
 	let label_set = Segment.traverse ast label_set add_label in
-	let label_list = Label_set.to_list label_set in
+	let label_list = Labels.to_list label_set in
   let _ = d_printf_strlist "All labels: " label_list in
 	  label_set
 
 
 let assign_labels ast = 
 	let label_set = collect_labels ast in
-
-  (* Assign a label to ast member.
-   * Return the title and the body of members included.
-	*)
-	let assign_label 
-			member_kind
-			(label_set, title_list, body_list) 
-			~(kind: string option)
-			~(point_val: string option) 
-			~(title: string option) 
-			~(label: string option) 
-			~(depend: (string list) option) 
-			~(contents: string option) = 
-		let title  = 
-			match title with
-			| None -> ""
-			| Some t -> String.concat ~sep:" " (Words.tokenize_spaces t) 
-		in 
-		let body  = 
-			match contents with
-			| None -> ""  
-			| Some body -> String.concat ~sep:" " (Words.tokenize_spaces body) 
-    in
-    match label with 
-		| None -> 
-				(label_set,
-				 title_list @ [title],
-				 body_list @ [body])					
-		| Some (s: string) -> 
-				let _ = Label_set.add label_set s in
-				(label_set,
-				 title_list @ [title],
-				 body_list @ [body])
-	in
-	let label_set = collect_labels ast in
-	Segment.traverse_post ast (label_set, [], []) assign_label
+	Segment.assign_label label_set ast 
 
  

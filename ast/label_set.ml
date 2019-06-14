@@ -2,6 +2,7 @@ open Core
 open Utils
 
 
+module Words = English_words
 (* Labels *)
 
 type t = (String.t, unit) Hashtbl.t
@@ -31,11 +32,19 @@ let to_list table =
 	  List.map all ~f:(fun (x,y) -> x)
 
 (* Create a new label from counter *)
-let mk_label_from_number () = 
+let rec mk_label_from_number table = 
   let _ = label_counter := !label_counter + 1 in
-    Tex_syntax.label_prefix_auto_pre ^ 
+  let label = 
+		Tex_syntax.label_prefix_auto_pre ^ 
     (Int.to_string !label_counter) ^ 
     Tex_syntax.label_prefix_auto_pre  
+	in
+	  if add table label then
+			(* succeeded. *)
+			label
+		else
+			(* try again *)
+			mk_label_from_number table 
 
 (* Assuming that the label has of the form 
    (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
@@ -64,56 +73,41 @@ let mk_label_prefix label =
 
 
 
-(* Take kind, e.g., sec, gr, and prefix and a string s make
-   kind:prefix::s
+(* Take kind, e.g., sec, gr, and prefix and a string list candidates make
+   kind:prefix::s, for some s in candidates
  *)
-let mk_label table kind prefix body = 
-	let candidates = English_words.tokenize_spaces body in
+let mk_label table kind prefix candidates = 
 	let rec find candidates = 
-		let _ = d_printf_strlist "Label_set.createLabel: candidates = %s\n" candidates in
+		let _ = d_printf_strlist "Label_set.mk_label: candidates = %s\n" candidates in
     match candidates with 
     | [] -> 
-        let _ = d_printf "Label_set.createLabel: failed to find a unique word.  Using unique.\n" in
+        let _ = d_printf "Label_set.mk_label: failed to find a unique word.  Using unique.\n" in
         None
     | ls::rest ->
         let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
-        let _ = d_printf "Label_set.createLabel: trying label = %s\n" ls in
+        let _ = d_printf "Label_set.mk_label: trying label = %s\n" ls in
         if add table ls then 
-          let heading = Tex_syntax.mk_label_force ls in
           let _ = d_printf "Label_set.add: Label = %s added to  the table.\n" ls in
-          Some (heading, ls)
+          Some ls
         else
           let _ = d_printf "Label_set.add: Label = %s found in the table.\n" ls in
           find rest
   in
   find candidates
 
-let mk_label_force table kind prefix topt body_opt = 
-  match (topt, body_opt) with 
-  | (None, None) -> 
+let mk_label_force table kind prefix candidates = 
+  match candidates with 
+  | [ ] -> 
     (* Generate based on numbers *)
-    let ls = mk_label_from_number () in 
+    let ls = mk_label_from_number table in 
     let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
-    let _ = d_printf "Label_set.forceCreateLabel: label = %s\n" ls in
-    let heading = Tex_syntax.mk_label_force ls in
-      (heading, ls)
+    let _ = d_printf "Label_set.mk_label_force label = %s\n" ls in
+      ls
   | _ ->
-  let body =
-     match body_opt with 
-    | None -> ""
-    | Some body  -> body
-  in
-  let all = 
-    match topt with 
-    | None -> body
-    | Some title  ->  (title ^ " " ^ body)
-  in 
-    match mk_label table kind prefix all with 
+    match mk_label table kind prefix candidates with 
     | None ->
-      let ls = mk_label_from_number () in 
+      let ls = mk_label_from_number table in 
       let ls = kind ^ Tex_syntax.label_seperator ^ prefix ^ Tex_syntax.label_nestor ^ ls in
       let _ = d_printf "Label_set.forceCreateLabel: label = %s\n" ls in
-      let heading = Tex_syntax.mk_label_force ls in
-        (heading, ls)
-    | Some (heading, ls) -> 
-        (heading, ls)
+			  ls
+    | Some ls -> ls 

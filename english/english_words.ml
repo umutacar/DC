@@ -321,5 +321,7 @@ let tokenize_spaces body =
     tokens
 
 
-
-
+let tokenize_spaces_opt body_opt = 
+  match body_opt with
+	| None -> [ ]
+	| Some body -> tokenize_spaces body 
