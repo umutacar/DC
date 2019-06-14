@@ -1,5 +1,6 @@
 open Core
 open Utils
+module Tex = Tex_syntax
 
 let mk_plural s = s ^ "s"
 
@@ -135,39 +136,39 @@ let stop_words =
   ]
   @
   (* Diderot stopwords *)
-  [Tex_syntax.kw_chapter; mk_plural Tex_syntax.kw_chapter;
-   Tex_syntax.kw_section; mk_plural Tex_syntax.kw_section;
-   Tex_syntax.kw_subsection; mk_plural Tex_syntax.kw_subsection;
-   Tex_syntax.kw_subsubsection; mk_plural Tex_syntax.kw_subsubsection;
-   Tex_syntax.kw_paragraph; mk_plural Tex_syntax.kw_paragraph;
-   Tex_syntax.kw_flex; mk_plural Tex_syntax.kw_flex;
-   Tex_syntax.kw_problem_cluster; mk_plural Tex_syntax.kw_problem_cluster;
-   Tex_syntax.kw_algorithm; mk_plural Tex_syntax.kw_algorithm;
-   Tex_syntax.kw_assumption; mk_plural Tex_syntax.kw_assumption;
-   Tex_syntax.kw_code; mk_plural Tex_syntax.kw_code;
-   Tex_syntax.kw_corollary; mk_plural Tex_syntax.kw_corollary;
-   Tex_syntax.kw_costspec; mk_plural Tex_syntax.kw_costspec;
-   Tex_syntax.kw_datastr; mk_plural Tex_syntax.kw_datastr;
-   Tex_syntax.kw_datatype; mk_plural Tex_syntax.kw_datatype;
-   Tex_syntax.kw_definition; mk_plural Tex_syntax.kw_definition;
-   Tex_syntax.kw_example; mk_plural Tex_syntax.kw_example;
-   Tex_syntax.kw_exercise; mk_plural Tex_syntax.kw_exercise;
-   Tex_syntax.kw_hint; mk_plural Tex_syntax.kw_hint;
-   Tex_syntax.kw_important; 
-   Tex_syntax.kw_lemma; mk_plural Tex_syntax.kw_lemma;
-   Tex_syntax.kw_note; mk_plural Tex_syntax.kw_note;
-   Tex_syntax.kw_gram; mk_plural Tex_syntax.kw_gram;
-   Tex_syntax.kw_preamble; mk_plural Tex_syntax.kw_preamble;
-   Tex_syntax.kw_problem; mk_plural Tex_syntax.kw_problem;
-   Tex_syntax.kw_proof; mk_plural Tex_syntax.kw_proof;
-   Tex_syntax.kw_proposition; mk_plural Tex_syntax.kw_proposition;
-   Tex_syntax.kw_remark; mk_plural Tex_syntax.kw_remark;
-   Tex_syntax.kw_reminder; mk_plural Tex_syntax.kw_reminder;
-   Tex_syntax.kw_slide; mk_plural Tex_syntax.kw_slide;
-   Tex_syntax.kw_solution; mk_plural Tex_syntax.kw_solution;
-   Tex_syntax.kw_syntax; 
-   Tex_syntax.kw_task; mk_plural Tex_syntax.kw_task;
-   Tex_syntax.kw_theorem; mk_plural Tex_syntax.kw_theorem
+  [Tex.kw_chapter; mk_plural Tex.kw_chapter;
+   Tex.kw_section; mk_plural Tex.kw_section;
+   Tex.kw_subsection; mk_plural Tex.kw_subsection;
+   Tex.kw_subsubsection; mk_plural Tex.kw_subsubsection;
+   Tex.kw_paragraph; mk_plural Tex.kw_paragraph;
+   Tex.kw_flex; mk_plural Tex.kw_flex;
+   Tex.kw_problem_cluster; mk_plural Tex.kw_problem_cluster;
+   Tex.kw_algorithm; mk_plural Tex.kw_algorithm;
+   Tex.kw_assumption; mk_plural Tex.kw_assumption;
+   Tex.kw_code; mk_plural Tex.kw_code;
+   Tex.kw_corollary; mk_plural Tex.kw_corollary;
+   Tex.kw_costspec; mk_plural Tex.kw_costspec;
+   Tex.kw_datastr; mk_plural Tex.kw_datastr;
+   Tex.kw_datatype; mk_plural Tex.kw_datatype;
+   Tex.kw_definition; mk_plural Tex.kw_definition;
+   Tex.kw_example; mk_plural Tex.kw_example;
+   Tex.kw_exercise; mk_plural Tex.kw_exercise;
+   Tex.kw_hint; mk_plural Tex.kw_hint;
+   Tex.kw_important; 
+   Tex.kw_lemma; mk_plural Tex.kw_lemma;
+   Tex.kw_note; mk_plural Tex.kw_note;
+   Tex.kw_gram; mk_plural Tex.kw_gram;
+   Tex.kw_preamble; mk_plural Tex.kw_preamble;
+   Tex.kw_problem; mk_plural Tex.kw_problem;
+   Tex.kw_proof; mk_plural Tex.kw_proof;
+   Tex.kw_proposition; mk_plural Tex.kw_proposition;
+   Tex.kw_remark; mk_plural Tex.kw_remark;
+   Tex.kw_reminder; mk_plural Tex.kw_reminder;
+   Tex.kw_slide; mk_plural Tex.kw_slide;
+   Tex.kw_solution; mk_plural Tex.kw_solution;
+   Tex.kw_syntax; 
+   Tex.kw_task; mk_plural Tex.kw_task;
+   Tex.kw_theorem; mk_plural Tex.kw_theorem
   ]
   @
   (* quantifers, those not included in the stopwords above *)
@@ -280,7 +281,7 @@ let is_significant_word (x: string): bool =
  *)
 let tokenize_spaces body = 
   (* Delete all comments *)
-  let body = Str.global_replace (Str.regexp ("%.*" ^ Tex_syntax.pattern_newline)) "" body in
+  let body = Str.global_replace (Str.regexp ("%.*" ^ Tex.pattern_newline)) "" body in
 
   (* Delete labels *)
   (* It might seem like a good idea to reuse them but this can be bad
@@ -308,7 +309,7 @@ let tokenize_spaces body =
   let body = Str.global_replace (Str.regexp "[^-^_^0-9^A-Z^a-z]+") " " body in
 
   (* Now split at all whitespaces, including for windows form feed \x0c *)
-  let tokens = Str.split (Str.regexp Tex_syntax.pattern_whitespace) body in
+  let tokens = Str.split (Str.regexp Tex.pattern_whitespace) body in
       (* splits the string at space* 's.  
          if none is found, returns the whole string.
         *)
