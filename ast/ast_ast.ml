@@ -126,6 +126,27 @@ struct
     	(tt, tb)
 
 
+  let to_xml atom = 
+		let {kind; point_val; title; label; depend; body} = atom in
+		let point_val = normalize_point_val point_val in
+		let r = 
+			XmlSyntax.mk_atom 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:title
+        ~lopt:label
+				~dopt:depend 
+        ~body_src:body
+        ~body_xml:body
+        ~ilist_opt:None
+        ~hints_opt:None
+        ~refsols_opt:None
+        ~explains_opt:None
+        ~rubric_opt:None
+   in
+     r
+
+
 end
 
 type atom = Atom.t
@@ -552,6 +573,7 @@ let collect_labels ast: Labels.t =
 	  label_set
 
 
+(* Assign labels to all members of the AST. *)
 let assign_labels ast = 
 	let label_set = collect_labels ast in
   let chlabel = Segment.label ast in
