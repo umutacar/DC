@@ -7,6 +7,8 @@
 open Core
 open Utils
 
+module Xml = Xml_syntax
+
 (**********************************************************************
  ** BEGIN: Globals
  **********************************************************************)
@@ -25,7 +27,39 @@ let mk_unique () =
   let r = string_of_int !unique in
   let _ = unique := !unique + 1 in
     r
+(* BEGIN: Associative list for single par *)
 
+(* *_single_par flags are used for html post-processing:
+ *  "true" means that this was a single paragraph and the
+ * <p> </p> annotations must be removed.
+ *) 
+let body_is_single_par = Generic false
+let explain_is_single_par = Generic false
+let hint_is_single_par = Generic false
+let refsol_is_single_par = Generic false
+let rubric_is_single_par = Generic false
+let title_is_single_par = Generic true
+let atom_is_code lang_opt arg_opt = Code (lang_opt, arg_opt)
+
+let single_paragraph_status_of_kind = 
+  [ Xml.body, body_is_single_par;
+		Xml.explain, explain_is_single_par;
+		Xml.hint, hint_is_single_par;
+		Xml.refsol, refsol_is_single_par;
+		Xml.rubric, rubric_is_single_par;
+		Xml.title, title_is_single_par;		
+  ]
+
+let mk_single_paragraph_status kind = 
+   match 
+		 List.Assoc.find single_paragraph_status_of_kind 
+			 ~equal: String.equal kind 
+	 with 
+   | Some args -> args
+   | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
+              exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
+
+(* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 
 let latex_begin_document = "\\begin{document}"
@@ -296,9 +330,10 @@ let mk_translator_auto be_verbose tmp_dir lang_opt preamble =
    let _ = Sys.command command in  
 
    (* translator *)
-   let translate contents options = 
+   let translate kind contents = 
      let contents = text_prep contents in 
 		 let unique = mk_unique () in
+     let options = single_paragraph_status_of_kind kind in
        contents_to_html be_verbose tmp_dir lang_opt unique preamble contents options
    in
      translate
