@@ -340,9 +340,9 @@ struct
 		| Element_atom a ->
 				(* Insert an empty group *)
 				let g = Group.make ~kind:Tex.kw_cluster [a] in
-				g				
+				Element_group g				
 		| Element_group g ->
-				e
+				Element_group g
 
 	let to_xml tex2html e = 
 		match e with
@@ -361,7 +361,7 @@ struct
 			{	
 				mutable point_val: string option;
 				mutable label: string option; 
-				elements: element list
+				mutable elements: element list
 			} 
 			
   let point_val b = b.point_val
@@ -405,10 +405,9 @@ struct
 		  tt_a @ tb_a  
 
   let rec normalize block = 
-		let {kind; point_val; title; label; depend; elements} = block in
-		let _ = List.map elements ~f:Element.normalize in
-		()
-
+		let {point_val; label; elements} = block in
+		let elements = List.map elements ~f:Element.normalize in
+		  block.elements <- elements
 
   let to_xml tex2html block = 
 		let {point_val; label; elements} = block in
