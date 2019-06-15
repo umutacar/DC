@@ -168,6 +168,7 @@ struct
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml tex2html Xml.title title in
     let depend = depend_to_xml depend in
+    let body_xml = tex2html body in
 		let r = 
 			Xml.mk_atom 
 				~kind:kind 
