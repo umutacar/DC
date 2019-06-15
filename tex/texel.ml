@@ -2,8 +2,13 @@
  * Elaborator tool for LaTex.
  *) 
 open Core
-open Lexer
 open Lexing
+open Utils
+
+
+module Ast = Ast_ast
+module Lexer = Atom_lexer
+module Parser = Atom_parser
 
 let verbose = ref false
 let do_groups = ref false
@@ -28,8 +33,8 @@ let tex2ast infile =
 	let ic = In_channel.create infile in
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
-        ast_chapter
+	    let ast = Parser.top Lexer.lexer lexbuf in
+        ast
     with | End_of_file -> exit 0
          | Parser.Error as exn -> 
            handle_parser_error (); 
@@ -40,13 +45,11 @@ let tex2ast infile =
 	let ic = In_channel.create infile in
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
-        ast_chapter
+	    let ast = Parser.top Lexer.lexer lexbuf in
+			match ast with 
+			| None -> (printf "Parse Error."; exit 1)
+			| Some ast -> ast
     with End_of_file -> exit 0
-
-
-let ast2tex ast_chapter = 
-  Ast.chapterToTex ast_chapter
 
 
 let elaborate do_inline do_groups infile = 
@@ -59,17 +62,19 @@ let elaborate do_inline do_groups infile =
   in
   (* Make AST *)
   let ast = tex2ast infile_inlined in
-  let ast =     
+  let ast = ast
+(*
     if do_groups then
       Ast.chapterEl ast
     else 
       ast
+*)
   in
   (* Label AST *)
-  let ast_labeled = Ast.labelChapter ast in
+  let _ = Ast.assign_labels ast in
 
   (* Make TeX *)
-  let result = ast2tex ast_labeled in
+  let result = Ast.to_tex ast in
     result
 					
 let main () = 

@@ -9,9 +9,9 @@ DEPEND = \
   atom/atomize.ml atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
   pervasives/utils.ml pervasives/error_code.ml \
-  tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
+  tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
-default: atomize.native
+default: atomize.native texel.native
 all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
 
 clean:
