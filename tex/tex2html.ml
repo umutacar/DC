@@ -50,7 +50,7 @@ let single_paragraph_status_of_kind =
 		Xml.title, title_is_single_par;		
   ]
 
-let mk_single_paragraph_status kind = 
+let get_single_paragraph_status kind = 
    match 
 		 List.Assoc.find single_paragraph_status_of_kind 
 			 ~equal: String.equal kind 
@@ -333,7 +333,7 @@ let mk_translator_auto be_verbose tmp_dir lang_opt preamble =
    let translate kind contents = 
      let contents = text_prep contents in 
 		 let unique = mk_unique () in
-     let options = single_paragraph_status_of_kind kind in
+     let options = get_single_paragraph_status kind in
        contents_to_html be_verbose tmp_dir lang_opt unique preamble contents options
    in
      translate

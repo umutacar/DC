@@ -193,7 +193,7 @@ let mk_label_prefix_from_kind kind =
    match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
    | Some prefix -> prefix
    | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
-              exit ErrorCode.labeling_error_unknown_atom)
+              exit Error_code.labeling_error_unknown_atom)
 
 (* END: label prefixes *)
 

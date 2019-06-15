@@ -4,6 +4,7 @@ open Utils
 module Labels = Label_set
 module Tex = Tex_syntax
 module Words = English_words
+module Xml = Xml_syntax
 
 type ast_member = Ast_atom | Ast_group | Ast_element | Ast_block | Ast_segment
 
@@ -55,17 +56,22 @@ let tokenize sa_opt sb_opt =
 	(mk sa_opt, mk sb_opt)
 
 (* Translate string to xml *)
-let str_to_xml tex2html is_single_par x =
-	let x_xml = tex2html x is_single_par in
-    (x_xml, x)
+let str_to_xml tex2html kind source =
+	let source_xml = tex2html kind source in
+    (source_xml, source)
 
-(* Translate string option to xml *)
-let str_opt_to_xml tex2html is_single_par xo =
-   match xo with 
+(* Translate source string option to xml, return both *)
+let str_opt_to_xml tex2html kind source_opt =
+   match source_opt with 
    | None -> None 
-   | Some x -> 
-			 let x_xml = tex2html x is_single_par in
-       Some (x_xml, x)
+   | Some source -> 
+			 let source_xml = tex2html kind source  in
+       Some (source_xml, source)
+
+let depend_to_xml dopt = 
+	match dopt with 
+  |  None -> None
+  |  Some ls -> Some (str_of_str_list ls)
 
 (**********************************************************************
  ** END: Utilities
@@ -157,14 +163,16 @@ struct
     	(tt, tb)
 
 
-  let to_xml atom = 
+  let to_xml tex2html atom = 
 		let {kind; point_val; title; label; depend; body} = atom in
 		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title title in
+    let depend = depend_to_xml depend in
 		let r = 
-			XmlSyntax.mk_atom 
+			Xml.mk_atom 
 				~kind:kind 
         ~pval:point_val
-        ~topt:title
+        ~topt:titles
         ~lopt:label
 				~dopt:depend 
         ~body_src:body
@@ -266,6 +274,23 @@ struct
 		in
 		(tt_a, tb_a)
 
+  let to_xml tex2html group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title title in
+    let depend = depend_to_xml depend in
+		let atoms = map_concat (Atom.to_xml tex2html) atoms in
+		let r = 
+			Xml.mk_group 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:atoms
+   in
+     r
+
 end
 
 type group = Group.t
@@ -309,6 +334,13 @@ struct
 				Atom.assign_label prefix label_set a
 		| Element_group g ->
 				Group.assign_label prefix label_set g
+
+	let to_xml tex2html e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_xml tex2html a
+		| Element_group g ->
+				Group.to_xml tex2html g
 
 end
 
@@ -362,6 +394,13 @@ struct
 			| Some tb_a -> tb_a 						
 		in
 		  tt_a @ tb_a  
+
+  let to_xml tex2html block = 
+		let {point_val; label; elements} = block in
+		let elements = map_concat (Element.to_xml tex2html) elements in
+		elements
+
+
 end
 
 type block = Block.t

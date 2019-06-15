@@ -25,7 +25,7 @@ let add table label =
       match Hashtbl.add table ~key:label ~data:() with
       | `Duplicate -> 
           (printf "Label_set.add: FATAL ERROR in Labeling.\n";
-           exit ErrorCode.labeling_error_hash_table_corrupted)
+           exit Error_code.labeling_error_hash_table_corrupted)
       | `Ok -> true
 
 
