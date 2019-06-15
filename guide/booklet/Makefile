@@ -1,0 +1,63 @@
+PDFLATEX = pdflatex
+LATEX = latex
+
+PREAMBLE = ./templates/preamble.tex
+# resource paths don't seem to work
+PANDOC = pandoc --verbose --mathjax -f latex
+
+
+ifeq ($(OS),Windows_NT)
+	MTL_HOME = ../../mtl/bin/windows
+else
+	UNAME_S := $(shell uname -s)
+	ifeq ($(UNAME_S),Linux)
+		MTL_HOME = ../../mtl/bin/ubuntu
+	endif
+	ifeq ($(UNAME_S),Darwin)
+		MTL_HOME = ../../mtl/bin/macos
+	endif
+endif
+
+
+TEX2XML = $(MTL_HOME)/tex2xml
+TEX2XMLDBG = $(MTL_HOME)/tex2xml.dbg
+
+default: book.pdf
+
+FORCE: 
+
+.PHONY: book book.pdf 
+
+clean: 
+	rm *.aux *.idx *.log *.out *.toc */*.aux */*.idx */*.log */*.out 
+
+reset: 
+	make clean; rm *.pdf; rm*.html; rm  *~; rm */*~; rm  \#*\#; rm */\#*\#; 
+
+
+######################################################################
+## BEGIN: XML
+######################################################################
+%.xml : %.tex FORCE
+	$(TEX2XML) $< $(PREAMBLE) $@
+
+%.xmldbg : %.tex
+	$(TEX2XMLDBG) $< $(PREAMBLE) $@
+
+######################################################################
+## END: XML
+######################################################################
+
+######################################################################
+## BEGIN: PDF
+######################################################################
+
+book.pdf:
+	$(PDFLATEX) --jobname="book" '\input{book}' ; 
+	$(PDFLATEX) --jobname="book" '\input{book}' ; \
+
+
+hw2 : book.pdf hw2/main.tex
+	$(PDFLATEX) --jobname="hw2" '\includeonly{hw2/main}\input{book}'
+
+
