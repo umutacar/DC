@@ -279,7 +279,7 @@ struct
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml tex2html Xml.title title in
     let depend = depend_to_xml depend in
-		let atoms = map_concat (Atom.to_xml tex2html) atoms in
+		let atoms = map_concat_with newline (Atom.to_xml tex2html) atoms in
 		let r = 
 			Xml.mk_group 
 				~kind:kind 
@@ -397,7 +397,7 @@ struct
 
   let to_xml tex2html block = 
 		let {point_val; label; elements} = block in
-		let elements = map_concat (Element.to_xml tex2html) elements in
+		let elements = map_concat_with newline (Element.to_xml tex2html) elements in
 		elements
 
 
@@ -566,6 +566,26 @@ struct
         let l = Labels.mk_label_force label_set lk "prefix" tokens in
       	segment.label <- Some l
     	| Some l -> segment.label <- Some l
+
+  let rec to_xml tex2html segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title (Some title) in
+    let depend = depend_to_xml depend in
+		let block =  Block.to_xml tex2html block in
+		let subsegments = map_concat_with newline (to_xml tex2html) subsegments in
+		let body = block ^ newline ^ subsegments in
+		let r = 
+			Xml.mk_group 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:body
+   in
+     r
+
 end
 type segment = Segment.t
 
@@ -600,9 +620,6 @@ let is_wellformed ast =
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
-
-let to_tex ast = 
-	Segment.to_tex ast
 
 (* Collect all the labels in the ast
  * in a label set and return it.
@@ -646,5 +663,12 @@ let assign_labels ast =
 	 | Some chl -> 
      let prefix = Labels.drop_label_prefix chl in
        Segment.assign_label prefix label_set ast 
+
+let to_tex ast = 
+	Segment.to_tex ast
+
+let to_xml ast = 
+	Segment.to_xml ast
+
 
  
