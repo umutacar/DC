@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = true
+let debug = false
 
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
@@ -92,12 +92,16 @@ let uniques_of_list l =
    Requires:  there be at most one match of "here".
 *)
 let str_match_one_first (search:string) (target:string): (string * string) option = 
+(*
 	let _ = d_printf "first: searching: %s\n" search in
 	let _ = d_printf "       in %s\n" target in
+*)
 	let re = Str.regexp search in
 	let chunks = Str.full_split re target in
 	match chunks with
-	| h::[ ] -> (d_printf "no match\n"; None) 
+	| h::[ ] -> 
+(*			let _ = d_printf "no match\n" in *)
+			None
 	| ha::hb::_ -> 
 			begin
 			match (ha, hb) with 
@@ -108,11 +112,13 @@ let str_match_one_first (search:string) (target:string): (string * string) optio
 
 (* Example "there" "here is there" will return ("there", "here is"). *)
 let str_match_last (search:string) (target:string): (string * string) option = 
-	let _ = d_printf "last: searching: %s\n" search in
+(*	let _ = d_printf "last: searching: %s\n" search in *)
 	let re = Str.regexp search in
 	let chunks = List.rev (Str.full_split re target) in
 	match chunks with
-	| h::[ ] -> (d_printf "no match\n"; None) 
+	| h::[ ] -> 
+(*			let _ = d_printf "no match\n" in *)
+			None 
 	| ha::hb::_ -> 
 			begin
 			match (ha, hb) with 
@@ -150,12 +156,18 @@ let str_match_full (search:string) (target:string): bool =
 	| _ -> false
  
 let contains_substring (search: string) (target: string) =
+(*
   let _ = d_printf "contains_substring: search = %s target = %s\n" search target in
+*)
   let found = String.substr_index ~pos:0 ~pattern:search target in
   let res = 
     match found with 
-    | None -> let _ = d_printf "contains_substring: found none\n" in false
-    | Some x -> let _ = d_printf "contains_substring: found match %d\n" x in true 
+    | None -> 
+(*				let _ = d_printf "contains_substring: found none\n" in *)
+				false
+    | Some x -> 
+(*				let _ = d_printf "contains_substring: found match %d\n" x in *)
+				true 
   in
     res
 (* END String and substring search *) 

@@ -7,6 +7,9 @@
 open Core
 open Utils
 
+module Xml = Xml_syntax
+module Tex = Tex_syntax
+
 (**********************************************************************
  ** BEGIN: Globals
  **********************************************************************)
@@ -19,6 +22,45 @@ let html_extension = "html"
 let latex_extension = "tex"
 let md_extension = "md"
 
+(* A simple counter based unique number generation *)
+let unique = ref 0
+let mk_unique () = 
+  let r = string_of_int !unique in
+  let _ = unique := !unique + 1 in
+    r
+(* BEGIN: Associative list for single par *)
+
+(* *_single_par flags are used for html post-processing:
+ *  "true" means that this was a single paragraph and the
+ * <p> </p> annotations must be removed.
+ *) 
+let body_is_single_par = Generic false
+let explain_is_single_par = Generic false
+let hint_is_single_par = Generic false
+let refsol_is_single_par = Generic false
+let rubric_is_single_par = Generic false
+let title_is_single_par = Generic true
+let atom_is_code lang_opt arg_opt = Code (lang_opt, arg_opt)
+
+let single_paragraph_status_of_kind = 
+  [ Xml.body, body_is_single_par;
+		Xml.explain, explain_is_single_par;
+		Xml.hint, hint_is_single_par;
+		Xml.refsol, refsol_is_single_par;
+		Xml.rubric, rubric_is_single_par;
+		Xml.title, title_is_single_par;		
+  ]
+
+let get_single_paragraph_status kind = 
+   match 
+		 List.Assoc.find single_paragraph_status_of_kind 
+			 ~equal: String.equal kind 
+	 with 
+   | Some args -> args
+   | None -> (printf "tex2html: FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
+              exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
+
+(* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 
 let latex_begin_document = "\\begin{document}"
@@ -43,6 +85,15 @@ let pandoc =  pandoc_minor
 (* Returns "./kate/language.xml" *)
 let mk_kate_language l = "./kate/" ^ l ^ ".xml"
 
+(* Returns the pandoc command to run by parameterizing 
+ * 1) verbosity
+ * 2) language parameter.
+ * If language "lang" is given then it uses "lang.xml" file
+ * for defining the syntax.
+ *
+ * This file should be in the "kate" directory specified.
+ *)
+   
 let set_pandoc be_verbose language = 
   let lang = match language with 
              | None -> ""
@@ -55,16 +106,24 @@ let set_pandoc be_verbose language =
 
 
 (* Regular expressions *)
-let pattern_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
-let pattern_newline = Str.regexp "\n"
+let regexp_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
+let regexp_newline = Str.regexp "\n"
+let regexp_label = Str.regexp Tex.pattern_label
 
 (* prep string for conversion *)
-let text_prep(s) = 
+let text_prep s = 
   (* Replace NEWLINE with SPACE + NEWLINE
    * This prevents some math conversion problems by making sure that 
    * operators have a space after them in case they had a NEWLINE
    *)
-  Str.global_replace pattern_newline " \n" s
+  let s = Str.global_replace regexp_newline " \n" s in
+
+  (* Replace \label{label} declarations with space. 
+   * We label things ourselves and don't need them in the xml.
+   *)
+
+  let s = Str.global_replace regexp_label " " s in
+	s
 
 (*********************************************************************
  ** END: Globals
@@ -77,23 +136,23 @@ let text_prep(s) =
 (* Return the list of languages used in the contents 
    TODO: this looks into comments
  *)
-let findLang contents  =
+let find_lang contents  =
   let extract_lang (m: Re2.Match.t) =
     let source = Re2.Match.get ~sub:(`Name "lang") m in
       match source with 
-      | None -> let _ = d_printf "tex2html.findLang: None" in []
-      | Some x -> let _ = d_printf "tex2html.findLang: Some %s" x in [x]
+      | None -> let _ = d_printf "tex2html.find_lang: None" in []
+      | Some x -> let _ = d_printf "tex2html.find_lang: Some %s" x in [x]
   in
   (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
   let regex = Re2.create_exn
                   "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
   in
   let pattern = Re2.pattern regex in
-  let _ = printf "tex2html.findLang: Pattern for this regex = %s\n" pattern in 
+  let _ = d_printf "tex2html.find_lang: Pattern for this regex = %s\n" pattern in 
 
   let all_matches = Re2.get_matches_exn regex contents in
   let languages: string list = List.concat_map all_matches ~f:extract_lang in
-  let _ = printf_strlist "tex2html.findLange: languages" languages in 
+  let _ = d_printf_strlist "tex2html.find_lange: languages" languages in 
     languages
 
 (**********************************************************************
@@ -171,7 +230,7 @@ let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) =
 let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
-  let languages = findLang contents  in
+  let languages = find_lang contents  in
   let languages = match languages with 
                   | [] -> (match default_lang with 
                            | None -> []
@@ -195,7 +254,7 @@ let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_
 (*      let _ = printf "html: %s" html in *)
         html
     else
-      let matched = try Str.search_forward pattern_html_paragraph html 0 
+      let matched = try Str.search_forward regexp_html_paragraph html 0 
                     with Not_found -> -1
       in
         (* Group names start counting from 1. *)
@@ -263,7 +322,8 @@ let contents_to_html be_verbose tmp_dir lang_opt_default unique preamble content
 
 (**********************************************************************
  ** mk_translator makes a tex to html translator function 
- ** and returns it
+ ** and returns it.  The returned translator requires
+ ** a unique string.
  **********************************************************************)
 let mk_translator be_verbose tmp_dir lang_opt preamble = 
    (* Create tmp dir *) 
@@ -273,6 +333,25 @@ let mk_translator be_verbose tmp_dir lang_opt preamble =
    (* translator *)
    let translate unique contents options = 
      let contents = text_prep contents in 
+       contents_to_html be_verbose tmp_dir lang_opt unique preamble contents options
+   in
+     translate
+
+(**********************************************************************
+ ** mk_translator makes a tex to html translator function 
+ ** and returns it.  The returned translator function does 
+ ** not require a unique string but generates it.
+ **********************************************************************)
+let mk_translator_auto be_verbose tmp_dir lang_opt preamble = 
+   (* Create tmp dir *) 
+   let command = "mkdir " ^ tmp_dir in
+   let _ = Sys.command command in  
+
+   (* translator *)
+   let translate kind contents = 
+     let contents = text_prep contents in 
+		 let unique = mk_unique () in
+     let options = get_single_paragraph_status kind in
        contents_to_html be_verbose tmp_dir lang_opt unique preamble contents options
    in
      translate

@@ -1,6 +1,9 @@
 open Core
-open Lexer
 open Lexing
+
+module Ast = Ast_ast
+module Lexer = Tex_lexer
+module Parser = Tex_parser
 
 let file_extension_xml = ".xml"
 let verbose = ref false
@@ -28,28 +31,31 @@ let mk_translator be_verbose lang_opt preamble_filename =
     | None -> ""
     | Some x -> In_channel.read_all x
   in
-    Tex2html.mk_translator be_verbose !tmp_dir lang_opt preamble 
+    Tex2html.mk_translator_auto be_verbose !tmp_dir lang_opt preamble 
+
 
 let tex2ast infile = 
 	let ic = In_channel.create infile in
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let ast_chapter = Parser.chapter Lexer.token lexbuf in
-        ast_chapter
+	    let ast = Parser.top Lexer.lexer lexbuf in
+			match ast with 
+			| None -> (printf "Parse Error."; exit 1)
+			| Some ast -> ast
     with End_of_file -> exit 0
 
-let ast2xml be_verbose lang_opt ast_chapter preamble_file = 
-  (* Elaborate AST *)
-  let ast_elaborated = Ast.chapterEl ast_chapter in
+let ast2xml be_verbose lang_opt ast preamble_file = 
+  (* Normalize AST *)
+  let _  = Ast.normalize ast in
 
-  (* Label AST *)
-  let ast_labeled = Ast.labelChapter ast_elaborated in
+  (* Assign labels *)
+  let _ = Ast.assign_labels ast in
 
   (* Make XML *)
   let tex2html = mk_translator be_verbose lang_opt preamble_file in
-  let chapter_xml = Ast.chapterToXml tex2html ast_labeled in
+  let xml = Ast.to_xml tex2html ast in
     printf "Parsed successfully chapter.\n";
-    chapter_xml
+    xml
 
 let tex2xml be_verbose do_inline infile preamble_file lang_opt = 
   (* Preprocess *)
@@ -102,12 +108,13 @@ let main () =
   in
   let xml_chapter = tex2xml !verbose !do_inline in_file_name !preamble_file !default_lang in       
   let _ = Out_channel.write_all outfile_name ~data:xml_chapter in
-    (match !preamble_file with 
-     | None -> printf "Warning: no LaTeX preamble was specified.\n"
-     | _ -> ()
-     ;
+	let _ = 
+		match !preamble_file with 
+		| None -> printf "Warning: no LaTeX preamble was specified.\n"
+    | _ -> ()
+	in
      printf "Output written in %s\n" outfile_name 
-    )
+		
   
 
 let _ = main ()

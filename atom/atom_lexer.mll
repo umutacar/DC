@@ -4,6 +4,9 @@ open Printf
 open Atom_parser
 open Utils
 
+(* Turn off prints *)
+let d_printf args = 
+    ifprintf stdout args
 
 type t_lexer_state = 
 	| Busy

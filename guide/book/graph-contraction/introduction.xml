@@ -1,0 +1,821 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<block name='chapter'>
+<field name='title'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:graphcon::intro
+</field> <!-- label -->
+<atom name='preamble'>
+<field name='title'>
+<![CDATA[
+Overview
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Overview
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::motivate
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>In earlier chapters, we have mostly covered techniques for solving problems on graphs that were developed in the context of sequential algorithms. Some of the algorithms we considered were parallel while others were not. For example, we saw that <a href="ch:graphs::bfs">BFS</a> has some parallelism since each level can be explored in parallel but there was no parallelism in <a href="ch:graphs::dfs">DFS</a>. There was no parallelism in <a href="ch:shortest-paths:dijkstra">Dijkstra’s algorithm</a>, but there was plenty of parallelism in the <a href="ch:shortest-paths::bellman-ford">Bellman-Ford algorithm</a> and <a href="ch:shortest-paths::johnson">Johnson’s algorithm</a>.</p>
+<p>In this part of the book, we cover the “graph contraction” technique. This technique was specifically designed to be used in parallel algorithms and allows obtaining poly-logarithmic span for certain graph problems. This chapter presents an overview of graph contraction. The following chapters present two specializations <a href="ch:graphcon::edge">Edge Contraction</a> and <a href="ch:graphcon::star">Star Contraction</a> of graph contraction, and apply the technique to <a href="ch:graphcon::connect">graph connectivity</a>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In earlier chapters, we have mostly covered techniques for solving
+problems on graphs that were developed in the context of sequential
+algorithms.  
+%
+Some of the algorithms we considered were parallel while others were
+not.  For example, we saw that 
+%
+\href{ch:graphs::bfs}{BFS}
+%
+has some parallelism since each
+level can be explored in parallel 
+%
+but there was no parallelism in
+%
+\href{ch:graphs::dfs}{DFS}.
+%
+There was no parallelism in
+%
+\href{ch:shortest-paths:dijkstra}{Dijkstra's algorithm},
+%
+but there was plenty of parallelism in the 
+\href{ch:shortest-paths::bellman-ford}{Bellman-Ford algorithm}
+and
+\href{ch:shortest-paths::johnson}{Johnson's algorithm}.
+
+In this part of the book, we cover the ``graph contraction'' technique.
+%
+This technique was specifically designed to be used in parallel
+algorithms and allows obtaining poly-logarithmic span for certain
+graph problems.
+%
+This chapter presents an overview of graph contraction.
+%
+The following chapters present two specializations
+%
+\href{ch:graphcon::edge}{Edge Contraction}
+%
+and
+%
+\href{ch:graphcon::star}{Star Contraction} of graph contraction,
+%
+and apply the technique to
+%
+\href{ch:graphcon::connect}{graph connectivity}.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- preamble -->
+
+<block name='section'>
+<field name='title'>
+<![CDATA[
+Preliminaries
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Preliminaries
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:graphcon::intro::prelim
+</field> <!-- label -->
+<atom name='note'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::prelim::terminology
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>The material here and the followup chapters on graph contraction relies on the graph terminology introduced in the background <a href="ch:bg::graphs">chapter on graph theory</a>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The material here and the followup chapters on graph contraction relies on the graph terminology introduced in the background
+%
+\href{ch:bg::graphs}{chapter on graph theory}.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- note -->
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Graph Partition
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Graph Partition
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+def:graphcon::intro::prelim::graph-partition
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>Given a graph <span class="math inline">\(G\)</span>, a  <strong><em>graph partition</em></strong> of <span class="math inline">\(G\)</span> is a collection of graphs <span class="math display">\[H_0 = (V_0, E_0), \ldots, H_{k-1} = (V_{k-1}, E_{k-1}),\]</span> such that <span class="math inline">\(\{V_0, \ldots, V_{k-1}\}\)</span> is a set partition of <span class="math inline">\(V\)</span> and <span class="math inline">\(H_0, \ldots, H_{k-1}\)</span> are <a href="def:bg::graphs::subgraph::vi">vertex-induced subgraphs</a> of <span class="math inline">\(G\)</span> with respect to <span class="math inline">\(V_0, \ldots, V_{k-1}\)</span>.</p>
+<p>We refer to each subgraph <span class="math inline">\(H_i\)</span> as a  <strong><em>block</em></strong> or  <strong><em>part</em></strong> of <span class="math inline">\(G\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a graph $G$, 
+%
+a~\defn{graph partition} of $G$ is a collection of graphs
+%
+\[
+H_0 = (V_0, E_0), \ldots, H_{k-1} = (V_{k-1}, E_{k-1}),
+\]
+%
+such that 
+%
+% $\bigcup_{i=0}{V_i} =V$, $\forall i. 0 \le i,j < k, V_i \not= \emptyset$
+% and  $i \not= j \implies V_i \cap V_j = \emptyset$, 
+%
+$\{V_0, \ldots, V_{k-1}\}$ is a set partition of $V$
+and 
+%
+$H_0, \ldots, H_{k-1}$ 
+%
+are 
+%
+\href{def:bg::graphs::subgraph::vi}{vertex-induced subgraphs}
+%
+of $G$ with respect to $V_0, \ldots, V_{k-1}$.
+%
+
+We refer to each subgraph $H_i$ as a~\defn{block} or~\defn{part} of~$G$.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Internal and Cut Edges
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Internal and Cut Edges
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+def:graphcon::intro::prelim::edges
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>Given a partition <span class="math inline">\(H_0 = (V_0, E_0), \ldots, H_{k-1} = (V_{k_1}, E_{k-1})\)</span> of a graph <span class="math inline">\(G = (V, E)\)</span>, we define two kinds of edges: internal edges and cut edges.</p>
+<ul>
+<li><p>We call an edge <span class="math inline">\(\{v_1,v_2\}\)</span> an  <strong><em>internal edge</em></strong> , if <span class="math inline">\(v_1\in V_i\)</span> and <span class="math inline">\(v_2 \in V_i\)</span>. Note that <span class="math inline">\(\{v_1, v_2\} \in E_i\)</span>.</p></li>
+<li><p>We call an edge <span class="math inline">\(\{v_1, v_2\}\)</span> a  <strong><em>cut edge</em></strong> , if <span class="math inline">\(v_1\in V_i\)</span> and <span class="math inline">\(v_2 \in V_j\)</span> and <span class="math inline">\(i \not= j\)</span>.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a partition $H_0 = (V_0, E_0), \ldots, H_{k-1} = (V_{k_1}, E_{k-1})$
+of a graph $G = (V, E)$,
+%
+we define two kinds of edges: internal edges and cut edges.
+%
+
+\begin{itemize}
+
+\item
+
+We call an edge $\{v_1,v_2\}$ an~\defn{internal edge}, if $v_1\in V_i$
+and $v_2 \in V_i$.
+%
+Note that $\{v_1, v_2\} \in E_i$.
+%
+
+\item
+We call an edge $\{v_1, v_2\}$ a~\defn{cut edge}, if $v_1\in V_i$
+and $v_2 \in V_j$  and $i \not= j$.
+%
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<atom name='exercise'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>One way to partition a graph is to make each connected component a block. What are the internal and cut edges in such a partition?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+One way to partition a graph is to make each connected component a
+block. What are the internal and cut edges in such a partition?
+]]>
+</field> <!-- body_src -->
+</atom> <!-- exercise -->
+<atom name='solution'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>There are no cut edges between the partitions. All edges of the graph are internal edges.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+There are no cut edges between the partitions. 
+%
+All edges of the graph are internal edges.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- solution -->
+
+</block> <!-- group -->
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Partition Map
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Partition Map
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+def:graphcon::intro::prelim::partition-map
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>We sometimes describe a graph partition with a tuple consisting of</p>
+<ol>
+<li><p>a set of labels for the blocks, and</p></li>
+<li><p>a  <strong><em>partition map</em></strong> that maps each vertex to the label of its block.</p></li>
+</ol>
+<p>The labels can be chosen arbitrarily but it is usually conceptually and computationally easier to use a vertex inside a block as a representative for that block.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We sometimes describe a graph partition with a tuple consisting of 
+%
+\begin{enumerate}
+\item a set of labels for the blocks, and 
+\item a~\defn{partition map} that maps each vertex to the label of its
+  block.
+\end{enumerate}
+%
+The labels can be chosen arbitrarily but it is usually conceptually
+and computationally easier to use a vertex inside a block as a
+representative for that block.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ex:graphcon::intro::prelim::partition-map
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>The partition <span class="math inline">\(\left\{ \left\{ \texttt{a},\texttt{b},\texttt{c} \right\},\left\{ \texttt{d} \right\},\left\{ \texttt{e},\texttt{f} \right\} \right\}\)</span> of the vertices <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{d},\texttt{e},\texttt{f} \right\}\)</span>, defines three blocks as the corresponding <a href="def:bg::graphs::subgraph::vi">vertex-induced subgraphs</a>.</p>
+<p><img src="./graph-contraction/media-introduction/contract-example3.jpg" alt="image" style="width:2in" /></p>
+<p>The edges <span class="math inline">\(\left\{ \texttt{a},\texttt{b} \right\}\)</span>, <span class="math inline">\(\left\{ \texttt{a},\texttt{c} \right\}\)</span>, and <span class="math inline">\(\left\{ \texttt{e},\texttt{f} \right\}\)</span> are internal edges, and the edges <span class="math inline">\(\left\{ \texttt{c},\texttt{d} \right\}\)</span>, <span class="math inline">\(\left\{ \texttt{b},\texttt{d} \right\}\)</span>, <span class="math inline">\(\left\{ \texttt{b},\texttt{e} \right\}\)</span> and <span class="math inline">\(\left\{ \texttt{d},\texttt{f} \right\}\)</span> are cut edges.</p>
+<p>By labeling the blocks <span class="math inline">\(\unicode{8216}\,{\texttt{abc}}\,\unicode{8217},\unicode{8216}\,{\texttt{d}}\,\unicode{8217}\)</span> and <span class="math inline">\(\unicode{8216}\,{\texttt{ef}}\,\unicode{8217}\)</span>, we can specify the graph partition with following partition map:</p>
+<p><span class="math display">\[{  
+\begin{alignat}{1}  
+( &amp; \left\{ \texttt{abc}, \texttt{d}, \texttt{ef} \right\},  
+\\  
+ &amp; \left\{ \texttt{a} \mapsto  
+    \texttt{abc}, \texttt{b} \mapsto \texttt{abc}, \texttt{c} \mapsto  
+    \texttt{abc}, \texttt{d} \mapsto \texttt{d}, \texttt{e} \mapsto  
+    \texttt{ef}, \texttt{f} \mapsto \texttt{ef} \right\}  
+).  
+\end{alignat}  
+}\]</span> <span> <span class="math display">\[\begin{aligned}
+{1}  
+( &amp; \left\{ \texttt{abc}, \texttt{d}, \texttt{ef} \right\},  
+\\  
+ &amp; \left\{ \texttt{a} \mapsto  
+    \texttt{abc}, \texttt{b} \mapsto \texttt{abc}, \texttt{c} \mapsto  
+    \texttt{abc}, \texttt{d} \mapsto \texttt{d}, \texttt{e} \mapsto  
+    \texttt{ef}, \texttt{f} \mapsto \texttt{ef} \right\}  
+).  \end{aligned}\]</span> </span></p>
+<p>Instead of assigning a fresh label to each block, we can choose a representative vertex. For example, by picking <span class="math inline">\(\texttt{a}, \texttt{d}\)</span>, and <span class="math inline">\(\texttt{e}\)</span> as representatives, we can represent the partition above using the following partition map</p>
+<p><span class="math display">\[{  
+\begin{alignat}{1}  
+( &amp; \left\{ \texttt{a},\texttt{d},\texttt{e} \right\},   
+\\  
+       &amp; \left\{ \texttt{a} \mapsto \texttt{a}, \texttt{b} \mapsto \texttt{a},   
+               \texttt{c} \mapsto \texttt{a}, \texttt{d} \mapsto \texttt{d},   
+               \texttt{e} \mapsto \texttt{e}, \texttt{f} \mapsto  
+               \texttt{e} \right\}  
+).  
+\end{alignat}  
+}\]</span> <span> <span class="math display">\[\begin{aligned}
+{1}  
+( &amp; \left\{ \texttt{a},\texttt{d},\texttt{e} \right\},   
+\\  
+       &amp; \left\{ \texttt{a} \mapsto \texttt{a}, \texttt{b} \mapsto \texttt{a},   
+               \texttt{c} \mapsto \texttt{a}, \texttt{d} \mapsto \texttt{d},   
+               \texttt{e} \mapsto \texttt{e}, \texttt{f} \mapsto  
+               \texttt{e} \right\}  
+).  \end{aligned}\]</span> </span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The partition 
+%
+$\cset{\cset{\vname{a},\vname{b},\vname{c}},\cset{\vname{d}},\cset{\vname{e},\vname{f}}}$
+%
+of the vertices
+%
+$\cset{\vname{a},\vname{b},\vname{c},\vname{d},\vname{e},\vname{f}}$, 
+%
+defines three blocks as the corresponding 
+%
+\href{def:bg::graphs::subgraph::vi}{vertex-induced subgraphs}.
+
+\begin{center}
+  \includegraphics[width=2in]{./graph-contraction/media-introduction/contract-example3.jpg}
+\end{center}
+The edges $\cset{\vname{a},\vname{b}}$, $\cset{\vname{a},\vname{c}}$,
+and $\cset{\vname{e},\vname{f}}$ are internal edges, and the edges
+$\cset{\vname{c},\vname{d}}$, $\cset{\vname{b},\vname{d}}$,
+$\cset{\vname{b},\vname{e}}$ and $\cset{\vname{d},\vname{f}}$ are
+cut edges.
+
+By labeling the blocks $\cstr{abc},\cstr{d}$ and
+$\cstr{ef}$, we can specify the graph partition with following partition map:
+
+\htmlmath{
+\begin{alignat}{1}
+( & \cset{\vname{abc}, \vname{d}, \vname{ef}},
+\\
+ & \cset{\vname{a} \mapsto
+    \vname{abc}, \vname{b} \mapsto \vname{abc}, \vname{c} \mapsto
+    \vname{abc}, \vname{d} \mapsto \vname{d}, \vname{e} \mapsto
+    \vname{ef}, \vname{f} \mapsto \vname{ef}}
+).
+\end{alignat}
+}
+
+Instead of assigning a fresh label to each block, we can choose a
+representative vertex.
+%
+For example, by picking $\vname{a}, \vname{d}$, and $\vname{e}$ as
+representatives, we can represent the partition above using the
+following partition map
+\htmlmath{
+\begin{alignat}{1}
+( & \cset{\vname{a},\vname{d},\vname{e}}, 
+\\
+       & \cset{\vname{a} \mapsto \vname{a}, \vname{b} \mapsto \vname{a}, 
+               \vname{c} \mapsto \vname{a}, \vname{d} \mapsto \vname{d}, 
+               \vname{e} \mapsto \vname{e}, \vname{f} \mapsto
+               \vname{e}}
+).
+\end{alignat}
+}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+
+</block> <!-- group -->
+
+
+</block> <!-- section -->
+<block name='section'>
+<field name='title'>
+<![CDATA[
+Graph Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Graph Contraction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ex:graphcon::intro::graphcon
+</field> <!-- label -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::graphcon::overview
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>Graph contraction is a <a href="ch:design::contraction">contraction technique</a> for computing properties of graphs in parallel. As a contraction technique, it is used to solve a problem instance by reducing it to a smaller instance of the same problem.</p>
+<p>Graph contraction plays important role in parallel algorithm design, because divide-and-conquer can be difficult to apply to graph problems efficiently. Divide-and-conquer techniques usually require partitioning graphs into smaller graphs in a balanced fashion such that the number of cut edges is minimized. Because graphs can be highly irregular, they can be difficult to partition. In fact, graph partitioning problems are typically NP-hard.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Graph contraction is a 
+%
+\href{ch:design::contraction}{contraction technique}
+%
+for computing properties of graphs in parallel.
+%
+As a contraction technique, it is used to solve a problem
+instance by reducing it to a smaller instance of the same problem.
+%
+%% \begin{teachask}
+%% Can we solve graph problems using divide-and-conquer? 
+%% \end{teachask}
+%
+
+Graph contraction plays important role in parallel algorithm design, because
+divide-and-conquer can be difficult to apply to graph problems
+efficiently.  
+%
+Divide-and-conquer techniques usually require partitioning graphs into
+smaller graphs in a balanced fashion such that the number of cut edges
+is minimized.  
+%
+Because graphs can be highly irregular, they can be difficult
+to partition. 
+%
+In fact, graph partitioning problems are typically
+NP-hard.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Quotient Graph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Quotient Graph
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::graphcon::quotient
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>The key idea behind graph contraction is to contract the input graph to a smaller  <strong><em>quotient graph</em></strong> , solve the problem on the quotient graph, and then use that solution to construct the solution for the input graph. We can specify this technique as an inductive algorithm-design technique as follows.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The key idea behind graph contraction is to contract the input graph
+to a smaller~\defn{quotient graph}, solve the problem on the quotient
+graph, and then use that solution to construct the solution for the
+input graph.  
+%
+We can specify this technique as an inductive algorithm-design
+technique as follows.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+<block name='group'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+...NOT.PROVIDED.LABEL...
+</field> <!-- label -->
+<atom name='definition'>
+<field name='title'>
+<![CDATA[
+Graph-Contraction Technique
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Graph-Contraction Technique
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+def:graphcon::intro::graphcon::technique
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>Graph contraction technique has a base case and an inductive case. Each application of the inductive step is called a  <strong><em>round</em></strong> of graph contraction. In a graph contraction, rounds are repeated until the graph is small, e.g., the graph has no remaining edges.</p>
+<p><strong>Base case:</strong> If the graph is small (e.g., it has no edges), then compute the desired result.</p>
+<p><strong>Inductive case:</strong><br />
+</p>
+<ul>
+<li><p><strong>Contraction step:</strong> contract the graph into a smaller quotient graph.</p>
+<ul>
+<li><p>Partition the graph into blocks.</p></li>
+<li><p>Contract each block to a single super-vertex.</p></li>
+<li><p>Drop internal edges.</p></li>
+<li><p>Reroute cut edges to corresponding super-vertices.</p></li>
+</ul></li>
+<li><p><strong>Recursive step:</strong> Recursively solve the problem for the quotient graph.</p></li>
+<li><p><strong>Expansion step:</strong> By using the result for the quotient graph, compute the result for the input graph.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Graph contraction technique has a base case and an inductive case.  
+%
+Each application of the inductive step is called a~\defn{round} of
+  graph contraction.
+%
+In a graph contraction, rounds are repeated until the graph is small,
+e.g., the graph has no remaining edges.
+
+
+\textbf{Base case:} If the graph is small (e.g., it has no edges),
+then compute the desired result.
+
+\textbf{Inductive case:}
+\\
+\begin{itemize}
+\item \textbf{Contraction step:} contract the graph into a smaller quotient graph.
+\begin{itemize}
+\item Partition the graph into blocks.
+\item Contract each block to a single super-vertex.
+\item Drop internal edges.
+\item Reroute cut edges to corresponding super-vertices.  
+\end{itemize}
+
+\item \textbf{Recursive step:} Recursively solve the problem for the quotient graph.
+\item \textbf{Expansion step:} By using the result for the quotient graph, compute the result
+  for the input graph.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- definition -->
+<atom name='example'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ex:graphcon::intro::graphcon::contract-example
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>One round of graph contraction:</p>
+<p><img src="./graph-contraction/media-introduction/contract-example5.jpg" alt="image" style="width:5in" /></p>
+<p>Contracting a graph down to a single vertex in three rounds:</p>
+<p><img src="./graph-contraction/media-introduction/graph-contraction-example-1.jpg" alt="image" style="width:4in" /></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+One round of graph contraction:
+\begin{center}
+  \includegraphics[width=5.0in]{./graph-contraction/media-introduction/contract-example5.jpg}
+\end{center}
+
+Contracting a graph down to a single vertex in three rounds:
+\begin{center}
+\includegraphics[width=4in]{./graph-contraction/media-introduction/graph-contraction-example-1.jpg}
+\end{center}
+]]>
+</field> <!-- body_src -->
+</atom> <!-- example -->
+
+</block> <!-- group -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Construction of the Quotient Graph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Construction of the Quotient Graph
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::graphcon::contruct-quotient
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>To construct a quotient graph, we represent each block in the partition with a vertex, which we call a  <strong><em>super-vertex</em></strong> . We then “map” the edges of the graph to the quotient graph. Consider each edge <span class="math inline">\((u,v)\)</span> in the graph.</p>
+<ul>
+<li><p>If the edge is an internal edge, then we skip the edge.</p></li>
+<li><p>If the edge is a cut edge, then we create a new edge between the super-vertices representing the blocks containing <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p></li>
+</ul>
+<p>Because there can be many cut edges between two blocks, this approach may create multiple edges between two super-vertices. We may remove duplicate edges or leave them in the graph, in which case we would be working with multigraphs. Either approach has its benefits and may, depending on the application, be preferable over the other.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+To construct a quotient graph, we represent each block in the
+partition with a vertex,
+%
+which we call a~\defn{super-vertex}.
+%
+We then ``map'' the edges of the graph to the quotient graph.
+% 
+Consider each edge $(u,v)$ in the graph.
+%
+\begin{itemize}
+\item If the edge is an internal edge, then we skip the edge.
+
+\item If the edge is a cut edge, then  we create a new edge between the
+  super-vertices representing the blocks containing $u$ and $v$.
+%
+\end{itemize}
+
+Because there can be many cut edges between two blocks, this approach may create
+multiple edges between two super-vertices. 
+%
+We may remove duplicate edges or leave them in the graph, in which case we would be working with multigraphs. 
+%
+Either approach has its benefits and may, depending on the application, be preferable over the other.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+<atom name='important'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::graphcon::disjointness
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>Graph contraction is guided by a graph partition, which leads to blocks whose vertices are disjoint. During the construction of the quotient graph, each vertex in the graph is therefore mapped to a unique vertex in the quotient graph.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Graph contraction is guided by a graph partition, which leads to blocks whose vertices are disjoint.
+%
+During the construction of the quotient graph, each vertex in the
+graph is therefore mapped to a unique vertex in the quotient graph.
+]]>
+</field> <!-- body_src -->
+</atom> <!-- important -->
+<atom name='gram'>
+<field name='title'>
+<![CDATA[
+Applying Graph Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Applying Graph Contraction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+graphcon::intro::graphcon::apply
+</field> <!-- label -->
+<field name='body'>
+<![CDATA[
+<p>The ultimate goal of graph contraction technique is to reduce the size of the graph by a constant fraction (possibly in expectation) at each round of contraction. Depending on the graphs of interest many different graph-partition techniques can be used to achieve this goal. As described, the graph-contraction technique is generic in the kind of graph partition used. In the following chapters on <a href="ch:graphcon::edge">Edge Contraction</a> and <a href="ch:graphcon::star">Star Contraction</a> we consider two techniques, edge partitioning and star partitioning, and the resulting graph-contraction algorithms.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The ultimate goal of graph contraction technique is to reduce the size
+of the graph by a constant fraction (possibly in expectation) at each
+round of contraction.
+%
+Depending on the graphs of interest many different graph-partition
+techniques can be used to achieve this goal.
+%
+As described, the graph-contraction technique is generic in
+the kind of graph partition used.
+%
+In the following chapters on
+%
+\href{ch:graphcon::edge}{Edge Contraction}
+%
+and
+%
+\href{ch:graphcon::star}{Star Contraction}
+%
+we consider two techniques, edge partitioning and star partitioning,
+and the resulting graph-contraction algorithms.
+%
+]]>
+</field> <!-- body_src -->
+</atom> <!-- gram -->
+
+
+</block> <!-- section -->
+
+</block> <!-- chapter -->

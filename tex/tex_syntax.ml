@@ -4,6 +4,12 @@
 open Core
 open Utils
 
+(* Turn off prints *)
+let d_printf args = 
+    ifprintf stdout args
+let d_printf_strlist x y = 
+	()
+
 let newline = "\n"
 let space = " "
 let colon = ":"
@@ -89,10 +95,11 @@ let numbers = "numbers"
 (* END: lstlisting arguments *)
 
 (* BEGIN: Patterns Regular Expressions *)
+let pattern_label_delimiter = "[:_]+"
 let pattern_newline = "[ \n\r\x0c]+"
-let pattern_ch_prefix = "ch[:]+"
-let pattern_sec_prefix = "sec[:]+"
-let pattern_gr_prefix = "grp[:]+"
+let pattern_ch_prefix = "ch"
+let pattern_sec_prefix = "sec"
+let pattern_gr_prefix = "gr"
 let pattern_whitespace = "[ \n\r\x0c\t]+"
 (* END: Regular Expressions *)
 
@@ -189,12 +196,21 @@ let label_prefix_of_kind =
    kw_theorem, label_prefix_theorem;
   ]
 
+(* Given a segment kind, assign a label prefix, e.g.,
+ * section -> sec
+ * example -> xmpl.
+
+ * If the kind is not found, then use the name of the kind as a prefix, e.g.
+ *  defn -> defn.
+ *)  
 let mk_label_prefix_from_kind kind = 
    match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
    | Some prefix -> prefix
-   | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
-              exit ErrorCode.labeling_error_unknown_atom)
-
+   | None -> kind
+(*
+	 (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
+   exit Error_code.labeling_error_unknown_atom)
+*)
 (* END: label prefixes *)
 
 
@@ -316,8 +332,8 @@ let find_all_env contents  =
   let all_end_ = Re2.get_matches_exn regex_end contents in
   let all_begin: string list = List.concat_map all_begin_ ~f:extract_env in
   let all_end: string list = List.concat_map all_end_ ~f:extract_env in
-  let _ = printf_strlist "tex_syntax.find_env: all_begin" all_begin in 
-  let _ = printf_strlist "tex_syntax.find_env: all_end" all_end in 
+  let _ = d_printf_strlist "tex_syntax.find_env: all_begin" all_begin in 
+  let _ = d_printf_strlist "tex_syntax.find_env: all_end" all_end in 
 	let all_begin = List.sort Pervasives.compare all_begin in
 	let all_end = List.sort Pervasives.compare all_end in
 	try

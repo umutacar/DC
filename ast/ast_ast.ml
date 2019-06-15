@@ -4,6 +4,7 @@ open Utils
 module Labels = Label_set
 module Tex = Tex_syntax
 module Words = English_words
+module Xml = Xml_syntax
 
 type ast_member = Ast_atom | Ast_group | Ast_element | Ast_block | Ast_segment
 
@@ -16,6 +17,25 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 
 let points_correct = 1.0
 let points_incorrect = 0.0
+
+(* *_single_par flags are used for html post-processing:
+ *  "true" means that this was a single paragraph and the
+ * <p> </p> annotations must be removed.
+ *) 
+let body_is_single_par = Tex2html.Generic false
+let explain_is_single_par = Tex2html.Generic false
+let hint_is_single_par = Tex2html.Generic false
+let refsol_is_single_par = Tex2html.Generic false
+let rubric_is_single_par = Tex2html.Generic false
+let title_is_single_par = Tex2html.Generic true
+let atom_is_code lang_opt arg_opt = Tex2html.Code (lang_opt, arg_opt)
+(**********************************************************************
+ ** END: Constants
+ **********************************************************************)
+
+(**********************************************************************
+ ** BEGIN: Utilities
+ **********************************************************************)
 
 (* if points (po) is None or 0.0 then
    empty string, else the points *)
@@ -35,14 +55,31 @@ let tokenize sa_opt sb_opt =
 	in
 	(mk sa_opt, mk sb_opt)
 
+(* Translate string to xml *)
+let str_to_xml tex2html kind source =
+	let source_xml = tex2html kind source in
+    (source_xml, source)
+
+(* Translate source string option to xml, return both *)
+let str_opt_to_xml tex2html kind source_opt =
+   match source_opt with 
+   | None -> None 
+   | Some source -> 
+			 let source_xml = tex2html kind source  in
+       Some (source_xml, source)
+
+let depend_to_xml dopt = 
+	match dopt with 
+  |  None -> None
+  |  Some ls -> Some (str_of_str_list ls)
+
 (**********************************************************************
- ** END: Constants
+ ** END: Utilities
  **********************************************************************)
 
 (**********************************************************************
  ** BEGIN: AST Data Types
-*********************************************************************)
-
+ *********************************************************************)
 
 type t_label = Label of string
 type t_depend = Depend of string list 
@@ -124,6 +161,30 @@ struct
 		| Some _ -> ()
 		in
     	(tt, tb)
+
+
+  let to_xml tex2html atom = 
+		let {kind; point_val; title; label; depend; body} = atom in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title title in
+    let depend = depend_to_xml depend in
+    let body_xml = tex2html Xml.body body in
+		let r = 
+			Xml.mk_atom 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body_src:body
+        ~body_xml:body_xml
+        ~ilist_opt:None
+        ~hints_opt:None
+        ~refsols_opt:None
+        ~explains_opt:None
+        ~rubric_opt:None
+   in
+     r
 
 
 end
@@ -214,6 +275,23 @@ struct
 		in
 		(tt_a, tb_a)
 
+  let to_xml tex2html group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title title in
+    let depend = depend_to_xml depend in
+		let atoms = map_concat_with newline (Atom.to_xml tex2html) atoms in
+		let r = 
+			Xml.mk_group 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:atoms
+   in
+     r
+
 end
 
 type group = Group.t
@@ -258,6 +336,22 @@ struct
 		| Element_group g ->
 				Group.assign_label prefix label_set g
 
+  let normalize e = 
+ 		match e with
+		| Element_atom a ->
+				(* Insert an empty group *)
+				let g = Group.make ~kind:Tex.kw_cluster [a] in
+				Element_group g				
+		| Element_group g ->
+				Element_group g
+
+	let to_xml tex2html e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_xml tex2html a
+		| Element_group g ->
+				Group.to_xml tex2html g
+
 end
 
 type element = Element.t
@@ -268,7 +362,7 @@ struct
 			{	
 				mutable point_val: string option;
 				mutable label: string option; 
-				elements: element list
+				mutable elements: element list
 			} 
 			
   let point_val b = b.point_val
@@ -310,6 +404,18 @@ struct
 			| Some tb_a -> tb_a 						
 		in
 		  tt_a @ tb_a  
+
+  let rec normalize block = 
+		let {point_val; label; elements} = block in
+		let elements = List.map elements ~f:Element.normalize in
+		  block.elements <- elements
+
+  let to_xml tex2html block = 
+		let {point_val; label; elements} = block in
+		let elements = map_concat_with newline (Element.to_xml tex2html) elements in
+		elements
+
+
 end
 
 type block = Block.t
@@ -456,10 +562,10 @@ struct
 		| _ -> None
 				
 
-  (* If group doesn't have a label, then
-	 * assign fresh label to_tex group atom (unique wrt label_set).
+  (* If segment doesn't have a label, then
+	 * assign fresh label to segment atom (unique wrt label_set).
    * Return the updated label set.
-	 * To assign label use words from title and body.  
+	 * To assign label use words from title and block.
 	*)
 	let rec assign_label prefix label_set segment = 		
 		let t_b = Block.assign_label prefix label_set (block segment) in
@@ -469,12 +575,39 @@ struct
 		| None ->
   	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
 			let tt_s = Words.tokenize_spaces (title segment) in
-			match Labels.mk_label label_set lk "prefix" tt_s with
+			match Labels.mk_label label_set lk prefix tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
-        let l = Labels.mk_label_force label_set lk "prefix" tokens in
+        let l = Labels.mk_label_force label_set lk prefix tokens in
       	segment.label <- Some l
     	| Some l -> segment.label <- Some l
+
+  let rec normalize segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let _ = Block.normalize block in
+		let _ = List.map subsegments ~f:normalize in
+		()
+
+
+  let rec to_xml tex2html segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title (Some title) in
+    let depend = depend_to_xml depend in
+		let block =  Block.to_xml tex2html block in
+		let subsegments = map_concat_with newline (to_xml tex2html) subsegments in
+		let body = block ^ newline ^ subsegments in
+		let r = 
+			Xml.mk_group 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:body
+   in
+     r
+
 end
 type segment = Segment.t
 
@@ -493,12 +626,6 @@ type ast = segment
 let map f xs = 
   List.map xs f
 
-let index = ref 0
-let mk_index () = 
-  let r = string_of_int !index in
-  let _ = index := !index + 1 in
-    r
-
 (* Check that the nesting structure of the ast is correct *)
 let is_wellformed ast = 
   let s = ast in
@@ -515,9 +642,6 @@ let is_wellformed ast =
 (**********************************************************************
  ** END Utilities
  *********************************************************************)
-
-let to_tex ast = 
-	Segment.to_tex ast
 
 (* Collect all the labels in the ast
  * in a label set and return it.
@@ -552,6 +676,7 @@ let collect_labels ast: Labels.t =
 	  label_set
 
 
+(* Assign labels to all members of the AST. *)
 let assign_labels ast = 
 	let label_set = collect_labels ast in
   let chlabel = Segment.label ast in
@@ -560,5 +685,16 @@ let assign_labels ast =
 	 | Some chl -> 
      let prefix = Labels.drop_label_prefix chl in
        Segment.assign_label prefix label_set ast 
+
+let normalize ast = 
+	Segment.normalize ast
+
+let to_tex ast = 
+	Segment.to_tex ast
+
+let to_xml tex2html ast = 
+	let xml = Segment.to_xml tex2html ast in
+	Xml.mk_standalone xml
+
 
  

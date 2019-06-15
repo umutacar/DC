@@ -2,19 +2,16 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I atom -I english -I tex -I xml -I pervasives 
+OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I english -I tex -I xml -I pervasives 
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = \
   ast/ast_ast.ml ast/label_set.ml \
-  atom/atomize.ml atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
-  pervasives/utils.ml pervasives/errorCode.ml \
-  tex/ast.ml  tex/lexer.mll tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
-  xml/xmlConstants.ml xml/xmlSyntax.ml 
-
-
-default: atomize.native
-all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
+  pervasives/utils.ml pervasives/error_code.ml \
+  tex/mdSyntax.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
+  xml/xml_constants.ml xml/xml_syntax.ml 
+default: tex2tex.native texel.native texmlt.native
+all: tex2tex.native texel.native texmlt.native 
 
 clean:
 	$(OCB) -clean
@@ -25,15 +22,16 @@ atomize.native: $(DEPEND) atom/atomize.ml
 	$(OCB) atomize.native
 
 
-# tex2xml
-tex2xml.native: $(DEPEND) tex/tex2xml.ml
-	$(OCB) tex2xml.native
+# tex2tex
+tex2tex.native: $(DEPEND) tex/tex2tex.ml
+	$(OCB) tex2tex.native
 
-tex2xml.profile: $(DEPEND) tex/tex2xml.ml
-	$(OCB) -tag profile tex2xml.native
+tex2tex.profile: $(DEPEND) tex/tex2tex.ml
+	$(OCB) -tag profile tex2tex.native
 
-tex2xml.debug: $(DEPEND) tex/tex2xml.ml
-	$(OCB) -tag debug tex2xml.byte
+tex2tex.debug: $(DEPEND) tex/tex2tex.ml
+	$(OCB) -tag debug tex2tex.byte
+
 
 # texel
 texel.native: $(DEPEND) tex/texel.ml

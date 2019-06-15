@@ -4,10 +4,11 @@
 open Core
 open Lexing
 open Utils
-open Atom_lexer
 
 
 module Ast = Ast_ast
+module Lexer = Atom_lexer
+module Parser = Atom_parser
 
 let verbose = ref false
 let do_groups = ref false
@@ -34,7 +35,7 @@ let elaborate do_inline do_groups infile =
 	let ic = In_channel.create infile in
    	try 
       let lexbuf = Lexing.from_channel ic in
-	    let ast = Atom_parser.top Atom_lexer.lexer lexbuf in
+	    let ast = Parser.top Lexer.lexer lexbuf in
 			  match ast with 
 				| None -> exit 0
 				| Some ast ->
