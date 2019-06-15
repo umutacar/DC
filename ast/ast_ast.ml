@@ -335,6 +335,15 @@ struct
 		| Element_group g ->
 				Group.assign_label prefix label_set g
 
+  let normalize e = 
+ 		match e with
+		| Element_atom a ->
+				(* Insert an empty group *)
+				let g = Group.make ~kind:Tex.kw_cluster [a] in
+				Element_group g				
+		| Element_group g ->
+				Element_group g
+
 	let to_xml tex2html e = 
 		match e with
 		| Element_atom a ->
@@ -352,7 +361,7 @@ struct
 			{	
 				mutable point_val: string option;
 				mutable label: string option; 
-				elements: element list
+				mutable elements: element list
 			} 
 			
   let point_val b = b.point_val
@@ -394,6 +403,11 @@ struct
 			| Some tb_a -> tb_a 						
 		in
 		  tt_a @ tb_a  
+
+  let rec normalize block = 
+		let {point_val; label; elements} = block in
+		let elements = List.map elements ~f:Element.normalize in
+		  block.elements <- elements
 
   let to_xml tex2html block = 
 		let {point_val; label; elements} = block in
@@ -547,10 +561,10 @@ struct
 		| _ -> None
 				
 
-  (* If group doesn't have a label, then
-	 * assign fresh label to_tex group atom (unique wrt label_set).
+  (* If segment doesn't have a label, then
+	 * assign fresh label to segment atom (unique wrt label_set).
    * Return the updated label set.
-	 * To assign label use words from title and body.  
+	 * To assign label use words from title and block.
 	*)
 	let rec assign_label prefix label_set segment = 		
 		let t_b = Block.assign_label prefix label_set (block segment) in
@@ -560,12 +574,19 @@ struct
 		| None ->
   	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
 			let tt_s = Words.tokenize_spaces (title segment) in
-			match Labels.mk_label label_set lk "prefix" tt_s with
+			match Labels.mk_label label_set lk prefix tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
-        let l = Labels.mk_label_force label_set lk "prefix" tokens in
+        let l = Labels.mk_label_force label_set lk prefix tokens in
       	segment.label <- Some l
     	| Some l -> segment.label <- Some l
+
+  let rec normalize segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let _ = Block.normalize block in
+		let _ = List.map subsegments ~f:normalize in
+		()
+
 
   let rec to_xml tex2html segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
@@ -663,6 +684,9 @@ let assign_labels ast =
 	 | Some chl -> 
      let prefix = Labels.drop_label_prefix chl in
        Segment.assign_label prefix label_set ast 
+
+let normalize ast = 
+	Segment.normalize ast
 
 let to_tex ast = 
 	Segment.to_tex ast
