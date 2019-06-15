@@ -574,10 +574,10 @@ struct
 		| None ->
   	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
 			let tt_s = Words.tokenize_spaces (title segment) in
-			match Labels.mk_label label_set lk "prefix" tt_s with
+			match Labels.mk_label label_set lk prefix tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
-        let l = Labels.mk_label_force label_set lk "prefix" tokens in
+        let l = Labels.mk_label_force label_set lk prefix tokens in
       	segment.label <- Some l
     	| Some l -> segment.label <- Some l
 
@@ -684,6 +684,9 @@ let assign_labels ast =
 	 | Some chl -> 
      let prefix = Labels.drop_label_prefix chl in
        Segment.assign_label prefix label_set ast 
+
+let normalize ast = 
+	Segment.normalize ast
 
 let to_tex ast = 
 	Segment.to_tex ast

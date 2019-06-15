@@ -62,13 +62,11 @@ let elaborate do_inline do_groups infile =
   in
   (* Make AST *)
   let ast = tex2ast infile_inlined in
-  let ast = ast
-(*
+  let _ =
     if do_groups then
-      Ast.chapterEl ast
+      Ast.normalize ast
     else 
-      ast
-*)
+      ()
   in
   (* Label AST *)
   let _ = Ast.assign_labels ast in
