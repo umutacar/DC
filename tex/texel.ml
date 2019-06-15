@@ -7,8 +7,8 @@ open Utils
 
 
 module Ast = Ast_ast
-module Lexer = Atom_lexer
-module Parser = Atom_parser
+module Lexer = Tex_lexer
+module Parser = Tex_parser
 
 let verbose = ref false
 let do_groups = ref false

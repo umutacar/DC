@@ -2,8 +2,8 @@ open Core
 open Lexing
 
 module Ast = Ast_ast
-module Lexer = Atom_lexer
-module Parser = Atom_parser
+module Lexer = Tex_lexer
+module Parser = Tex_parser
 
 let file_extension_xml = ".xml"
 let verbose = ref false

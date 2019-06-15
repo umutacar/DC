@@ -2,11 +2,10 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I atom -I english -I tex -I xml -I pervasives 
+OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I english -I tex -I xml -I pervasives 
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = \
   ast/ast_ast.ml ast/label_set.ml \
-  atom/atomize.ml atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
