@@ -53,7 +53,7 @@ let ast2xml be_verbose lang_opt ast preamble_file =
 
   (* Make XML *)
   let tex2html = mk_translator be_verbose lang_opt preamble_file in
-  let xml = Ast.Segment.to_xml tex2html ast in
+  let xml = Ast.to_xml tex2html ast in
     printf "Parsed successfully chapter.\n";
     xml
 

@@ -11,7 +11,7 @@ DEPEND = \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
-default: atomize.native texel.native texmlt.native
+default: tex2tex.native texel.native texmlt.native
 all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
 
 clean:
@@ -21,6 +21,17 @@ clean:
 # atom
 atomize.native: $(DEPEND) atom/atomize.ml
 	$(OCB) atomize.native
+
+
+# tex2tex
+tex2tex.native: $(DEPEND) tex/tex2tex.ml
+	$(OCB) tex2tex.native
+
+tex2tex.profile: $(DEPEND) tex/tex2tex.ml
+	$(OCB) -tag profile tex2tex.native
+
+tex2tex.debug: $(DEPEND) tex/tex2tex.ml
+	$(OCB) -tag debug tex2tex.byte
 
 
 # tex2xml
