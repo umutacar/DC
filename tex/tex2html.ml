@@ -8,6 +8,7 @@ open Core
 open Utils
 
 module Xml = Xml_syntax
+module Tex = Tex_syntax
 
 (**********************************************************************
  ** BEGIN: Globals
@@ -56,7 +57,7 @@ let get_single_paragraph_status kind =
 			 ~equal: String.equal kind 
 	 with 
    | Some args -> args
-   | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
+   | None -> (printf "tex2html: FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
               exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
 
 (* END: Associative list for single par *)
@@ -96,16 +97,24 @@ let set_pandoc be_verbose language =
 
 
 (* Regular expressions *)
-let pattern_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
-let pattern_newline = Str.regexp "\n"
+let regexp_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
+let regexp_newline = Str.regexp "\n"
+let regexp_label = Str.regexp Tex.pattern_label
 
 (* prep string for conversion *)
-let text_prep(s) = 
+let text_prep s = 
   (* Replace NEWLINE with SPACE + NEWLINE
    * This prevents some math conversion problems by making sure that 
    * operators have a space after them in case they had a NEWLINE
    *)
-  Str.global_replace pattern_newline " \n" s
+  let s = Str.global_replace regexp_newline " \n" s in
+
+  (* Replace \label{label} declarations with space. 
+   * We label things ourselves and don't need them in the xml.
+   *)
+
+  let s = Str.global_replace regexp_label " " s in
+	s
 
 (*********************************************************************
  ** END: Globals
@@ -236,7 +245,7 @@ let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_
 (*      let _ = printf "html: %s" html in *)
         html
     else
-      let matched = try Str.search_forward pattern_html_paragraph html 0 
+      let matched = try Str.search_forward regexp_html_paragraph html 0 
                     with Not_found -> -1
       in
         (* Group names start counting from 1. *)
