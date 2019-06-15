@@ -45,11 +45,10 @@ let tex2ast infile =
     with End_of_file -> exit 0
 
 let ast2xml be_verbose lang_opt ast preamble_file = 
-  (* Elaborate AST *)
-(*
-  let ast_elaborated = Ast.chapterEl ast_chapter in
-*)
-  (* Label AST *)
+  (* Normalize AST *)
+  let _  = Ast.normalize ast in
+
+  (* Assign labels *)
   let _ = Ast.assign_labels ast in
 
   (* Make XML *)
