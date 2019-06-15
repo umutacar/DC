@@ -2,6 +2,12 @@ open Core
 open Utils
 module Tex = Tex_syntax
 
+(* Turn off prints *)
+let d_printf args = 
+    ifprintf stdout args
+let d_printf_strlist x y = 
+	()
+
 let mk_plural s = s ^ "s"
 
 let stop_words = 

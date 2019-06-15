@@ -7,6 +7,10 @@ open Utils
 module Ast = Ast_ast
 module Tex = Tex_syntax
 
+(* Turn off prints *)
+let d_printf args = 
+    ifprintf stdout args
+
 let parse_error s = printf "Parse Error: %s"
 
 let mk_point_val_f_opt (s: string option) = 

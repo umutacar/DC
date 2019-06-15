@@ -5,6 +5,12 @@ open Utils
 module Words = English_words
 module Tex = Tex_syntax
 
+(* Turn off prints *)
+let d_printf args = 
+    ifprintf stdout args
+let d_printf_strlist x y = 
+	()
+
 (* Labels *)
 
 type t = (String.t, unit) Hashtbl.t
