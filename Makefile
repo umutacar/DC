@@ -11,7 +11,7 @@ DEPEND = \
   tex/mdSyntax.ml tex/parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 default: tex2tex.native texel.native texmlt.native
-all: atomize.native traverse.native tex2xml.native texel.native texmlt.native 
+all: tex2tex.native texel.native texmlt.native 
 
 clean:
 	$(OCB) -clean
@@ -32,16 +32,6 @@ tex2tex.profile: $(DEPEND) tex/tex2tex.ml
 tex2tex.debug: $(DEPEND) tex/tex2tex.ml
 	$(OCB) -tag debug tex2tex.byte
 
-
-# tex2xml
-tex2xml.native: $(DEPEND) tex/tex2xml.ml
-	$(OCB) tex2xml.native
-
-tex2xml.profile: $(DEPEND) tex/tex2xml.ml
-	$(OCB) -tag profile tex2xml.native
-
-tex2xml.debug: $(DEPEND) tex/tex2xml.ml
-	$(OCB) -tag debug tex2xml.byte
 
 # texel
 texel.native: $(DEPEND) tex/texel.ml
