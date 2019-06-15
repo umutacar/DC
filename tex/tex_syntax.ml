@@ -95,10 +95,11 @@ let numbers = "numbers"
 (* END: lstlisting arguments *)
 
 (* BEGIN: Patterns Regular Expressions *)
+let pattern_label_delimiter = "[:_]+"
 let pattern_newline = "[ \n\r\x0c]+"
-let pattern_ch_prefix = "ch[:]+"
-let pattern_sec_prefix = "sec[:]+"
-let pattern_gr_prefix = "grp[:]+"
+let pattern_ch_prefix = "ch"
+let pattern_sec_prefix = "sec"
+let pattern_gr_prefix = "gr"
 let pattern_whitespace = "[ \n\r\x0c\t]+"
 (* END: Regular Expressions *)
 
@@ -195,12 +196,21 @@ let label_prefix_of_kind =
    kw_theorem, label_prefix_theorem;
   ]
 
+(* Given a segment kind, assign a label prefix, e.g.,
+ * section -> sec
+ * example -> xmpl.
+
+ * If the kind is not found, then use the name of the kind as a prefix, e.g.
+ *  defn -> defn.
+ *)  
 let mk_label_prefix_from_kind kind = 
    match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
    | Some prefix -> prefix
-   | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
-              exit Error_code.labeling_error_unknown_atom)
-
+   | None -> kind
+(*
+	 (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
+   exit Error_code.labeling_error_unknown_atom)
+*)
 (* END: label prefixes *)
 
 

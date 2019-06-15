@@ -55,22 +55,33 @@ let rec mk_label_from_number table =
 			mk_label_from_number table 
 
 (* Assuming that the label has of the form 
-   (prefix as e.g., [ch | sec | cl ]) (separator as [:]) label_name
+   (prefix as e.g., [ch | sec | cl ]) (separator as [:_]) label_name
    return label_name
  *)
 
+(* If label has the form 
+ * Examples: chapter:this -> this, ch:this-> this ch::this -> this.
+ *
+ * [A-Za-z]+[:_]+rest, where [:_]+ is the label delimiter, then
+ * it splits the label into a prefix called "kind" and "rest".
+ * It then checks that the kind starts with "ch" "sec" "gr" etc,
+ * If it does, then it assumes that the label starts with a kind
+ * prefix and returns the rest.
+ *) 
+
 let drop_label_prefix label = 
-  let tokens = Str.split (Str.regexp ("[:_]+")) label in
+	let delimiter = Tex.pattern_label_delimiter in
+  let tokens = Str.split (Str.regexp delimiter) label in
   if List.length tokens <= 1 then
     (* label does not have a kind prefixer *)
     label
   else
     (* Split into two at the colon 
-     * kind has the form Str.Delim "xyz[:]+"
+     * kind has the form Str.Delim "xyz[:_]+"
      * rest has the form Str.Text  "xyz..." 
      *)
 
-    let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:]+") label 2 in
+    let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:_]+") label 2 in      
       if str_match_prefix Tex.pattern_ch_prefix kind ||
          str_match_prefix Tex.pattern_sec_prefix kind ||
          str_match_prefix Tex.pattern_gr_prefix kind then
