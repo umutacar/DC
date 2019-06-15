@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = true
+let debug = false
 
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
