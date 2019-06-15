@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<block name='chapter'>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
 Sets
@@ -13,6 +15,10 @@ Sets
 <field name='label'>
 XXch:sets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
 <atom name='preamble'>
 <field name='title'>
 <![CDATA[
@@ -25,11 +31,19 @@ XXch:sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+prmbl:XXch:sets::sets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Sets are both a mathematical structure and an abstract datatype supported by many programming languages. This chapter presents an ADT for finite sets of elements taken from a fixed domain and several cost models, including one based on <a href="ch:bst::adt">balanced binary search trees</a>.</p>
+Sets are both a mathematical structure and an abstract datatype
+  supported by many programming languages.  This chapter presents an ADT for
+  finite sets of elements taken from a fixed domain and several cost models, including one based on \href{ch:bst::adt}{balanced binary search trees}.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -39,391 +53,13 @@ Sets are both a mathematical structure and an abstract datatype
   finite sets of elements taken from a fixed domain and several cost models, including one based on \href{ch:bst::adt}{balanced binary search trees}.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- preamble -->
-<atom name='code'>
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-...NOT.PROVIDED.LABEL...
-</field> <!-- label -->
-<field name='body'>
-<![CDATA[
-<pre><code>from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
-from django.db import models
-from django.conf import settings
-from django.urls import reverse
 
-import mlx.syntax as mlx
 
-from behaviors.models import Pinnable, Likeable, Titleable, NoteTakeable, Commentable, Followable,\
-                             Labelable, Versionable, Archivable, CommentableUserEdge
-from dosts.models import Dostable, DostableUserEdge
-
-from utils.helper_functions import add_course_to_url
-
-
-@python_2_unicode_compatible
-class Atom(Labelable, Versionable, Likeable, Pinnable, Titleable, NoteTakeable, 
-           Commentable, Dostable, Archivable, models.Model):
-
-    ATOM_NAMES_ON_SCREEN = (
-        &#39;Algo&#39;,
-        &#39;Algorithm&#39;,
-        &#39;Code&#39;,      
-        &#39;Corollary&#39;,
-        &#39;Cost Specification&#39;,
-        &#39;Data Structure&#39;,
-        &#39;Data Type&#39;,
-        &#39;Definition&#39;,
-        &#39;Example&#39;,
-        &#39;Exercise&#39;,
-        &#39;Hint&#39;,
-        &#39;Important&#39;,
-        &#39;Lemma&#39;,
-        &#39;Note&#39;,
-        &#39;Gram&#39;,
-        &#39;Html&#39;,
-        &#39;Page&#39;,
-        &#39;Preamble&#39;,
-        &#39;Problem&#39;,
-        &#39;Proof&#39;,
-        &#39;Proposition&#39;, 
-        &#39;Remark&#39;,
-        &#39;Reminder&#39;,
-        &#39;Solution&#39;,
-        &#39;Slide&#39;,
-        &#39;Syntax&#39;,
-        &#39;Task&#39;,
-        &#39;Teaching Question&#39;,
-        &#39;Teaching Note&#39;,
-        &#39;Theorem&#39;,
-    )
-
-    ATOM_NAMES = ( \
-        (mlx.ALGO,           &#39;Algo&#39;),
-        (mlx.ALGORITHM,      &#39;Algorithm&#39;),
-        (mlx.CODE,           &#39;Code&#39;),      
-        (mlx.COROLLARY,      &#39;Corollary&#39;),
-        (mlx.COST_SPEC,      &#39;Cost Specification&#39;),
-        (mlx.DATASTR,        &#39;Data Structure&#39;),
-        (mlx.DATATYPE,       &#39;Data Type&#39;),
-        (mlx.DEFINITION,     &#39;Definition&#39;),
-        (mlx.EXAMPLE,        &#39;Example&#39;),
-        (mlx.EXERCISE,       &#39;Exercise&#39;),
-        (mlx.GRAM,           &#39;Gram&#39;),
-        (mlx.GRAM_HTML,      &#39;Html&#39;),
-        (mlx.HINT,           &#39;Hint&#39;),
-        (mlx.IMPORTANT,      &#39;Important&#39;),
-        (mlx.LEMMA,          &#39;Lemma&#39;),
-        (mlx.NOTE,           &#39;Note&#39;),
-        (mlx.PAGE,           &#39;Page&#39;),
-        (mlx.PREAMBLE,       &#39;Preamble&#39;),
-        (mlx.PROBLEM,        &#39;Problem&#39;),
-        (mlx.PROOF,          &#39;Proof&#39;),
-        (mlx.PROPOSITION,    &#39;Proposition&#39;), 
-        (mlx.REMARK,         &#39;Remark&#39;),
-        (mlx.REMINDER,       &#39;Reminder&#39;),
-        (mlx.SOLUTION,       &#39;Solution&#39;),
-        (mlx.SKIP,           &#39;Skip&#39;),
-        (mlx.SLIDE,          &#39;Slide&#39;),
-        (mlx.SYNTAX,         &#39;Syntax&#39;),
-        (mlx.TASK,           &#39;Task&#39;),
-        (mlx.TEACH_ASK,      &#39;Teaching Question&#39;),
-        (mlx.TEACH_NOTE,     &#39;Teaching Note&#39;),
-        (mlx.THEOREM,        &#39;Theorem&#39;),
-    )
-
-    # The following partition is based on how atoms are styled in CSS
-    BASE_KIND = (\
-        mlx.PAGE, 
-        mlx.GRAM, 
-        mlx.GRAM_HTML, 
-        mlx.PREAMBLE,
-        mlx.SLIDE,)
-
-    DEFINITION_KIND = (\
-        mlx.ALGO,  
-        mlx.ALGORITHM,  
-        mlx.CODE, 
-        mlx.COST_SPEC,
-        mlx.DATASTR,
-        mlx.DATATYPE,
-        mlx.DEFINITION,
-        mlx.PROBLEM,
-        mlx.SYNTAX,
-    )
-
-    QUESTION_KIND = (\
-        mlx.EXERCISE,
-        mlx.TASK,
-    )
-
-    REMARK_KIND = (\
-        mlx.HINT,
-        mlx.IMPORTANT,
-        mlx.NOTE,
-        mlx.REMARK,
-        mlx.REMINDER,
-    )
-
-    SECONDARY_KIND = (\
-        mlx.EXAMPLE,
-        mlx.PROOF,
-        mlx.SOLUTION,
-    )
-
-    STATEMENT_KIND = (\
-        mlx.COROLLARY,
-        mlx.LEMMA,
-        mlx.PROPOSITION,
-        mlx.THEOREM,
-    )
-
-    TEACHING_KIND = (\
-        mlx.SKIP,
-        mlx.TEACH_ASK,
-        mlx.TEACH_NOTE,
-    )         
-       
-    ATOMS_PRIMARY = (\
-        mlx.ALGORITHM,
-        mlx.CODE,
-        mlx.COST_SPEC,
-        mlx.DATASTR,
-        mlx.DATATYPE,
-        mlx.COROLLARY,
-        mlx.DEFINITION,
-        mlx.LEMMA,
-        mlx.PROBLEM,
-        mlx.PROPOSITION,
-        mlx.SYNTAX,
-        mlx.THEOREM,
-    )
-    
-    name = models.CharField(max_length=100, choices=ATOM_NAMES, default=mlx.DEFINITION)
-    body = models.TextField(blank=True, default=&quot;&quot;)
-    body_short = models.TextField(blank=True, default=&quot;&quot;)
-    body_src = models.TextField(blank=True, default=&quot;&quot;)
-    
-
-    # order is the rank of the atom among all atoms in the chapter
-    order = models.IntegerField(default=0) 
-
-    segment = models.ForeignKey(&#39;segments.Segment&#39;, blank=True, null=True)
-    # rank among atoms in the same group: 
-    rank = models.IntegerField(default=0)  
-  
-    book = models.ForeignKey(&#39;books.Book&#39;, blank=True, null=True)
-    chapter = models.ForeignKey(&#39;chapters.Chapter&#39;, blank=True, null=True)
-
-    # this number identifies the dost within a course:
-    num_in_course = models.IntegerField(default=-1)
-    
-
-    class Meta:
-        unique_together = (&quot;book&quot;, &quot;label&quot;, &quot;version&quot;, &quot;archive&quot;)
-
-
-    def name_for_display(self):
-        return dict(Atom.ATOM_NAMES).get(self.name, &quot;OLD_UNSUPPORTED_NAME&quot;)
-
-
-    def name_kind(self):
-        if (self.name in Atom.BASE_KIND):
-            return &quot;base&quot;
-        elif (self.name in Atom.DEFINITION_KIND):
-            return &quot;definition&quot;
-        elif (self.name in Atom.QUESTION_KIND):
-            return &quot;question&quot;
-        elif (self.name in Atom.REMARK_KIND):
-            return &quot;remark&quot;
-        elif (self.name in Atom.SECONDARY_KIND):
-            return &quot;secondary&quot;
-        elif (self.name in Atom.STATEMENT_KIND):
-            return &quot;statement&quot;
-        elif (self.name in Atom.TEACHING_KIND):
-            return &quot;teaching&quot;
-
-
-    def is_primary(self):
-        return (self.name in Atom.ATOMS_PRIMARY)
-
-
-    def is_teaching_kind(self):
-        return (self.name in Atom.TEACHING_KIND)
-
-
-    def get_course(self):
-        return self.book.course
-
-
-    def group_atoms(self):
-        return self.segment.atoms_ordered()
-
-    # The first atom in a group is considered as the parent atom
-
-    def has_children_atoms(self):
-        return (self.rank == 1) and (self.group_atoms().count() &gt; 1) 
-
-
-    def parent_atom(self):
-        if (self.has_children_atoms()): return None
-        return self.segment.atoms_ordered().first()
-
-
-    def is_child(self):
-        return self.segment.atoms_ordered().first() != self
-
-
-    def children_atoms(self):
-        if (not self.has_children_atoms()): return None
-        else: return self.group_atoms()[1:]
-
-
-    def next_atom_in_chapter(self):
-        if (self.chapter.atom_set.filter(order__gt=self.order).exists()):
-            atom = self.chapter.atom_set.filter(order__gt=self.order).order_by(&#39;order&#39;).first()
-            if (atom.name_kind() == &quot;teaching&quot; or atom.body_src == &quot;&quot;):
-                return atom.next_atom_in_chapter()
-            else:
-                return atom
-
-
-    def prev_atom_in_chapter(self):
-        if (self.chapter.atom_set.filter(order__lt=self.order).exists()):
-            atom = self.chapter.atom_set.filter(order__lt=self.order).order_by(&#39;order&#39;).last()
-            if (atom.name_kind() == &quot;teaching&quot; or atom.body_src == &quot;&quot;):
-                return atom.prev_atom_in_chapter()
-            else:
-                return atom
-
-
-    def slide_num(self):
-        if (self.name == mlx.SLIDE):
-            return self.chapter.atom_set.filter(name=mlx.SLIDE, order__lt=self.order).count() + 1
-
-
-    def num_slides_in_chapter(self):
-        return self.chapter.atom_set.filter(name=mlx.SLIDE).count()        
-
-
-    def footnotes(self):
-        return self.footnote_set.order_by(&#39;number&#39;)
-
-
-    def set_book (self, book):
-        self.book = book
-
-
-    def set_chapter (self, chapter):
-        self.chapter = chapter
-
-
-    def get_archive (self):
-        return self.book.archive
-
-
-    def reset_parent(self):
-        self.segment = None    
-
-    def set_parent(self, segment):
-        self.segment = segment
-
-
-    def get_children(self):
-        return []
-
-
-    def unlink_chapter(self):
-        self.chapter = None
-
-    def unlink_children(self):
-        pass
-
-
-    # Return the tags of a link to the atom
-    # from the source atom (source_atom_pk)   
-    def to_link(self, source_atom_pk):
-        tags = {&#39;role&#39; : &quot;button&quot;,
-                &#39;class&#39; : &quot;explicit-block-link&quot;,
-                &#39;onclick&#39; : &quot;load_atom_modal(%d, path=&#39;{{path}}&#39;, path_update=&#39;yes&#39;, source_atom_pk=%d);&quot; % (self.pk, source_atom_pk)}
-
-        return (&#39;role&#39;, tags)
-        
-
-    def url(self):
-        if (self.is_archived()):
-            return &quot;&quot;
-        else:
-            return self.chapter.url() + &quot;#anchor-atom-&quot; + str(self.pk)
-
-
-    def url_for_detail(self):
-        return self.url()
-        #return add_course_to_url(reverse(&#39;atoms:atom_detail&#39;, kwargs={&#39;atom_pk&#39;:self.pk}), self.get_course())
-
-
-    def get_dost_ref(self):
-        return &quot;@B%d.%d.%d&quot; % (self.book.rank, self.chapter.rank, self.order)
-
-
-    def cls_str(self):
-        return self.__class__.__name__
-
-
-    def __str__(self):
-        return &quot;%s: %s: %s&quot; % (self.name_for_display(), self.title, self.label) 
-
-
-
-class UserAtom(CommentableUserEdge, DostableUserEdge, models.Model):
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
-    atom = models.ForeignKey(&#39;atoms.Atom&#39;, on_delete=models.CASCADE)
-    
-    def get_obj(self):
-        return self.atom
-
-
-
-@python_2_unicode_compatible
-class Footnote(models.Model): 
-
-    body = models.TextField(blank=True, default=&quot;&quot;)
-    body_src = models.TextField(blank=True, default=&quot;&quot;)
-    number = models.IntegerField(default=0)
-
-    # possible parent objects:
-    atom = models.ForeignKey(Atom, on_delete=models.CASCADE, blank=True, null=True)
-
-
-    def cls_str(self):
-        return self.__class__.__name__
-
-
-    def __str__(self):
-        return &quot;Footnote Text: %s...&quot; % self.body[0:30]</code></pre>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-\input{/Users/umut/lambdabricks/src/atoms/models_code.py}
-]]>
-</field> <!-- body_src -->
-
-</atom> <!-- code -->
-
-<block name='section'>
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
 Motivation
@@ -437,6 +73,10 @@ Motivation
 <field name='label'>
 XXsec:sets::math
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -449,16 +89,38 @@ XXsec:sets::math
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::gathering
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<blockquote>
-<p>“A <em>set</em> is a gathering together into a whole of definite, distinct objects of our perception or of our thought—which are called <em>elements</em> of the set.”<br />
-Georg Cantor, from “Contributions to the founding of the theory of transfinite numbers.”</p>
-</blockquote>
-<p>Set theory, founded by Georg Cantor in the second half of the nineteenth century, is one of the most important advances in mathematics. From it came the notions of countably vs. uncountably infinite sets, and ultimately the theory of computational undecidability, i.e. that computational mechanisms such as the <span class="math inline">\(\lambda\)</span>-calculus or Turing Machine cannot compute all functions. Set theory has also formed the foundations on which other branches of mathematics can be formalized. Early set theory, sometimes referred to as naïve set theory, allowed anything to be in a set. This led to several paradoxes such Russell’s famous paradox: <span class="math display">\[\mbox{let } R = \left\{ x \;|\; x \not\in x \right\}, \mbox{ then } R \in R \iff R \not\in R  
-\;.\]</span> Such paradoxes were resolved by the development of axiomatic set theory. Typically in such a theory, the universe of possible elements of a set needs to be built up from primitive notions, such as the integers or reals, by using various composition rules, such as Cartesian products.</p>
+\begin{quote}
+``A \emph{set} is a gathering together into a whole of definite, distinct
+objects of our perception or of our thought---which are called \emph{elements}
+of the set.''\\[.1in] Georg Cantor, from ``Contributions to the founding of the theory of transfinite numbers.''
+\end{quote}
+
+Set theory, founded by Georg Cantor in the second half of the
+nineteenth century, is one of the most important advances in
+mathematics.  From it came the notions of countably vs. uncountably
+infinite sets, and ultimately the theory of computational
+undecidability, i.e. that computational mechanisms such as the
+$\lambda$-calculus or Turing Machine cannot compute all functions.
+Set theory has also formed the foundations on which other branches of
+mathematics can be formalized.  Early set theory, sometimes referred
+to as na\"{\i}ve set theory, allowed anything to be in a set.  This
+led to several paradoxes such Russell's famous paradox:
+  \[\mbox{let } R = \csetf{x}{x \not\in x}, \mbox{ then } R \in R \iff R \not\in R
+\;.\] Such paradoxes were resolved by the development of axiomatic set
+theory.  Typically in such a theory, the universe of possible elements
+of a set needs to be built up from primitive notions, such as the
+integers or reals, by using various composition rules, such as
+Cartesian products.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -487,8 +149,8 @@ integers or reals, by using various composition rules, such as
 Cartesian products.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -501,121 +163,78 @@ Choices
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::choices
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+10.
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Select any one of the following.</p>
+Select any one of the following.
+\begin{anychoice}
+\choice a
+\choice $b = y^2$
+\choice* c
+\choice* d
+\choice e
+\end{anychoice}
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 Select any one of the following.
+\begin{anychoice}
+\choice a
+\choice $b = y^2$
+\choice* c
+\choice* d
+\choice e
+\end{anychoice}
 ]]>
 </field> <!-- body_src -->
-<block name='choices'>
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<item name='\choice'>
-<field name='body'>
-<![CDATA[
-<p>a</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-a
-]]>
-</field> <!-- body_src -->
-</item> <!-- \choice -->
-<item name='\choice'>
-<field name='body'>
-<![CDATA[
-<p><span class="math inline">\(b = y^2\)</span></p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-$b = y^2$
-]]>
-</field> <!-- body_src -->
-</item> <!-- \choice -->
-<item name='\correctchoice'>
-<field name='body'>
-<![CDATA[
-<p>c</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-c
-]]>
-</field> <!-- body_src -->
-</item> <!-- \correctchoice -->
-<item name='\correctchoice'>
-<field name='body'>
-<![CDATA[
-<p>d</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-d
-]]>
-</field> <!-- body_src -->
-</item> <!-- \correctchoice -->
-<item name='\choice'>
-<field name='body'>
-<![CDATA[
-<p>e</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-e
-]]>
-</field> <!-- body_src -->
-</item> <!-- \choice -->
-
-</block> <!-- choices -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+x
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+x
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+xy
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+20.
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Our goals in this book are much more modest than trying to understand set theory and its many interesting implications. Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs. Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. We discuss tables <a href="ch:tables">in the next chapter.</a></p>
+\label{xy}
+Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
+%
+We discuss tables \href{ch:tables}{in the next chapter.}
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\label{xy}
 Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
 %
 We discuss tables \href{ch:tables}{in the next chapter.}
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -628,11 +247,23 @@ We discuss tables \href{ch:tables}{in the next chapter.}
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::cover
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Other chapters cover data structures on binary search trees (Chapter [<a href="#ch:bst::adt" data-reference-type="ref" data-reference="ch:bst::adt">[ch:bst::adt]</a>]) and hashing (Chapter [<a href="#ch:hash-tables" data-reference-type="ref" data-reference="ch:hash-tables">[ch:hash-tables]</a>]) that can be used for implementing the sets and tables interfaces. Applications of sets and tables include <a href="ch:graphs::graphs">graphs</a>. We note that <a href="ch:sequences::adt">sequences</a> are a particular type of table—one where the domain of the tables are the integers from <span class="math inline">\(0\)</span> to <span class="math inline">\(n-1\)</span>.</p>
+Other chapters cover data structures on binary search trees
+(\chref{bst::adt}) and hashing (\chref{hash-tables}) that can be used for
+implementing the sets and tables interfaces. 
+%
+Applications of sets and tables include \href{ch:graphs::graphs}{graphs}.
+%
+We note that \href{ch:sequences::adt}{sequences} are a particular type of table---one where the domain of the tables are the integers from $0$ to $n-1$.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -646,12 +277,15 @@ Applications of sets and tables include \href{ch:graphs::graphs}{graphs}.
 We note that \href{ch:sequences::adt}{sequences} are a particular type of table---one where the domain of the tables are the integers from $0$ to $n-1$.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
 
 
-</block> <!-- section -->
-<block name='section'>
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
 Sets ADT
@@ -663,8 +297,12 @@ Sets ADT
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+sec:prefix::sets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
 <atom name='datatype'>
 <field name='title'>
 <![CDATA[
@@ -679,14 +317,34 @@ Sets
 <field name='label'>
 XXadt:sets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>For a universe of elements <span class="math inline">\({\mathbb{U}}\)</span> that support equality (e.g. the integers or strings), the <span><span class="sans-serif">SET</span></span> abstract data type is a type <span class="math inline">\({\mathbb{S}}\)</span> representing the power set of <span class="math inline">\({\mathbb{U}}\)</span> (i.e., all subsets of <span class="math inline">\({\mathbb{U}}\)</span>) limited to sets of finite size, along with the functions below. <span> </span> Where <span class="math inline">\(\mathbb{N}\)</span> is the natural numbers (non-negative integers) and <span class="math inline">\({\mathbb{B}}= \{\texttt{true},  
-\texttt{false}\}\)</span>.</p>
+\label{XXadt:sets} 
+
+For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
+\adt{SET} abstract data type is a type $\sss$ representing the power 
+set of $\uuu$ (i.e., all subsets of $\uuu$) limited to sets of finite 
+size, along with the functions below. 
+{\normalsize
+\input{./sets-and-tables/sig-sets}
+}
+Where $\tynat$ is 
+the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
+\texttt{false}\}$.
+%; for a set $A$ of type $\sss$.
+%, $\means{A}$ denotes the  (mathematical) set of keys in the set.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\label{XXadt:sets} 
+
 For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
 \adt{SET} abstract data type is a type $\sss$ representing the power 
 set of $\uuu$ (i.e., all subsets of $\uuu$) limited to sets of finite 
@@ -701,8 +359,8 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 %, $\means{A}$ denotes the  (mathematical) set of keys in the set.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- datatype -->
+
 <atom name='syntax'>
 <field name='title'>
 <![CDATA[
@@ -717,13 +375,27 @@ Sets
 <field name='label'>
 XXsyn:sets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>In SPARC we use the standard set notation <span class="math inline">\(\left\{ e_o,e_1,\cdots,e_n \right\}\)</span> to indicate a set. The notation <span class="math inline">\(\emptyset\)</span> or <span class="math inline">\(\left\{  \right\}\)</span> refers to an empty set. We also use the conventional mathematical syntax for set functions such as <span class="math inline">\(|S|\)</span> (size), <span class="math inline">\(\cup\)</span> (union), <span class="math inline">\(\cap\)</span> (intersection), and <span class="math inline">\(\setminus\)</span> (difference). In addition, we use set comprehensions for <span class="math inline">\(\mathit{filter}\)</span> and for constructing sets from other sets.</p>
+\label{XXsyn:sets}
+In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
+  indicate a set.  The notation $\emptyset$ or $\cset{}$ refers to an
+  empty set. We also use the conventional mathematical syntax for set
+  functions such as $|S|$ (size), $\cup$ (union), $\cap$
+  (intersection), and $\setminus$ (difference).  In addition, we use
+  set comprehensions for $\cdvar{filter}$ and for constructing sets from
+  other sets.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\label{XXsyn:sets}
 In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
   indicate a set.  The notation $\emptyset$ or $\cset{}$ refers to an
   empty set. We also use the conventional mathematical syntax for set
@@ -733,8 +405,8 @@ In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
   other sets.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- syntax -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -747,11 +419,24 @@ In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::objects
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>The objects that are contained in a set are called  <strong><em>members</em></strong>  or the  <strong><em>elements</em></strong>  of the set. Recall that a  <strong><em>set</em></strong>  is a collection of distinct objects. This requires that the universe <span class="math inline">\({\mathbb{U}}\)</span> they come from support equality. It might seem that all universes support equality, but consider functions. When are two functions equal? It is not even decidable whether two functions are equal. From a practical matter, there is no way to implement sets without an equality function over potential elements. In fact efficient implementations additionally require either a hash function over the elements of <span class="math inline">\({\mathbb{U}}\)</span> and/or a total ordering.</p>
+The objects that are contained in a set are called~\defn{members}~or the~\defn{elements}~of the set.  Recall that a~\defn{set}~is a collection of distinct objects.  This requires that
+  the universe $\uuu$ they come from support equality.  It might seem that
+  all universes support equality, but consider functions.  When are
+  two functions equal?   It is not even decidable whether two
+  functions are equal.   From a practical matter, there is no way to
+  implement sets without an equality function over potential
+  elements.   In fact efficient implementations additionally require
+  either a hash function over the elements of $\uuu$ and/or a total ordering.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -766,8 +451,8 @@ The objects that are contained in a set are called~\defn{members}~or the~\defn{e
   either a hash function over the elements of $\uuu$ and/or a total ordering.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -780,11 +465,36 @@ The objects that are contained in a set are called~\defn{members}~or the~\defn{e
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::consists
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>The Set ADT consists of basic functions on sets. The function <span class="math inline">\(\mathit{size}\)</span> takes a set and returns the number of elements in the set. The function <span class="math inline">\(\mathit{toSeq}\)</span> converts a set to a sequence by ordering the elements of the set in an unspecified way. Since elements of a set do not necessarily have a total ordering, the resulting order is arbitrary. This means that <span class="math inline">\(\mathit{toSeq}\)</span> is possibly non-deterministic—it could return different orderings in different implementations. We specify <span class="math inline">\(\mathit{toSeq}\)</span> as follows <span class="math display">\[\mathit{toSeq}~(\{x_0,x_1,\ldots,x_n\} : {\mathbb{S}}): seq = \left\langle\, x_0,x_1,\ldots,x_n \,\right\rangle\]</span> where the <span class="math inline">\(x_i\)</span> are an arbitrary ordering.</p>
+The Set ADT consists of basic functions on sets.  
+%
+The function $\cdvar{size}$ takes a set and returns the number of elements
+in the set.
+% 
+The function $\cdvar{toSeq}$ converts a set to a sequence by ordering the
+elements of the set in an unspecified way. 
+%
+Since elements of a set do not necessarily have a total ordering, the
+resulting order is arbitrary.
+%
+This means that $\cdvar{toSeq}$ is possibly non-deterministic---it could
+return different orderings in different implementations.
+%, or even on different runs of the same implementation.
+%
+We specify $\cdvar{toSeq}$ as follows
+\[
+\cdvar{toSeq}~(\{x_0,x_1,\ldots,x_n\} : \sss): seq = \cseq{x_0,x_1,\ldots,x_n}
+\]
+where the $x_i$ are an arbitrary ordering.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -811,8 +521,8 @@ We specify $\cdvar{toSeq}$ as follows
 where the $x_i$ are an arbitrary ordering.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -825,11 +535,42 @@ where the $x_i$ are an arbitrary ordering.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::functions
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Several functions enable constructing sets. The function <span class="math inline">\(\mathit{empty}\)</span> returns an empty set: <span class="math display">\[\mathit{empty} : {\mathbb{S}}= \emptyset\]</span> The function <span class="math inline">\(\mathit{singleton}\)</span> constructs a singleton set from a given element. <span class="math display">\[\mathit{singleton} (x : {\mathbb{U}}) : {\mathbb{S}}= \{x \}\]</span> The function <span class="math inline">\(\mathit{fromSeq}\)</span> takes a sequence and returns a set consisting of the distinct elements of the sequence, eliminating duplicate elements. We can specify <span class="math inline">\(\mathit{fromSeq}\)</span> as returning the range of the sequence <span class="math inline">\(A\)</span> (recall that a sequence is a partial function mapping from natural numbers to elements of the sequence). <span class="math display">\[\mathit{fromSeq}~(a : seq) : {\mathbb{S}}= \mathit{range}~a\]</span></p>
+Several functions enable constructing sets.
+%
+The function $\cdvar{empty}$ returns an empty set:
+%
+\[
+\cdvar{empty} : \sss = \emptyset
+\]
+%
+The function $\cdvar{singleton}$ constructs a singleton set from a given
+element.
+%
+\[
+\cdvar{singleton} (x : \uuu) : \sss = \{x \}
+\]
+%
+The function $\cdvar{fromSeq}$ takes a sequence and returns a set consisting of the
+distinct elements of the sequence, eliminating duplicate elements.
+%
+We can specify $\cdvar{fromSeq}$ as returning the range of the sequence
+$A$ (recall that a sequence is a partial function mapping from natural numbers
+to elements of the sequence).
+%
+\[
+\cdvar{fromSeq}~(a : seq) : \sss = \cdvar{range}~a
+\]
+%
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -862,8 +603,8 @@ to elements of the sequence).
 %
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -876,15 +617,40 @@ to elements of the sequence).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::operate
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Several functions operate on sets to produce new sets. The function <span class="math inline">\(\mathit{filter}\)</span> selects the elements of a sequence that satisfy a given Boolean function, i.e., <span class="math display">\[\mathit{filter}~(f : {\mathbb{U}}\rightarrow\mathbb{B})~(a : {\mathbb{S}}) : {\mathbb{S}}= \{ x \in a ~\mid~f(x)\} .\]</span> The functions <span class="math inline">\(\mathit{intersection}\)</span>, <span class="math inline">\(\mathit{difference}\)</span>, and <span class="math inline">\(\mathit{union}\)</span> perform the corresponding set operation on their arguments: <span class="math display">\[\begin{array}{l}  
-\mathit{intersection}~(a : {\mathbb{S}})~(b : {\mathbb{S}}) : {\mathbb{S}}= a \cap b\\  
-\mathit{difference}~(a  : {\mathbb{S}})~(b : {\mathbb{S}}) : {\mathbb{S}}= a \setminus b\\  
-\mathit{union}~(a : {\mathbb{S}})~(b : {\mathbb{S}}) : {\mathbb{S}}= a \cup b  
-\end{array}\]</span> We refer to the functions <span class="math inline">\(\mathit{intersection}\)</span>, <span class="math inline">\(\mathit{difference}\)</span>, and <span class="math inline">\(\mathit{union}\)</span> as <strong><em>bulk updates</em></strong> , because they allow updating with a large set of elements “in bulk.”</p>
+%
+Several functions operate on sets to produce new sets.
+%
+The function $\cdvar{filter}$ selects the elements of a sequence that
+satisfy a given Boolean function, i.e., 
+%
+\[
+\cdvar{filter}~(f : \uuu \ra \tybool)~(a : \sss) : \sss = \{ x \in a \sucht f(x)\} .
+\]
+%
+The functions $\cdvar{intersection}$, $\cdvar{difference}$, and $\cdvar{union}$
+perform the corresponding set operation on their arguments:
+%
+\[
+\begin{array}{l}
+\cdvar{intersection}~(a : \sss)~(b : \sss) : \sss = a \cap b\\
+\cdvar{difference}~(a  : \sss)~(b : \sss) : \sss = a \setminus b\\
+\cdvar{union}~(a : \sss)~(b : \sss) : \sss = a \cup b
+\end{array}
+\]
+%
+We refer to the functions  $\cdvar{intersection}$, $\cdvar{difference}$, and $\cdvar{union}$
+as \defn{bulk updates}, because they allow updating with a large set
+of elements ``in bulk.''
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -915,8 +681,8 @@ as \defn{bulk updates}, because they allow updating with a large set
 of elements ``in bulk.''
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -929,18 +695,52 @@ of elements ``in bulk.''
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::find
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>The functions <span class="math inline">\(\mathit{find}\)</span>, <span class="math inline">\(\mathit{insert}\)</span>, and <span class="math inline">\(\mathit{delete}\)</span> are singular versions of the bulk functions <span class="math inline">\(\mathit{intersection}\)</span>, <span class="math inline">\(\mathit{union}\)</span>, and <span class="math inline">\(\mathit{difference}\)</span> respectively. The <span class="math inline">\(\mathit{find}\)</span> function checks whether an element is in a set—it is the basic membership test for sets. <span class="math display">\[find~(a  : {\mathbb{S}})~(x : {\mathbb{U}}) : \mathbb{B}= \left\{  
-                \begin{array}{ll}  
-                \texttt{true} &amp; \texttt{if}~x \in A \\  
-                \texttt{false} &amp; \texttt{otherwise}  
-                \end{array} \right.\]</span> We can also specify the <span class="math inline">\(\mathit{find}\)</span> function is in terms of set intersection: <span class="math display">\[find~(a : {\mathbb{S}})~(x : {\mathbb{U}}) : \mathbb{B}= |{a \cap \left\{ x \right\}}| = 1.\]</span> The functions <span class="math inline">\(\mathit{delete}\)</span> and <span class="math inline">\(\mathit{insert}\)</span> delete an existing element from a set, and insert a new element into a set, respectively: <span class="math display">\[\begin{array}{l}  
-\mathit{delete}~(a  : {\mathbb{S}})~(x  : {\mathbb{U}}) : {\mathbb{S}}= a \setminus \left\{ x \right\}.\\  
-\mathit{insert}~(a : {\mathbb{S}})~(x : {\mathbb{U}}) : {\mathbb{S}}= a \cup \left\{ x \right\}  
-\end{array}\]</span></p>
+The functions $\cdvar{find}$, $\cdvar{insert}$, and $\cdvar{delete}$ are singular
+versions of the bulk functions $\cdvar{intersection}$, $\cdvar{union}$, and
+$\cdvar{difference}$ respectively.
+%
+The $\cdvar{find}$ function checks whether an element is in a set---it is
+the basic membership test for sets.
+%
+\[
+find~(a  : \sss)~(x : \uuu) : \tybool = \left\{
+                \begin{array}{ll}
+                \cd{true} & \cd{if}~x \in A \\
+                \cd{false} & \cd{otherwise}
+                \end{array} \right.
+\]
+%
+We can also specify the $\cdvar{find}$ function is in terms of set
+intersection:
+\[
+find~(a : \sss)~(x : \uuu) : \tybool = \csetsize{a \cap \cset{x}} = 1.
+\]
+%
+The functions $\cdvar{delete}$ and $\cdvar{insert}$ 
+%
+delete an existing element from a set, and
+%
+insert a new element into a set,
+%
+respectively:
+%
+\[
+\begin{array}{l}
+\cdvar{delete}~(a  : \sss)~(x  : \uuu) : \sss = a \setminus \cset{x}.\\
+\cdvar{insert}~(a : \sss)~(x : \uuu) : \sss = a \cup \cset{x}
+\end{array}
+\]
+%
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -983,8 +783,8 @@ respectively:
 %
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -997,15 +797,25 @@ respectively:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::iteration
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Iteration and reduction over sets can be easily defined by converting them to sequences, as in</p>
-<p><span class="math display">\[\begin{array}{l}  
-\mathit{iterate}~f~x~a = \mathit{Sequence.iterate}~f~(\mathit{toSeq}~a)\\  
-\mathit{reduce}~f~x~a = \mathit{Sequence.reduce}~f~(\mathit{toSeq}~a)  
-\end{array}\]</span></p>
+Iteration and reduction over sets can be easily defined by converting
+them to sequences, as in
+
+\[
+\begin{array}{l}
+\cdvar{iterate}~f~x~a = \cdvar{Sequence.iterate}~f~(\cdvar{toSeq}~a)\\
+\cdvar{reduce}~f~x~a = \cdvar{Sequence.reduce}~f~(\cdvar{toSeq}~a)
+\end{array}
+\]
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1021,8 +831,8 @@ them to sequences, as in
 \]
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -1035,11 +845,27 @@ them to sequences, as in
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::notice
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Notice that in the Set ADT although the universe <span class="math inline">\({\mathbb{U}}\)</span> is potentially infinite (e.g. the integers), <span class="math inline">\({\mathbb{S}}\)</span> only consists of finite sized subsets. Unfortunately this restriction means that the interface is not as powerful as general set theory, but it makes computation on sets feasible. A consequence of this requirement is that the interface does not include a function that takes the complement of a set—such a function would generate an infinite sized set from a finite sized set (assuming the size of <span class="math inline">\(U\)</span> is infinite).</p>
+Notice that in the Set ADT although the universe $\uuu$ is potentially
+infinite (e.g. the integers), $\sss$ only consists of finite sized
+subsets.
+%
+Unfortunately this restriction
+means that the interface is not as powerful as general set theory, but
+it makes computation on sets feasible.  A consequence of this
+requirement is that the interface does not include a function that
+takes the complement of a set---such a function would generate an
+infinite sized set from a finite sized set (assuming the size of $U$
+is infinite).
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1057,8 +883,8 @@ infinite sized set from a finite sized set (assuming the size of $U$
 is infinite).
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='exercise'>
 <field name='title'>
 <![CDATA[
@@ -1071,11 +897,18 @@ is infinite).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+xrcs:XXch:sets::convince
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Convince yourself that there is no way to create an infinite sized set using the interface and with finite work.</p>
+Convince yourself that there is no way to create an infinite sized set
+using the interface and with finite work.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1084,8 +917,8 @@ Convince yourself that there is no way to create an infinite sized set
 using the interface and with finite work.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- exercise -->
+
 <atom name='example'>
 <field name='title'>
 <![CDATA[
@@ -1098,20 +931,29 @@ using the interface and with finite work.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+xmpl:XXch:sets::functions
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Some functions on sets: <span class="math display">\[\begin{array}{lcl}  
-|\left\{ a,b,c \right\}| &amp; = &amp; 3\\  
-\left\{ x \in \left\{ 4,11,2,6 \right\} \;|\; x &lt; 7 \right\} &amp; = &amp;  
-\left\{ 4,2,6 \right\}\\  
-\mathit{find}~\left\{ 6,2,9,11,8 \right\} 4  &amp; = &amp; \texttt{false}\\  
-\left\{ 2,7,8,11 \right\} \cup \left\{ 7,9,11,14,17 \right\} &amp; = &amp;  
-\left\{ 2,7,8,9,11,14,17 \right\}\\  
-\mathit{toSeq}~\left\{ 2,7,8,11 \right\} &amp; = &amp; \left\langle\, 8,11,2,7 \,\right\rangle\\  
-\mathit{fromSeq}~\left\langle\, 2,7,2,8,11,2 \,\right\rangle &amp; = &amp; \left\{ 8,2,11,7 \right\}  
-\end{array}\]</span></p>
+Some functions on sets:
+  \[
+\begin{array}{lcl}
+|\cset{a,b,c}| & = & 3\\
+\csetf{x \in \cset{4,11,2,6}}{x < 7} & = &
+\cset{4,2,6}\\
+\cdvar{find}~\cset{6,2,9,11,8} 4  & = & \cfalse\\
+\cset{2,7,8,11} \cup \cset{7,9,11,14,17} & = &
+\cset{2,7,8,9,11,14,17}\\
+\cdvar{toSeq}~\cset{2,7,8,11} & = & \cseq{8,11,2,7}\\
+\cdvar{fromSeq}~\cseq{2,7,2,8,11,2} & = & \cset{8,2,11,7}
+\end{array}
+\]
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1131,8 +973,8 @@ Some functions on sets:
 \]
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- example -->
+
 <atom name='remark'>
 <field name='title'>
 <![CDATA[
@@ -1145,11 +987,24 @@ Some functions on sets:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+rmrk:XXch:sets::notice
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>You may notice that the interface does not contain a <span class="math inline">\(\mathit{map}\)</span> function. If we interpret <span class="math inline">\(\mathit{map}\)</span>, as in sequences, to take in a collection, apply some function to each element and return a collection of the same size, then it does not make sense for sets. Consider a function that always returns <span class="math inline">\(0\)</span>. Mapping this over a set would return all zeros, which would then be collapsed into a singleton set, containing exactly <span class="math inline">\(0\)</span>. Therefore, such a <span class="math inline">\(\mathit{map}\)</span> would allow reducing the set of arbitrary size to a singleton.</p>
+You may notice that the interface does not
+contain a $\cdvar{map}$ function.  If we interpret $\cdvar{map}$, as in sequences, to take in a collection, apply some
+function to each element and return a collection of the same size,
+then it does not make sense for sets.
+Consider a function that always returns $0$.  Mapping this over a set would
+return all zeros, which would then be collapsed into a singleton set, containing
+exactly $0$.  Therefore, such a $\cdvar{map}$ would allow reducing the set of
+arbitrary size to a singleton.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1164,8 +1019,8 @@ exactly $0$.  Therefore, such a $\cdvar{map}$ would allow reducing the set of
 arbitrary size to a singleton.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- remark -->
+
 <atom name='remark'>
 <field name='title'>
 <![CDATA[
@@ -1178,11 +1033,23 @@ arbitrary size to a singleton.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+rmrk:XXch:sets::programming
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Most programming languages either support sets directly (e.g., Python and Ruby) or have libraries that support them (e.g., in the C++ STL library and Java collections framework). They sometimes have more than one implementation of sets. For example, Java has sets based on hash tables and balanced trees. Unsurprisingly, the set interface in different libraries and languages differ in subtle ways. So, when using one of these interfaces you should always read the documentation carefully.</p>
+Most programming languages either support sets directly (e.g., Python and Ruby)
+or have libraries that support them (e.g., in the C++ STL library and Java
+collections framework).  They sometimes have more than one implementation of
+sets.  For example, Java has sets based on hash tables and balanced trees.
+Unsurprisingly, the set interface in different libraries and languages differ in
+subtle ways.  So, when using one of these interfaces you should always read the
+documentation carefully.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1196,12 +1063,15 @@ subtle ways.  So, when using one of these interfaces you should always read the
 documentation carefully.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- remark -->
 
 
-</block> <!-- section -->
-<block name='section'>
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
 Cost of Sets
@@ -1213,8 +1083,12 @@ Cost of Sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+sec:prefix::cost
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -1227,11 +1101,36 @@ Cost of Sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::sets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Sets can be implemented in several ways. If the elements of a set are drawn from natural numbers, it is sometimes possible and effective to represent the set as an array-based sequence. If the elements accept a hash function, then hash-tables can be used to store the elements in a sequence. This approach is commonly used in practice and is quite efficient in terms of work and space. Finally, if the elements don’t accept a hash function but accept a comparison operator that can totally order all elements, then sets can be represented by using binary search trees. All of these approaches assume an equality function on the elements (with natural numbers, the equality coincides with the equality on natural numbers).</p>
+Sets can be implemented in several ways. 
+%
+If the elements of a set are drawn from natural numbers, it is sometimes possible and effective to represent the set as an array-based sequence.
+%
+If the elements accept a hash function, then hash-tables can be used to store the elements in a sequence.  This approach is commonly used in practice and is quite efficient in terms of work and space.
+%
+Finally, if the elements don't accept a hash function but accept a comparison operator that can totally order all elements, then sets can be represented by using binary search trees.
+%
+All of these approaches assume an equality function on the elements (with natural numbers, the equality coincides with the equality on natural numbers).
+
+%% An interesting aspect of both of these implementations is that they
+%% require more than just equality on the element (or the universe $\uuu$):
+%% an implementation based on balanced search trees requires a total
+%% ordering on the elements of $\uuu$ and hence a comparison; and an
+%% implementation based on hashing does not require comparison, but
+%% requires the ability to hash the elements of $\uuu$.  
+%
+% For the purposed of the ADT, we consider the functions for equality,
+% comparison, and hashing, to be implicitly defined on the universe
+% $\uuu$.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1258,9 +1157,12 @@ All of these approaches assume an equality function on the elements (with natura
 % $\uuu$.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
-<block name='group'>
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -1272,8 +1174,12 @@ All of these approaches assume an equality function on the elements (with natura
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+sets:cluster:arraysets
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
 <atom name='costspec'>
 <field name='title'>
 <![CDATA[
@@ -1288,13 +1194,33 @@ Array Sets for Enumerable Sets
 <field name='label'>
 XXcost:sets::arrayseqs
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Let the universe <span class="math inline">\(U\)</span> be defined as the set <span class="math inline">\(\{ 0, 1, \ldots, u-1 \}\)</span> for some <span class="math inline">\(u \in \mathbb{N}\)</span>. We can represent <strong><em>enumerable sets</em></strong> of the form <span class="math inline">\(S \subseteq U\)</span> by using a sequence that indicates for each <span class="math inline">\(i \in U\)</span> whether <span class="math inline">\(i \in S\)</span> or not. Using array sequences, operations on enumerable sets can be implemented according to the following cost specification.</p>
+\label{XXcost:sets::arrayseqs}
+
+Let the universe $U$ be defined as the set 
+%
+$\{ 0, 1, \ldots, u-1 \}$
+%
+for some $u \in \nats$.
+%
+We can represent \defn{enumerable sets} of the form $S \subseteq U$ by using a sequence that indicates for each $i \in U$ whether $i \in S$ or not.
+%
+Using array sequences, operations on enumerable sets can be implemented according to the following cost specification.
+ 
+\input{./sets-and-tables/cost-sets-arrayseqs}
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\label{XXcost:sets::arrayseqs}
+
 Let the universe $U$ be defined as the set 
 %
 $\{ 0, 1, \ldots, u-1 \}$
@@ -1308,8 +1234,8 @@ Using array sequences, operations on enumerable sets can be implemented accordin
 \input{./sets-and-tables/cost-sets-arrayseqs}
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- costspec -->
+
 <atom name='example'>
 <field name='title'>
 <![CDATA[
@@ -1322,11 +1248,23 @@ Using array sequences, operations on enumerable sets can be implemented accordin
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+xmpl:XXch:sets::consider
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Consider a graph whose vertices are labeled by natural numbers up to <span class="math inline">\(8\)</span>. We can a graph whose vertices are <span class="math inline">\(\{ 0, 2, 4, 6 \}\)</span> with the sequence: <span class="math inline">\(\left\langle\,  1, 0, 1, 0, 1, 0, 1, 0  \,\right\rangle.\)</span></p>
+Consider a graph whose vertices are labeled by natural numbers up to $8$.  We can a graph whose vertices are
+%
+$\{ 0, 2, 4, 6 \}$ 
+%
+with the sequence:
+%
+$\cseq{ 1, 0, 1, 0, 1, 0, 1, 0 }.$
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1340,10 +1278,10 @@ with the sequence:
 $\cseq{ 1, 0, 1, 0, 1, 0, 1, 0 }.$
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- example -->
 
-</block> <!-- group -->
+</segment> <!-- flex -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -1356,11 +1294,23 @@ Tree Representation for Sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::tree
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>If the elements in the universe <span class="math inline">\({\mathbb{U}}\)</span> accept a comparison function that defines a total order over <span class="math inline">\({\mathbb{U}}\)</span>, then we can use a balanced binary search tree to represent sets. This representation allows us to implement the Sets ADT reasonably efficiently. For the specification <a href="cost:sets::trees">specified below</a>, we assume that the comparison function requires constant work and span.</p>
+If the elements in the universe $\uuu$ accept a comparison function 
+that defines a total order over $\uuu$, then we can use a balanced binary search tree to represent sets.
+%
+This representation allows us to implement the Sets ADT reasonably efficiently.
+%
+For the specification \href{cost:sets::trees}{specified below}, we assume that the comparison function requires constant work and span.  
+%
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1374,8 +1324,8 @@ For the specification \href{cost:sets::trees}{specified below}, we assume that t
 %
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='costspec'>
 <field name='title'>
 <![CDATA[
@@ -1390,18 +1340,26 @@ Tree Sets
 <field name='label'>
 XXcost:sets::trees
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
+\label{XXcost:sets::trees}
+\input{./sets-and-tables/cost-sets-tree}
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\label{XXcost:sets::trees}
 \input{./sets-and-tables/cost-sets-tree}
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- costspec -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -1414,11 +1372,25 @@ XXcost:sets::trees
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::consider
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Let’s consider these cost specifications in some more detail. The cost for <span class="math inline">\(\mathit{filter}\)</span> is effectively the same as for sequences, and therefore should not be surprising. It assumes the function <span class="math inline">\(f\)</span> is applied to the elements of the set in parallel. The cost for the functions <span class="math inline">\(\mathit{find}\)</span>, <span class="math inline">\(\mathit{insert}\)</span>, and <span class="math inline">\(\mathit{delete}\)</span> are what one might expect from a balanced binary tree implementation. Basically the tree will have <span class="math inline">\(O(\lg n)\)</span> depth and each function will require searching the tree from the root to some node. We cover such an implementation in Chapter [<a href="#ch:bst::parametric" data-reference-type="ref" data-reference="ch:bst::parametric">[ch:bst::parametric]</a>].</p>
+Let's consider these cost specifications in some more detail.  The
+cost for $\cdvar{filter}$ is effectively the same as for sequences, and
+therefore should not be surprising.  It assumes the function $f$ is
+applied to the elements of the set in parallel.  The cost for the
+functions $\cdvar{find}$, $\cdvar{insert}$, and $\cdvar{delete}$ are
+what one might expect from a balanced binary tree implementation.
+Basically the tree will have $O(\lg n)$ depth and each function will
+require searching the tree from the root to some node.  We cover
+such an implementation in \chref{bst::parametric}.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1434,8 +1406,8 @@ require searching the tree from the root to some node.  We cover
 such an implementation in \chref{bst::parametric}.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -1448,14 +1420,37 @@ such an implementation in \chref{bst::parametric}.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::work
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>The work bounds for the bulk functions (<span class="math inline">\(\mathit{intersection}\)</span>, <span class="math inline">\(\mathit{difference}\)</span>, and <span class="math inline">\(\mathit{union}\)</span>) may seem confusing, especially because of the expression inside the logarithm. To shed some light on the cost, it is helpful to consider two cases, the first is when one of the sets is a single element and the other when both sets are equal length. In the first case the bulk functions are doing the same thing as the single element functions <span class="math inline">\(\mathit{find}\)</span>, <span class="math inline">\(\mathit{insert}\)</span>, and <span class="math inline">\(\mathit{delete}\)</span>. Indeed if we implement the single element functions on a set <span class="math inline">\(A\)</span> using the bulk ones, then we would like it to be the case that we get the same asymptotic performance. This is indeed the case since we have that <span class="math inline">\(m = 1\)</span> and <span class="math inline">\(n = |A|\)</span>, giving:</p>
-<p><span class="math display">\[W(n) \in O\left(\lg \left(1 + \frac{n}{1}\right)\right)   
-= O(\lg n)~.\]</span></p>
-<p>Now let’s consider the second case when both sets have equal length, say <span class="math inline">\(n\)</span>. In this case we have <span class="math inline">\(m = n\)</span> giving <span class="math display">\[W(n) \in O\left(n \cdot \lg \left(1+\frac{n}{n}\right)\right) = O(n).\]</span></p>
+The work bounds for the bulk functions ($\cdvar{intersection}$,
+  $\cdvar{difference}$, and $\cdvar{union}$) may seem confusing,
+  especially because of the expression inside the logarithm.  To shed
+  some light on the cost, it is helpful to consider two cases, the
+  first is when one of the sets is a single element and the other when
+  both sets are equal length.  In the first case the bulk functions
+  are doing the same thing as the single element functions
+  $\cdvar{find}$, $\cdvar{insert}$, and $\cdvar{delete}$.  Indeed if
+  we implement the single element functions on a set $A$ using the
+  bulk ones, then we would like it to be
+  the case that we get the same asymptotic performance.  This is
+  indeed the case since we have that $m = 1$ and $n = |A|$, giving:
+
+\[W(n) \in O\left(\lg \left(1 + \frac{n}{1}\right)\right) 
+= O(\lg n)~.\]
+
+Now let's consider the second case when both sets have equal length,
+say $n$.   In this case we have $m = n$ giving
+\[
+W(n) \in O\left(n \cdot \lg \left(1+\frac{n}{n}\right)\right) = O(n).
+\]
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1483,8 +1478,8 @@ W(n) \in O\left(n \cdot \lg \left(1+\frac{n}{n}\right)\right) = O(n).
 \]
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='gram'>
 <field name='title'>
 <![CDATA[
@@ -1497,13 +1492,41 @@ W(n) \in O\left(n \cdot \lg \left(1+\frac{n}{n}\right)\right) = O(n).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-...NOT.PROVIDED.LABEL...
+grm:XXch:sets::implement
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>We can implement <span class="math inline">\(\mathit{find}\)</span>, <span class="math inline">\(\mathit{delete}\)</span>, and <span class="math inline">\(\mathit{insert}\)</span> in terms of the functions <span class="math inline">\(\mathit{intersection}\)</span>, <span class="math inline">\(\mathit{difference}\)</span>, and <span class="math inline">\(\mathit{union}\)</span> (respectively) by making a singleton set out of the element that we are interested in. Such an implementation would be asymptotically efficient, giving us the work and span as the direct implementations.</p>
-<p>Conversely, we can also implement the bulk functions in terms of the singleton ones by iteration. Because it uses iteration the resulting algorithms are sequential and also work inefficient. For example, if we implement <span class="math inline">\(\mathit{union}\)</span> by inserting <span class="math inline">\(n\)</span> elements into a second set of <span class="math inline">\(n\)</span> elements, the cost would be <span class="math inline">\(O(n  
-\lg n)\)</span>. We would obtain a similar bound when implementing <span class="math inline">\(\mathit{difference}\)</span> with <span class="math inline">\(\mathit{delete}\)</span>, and <span class="math inline">\(\mathit{intersection}\)</span> with <span class="math inline">\(\mathit{find}\)</span> and <span class="math inline">\(\mathit{insert}\)</span>. For this reason, we prefer to use the bulk functions <span class="math inline">\(\mathit{intersection}\)</span>, <span class="math inline">\(\mathit{difference}\)</span>, and <span class="math inline">\(\mathit{union}\)</span> instead of <span class="math inline">\(\mathit{find}\)</span>, <span class="math inline">\(\mathit{delete}\)</span>, and <span class="math inline">\(\mathit{insert}\)</span> when possible.</p>
+We can implement $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ in terms of
+the functions $\cdvar{intersection}$, $\cdvar{difference}$, and $\cdvar{union}$
+(respectively) by making a singleton set out of the element that we
+are interested in.
+%
+Such an implementation would be asymptotically efficient, giving us
+the work and span as the direct implementations.
+%
+
+Conversely, we can also implement the bulk functions in terms of the
+singleton ones by iteration.
+%
+Because it uses iteration the resulting algorithms are
+sequential and also work inefficient.
+%
+For example, if we implement $\cdvar{union}$ by inserting
+$n$ elements into a second set of $n$ elements, the cost would be $O(n
+\lg n)$.  
+%
+We would obtain a similar bound when implementing
+$\cdvar{difference}$ with $\cdvar{delete}$, and $\cdvar{intersection}$ with
+$\cdvar{find}$ and $\cdvar{insert}$.
+%
+For this reason, we prefer to use the bulk functions $\cdvar{intersection}$, $\cdvar{difference}$, and $\cdvar{union}$ instead
+of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1535,8 +1558,8 @@ For this reason, we prefer to use the bulk functions $\cdvar{intersection}$, $\c
 of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- gram -->
+
 <atom name='example'>
 <field name='title'>
 <![CDATA[
@@ -1551,14 +1574,32 @@ of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 <field name='label'>
 XXex:st::fromseq-imp
 </field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>We can convert a sequence to a set by inserting the elements one by one as follows <span class="math display">\[\mathit{fromseq}~a = \mathit{Seq.iterate}~\mathit{Set.insert}~~\emptyset~a.\]</span></p>
-<p>This implementation is sequential and work inefficient. We can write a parallel and work-efficient function as follows <span class="math display">\[\mathit{fromSeq}~a = \mathit{Seq.reduce}~\mathit{Set.union}~~\emptyset~~\left\langle\, \left\{ x \right\} : x \in a \,\right\rangle.\]</span></p>
+\label{XXex:st::fromseq-imp}
+We can  convert a sequence to a set by inserting the elements
+one by one as follows
+\[
+\cdvar{fromseq}~a = \cdvar{Seq.iterate}~\cdvar{Set.insert}~~\emptyset~a.
+\]
+
+This implementation is sequential and work inefficient. 
+%
+We can write a parallel and work-efficient function as follows
+\[
+\cdvar{fromSeq}~a = \cdvar{Seq.reduce}~\cdvar{Set.union}~~\emptyset~~\cseq{\cset{x} : x \in a}.
+\]
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\label{XXex:st::fromseq-imp}
 We can  convert a sequence to a set by inserting the elements
 one by one as follows
 \[
@@ -1573,10 +1614,9 @@ We can write a parallel and work-efficient function as follows
 \]
 ]]>
 </field> <!-- body_src -->
-
 </atom> <!-- example -->
 
 
-</block> <!-- section -->
+</segment> <!-- section -->
 
-</block> <!-- chapter -->
+</segment> <!-- chapter -->

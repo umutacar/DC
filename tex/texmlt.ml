@@ -109,12 +109,13 @@ let main () =
   in
   let xml_chapter = tex2xml !verbose !do_inline in_file_name !preamble_file !default_lang in       
   let _ = Out_channel.write_all outfile_name ~data:xml_chapter in
-    (match !preamble_file with 
-     | None -> printf "Warning: no LaTeX preamble was specified.\n"
-     | _ -> ()
-     ;
+	let _ = 
+		match !preamble_file with 
+		| None -> printf "Warning: no LaTeX preamble was specified.\n"
+    | _ -> ()
+	in
      printf "Output written in %s\n" outfile_name 
-    )
+		
   
 
 let _ = main ()

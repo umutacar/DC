@@ -667,8 +667,9 @@ let assign_labels ast =
 let to_tex ast = 
 	Segment.to_tex ast
 
-let to_xml ast = 
-	Segment.to_xml ast
+let to_xml tex2html ast = 
+	let xml = Segment.to_xml tex2html ast in
+	Xml.mk_standalone xml
 
 
  
