@@ -3,6 +3,9 @@ open Printf
 
 let debug = true
 
+let str_of_str_list (xs: string list): string = 
+  String.concat ~sep:", " xs
+
 (* BEGIN: Debug Prints *) 
 
 
@@ -12,20 +15,21 @@ let d_printf args =
   else 
     ifprintf stdout args
 
-let d_printf_opt_str heading sopt = 
+let d_printf_optstr heading sopt = 
   match sopt with 
-  | None -> d_printf  "%s = None" heading
-  | Some x -> d_printf "%s = %s " heading x 
+  | None -> d_printf  "%s = None\n" heading
+  | Some x -> d_printf "%s = %s\n" heading x 
 
 let printf_strlist heading (xs: string list) = 
-  let s = String.concat ~sep:", " xs in
+  let s = str_of_str_list xs in
     printf "%s = %s \n" heading s  
 
 let d_printf_strlist heading (xs: string list) = 
-  let s = String.concat ~sep:", " xs in
+  let s = str_of_str_list xs in
     d_printf "%s = %s \n" heading s  
 
 (* END Debug Prints *) 
+
 
 
 (* BEGIN: File names etc *) 
@@ -133,7 +137,7 @@ let str_match_at (search:string) (target:string) (pos: int) =
 
 (* Check that search string matches target exactly. *)
 let str_match_full (search:string) (target:string): bool = 
-	let _ = d_printf "last: searching: %s\n" search in
+(*	let _ = d_printf "last: searching: %s\n" search in *)
 	let re = Str.regexp search in
 	let chunks = Str.full_split re target in
 	match chunks with

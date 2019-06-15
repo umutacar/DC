@@ -73,6 +73,8 @@ let kw_slide = "slide"
 let kw_solution = "solution"
 let kw_syntax = "syntax"
 let kw_task = "task"
+let kw_teachask = "teachask"
+let kw_teachnote = "teachnote"
 let kw_theorem = "theorem"
 
 (* END: Keywords *)
@@ -88,10 +90,10 @@ let numbers = "numbers"
 
 (* BEGIN: Patterns Regular Expressions *)
 let pattern_newline = "[ \n\r\x0c]+"
-let regexp_ch_prefix = Str.regexp "ch[:]+"
-let regexp_sec_prefix = Str.regexp "sec[:]+"
-let regexp_gr_prefix = Str.regexp "grp[:]+"
-let regexp_whitespace = Str.regexp "[ \n\r\x0c\t]+"
+let pattern_ch_prefix = "ch[:]+"
+let pattern_sec_prefix = "sec[:]+"
+let pattern_gr_prefix = "grp[:]+"
+let pattern_whitespace = "[ \n\r\x0c\t]+"
 (* END: Regular Expressions *)
 
 
@@ -137,6 +139,8 @@ let label_prefix_slide = "slide"
 let label_prefix_solution = "sol"
 let label_prefix_syntax = "syn"
 let label_prefix_task = "tsk"
+let label_prefix_teachask = "tch"
+let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
 
 
@@ -145,6 +149,13 @@ let label_prefix_of_kind =
    kw_cluster, label_prefix_cluster;
    kw_flex, label_prefix_flex;
    kw_problem_cluster, label_prefix_problem_cluster
+  ]
+  @
+  [
+   kw_section, label_prefix_section;
+   kw_subsection, label_prefix_subsection;
+   kw_subsubsection, label_prefix_subsubsection;
+   kw_paragraph, label_prefix_paragraph;
   ]
   @
   (* atoms *)
@@ -173,13 +184,15 @@ let label_prefix_of_kind =
    kw_solution, label_prefix_solution;
    kw_syntax, label_prefix_syntax;
    kw_task, label_prefix_task;
+   kw_teachask, label_prefix_teachask;
+   kw_teachnote, label_prefix_teachnote;
    kw_theorem, label_prefix_theorem;
   ]
 
 let mk_label_prefix_from_kind kind = 
    match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
    | Some prefix -> prefix
-   | None -> (printf "FATAL ERROR: unknown atom encountered.\n";
+   | None -> (printf "FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
               exit ErrorCode.labeling_error_unknown_atom)
 
 (* END: label prefixes *)
@@ -191,9 +204,6 @@ let mk_arg arg =
 
 let mk_opt_arg x = 
   "[" ^ x ^ "]"
-
-let mk_label_force label = 
-  com_label ^ (mk_arg label)
 
 let mk_point_val popt = 
   match popt with 
@@ -352,275 +362,5 @@ let is_label_only contents =
   let contents = String.strip contents in
   str_match_full pattern_label contents 
   
-
-(**********************************************************************
- ** Tokenization
- **********************************************************************)
-
-let mk_plural s = s ^ "s"
-
-let stopWords = 
-  (* English stopwords, from python NLTK package *)
-  ["i";
-   "me";
-   "my";
-   "myself";
-   "we";
-   "our";
-   "ours";
-   "ourselves";
-   "you";
-   "your";
-   "yours";
-   "yourself";
-   "yourselves";
-   "he";
-   "him";
-   "his";
-   "himself";
-   "she";
-   "her";
-   "hers";
-   "herself";
-   "it";
-   "its";
-   "itself";
-   "they";
-   "them";
-   "their";
-   "theirs";
-   "themselves";
-   "what";
-   "which";
-   "who";
-   "whom";
-   "this";
-   "that";
-   "these";
-   "those";
-   "am";
-   "is";
-   "are";
-   "was";
-   "were";
-   "be";
-   "been";
-   "being";
-   "have";
-   "has";
-   "had";
-   "having";
-   "do";
-   "does";
-   "did";
-   "doing";
-   "a";
-   "an";
-   "the";
-   "and";
-   "but";
-   "if";
-   "or";
-   "because";
-   "as";
-   "until";
-   "while";
-   "of";
-   "at";
-   "by";
-   "for";
-   "with";
-   "about";
-   "against";
-   "between";
-   "into";
-   "through";
-   "during";
-   "before";
-   "after";
-   "above";
-   "below";
-   "to";
-   "from";
-   "up";
-   "down";
-   "in";
-   "out";
-   "on";
-   "off";
-   "over";
-   "under";
-   "again";
-   "further";
-   "then";
-   "once";
-   "here";
-   "there";
-   "when";
-   "where";
-   "why";
-   "how";
-   "all";
-   "any";
-   "both";
-   "each";
-   "few";
-   "more";
-   "most";
-   "other";
-   "some";
-   "such";
-   "no";
-   "nor";
-   "not";
-   "only";
-   "own";
-   "same";
-   "so";
-   "than";
-   "too";
-   "very";
-   "s";
-   "t";
-   "can";
-   "will";
-   "just";
-   "don";
-   "should";
-   "now"
-  ]
-  @
-  (* Diderot stopwords *)
-  [kw_chapter; mk_plural kw_chapter;
-   kw_section; mk_plural kw_section;
-   kw_subsection; mk_plural kw_subsection;
-   kw_subsubsection; mk_plural kw_subsubsection;
-   kw_paragraph; mk_plural kw_paragraph;
-   kw_flex; mk_plural kw_flex;
-   kw_problem_cluster; mk_plural kw_problem_cluster;
-   kw_algorithm; mk_plural kw_algorithm;
-   kw_assumption; mk_plural kw_assumption;
-   kw_code; mk_plural kw_code;
-   kw_corollary; mk_plural kw_corollary;
-   kw_costspec; mk_plural kw_costspec;
-   kw_datastr; mk_plural kw_datastr;
-   kw_datatype; mk_plural kw_datatype;
-   kw_definition; mk_plural kw_definition;
-   kw_example; mk_plural kw_example;
-   kw_exercise; mk_plural kw_exercise;
-   kw_hint; mk_plural kw_hint;
-   kw_important; 
-   kw_lemma; mk_plural kw_lemma;
-   kw_note; mk_plural kw_note;
-   kw_gram; mk_plural kw_gram;
-   kw_preamble; mk_plural kw_preamble;
-   kw_problem; mk_plural kw_problem;
-   kw_proof; mk_plural kw_proof;
-   kw_proposition; mk_plural kw_proposition;
-   kw_remark; mk_plural kw_remark;
-   kw_reminder; mk_plural kw_reminder;
-   kw_slide; mk_plural kw_slide;
-   kw_solution; mk_plural kw_solution;
-   kw_syntax; 
-   kw_task; mk_plural kw_task;
-   kw_theorem; mk_plural kw_theorem
-  ]
-  @
-  (* quantifers, those not included in the stopwords above *)
-  [
-   "couple";
-   "enough";
-   "lots";
-   "little";
-   "many";
-   "much";
-   "plenty";
-   "several"
-  ] 
-  @
-  (* adverbs *)
-  [ 
-   "actually";
-   "accordingly";
-   "across";
-   "adjacent";
-   "afterward";
-   "ahead";
-   "along";
-   "also";
-   "another";
-   "background";
-   "begin";
-   "behind";
-   "besides";
-   "beyond";
-   "briefly";
-   "consequence";
-   "consequently";
-   "contrast";
-   "contrary";
-   "conversely";
-   "currently";
-   "directly";
-   "fact";
-   "finally";
-   "first";
-   "following";
-   "furthermore";
-   "gradually";
-   "hence";
-   "however";
-   "last";
-   "lastly";
-   "later";
-   "left";
-   "like";
-   "manner";
-   "meantime";
-   "meanwhile";
-   "moreover";
-   "nearby";
-   "next";
-   "nevertheless";
-   "nonetheless";
-   "presently";
-   "opposite";
-   "result";
-   "right";
-   "second";
-   "short";
-   "side";
-   "similarly";
-   "since";
-   "soon";
-   "specific";
-   "specifically";
-   "spite";
-   "still";
-   "summary";
-   "subsequently";
-   "thereafter";
-   "therefore";
-   "thus";
-   "top";
-   "ultimately";
-   "yet"
-  ]
-
-let stopWordsTable = 
-  let stopWords = List.map stopWords ~f:(fun x -> (x, ())) in
-    match Hashtbl.of_alist (module String) stopWords with
-    | `Ok t -> t
-    | `Duplicate_key x ->
-       (printf "Fatal Error: Duplicate entry in the stop words table %s\n"  x;
-        exit 1)
-
-let labelGood x =      
-  (String.length x > 1) 
-  & 
-  (try let _ = Hashtbl.find_exn stopWordsTable x  in
-          false
-    with Caml.Not_found -> true
-  )
 
 
