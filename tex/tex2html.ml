@@ -85,6 +85,15 @@ let pandoc =  pandoc_minor
 (* Returns "./kate/language.xml" *)
 let mk_kate_language l = "./kate/" ^ l ^ ".xml"
 
+(* Returns the pandoc command to run by parameterizing 
+ * 1) verbosity
+ * 2) language parameter.
+ * If language "lang" is given then it uses "lang.xml" file
+ * for defining the syntax.
+ *
+ * This file should be in the "kate" directory specified.
+ *)
+   
 let set_pandoc be_verbose language = 
   let lang = match language with 
              | None -> ""
@@ -127,23 +136,23 @@ let text_prep s =
 (* Return the list of languages used in the contents 
    TODO: this looks into comments
  *)
-let findLang contents  =
+let find_lang contents  =
   let extract_lang (m: Re2.Match.t) =
     let source = Re2.Match.get ~sub:(`Name "lang") m in
       match source with 
-      | None -> let _ = d_printf "tex2html.findLang: None" in []
-      | Some x -> let _ = d_printf "tex2html.findLang: Some %s" x in [x]
+      | None -> let _ = d_printf "tex2html.find_lang: None" in []
+      | Some x -> let _ = d_printf "tex2html.find_lang: Some %s" x in [x]
   in
   (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
   let regex = Re2.create_exn
                   "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
   in
   let pattern = Re2.pattern regex in
-  let _ = printf "tex2html.findLang: Pattern for this regex = %s\n" pattern in 
+  let _ = printf "tex2html.find_lang: Pattern for this regex = %s\n" pattern in 
 
   let all_matches = Re2.get_matches_exn regex contents in
   let languages: string list = List.concat_map all_matches ~f:extract_lang in
-  let _ = printf_strlist "tex2html.findLange: languages" languages in 
+  let _ = printf_strlist "tex2html.find_lange: languages" languages in 
     languages
 
 (**********************************************************************
@@ -221,7 +230,7 @@ let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) =
 let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
-  let languages = findLang contents  in
+  let languages = find_lang contents  in
   let languages = match languages with 
                   | [] -> (match default_lang with 
                            | None -> []
