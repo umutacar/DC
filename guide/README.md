@@ -8,6 +8,46 @@
   See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples.
 
 
+# Binaries
+  There are three separate tools that are available to the user
+
+## Tool: tex2xml
+This tools translates the given input LaTeX file to xml.
+
+
+## Tool: tex2tex
+This tools reads in your LaTeX sources, parses them, and writes it back.  It drops comments and normalized the whitespace but shold otherwise return back a LaTeX file that is essentially the same as the input file. 
+
+Example: Try
+
+$ bin/tex2tex ./graph-contraction/star.tex -o ./s.tex
+$ diff ./graph-contraction/star.tex ./s.tex
+  
+## Tool: texel
+This tool "normalizes" your latex sources.  This means that it gives each segment of the input file a label and it wraps each atom into a "group" if it is not already in a group.  A group is one of "cluster" "flex" "mproblem" (multipart problem).  
+
+Generated labels have the form 
+```
+kind_prefix:chapter_label:segment_label
+```
+Here kind_prefix could for exmaple be
+* `sec`, for section, subsection, subsubsection, paragraph
+* `xmpl`, `thm`, for an example or a theorem.
+
+The chapter_label is extracted from the chapter label given.  For exmaple, if the label has any one of the form 
+```
+ch:star | chapter:star | ch_star | ch__star | ch:_star | chap:_star
+```
+chapter_label will be `star`.
+
+The tool takes the label, split it at the delimiters [:_]+ and if the prefix starts with "ch" it take the rest of the label as the chapter label.
+ 
+Some exmaple full labels:
+* xmpl:star:simpleexample
+* thm:star:costbound
+
+
+
 ## Basic syntax
 
   The basic syntax is LaTeX like.  The key difference is that the content is organized as "elements" which are "atoms" or "flex's".
