@@ -4,7 +4,7 @@ open Printf
 open Utils
 
 
-module Ast = Ast_ast
+module Ast = Tex_ast
 module Tex = Tex_syntax
 
 (* Turn off prints *)
@@ -75,7 +75,7 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 
 %start top
 
-%type <Ast_ast.ast option> top
+%type <Tex_ast.ast option> top
 
 /*  BEGIN RULES */
 %%

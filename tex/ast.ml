@@ -1,3 +1,5 @@
+(* Depracated code.  See Tex_ast.ml *)
+
 open Core
 open Utils
 
