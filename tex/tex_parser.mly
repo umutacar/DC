@@ -113,6 +113,7 @@ sigchar:
 parstart: 
 | d = PAR_SIGCHAR
   { let (d, elopt) = d in
+    let _ = d_printf "Parser matched par_sigchar = %s" d in
 	  (None, None, None, d, d, elopt) 
 	}
 | e = PAR_ENV
@@ -181,6 +182,7 @@ line_parstart:
 		let (popt, topt, lopt, body, all, elopt_ps) = ps in
 		let (cs, ell) = cs in
 		let l = hs ^ all  ^ cs ^ nl in
+		let all = hs ^ all ^ cs ^ nl in
 		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in
     (popt, topt, lopt, body, all, extend_labels ell elopt_ps)
   }

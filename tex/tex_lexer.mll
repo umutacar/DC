@@ -5,8 +5,10 @@ open Utils
 open Tex_parser
 
 (* Turn off prints *)
+(*
 let d_printf args = 
     ifprintf stdout args
+*)
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -667,7 +669,8 @@ let lexer: Lexing.lexbuf -> token =
 						| _ -> set_trace Hor_space 
 						end
 				| SIGCHAR x -> 
-(*						let _ = d_printf "** token = sigchar %s \n" x in *)
+						let (c, l) =  x in
+(*						let _ = d_printf "** token = sigchar %s \n" c in *)
 (*						let _ = d_printf "%s" x in *)
 						let _ = set_trace No_space in
 						begin
