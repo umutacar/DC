@@ -82,9 +82,6 @@ let pandoc_minor = "pandoc --mathjax"
 let pandoc_verbose_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
 
-(* Returns "./kate/language.xml" *)
-let mk_kate_language l = "./kate/" ^ l ^ ".xml"
-
 (* Returns the pandoc command to run by parameterizing 
  * 1) verbosity
  * 2) language parameter.
@@ -94,23 +91,20 @@ let mk_kate_language l = "./kate/" ^ l ^ ".xml"
  * This file should be in the "kate" directory specified.
  *)
    
-let set_pandoc be_verbose language = 
-  let lang = match language with 
-             | None -> ""
-             | Some l -> " --syntax-definition=" ^ (mk_kate_language l)
+let set_pandoc be_verbose meta_dir language = 
+  let lang = 
+		match language with 
+    | None -> ""
+    | Some l -> " --syntax-definition=" ^ meta_dir ^ "/" ^ l ^ ".xml"
   in
+	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" ^ lang in
     if be_verbose then
-      pandoc_verbose_minor ^ lang 
-    else
-      pandoc_minor ^  lang
-
-(* from pandoc 2.7.3 on there is no need for the lua filter. 
-
-    if be_verbose then
+      pandoc_verbose_minor ^ filter
+(*
       pandoc_verbose_minor ^ " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang 
-    else
-      pandoc_minor ^  " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang
 *)
+    else
+      pandoc_minor ^  filter
 
 (* Regular expressions *)
 let regexp_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
@@ -172,7 +166,7 @@ let find_lang contents  =
  *  html_file_name
  * Ignores all but the first language
  *)
-let latex_file_to_html be_verbose languages (latex_file_name, html_file_name) = 
+let latex_file_to_html be_verbose meta_dir languages (latex_file_name, html_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
@@ -183,7 +177,7 @@ let latex_file_to_html be_verbose languages (latex_file_name, html_file_name) =
        | [] -> None
        | h::t -> Some h
     in
-    let command = (set_pandoc be_verbose language) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
+    let command = (set_pandoc be_verbose meta_dir language) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
     let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -203,12 +197,12 @@ let latex_file_to_html be_verbose languages (latex_file_name, html_file_name) =
 (* Translate the contents of md_file_name and write it into
  *  html_file_name
  *)
-let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) = 
+let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, html_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
-    let pandoc = set_pandoc be_verbose lang_opt in
+    let pandoc = set_pandoc be_verbose meta_dir lang_opt in
     let command = pandoc ^ " " ^ md_file_name ^  " -o " ^ html_file_name in
     let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
@@ -234,7 +228,7 @@ let md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) =
  ** match specifies that what is expected is a single paragraph
  **)
 
-let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_single_paragraph = 
+let tex_to_html be_verbose tmp_dir meta_dir default_lang  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
   let languages = find_lang contents  in
@@ -255,7 +249,7 @@ let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_
 
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let () = latex_file_to_html be_verbose languages (latex_file_name, html_file_name) in
+  let () = latex_file_to_html be_verbose meta_dir  languages (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
     if not match_single_paragraph then
 (*      let _ = printf "html: %s" html in *)
@@ -283,7 +277,7 @@ let tex_to_html be_verbose default_lang tmp_dir  unique preamble contents match_
  ** contents is the contents to be translated
  **)
 
-let code_to_html be_verbose tmp_dir lang_opt unique arg_opt contents = 
+let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents = 
   (* prep for translation *)
   let md_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
   let md_file = Out_channel.create md_file_name in
@@ -302,7 +296,7 @@ let code_to_html be_verbose tmp_dir lang_opt unique arg_opt contents =
 
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let () = md_file_to_html be_verbose lang_opt (md_file_name, html_file_name) in
+  let () = md_file_to_html be_verbose meta_dir lang_opt (md_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
     html
 
@@ -312,19 +306,22 @@ let code_to_html be_verbose tmp_dir lang_opt unique arg_opt contents =
 (**
  **
  **)
-let contents_to_html be_verbose tmp_dir lang_opt_default unique preamble contents options = 
+let contents_to_html be_verbose tmp_dir meta_dir  lang_opt_default unique preamble contents options = 
   match options with 
-  | Generic is_single_paragraph -> tex_to_html be_verbose lang_opt_default tmp_dir unique preamble contents is_single_paragraph
+  | Generic is_single_paragraph -> 
+			tex_to_html 
+				be_verbose tmp_dir meta_dir lang_opt_default 
+				unique preamble contents is_single_paragraph
   | Code (lang_opt, arg_opt) -> 
     match lang_opt with 
     | None -> 
       (match lang_opt_default with 
-       | None -> code_to_html be_verbose tmp_dir None unique arg_opt contents
+       | None -> code_to_html be_verbose tmp_dir meta_dir None unique arg_opt contents
        | Some lang -> let lang_arg = MdSyntax.mk_code_block_arg_indicate lang in
                       let arg_opt_new = MdSyntax.add_to_code_block_arg lang_arg arg_opt in 
-                        code_to_html be_verbose tmp_dir lang_opt_default unique arg_opt_new contents 
+                        code_to_html be_verbose tmp_dir meta_dir lang_opt_default unique arg_opt_new contents 
       )
-    | Some lang -> code_to_html be_verbose tmp_dir (Some lang) unique arg_opt contents
+    | Some lang -> code_to_html be_verbose tmp_dir meta_dir (Some lang) unique arg_opt contents
 
 
 (**********************************************************************
@@ -349,7 +346,7 @@ let mk_translator be_verbose tmp_dir lang_opt preamble =
  ** and returns it.  The returned translator function does 
  ** not require a unique string but generates it.
  **********************************************************************)
-let mk_translator_auto be_verbose tmp_dir lang_opt preamble = 
+let mk_translator_auto be_verbose tmp_dir meta_dir  lang_opt preamble = 
    (* Create tmp dir *) 
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  
@@ -359,7 +356,7 @@ let mk_translator_auto be_verbose tmp_dir lang_opt preamble =
      let contents = text_prep contents in 
 		 let unique = mk_unique () in
      let options = get_single_paragraph_status kind in
-       contents_to_html be_verbose tmp_dir lang_opt unique preamble contents options
+       contents_to_html be_verbose tmp_dir  meta_dir lang_opt unique preamble contents options
    in
      translate
 

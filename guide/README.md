@@ -11,8 +11,10 @@
 # Binaries
   There are three separate tools that are available to the user
 
-## Tool: tex2xml
+## Tool: texmlt
 This tools translates the given input LaTeX file to xml.
+
+Example: texmlt -hl ./kate -lang c input_file.tex -o output_file.xml 
 
 
 ## Tool: tex2tex
