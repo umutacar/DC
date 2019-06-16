@@ -14,7 +14,7 @@
 ## Tool: texmlt
 This tools translates the given input LaTeX file to xml.
 
-Example: texmlt -hl ./kate -lang c input_file.tex -o output_file.xml 
+Example: texmlt -meta ./meta input_file.tex -o output_file.xml 
 
 
 ## Tool: tex2tex
