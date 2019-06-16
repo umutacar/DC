@@ -9,6 +9,7 @@ let file_extension_xml = ".xml"
 let verbose = ref false
 let do_inline = ref false
 let default_lang = ref None
+let meta_dir = ref "."  (* Current directory by default *)
 let tmp_dir = ref "/tmp"
 let bib_file = ref None
 let preamble_file = ref None
@@ -25,14 +26,18 @@ let get_str_arg r v =
   | None -> (printf "Fatal Error"; exit 1)
   | Some s -> s
 
-let mk_translator be_verbose lang_opt preamble_filename = 
+let mk_translator () = 
   let preamble = 
-    match preamble_filename with 
+    match !preamble_file with 
     | None -> ""
     | Some x -> In_channel.read_all x
   in
-    Tex2html.mk_translator_auto be_verbose !tmp_dir lang_opt preamble 
-
+    Tex2html.mk_translator_auto 
+		!verbose 
+		!tmp_dir 
+		!meta_dir
+		!default_lang
+		preamble 
 
 let tex2ast infile = 
 	let ic = In_channel.create infile in
@@ -52,7 +57,7 @@ let ast2xml be_verbose lang_opt ast preamble_file =
   let _ = Ast.assign_labels ast in
 
   (* Make XML *)
-  let tex2html = mk_translator be_verbose lang_opt preamble_file in
+  let tex2html = mk_translator () in
   let xml = Ast.to_xml tex2html ast in
     printf "Parsed successfully chapter.\n";
     xml
@@ -77,11 +82,12 @@ let main () =
   let spec = [
               ("-v", Arg.Set verbose, "Enables verbose mode; default is false.");
 (*              ("-inline", Arg.Set do_inline, "Inline latex input directives; default is false."); *)
-              ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp.");
+              ("-o", Arg.String (set_str_arg out_file), "Sets output file");
+              ("-bib", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any.");
+              ("-meta", Arg.Set_string meta_dir, "Directory for meta informaiton, e.g., highlighting definitions, lua filters, etc.");
               ("-lang", Arg.String (set_str_arg default_lang), "Sets the default programming language.");
               ("-preamble", Arg.String (set_str_arg preamble_file), "Sets LaTeX preamble, if any.");
-              ("-bib", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any.");
-              ("-o", Arg.String (set_str_arg out_file), "Sets output file")
+              ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp.")
              ]
   in 
 
