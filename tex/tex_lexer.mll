@@ -217,16 +217,21 @@ let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
-let p_chapter = ("chapter" as kind)
-let p_chapter_with_points = ("chapter" as kind) p_ws (p_point_val as points)
-let p_section = ("section" as kind) p_ws
-let p_section_with_points = ("section" as kind) p_ws (p_point_val as points)
+let p_kw_chapter = ("chapter" as kind) ['*']? 
+let p_chapter = p_kw_chapter
+let p_chapter_with_points = p_kw_chapter p_ws (p_point_val as points)
 
-let p_subsection = ("subsection" as kind) p_ws 
-let p_subsection_with_points = ("subsection" as kind) p_ws (p_point_val as points)
+let p_kw_section = ("section" as kind) ['*']? 
+let p_section = p_kw_section p_ws
+let p_section_with_points = p_kw_section p_ws (p_point_val as points)
 
-let p_subsubsection = ("subsubsection" as kind) p_ws 
-let p_subsubsection_with_points = ("subsubsection" as kind) p_ws (p_point_val as points)
+let p_kw_subsection = ("subsection" as kind) ['*']? 
+let p_subsection = p_kw_subsection p_ws 
+let p_subsection_with_points = p_kw_subsection p_ws (p_point_val as points)
+
+let p_kw_subsubsection = ("subsubsection" as kind) ['*']? 
+let p_subsubsection = p_kw_subsubsection p_ws 
+let p_subsubsection_with_points = p_kw_subsubsection p_ws (p_point_val as points)
 
 let p_paragraph = ("paragraph" as kind) p_ws												
 let p_paragraph_with_points = ("paragraph" as kind) p_ws (p_point_val as points)

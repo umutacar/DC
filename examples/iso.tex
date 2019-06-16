@@ -71,7 +71,7 @@
 %% % n levels per processor
 
 %\input{intro}
-\section{Introduction}
+\section*{Introduction}
 %
 Graphs, a fundamental abstraction in computer science, have been
 studied extensively.
@@ -656,28 +656,26 @@ such an algorithm as shown in  Figure~\ref{par-alg}.
   \centering
 
   \hspace*{3mm}
- \begin{tabular}{c}
-\begin{lstlisting}
-fun subgraph_isomorphism $(G_1, G_2)$ =
-  (* result, initially false *)
-  $R$ <- (false, {})
-  (* initial matching, empty  *)
-  $M$ <- $\emptyset$
+\begin{lstlisting}[language=c, numbers=left]
+subgraph_isomorphism (G_1, G_2) =
+  // result, initially false 
+  R <- (false, {})
+  // initial matching, empty  
+  M <- \emptyset
 
-  fun search$(M)$ =
-    if is_subgraph_isomorphism($M$) then
-      $R$ <- (true, M)
+  fun search(M) =
+    if is_subgraph_isomorphism(M) then
+      R <- (true, M)
     else
-      children <- Children of $M$ in the matching tree
-      parallel_for $(u, v)$ in children:
-        if $M \cup (u, v)$ adjacency preserving then
-          search($M \cup (u, v)$)
+      children <- Children of M in the matching tree
+      parallel_for (u, v) in children:
+        if M \cup (u, v) adjacency preserving then
+          search(M \cup (u, v))
 
-  (* Do search *)
-  search$(M)$
-  return $R$
+  // Do search 
+  search(M)
+  return R
 \end{lstlisting}
-\end{tabular}
 \caption{Naive Parallel Isomorphism Algorithm Pseudocode}
 \label{par-alg}
 \end{figure}
@@ -792,19 +790,16 @@ We define several operations on  matchings and neighborhoods:
 The \cd{add_match} operation, whose pseudo-code is given below, takes
 a matching $M$, a neighborhood $N$ and a match $(u, v, d)$ and adds 
 $(u, v, d)$ to $M$ and adds the neighbors of $u$ in $G_1$ to $N$.
-
-
-\begin{tabular}{c}
-\begin{lstlisting}
-fun add_match$(M, N, (u, v, d))$ =
-  (* side effect M and N *)
-  $M$ <- $M \cup (u, v, d)$
-  $N$ <- $N \cup (u, d)$
-  for $u' \in$ neighbors(u) in $G_1$ do
-    if $u' \not\in N$:
-      $N$ <- $N \cup (u', d)$
+%
+\begin{lstlisting}[language=c, numbers=left]
+fun add_match(M, N, (u, v, d)) =
+  // side effect M and N 
+  M <- M \cup (u, v, d)
+  N <- N \cup (u, d)
+  for u' \in neighbors(u) in G_1 do
+    if u' \not\in N:
+      N <- N \cup (u', d)
 \end{lstlisting}
-\end{tabular}
 
 
 The \cd{expand} operation, defined below, takes matching $M$,
@@ -821,19 +816,17 @@ because it produces the level-by-level structure of the matching tree.
 %
 Since we try matching the smallest vertex in $N$ to all unmatched vertices in
 $G_2$, at every level of the tree, a single vertex from $G_1$ is getting matched.
-
-\begin{tabular}{c}
-\begin{lstlisting}
-fun expand$(M, N, d)$ =
-  (* Projection of $M$ on $G_1$ and $G_2$ *)
-  $S_1$ <- $\bigcup_{(u_1, u_2, d) \in M}\{u_1\}$
-  $S_2$ <- $\bigcup_{(u_1, u_2, d) \in M}\{u_2\}$
-  $v_1$ <- smallest vertex in $N$ and not $S_1$
-  (* Compute expansion *)
-  $X$ <- $\bigcup_{v_2 \in V_2 \wedge v_2 \not\in S_2}{(v_1, v_2, d)}$ @\vspace{2mm}@
-  return $X$
+%
+\begin{lstlisting}[language=c, numbers=left]
+fun expand(M, N, d) =
+  // Projection of M on G_1 and G_2 
+  S_1 <- \bigcup_{(u_1, u_2, d) \in M}\{u_1\}
+  S_2 <- \bigcup_{(u_1, u_2, d) \in M}\{u_2\}
+  v_1 <- smallest vertex in N and not S_1
+  // Compute expansion 
+  X <- \bigcup_{v_2 \in V_2 \wedge v_2 \not\in S_2}{(v_1, v_2, d)} @\vspace{2mm}@
+  return X
 \end{lstlisting}
-\end{tabular}
 
 Lastly, the matching and neighborhood support the
 \cd{restore} operation, which gives the structures
@@ -859,15 +852,13 @@ greater than or equal to $d$.
 The proof of correctness of this operation will be
 explored later in the paper, as it is not obvious why
 this procedure performs an arbitrary backtrack.
-
-\begin{tabular}{c}
-\begin{lstlisting}
-fun restore$(M, N, d)$ =
-  (* side effect M *)
-  $M$ <- $\{(u, v, d') \in M$ $|$ $d' < d\}$
-  $N$ <- $\{(u, d') \in N$ $|$ $d' < d\}$
+%
+\begin{lstlisting}[language=c, numbers=left]
+fun restore(M, N, d) =
+  // side effect M 
+  M <- \{(u, v, d') \in M | d' < d\}
+  N <- \{(u, d') \in N | d' < d\}
 \end{lstlisting}
-\end{tabular}
 
 
 \subsection{The Algorithm}
@@ -895,17 +886,15 @@ neighborhood $N$, and frontier $F$. It invokes the frontier's
 with $M$ and $N$, and $F_2$ with copies of $M$ and $N$.
 %
 An example of the \cd{split_step} can be found in Figure~\ref{fig:split-step}.
-
+%
 %\hspace{2mm}
 %
-\begin{tabular}{c}
-\begin{lstlisting}
-fun split_step$(M, N, F)$ =
-  (* split the frontier and copy $M, N$ *)
-  $(F_1, F_2)$ <- split$(F)$
-  return $((M, N, F_1),($copy$(M)$,copy$(N), F_2))$
+\begin{lstlisting}[language=c, numbers=left]
+fun split_step(M, N, F) =
+  // split the frontier and copy M, N 
+  (F_1, F_2) <- split(F)
+  return ((M, N, F_1),(copy(M),copy(N), F_2))
 \end{lstlisting}
-\end{tabular}
 
 \begin{figure}
 \centering
@@ -939,47 +928,44 @@ Code for this function can be found in Figure~\ref{worker-par-alg}.
 
 %\input{worker-par-alg}
 \begin{figure}
-  \centering
-  \begin{tabular}{c}
-\begin{lstlisting}
-(* global result, initially false *)
-$R$ <- $($false, $\emptyset)$
+\begin{lstlisting}[language=c, numbers=left]
+// global result, initially false 
+R <- (false, {})
 
-(* current $M$, $N$, and $F$ of a worker *)
-fun visit_step$(M, N, F)$ =
-  (* see if another worker succeeded *)
-  $(success, \_)$ <- $R$
-  if success then return $R$
+// current M, N, and F of a worker 
+fun visit_step(M, N, F) =
+  // see if another worker succeeded 
+  (success, _) <- R
+  if success then return R
 
-  (* see if there is work to be done *)
-  if $F = \emptyset$ then return
+  // see if there is work to be done 
+  if F = {} then return
 
-  (* pop off deepest match in F *)
-  $(F', (u, v, d))$ <- deepest$(F)$
+  // pop off deepest match in F 
+  (F', (u, v, d)) <- deepest(F)
 
-  (* see if $M$ needs to be restored *)
-  if $d \leq$ depth$(M)$ then
-    restore$(M, N, d)$
+  // see if M needs to be restored 
+  if d  <= depth(M) then
+    restore(M, N, d)
 
-  (* verify new M will be adjacency preserving *)
-  if $M \cup (u, v, d)$ not adjacency preserving then
-    return $(M, N, F')$
+  // verify new M will be adjacency preserving 
+  if (M union (u, v, d)) is not adjacency preserving then
+    return (M, N, F')
 
-  (* destructively update $M, N$ *)
-  add_match$(M, N, (u, v, d))$
+  // destructively update M, N 
+  add_match(M, N, (u, v, d))
 
-  (* check if success *)
-  if isomorphism$(M)$ then
-    $R$ <- $($true$,M)$
+  // check if success 
+  if isomorphism (M) then
+    R <- (true, M)
     return
 
-  (* add children of new M to frontier *)
-  $F''$ <- $F' \cup$ expand$(M, N, d+1)$
+  // add children of new M to frontier 
+  F'' <- F' union (expand(M, N, d+1)
 
-  (* return state for next iteration *)
-  return $(M, N, F'')$
+  // return state for next iteration 
+  return (M, N, F'')
 \end{lstlisting}
-\end{tabular}
 \caption{Worker Iteration}
 \label{worker-par-alg}
 \end{figure}
