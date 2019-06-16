@@ -100,10 +100,17 @@ let set_pandoc be_verbose language =
              | Some l -> " --syntax-definition=" ^ (mk_kate_language l)
   in
     if be_verbose then
+      pandoc_verbose_minor ^ lang 
+    else
+      pandoc_minor ^  lang
+
+(* from pandoc 2.7.3 on there is no need for the lua filter. 
+
+    if be_verbose then
       pandoc_verbose_minor ^ " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang 
     else
       pandoc_minor ^  " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang
-
+*)
 
 (* Regular expressions *)
 let regexp_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
