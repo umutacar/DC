@@ -127,7 +127,7 @@ let text_prep s =
   let s = Str.global_replace regexp_label " " s in
 
   (* Replace \caption with \textbf. *)
-  let s = Str.global_replace regexp_label "\\textbf" s in
+  let s = Str.global_replace regexp_caption "\\textbf" s in
 	s
 
 (*********************************************************************
