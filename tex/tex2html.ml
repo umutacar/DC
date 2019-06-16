@@ -110,6 +110,7 @@ let set_pandoc be_verbose meta_dir language =
 let regexp_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
 let regexp_newline = Str.regexp "\n"
 let regexp_label = Str.regexp Tex.pattern_label
+let regexp_caption = Str.regexp Tex.pattern_caption
 
 (* prep string for conversion *)
 let text_prep s = 
@@ -124,6 +125,9 @@ let text_prep s =
    *)
 
   let s = Str.global_replace regexp_label " " s in
+
+  (* Replace \caption with \textbf. *)
+  let s = Str.global_replace regexp_label "\\textbf" s in
 	s
 
 (*********************************************************************
