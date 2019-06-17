@@ -105,7 +105,7 @@ let main () =
     | None -> (printf "Error: Missing input Latex file! \n%s" (Arg.usage_string spec usage_msg); exit 1)
     | Some x -> x
   in
-  let _ = printf "Executing command: texmlt %s" in_file_name in
+  let _ = printf "Executing command: texmlt %s\n" in_file_name in
   let outfile_name = match !out_file with 
           | None -> 
             let x = Utils.mk_xml_filename in_file_name in

@@ -8,9 +8,10 @@ module Ast = Tex_ast
 module Tex = Tex_syntax
 
 (* Turn off prints *)
+(*
 let d_printf args = 
     ifprintf stdout args
-
+*)
 let parse_error s = printf "Parse Error: %s"
 
 let mk_point_val_f_opt (s: string option) = 
@@ -105,7 +106,7 @@ sigchar:
 | e = ENV
   { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "Parser matched env, label = %s env = %s" label all in
+    let _ = d_printf "* env: %s\n" all in
   	  (all, None)
   }
 
@@ -113,13 +114,13 @@ sigchar:
 parstart: 
 | d = PAR_SIGCHAR
   { let (d, elopt) = d in
-    let _ = d_printf "Parser matched par_sigchar = %s" d in
+(*    let _ = d_printf "Parser matched par_sigchar = %s" d in *)
 	  (None, None, None, d, d, elopt) 
 	}
 | e = PAR_ENV
   { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "Parser matched par_env, label = %s env = %s" label in
+    let _ = d_printf "* env: %s\n" all in
   	  (popt, topt, lopt, body, all, None)
   }
 
@@ -166,7 +167,7 @@ line:
   {let (d, elopt) = d in
 	 let (cs, ll) = cs in
 	 let l = hs ^ d ^ cs ^ nl in
-   let _ = d_printf "!Parser mached: significant line: %s.\n" l in	 
+   let _ = d_printf "* line: %s.\n" l in	 
      (l, extend_labels ll elopt)
   }
 
@@ -183,7 +184,7 @@ line_parstart:
 		let (cs, ell) = cs in
 		let l = hs ^ all  ^ cs ^ nl in
 		let all = hs ^ all ^ cs ^ nl in
-		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in
+(*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
     (popt, topt, lopt, body, all, extend_labels ell elopt_ps)
   }
 
@@ -239,7 +240,7 @@ segment:
   b = block;
   {
    let (kind, title, pval_opt) = h in
-   let _ = d_printf ("!parser: %s %s matched") kind title in
+(*   let _ = d_printf ("!parser: %s %s matched") kind title in *)
      Ast.Segment.make ~kind:kind title b []
   }	  
 
@@ -268,8 +269,8 @@ block:
   {
 	 let (es, ell_es) = es in
 	 let label = take_label ell_es in
-   let _ = d_printf "parser matched: block.\n" in 
-   let _ = d_print_labels ell_es in
+(*   let _ = d_printf "parser matched: block.\n" in *)
+(*   let _ = d_print_labels ell_es in *)
      Ast.Block.make ~label es
   }
 
@@ -296,10 +297,10 @@ atom:
 		 | Some (env, _) -> 
 				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
 	 in 
-	 let _ = d_printf "parser matched atom: body = \n %s \n" body in
+(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
 	 let body = String.strip body in
 	   if Tex.is_label_only body then
-			 let _ = d_printf "atom is label only" in
+(*			 let _ = d_printf "atom is label only" in *)
 			 ([ ], ell)
 		 else
 			 let a = Ast.Atom.make 
@@ -356,13 +357,15 @@ group:
 
 element:
 | a = atom
-  { let _ = d_printf "!Parser: matched element: atom\n %s" "a" in
+  { 
+(*	  let _ = d_printf "!Parser: matched element: atom\n %s" "a" in *)
 	  match a with 
 		| ([ ], ell) -> ([ ], ell)
 		| (a::[ ], ell) -> ([Ast.Element.mk_from_atom a], ell) 
   }
 | g = group;
-  { let _ = d_printf "!Parser: matched group\n %s" "g" in
+  { 
+(*	 let _ = d_printf "!Parser: matched group\n %s" "g" in *)
       ([Ast.Element.mk_from_group g], [ ]) 
   }
 

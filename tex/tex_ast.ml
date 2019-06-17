@@ -1,6 +1,11 @@
 open Core
 open Utils
 
+(* Turn off all prints *)
+let d_printf args = 
+    ifprintf stdout args
+
+
 module Labels = Tex_labels
 module Tex = Tex_syntax
 module Words = English_words
