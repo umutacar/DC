@@ -7,6 +7,10 @@
 open Core
 open Utils
 
+(* Turn off all prints *)
+let d_printf args = 
+    ifprintf stdout args
+
 module Xml = Xml_syntax
 module Tex = Tex_syntax
 
@@ -157,7 +161,7 @@ let find_lang contents  =
 
   let all_matches = Re2.get_matches_exn regex contents in
   let languages: string list = List.concat_map all_matches ~f:extract_lang in
-  let _ = d_printf_strlist "tex2html.find_lange: languages" languages in 
+(*  let _ = d_printf_strlist "tex2html.find_lange: languages" languages in *)
     languages
 
 (**********************************************************************

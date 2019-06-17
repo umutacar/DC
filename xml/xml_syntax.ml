@@ -6,6 +6,9 @@ open Base
 open String
 open Utils
 
+(* Turn off all prints *)
+let d_printf args = 
+    ifprintf stdout args
 
 module C = Xml_constants
 

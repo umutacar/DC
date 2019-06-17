@@ -126,7 +126,9 @@ struct
   let traverse atom state f = 
 		let {kind; point_val; title; label; depend; body} = atom in
 		let _ = d_printf "Atom.traverse: %s " kind in
+(*
     let _ = d_printf_optstr "label " label in
+*)
       f Ast_atom state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body)
 
   let to_tex atom = 
@@ -170,7 +172,7 @@ struct
 
   let body_to_xml tex2html atom =
 		if atom.kind = Xml.lstlisting then
-			let _ = printf "body_to_xml: atom = %s, Promoting to code" atom.kind in
+			let _ = d_printf "body_to_xml: atom = %s, Promoting to code" atom.kind in
 			let _ = atom.kind <- Xml.code in
 			let title = str_of_str_opt atom.title in
 			let newbody = 
@@ -183,7 +185,7 @@ struct
 			let body_xml = tex2html Xml.body newbody in
 			body_xml
 		else
-			let _ = printf "body_to_xml: atom = %s, Not promoting to code" atom.kind in
+			let _ = d_printf "body_to_xml: atom = %s, Not promoting to code" atom.kind in
 			tex2html Xml.body atom.body
 			
   let to_xml tex2html atom = 
@@ -250,7 +252,9 @@ struct
 
 		let atom_tr_f state atom = Atom.traverse atom state f in
 		let _ = d_printf "Group.traverse: %s " kind in
+(*
     let _ = d_printf_optstr "label " label in
+*)
 		  List.fold_left atoms ~init:s ~f:atom_tr_f
 
   let to_tex group = 
@@ -496,7 +500,9 @@ struct
   let rec traverse segment state f = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
+(*
     let _ = d_printf_optstr "label " label in
+*)
 		let s = f Ast_segment state ~kind:(Some kind) ~point_val ~title:(Some title) ~label ~depend ~contents:None in
 
 		let block_tr_f state block = Block.traverse block state f in
@@ -694,10 +700,14 @@ let collect_labels ast: Labels.t =
 				label_set
 	in
 	let label_list = Labels.to_list label_set in
+  (*
   let _ = d_printf_strlist "Initial labels: " label_list in
+  *)
 	let label_set = Segment.traverse ast label_set add_label in
 	let label_list = Labels.to_list label_set in
+  (*
   let _ = d_printf_strlist "All labels: " label_list in
+	*)
 	  label_set
 
 
