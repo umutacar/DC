@@ -289,10 +289,12 @@ atom:
 	 let (popt, topt, lopt, body, all, ell) = tp_all in
 	 let all = String.strip all in
 	 let single = Tex.take_single_env all in
-	 let (kind, body) = 
+	 let (kind, popt, topt,  lopt, body) = 
 	   match single with 
-		 | None -> (Tex.kw_gram, all)
-		 | Some (env, _) -> (env,  body)  (* favor body computed by the lexer *)
+		 | None -> 
+				 (Tex.kw_gram, None, None, None, all)
+		 | Some (env, _) -> 
+				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
 	 in 
 	 let _ = d_printf "parser matched atom: body = \n %s \n" body in
 	 let body = String.strip body in
