@@ -19,7 +19,7 @@
 
  ## Installing packages for MeTaL ##
 Assuming you got OPAM as described above:
-- `opam install core getopt menhir`
+- `opam install core getopt menhir re2`
 and add  -package ppx_fields_conv
 to the Makefile
 
