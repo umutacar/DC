@@ -3,6 +3,13 @@ open Printf
 
 let debug = true
 
+
+let str_of_str_opt so = 
+	match so with 
+	| None -> ""
+	| Some s -> s
+
+
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
 
