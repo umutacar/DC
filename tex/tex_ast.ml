@@ -674,6 +674,53 @@ let is_wellformed ast =
  ** END Utilities
  *********************************************************************)
 
+(* Check_preamble:
+   Check that
+	 1) there exists at most one preamble atom,
+	 2) if it exists, preamble is the first atom.
+ *)
+let check_preamble ast: bool =
+  (* Traversal visit function to check atom kind.
+     no: number of atoms preceding this atom.
+		 found: indicates the number of preambles found.
+		 no: number of atoms.  it is not used.
+ 	*)
+	let check 
+			member_kind
+			(no, found)
+			~(kind: string option)
+			~(point_val: string option) 
+			~(title: string option) 
+			~(label: string option) 
+			~(depend: (string list) option) 
+			~(contents: string option) = 
+		begin
+    match member_kind with 
+		| Ast_atom ->
+				let Some (kind) = kind in
+				if kind = Xml.preamble then
+					let _ = printf "Preamble found: pos = %d, found = %d" no found in
+					(no+1, found + 1)
+				else
+					(no+1, found)
+		| _ -> (no, found)
+		end
+	in
+	let (_, found) = Segment.traverse ast (0, 0) check in	
+	if found = 0  then
+		(printf ("Preamble check: no preamble found.\n");
+		 true)
+  else if found = 1 then
+		(printf ("Preamble check:  one preamble found.\n");
+		 true)
+  else if found > 1 then
+		(printf ("Preamble check: error. Multiple preambles found.\n");
+		 false)
+	else
+		(printf ("Preamble check:  error. Out of range.\n");
+		 false)
+
+
 (* Collect all the labels in the ast
  * in a label set and return it.
  *)
@@ -728,8 +775,17 @@ let to_tex ast =
 	Segment.to_tex ast
 
 let to_xml tex2html ast = 
-	let xml = Segment.to_xml tex2html ast in
-	Xml.mk_standalone xml
+	let xml:string = Segment.to_xml tex2html ast in
+	Xml.mk_standalone xml 
 
-
+(* Ast validation *)
+let validate ast = 
+  let passed = check_preamble ast in
+	if passed then
+		(printf "Ast validation passed.\n";
+		 ast)
+	else
+		(printf "Fatal Error: Ast validation failed. Terminating.\n";
+		 exit 1;
+		 ast)
  
