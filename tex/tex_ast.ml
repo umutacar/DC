@@ -699,8 +699,8 @@ let check_preamble ast: bool =
 		| Ast_atom ->
 				let Some (kind) = kind in
 				if kind = Xml.preamble then
-					let _ = printf "Preamble found: pos = %d" no in
-					(found + 1, no + 1)
+					let _ = printf "Preamble found: pos = %d, found = %d" no found in
+					(no+1, found + 1)
 				else
 					(no+1, found)
 		| _ -> (no, found)
@@ -785,6 +785,7 @@ let validate ast =
 		(printf "Ast validation passed.\n";
 		 ast)
 	else
-		(printf "Ast validation failed.\n";
+		(printf "Fatal Error: Ast validation failed. Terminating.\n";
+		 exit 1;
 		 ast)
  

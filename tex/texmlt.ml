@@ -51,7 +51,8 @@ let tex2ast infile =
     with End_of_file -> exit 0
 	in
 	let _ = Ast.validate ast in
-	ast
+		ast
+
 
 let ast2xml be_verbose lang_opt ast preamble_file = 
   (* Normalize AST *)
