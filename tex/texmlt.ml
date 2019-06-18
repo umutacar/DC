@@ -41,6 +41,7 @@ let mk_translator () =
 
 let tex2ast infile = 
 	let ic = In_channel.create infile in
+	let ast = 
    	try 
       let lexbuf = Lexing.from_channel ic in
 	    let ast = Parser.top Lexer.lexer lexbuf in
@@ -48,6 +49,9 @@ let tex2ast infile =
 			| None -> (printf "Parse Error."; exit 1)
 			| Some ast -> ast
     with End_of_file -> exit 0
+	in
+	let _ = Ast.validate ast in
+	ast
 
 let ast2xml be_verbose lang_opt ast preamble_file = 
   (* Normalize AST *)
