@@ -2,7 +2,11 @@
 
 # Installation
 
-  To use Diderot install [pandoc](https://pandoc.org/ "pandoc")
+  To use Diderot install version 2.7.2.
+  Problem: how? 
+  Info here, but no install package.
+  https://pandoc.org/releases.html
+ [pandoc](https://pandoc.org/ "pandoc")
 
 # Examples 
   See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples.
