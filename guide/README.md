@@ -1,14 +1,34 @@
+# Overview
+
+Diderot is an online book system that integrates discussions with content.  Diderot consists of two largely separate systems that are designed to work together.  The first is the Diderot site, which provides the users (instructors and students) with an online interface for reading books and discussions.  The second is the MTL (read "metal") compiler that translates LaTeX sources to XML, which can then be uploaded onto the Diderot site.  In addition to XML, Diderot site accepts conventional PDF documents and slide decks for upload.  This document describes MTL and its use.  
+
+For any questions or comments, please don't hesitate to contact Umut at `umut@cs.cmu.edu`.
+
 # Typesetting with LaTex and MTL (MeTaL)
 
-MTL tries to remain compatible with LaTeX.  The basic idea is that if you have a LaTeX source that you are able to compile and generate PDF from, then you should be able to use MTL to compile your LaTeX source and generate XML.  The resulting XML can then be uploaded to Diderot to obtain an interactive book.
-
+MTL tries to remain compatible with LaTeX.   If you have  LaTeX sources that you are able to compile and generate PDF from, then you can use MTL to generate XML from your LaTeX sources.  Translation of LaTeX sources to XML, however, is not perfect but works quite well for simple LaTeX sources.
 
 ## Examples 
-  See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples diderot chapters.
+  See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples diderot chapters.  These are set up with Makefiles so that you can generate both PDF and XML from the sources. For each book you generate the book PDF by running the following.
+
+``` 
+$ make book.pdf
+```
+
+You can similarly generate the XML for each chapter, which can then be uploaded onto diderot.
+``` 
+$ make graph-contraction/star.xml
+```
+
+Perhaps the most important requirement is this: all packages and macros that your book relies on should be placed into a single "preamble" file.  See "Compilation" section below for more details.
+
 
 ## Basic syntax 
 
-  The basic syntax is LaTeX like.  The key difference is that the content is organized as "elements" which are "atoms" or "flex's".
+
+### Segments
+
+MTL thinks of a LaTeX source as being organized in terms of segments (chapters, sections, subsections, subsubsections, paragraphs).  Each segment in turn consists of *elements* which are *atoms* or *groups*.
 
 ```
   \chapter{Introduction}
@@ -39,38 +59,20 @@ MTL tries to remain compatible with LaTeX.  The basic idea is that if you have a
 
 Here `elements` is a sequence of "atoms" and "flex'es" as
 
-An atom is either a plain paragraph or a paragraph consisting of a single environment of the form
+### Atoms
+An *element* is an atom or a group. 
+
+An *atom* is either a plain paragraph or a paragraph consisting of a single environment of the form
 ```
-\begin{<atom>}
+\begin{<atom>}[Optional title]
 optional but highly recommended: \label{atom-label}
 <atom body>
 \end{<atom>}
 ```
 
-or  
-```
-\begin{flex}
-\begin{<atom>}[optional title]
-\label{atom-label}
+Note that atoms are defined by "vertical white spaces", i.e., they are single standing paragraphs.  White space therofere matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.
 
-
-\end{<atom>}
-
-\begin{<atom>}[optional title]
-\label{atom-label}
-
-
-\end{<atom>}
-
-<... additional atoms if desired>
-\end{flex}
-```  
-
-## Atoms
-
-An atom is either plain text paragraph or it is a paragraph that is a  special latex environment. Note that atoms are defined by "vertical white spaces", i.e., they are single standing paragraphs.  White space therofere matters, though in the common case, this goes along with your intuition.\
-
-In addition to paragraphs, there are many atoms to choose from.  Here is a complete list.  Let me (umut@cs.cmu.edu) know if you want others.
+In addition to plain paragraphs, there are many atoms to choose from.  Here is a complete list.  Let me (umut@cs.cmu.edu) know if you want others.
 
 * `algorithm`
 * `assumption`
@@ -108,7 +110,7 @@ Currently, we only allow you to use these atoms.  This means that if you have a 
 \end{thm}
 ```
 
-is not a legitimate atom.  Currently, we expect you to wrap this with another atom, or don't make it aragraph,  For example,
+is not a legitimate atom.  Currently, we expect you to wrap this with another atom, or don't make it paragraph,  For example,
 
 ```
 The following theorem...
@@ -124,10 +126,33 @@ or
 \end{gram}
 ```
 
+You can also ask Umut to create an atom called "thm" and we would be happy to do so. 
 
-## Labels
+### Groups
 
-Labels play an important role in Diderot, because they allow identifying atoms uniquely.  Try to give a label to each atom, flex, section, subsection...
+A *group* consist of a sequence of atoms.  We currently support only one kind of group `flex`.  On Diderot, a flex will display its first atom and allow the user to reveal the rest of the atoms by using a simple switch.  We find `flex` groups to be useful for hiding simple examples for a definition, the solution to an exercise, and sometimes tangential remarks.
+
+```
+\begin{flex}
+\begin{<atom>}[optional title]
+\label{atom-label}
+
+
+\end{<atom>}
+
+\begin{<atom>}[optional title]
+\label{atom-label}
+
+
+\end{<atom>}
+
+<... additional atoms if desired>
+\end{flex}
+```  
+
+### Labels
+
+Labels play an important role in Diderot, because they allow identifying atoms uniquely. It is a good practice to try to give a label to each atom, flex, section, subsection...
 
 Important: All labels in a book must be unique.  Diderot generates labels for all atoms even if you don't give them one; see the tool `texel`.
 
@@ -196,7 +221,7 @@ task : "tsk"
 theorem : "thm"
 ```
 
-## Label references
+### Label references
 
 Use 
 ```
@@ -209,7 +234,7 @@ for references or  the standard
 We replace the former with `\hyperref[][]` command so that we can get proper  linked refs is latex/ pdf.
 
 
-## The rest
+### The rest
 
 There is not really much else to it.  There are some caveats.
 
@@ -233,7 +258,7 @@ There is not really much else to it.  There are some caveats.
     \end{alignat}
     ```
  
-    should be wrapped with `\htmlmath', e.g.,
+    should be wrapped with `\htmlmath`, e.g.,
     ```
      \htmlmath{
      \begin{alignat} 
@@ -245,10 +270,9 @@ There is not really much else to it.  There are some caveats.
 * You can use itemize and enumerate in their basic form.  Changing label format with enumitem package and similar packages do not work.  You can imitate these by using heading for your items.  
 
 * In general labeling and referencing is relatively limited to atoms.  You can label atoms and refer to them, but you cannot label codelines, items in lists, etc.
-
   
 
-# Compiling
+# Compilation
 
 The following instructions are tested on Mac OS X and Ubuntu.  The binaries in `bin` might not work on systems that are not Mac or Linux/Unix-like. 
 
@@ -266,43 +290,45 @@ The relevant files are
 * `templates/preamble.tex` 
 
    Supplies your macros that will be used by generating a pdf via pdflatex.  Nearly all packages and macros should be included here.  Each chapter will be compiled in the context of this file.  Ideally this file should
-   - include as few packagase as possible
+   - include as few packages as possible
    - define no environment definitions
    - macros should be simple
 
 * `templates/preamble-mtl.tex` 
 
-   Equivalent of preamble.tex but it is customized for hmtl output.  This usually means that most macros will remain the same but some will be simplified to work with `pandoc`.  If you don't need to customize, you can keep just one preamble.  The example in directory `booklet` does so.
+   Equivalent of preamble.tex but it is customized for XML output.  This usually means that most macros will remain the same but some will be simplified to work with `pandoc`.  If you don't need to customize, you can keep just one preamble.  The example in directory `booklet` does so.
     
 
-## Structuring the book
+## Structuring your books sources
+
+I recommend structuring your book sources in a way that streamlines your workflow for PDF generation and Diderot uploads.  I have found that the structure outlined below separately for booklets and books work well.  The example book and booklet provided follow this structure (see directories `book` and `booklet`).
 
 ### Booklets
  
   Booklets are books that don't have parts. For these  I recommend creating one directory per chapter and placing a single main.tex file to include all contain that you want.  Don't use \input's within the tex files.  Place all media (images, videos etc) under a media/ subdirectory. 
   
-   ch1/main.tex
-   ch1/media/: all my media files, *.png *.jgp, *.graffle, etc.
-   ch2/main.tex
-   ch2/media/: all my media files for chapter 2, *.png *.jgp, *.graffle, etc.
-   ch3/main.tex
+* `ch1/main.tex`
+* `ch1/media/`: all my media files, *.png *.jgp, *.graffle, etc.
+* `ch2/main.tex`
+* `ch2/media/`: all my media files for chapter 2, *.png *.jgp, *.graffle, etc.
+* `ch3/main.tex`
 
 ## Books
-   Books have parts and chapters. I recommend structuring these as follows.
+   Books have parts and chapters. I recommend structuring these as follows, where `ch1, ch2` etc can be replaced with names of your choice.
 
-   part1/ch1.tex
-   part1/ch2.tex
-   part1/media-ch1/
-   part1/media-ch2/
-   part2/ch3.tex
-   part2/ch4.tex
-   part2/ch5.tex
-   part2/media-ch3/
-   part2/media-ch4/
-   part2/media-ch5/
+* `part1/ch1.tex`
+* `part1/ch2.tex`
+* `part1/media-ch1/`
+* `part1/media-ch2/`
+* `part2/ch3.tex`
+* `part2/ch4.tex`
+* `part2/ch5.tex`
+* `part2/media-ch3/`
+* `part2/media-ch4/`
+* `part2/media-ch5/`
 
    
-## Making PDF of the whole book
+## Making PDF of the whole book or booklet
 
 ```
 $ make book.pdf
@@ -325,7 +351,7 @@ $ make ch2
 $ make ch2/main.xml
 ```
 
-Error messages from the XML translator are terrible.  They have not been well developed.  But, if you are able to generate a PDF, then you should be able to generate an XML. If you encounter a puzzling error try the "debug" version which will give you an idea of where it blew up.   
+Error messages from the XML translator are not useful.  But, if you are able to generate a PDF, then you should be able to generate an XML. If you encounter a puzzling error try the "debug" version which will give you an idea of where it blew up.   
 
 ```
 $ make ch2/main.xmldbg
@@ -333,24 +359,22 @@ $ make ch2/main.xmldbg
 
 # Usage
 
+Assuming that you structure your book as suggested above, then you will mostly be using the Makefile but you could also use the MTL tools directly. 
 
-## Binaries
-  There are three separate tools that are available to the user
-
-### Tool: texmlt  (read "tech-melt")
+## Tool: texmlt  (read "tech-melt")
 This tools translates the given input LaTeX file to xml.
 
 Example: `texmlt -meta ./meta input_file.tex -o output_file.xml`
 
 The meta direcotry contains some files that may be used in the xml translation.  You can ignore this to start with.
 
-### Tool: texmlt.dbg 
+## Tool: texmlt.dbg 
 This tools is the "debug" version of the texmlt binary above. As you might notite, `texmlt` doesn't currenty give reasonable error messages.  The debug version prints out the text that it parses, so you can have some sense of where things have gone wrong.  As you will learn below, `texmlt` should work if your latex sources are otherwise correct (you can run them through pdflatex), so hopefully, you will not have to use this binary much.  
 
 Example: `texmlt -meta ./meta input_file.tex -o output_file.xml `
 
 
-### Tool: tex2tex
+## Tool: tex2tex
 This tools reads in your LaTeX sources, parses them, and writes it back.  It drops comments and normalized the whitespace but should otherwise return back a LaTeX file that is essentially the same as the input file.   You should not need to use this binary, which is primarily used for testing during development.
 
 Examples: 
@@ -383,7 +407,7 @@ chapter_label will be `star`.
 
 The tool takes the label, split it at the delimiters [:_]+ and if the prefix starts with "ch" it take the rest of the label as the chapter label.
  
-Some exmaple full labels:
+Some example full labels:
 * xmpl:star:simpleexample
 * thm:star:costbound
 

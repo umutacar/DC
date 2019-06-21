@@ -1,7 +1,7 @@
 PDFLATEX = pdflatex
 LATEX = latex
 
-PREAMBLE = ./templates/diderot-preamble.tex
+PREAMBLE = ./templates/preamble-mtl.tex
 PANDOC = pandoc --verbose --mathjax -f latex
 
 ifeq ($(OS),Windows_NT)
