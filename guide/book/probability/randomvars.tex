@@ -67,6 +67,7 @@ to the event ``the dice sum to 4''.
 \end{flex}
 
 \begin{flex}
+
 \begin{gram}[Notation]
 For a random variable $X$ and a value $x \in \R$, we use the following
 shorthand for the event corresponding to $X$ equaling $x$:
@@ -138,7 +139,7 @@ prime number no less than the outcome is
 \end{example}
 \end{flex}
 
-\begin{gram}
+
 Note that much like a probability measure, a probability mass function is
 a non-negative function.
 %
@@ -159,9 +160,9 @@ space, and we have
 %
 These are the important properties of probability mass functions: they
 are non-negative, normalizing, and are additive in a certain sense. 
-\end{gram}
 
-\begin{gram}
+
+
 We can also compute the probability mass function for multiple random
 variables defined for the same probability space.
 %
@@ -188,7 +189,6 @@ Here
 In our analysis or randomized algorithms, we shall repeatedly
 encounter a number of well-known random variables and create new ones
 from existing ones by composition.
-\end{gram}
 
 
 \section{Bernoulli, Binomial, and Geometric RVs}
@@ -246,7 +246,7 @@ Its probability mass function for any $0 \le x$ is
 \label{sec:probability::randvar::functionsof}
 
 \begin{flex}
-  \begin{gram}
+
     It is often useful to ``apply'' a function to one or more random
     variables to generate a new random variable.   Specifically if we a
     function $f : \mathbb{R} \rightarrow \mathbb{R}$ and
@@ -276,7 +276,7 @@ write the probability mass function as
 %% \[
 %% \pmf{Z}(z) = \sum_{(x,y) \sucht g(x,y) = z}{\pmf{X,Y}(x,y)}.
 %% \]
-\end{gram}
+
 
 \begin{example}
 Let $X$ be a Bernoulli random variable with parameter $p$.  We can
@@ -343,7 +343,7 @@ This yields
 \label{sec:probability::randvar::conditioning}
 
 \begin{flex}
-\begin{gram}
+
 In the same way that we can condition an event on another, we can also
 condition a random variable on an event or on another random variable.
 %
@@ -362,7 +362,7 @@ ordinary probability mass functions, i.e., $\pmf{X \given A}(x) = 1$.
 Thus just as we can treat conditional probabilities as ordinary
 probabilities, we can treat conditional probability  mass functions
 also as ordinary probability mass functions.
-\end{gram}
+
 
 %% \begin{notesonly}
 %% Note that the events $\event{X}{x} \cap A$ are disjoint for different
@@ -458,7 +458,6 @@ mass functions from conditional ones:
 \section{Independence}
 \label{sec:probability::randvar::independence}
 
-\begin{gram}
 As with the notion of independence between events, we can also define
 independence between random variables and events.
 %
@@ -492,6 +491,6 @@ dice are independent.
 %
 However $X$ is not independent of a random variable $Z$ representing
 the sum of the values of the two dice.
-\end{gram}
+
 
 

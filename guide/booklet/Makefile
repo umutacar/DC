@@ -19,8 +19,9 @@ else
 endif
 
 
-TEX2XML = $(MTL_HOME)/tex2xml
-TEX2XMLDBG = $(MTL_HOME)/tex2xml.dbg
+TEX2XML = $(MTL_HOME)/texmlt
+TEX2XMLDBG = $(MTL_HOME)/texmlt.dbg
+
 
 default: book.pdf
 
@@ -38,11 +39,13 @@ reset:
 ######################################################################
 ## BEGIN: XML
 ######################################################################
+
 %.xml : %.tex FORCE
-	$(TEX2XML) $< $(PREAMBLE) $@
+	$(TEX2XML) -meta ./meta -preamble $(PREAMBLE) $< -o $@
 
 %.xmldbg : %.tex
-	$(TEX2XMLDBG) $< $(PREAMBLE) $@
+	$(TEX2XMLDBG) -meta ./meta -preamble $(PREAMBLE) $< -o $@
+
 
 ######################################################################
 ## END: XML

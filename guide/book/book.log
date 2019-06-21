@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  25 MAY 2019 12:25
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017) (preloaded format=pdflatex 2017.5.23)  20 JUN 2019 21:37
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1151,7 +1151,7 @@ LaTeX Font Info:    Font shape `OT1/ppl/bx/it' in size <10> not available
 
 
 ] [4] [5] [6]
-Overfull \hbox (0.9078pt too wide) in paragraph at lines 413--420
+Overfull \hbox (0.9078pt too wide) in paragraph at lines 414--421
  []\OT1/ppl/b/n/10 Independence and Con-di-tional Prob-a-bil-ity. \OT1/ppl/m/n/
 10 Re-call that $\OT1/cmr/bx/n/10 P [] \OT1/cmr/m/n/10 = []$ \OT1/ppl/m/n/10 wh
 en $\OT1/cmr/bx/n/10 P [] \OML/cmm/m/it/10 >
@@ -1255,10 +1255,10 @@ e3.jpg used on input line 182.
  [24 <./graph-contraction/media-introduction/contract-example3.jpg>]
 
 LaTeX Warning: Hyper reference `ch:design::contraction' on page 25 undefined on
- input line 233.
+ input line 231.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 288--291
+Underfull \hbox (badness 10000) in paragraph at lines 285--288
 
  []
 
@@ -1270,7 +1270,7 @@ File: ./graph-contraction/media-introduction/contract-example5.jpg Graphic file
 
 <use ./graph-contraction/media-introduction/contract-example5.jpg>
 Package pdftex.def Info: ./graph-contraction/media-introduction/contract-exampl
-e5.jpg used on input line 309.
+e5.jpg used on input line 306.
 (pdftex.def)             Requested size: 361.34999pt x 83.04062pt.
 
 <./graph-contraction/media-introduction/graph-contraction-example-1.jpg, id=375
@@ -1280,7 +1280,7 @@ aphic file (type jpg)
 
 <use ./graph-contraction/media-introduction/graph-contraction-example-1.jpg>
 Package pdftex.def Info: ./graph-contraction/media-introduction/graph-contracti
-on-example-1.jpg used on input line 314.
+on-example-1.jpg used on input line 311.
 (pdftex.def)             Requested size: 289.07999pt x 187.6427pt.
 
 [26 <./graph-contraction/media-introduction/contract-example5.jpg> <./graph-con
@@ -1346,7 +1346,7 @@ zed.jpg used on input line 212.
 File: ./graph-contraction/media-edge/cycle-graph.jpg Graphic file (type jpg)
  <use ./graph-contraction/media-edge/cycle-graph.jpg>
 Package pdftex.def Info: ./graph-contraction/media-edge/cycle-graph.jpg used on
- input line 255.
+ input line 253.
 (pdftex.def)             Requested size: 108.405pt x 110.615pt.
  [32 <./graph-contraction/media-edge/cycle-graph.jpg>]
 <./graph-contraction/media-edge/edge-contraction-example.jpg, id=442, 355.3275p
@@ -1356,7 +1356,7 @@ File: ./graph-contraction/media-edge/edge-contraction-example.jpg Graphic file
 
 <use ./graph-contraction/media-edge/edge-contraction-example.jpg>
 Package pdftex.def Info: ./graph-contraction/media-edge/edge-contraction-exampl
-e.jpg used on input line 373.
+e.jpg used on input line 371.
 (pdftex.def)             Requested size: 361.34999pt x 274.59361pt.
 
 Underfull \vbox (badness 4254) has occurred while \output is active []
@@ -1364,7 +1364,7 @@ Underfull \vbox (badness 4254) has occurred while \output is active []
  [33]
 
 LaTeX Warning: Hyper reference `ch:randomization::select' on page 34 undefined 
-on input line 390.
+on input line 388.
 
 ) [34 <./graph-contraction/media-edge/edge-contraction-example.jpg>]
 \openout2 = `graph-contraction/star.aux'.
@@ -1378,7 +1378,7 @@ t>
 File: ./graph-contraction/media-star/star-graph1.jpg Graphic file (type jpg)
  <use ./graph-contraction/media-star/star-graph1.jpg>
 Package pdftex.def Info: ./graph-contraction/media-star/star-graph1.jpg used on
- input line 46.
+ input line 44.
 (pdftex.def)             Requested size: 108.405pt x 108.40573pt.
  [35
 
@@ -1391,7 +1391,7 @@ File: ./graph-contraction/media-star/star-decomposition-1.jpg Graphic file (typ
 e jpg)
  <use ./graph-contraction/media-star/star-decomposition-1.jpg>
 Package pdftex.def Info: ./graph-contraction/media-star/star-decomposition-1.jp
-g used on input line 78.
+g used on input line 76.
 (pdftex.def)             Requested size: 357.73407pt x 121.83855pt.
 
 [36 <./graph-contraction/media-star/star-decomposition-1.jpg>]
@@ -1400,10 +1400,10 @@ t>
 File: ./graph-contraction/media-star/star-find0.jpg Graphic file (type jpg)
  <use ./graph-contraction/media-star/star-find0.jpg>
 Package pdftex.def Info: ./graph-contraction/media-star/star-find0.jpg used on 
-input line 171.
+input line 169.
 (pdftex.def)             Requested size: 433.62pt x 123.10077pt.
 
-Overfull \hbox (36.135pt too wide) in paragraph at lines 171--172
+Overfull \hbox (36.135pt too wide) in paragraph at lines 169--170
  [] 
  []
 
@@ -1412,10 +1412,10 @@ File: ./graph-contraction/media-star/star-find0.jpg Graphic file (type jpg)
 
 <use ./graph-contraction/media-star/star-find0.jpg>
 Package pdftex.def Info: ./graph-contraction/media-star/star-find0.jpg used on 
-input line 297.
+input line 295.
 (pdftex.def)             Requested size: 433.62pt x 123.10077pt.
 
-Overfull \hbox (36.135pt too wide) in paragraph at lines 297--298
+Overfull \hbox (36.135pt too wide) in paragraph at lines 295--296
  [] 
  []
 
@@ -1423,7 +1423,7 @@ Overfull \hbox (36.135pt too wide) in paragraph at lines 297--298
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [38]
-Overfull \hbox (8.87085pt too wide) in paragraph at lines 318--329
+Overfull \hbox (8.87085pt too wide) in paragraph at lines 316--327
 \OT1/ppl/m/n/10 one el-e-ment for each key in the do-main. Now for all re-main-
 ing ver-tices $\OML/cmm/m/it/10 V[] \OT1/cmr/m/n/10 = \OML/cmm/m/it/10 V \OMS/c
 msy/m/n/10 n []\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ) =
@@ -1431,10 +1431,10 @@ msy/m/n/10 n []\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 P\OT1/cmr/m/n/10 ) =
 
 
 LaTeX Warning: Hyper reference `sec:graphs:graphs::edgesets' on page 39 undefin
-ed on input line 359.
+ed on input line 357.
 
 [39] [40]
-Overfull \hbox (17.17046pt too wide) in paragraph at lines 504--509
+Overfull \hbox (17.17046pt too wide) in paragraph at lines 502--507
 [][]\OT1/ppl/b/n/10 Algorithm 6.5 \OT1/ppl/m/n/10 (Star Con-trac-tion)\OT1/ppl/
 b/n/10 . []\OT1/ppl/m/n/10 The pseudo-code be-low gives a higher-order star-con
 traction
@@ -1514,13 +1514,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 19596 strings out of 492995
- 328967 string characters out of 6132704
- 421718 words of memory out of 5000000
- 22584 multiletter control sequences out of 15000+600000
+ 19593 strings out of 492995
+ 328844 string characters out of 6132704
+ 421593 words of memory out of 5000000
+ 22581 multiletter control sequences out of 15000+600000
  33806 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 42i,16n,37p,10359b,615s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 42i,16n,37p,10359b,616s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2017/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
 exlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/te
 xlive/2017/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb></usr/local/texl
@@ -1542,7 +1542,7 @@ s/type1/urw/palatino/uplb8a.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1
 alatino/uplr8a.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/urw/palatino
 /uplr8a.pfb></usr/local/texlive/2017/texmf-dist/fonts/type1/urw/palatino/uplri8
 a.pfb>
-Output written on book.pdf (53 pages, 1194718 bytes).
+Output written on book.pdf (53 pages, 1194733 bytes).
 PDF statistics:
  698 PDF objects out of 1000 (max. 8388607)
  602 compressed objects within 7 object streams

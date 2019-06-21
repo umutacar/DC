@@ -1,9 +1,7 @@
 PDFLATEX = pdflatex
 LATEX = latex
-WWW-BOOK = ~/Google\ Drive/algorithms-book
 
 PREAMBLE = ./templates/diderot-preamble.tex
-# resource paths don't seem to work
 PANDOC = pandoc --verbose --mathjax -f latex
 
 ifeq ($(OS),Windows_NT)
@@ -18,21 +16,22 @@ else
 	endif
 endif
 
-TEX2XML = $(MTL_HOME)/tex2xml
-TEX2XMLDBG = $(MTL_HOME)/tex2xml.dbg
+TEX2XML = $(MTL_HOME)/texmlt
+TEX2XMLDBG = $(MTL_HOME)/texmlt.dbg
 
 default: book
 
 FORCE: 
 
-.PHONY: book html book-www book.pdf 
+.PHONY: book html book.pdf 
 
 
 %.xml : %.tex FORCE
-	$(TEX2XML) $< $(PREAMBLE) $@
+	$(TEX2XML) -meta ./meta -preamble $(PREAMBLE) $< -o $@
 
 %.xmldbg : %.tex
-	$(TEX2XMLDBG) $< $(PREAMBLE) $@
+	$(TEX2XML) -meta ./meta -preamble $(PREAMBLE) $< -o $@
+
 
 clean: 
 	rm *.aux *.idx *.log *.out *.toc */*.aux */*.idx */*.log */*.out 

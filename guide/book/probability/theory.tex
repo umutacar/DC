@@ -13,13 +13,13 @@ This chapter introduces the basics of discrete probability theory.
 \section{Probability Spaces}
 \label{sec:probability::theory::spaces}
 
-\begin{gram}
+
 Probability theory is a mathematical study of uncertain situations
 such as a dice game.
 %
 In probability theory, we model a situation with an uncertain \defn{outcome} as an~\defn{experiment} and reason carefully about the likelihood of various outcomes in precise mathematical terms. 
 %
-\end{gram}
+
 
 \begin{example}
 Suppose we have two \emph{fair} dice, meaning that each is equally
@@ -202,20 +202,20 @@ of the event $B$ (that the dice add to 4) would be
 \section{Properties of Probability Spaces}
 \label{sec:probability::theory::spaces-properties}
 
-\begin{gram}
+
 Given a probability space, we can prove several properties of
 probability measures by using the three axioms that they must satisfy.
-
+%
 For example, if for two events $A$ and $B$.  We have
 \begin{itemize}
 \item if $A \subseteq B$, then  $\prob{A} \le \prob{B}$,
 \item $\prob{A \cup B} = \prob{A}  + \prob{B} -  \prob{A \cap B}$.
 \end{itemize}
-\end{gram}
+
 
 \subsection{The Union Bound}
 \label{sec:probability::theory::union-bound}
-\begin{gram}
+
 The union bound, also known as Boole's inequality, is a simple way to
 obtain an upper bound on the probability of any of a collection of events
 happening.  Specifically for a collection of events
@@ -238,11 +238,11 @@ The union bound can be useful in generating high-probability bounds
 for algorithms. For example, when the probability of each of $n$
 events is very low, e.g. $1/n^5$ and the sum remains very low,
 e.g. $1/n^4$.
-\end{gram}
+
 
 \subsection{Conditional Probability}
 \label{sec:probability::theory::conditional-pr}
-\begin{gram}
+
 
 Conditional probability allows us to reason about dependencies between
 observations.  
@@ -259,7 +259,7 @@ positive, we might want to know  the probability that the patient has the diseas
 Or, given that your computer has been working fine for the past 2
 years, you might want to know the probability that it will continue
 working for one more year.
-\end{gram}
+
 
 \begin{definition}[Conditional Probability]
 For a given probability space, we define the \defn{conditional
@@ -315,13 +315,13 @@ Since each outcome is equally likely,
 
 \subsection{Law of Total Probability}
 \label{sec:probability::theory::LTP}
-\begin{gram}
+
   
 Conditional probabilities can be useful in estimating the probability
 of an event that may depend on a selection of choices.
 %
 The total probability theorem can be handy in such circumstances.
-\end{gram}
+
 
 \begin{flex}
 \begin{theorem}[Law of Total Probability]
@@ -385,7 +385,7 @@ know to be
 
 \subsection{Independence}
 \label{sec:probability::theory::independence}
- \begin{gram}
+
 It is sometimes important to reason about the dependency relationship
 between events.
 %
@@ -393,7 +393,7 @@ Intuitively we say that two events are independent if  the occurrence
 of one does not affect the probability of the other.
 %
 More precisely, we define independence as follows.  
-\end{gram}
+
   
 \begin{definition}[Independence]
 Two events $A$ and $B$ are \defn{independent}   if 
@@ -409,6 +409,7 @@ We say that multiple events $A_0, \dots, A_{n-1}$  are \defn{mutually
 \end{definition}
 
 \begin{flex}
+
 \begin{gram}[Independence and Conditional Probability]
 Recall that  $\prob{A \given B} = \frac{\prob{A \cap
     B}}{\prob{B}}$ when $\prob{B} > 0$. Thus if $\prob{A \given B} = \prob{A}$ then

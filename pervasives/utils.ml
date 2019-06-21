@@ -1,8 +1,7 @@
 open Core
 open Printf
 
-let debug = true
-
+let debug = false
 
 let str_of_str_opt so = 
 	match so with 
