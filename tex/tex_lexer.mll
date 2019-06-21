@@ -240,17 +240,12 @@ let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
-(* Ilists *)
-let p_chooseone = "xchoice"
-let p_chooseany = "anychoice"
+let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
-let p_ilist_separator = p_com_choice | p_com_correct_choice
-let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-                            | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-
-(* A latex environment consists of alphabethical chars plus an optional star *)
+(* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
 
+(* Segments *)
 let p_segment = 
 	p_chapter |
   p_section |
@@ -266,35 +261,41 @@ let p_segment_with_points =
   p_subsubsection_with_points | 
   p_paragraph_with_points
 
+(* Headings *)
 let p_heading = '\\' p_segment
 let p_heading_with_points = '\\' p_segment_with_points
 
+let p_group = ((p_cluster as kind) p_ws as kindws) |
+              ((p_flex as kind) p_ws as kindws) |
+              ((p_problem_cluster as kind) p_ws as kindws) 
 
-let p_ilist_kinds = (p_chooseone | p_chooseany)
-let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
+(* Groups *)
+let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
+let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
 
-let p_begin_ilist = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-(* point values now go with atoms.
-let p_begin_ilist_arg = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-*)
- 
-let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
 
 
-let p_group = ((p_cluster as kind) p_ws as kindws) |
-              ((p_flex as kind) p_ws as kindws) |
-              ((p_problem_cluster as kind) p_ws as kindws) 
+(* Ilists *)
+let p_multichoice = "xchoice"
 
-let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
-let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
+let p_choices_separator = p_com_choice | p_com_correct_choice
+let p_choices_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+                            | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
 
-let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
+
+let p_choices = (p_multichoice as kind) p_ws as kindws 
+let p_begin_choices = (p_com_begin p_ws as b) (p_o_curly as o) p_choices (p_c_curly as c) 
+let p_end_choices = (p_com_end p_ws as e) (p_o_curly as o) p_choices (p_c_curly as c) 
+
+
+
+
 
 
 (** END PATTERNS *)			
@@ -503,6 +504,15 @@ and take_env =
                     let (lopt, y, h_e) = take_env lexbuf in
                       (lopt, x ^ y, h_e)  
         }      
+	| p_begin_choices as x
+			{
+		   (* This should be at the top level, not nested within other env's.         
+        * It should also be at the tail of an environment.
+        *) 
+        let (choices, metas, h_e) = take_env_choices lexbuf in
+ 	        (None, l, h_e)
+      }
+
   | p_label_and_name as x
   		{ 
 (*		    let _ = d_printf "!lexer matched label %s." x in *)
@@ -584,6 +594,41 @@ and take_opt_arg =
        ((char_to_str x) ^ arg, c_sq)
     }
 
+and take_env_choices =
+	 parse
+	 | p_choice as x 
+	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
+	   let choices = (x, None, body)::choices in
+	     ("", choices, metas, h_e)	 	 
+	 }
+
+	 | p_end_choices as x 
+	 { let (metas, h_e) = take_env_metas lexbuf in
+	     ("", [], metas, h_e)	   
+	 }
+	 | _ as x 
+	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
+	   let body =  (char_to_str x) ^ body in
+	     (body, choices, metas, h_e)
+	 }
+
+and take_env_metas =
+	 parse
+	 | p_meta as x 
+	 { let (body, metas, h_e) = take_env_metas lexbuf in
+	   let metas = (x, None, body)::metas in
+	     ("", metas, h_e)	 	 
+	 }
+
+	 | p_end_env as x 
+	 { 
+	   ("", [], x)
+	 }
+	 | _ as x 
+	 { let (body, metas, h_e) = take_env_metas lexbuf in
+	   let body =  (char_to_str x) ^ body in
+	     (body, metas, h_e)
+	 }
 
 (** BEGIN TRAILER **)
 {
