@@ -3,6 +3,11 @@ open Printf
 
 let debug = false
 
+
+(* is C vertical space *)
+let is_vert_space c = 
+  c = '\n' || c = '\r' 
+
 let str_of_str_opt so = 
 	match so with 
 	| None -> ""

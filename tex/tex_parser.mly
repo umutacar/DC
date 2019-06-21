@@ -288,7 +288,7 @@ atom:
   tp_all = textpar;
   {	 
 	 let (popt, topt, lopt, body, all, ell) = tp_all in
-	 let all = String.strip all in
+	 let all = String.strip ~drop:is_vert_space all in
 	 let single = Tex.take_single_env all in
 	 let (kind, popt, topt,  lopt, body) = 
 	   match single with 
@@ -298,7 +298,7 @@ atom:
 				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
 	 in 
 (*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
-	 let body = String.strip body in
+	 let body = String.strip ~drop:is_vert_space body in
 	   if Tex.is_label_only body then
 (*			 let _ = d_printf "atom is label only" in *)
 			 ([ ], ell)
