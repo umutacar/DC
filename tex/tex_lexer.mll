@@ -725,6 +725,10 @@ let lexer: Lexing.lexbuf -> token =
 									
 						end
 				| HSPACE x -> 
+        (* IMPORTANT: We are skipping over some horizontal spaces.
+           This will show up if you compare input latex
+           with the latex serialization of AST
+         *)
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						begin
 						match get_trace () with 
