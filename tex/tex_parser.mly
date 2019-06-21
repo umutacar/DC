@@ -115,13 +115,15 @@ parstart:
 | d = PAR_SIGCHAR
   { let (d, elopt) = d in
 (*    let _ = d_printf "Parser matched par_sigchar = %s" d in *)
-	  (None, None, None, d, d, elopt) 
+    let is_env = false in
+	  (is_env, None, None, None, d, d, elopt) 
 	}
 | e = PAR_ENV
   { let (popt, topt, lopt, body, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
+    let is_env = true in
     let _ = d_printf "* env: %s\n" all in
-  	  (popt, topt, lopt, body, all, None)
+  	  (is_env, popt, topt, lopt, body, all, None)
   }
 
 /* All characters */
@@ -180,10 +182,14 @@ line_parstart:
   cs = chars;
   nl = newline
   {
-		let (popt, topt, lopt, body, all, elopt_ps) = ps in
+		let (is_env, popt, topt, lopt, body, all, elopt_ps) = ps in
 		let (cs, ell) = cs in
 		let l = hs ^ all  ^ cs ^ nl in
 		let all = hs ^ all ^ cs ^ nl in
+		let body = 
+			if is_env then body
+			else hs ^ body
+		in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
     (popt, topt, lopt, body, all, extend_labels ell elopt_ps)
   }
