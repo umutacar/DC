@@ -184,11 +184,10 @@ line_parstart:
   {
 		let (is_env, popt, topt, lopt, body, all, elopt_ps) = ps in
 		let (cs, ell) = cs in
-		let l = hs ^ all  ^ cs ^ nl in
 		let all = hs ^ all ^ cs ^ nl in
 		let body = 
 			if is_env then body
-			else hs ^ body
+			else hs ^ body ^ cs ^ nl
 		in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
     (popt, topt, lopt, body, all, extend_labels ell elopt_ps)

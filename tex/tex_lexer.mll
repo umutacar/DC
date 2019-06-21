@@ -586,7 +586,7 @@ and take_opt_arg =
      let (arg, c_sq) = take_opt_arg lexbuf in 
        (x ^ arg, c_sq)
     }
-  | (p_c_sq p_ws) as x
+  | (p_c_sq p_hs) as x
     {
      let _ = dec_arg_depth () in
        if arg_depth () = 0 then
