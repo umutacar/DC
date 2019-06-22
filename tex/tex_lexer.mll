@@ -97,17 +97,17 @@ let pvalopt_to_str x =
 
 let token_to_str tk =
 	match tk with 
-	| NEWLINE x -> "token = newline."
-	| HSPACE x ->  "token = hspace."
-	| ENV (popt, topt, lopt, x, choices, metas, all) ->  "token = env = " ^ all
-	| PAR_ENV (popt, topt, lopt, x, choices, metas, all) ->  "token = env = " ^ all
-	| PAR_SIGCHAR (x, lopt) -> "token = par sigchar: " ^ x
-	| SIGCHAR (x, lopt) ->  "token = sigchar: " ^ x 
-	| KW_BEGIN_GROUP (x, _, _) -> "token = begin group " ^ x
-	| KW_END_GROUP (x, _) -> "token = end group " ^ x
-	| KW_FOLD (x) -> "token = fold: " ^ x
-	| KW_HEADING (x, _, _) -> "token = heading: " ^ x
-  | EOF -> "token = EOF.";
+	| NEWLINE x -> "* lexer: token = newline."
+	| HSPACE x ->  "* lexer: token = hspace."
+	| ENV (popt, topt, lopt, x, choices, metas, all) ->  "* lexer: token = env = " ^ all
+	| PAR_ENV (popt, topt, lopt, x, choices, metas, all) ->  "* lexer: token = env = " ^ all
+	| PAR_SIGCHAR (x, lopt) -> "* lexer: token = par sigchar: " ^ x
+	| SIGCHAR (x, lopt) ->  "* lexer: token = sigchar: " ^ x 
+	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
+	| KW_END_GROUP (x, _) -> "* lexer: token = end group " ^ x
+	| KW_FOLD (x) -> "* lexer: token = fold: " ^ x
+	| KW_HEADING (x, _, _) -> "* lexer: token = heading: " ^ x
+  | EOF -> "* lexer: token = EOF.";
   | _ ->  "Fatal Error: token match not found!!!"
 
 (**********************************************************************
@@ -331,22 +331,22 @@ rule initial = parse
        KW_HEADING(kind, arg, Some point_val)
     }		
 
-| p_begin_group as x
-    {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ =  set_line_nonempty () in
-       KW_BEGIN_GROUP(kind, x, None)
-    }		
-
 | (p_begin_group as x) (p_o_sq as a)
     {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ = d_printf "!lexer matched begin group %s." kind in 
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_opt_arg lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, arg, None)
+    }		
+
+| p_begin_group as x
+    {
+(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ =  set_line_nonempty () in
+       KW_BEGIN_GROUP(kind, x, None)
     }		
 
 | p_com_fold as x
@@ -358,7 +358,7 @@ rule initial = parse
 
 | p_end_group as x
     {
-(*     let _ = d_printf "!lexer matched end group %s." kind in *)
+     let _ = d_printf "!lexer matched end group %s." kind in
      let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
@@ -504,7 +504,7 @@ and take_env =
         (* Prefix is what comes before the first choice, it should be whitespace
          * so it is dropped. 
          *)
-        let _ = d_printf "* lexer: end choices, leftover prefix = %s." prefix in 
+        let _ = d_printf "* lexer: end choices, end = %s, leftover prefix = %s." h_e prefix in 
 	        (* No labels.
            * Drop choices from body, by returning empty. 
            *)
@@ -614,20 +614,20 @@ and take_env_choices =
 	 parse
 	 | p_choices_separator as x 
 	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
-     let _ = d_printf "* lexer: choice: kind %s body = %s" kind body in
+     let _ = d_printf "* lexer: choice: kind %s body = %s\n" kind body in
 	   let choices = (kind, None, body)::choices in
 	     ("", choices, metas, h_e)	 	 
 	 }
 
 	 | p_choices_separator_arg as x 
 	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
-     let _ = d_printf "* lexer: choice: kind %s points = %s body = %s" kind point_val body in
+     let _ = d_printf "* lexer: choice: kind %s points = %s body = %s\n" kind point_val body in
 	   let choices = (kind, Some point_val, body)::choices in
 	     ("", choices, metas, h_e)	 	 
 	 }
 
 	 | p_end_choices as x 
-	 { let _ = d_printf "* lexer: end choices: %s" x in
+	 { let _ = d_printf "* lexer: end choices: %s\n" x in
      let (body, metas, h_e) = take_env_metas lexbuf in	 
 	     ("", [], metas, h_e)	   
 	 }
@@ -642,14 +642,20 @@ and take_env_metas =
 	 parse
 	 | p_env_meta as x 
 	 { let (body, metas, h_e) = take_env_metas lexbuf in
-	   let metas = (x, body)::metas in
+     let _ = d_printf "* lexer: meta kind = %s body = %s \n" kind body in 
+	   let metas = (kind, body)::metas in
 	     ("", metas, h_e)	 	 
 	 }
 
+   (* TODO: can we have environment inside metas?
+    * In principle yes, so we need to nest these things.
+    *)
 	 | p_end_env as x 
 	 { 
+     let _ = d_printf "* lexer: meta end_env = %s \n" x in 
 	   ("", [], x)
 	 }
+
 	 | _ as x 
 	 { let (body, metas, h_e) = take_env_metas lexbuf in
 	   let body =  (char_to_str x) ^ body in

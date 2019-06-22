@@ -342,7 +342,7 @@ let find_all_env contents  =
 		  (assert ok;
 			 Some (all_begin, all_end))
 	with
-    Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
+    Invalid_argument x -> (printf "Fatal Error: Internal Error in tex_syntax.find_env: %s\n" x; None) 
 
 let take_single_env contents = 
   match find_all_env contents with 
