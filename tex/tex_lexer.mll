@@ -99,8 +99,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "token = newline."
 	| HSPACE x ->  "token = hspace."
-	| ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
-	| PAR_ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
+	| ENV (popt, topt, lopt, x, choices, metas, all) ->  "token = env = " ^ all
+	| PAR_ENV (popt, topt, lopt, x, choices, metas, all) ->  "token = env = " ^ all
 	| PAR_SIGCHAR (x, lopt) -> "token = par sigchar: " ^ x
 	| SIGCHAR (x, lopt) ->  "token = sigchar: " ^ x 
 	| KW_BEGIN_GROUP (x, _, _) -> "token = begin group " ^ x
@@ -374,7 +374,7 @@ rule initial = parse
      let (lopt, body, choices, metas, h_e) = take_env lexbuf in
    	 let all = h_b ^ body ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(Some point_val, Some title, lopt, body, all)
+            ENV(Some point_val, Some title, lopt, body, choices, metas, all)
 }
 
 | p_begin_env_with_points as x
@@ -385,7 +385,7 @@ rule initial = parse
 					let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(Some point_val, None, lopt, body, all)
+            ENV(Some point_val, None, lopt, body, choices, metas, all)
           
       }   
 
@@ -400,7 +400,7 @@ rule initial = parse
       let (lopt, body, choices, metas, h_e) = take_env lexbuf in
    		let all = h_b ^ body ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(None, Some title, lopt, body, all)
+            ENV(None, Some title, lopt, body, choices, metas, all)
 }
 
 | p_begin_env as x
@@ -411,7 +411,7 @@ rule initial = parse
    				let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(None, None, lopt, body, all)
+            ENV(None, None, lopt, body, choices, metas, all)
           
       }   
 
