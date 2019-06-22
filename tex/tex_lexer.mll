@@ -498,9 +498,16 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let ("", choices, metas, h_e) = take_env_choices lexbuf in
+
         let _ = d_printf "* lexer: begin choices." in
-	        (* Drop choices from body *)
+        let (prefix, choices, metas, h_e) = take_env_choices lexbuf in
+        (* Prefix is what comes before the first choice, it should be whitespace
+         * so it is dropped. 
+         *)
+        let _ = d_printf "* lexer: end choices, leftover prefix = %s." prefix in 
+	        (* No labels.
+           * Drop choices from body, by returning empty. 
+           *)
  	        (None, "", choices, metas, h_e)
       }
   | p_begin_env as x
@@ -620,7 +627,8 @@ and take_env_choices =
 	 }
 
 	 | p_end_choices as x 
-	 { let (body, metas, h_e) = take_env_metas lexbuf in
+	 { let _ = d_printf "* lexer: end choices: %s" x in
+     let (body, metas, h_e) = take_env_metas lexbuf in	 
 	     ("", [], metas, h_e)	   
 	 }
 
