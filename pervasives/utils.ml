@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = false
+let debug = true
 
 
 (* is C vertical space *)

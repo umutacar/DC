@@ -492,6 +492,17 @@ and take_env =
           let (lopt, z, choices, metas, h_e) = take_env lexbuf in
             (lopt, x ^ y ^ z, choices, metas, h_e)          
       }   
+	| p_begin_choices as x
+			{
+		   (* This should be at the top level, not nested within other env's.         
+        * It should also be at the tail of an environment.
+        * TODO: check for these and return an error if not satisfied.
+        *) 
+        let ("", choices, metas, h_e) = take_env_choices lexbuf in
+        let _ = d_printf "* lexer: begin choices." in
+	        (* Drop choices from body *)
+ 	        (None, "", choices, metas, h_e)
+      }
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -511,17 +522,6 @@ and take_env =
                     let (lopt, y, choices, metas, h_e) = take_env lexbuf in
                       (lopt, x ^ y, choices, metas, h_e)  
         }      
-	| p_begin_choices as x
-			{
-		   (* This should be at the top level, not nested within other env's.         
-        * It should also be at the tail of an environment.
-        * TODO: check for these and return an error if not satisfied.
-        *) 
-        let ("", choices, metas, h_e) = take_env_choices lexbuf in
-	        (* Drop choices from body *)
- 	        (None, "", choices, metas, h_e)
-      }
-
   | p_label_and_name as x
   		{ 
 (*		    let _ = d_printf "!lexer matched label %s." x in *)
@@ -607,12 +607,14 @@ and take_env_choices =
 	 parse
 	 | p_choices_separator as x 
 	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
+     let _ = d_printf "* lexer: choice: kind %s body = %s" kind body in
 	   let choices = (kind, None, body)::choices in
 	     ("", choices, metas, h_e)	 	 
 	 }
 
 	 | p_choices_separator_arg as x 
 	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
+     let _ = d_printf "* lexer: choice: kind %s points = %s body = %s" kind point_val body in
 	   let choices = (kind, Some point_val, body)::choices in
 	     ("", choices, metas, h_e)	 	 
 	 }
@@ -621,6 +623,7 @@ and take_env_choices =
 	 { let (body, metas, h_e) = take_env_metas lexbuf in
 	     ("", [], metas, h_e)	   
 	 }
+
 	 | _ as x 
 	 { let (body, choices, metas, h_e) = take_env_choices lexbuf in
 	   let body =  (char_to_str x) ^ body in
