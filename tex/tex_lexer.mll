@@ -201,6 +201,7 @@ let p_com_correct_choice = '\\' "choice*"
 let p_com_fold = '\\' "fold"
 let p_com_explain = '\\' "explain"
 let p_com_hint = '\\' "help"
+let p_com_note = '\\' "note"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
@@ -242,6 +243,7 @@ let p_problem_cluster = "mproblem"
 
 let p_env_meta = (p_com_explain as kind) |
                  (p_com_hint as kind) |
+                 (p_com_note as kind) |
                  (p_com_refsol as kind) |
                  (p_com_rubric as kind) 
 
@@ -361,19 +363,6 @@ rule initial = parse
        KW_END_GROUP(kind, x)
     }		
 
-
-| p_begin_env_with_points as x
-      { 
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, choices, metas, h_e) = take_env lexbuf in
-					let all = x ^ body ^ h_e in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-					let _ =  set_line_nonempty () in
-            ENV(Some point_val, None, lopt, body, all)
-          
-      }   
-
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
@@ -388,15 +377,15 @@ rule initial = parse
             ENV(Some point_val, Some title, lopt, body, all)
 }
 
-| p_begin_env as x
+| p_begin_env_with_points as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_env () in		
           let (lopt, body, choices, metas, h_e) = take_env lexbuf in
-   				let all = x ^ body ^ h_e in
+					let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(None, None, lopt, body, all)
+            ENV(Some point_val, None, lopt, body, all)
           
       }   
 
@@ -413,6 +402,18 @@ rule initial = parse
      let _ =  set_line_nonempty () in
             ENV(None, Some title, lopt, body, all)
 }
+
+| p_begin_env as x
+      { 
+(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
+          let _ = do_begin_env () in		
+          let (lopt, body, choices, metas, h_e) = take_env lexbuf in
+   				let all = x ^ body ^ h_e in
+(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
+					let _ =  set_line_nonempty () in
+            ENV(None, None, lopt, body, all)
+          
+      }   
 
 | p_label_and_name as x
  		{ 
@@ -467,6 +468,7 @@ rule initial = parse
 		{EOF}
 | _
     {initial lexbuf}		
+
 and take_comment = 		
   parse
   | p_newline as x
