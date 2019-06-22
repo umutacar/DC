@@ -69,10 +69,28 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 
 %token <string> HSPACE
 %token <string> NEWLINE
+
+(* the "character" itself and the label defined if any *)
 %token <string * string option> SIGCHAR
-%token <string option * string option * string option * string * string> ENV
+(* the "character" itself and the label defined if any *)
 %token <string * string option> PAR_SIGCHAR
-%token <string option * string option * string option * string * string> PAR_ENV
+
+%token <string option *   (* points *)
+	      string option *   (* title *)
+        string option *   (* label *)
+        string *          (* body *)
+        ((bool * string) list) *     (* choices *)
+        ((string * string) list) *   (* metas *)
+	      string> ENV       (* all *)
+
+(* points, title, label, body, all *) 
+%token <string option *   (* points *)
+        string option *   (* title *)
+        string option *   (* label *)
+        string *          (* body *)
+        ((bool * string) list) *     (* choices *)
+        ((string * string) list) *   (* metas *)
+        string> PAR_ENV   (* all *)
 
 %start top
 
