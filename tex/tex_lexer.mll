@@ -99,8 +99,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "* lexer: token = newline."
 	| HSPACE x ->  "* lexer: token = hspace."
-	| ENV (popt, topt, lopt, x, choices, metas, all) ->  "* lexer: token = env = " ^ all
-	| PAR_ENV (popt, topt, lopt, x, choices, metas, all) ->  "* lexer: token = env = " ^ all
+	| ENV (popt, topt, lopt, x, items, all) ->  "* lexer: token = env = " ^ all
+	| PAR_ENV (popt, topt, lopt, x, items, all) ->  "* lexer: token = env = " ^ all
 	| PAR_SIGCHAR (x, lopt) -> "* lexer: token = par sigchar: " ^ x
 	| SIGCHAR (x, lopt) ->  "* lexer: token = sigchar: " ^ x 
 	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
@@ -195,11 +195,12 @@ let p_special_percent = p_backslash p_percent
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
-let p_com_choice = '\\' "choice"
-let p_com_correct_choice = '\\' "choice*"
 
-let p_com_fold = '\\' "fold"
+let p_com_ask = '\\' "ask"
+let p_com_choice = '\\' "choice"
+let p_com_choice_correct = '\\' "choice*"
 let p_com_explain = '\\' "explain"
+let p_com_fold = '\\' "fold"
 let p_com_hint = '\\' "help"
 let p_com_notes = '\\' "notes"
 let p_com_rubric = '\\' "rubric"
@@ -241,11 +242,20 @@ let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
-let p_env_meta = (p_com_explain as kind) |
-                 (p_com_hint as kind) |
-                 (p_com_notes as kind) |
-                 (p_com_refsol as kind) |
-                 (p_com_rubric as kind) 
+let p_questions = "ques"
+
+let p_item = 
+	(p_com_ask as kind) |
+	(p_com_choice as kind) |
+	(p_com_choice_correct as kind) |
+	(p_com_explain as kind) |
+  (p_com_hint as kind) |
+  (p_com_notes as kind) |
+  (p_com_refsol as kind) |
+  (p_com_rubric as kind) 
+
+let p_item_arg = 
+  p_item p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -259,7 +269,6 @@ let p_segment =
   p_subsection |
   p_subsubsection |
   p_paragraph  
-
 
 let p_segment_with_points =
 	p_chapter_with_points | 
@@ -287,22 +296,11 @@ let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly)
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
 
+let p_list = 
+	(p_questions as kind) p_ws as kindws 
 
-(* Ilists *)
-let p_multichoice = "xchoice"
-
-let p_choices_separator = (p_com_choice as kind) | (p_com_correct_choice as kind)
-let p_choices_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-                            | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-
-
-let p_choices = (p_multichoice as kind) p_ws as kindws 
-let p_begin_choices = (p_com_begin p_ws as b) (p_o_curly as o) p_choices (p_c_curly as c) 
-let p_end_choices = (p_com_end p_ws as e) (p_o_curly as o) p_choices (p_c_curly as c) 
-
-
-
-
+let p_begin_list = (p_com_begin p_ws as b) (p_o_curly as o) p_list (p_c_curly as c) 
+let p_end_list = (p_com_end p_ws as e) (p_o_curly as o) p_list (p_c_curly as c) 
 
 
 (** END PATTERNS *)			
@@ -371,21 +369,21 @@ rule initial = parse
      let h_b = x ^ a ^ title ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ = do_begin_env () in		
-     let (lopt, body, choices, metas, h_e) = take_env lexbuf in
+     let (lopt, body, items, h_e) = take_env lexbuf in
    	 let all = h_b ^ body ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(Some point_val, Some title, lopt, body, choices, metas, all)
+            ENV(Some point_val, Some title, lopt, body, items, all)
 }
 
 | p_begin_env_with_points as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_env () in		
-          let (lopt, body, choices, metas, h_e) = take_env lexbuf in
+          let (lopt, body, items, h_e) = take_env lexbuf in
 					let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(Some point_val, None, lopt, body, choices, metas, all)
+            ENV(Some point_val, None, lopt, body, items, all)
           
       }   
 
@@ -397,21 +395,21 @@ rule initial = parse
      let h_b = x ^ a ^ title ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ = do_begin_env () in		
-      let (lopt, body, choices, metas, h_e) = take_env lexbuf in
-   		let all = h_b ^ body ^ h_e in
+     let (lopt, body, items, h_e) = take_env lexbuf in
+   	 let all = h_b ^ body ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(None, Some title, lopt, body, choices, metas, all)
+            ENV(None, Some title, lopt, body, items, all)
 }
 
 | p_begin_env as x
       { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
           let _ = do_begin_env () in		
-          let (lopt, body, choices, metas, h_e) = take_env lexbuf in
+          let (lopt, body, items, h_e) = take_env lexbuf in
    				let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
 					let _ =  set_line_nonempty () in
-            ENV(None, None, lopt, body, choices, metas, all)
+            ENV(None, None, lopt, body, items, all)
           
       }   
 
@@ -483,9 +481,6 @@ and take_comment =
        (char_to_str x) ^ comment
     }
 
-(*
-     let (body, metas, h_e) = take_env_metas lexbuf in	 
-*)
 
 and take_env =
   parse
@@ -494,10 +489,10 @@ and take_env =
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let (lopt, z, choices, metas, h_e) = take_env lexbuf in
-            (lopt, x ^ y ^ z, choices, metas, h_e)          
+          let (lopt, z, items, h_e) = take_env lexbuf in
+            (lopt, x ^ y ^ z, items, h_e)          
       }   
-	| p_begin_choices as x
+	| p_begin_list as x
 			{
 		   (* This should be at the top level, not nested within other env's.         
         * It should also be at the tail of an environment.
@@ -505,22 +500,24 @@ and take_env =
         *) 
 
         let _ = d_printf "* lexer: begin choices." in
-        let (prefix, choices, h_e) = take_env_choices lexbuf in
+        let (prefix, items) = take_list lexbuf in
         (* Prefix is what comes before the first choice, it should be whitespace
          * so it is dropped. 
          *)
-        let _ = d_printf "* lexer: end choices, end = %s, leftover prefix = %s." h_e prefix in 
+        let _ = d_printf "* lexer: end list, leftover prefix = %s." prefix in 
+        let (lopt__, y, items__, h_e) = take_env lexbuf in
 	        (* No labels.
-           * Drop choices from body, by returning empty. 
+           * Drop items from body, by returning empty. 
+           * The recursive call must not return items or anything else really.
            *)
- 	        (None, "", choices, h_e)
+ 	        (None, y, items, h_e)
       }
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
             let _ = do_begin_env () in
-            let (lopt, y, choices, metas, h_e) = take_env lexbuf in
-                (lopt, x ^ y, choices, metas, h_e)              
+            let (lopt, y, items, h_e) = take_env lexbuf in
+                (lopt, x ^ y, items, h_e)              
         }
 
   | p_end_env as x
@@ -529,44 +526,36 @@ and take_env =
             let do_exit = do_end_env () in
                 if do_exit then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        ( None, "", [], [], x)
+                        ( None, "", [], x)
                 else
-                    let (lopt, y, choices, metas, h_e) = take_env lexbuf in
-                      (lopt, x ^ y, choices, metas, h_e)  
+                    let (lopt, y, items, h_e) = take_env lexbuf in
+                      (lopt, x ^ y, items, h_e)  
         }      
   | p_label_and_name as x
   		{ 
 (*		    let _ = d_printf "!lexer matched label %s." x in *)
 				let all = label_pre ^ label_name ^ label_post in
-        let (lopt, y, choices, metas, h_e) = take_env lexbuf in
+        let (lopt, y, items, h_e) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
-          (Some label_name, all ^ y, choices, metas, h_e)  
+          (Some label_name, all ^ y, items, h_e)  
 			}		
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (lopt, y, choices, metas, h_e) = take_env lexbuf in
-          (lopt, x ^ y, choices, metas, h_e)
+     let (lopt, y, items, h_e) = take_env lexbuf in
+          (lopt, x ^ y, items, h_e)
     }
   | p_percent as x   (* skip over comments *)
    	{ 
      let y = take_comment lexbuf in
-     let (lopt, z, choices, metas, h_e) = take_env lexbuf in 
-          (lopt, (char_to_str x) ^ y ^ z, choices, metas, h_e)
+     let (lopt, z, items, h_e) = take_env lexbuf in 
+          (lopt, (char_to_str x) ^ y ^ z, items, h_e)
      } 
 
-	| p_env_meta as x 
-	 { let (body, metas, h_e) = take_env_metas lexbuf in
-     let _ = d_printf "* lexer: meta kind = %s body = %s \n" kind body in 
-	   let metas = (kind, body)::metas in
-	     ("", metas, h_e)	 	 
-	 }
-
-
   | _  as x
-        { let (lopt, y, choices, metas, h_e) = take_env lexbuf in
-            (lopt, (char_to_str x) ^ y, choices, metas, h_e)
+        { let (lopt, y, items, h_e) = take_env lexbuf in
+            (lopt, (char_to_str x) ^ y, items, h_e)
         }
 and verbatim =
   parse
@@ -624,33 +613,34 @@ and take_opt_arg =
        ((char_to_str x) ^ arg, c_sq)
     }
 
-and take_env_choices =
+and take_list =
 	 parse
-	 | p_choices_separator as x 
-	 { let (body, choices, h_e) = take_env_choices lexbuf in
-     let _ = d_printf "* lexer: choice: kind %s body = %s\n" kind body in
-	   let choices = (kind, None, body)::choices in
-	     ("", choices, h_e)	 	 
+	 | p_item_arg as x 
+	 { let (body, items) = take_list lexbuf in
+     let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
+	   let items = (kind, Some point_val, body)::items in
+	     ("", items)	 	 
 	 }
-
-	 | p_choices_separator_arg as x 
-	 { let (body, choices, h_e) = take_env_choices lexbuf in
-     let _ = d_printf "* lexer: choice: kind %s points = %s body = %s\n" kind point_val body in
-	   let choices = (kind, Some point_val, body)::choices in
-	     ("", choices, h_e)	 	 
+	 | p_item as x 
+	 { let (body, items) = take_list lexbuf in
+     let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
+	   let items = (kind, None, body)::items in
+	     ("", items)	 	 
 	 }
-
-	 | p_end_choices as x 
-	 { let _ = d_printf "* lexer: end choices: %s\n" x in
-	     ("", [], h_e)	   
+   (* TODO: can we have environment inside metas?
+    * In principle yes, so we need to nest these things.
+    *)
+	 | p_end_list as x 
+	 { let _ = d_printf "* lexer: end list %s\n" x in
+	     ("", [])	   
 	 }
 
 	 | _ as x 
-	 { let (body, choices, h_e) = take_env_choices lexbuf in
+	 { let (body, choices) = take_list lexbuf in
 	   let body =  (char_to_str x) ^ body in
-	     (body, choices, h_e)
+	     (body, choices)
 	 }
-
+(*
 and take_env_metas =
 	 parse
 	 | p_env_meta as x 
@@ -674,6 +664,8 @@ and take_env_metas =
 	   let body =  (char_to_str x) ^ body in
 	     (body, metas, h_e)
 	 }
+
+*)
 
 (** BEGIN TRAILER **)
 {

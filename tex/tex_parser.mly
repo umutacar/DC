@@ -79,8 +79,7 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 	      string option *   (* title *)
         string option *   (* label *)
         string *          (* body *)
-        ((string * string option * string) list) *   (* choices: kind, point opt, body *)
-        ((string * string) list) *   (* metas: kind * body *)
+        ((string * string option * string) list) *   (* items kind, point opt, body *)
 	      string> ENV       (* all *)
 
 (* points, title, label, body, all *) 
@@ -88,8 +87,7 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
         string option *   (* title *)
         string option *   (* label *)
         string *          (* body *)
-        ((string * string option * string) list) *     (* choices *)
-        ((string * string) list) *   (* metas *)
+        ((string * string option * string) list) *     (* items *)
         string> PAR_ENV   (* all *)
 
 %start top
@@ -122,7 +120,7 @@ sigchar:
   	(d, ellopt) 
 	}
 | e = ENV
-  { let (popt, topt, lopt, body, choices, metas, all) = e in
+  { let (popt, topt, lopt, body, items, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
     let _ = d_printf "* env: %s\n" all in
   	  (all, None)
@@ -137,7 +135,7 @@ parstart:
 	  (is_env, None, None, None, d, d, elopt) 
 	}
 | e = PAR_ENV
-  { let (popt, topt, lopt, body, choices, metas, all) = e in
+  { let (popt, topt, lopt, body, items, all) = e in
     let label = match lopt with | None -> "" | Some l -> l in
     let is_env = true in
     let _ = d_printf "* env: %s\n" all in
