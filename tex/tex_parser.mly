@@ -56,6 +56,8 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 	in
 	List.partition_tf segments is_subsegment
 
+let str_of_items items = 
+	str_of_str2_list items
 %}	
 
 %token EOF
@@ -113,7 +115,9 @@ hspaces:
   x = hspace
   { xs ^ x }
 
-/* Non-space char */
+/* Non-space char.
+ * Not at a paragraph-start position.
+ */
 sigchar: 
 | d = SIGCHAR
   { let (d, ellopt) = d in

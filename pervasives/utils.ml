@@ -17,6 +17,10 @@ let str_of_str_opt so =
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
 
+let str_of_str2_list (xs: (string * string) list): string = 
+	let l = List.map xs ~f:(fun (item, body) -> item ^ " " ^ body) in 
+  String.concat ~sep:", " l
+
 (* BEGIN: Debug Prints *) 
 
 
@@ -40,7 +44,6 @@ let d_printf_strlist heading (xs: string list) =
     d_printf "%s = %s \n" heading s  
 
 (* END Debug Prints *) 
-
 
 
 (* BEGIN: File names etc *) 

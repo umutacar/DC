@@ -344,11 +344,18 @@ let find_all_env contents  =
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error in tex_syntax.find_env: %s\n" x; None) 
 
+(* Given contents string
+ * check if contents has the "atomic" form
+ * \begin{env} body \end{env}.
+ * Atomic means that env does not occur within body.
+ * (We don't allow for nesting of atoms.)
+ * Return env and body if match occurs, None otherwise.
+ *)
 let take_single_env contents = 
   match find_all_env contents with 
 	| None -> None
-	| Some (all_envs, _) -> 
-			let envs = uniques_of_list all_envs in
+	| Some (all_envs, _) ->      
+			let uniques = uniques_of_list all_envs in
 			let check env =
 				let pb = pattern_begin env in
 				let pe = pattern_end env in
@@ -363,8 +370,8 @@ let take_single_env contents =
 								let _ = d_printf "tex_syntax.take_env_body matched body: \n %s" body in
 								Some (env, body)
 			in
-			let rec check_all envs = 
-				match envs with 
+			let rec check_all uniques = 
+				match uniques with 
 				| [ ] -> None 
 				| h::t -> 
 						begin
@@ -373,7 +380,7 @@ let take_single_env contents =
 							| Some (env, body) -> Some (env, body)
 						end
 			in
-			check_all envs
+			check_all uniques
 
 let is_label_only contents = 
   let contents = String.strip contents in
