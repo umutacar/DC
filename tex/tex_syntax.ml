@@ -344,6 +344,10 @@ let find_all_env contents  =
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error in tex_syntax.find_env: %s\n" x; None) 
 
+(** TODO EXTEND THIS TO SOMETHING LIKE
+ ** IS_ATOMIC AND compare the kind against the atom keyword.
+ ** IF NO MATCH, NOT ATOM.
+ **)
 (* Given contents string
  * check if contents has the "atomic" form
  * \begin{env} body \end{env}.
