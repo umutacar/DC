@@ -89,18 +89,13 @@ let cache_remove () =
 
 (* Some Utilities *)
 let start = Lexing.lexeme_start
-let char_to_str x = String.make 1 x
-let pvalopt_to_str x = 
-  match x with 
-  | None -> "None"
-  | Some x -> "Some" ^ x
 
 let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "* lexer: token = newline."
 	| HSPACE x ->  "* lexer: token = hspace."
-	| ENV (popt, topt, lopt, x, items, all) ->  "* lexer: token = env = " ^ all
-	| PAR_ENV (popt, topt, lopt, x, items, all) ->  "* lexer: token = env = " ^ all
+	| ENV x ->  "* lexer: token = env = " ^ x
+	| PAR_ENV x ->  "* lexer: token = env = " ^ x
 	| PAR_SIGCHAR (x, lopt) -> "* lexer: token = par sigchar: " ^ x
 	| SIGCHAR (x, lopt) ->  "* lexer: token = sigchar: " ^ x 
 	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
@@ -305,7 +300,6 @@ let p_end_list = (p_com_end p_ws as e) (p_o_curly as o) p_list (p_c_curly as c)
 
 (** END PATTERNS *)			
 
-
 rule initial = parse
 | (p_heading as x) (p_o_curly as o_c)
     {
@@ -361,57 +355,15 @@ rule initial = parse
        KW_END_GROUP(kind, x)
     }		
 
-| (p_begin_env_with_points as x) (p_o_sq as a)
+| (p_begin_env as x)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
-(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ = do_begin_env () in		
-     let (lopt, body, items, h_e) = take_env lexbuf in
-   	 let all = h_b ^ body ^ h_e in
+     let (rest, h_e) = take_env lexbuf in
+   	 let all = x ^ rest ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(Some point_val, Some title, lopt, body, items, all)
+            ENV(all)
 }
-
-| p_begin_env_with_points as x
-      { 
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, items, h_e) = take_env lexbuf in
-					let all = x ^ body ^ h_e in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-					let _ =  set_line_nonempty () in
-            ENV(Some point_val, None, lopt, body, items, all)
-          
-      }   
-
-| (p_begin_env as x) (p_o_sq as a)
-    {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
-(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
-     let _ = do_begin_env () in		
-     let (lopt, body, items, h_e) = take_env lexbuf in
-   	 let all = h_b ^ body ^ h_e in
-     let _ =  set_line_nonempty () in
-            ENV(None, Some title, lopt, body, items, all)
-}
-
-| p_begin_env as x
-      { 
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, items, h_e) = take_env lexbuf in
-   				let all = x ^ body ^ h_e in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-					let _ =  set_line_nonempty () in
-            ENV(None, None, lopt, body, items, all)
-          
-      }   
 
 | p_label_and_name as x
  		{ 
@@ -424,9 +376,9 @@ rule initial = parse
 
 | p_sigchar as x
 		{
-(*     d_printf "!%s" (char_to_str x); *)
+(*     d_printf "!%s" (str_of_char x); *)
      let _ =  set_line_nonempty () in
-     SIGCHAR(char_to_str x, None)
+     SIGCHAR(str_of_char x, None)
     }
 
 | p_percent_esc as x 
@@ -438,9 +390,9 @@ rule initial = parse
 
 | p_percent as x 
 		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in *)
-     let comment = take_comment lexbuf in
-     let result = (char_to_str x) ^ comment in
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let rest = take_comment lexbuf in
+     let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
 		 if line_is_empty () then
       (* Drop comments *)
@@ -458,8 +410,8 @@ rule initial = parse
 
 | p_hspace as x
 		{
-(*     d_printf "!lexer found: horizontal space: %s." (char_to_str x); *)
-     HSPACE(char_to_str x)
+(*     d_printf "!lexer found: horizontal space: %s." (str_of_char x); *)
+     HSPACE(str_of_char x)
     }
 
 | eof
@@ -476,9 +428,9 @@ and take_comment =
     } 
   | _ as x 
     {
-     (* let _ = d_printf "take_comment: %s" (char_to_str x) in *)
+     (* let _ = d_printf "take_comment: %s" (str_of_char x) in *)
      let comment = take_comment lexbuf in 
-       (char_to_str x) ^ comment
+       (str_of_char x) ^ comment
     }
 
 
@@ -489,35 +441,15 @@ and take_env =
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let (lopt, z, items, h_e) = take_env lexbuf in
-            (lopt, x ^ y ^ z, items, h_e)          
+          let (rest, h_e) = take_env lexbuf in
+            (x ^ y ^ rest, h_e)          
       }   
-	| p_begin_list as x
-			{
-		   (* This should be at the top level, not nested within other env's.         
-        * It should also be at the tail of an environment.
-        * TODO: check for these and return an error if not satisfied.
-        *) 
-
-        let _ = d_printf "* lexer: begin choices." in
-        let (prefix, items) = take_list lexbuf in
-        (* Prefix is what comes before the first choice, it should be whitespace
-         * so it is dropped. 
-         *)
-        let _ = d_printf "* lexer: end list, leftover prefix = %s." prefix in 
-        let (lopt__, y, items__, h_e) = take_env lexbuf in
-	        (* No labels.
-           * Drop items from body, by returning empty. 
-           * The recursive call must not return items or anything else really.
-           *)
- 	        (None, y, items, h_e)
-      }
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
             let _ = do_begin_env () in
-            let (lopt, y, items, h_e) = take_env lexbuf in
-                (lopt, x ^ y, items, h_e)              
+            let (rest, h_e) = take_env lexbuf in
+                (x ^ rest, h_e)              
         }
 
   | p_end_env as x
@@ -526,36 +458,30 @@ and take_env =
             let do_exit = do_end_env () in
                 if do_exit then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        ( None, "", [], x)
+                        ( "", x)
                 else
-                    let (lopt, y, items, h_e) = take_env lexbuf in
-                      (lopt, x ^ y, items, h_e)  
+                    let (rest, h_e) = take_env lexbuf in
+                      (x ^ rest, h_e)  
         }      
-  | p_label_and_name as x
-  		{ 
-(*		    let _ = d_printf "!lexer matched label %s." x in *)
-				let all = label_pre ^ label_name ^ label_post in
-        let (lopt, y, items, h_e) = take_env lexbuf in
-          (* Important: Drop inner label lopt *)
-          (Some label_name, all ^ y, items, h_e)  
-			}		
+
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (lopt, y, items, h_e) = take_env lexbuf in
-          (lopt, x ^ y, items, h_e)
+     let (rest, h_e) = take_env lexbuf in
+          (x ^ rest, h_e)
     }
-  | p_percent as x   (* skip over comments *)
+  | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
-     let (lopt, z, items, h_e) = take_env lexbuf in 
-          (lopt, (char_to_str x) ^ y ^ z, items, h_e)
+     (* Keep comments inside envs *)
+     let (rest, h_e) = take_env lexbuf in 
+          ((str_of_char x) ^ y ^ rest, h_e)
      } 
 
   | _  as x
-        { let (lopt, y, items, h_e) = take_env lexbuf in
-            (lopt, (char_to_str x) ^ y, items, h_e)
+        { let (rest, h_e) = take_env lexbuf in
+            ((str_of_char x) ^ rest, h_e)
         }
 and verbatim =
   parse
@@ -566,7 +492,7 @@ and verbatim =
         }
   | _  as x
         { let y = verbatim lexbuf in
-            (char_to_str x) ^ y
+            (str_of_char x) ^ y
         }
 and take_arg = 
   parse 
@@ -588,7 +514,7 @@ and take_arg =
   | _ as x
     {
      let (arg, c_c) = take_arg lexbuf in 
-       ((char_to_str x) ^ arg, c_c)
+       ((str_of_char x) ^ arg, c_c)
     }
 and take_opt_arg = 
   parse 
@@ -610,62 +536,9 @@ and take_opt_arg =
   | _ as x
     {
      let (arg, c_sq) = take_opt_arg lexbuf in 
-       ((char_to_str x) ^ arg, c_sq)
+       ((str_of_char x) ^ arg, c_sq)
     }
 
-and take_list =
-	 parse
-	 | p_item_arg as x 
-	 { let (body, items) = take_list lexbuf in
-     let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
-	   let items = (kind, Some point_val, body)::items in
-	     ("", items)	 	 
-	 }
-	 | p_item as x 
-	 { let (body, items) = take_list lexbuf in
-     let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
-	   let items = (kind, None, body)::items in
-	     ("", items)	 	 
-	 }
-   (* TODO: can we have environment inside metas?
-    * In principle yes, so we need to nest these things.
-    *)
-	 | p_end_list as x 
-	 { let _ = d_printf "* lexer: end list %s\n" x in
-	     ("", [])	   
-	 }
-
-	 | _ as x 
-	 { let (body, choices) = take_list lexbuf in
-	   let body =  (char_to_str x) ^ body in
-	     (body, choices)
-	 }
-(*
-and take_env_metas =
-	 parse
-	 | p_env_meta as x 
-	 { let (body, metas, h_e) = take_env_metas lexbuf in
-     let _ = d_printf "* lexer: meta kind = %s body = %s \n" kind body in 
-	   let metas = (kind, body)::metas in
-	     ("", metas, h_e)	 	 
-	 }
-
-   (* TODO: can we have environment inside metas?
-    * In principle yes, so we need to nest these things.
-    *)
-	 | p_end_env as x 
-	 { 
-     let _ = d_printf "* lexer: meta end_env = %s \n" x in 
-	   ("", [], x)
-	 }
-
-	 | _ as x 
-	 { let (body, metas, h_e) = take_env_metas lexbuf in
-	   let body =  (char_to_str x) ^ body in
-	     (body, metas, h_e)
-	 }
-
-*)
 
 (** BEGIN TRAILER **)
 {

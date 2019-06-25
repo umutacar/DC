@@ -77,20 +77,10 @@ let str_of_items items =
 (* the "character" itself and the label defined if any *)
 %token <string * string option> PAR_SIGCHAR
 
-%token <string option *   (* points *)
-	      string option *   (* title *)
-        string option *   (* label *)
-        string *          (* body *)
-        ((string * string option * string) list) *   (* items kind, point opt, body *)
-	      string> ENV       (* all *)
+%token <string> ENV
 
 (* points, title, label, body, all *) 
-%token <string option *   (* points *)
-        string option *   (* title *)
-        string option *   (* label *)
-        string *          (* body *)
-        ((string * string option * string) list) *     (* items *)
-        string> PAR_ENV   (* all *)
+%token <string> PAR_ENV
 
 %start top
 
@@ -124,10 +114,8 @@ sigchar:
   	(d, ellopt) 
 	}
 | e = ENV
-  { let (popt, topt, lopt, body, items, all) = e in
-    let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "* env: %s\n" all in
-  	  (all, None)
+  { let _ = d_printf "* env: %s\n" e in
+  	  (e, None)
   }
 
 /* Non-space char at the beginning of a paragraph */
@@ -135,15 +123,11 @@ parstart:
 | d = PAR_SIGCHAR
   { let (d, elopt) = d in
 (*    let _ = d_printf "Parser matched par_sigchar = %s" d in *)
-    let is_env = false in
-	  (is_env, None, None, None, d, d, elopt) 
+	  (d, elopt) 
 	}
 | e = PAR_ENV
-  { let (popt, topt, lopt, body, items, all) = e in
-    let label = match lopt with | None -> "" | Some l -> l in
-    let is_env = true in
-    let _ = d_printf "* env: %s\n" all in
-  	  (is_env, popt, topt, lopt, body, all, None)
+  { let _ = d_printf "* env: %s\n" e in
+  	  (e, None)
   }
 
 /* All characters */
@@ -202,15 +186,11 @@ line_parstart:
   cs = chars;
   nl = newline
   {
-		let (is_env, popt, topt, lopt, body, all, elopt_ps) = ps in
+		let (ps, elopt) = ps in
 		let (cs, ell) = cs in
-		let all = hs ^ all ^ cs ^ nl in
-		let body = 
-			if is_env then body
-			else hs ^ body ^ cs ^ nl
-		in
+		let all = hs ^ ps ^ cs ^ nl in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
-    (popt, topt, lopt, body, all, extend_labels ell elopt_ps)
+    (all, extend_labels ell elopt)
   }
 
 
@@ -221,9 +201,9 @@ textpar:
 	| lp = line_parstart;
 		tail = textpar_tail;
 		{ 
-  	  let (popt, topt, lopt, body, all, ell_lp) = lp in
+  	  let (all, ell_lp) = lp in
 			let (tail, ell_tail) = tail in
- 	 		(popt, topt, lopt, body, all ^ tail, ell_lp @ ell_tail)
+ 	 		(all ^ tail, ell_lp @ ell_tail)
 	}  
 
 textpar_tail:
@@ -310,9 +290,9 @@ block:
 /*
 atom: 
   fs = emptylines;
-  tp_all = textpar;
+  tp = textpar;
   {	 
-	 let (popt, topt, lopt, body, all, ell) = tp_all in
+	 let (all, ell) = tp in
 	 let all = String.strip ~drop:is_vert_space all in
 	 let single = Tex.take_single_env all in
 	 let (kind, popt, topt,  lopt, body) = 
@@ -344,7 +324,7 @@ atom:
   fs = emptylines;
   tp_all = textpar;
   {	 
-	 let (popt, topt, lopt, body, all, ell) = tp_all in
+	 let (all, ell) = tp_all in
    let a = Atom_to_ast.atom_to_ast all in
 	 let (kind, popt, topt,  lopt, body) = 
 	   match a with 
