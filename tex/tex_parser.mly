@@ -8,7 +8,7 @@ module Ast = Ast
 module Tex = Tex_syntax
 
 module Atom_lexer = Atom_lexer
-module Atom_parser = Atom_parser
+module Atom_Parser = Atom_parser
 
 (* Turn off prints *)
 (*
@@ -313,7 +313,7 @@ atom:
 		 | None -> 
 				 (Tex.kw_gram, None, None, None, all)
 		 | Some (env, _) -> 
-				 let atom = Atom_to_ast.atom_to_ast all in						 
+				 let atom = atom_to_ast all in						 
 				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
 	 in 
 (*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
@@ -338,7 +338,7 @@ atom:
   tp_all = textpar;
   {	 
 	 let (all, ell) = tp_all in
-   let a = Atom_to_ast.atom_to_ast all in
+   let a = atom_to_ast all in
 	 let (kind, popt, topt,  lopt, body) = 
 	   match a with 
 		 | None -> (Tex.kw_gram, None, None, None, all)

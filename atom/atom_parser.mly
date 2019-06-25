@@ -32,6 +32,7 @@ let str_of_items items =
         string option *   (* label *)
         string *          (* body *)
         ((string * string option * string) list) *   (* items kind, point opt, body *)
+        string *           (* all but the items *)
 	      string> ATOM       (* all *)
 
 %start top
@@ -52,16 +53,18 @@ let str_of_items items =
  **********************************************************************/
 atom:
 | a = ATOM
-  { let (kind, popt, topt, lopt, body, items, all) = a in
-    let label = match lopt with | None -> "" | Some l -> l in
+  { let (kind, popt, topt, lopt, body, items, all_but_items, all) = a in
     let _ = d_printf "* atom: %s\n" all in
-  	  a
+		a
   }
 
 top:
 | a = atom
   EOF
-  { Some a }
+  { let (kind, popt, topt, lopt, body, items, all_but_items, all) = a in
+	  let a = (kind, popt, topt, lopt, body, items, all_but_items) in
+	  Some a
+	}
 | a = atom
   b = atom
   { None }

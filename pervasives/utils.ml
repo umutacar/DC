@@ -29,6 +29,15 @@ let str_of_str2_list (xs: (string * string) list): string =
 	let l = List.map xs ~f:(fun (item, body) -> item ^ " " ^ body) in 
   String.concat ~sep:", " l
 
+let str_of_items (xs: (string * string option * string) list): string = 
+  let str_of_item (kind, pvalopt, body) = 
+		match pvalopt with 
+		| None -> kind ^ "\n" ^ body ^ "\n"
+		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ body ^ "\n"
+	in
+	let l = List.map xs ~f:str_of_item in
+  String.concat ~sep:", " l
+
 (* BEGIN: Debug Prints *) 
 
 
