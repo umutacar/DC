@@ -344,6 +344,15 @@ let find_all_env contents  =
 	with
     Invalid_argument x -> (printf "Fatal Error: Internal Error in tex_syntax.find_env: %s\n" x; None) 
 
+
+let is_label_only contents = 
+  let contents = String.strip contents in
+  str_match_full pattern_label contents 
+  
+
+(**********************************************************************
+ ** BEGIN: DEPRACATED
+ **********************************************************************)
 (** TODO EXTEND THIS TO SOMETHING LIKE
  ** IS_ATOMIC AND compare the kind against the atom keyword.
  ** IF NO MATCH, NOT ATOM.
@@ -355,6 +364,7 @@ let find_all_env contents  =
  * (We don't allow for nesting of atoms.)
  * Return env and body if match occurs, None otherwise.
  *)
+(*
 let take_single_env contents = 
   match find_all_env contents with 
 	| None -> None
@@ -386,9 +396,7 @@ let take_single_env contents =
 			in
 			check_all uniques
 
-let is_label_only contents = 
-  let contents = String.strip contents in
-  str_match_full pattern_label contents 
-  
-
-
+*)
+(**********************************************************************
+ ** BEGIN: DEPRACATED
+ **********************************************************************)
