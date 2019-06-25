@@ -2,7 +2,7 @@
 {
 open Printf
 open Utils
-open Tex_atom_parser
+open Atom_parser
 
 (* Turn off prints *)
 (*

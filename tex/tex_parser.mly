@@ -320,7 +320,7 @@ atom:
 		 | None -> 
 				 (Tex.kw_gram, None, None, None, all)
 		 | Some (env, _) -> 
-				 let atom = Atom_to_ast.atom_to_ast env in						 
+				 let atom = Atom_to_ast.atom_to_ast all in						 
 				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
 	 in 
 (*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
