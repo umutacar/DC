@@ -4,6 +4,14 @@ open Printf
 let debug = true
 
 
+let str_of_char x = String.make 1 x
+
+let str_of_pval_opt x = 
+  match x with 
+  | None -> "None"
+  | Some x -> "Some" ^ x
+
+
 (* is C vertical space *)
 let is_vert_space c = 
   c = '\n' || c = '\r' 

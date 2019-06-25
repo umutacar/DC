@@ -4,7 +4,7 @@ open Printf
 open Utils
 
 
-module Ast = Tex_ast
+module Ast = Ast
 module Tex = Tex_syntax
 
 (* Turn off prints *)
@@ -94,7 +94,7 @@ let str_of_items items =
 
 %start top
 
-%type <Tex_ast.ast option> top
+%type <Ast.ast option> top
 
 /*  BEGIN RULES */
 %%
@@ -320,6 +320,7 @@ atom:
 		 | None -> 
 				 (Tex.kw_gram, None, None, None, all)
 		 | Some (env, _) -> 
+				 let atom = Atom_to_ast.atom_to_ast env in						 
 				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
 	 in 
 (*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
