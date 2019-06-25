@@ -7,6 +7,9 @@ open Utils
 module Ast = Ast
 module Tex = Tex_syntax
 
+module Atom_lexer = Atom_lexer
+module Atom_parser = Atom_parser
+
 (* Turn off prints *)
 (*
 let d_printf args = 
@@ -58,6 +61,16 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 
 let str_of_items items = 
 	str_of_str2_list items
+
+(* Given input string, 
+ * parse it using Atom_parser
+ *)
+let atom_to_ast input = 
+	let _ = d_printf "atom_to_ast input = %s" input in
+      let lexbuf = Lexing.from_string input in
+	    Atom_parser.top Atom_lexer.lexer lexbuf
+
+
 %}	
 
 %token EOF

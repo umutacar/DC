@@ -6,7 +6,7 @@ OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I atom -I english 
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = \
   ast/ast.ml \
-  atom/atom_lexer.mll atom/atom_parser.mly atom/atom_to_ast.ml \
+  atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_ast.ml tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
