@@ -19,12 +19,16 @@ let start = Lexing.lexeme_start
 
 let env_depth = ref 0  
 
+let do_reset_env () =
+   env_depth := 0
+
 let do_begin_env () =
-  env_depth := !env_depth + 1
+   env_depth := !env_depth + 1
 
 let do_end_env () =
-  let _ = env_depth := !env_depth - 1 in
-    !env_depth = 0
+	 let _ = env_depth := !env_depth - 1 in
+	 let _ = printf "env depth = %d" !env_depth in
+   !env_depth = 0
 
 (**********************************************************************
  ** END: latex env machinery 
@@ -181,12 +185,13 @@ let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly)
 rule initial = parse
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ = d_printf "!lexer matched begin group %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
+     let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let all = h_b ^ body ^ h_e in
@@ -195,8 +200,9 @@ rule initial = parse
 
 | p_begin_env_with_points as x
     { 
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
+     let _ = d_printf "!lexer: begin latex env: %s\n" x in 
 	   let _ = set_current_atom kind in
+     let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
 		 let all = x ^ body ^ h_e in
@@ -207,12 +213,13 @@ rule initial = parse
 
 | (p_begin_env as x) (p_o_sq as a)
     {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ = d_printf "!lexer matched begin group %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
+     let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let all = h_b ^ body ^ h_e in
@@ -222,7 +229,8 @@ rule initial = parse
 | p_begin_env as x
     { 
 	   let _ = set_current_atom kind in
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
+     let _ = d_printf "!lexer: begin latex env: %s\n" x in 
+     let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let all = x ^ body ^ h_e in
@@ -261,7 +269,6 @@ and take_comment =
        (str_of_char x) ^ comment
     }
 
-
 and take_env =
   parse
   | p_begin_verbatim as x
@@ -287,7 +294,7 @@ and take_env =
       }
   | p_begin_env as x
         {
-(*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
+            let _ = d_printf "!lexer: begin latex env: %s\n" x in 
             let _ = do_begin_env () in
             let (lopt, y, items, h_e) = take_env lexbuf in
                 (lopt, x ^ y, items, h_e)              
@@ -295,14 +302,15 @@ and take_env =
 
   | p_end_env as x
         { 
-(*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
+            let _ = d_printf "!lexer: end latex env: %s\n" x in 
             let do_exit = do_end_env () in
                 if do_exit then
-(*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        ( None, "", [], x)
+                  let _ = d_printf "!lexer: exiting latex env\n" in
+                  ( None, "", [], x)
                 else
-                    let (lopt, y, items, h_e) = take_env lexbuf in
-                      (lopt, x ^ y, items, h_e)  
+                  let _ = d_printf "!lexer: not exiting env\n" in
+                  let (lopt, y, items, h_e) = take_env lexbuf in
+                  (lopt, x ^ y, items, h_e)  
         }      
   | p_label_and_name as x
   		{ 
