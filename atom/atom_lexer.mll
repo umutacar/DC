@@ -31,6 +31,23 @@ let do_end_env () =
  **********************************************************************)
 
 (**********************************************************************
+ ** BEGIN: current atom
+ **********************************************************************)
+
+let current_atom = ref None  
+
+let set_current_atom a =
+  current_atom := Some a
+
+let get_current_atom () =
+  !current_atom
+
+(**********************************************************************
+ ** END: latex env machinery 
+ **********************************************************************)
+
+
+(**********************************************************************
  ** BEGIN: Argument depth machinery
  **********************************************************************)
 let arg_depth = ref 0  
@@ -139,7 +156,18 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 (* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
 
-let p_begin_list = "mambo"
+
+let p_short_answer = "\\shortanswer"
+let p_free_response = "\\freeresponse"
+let p_one_choice  = "\\onechoice"
+let p_any_choice = "\\anychoice"
+
+let p_begin_list = 
+	(p_short_answer as kind) | 
+	(p_free_response as kind) | 
+	(p_one_choice as kind) | 
+	(p_any_choice as kind) 
+
 let p_end_list = "mambo"
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
@@ -154,6 +182,7 @@ rule initial = parse
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
@@ -165,19 +194,21 @@ rule initial = parse
 }
 
 | p_begin_env_with_points as x
-      { 
+    { 
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, items, h_e) = take_env lexbuf in
-					let all = x ^ body ^ h_e in
+	   let _ = set_current_atom kind in
+     let _ = do_begin_env () in		
+     let (lopt, body, items, h_e) = take_env lexbuf in
+		 let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-            ATOM(kind, Some point_val, None, lopt, body, items, all)
-          
-      }   
+     ATOM(kind, Some point_val, None, lopt, body, items, all)
+       
+}   
 
 | (p_begin_env as x) (p_o_sq as a)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
@@ -189,15 +220,16 @@ rule initial = parse
 }
 
 | p_begin_env as x
-      { 
+    { 
+	   let _ = set_current_atom kind in
 (*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, items, h_e) = take_env lexbuf in
-   				let all = x ^ body ^ h_e in
+     let _ = do_begin_env () in		
+     let (lopt, body, items, h_e) = take_env lexbuf in
+   	 let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-            ATOM(kind, None, None, lopt, body, items, all)
-          
-      }   
+     ATOM(kind, None, None, lopt, body, items, all)
+       
+    }   
 
 | p_sigchar as x
 		{
@@ -246,19 +278,12 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-
-        let _ = d_printf "* lexer: begin choices." in
-        let (prefix, items) = take_list lexbuf in
-        (* Prefix is what comes before the first choice, it should be whitespace
-         * so it is dropped. 
-         *)
-        let _ = d_printf "* lexer: end list, leftover prefix = %s." prefix in 
-        let (lopt__, y, items__, h_e) = take_env lexbuf in
-	        (* No labels.
-           * Drop items from body, by returning empty. 
-           * The recursive call must not return items or anything else really.
-           *)
- 	        (None, y, items, h_e)
+        let kind_of_list = kind in
+        let _ = d_printf "* lexer: begin choices kind = %s.\n" kind_of_list in
+        let (body, items, h_e) = take_list lexbuf in
+				let items = (kind_of_list, None, body)::items in 
+          (* Drop items from body *)
+ 	        (None, "", items, h_e)
       }
   | p_begin_env as x
         {
@@ -350,29 +375,35 @@ and take_opt_arg =
 and take_list =
 	 parse
 	 | p_item_arg as x 
-	 { let (body, items) = take_list lexbuf in
+	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
 	   let items = (kind, Some point_val, body)::items in
-	     ("", items)	 	 
+	     ("", items, h_e)	 	 
 	 }
 	 | p_item as x 
-	 { let (body, items) = take_list lexbuf in
+	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
 	   let items = (kind, None, body)::items in
-	     ("", items)	 	 
-	 }
-   (* TODO: can we have environment inside metas?
-    * In principle yes, so we need to nest these things.
-    *)
-	 | p_end_list as x 
-	 { let _ = d_printf "* lexer: end list %s\n" x in
-	     ("", [])	   
+	     ("", items, h_e)	 	 
 	 }
 
+   | p_end_env as x
+   { 
+(*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
+		 match get_current_atom () with
+		 | None -> (printf "Fatal Error occured in atom_lexer.  No atom."; exit 1)
+		 | Some atom ->
+				 if kind = atom then 
+					 ("", [], x)
+				 else
+					 let (body, items, h_e) = take_list lexbuf in
+					 (x ^ body, items, h_e)  
+  }      
+
 	 | _ as x 
-	 { let (body, choices) = take_list lexbuf in
+	 { let (body, items, h_e) = take_list lexbuf in
 	   let body =  (str_of_char x) ^ body in
-	     (body, choices)
+	     (body, items, h_e)
 	 }
 
 (** BEGIN TRAILER **)
