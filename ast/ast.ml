@@ -90,6 +90,204 @@ type t_label = Label of string
 type t_depend = Depend of string list 
 type t_point_val = float
 
+module Prompt  = 
+struct
+	type t = 
+			{	mutable kind: string;
+				mutable point_val: string option;
+				mutable label: string option; 
+				mutable body: string;
+				label_is_given: bool
+			} 
+  let kind p = p.kind
+  let point_val p = p.point_val
+	let label p = p.label
+	let body p = p.body
+	let label_is_given p = p.label_is_given
+
+  let make   
+			?point_val: (point_val = None) 
+			?label: (label = None) 
+			kind
+			body = 
+		match label with 
+		| None -> 
+				{kind; point_val; label; body=body; label_is_given=false}
+		| Some _ -> 
+				{kind; point_val; label; body=body; label_is_given=true}
+
+  (* Traverse prompt by applying f to its fields *) 
+  let traverse prompt state f = 
+		let {kind; point_val; label; body} = prompt in
+		let _ = d_printf "Prompt.traverse: %s " kind in
+(*
+    let _ = d_printf_optstr "label " label in
+*)
+      f Ast_prompt state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
+
+  let to_tex prompt = 
+		let {kind; point_val; label; body} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
+		let heading = Tex.mk_heading_naked kind point_val in
+		let l = 
+			if label_is_given atom then	""
+			else Tex.mk_label label 
+
+		in
+		  heading ^ newline ^ l ^ 
+		  body ^ newline ^
+
+
+  (* If prompt doesn't have a label, then
+	 * assign fresh label to problem (unique wrt label_set).
+   * Return the updated label set.
+	 * To assign label use words from title and body.  
+	*)
+	let assign_label prefix label_set prompt = 		
+		let (tt, tb) = tokenize "" (Some (prompt.body)) in
+		let _ = 
+			match prompt.label with 
+			| None ->
+					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
+					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					prompt.label <- Some l
+		| Some _ -> ()
+		in
+    	(tt, tb)
+
+  let body_to_xml tex2html problem =
+		let _ = d_printf "prompt.body_to_xml: prompt = %s" prompt.kind in
+		tex2html Xml.body prompt.body
+
+  let to_xml tex2html prompt = 
+		(* Translate body to xml *)
+    let body_xml = body_to_xml tex2html prompt in
+		(* Atom has changed, reload *)
+		let {kind; point_val; label; body} = prompt in
+		let point_val = normalize_point_val point_val in
+		let r = 
+			Xml.mk_prompt 
+				~kind:kind 
+        ~pval:point_val
+        ~lopt:label
+        ~body_src:body
+        ~body_xml:body_xml
+   in
+     r
+
+
+end
+
+type prompt = Prompt
+
+
+(** TODO: Needs to have a list of items *)
+module Problem  = 
+struct
+	type t = 
+			{	mutable kind: string;
+				mutable point_val: string option;
+				mutable label: string option; 
+				mutable body: string;
+				label_is_given: bool
+			} 
+  let kind p = p.kind
+  let point_val p = p.point_val
+	let label p = p.label
+	let body p = p.body
+	let label_is_given p = p.label_is_given
+
+  let make   
+			?point_val: (point_val = None) 
+			?label: (label = None) 
+			kind
+			body = 
+		match label with 
+		| None -> 
+				{kind; point_val; label; body=body; label_is_given=false}
+		| Some _ -> 
+				{kind; point_val; label; body=body; label_is_given=true}
+
+  (* Traverse problem by applying f to its fields *) 
+  let traverse problem state f = 
+		let {kind; point_val; label; body} = problem in
+		let _ = d_printf "Problem.traverse: %s " kind in
+(*
+    let _ = d_printf_optstr "label " label in
+*)
+      f Ast_problem state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
+
+  let to_tex problem = 
+		let {kind; point_val;  label; body} = problem in
+		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
+		let title = Tex.mk_title None in
+		let h_begin = Tex.mk_begin kind point_val title in
+		let h_end = Tex.mk_end kind in
+		let l = 
+			if label_is_given atom then	""
+			else Tex.mk_label label 
+
+		in
+		  h_begin ^
+		  l ^ 
+		  body ^ newline ^
+      h_end		
+
+
+  (* If problem doesn't have a label, then
+	 * assign fresh label to problem (unique wrt label_set).
+   * Return the updated label set.
+	 * To assign label use words from title and body.  
+	*)
+	let assign_label prefix label_set problem = 		
+		let (tt, tb) = tokenize "" (Some (body problem)) in
+		let _ = 
+			match (label problem) with 
+			| None ->
+					let lk = Tex_syntax.mk_label_prefix_from_kind (kind problem) in
+					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					problem.label <- Some l
+		| Some _ -> ()
+		in
+    	(tt, tb)
+
+  let body_to_xml tex2html problem =
+		let _ = d_printf "problem.body_to_xml: problem = %s" problem.kind in
+		tex2html Xml.body problem.body
+
+  (* Needs update *)			
+  let to_xml tex2html atom = 
+		(* Translate body to xml *)
+    let body_xml = body_to_xml tex2html atom in
+		(* Atom has changed, reload *)
+		let {kind; point_val; title; label; depend; body} = atom in
+    let depend = depend_to_xml depend in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_xml tex2html Xml.title title in
+		let r = 
+			Xml.mk_atom 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body_src:body
+        ~body_xml:body_xml
+        ~ilist_opt:None
+        ~hints_opt:None
+        ~refsols_opt:None
+        ~explains_opt:None
+        ~rubric_opt:None
+   in
+     r
+
+
+end
+
+type item_list = Item_list.t
+
 module Atom  = 
 struct
 	type t = 
