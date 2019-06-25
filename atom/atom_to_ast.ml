@@ -16,11 +16,6 @@ let handle_parser_error () =
 
 let atom_to_ast input = 
 	let _ = d_printf "atom_to_ast input = %s" input in
-   	try 
       let lexbuf = Lexing.from_string input in
-	    let ast = Parser.top Lexer.lexer lexbuf in
-			match ast with 
-			| None -> (printf "Parse Error."; exit 1)
-			| Some ast -> ast
-    with End_of_file -> exit 0
+	    Parser.top Lexer.lexer lexbuf
 

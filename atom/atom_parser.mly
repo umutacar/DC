@@ -25,20 +25,24 @@ let str_of_items items =
 
 %token EOF
 
-
-%token <string option *   (* points *)
+%token <string> SIGCHAR
+%token <string *          (* kind *)
+        string option *   (* points *)
 	      string option *   (* title *)
         string option *   (* label *)
         string *          (* body *)
         ((string * string option * string) list) *   (* items kind, point opt, body *)
 	      string> ATOM       (* all *)
 
-
-%token <string> NONATOM
-
 %start top
 
-%type <string option> top
+%type <(string *          (* kind *)
+        string option *   (* points *)
+	      string option *   (* title *)
+        string option *   (* label *)
+        string *          (* body *)
+        ((string * string option * string) list) *   (* items kind, point opt, body *)
+	      string) option>  top  (* all *)
 
 /*  BEGIN RULES */
 %%
@@ -48,22 +52,21 @@ let str_of_items items =
  **********************************************************************/
 atom:
 | a = ATOM
-  { let (popt, topt, lopt, body, items, all) = a in
+  { let (kind, popt, topt, lopt, body, items, all) = a in
     let label = match lopt with | None -> "" | Some l -> l in
     let _ = d_printf "* atom: %s\n" all in
-  	  all
-  }
-
-nonatom:
-| n = NONATOM
-  {
-	  n
+  	  a
   }
 
 top:
 | a = atom
   EOF
   { Some a }
-| n = nonatom
-  EOF
-  { Some n }
+| a = atom
+  b = atom
+  { None }
+| n = atom
+  c = SIGCHAR
+  { None }
+| c = SIGCHAR
+  { None }

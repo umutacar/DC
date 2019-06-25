@@ -142,9 +142,9 @@ let p_env = (p_alpha)+('*')?
 let p_begin_list = "mambo"
 let p_end_list = "mambo"
 
-let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
-let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
+let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
 
 (** END PATTERNS *)			
@@ -161,7 +161,7 @@ rule initial = parse
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let all = h_b ^ body ^ h_e in
-       ATOM (Some point_val, Some title, lopt, body, items, all)
+       ATOM (kind, Some point_val, Some title, lopt, body, items, all)
 }
 
 | p_begin_env_with_points as x
@@ -171,7 +171,7 @@ rule initial = parse
           let (lopt, body, items, h_e) = take_env lexbuf in
 					let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-            ATOM(Some point_val, None, lopt, body, items, all)
+            ATOM(kind, Some point_val, None, lopt, body, items, all)
           
       }   
 
@@ -185,7 +185,7 @@ rule initial = parse
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let all = h_b ^ body ^ h_e in
-            ATOM(None, Some title, lopt, body, items, all)
+            ATOM(kind, None, Some title, lopt, body, items, all)
 }
 
 | p_begin_env as x
@@ -195,9 +195,21 @@ rule initial = parse
           let (lopt, body, items, h_e) = take_env lexbuf in
    				let all = x ^ body ^ h_e in
 (*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-            ATOM(None, None, lopt, body, items, all)
+            ATOM(kind, None, None, lopt, body, items, all)
           
       }   
+
+| p_sigchar as x
+		{
+(*     d_printf "!%s" (char_to_str x); *)
+     SIGCHAR(str_of_char x)
+    }
+
+| p_percent_esc as x 
+		{
+(*     d_printf "!lexer found: espaced percent char: %s." x; *)
+     SIGCHAR(x)
+    }
 
 | eof
 		{EOF}

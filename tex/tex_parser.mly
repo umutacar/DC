@@ -307,7 +307,7 @@ block:
  ** BEGIN: Elements
  ** An element is a group, a problem cluster, or an atom 
  **********************************************************************/
-
+/*
 atom: 
   fs = emptylines;
   tp_all = textpar;
@@ -337,6 +337,32 @@ atom:
 					 body
 			 in
 			 ([ a ], ell)
+  }
+*/
+
+atom: 
+  fs = emptylines;
+  tp_all = textpar;
+  {	 
+	 let (popt, topt, lopt, body, all, ell) = tp_all in
+   let a = Atom_to_ast.atom_to_ast all in
+	 let (kind, popt, topt,  lopt, body) = 
+	   match a with 
+		 | None -> (Tex.kw_gram, None, None, None, all)
+		 | Some (kind, popt, topt, lopt, body, items, all) -> (kind, popt, topt,  lopt, body)
+	 in			 
+	 let body = String.strip ~drop:is_vert_space body in
+	 if Tex.is_label_only body then
+		 ([ ], ell)
+	 else
+		 let a = Ast.Atom.make 
+				 ~point_val:popt 
+				 ~title:topt 
+				 ~label:lopt  
+				 kind  
+				 body
+		 in
+		 ([ a ], ell)
   }
 
 atoms:
