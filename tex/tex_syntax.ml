@@ -84,6 +84,14 @@ let kw_teachask = "teachask"
 let kw_teachnote = "teachnote"
 let kw_theorem = "theorem"
 
+let kw_one_choice = "\onechoice"
+let kw_any_choice = "\anychoice"
+let kw_short_answer = "\shortanswer"
+
+let kw_choice = "\choice"
+let kw_choice_correct = "\choice*"
+let kw_part = "\part"
+
 (* END: Keywords *)
 
 (* BEGIN: lstlisting arguments *)
@@ -150,7 +158,12 @@ let label_prefix_task = "tsk"
 let label_prefix_teachask = "tch"
 let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
+let label_prefix_one_choice = "prb"
+let label_prefix_any_choice = "prb"
+let label_prefix_short_answer = "prb"
 
+let label_prefix_choice = "chc"
+let label_prefix_choice_correct = "chc"
 
 let label_prefix_of_kind = 
   [
@@ -195,6 +208,11 @@ let label_prefix_of_kind =
    kw_teachask, label_prefix_teachask;
    kw_teachnote, label_prefix_teachnote;
    kw_theorem, label_prefix_theorem;
+   kw_one_choice, label_prefix_one_choice;
+   kw_any_choice, label_prefix_any_choice;
+   kw_short_answer, label_prefix_short_answer;
+   kw_choice, label_prefix_choice;
+   kw_choice_correct, label_prefix_choice_correct
   ]
 
 (* Given a segment kind, assign a label prefix, e.g.,
