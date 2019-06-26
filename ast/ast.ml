@@ -248,6 +248,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set problem = 		
+    let _ = printf "Problem.assign_label\n" in
 		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
 		let tt = List.map t_p ~f:(fun (x, y) -> x) in
 		let tb = List.map t_p ~f:(fun (x, y) -> y) in
@@ -378,7 +379,11 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set atom = 		
-		let _ = Problem.assign_label prefix label_set in
+    let _ = printf "Atom.assign_label\n" in
+		let _ = 
+			match atom.problem with
+			| None -> ([], [])
+			| Some p -> Problem.assign_label prefix label_set p in
 		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
 		let _ = 
 			match (label atom) with 
@@ -504,7 +509,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set group = 		
-		let t_a = List.map (atoms group) ~f:(Atom.assign_label prefix label_set) in
+		let t_a = List.map group.atoms ~f:(Atom.assign_label prefix label_set) in
 		let tt = List.map t_a ~f:(fun (x, y) -> x) in
 		let tb = List.map t_a ~f:(fun (x, y) -> y) in
 		let tt_a = 
