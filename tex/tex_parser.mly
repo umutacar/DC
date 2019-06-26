@@ -70,6 +70,19 @@ let atom_to_ast input =
       let lexbuf = Lexing.from_string input in
 	    Atom_parser.top Atom_lexer.lexer lexbuf
 
+let mk_prompt (kind, point_val, body) =
+	Ast.Prompt.make ~point_val:point_val kind body 
+
+let mk_problem items = 
+	begin
+		match items with 
+		| [ ] -> None
+		| (kind_problem, point_val, body)::prompts ->
+				let	prompts = List.map prompts ~f:mk_prompt in
+				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val prompts in
+				Some p
+	end
+
 
 %}	
 
@@ -300,38 +313,6 @@ block:
  ** BEGIN: Elements
  ** An element is a group, a problem cluster, or an atom 
  **********************************************************************/
-/*
-atom: 
-  fs = emptylines;
-  tp = textpar;
-  {	 
-	 let (all, ell) = tp in
-	 let all = String.strip ~drop:is_vert_space all in
-	 let single = Tex.take_single_env all in
-	 let (kind, popt, topt,  lopt, body) = 
-	   match single with 
-		 | None -> 
-				 (Tex.kw_gram, None, None, None, all)
-		 | Some (env, _) -> 
-				 let atom = atom_to_ast all in						 
-				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
-	 in 
-(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
-	 let body = String.strip ~drop:is_vert_space body in
-	   if Tex.is_label_only body then
-(*			 let _ = d_printf "atom is label only" in *)
-			 ([ ], ell)
-		 else
-			 let a = Ast.Atom.make 
-					 ~point_val:popt 
-					 ~title:topt 
-					 ~label:lopt  
-					 kind  
-					 body
-			 in
-			 ([ a ], ell)
-  }
-*/
 
 atom: 
   fs = emptylines;
@@ -339,10 +320,12 @@ atom:
   {	 
 	 let (all, ell) = tp_all in
    let a = atom_to_ast all in
-	 let (kind, popt, topt,  lopt, body) = 
+	 let (kind, popt, topt, lopt, body, problem_opt) = 
 	   match a with 
-		 | None -> (Tex.kw_gram, None, None, None, all)
-		 | Some (kind, popt, topt, lopt, body, items, all) -> (kind, popt, topt,  lopt, body)
+		 | None -> (Tex.kw_gram, None, None, None, all, None)
+		 | Some (kind, popt, topt, lopt, body, items) -> 
+				 let problem_opt = mk_problem items in
+				 (kind, popt, topt, lopt, body, problem_opt)
 	 in			 
 	 let body = String.strip ~drop:is_vert_space body in
 	 if Tex.is_label_only body then
@@ -426,3 +409,37 @@ elements:
 /**********************************************************************
  ** END: Elements
  **********************************************************************/
+
+
+/*
+atom: 
+  fs = emptylines;
+  tp = textpar;
+  {	 
+	 let (all, ell) = tp in
+	 let all = String.strip ~drop:is_vert_space all in
+	 let single = Tex.take_single_env all in
+	 let (kind, popt, topt,  lopt, body) = 
+	   match single with 
+		 | None -> 
+				 (Tex.kw_gram, None, None, None, all)
+		 | Some (env, _) -> 
+				 let atom = atom_to_ast all in						 
+				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
+	 in 
+(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
+	 let body = String.strip ~drop:is_vert_space body in
+	   if Tex.is_label_only body then
+(*			 let _ = d_printf "atom is label only" in *)
+			 ([ ], ell)
+		 else
+			 let a = Ast.Atom.make 
+					 ~point_val:popt 
+					 ~title:topt 
+					 ~label:lopt  
+					 kind  
+					 body
+			 in
+			 ([ a ], ell)
+  }
+*/
