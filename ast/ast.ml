@@ -131,7 +131,7 @@ struct
       f Ast_prompt state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
 
   let to_tex prompt = 
-		let {kind; point_val; label; body} = prompt in
+		let {kind; point_val; title; label; body} = prompt in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let heading = Tex.mk_command kind point_val in
@@ -150,7 +150,8 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set prompt = 		
-		let (tt, tb) = tokenize None (Some (prompt.body)) in
+    let _ = printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
+		let (tt, tb) = tokenize prompt.title (Some (prompt.body)) in
 		let _ = 
 			match prompt.label with 
 			| None ->
@@ -166,10 +167,9 @@ struct
 		tex2html Xml.body prompt.body
 
   let to_xml tex2html prompt = 
+		let {kind; point_val; title; label; depend; body} = prompt in
 		(* Translate body to xml *)
     let body_xml = body_to_xml tex2html prompt in
-		(* Atom has changed, reload *)
-		let {kind; point_val; title; label; depend; body} = prompt in
 		let point_val = normalize_point_val point_val in
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml tex2html Xml.title title in
@@ -184,11 +184,6 @@ struct
         ~body_xml:body_xml
    in
      r
-
-
-
-
-
 end
 
 type prompt = Prompt.t
@@ -253,7 +248,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set problem = 		
-		let t_p = List.map (prompts problem) ~f:(Prompt.assign_label prefix label_set) in
+		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
 		let tt = List.map t_p ~f:(fun (x, y) -> x) in
 		let tb = List.map t_p ~f:(fun (x, y) -> y) in
 		let tt_p = 
@@ -341,12 +336,15 @@ struct
 
   (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
-		let {kind; point_val; title; label; depend; body} = atom in
+		let {kind; point_val; title; label; depend; problem; body} = atom in
 		let _ = d_printf "Atom.traverse: %s " kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
-      f Ast_atom state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body)
+    let s = f Ast_atom state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
+	  match problem with 
+		| None -> s
+		| Some p -> Problem.traverse p s f 
 
   let to_tex atom = 
 		let {kind; point_val; title; label; depend; problem; body} = atom in
@@ -984,7 +982,6 @@ let collect_labels ast: Labels.t =
   let _ = d_printf_strlist "All labels: " label_list in
 	*)
 	  label_set
-
 
 (* Assign labels to all members of the AST. *)
 let assign_labels ast = 
