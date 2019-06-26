@@ -132,6 +132,7 @@ let p_com_explain = '\\' "explain"
 let p_com_fold = '\\' "fold"
 let p_com_hint = '\\' "help"
 let p_com_notes = '\\' "notes"
+let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
@@ -155,6 +156,7 @@ let p_item =
 	(p_com_explain as kind) |
   (p_com_hint as kind) |
   (p_com_notes as kind) |
+  (p_com_part as kind) |
   (p_com_refsol as kind) |
   (p_com_rubric as kind) 
 
