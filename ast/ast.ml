@@ -140,8 +140,8 @@ struct
 			else Tex.mk_label label 
 
 		in
-		  heading ^ newline ^ l ^ 
-		  body ^ newline 
+		  heading ^ l ^ 
+		  body 
 
 
   (* If prompt doesn't have a label, then
