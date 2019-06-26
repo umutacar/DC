@@ -87,6 +87,7 @@ let kw_theorem = "theorem"
 
 let kw_one_choice = "\\onechoice"
 let kw_any_choice = "\\anychoice"
+let kw_free_response = "\\freeresponse"
 let kw_short_answer = "\\shortanswer"
 
 let kw_choice = "\\choice"
@@ -162,6 +163,7 @@ let label_prefix_theorem = "thm"
 let label_prefix_one_choice = "prb"
 let label_prefix_any_choice = "prb"
 let label_prefix_short_answer = "prb"
+let label_prefix_free_response = "prb"
 
 let label_prefix_choice = "chc"
 let label_prefix_choice_correct = "chc"
@@ -217,12 +219,19 @@ let label_prefix_of_kind =
    kw_choice_correct, label_prefix_choice_correct
   ]
 
-let prompts = 
+let problem_kinds = 
   [
    kw_one_choice, ();
    kw_any_choice, ();
    kw_short_answer, ();
    kw_free_response, ()
+  ]
+
+let prompt_kinds = 
+  [
+   kw_choice, ();
+   kw_choice_correct, ();
+   kw_part, ()
   ]
 
 
@@ -410,9 +419,15 @@ let is_label_only contents =
   str_match_full pattern_label contents 
   
 let is_prompt kind = 
-   match List.Assoc.find prompts ~equal: String.equal kind with 
+   match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let is_problem kind = 
+   match List.Assoc.find problem_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 (**********************************************************************
  ** BEGIN: DEPRACATED
  **********************************************************************)
