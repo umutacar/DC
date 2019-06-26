@@ -78,6 +78,22 @@ let depend_to_xml dopt =
   |  None -> None
   |  Some ls -> Some (str_of_str_list ls)
 
+
+let collect_labels (labels: (string list * string list) list): string list * string list = 
+	let tt = List.map labels ~f:(fun (x, y) -> x) in
+	let tb = List.map labels ~f:(fun (x, y) -> y) in
+	let tt_merged = 
+		match List.reduce tt (fun x y -> x @ y) with
+		| None -> [ ]
+		| Some ttm -> ttm
+	in			
+	let tb_merged =
+		match List.reduce tb (fun x y -> x @ y) with
+		| None -> [ ] 
+		| Some tbm -> tbm
+	in
+	(tt_merged, tb_merged)
+
 (**********************************************************************
  ** END: Utilities
  **********************************************************************)
@@ -146,7 +162,7 @@ struct
 
   (* If prompt doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
-   * Return the updated label set.
+   * Return title and body tokens
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set prompt = 		
@@ -244,24 +260,13 @@ struct
 
   (* If problem doesn't have a label, then
 	 * assign fresh label to_tex problem prompt (unique wrt label_set).
-   * Return the updated label set.
+   * Return title and body tokens
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set problem = 		
     let _ = printf "Problem.assign_label\n" in
 		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
-		let tt = List.map t_p ~f:(fun (x, y) -> x) in
-		let tb = List.map t_p ~f:(fun (x, y) -> y) in
-		let tt_p = 
-			match List.reduce tt (fun x y -> x @ y) with
-			| None -> [ ]
-			| Some tt_p -> tt_p
-		in			
-		let tb_p =
-			match List.reduce tb (fun x y -> x @ y) with
-			| None -> [ ] 
-			| Some tb_p -> tb_p 
-		in
+		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize (title problem) (Some (body problem)) in
 		let tt_all = tt @ tt_p in
 		let tb_all = tb @ tb_p in
@@ -375,25 +380,26 @@ struct
 
   (* If atom doesn't have a label, then
 	 * assign fresh label to atom (unique wrt label_set).
-   * Return the updated label set.
+   * Return title and body tokens.
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set atom = 		
     let _ = printf "Atom.assign_label\n" in
-		let _ = 
+		let (tt_p, tb_p) = 
 			match atom.problem with
 			| None -> ([], [])
 			| Some p -> Problem.assign_label prefix label_set p in
 		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
+		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
 		let _ = 
 			match (label atom) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
-					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					atom.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt, tb)
+    	(tt_all, tb_all)
 
   let body_to_xml tex2html atom =
 		if atom.kind = Xml.lstlisting then
@@ -510,30 +516,18 @@ struct
 	*)
 	let assign_label prefix label_set group = 		
 		let t_a = List.map group.atoms ~f:(Atom.assign_label prefix label_set) in
-		let tt = List.map t_a ~f:(fun (x, y) -> x) in
-		let tb = List.map t_a ~f:(fun (x, y) -> y) in
-		let tt_a = 
-			match List.reduce tt (fun x y -> x @ y) with
-			| None -> [ ]
-			| Some tt_a -> tt_a
-		in			
-		let tb_a =
-			match List.reduce tb (fun x y -> x @ y) with
-			| None -> [ ] 
-			| Some tb_a -> tb_a 
-		in
+    let (tt_a, tb_a) = collect_labels t_a in
 		let tt_g = Words.tokenize_spaces_opt (title group) in
-		let ttb_a = tt_g @ tt_a @ tb_a
-		in
+    let (tt_all, tb_all) = (tt_g @ tt_a, tb_a) in
 		let _ = 
 			match (label group) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind group) in
-					let l = Labels.mk_label_force label_set lk prefix ttb_a in
+					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					group.label <- Some l
 		| Some _ -> ()
 		in
-		(tt_a, tb_a)
+		(tt_all, tb_all)
 
   let to_xml tex2html group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
@@ -651,18 +645,7 @@ struct
 	*)
 	let assign_label prefix label_set block = 		
 		let t_a = List.map (elements block) ~f:(Element.assign_label prefix label_set)  in
-		let tt = List.map t_a ~f:(fun (x, y) -> x) in
-		let tb = List.map t_a ~f:(fun (x, y) -> y) in
-		let tt_a = 
-			match List.reduce tt (fun x y -> x @ y) with 
-			| None -> [ ] 
-			| Some tt_a -> tt_a 						
-		in
-		let tb_a = 
-			match List.reduce tb (fun x y -> x @ y) with 
-			| None -> [ ] 
-			| Some tb_a -> tb_a 						
-		in
+		let (tt_a, tb_a) = collect_labels t_a in
 		  tt_a @ tb_a  
 
   let rec normalize block = 
