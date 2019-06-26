@@ -211,10 +211,20 @@ let label_prefix_of_kind =
    kw_theorem, label_prefix_theorem;
    kw_one_choice, label_prefix_one_choice;
    kw_any_choice, label_prefix_any_choice;
+   kw_free_response, label_prefix_free_response;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
    kw_choice_correct, label_prefix_choice_correct
   ]
+
+let prompts = 
+  [
+   kw_one_choice, ();
+   kw_any_choice, ();
+   kw_short_answer, ();
+   kw_free_response, ()
+  ]
+
 
 (* Given a segment kind, assign a label prefix, e.g.,
  * section -> sec
@@ -399,7 +409,10 @@ let is_label_only contents =
   let contents = String.strip contents in
   str_match_full pattern_label contents 
   
-
+let is_prompt kind = 
+   match List.Assoc.find prompts ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
 (**********************************************************************
  ** BEGIN: DEPRACATED
  **********************************************************************)

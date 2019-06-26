@@ -1018,3 +1018,48 @@ let validate ast =
 		 exit 1;
 		 ast)
  
+(* Create a problem from items *)
+
+type t_item = (string * string option * string)
+let mk_problem (items: t_item list)
+
+  (* Given current prompt, prompts pair and an item, 
+	 * this function looks at the item.
+   * If the item is a prompt keyword, then it starts a new prompt 
+   * and pushed the current prompt on to the prompts.
+   * Otherwise, it pushes the item into the current prompt.
+   *
+   * current prompt is a item list option
+   * current prompts is a list of prompts.
+   *)
+  let collect (current: (t_item list) option * (t_item list) list):  
+		let (cp, prompts) = current in
+		let  (kind, point_val, body) = item in
+		if Tex.is_prompt kind then
+			let p = [item] in
+			match cp with 
+			| None -> (p, prompts) 
+			| Some prompts -> (p, prompts @ [cp])
+		else
+			let i = [item] in
+			match cp with 
+			| None -> (d_printf "Parse Error.\n"; exit 1)
+			| Some prompt -> (prompt @ i, prompts)
+	in
+	let (prompt, prompts) = List.fold items ~init:(None, []) ~f:collect in
+  (* Add the last prompt to the tail of prompts *)
+  let prompts = 
+		match prompt with 
+		| None -> prompts
+		| Some p -> prompts @ [p]
+	in
+  (* Now we have all the prompts.  Construct the problems. *)
+
+	begin
+		match items with 
+		| [ ] -> None
+		| (kind_problem, point_val, body)::prompts ->
+				let	prompts = List.map prompts ~f:mk_prompt in
+				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val body prompts in
+				Some p
+	end
