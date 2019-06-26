@@ -65,7 +65,7 @@ let str_of_items items =
 (* Given input string, 
  * parse it using Atom_parser
  *)
-let atom_to_ast input = 
+let parse_atom input = 
 	let _ = d_printf "atom_to_ast input = %s" input in
       let lexbuf = Lexing.from_string input in
 	    Atom_parser.top Atom_lexer.lexer lexbuf
@@ -79,7 +79,7 @@ let mk_problem items =
 		| [ ] -> None
 		| (kind_problem, point_val, body)::prompts ->
 				let	prompts = List.map prompts ~f:mk_prompt in
-				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val prompts in
+				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val body prompts in
 				Some p
 	end
 
@@ -319,7 +319,7 @@ atom:
   tp_all = textpar;
   {	 
 	 let (all, ell) = tp_all in
-   let a = atom_to_ast all in
+   let a = parse_atom all in
 	 let (kind, popt, topt, lopt, body, problem_opt) = 
 	   match a with 
 		 | None -> (Tex.kw_gram, None, None, None, all, None)
@@ -335,6 +335,7 @@ atom:
 				 ~point_val:popt 
 				 ~title:topt 
 				 ~label:lopt  
+				 ~problem:problem_opt
 				 kind  
 				 body
 		 in

@@ -201,6 +201,7 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
+				body: string;
 				prompts: prompt list
 			} 
 
@@ -209,6 +210,7 @@ struct
   let title p = p.title
 	let label p = p.label
 	let depend p = p.depend
+	let body p = p.body
 	let prompts p = p.prompts
 
 	let make  
@@ -217,13 +219,14 @@ struct
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
+			body 
 			prompts = 
-				{kind; point_val; title; label; depend; prompts=prompts}
+				{kind; point_val; title; label; depend; body=body; prompts=prompts}
 
   (* Traverse (pre-order) problem by applying f to its fields *) 
   let traverse problem state f = 
-		let {kind; point_val; title; label; depend; prompts} = problem in
-		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
+		let {kind; point_val; title; label; depend; body; prompts} = problem in
+		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
 
 		let prompt_tr_f state prompt = Prompt.traverse prompt state f in
 		let _ = d_printf "Problem.traverse: %s " kind in
@@ -233,7 +236,7 @@ struct
 		  List.fold_left prompts ~init:s ~f:prompt_tr_f
 
   let to_tex problem = 
-		let {kind; point_val; title; label; depend; prompts} = problem in
+		let {kind; point_val; title; label; depend; body; prompts} = problem in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
@@ -241,10 +244,8 @@ struct
 		let l = Tex.mk_label label in
 		let d = Tex.mk_depend depend in
 		let prompts = map_concat_with newline Prompt.to_tex prompts in
-		  heading ^ 
-		  l ^ 
-		  d ^ 
-		  prompts
+		  heading ^  l ^  d ^ 
+      body ^ prompts
 
   (* If problem doesn't have a label, then
 	 * assign fresh label to_tex problem prompt (unique wrt label_set).
@@ -252,31 +253,32 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set problem = 		
-		let t_a = List.map (prompts problem) ~f:(Prompt.assign_label prefix label_set) in
-		let tt = List.map t_a ~f:(fun (x, y) -> x) in
-		let tb = List.map t_a ~f:(fun (x, y) -> y) in
-		let tt_a = 
+		let t_p = List.map (prompts problem) ~f:(Prompt.assign_label prefix label_set) in
+		let tt = List.map t_p ~f:(fun (x, y) -> x) in
+		let tb = List.map t_p ~f:(fun (x, y) -> y) in
+		let tt_p = 
 			match List.reduce tt (fun x y -> x @ y) with
 			| None -> [ ]
-			| Some tt_a -> tt_a
+			| Some tt_p -> tt_p
 		in			
-		let tb_a =
+		let tb_p =
 			match List.reduce tb (fun x y -> x @ y) with
 			| None -> [ ] 
-			| Some tb_a -> tb_a 
+			| Some tb_p -> tb_p 
 		in
-		let tt_g = Words.tokenize_spaces_opt (title problem) in
-		let ttb_a = tt_g @ tt_a @ tb_a
-		in
+		let (tt, tb) = tokenize (title problem) (Some (body problem)) in
+		let tt_all = tt @ tt_p in
+		let tb_all = tb @ tb_p in
+		let t_all = tt_all @ tb_all in
 		let _ = 
 			match  problem.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind problem.kind in
-					let l = Labels.mk_label_force label_set lk prefix ttb_a in
+					let l = Labels.mk_label_force label_set lk prefix t_all in
 					problem.label <- Some l
 		| Some _ -> ()
 		in
-		(tt_a, tb_a)
+		(tt_all, tb_all)
 
   let to_xml tex2html problem = 
 		let {kind; point_val; title; label; depend; prompts} = problem in
@@ -309,6 +311,7 @@ struct
 				mutable label: string option; 
 				depend: string list option;
 				mutable body: string;
+        problem: problem option; 
 				label_is_given: bool
 			} 
   let kind a = a.kind
@@ -317,6 +320,7 @@ struct
 	let label a = a.label
 	let depend a = a.depend
 	let body a = a.body
+	let problem a = a.problem
 	let label_is_given a = a.label_is_given
 
   let make   
@@ -324,13 +328,16 @@ struct
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
+			?problem: (problem = None)
 			kind
 			body = 
 		match label with 
 		| None -> 
-				{kind; point_val; title; label; depend; body=body; label_is_given=false}
+				{kind; point_val; title; label; depend; problem; body=body; 
+					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; label; depend; body=body; label_is_given=true}
+				{kind; point_val; title; label; depend; problem; body=body; 
+					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
@@ -342,10 +349,15 @@ struct
       f Ast_atom state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body)
 
   let to_tex atom = 
-		let {kind; point_val; title; label; depend; body} = atom in
+		let {kind; point_val; title; label; depend; problem; body} = atom in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
+		let problem = 
+			match problem with 
+			| None -> ""
+			| Some problem -> Problem.to_tex problem 
+		in
 		let h_begin = Tex.mk_begin kind point_val title in
 		let h_end = Tex.mk_end kind in
 		let l = 
@@ -357,7 +369,7 @@ struct
 		  h_begin ^
 		  l ^ 
 		  d ^ 
-		  body ^ newline ^
+		  body ^ newline ^ problem ^ newline ^
       h_end		
 
 
@@ -368,6 +380,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set atom = 		
+		let _ = Problem.assign_label prefix label_set in
 		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
 		let _ = 
 			match (label atom) with 
@@ -378,7 +391,6 @@ struct
 		| Some _ -> ()
 		in
     	(tt, tb)
-
 
   let body_to_xml tex2html atom =
 		if atom.kind = Xml.lstlisting then
@@ -402,10 +414,15 @@ struct
 		(* Translate body to xml *)
     let body_xml = body_to_xml tex2html atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; title; label; depend; body} = atom in
+		let {kind; point_val; title; label; depend; problem; body} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml tex2html Xml.title title in
+		let problem_xml:string = 
+			match problem with 
+			| None -> ""
+			| Some problem -> Problem.to_xml tex2html problem 
+		in
 		let r = 
 			Xml.mk_atom 
 				~kind:kind 
@@ -415,6 +432,7 @@ struct
 				~dopt:depend 
         ~body_src:body
         ~body_xml:body_xml
+        ~problem_xml
         ~ilist_opt:None
         ~hints_opt:None
         ~refsols_opt:None
@@ -483,7 +501,7 @@ struct
 		  atoms ^ h_end		
 
   (* If group doesn't have a label, then
-	 * assign fresh label to_tex group atom (unique wrt label_set).
+	 * assign fresh label to each atom (unique wrt label_set).
    * Return the updated label set.
 	 * To assign label use words from title and body.  
 	*)
