@@ -246,6 +246,10 @@ let mk_title topt =
   |  None -> ""
   |  Some t -> mk_opt_arg t
 
+let mk_command kind p = 
+  let b = "\\" ^ kind in
+    b ^ p
+
 let mk_segment_header kind p t = 
   let b = "\\" ^ kind in
     b ^ p ^ (mk_arg t) ^ "\n"
