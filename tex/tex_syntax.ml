@@ -39,6 +39,7 @@ let com_depend = "\\depend"
 let com_explain = "\\explain"
 let com_hint = "\\help"
 let com_label = "\\label"
+let com_notes = "\\notes"
 let com_rubric = "\\rubric"
 let com_solution = "\\sol"
 
@@ -84,13 +85,13 @@ let kw_teachask = "teachask"
 let kw_teachnote = "teachnote"
 let kw_theorem = "theorem"
 
-let kw_one_choice = "\onechoice"
-let kw_any_choice = "\anychoice"
-let kw_short_answer = "\shortanswer"
+let kw_one_choice = "\\onechoice"
+let kw_any_choice = "\\anychoice"
+let kw_short_answer = "\\shortanswer"
 
-let kw_choice = "\choice"
-let kw_choice_correct = "\choice*"
-let kw_part = "\part"
+let kw_choice = "\\choice"
+let kw_choice_correct = "\\choice*"
+let kw_part = "\\part"
 
 (* END: Keywords *)
 
@@ -258,6 +259,34 @@ let mk_depend dopt =
 	match dopt with 
   |  None -> ""
   |  Some ls -> heading ^ (mk_arg (String.concat ~sep:", " ls)) ^ "\n" 
+
+let mk_explain e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_explain ^ newline ^ x in
+			l ^ newline
+
+let mk_hint e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_hint ^ newline ^ x in
+			l ^ newline
+
+let mk_notes e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_notes ^ newline ^ x in
+			l ^ newline
+
+let mk_rubric e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_rubric ^ newline ^ x in
+			l ^ newline
 
 let mk_title topt = 
   match topt with 

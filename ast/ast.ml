@@ -212,6 +212,10 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
+				explain: string option;
+				hint: string option;
+				notes: string option;
+				rubric: string option;
 				body: string;
 				prompts: prompt list
 			} 
@@ -230,9 +234,15 @@ struct
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
+			?explain: (explain = None)
+			?hint: (hint = None)
+			?notes: (notes = None)
+			?rubric: (rubric = None)
 			body 
 			prompts = 
-				{kind; point_val; title; label; depend; body=body; prompts=prompts}
+				{ kind; point_val; title; label; depend; 
+					explain; hint; notes; rubric;
+					body=body; prompts=prompts }
 
   (* Traverse (pre-order) problem by applying f to its fields *) 
   let traverse problem state f = 
@@ -247,15 +257,21 @@ struct
 		  List.fold_left prompts ~init:s ~f:prompt_tr_f
 
   let to_tex problem = 
-		let {kind; point_val; title; label; depend; body; prompts} = problem in
+		let { kind; point_val; title; label; depend; 
+					explain; hint; notes; rubric; body; prompts} = problem in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let heading = Tex.mk_command kind point_val in
 		let l = Tex.mk_label label in
 		let d = Tex.mk_depend depend in
+		let explain = Tex.mk_explain explain in
+		let hint = Tex.mk_hint hint in
+		let notes = Tex.mk_notes notes in
+		let rubric = Tex.mk_rubric rubric in
 		let prompts = map_concat_with newline Prompt.to_tex prompts in
 		  heading ^  l ^  d ^ 
+		  explain ^ hint ^ rubric ^ notes ^
       body ^ prompts
 
   (* If problem doesn't have a label, then
