@@ -158,7 +158,7 @@ struct
 			else Tex.mk_label label 
 
 		in
-		  heading ^ l ^ 
+		  heading ^ " " ^ l ^ 
 		  body 
 
 
