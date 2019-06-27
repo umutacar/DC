@@ -437,7 +437,9 @@ end
 
 type problem = Problem.t
 
-
+(* An Atom.
+ * An atom consist of usual fields, plus an optional problem.
+ *)
 module Atom  = 
 struct
 	type t = 
@@ -590,6 +592,10 @@ end
 
 type atom = Atom.t
 
+(* A group.
+ * A group consist of usual fields plus a list of atoms.
+ * Other than atoms, groups don't have their own bodies.
+ *)
 module Group =
 struct
 	type t = 
@@ -1140,6 +1146,7 @@ let validate ast =
 
 type t_item = (string * string option * string)
 
+(* Create a cookie from an item *)
 let cookie_of_item (item: t_item): cookie = 
 	let (kind, point_val, body) = item in
 	if Tex.is_cookie kind then
@@ -1147,6 +1154,9 @@ let cookie_of_item (item: t_item): cookie =
 	else
 		(printf "Parse Error"; exit 1)
 
+(* Create a prompt from an item list that starts with a prompt and 
+ * continues with the cookies of that prompt.
+ *)
 let prompt_of_items (items: t_item list): prompt = 
 	match items with 
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
@@ -1160,6 +1170,9 @@ let prompt_of_items (items: t_item list): prompt =
 			(printf "Parse Error: I was expecting a prompt here.";
 			 exit 1)
 
+(* Create a problem from an item list.
+ * The item list must start with the problem.
+ *)
 let problem_of_items (items: t_item list) =
   (* Given current prompt, prompts pair and an item, 
 	 * this function looks at the item.
