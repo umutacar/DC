@@ -193,12 +193,12 @@ let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly)
 rule initial = parse
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
-     let _ = d_printf "!lexer matched begin group %s." kind in 
+     let _ = d_printf "!atom lexer: matched begin group %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
-(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
+(*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
@@ -208,25 +208,25 @@ rule initial = parse
 
 | p_begin_env_with_points as h_b
     { 
-     let _ = d_printf "!lexer: begin latex env: %s\n" h_b in 
+     let _ = d_printf "!atom lexer: begin latex env: %s\n" h_b in 
 	   let _ = set_current_atom kind in
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, items, h_e) in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
+(*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
      ATOM(kind, Some point_val, None, lopt, body, items, all)
        
 }   
 
 | (p_begin_env as x) (p_o_sq as a)
     {
-     let _ = d_printf "!lexer matched begin group %s." kind in 
+     let _ = d_printf "!atom lexer: matched begin group %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
-(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
+(*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
@@ -237,12 +237,12 @@ rule initial = parse
 | p_begin_env as h_b
     { 
 	   let _ = set_current_atom kind in
-     let _ = d_printf "!lexer: begin latex env: %s\n" h_b in 
+     let _ = d_printf "!atom lexer: begin latex env: %s\n" h_b in 
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, items, h_e) in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
+(*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
      ATOM(kind, None, None, lopt, body, items, all)
        
     }   
@@ -255,7 +255,7 @@ rule initial = parse
 
 | p_percent_esc as x 
 		{
-(*     d_printf "!lexer found: espaced percent char: %s." x; *)
+(*     d_printf "!atom lexer: found: espaced percent char: %s." x; *)
      SIGCHAR(x)
     }
 
@@ -281,9 +281,9 @@ and take_env =
   parse
   | p_begin_verbatim as x
       { 
-(*          let _ = d_printf "!lexer: entering verbatim\n" in *)
+(*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
-          let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
+          let _ = d_printf "!atom lexer: verbatim matched = %s" (x ^ y) in
           let (lopt, z, items, h_e) = take_env lexbuf in
             (lopt, x ^ y ^ z, items, h_e)          
       }   
@@ -302,7 +302,7 @@ and take_env =
       }
   | p_begin_env as x
         {
-            let _ = d_printf "!lexer: begin latex env: %s\n" x in 
+            let _ = d_printf "!atom lexer: begin latex env: %s\n" x in 
             let _ = do_begin_env () in
             let (lopt, y, items, h_e) = take_env lexbuf in
                 (lopt, x ^ y, items, h_e)              
@@ -310,33 +310,46 @@ and take_env =
 
   | p_end_env as x
         { 
-            let _ = d_printf "!lexer: end latex env: %s\n" x in 
+            let _ = d_printf "!atom lexer: end latex env: %s\n" x in 
             let do_exit = do_end_env () in
                 if do_exit then
-                  let _ = d_printf "!lexer: exiting latex env\n" in
+                  let _ = d_printf "!atom lexer: exiting latex env\n" in
                   ( None, "", [], x)
                 else
-                  let _ = d_printf "!lexer: not exiting env\n" in
+                  let _ = d_printf "!atom lexer: not exiting env\n" in
                   let (lopt, y, items, h_e) = take_env lexbuf in
                   (lopt, x ^ y, items, h_e)  
         }      
   | p_label_and_name as x
   		{ 
-(*		    let _ = d_printf "!lexer matched label %s." x in *)
+(*		    let _ = d_printf "!atom lexer: matched label %s." x in *)
 				let all = label_pre ^ label_name ^ label_post in
         let (lopt, y, items, h_e) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
           (Some label_name, all ^ y, items, h_e)  
 			}		
+| p_percent_esc as x 
+    { let (lopt, y, items, h_e) = take_env lexbuf in
+      (lopt,  x ^ y, items, h_e)
+    }
+
+| p_percent as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let rest = take_comment lexbuf in
+     let comment = (str_of_char x) ^ rest in
+     let (lopt, y, items, h_e) = take_env lexbuf in
+       (lopt, comment ^ y, items, h_e)
+    }
   | _  as x
-        { let (lopt, y, items, h_e) = take_env lexbuf in
-            (lopt, (str_of_char x) ^ y, items, h_e)
-        }
+    { let (lopt, y, items, h_e) = take_env lexbuf in
+      (lopt, (str_of_char x) ^ y, items, h_e)
+    }
 and verbatim =
   parse
   | p_end_verbatim as x
         { 
-            let _ = d_printf "!lexer: exiting verbatim\n" in
+            let _ = d_printf "!atom lexer: exiting verbatim\n" in
                 x
         }
   | _  as x
@@ -405,7 +418,7 @@ and take_list =
 
    | p_end_env as x
    { 
-(*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
+(*            let _ = d_printf "!atom lexer: end latex env: %s\n" x in *)
 		 match get_current_atom () with
 		 | None -> (printf "Fatal Error occured in atom_lexer.  No atom."; exit 1)
 		 | Some atom ->
