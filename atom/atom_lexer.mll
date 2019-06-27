@@ -27,7 +27,7 @@ let do_begin_env () =
 
 let do_end_env () =
 	 let _ = env_depth := !env_depth - 1 in
-	 let _ = printf "env depth = %d" !env_depth in
+	 let _ = d_printf "env depth = %d" !env_depth in
    !env_depth = 0
 
 (**********************************************************************

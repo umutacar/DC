@@ -168,7 +168,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set cookie = 		
-    let _ = printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
+    let _ = d_printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
 		let (tt, tb) = tokenize cookie.title (Some (cookie.body)) in
 		let _ = 
 			match cookie.label with 
@@ -271,7 +271,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set prompt = 		
-    let _ = printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
+    let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let t_i = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
 		let (tt_i, tb_i) = collect_labels t_i in
 		let (tt, tb) = tokenize prompt.title (Some (prompt.body)) in
@@ -388,7 +388,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set problem = 		
-    let _ = printf "Problem.assign_label\n" in
+    let _ =d_printf "Problem.assign_label\n" in
 		let t_c = List.map problem.cookies ~f:(Cookie.assign_label prefix label_set) in
 		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
 		let (tt_c, tb_c) = collect_labels t_p in
@@ -521,7 +521,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set atom = 		
-    let _ = printf "Atom.assign_label\n" in
+    let _ =d_printf "Atom.assign_label\n" in
 		let (tt_p, tb_p) = 
 			match atom.problem with
 			| None -> ([], [])
@@ -1054,7 +1054,7 @@ let check_preamble ast: bool =
 		| Ast_atom ->
 				let Some (kind) = kind in
 				if kind = Xml.preamble then
-					let _ = printf "Preamble found: pos = %d, found = %d" no found in
+					let _ =d_printf "Preamble found: pos = %d, found = %d" no found in
 					(no+1, found + 1)
 				else
 					(no+1, found)
