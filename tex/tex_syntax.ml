@@ -234,6 +234,14 @@ let prompt_kinds =
    kw_part, ()
   ]
 
+let cookie_kinds = 
+  [
+   com_explain, ();
+   com_hint, ();
+   com_notes, ();
+   com_rubric, ();
+   com_solution, ()
+  ]
 
 (* Given a segment kind, assign a label prefix, e.g.,
  * section -> sec
@@ -358,7 +366,6 @@ let is_group kw =
   kw = kw_flex ||
   kw = kw_problem_cluster 
 
-
 (* is subseg nested in segment seg ? *)
 let segment_is_nested subseg seg = 
   if seg = kw_chapter then
@@ -418,15 +425,21 @@ let is_label_only contents =
   let contents = String.strip contents in
   str_match_full pattern_label contents 
   
+let is_problem kind = 
+   match List.Assoc.find problem_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 let is_prompt kind = 
    match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
 
-let is_problem kind = 
-   match List.Assoc.find problem_kinds ~equal: String.equal kind with 
+let is_cookie kind = 
+   match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
 
 (**********************************************************************
  ** BEGIN: DEPRACATED

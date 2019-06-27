@@ -376,6 +376,16 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_segment_generic_with_kind ilist kind_xml [pval_xml; label_xml; body]
 
+let mk_cookie ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml = 
+  let pval_xml = mk_point_value_opt pval in
+  let titles = mk_title_opt topt in
+  let label_xml = mk_label_opt lopt in
+  let depend_xml = mk_depend_opt dopt in
+  let body_xml = mk_body body_xml in
+  let body_src = mk_body_src body_src in
+  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_xml; body_src] in
+    mk_segment_generic kind fields
+
 let mk_prompt ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
@@ -386,12 +396,12 @@ let mk_prompt ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml =
   let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_xml; body_src] in
     mk_segment_generic kind fields
 
-let mk_problem ~kind ~pval ~topt ~lopt ~dopt ~body = 
+let mk_problem ~kind ~pval ~topt ~lopt ~dopt ~body ~cookies ~prompts = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
-  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body] in
+  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body; cookies; prompts] in
     mk_segment_generic kind fields
 
 let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~problem_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 

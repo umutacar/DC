@@ -73,6 +73,7 @@ let parse_atom input =
 let mk_prompt (kind, point_val, body) =
 	Ast.Prompt.make ~point_val:point_val kind body 
 
+(*
 let mk_problem items = 
 	begin
 		match items with 
@@ -82,7 +83,7 @@ let mk_problem items =
 				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val body prompts in
 				Some p
 	end
-
+*)
 
 %}	
 
@@ -324,7 +325,7 @@ atom:
 	   match a with 
 		 | None -> (Tex.kw_gram, None, None, None, all, None)
 		 | Some (kind, popt, topt, lopt, body, items) -> 
-				 let problem_opt = mk_problem items in
+				 let problem_opt = Ast.problem_of_items items in
 				 (kind, popt, topt, lopt, body, problem_opt)
 	 in			 
 	 let body = String.strip ~drop:is_vert_space body in

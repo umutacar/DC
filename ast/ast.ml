@@ -2,16 +2,17 @@ open Core
 open Utils
 
 (* Turn off all prints *)
+(*
 let d_printf args = 
     ifprintf stdout args
 
-
+*)
 module Labels = Tex_labels
 module Tex = Tex_syntax
 module Words = English_words
 module Xml = Xml_syntax
 
-type ast_member = Ast_prompt | Ast_problem | Ast_atom | Ast_group | Ast_element | Ast_block | Ast_segment
+type ast_member = Ast_cookie | Ast_prompt | Ast_problem | Ast_atom | Ast_group | Ast_element | Ast_block | Ast_segment
 
 (**********************************************************************
  ** BEGIN: Constants
@@ -106,7 +107,8 @@ type t_label = Label of string
 type t_depend = Depend of string list 
 type t_point_val = float
 
-module Prompt  = 
+
+module Cookie = 
 struct
 	type t = 
 			{	mutable kind: string;
@@ -117,12 +119,12 @@ struct
 				mutable body: string;
 				label_is_given: bool
 			} 
-  let kind p = p.kind
-  let point_val p = p.point_val
-	let label p = p.label
-	let depend p = p.depend
-	let body p = p.body
-	let label_is_given p = p.label_is_given
+  let kind cookie = cookie.kind
+  let point_val cookie = cookie.point_val
+	let label cookie = cookie.label
+	let depend cookie = cookie.depend
+	let body cookie = cookie.body
+	let label_is_given cookie = cookie.label_is_given
 
   let make   
 			?point_val: (point_val = None) 
@@ -137,14 +139,14 @@ struct
 		| Some _ -> 
 				{kind; point_val; title; label; depend; body; label_is_given=true}
 
-  (* Traverse prompt by applying f to its fields *) 
-  let traverse prompt state f = 
-		let {kind; point_val; title; label; body} = prompt in
-		let _ = d_printf "Prompt.traverse: %s " kind in
+  (* Traverse cookie by applying f to its fields *) 
+  let traverse cookie state f = 
+		let {kind; point_val; title; label; body} = cookie in
+		let _ = d_printf "Cookie.traverse: %s " kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
-      f Ast_prompt state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
+      f Ast_cookie state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
 
   let to_tex prompt = 
 		let {kind; point_val; title; label; body} = prompt in
@@ -160,6 +162,109 @@ struct
 		  body 
 
 
+  (* If cookie doesn't have a label, then
+	 * assign fresh label to prompt (unique wrt label_set).
+   * Return title and body tokens
+	 * To assign label use words from title and body.  
+	*)
+	let assign_label prefix label_set cookie = 		
+    let _ = printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
+		let (tt, tb) = tokenize cookie.title (Some (cookie.body)) in
+		let _ = 
+			match cookie.label with 
+			| None ->
+					let lk = Tex_syntax.mk_label_prefix_from_kind cookie.kind in
+					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					cookie.label <- Some l
+		| Some _ -> ()
+		in
+    	(tt, tb)
+
+  let body_to_xml tex2html cookie =
+		let _ = d_printf "cookie.body_to_xml: cookie = %s" cookie.kind in
+		tex2html Xml.body cookie.body
+
+  let to_xml tex2html cookie = 
+		let {kind; point_val; title; label; depend; body} = cookie in
+		(* Translate body to xml *)
+    let body_xml = body_to_xml tex2html cookie in
+		let point_val = normalize_point_val point_val in
+    let depend = depend_to_xml depend in
+    let titles = str_opt_to_xml tex2html Xml.title title in
+		let r = 
+			Xml.mk_cookie 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body_src:body
+        ~body_xml:body_xml
+   in
+     r
+end
+
+type cookie = Cookie.t
+
+module Prompt  = 
+struct
+	type t = 
+			{	mutable kind: string;
+				mutable point_val: string option;
+				title: string option;
+				mutable label: string option; 
+				depend: string list option;
+				mutable body: string;
+				cookies: cookie list;
+				label_is_given: bool
+			} 
+  let kind p = p.kind
+  let point_val p = p.point_val
+	let label p = p.label
+	let depend p = p.depend
+	let body p = p.body
+	let label_is_given p = p.label_is_given
+
+  let make   
+			?point_val: (point_val = None) 
+			?title: (title = None) 
+			?label: (label = None) 
+			?depend: (depend = None) 
+			kind
+			body
+			cookies = 
+		match label with 
+		| None -> 
+				{kind; point_val; title; label; depend; body; cookies; label_is_given=false}
+		| Some _ -> 
+				{kind; point_val; title; label; depend; body; cookies; label_is_given=true}
+
+  (* Traverse prompt by applying f to its fields *) 
+  let traverse prompt state f = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let _ = d_printf "Prompt.traverse: %s " kind in
+(*
+    let _ = d_printf_optstr "label " label in
+*)
+    let s = f Ast_prompt state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body) in
+		let f_tr_cookie state cookie = Cookie.traverse cookie state f in
+		  List.fold_left cookies ~init:s ~f:f_tr_cookie 
+
+  let to_tex prompt = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
+		let heading = Tex.mk_command kind point_val in
+		let cookies = map_concat_with newline Cookie.to_tex cookies in
+		let l = 
+			if label_is_given prompt then	""
+			else Tex.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body ^ cookies
+
+
   (* If prompt doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
    * Return title and body tokens
@@ -167,23 +272,27 @@ struct
 	*)
 	let assign_label prefix label_set prompt = 		
     let _ = printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
+		let t_i = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
+		let (tt_i, tb_i) = collect_labels t_i in
 		let (tt, tb) = tokenize prompt.title (Some (prompt.body)) in
+    let (tt_all, tb_all) = (tt @ tt_i, tb @ tb_i) in
 		let _ = 
 			match prompt.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					prompt.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt, tb)
+    	(tt_all, tb_all)
 
   let body_to_xml tex2html prompt =
 		let _ = d_printf "prompt.body_to_xml: prompt = %s" prompt.kind in
 		tex2html Xml.body prompt.body
 
+  (* TODO incorporate cookies. *)
   let to_xml tex2html prompt = 
-		let {kind; point_val; title; label; depend; body} = prompt in
+		let {kind; point_val; title; label; depend; body; cookies} = prompt in
 		(* Translate body to xml *)
     let body_xml = body_to_xml tex2html prompt in
 		let point_val = normalize_point_val point_val in
@@ -212,11 +321,8 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
-				explain: string option;
-				hint: string option;
-				notes: string option;
-				rubric: string option;
 				body: string;
+				cookies: cookie list;
 				prompts: prompt list
 			} 
 
@@ -226,6 +332,7 @@ struct
 	let label p = p.label
 	let depend p = p.depend
 	let body p = p.body
+	let cookies p = p.cookies
 	let prompts p = p.prompts
 
 	let make  
@@ -234,45 +341,41 @@ struct
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
-			?explain: (explain = None)
-			?hint: (hint = None)
-			?notes: (notes = None)
-			?rubric: (rubric = None)
 			body 
+			cookies
 			prompts = 
+		
 				{ kind; point_val; title; label; depend; 
-					explain; hint; notes; rubric;
-					body=body; prompts=prompts }
+					body=body; cookies = cookies; prompts=prompts }
 
   (* Traverse (pre-order) problem by applying f to its fields *) 
   let traverse problem state f = 
-		let {kind; point_val; title; label; depend; body; prompts} = problem in
-		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
-
-		let prompt_tr_f state prompt = Prompt.traverse prompt state f in
+		let {kind; point_val; title; label; depend; body; cookies; prompts} = problem in
+		let f_tr_cookie state prompt = Cookie.traverse prompt state f in
+		let f_tr_prompt state prompt = Prompt.traverse prompt state f in
+  
 		let _ = d_printf "Problem.traverse: %s " kind in
+		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
+		let s = List.fold_left cookies ~init:s ~f:f_tr_cookie in
+		List.fold_left prompts ~init:s ~f:f_tr_prompt
+
 (*
     let _ = d_printf_optstr "label " label in
 *)
-		  List.fold_left prompts ~init:s ~f:prompt_tr_f
+		  
 
   let to_tex problem = 
-		let { kind; point_val; title; label; depend; 
-					explain; hint; notes; rubric; body; prompts} = problem in
+		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let heading = Tex.mk_command kind point_val in
 		let l = Tex.mk_label label in
 		let d = Tex.mk_depend depend in
-		let explain = Tex.mk_explain explain in
-		let hint = Tex.mk_hint hint in
-		let notes = Tex.mk_notes notes in
-		let rubric = Tex.mk_rubric rubric in
+		let cookies = map_concat_with newline Cookie.to_tex cookies in
 		let prompts = map_concat_with newline Prompt.to_tex prompts in
-		  heading ^  l ^  d ^ 
-		  explain ^ hint ^ rubric ^ notes ^
-      body ^ prompts
+		  heading ^ " " ^ l ^  d ^ 
+      body ^ cookies ^ prompts
 
   (* If problem doesn't have a label, then
 	 * assign fresh label to_tex problem prompt (unique wrt label_set).
@@ -281,11 +384,13 @@ struct
 	*)
 	let assign_label prefix label_set problem = 		
     let _ = printf "Problem.assign_label\n" in
+		let t_c = List.map problem.cookies ~f:(Cookie.assign_label prefix label_set) in
 		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
+		let (tt_c, tb_c) = collect_labels t_p in
 		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize (title problem) (Some (body problem)) in
-		let tt_all = tt @ tt_p in
-		let tb_all = tb @ tb_p in
+		let tt_all = tt @ tt_c @ tt_p in
+		let tb_all = tb @ tb_c @ tb_p in
 		let t_all = tt_all @ tb_all in
 		let _ = 
 			match  problem.label with 
@@ -297,11 +402,17 @@ struct
 		in
 		(tt_all, tb_all)
 
+  let body_to_xml tex2html problem =
+		let _ = d_printf "problem.body_to_xml: problem = %s" problem.kind in
+		tex2html Xml.body problem.body
+
   let to_xml tex2html problem = 
-		let {kind; point_val; title; label; depend; prompts} = problem in
+		let {kind; point_val; title; label; depend; cookies; prompts} = problem in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml tex2html Xml.title title in
     let depend = depend_to_xml depend in
+    let body = body_to_xml tex2html problem in
+		let cookies = map_concat_with newline (Cookie.to_xml tex2html) cookies in
 		let prompts = map_concat_with newline (Prompt.to_xml tex2html) prompts in
 		let r = 
 			Xml.mk_problem 
@@ -310,7 +421,9 @@ struct
         ~topt:titles
         ~lopt:label
 				~dopt:depend 
-        ~body:prompts
+        ~body
+        ~cookies
+        ~prompts
    in
      r
 
@@ -1015,48 +1128,80 @@ let validate ast =
 		 ast)
 	else
 		(printf "Fatal Error: Ast validation failed. Terminating.\n";
-		 exit 1;
-		 ast)
+		 exit 1)
  
 (* Create a problem from items *)
 
 type t_item = (string * string option * string)
-let mk_problem (items: t_item list) =
+
+let cookie_of_item (item: t_item): cookie = 
+	let (kind, point_val, body) = item in
+	if Tex.is_cookie kind then
+		Cookie.make ~point_val kind body 
+	else
+		(printf "Parse Error"; exit 1)
+
+let prompt_of_items (items: t_item list): prompt = 
+	match items with 
+		[ ] -> (printf "Fatal Internal Error"; exit 1)
+	| item::rest_items ->
+			let  (kind, point_val, body) = item in
+			if Tex.is_prompt kind then
+				let cookies = List.map rest_items ~f:cookie_of_item in
+				Prompt.make ~point_val kind body cookies 
+		else
+      (* item is a field for the current prompt *)
+			(printf "Parse Error: I was expecting a prompt here.";
+			 exit 1)
+
+let problem_of_items (items: t_item list) =
   (* Given current prompt, prompts pair and an item, 
 	 * this function looks at the item.
-   * If the item is a prompt keyword, then it starts a new prompt 
-   * and pushed the current prompt on to the prompts.
-   * Otherwise, it pushes the item into the current prompt.
+   * If the item's kind is a prompt kind, then it starts a new prompt 
+   * and pushes the current prompt on to the prompts.
+   * Otherwise, item is a cookie and it pushes the item into the current prompt.
    *
-   * current prompt is a item list
+   * current prompt is a list of items.
    * current prompts is a list of prompts.
    *)
   let collect (current: (t_item list) * ((t_item list) list)) item = 
 		let (cp, prompts) = current in
 		let  (kind, point_val, body) = item in
+		let _ = d_printf "ast.collect: kind = %s\n" kind in
 		if Tex.is_prompt kind then
       (* item is a prompt *)
 			let prompt = [item] in
 			(prompt, prompts @ [cp])
+		else if Tex.is_cookie kind then
+      (* item is a cookie for the current prompt *)
+			let cookie = [item] in
+        (cp @ cookie, prompts)
 		else
-      (* item is a field for the current prompt *)
-			let field = [item] in
-        (cp @ field, prompts)
+			let _ = printf "Parse Error: I was expecting a 'prompt' or a 'cookie'.\n" in
+			exit 1
 	in
   (* Now we have all the prompts.  Construct the problems. *)
 	begin
 		match items with 
 		| [ ] -> None
-		| item::items ->
+		| item::items_rest ->
 				let (kind, point_val, body) = item in
 				if Tex.is_problem kind then
 					let prompt = [item] in
-					let (prompt, prompts) = List.fold items ~init:(prompt, []) ~f:collect in
+					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
 					let prompts = prompts @ [prompt] in
-					let problem::parts = prompts in
-          (* TODO: drop parts just for now. *)
-					let p = Problem.make ~kind:kind ~point_val:point_val body [] in
-					Some p
+					match prompts with 
+					| problem::[ ] -> 
+							(* The problem has no parts *)
+							let cookies = List.map (List.drop problem 1) ~f:cookie_of_item  in
+							let p = Problem.make ~kind:kind ~point_val:point_val body cookies [] in
+							Some p
+					| problem::parts ->
+							(* The problem has parts *)
+							let cookies = List.map (List.drop problem 1) ~f:cookie_of_item  in
+							let parts = List.map parts ~f:prompt_of_items in
+							let p = Problem.make ~kind:kind ~point_val:point_val body cookies parts in
+							Some p
 				else
 					(printf "Parse Error: I was expecting a problem here.\n";
 					 exit 1)
