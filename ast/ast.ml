@@ -313,6 +313,11 @@ end
 
 type prompt = Prompt.t
 
+(* A problem consist of the standard fields, plus
+ * a list of cookies (hints, explanations, etc), 
+ * and a list of prompts (problem parts).
+ * Prompts serve as problem parts.
+ *)
 module Problem =
 struct
 	type t = 
@@ -407,11 +412,11 @@ struct
 		tex2html Xml.body problem.body
 
   let to_xml tex2html problem = 
-		let {kind; point_val; title; label; depend; cookies; prompts} = problem in
+		let {kind; point_val; title; label; depend; body; cookies; prompts} = problem in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml tex2html Xml.title title in
     let depend = depend_to_xml depend in
-    let body = body_to_xml tex2html problem in
+    let body_xml = body_to_xml tex2html problem in
 		let cookies = map_concat_with newline (Cookie.to_xml tex2html) cookies in
 		let prompts = map_concat_with newline (Prompt.to_xml tex2html) prompts in
 		let r = 
@@ -421,7 +426,8 @@ struct
         ~topt:titles
         ~lopt:label
 				~dopt:depend 
-        ~body
+        ~body_src:body
+        ~body_xml
         ~cookies
         ~prompts
    in

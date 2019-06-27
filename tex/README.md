@@ -58,15 +58,17 @@ $ lexer.native
 
 # Grammar
 
+## TODO: THIS IS OUTDATED.  IT NEEDS TO BE UPDATED TO REFLECT THE NEW GRAMMAR.
+
 ## Note: Plural items, sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
 
 ## preambles and tailtexts
 
-  One difficulty in the parser was accommodating text outside the atoms.  I wanted to allow any text outside of an atom and the idea would be for all these texts not to be taken into account in terms of uploading to diderot but still be preserved so that we can heve an idempontent system that does not loose any of the input TeX file.
+  One difficulty in the parser was accommodating text, mainly whitespace, outside the atoms. 
 
   To solve this problem, I allow 
    * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
-   * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext".  this tail text is represented is part of the block node in the ast.
+   * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext". 
  
 
 ## Chapters and sections
@@ -74,7 +76,7 @@ $ lexer.native
 *  We have four levels of sectioning:
   chapter, section, subsection, subsubsection
 
-  These have to be "properly nested" as in the order above.  For example, "subsubsection" inside "section" is disallowed.
+  These don't have to be "properly nested" 
 
   Each section has the form: 
   X ::= heading + label + block + paragraphs + subX
