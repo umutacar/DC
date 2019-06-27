@@ -39,6 +39,7 @@ let com_depend = "\\depend"
 let com_explain = "\\explain"
 let com_hint = "\\help"
 let com_label = "\\label"
+let com_notes = "\\notes"
 let com_rubric = "\\rubric"
 let com_solution = "\\sol"
 
@@ -83,6 +84,15 @@ let kw_task = "task"
 let kw_teachask = "teachask"
 let kw_teachnote = "teachnote"
 let kw_theorem = "theorem"
+
+let kw_one_choice = "\\onechoice"
+let kw_any_choice = "\\anychoice"
+let kw_free_response = "\\freeresponse"
+let kw_short_answer = "\\shortanswer"
+
+let kw_choice = "\\choice"
+let kw_choice_correct = "\\choice*"
+let kw_part = "\\part"
 
 (* END: Keywords *)
 
@@ -150,7 +160,13 @@ let label_prefix_task = "tsk"
 let label_prefix_teachask = "tch"
 let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
+let label_prefix_one_choice = "prb"
+let label_prefix_any_choice = "prb"
+let label_prefix_short_answer = "prb"
+let label_prefix_free_response = "prb"
 
+let label_prefix_choice = "chc"
+let label_prefix_choice_correct = "chc"
 
 let label_prefix_of_kind = 
   [
@@ -195,6 +211,36 @@ let label_prefix_of_kind =
    kw_teachask, label_prefix_teachask;
    kw_teachnote, label_prefix_teachnote;
    kw_theorem, label_prefix_theorem;
+   kw_one_choice, label_prefix_one_choice;
+   kw_any_choice, label_prefix_any_choice;
+   kw_free_response, label_prefix_free_response;
+   kw_short_answer, label_prefix_short_answer;
+   kw_choice, label_prefix_choice;
+   kw_choice_correct, label_prefix_choice_correct
+  ]
+
+let problem_kinds = 
+  [
+   kw_one_choice, ();
+   kw_any_choice, ();
+   kw_short_answer, ();
+   kw_free_response, ()
+  ]
+
+let prompt_kinds = 
+  [
+   kw_choice, ();
+   kw_choice_correct, ();
+   kw_part, ()
+  ]
+
+let cookie_kinds = 
+  [
+   com_explain, ();
+   com_hint, ();
+   com_notes, ();
+   com_rubric, ();
+   com_solution, ()
   ]
 
 (* Given a segment kind, assign a label prefix, e.g.,
@@ -241,10 +287,41 @@ let mk_depend dopt =
   |  None -> ""
   |  Some ls -> heading ^ (mk_arg (String.concat ~sep:", " ls)) ^ "\n" 
 
+let mk_explain e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_explain ^ newline ^ x in
+			l ^ newline
+
+let mk_hint e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_hint ^ newline ^ x in
+			l ^ newline
+
+let mk_notes e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_notes ^ newline ^ x in
+			l ^ newline
+
+let mk_rubric e = 
+  match e with 
+  |  None -> ""
+  |  Some x ->
+			let l = com_rubric ^ newline ^ x in
+			l ^ newline
+
 let mk_title topt = 
   match topt with 
   |  None -> ""
   |  Some t -> mk_opt_arg t
+
+let mk_command kind p = 
+  kind ^ p
 
 let mk_segment_header kind p t = 
   let b = "\\" ^ kind in
@@ -288,7 +365,6 @@ let is_group kw =
   kw = kw_cluster ||
   kw = kw_flex ||
   kw = kw_problem_cluster 
-
 
 (* is subseg nested in segment seg ? *)
 let segment_is_nested subseg seg = 
@@ -342,13 +418,49 @@ let find_all_env contents  =
 		  (assert ok;
 			 Some (all_begin, all_end))
 	with
-    Invalid_argument x -> (printf "Fatal Error: Internal Error %s " x; None) 
+    Invalid_argument x -> (printf "Fatal Error: Internal Error in tex_syntax.find_env: %s\n" x; None) 
 
+
+let is_label_only contents = 
+  let contents = String.strip contents in
+  str_match_full pattern_label contents 
+  
+let is_problem kind = 
+   match List.Assoc.find problem_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_prompt kind = 
+   match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_cookie kind = 
+   match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+
+(**********************************************************************
+ ** BEGIN: DEPRACATED
+ **********************************************************************)
+(** TODO EXTEND THIS TO SOMETHING LIKE
+ ** IS_ATOMIC AND compare the kind against the atom keyword.
+ ** IF NO MATCH, NOT ATOM.
+ **)
+(* Given contents string
+ * check if contents has the "atomic" form
+ * \begin{env} body \end{env}.
+ * Atomic means that env does not occur within body.
+ * (We don't allow for nesting of atoms.)
+ * Return env and body if match occurs, None otherwise.
+ *)
+(*
 let take_single_env contents = 
   match find_all_env contents with 
 	| None -> None
-	| Some (all_envs, _) -> 
-			let envs = uniques_of_list all_envs in
+	| Some (all_envs, _) ->      
+			let uniques = uniques_of_list all_envs in
 			let check env =
 				let pb = pattern_begin env in
 				let pe = pattern_end env in
@@ -363,8 +475,8 @@ let take_single_env contents =
 								let _ = d_printf "tex_syntax.take_env_body matched body: \n %s" body in
 								Some (env, body)
 			in
-			let rec check_all envs = 
-				match envs with 
+			let rec check_all uniques = 
+				match uniques with 
 				| [ ] -> None 
 				| h::t -> 
 						begin
@@ -373,11 +485,9 @@ let take_single_env contents =
 							| Some (env, body) -> Some (env, body)
 						end
 			in
-			check_all envs
+			check_all uniques
 
-let is_label_only contents = 
-  let contents = String.strip contents in
-  str_match_full pattern_label contents 
-  
-
-
+*)
+(**********************************************************************
+ ** END: DEPRACATED
+ **********************************************************************)

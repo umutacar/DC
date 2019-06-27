@@ -6,7 +6,7 @@ For any questions or comments, please don't hesitate to contact Umut at `umut@cs
 
 # Typesetting with LaTex and MTL (MeTaL)
 
-MTL tries to remain compatible with LaTeX.   If you have  LaTeX sources that you are able to compile and generate PDF from, then you can use MTL to generate XML from your LaTeX sources.  Translation of LaTeX sources to XML, however, is not perfect but works quite well for simple LaTeX sources.
+MTL tries to remain compatible with LaTeX.   If you have  LaTeX sources that you are able to compile and generate PDF from, then in most cases, you can use MTL to generate XML from your LaTeX sources.  Translation of LaTeX sources to XML, however, is not perfect at this time but works quite well for simple LaTeX sources.
 
 ## Examples 
   See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples diderot chapters.  These are set up with Makefiles so that you can generate both PDF and XML from the sources. For each book you generate the book PDF by running the following.
@@ -239,6 +239,10 @@ We replace the former with `\hyperref[][]` command so that we can get proper  li
 There is not really much else to it.  There are some caveats.
 
 * For XML translation work, the chapter should be compileable to PDF.
+
+* Do not use \input directives in your chapters.
+
+* Each chapter must have a unique label.
 
 * Fancy packages will not work.  Stick to basic latex and AMS Math packages.
 

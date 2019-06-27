@@ -89,25 +89,20 @@ let cache_remove () =
 
 (* Some Utilities *)
 let start = Lexing.lexeme_start
-let char_to_str x = String.make 1 x
-let pvalopt_to_str x = 
-  match x with 
-  | None -> "None"
-  | Some x -> "Some" ^ x
 
 let token_to_str tk =
 	match tk with 
-	| NEWLINE x -> "token = newline."
-	| HSPACE x ->  "token = hspace."
-	| ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
-	| PAR_ENV (popt, topt, lopt, x, all) ->  "token = env = " ^ all
-	| PAR_SIGCHAR (x, lopt) -> "token = par sigchar: " ^ x
-	| SIGCHAR (x, lopt) ->  "token = sigchar: " ^ x 
-	| KW_BEGIN_GROUP (x, _, _) -> "token = begin group " ^ x
-	| KW_END_GROUP (x, _) -> "token = end group " ^ x
-	| KW_FOLD (x) -> "token = fold: " ^ x
-	| KW_HEADING (x, _, _) -> "token = heading: " ^ x
-  | EOF -> "token = EOF.";
+	| NEWLINE x -> "* lexer: token = newline."
+	| HSPACE x ->  "* lexer: token = hspace."
+	| ENV x ->  "* lexer: token = env = " ^ x
+	| PAR_ENV x ->  "* lexer: token = env = " ^ x
+	| PAR_SIGCHAR (x, lopt) -> "* lexer: token = par sigchar: " ^ x
+	| SIGCHAR (x, lopt) ->  "* lexer: token = sigchar: " ^ x 
+	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
+	| KW_END_GROUP (x, _) -> "* lexer: token = end group " ^ x
+	| KW_FOLD (x) -> "* lexer: token = fold: " ^ x
+	| KW_HEADING (x, _, _) -> "* lexer: token = heading: " ^ x
+  | EOF -> "* lexer: token = EOF.";
   | _ ->  "Fatal Error: token match not found!!!"
 
 (**********************************************************************
@@ -195,12 +190,14 @@ let p_special_percent = p_backslash p_percent
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
-let p_com_choice = '\\' "choice"
-let p_com_correct_choice = '\\' "choice*"
 
-let p_com_fold = '\\' "fold"
+let p_com_ask = '\\' "ask"
+let p_com_choice = '\\' "choice"
+let p_com_choice_correct = '\\' "choice*"
 let p_com_explain = '\\' "explain"
+let p_com_fold = '\\' "fold"
 let p_com_hint = '\\' "help"
+let p_com_notes = '\\' "notes"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
@@ -240,24 +237,33 @@ let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
-(* Ilists *)
-let p_chooseone = "xchoice"
-let p_chooseany = "anychoice"
+let p_questions = "ques"
 
-let p_ilist_separator = p_com_choice | p_com_correct_choice
-let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-                            | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+let p_item = 
+	(p_com_ask as kind) |
+	(p_com_choice as kind) |
+	(p_com_choice_correct as kind) |
+	(p_com_explain as kind) |
+  (p_com_hint as kind) |
+  (p_com_notes as kind) |
+  (p_com_refsol as kind) |
+  (p_com_rubric as kind) 
 
-(* A latex environment consists of alphabethical chars plus an optional star *)
+let p_item_arg = 
+  p_item p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+
+let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
+
+(* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
 
+(* Segments *)
 let p_segment = 
 	p_chapter |
   p_section |
   p_subsection |
   p_subsubsection |
   p_paragraph  
-
 
 let p_segment_with_points =
 	p_chapter_with_points | 
@@ -266,39 +272,33 @@ let p_segment_with_points =
   p_subsubsection_with_points | 
   p_paragraph_with_points
 
+(* Headings *)
 let p_heading = '\\' p_segment
 let p_heading_with_points = '\\' p_segment_with_points
-
-
-let p_ilist_kinds = (p_chooseone | p_chooseany)
-let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
-
-let p_begin_ilist = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
-
-(* point values now go with atoms.
-let p_begin_ilist_arg = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-*)
- 
-let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
-
-let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
-let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
-
 
 let p_group = ((p_cluster as kind) p_ws as kindws) |
               ((p_flex as kind) p_ws as kindws) |
               ((p_problem_cluster as kind) p_ws as kindws) 
 
+(* Groups *)
 let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
 let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
 
-let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
+
+
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
+let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
+
+let p_list = 
+	(p_questions as kind) p_ws as kindws 
+
+let p_begin_list = (p_com_begin p_ws as b) (p_o_curly as o) p_list (p_c_curly as c) 
+let p_end_list = (p_com_end p_ws as e) (p_o_curly as o) p_list (p_c_curly as c) 
 
 
 (** END PATTERNS *)			
-
 
 rule initial = parse
 | (p_heading as x) (p_o_curly as o_c)
@@ -323,22 +323,22 @@ rule initial = parse
        KW_HEADING(kind, arg, Some point_val)
     }		
 
-| p_begin_group as x
-    {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ =  set_line_nonempty () in
-       KW_BEGIN_GROUP(kind, x, None)
-    }		
-
 | (p_begin_group as x) (p_o_sq as a)
     {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ = d_printf "!lexer matched begin group %s." kind in 
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_opt_arg lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, arg, None)
+    }		
+
+| p_begin_group as x
+    {
+(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ =  set_line_nonempty () in
+       KW_BEGIN_GROUP(kind, x, None)
     }		
 
 | p_com_fold as x
@@ -350,62 +350,19 @@ rule initial = parse
 
 | p_end_group as x
     {
-(*     let _ = d_printf "!lexer matched end group %s." kind in *)
+     let _ = d_printf "!lexer matched end group %s." kind in
      let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
 
-
-| p_begin_env_with_points as x
-      { 
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, h_e) = take_env lexbuf in
-					let all = x ^ body ^ h_e in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-					let _ =  set_line_nonempty () in
-            ENV(Some point_val, None, lopt, body, all)
-          
-      }   
-
-| (p_begin_env_with_points as x) (p_o_sq as a)
+| (p_begin_env as x)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
-(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ = do_begin_env () in		
-     let (lopt, body, h_e) = take_env lexbuf in
-   	 let all = h_b ^ body ^ h_e in
+     let (rest, h_e) = take_env lexbuf in
+   	 let all = x ^ rest ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(Some point_val, Some title, lopt, body, all)
-}
-
-| p_begin_env as x
-      { 
-(*          let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-          let _ = do_begin_env () in		
-          let (lopt, body, h_e) = take_env lexbuf in
-   				let all = x ^ body ^ h_e in
-(*          let _ = d_printf "!lexer: latex env matched = %s.\n" (x ^ y) in *)
-					let _ =  set_line_nonempty () in
-            ENV(None, None, lopt, body, all)
-          
-      }   
-
-| (p_begin_env as x) (p_o_sq as a)
-    {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
-(*     let _ = d_printf "!lexer matched group all: %s." h in  *)
-     let _ = do_begin_env () in		
-      let (lopt, body, h_e) = take_env lexbuf in
-   		let all = h_b ^ body ^ h_e in
-     let _ =  set_line_nonempty () in
-            ENV(None, Some title, lopt, body, all)
+            ENV(all)
 }
 
 | p_label_and_name as x
@@ -419,9 +376,9 @@ rule initial = parse
 
 | p_sigchar as x
 		{
-(*     d_printf "!%s" (char_to_str x); *)
+(*     d_printf "!%s" (str_of_char x); *)
      let _ =  set_line_nonempty () in
-     SIGCHAR(char_to_str x, None)
+     SIGCHAR(str_of_char x, None)
     }
 
 | p_percent_esc as x 
@@ -433,9 +390,9 @@ rule initial = parse
 
 | p_percent as x 
 		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (char_to_str x) in *)
-     let comment = take_comment lexbuf in
-     let result = (char_to_str x) ^ comment in
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let rest = take_comment lexbuf in
+     let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
 		 if line_is_empty () then
       (* Drop comments *)
@@ -453,14 +410,15 @@ rule initial = parse
 
 | p_hspace as x
 		{
-(*     d_printf "!lexer found: horizontal space: %s." (char_to_str x); *)
-     HSPACE(char_to_str x)
+(*     d_printf "!lexer found: horizontal space: %s." (str_of_char x); *)
+     HSPACE(str_of_char x)
     }
 
 | eof
 		{EOF}
 | _
     {initial lexbuf}		
+
 and take_comment = 		
   parse
   | p_newline as x
@@ -470,10 +428,12 @@ and take_comment =
     } 
   | _ as x 
     {
-     (* let _ = d_printf "take_comment: %s" (char_to_str x) in *)
+     (* let _ = d_printf "take_comment: %s" (str_of_char x) in *)
      let comment = take_comment lexbuf in 
-       (char_to_str x) ^ comment
+       (str_of_char x) ^ comment
     }
+
+
 and take_env =
   parse
   | p_begin_verbatim as x
@@ -481,15 +441,15 @@ and take_env =
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
           let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let (lopt, z, h_e) = take_env lexbuf in
-            (lopt, x ^ y ^ z, h_e)          
+          let (rest, h_e) = take_env lexbuf in
+            (x ^ y ^ rest, h_e)          
       }   
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
             let _ = do_begin_env () in
-            let (lopt, y, h_e) = take_env lexbuf in
-                (lopt, x ^ y, h_e)              
+            let (rest, h_e) = take_env lexbuf in
+                (x ^ rest, h_e)              
         }
 
   | p_end_env as x
@@ -498,35 +458,30 @@ and take_env =
             let do_exit = do_end_env () in
                 if do_exit then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        ( None, "", x)
+                        ( "", x)
                 else
-                    let (lopt, y, h_e) = take_env lexbuf in
-                      (lopt, x ^ y, h_e)  
+                    let (rest, h_e) = take_env lexbuf in
+                      (x ^ rest, h_e)  
         }      
-  | p_label_and_name as x
-  		{ 
-(*		    let _ = d_printf "!lexer matched label %s." x in *)
-				let all = label_pre ^ label_name ^ label_post in
-        let (lopt, y, h_e) = take_env lexbuf in
-          (* Important: Drop inner label lopt *)
-          (Some label_name, all ^ y, h_e)  
-			}		
+
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (lopt, y, h_e) = take_env lexbuf in
-          (lopt, x ^ y, h_e)
+     let (rest, h_e) = take_env lexbuf in
+          (x ^ rest, h_e)
     }
-  | p_percent as x   (* skip over comments *)
+  | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
-     let (lopt, z, h_e) = take_env lexbuf in 
-          (lopt, (char_to_str x) ^ y ^ z, h_e)
+     (* Keep comments inside envs *)
+     let (rest, h_e) = take_env lexbuf in 
+          ((str_of_char x) ^ y ^ rest, h_e)
      } 
+
   | _  as x
-        { let (lopt, y, h_e) = take_env lexbuf in
-            (lopt, (char_to_str x) ^ y, h_e)
+        { let (rest, h_e) = take_env lexbuf in
+            ((str_of_char x) ^ rest, h_e)
         }
 and verbatim =
   parse
@@ -537,7 +492,7 @@ and verbatim =
         }
   | _  as x
         { let y = verbatim lexbuf in
-            (char_to_str x) ^ y
+            (str_of_char x) ^ y
         }
 and take_arg = 
   parse 
@@ -559,7 +514,7 @@ and take_arg =
   | _ as x
     {
      let (arg, c_c) = take_arg lexbuf in 
-       ((char_to_str x) ^ arg, c_c)
+       ((str_of_char x) ^ arg, c_c)
     }
 and take_opt_arg = 
   parse 
@@ -569,7 +524,7 @@ and take_opt_arg =
      let (arg, c_sq) = take_opt_arg lexbuf in 
        (x ^ arg, c_sq)
     }
-  | (p_c_sq p_ws) as x
+  | (p_c_sq p_hs) as x
     {
      let _ = dec_arg_depth () in
        if arg_depth () = 0 then
@@ -581,7 +536,7 @@ and take_opt_arg =
   | _ as x
     {
      let (arg, c_sq) = take_opt_arg lexbuf in 
-       ((char_to_str x) ^ arg, c_sq)
+       ((str_of_char x) ^ arg, c_sq)
     }
 
 
@@ -667,6 +622,10 @@ let lexer: Lexing.lexbuf -> token =
 									
 						end
 				| HSPACE x -> 
+        (* IMPORTANT: We are skipping over some horizontal spaces.
+           This will show up if you compare input latex
+           with the latex serialization of AST
+         *)
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						begin
 						match get_trace () with 

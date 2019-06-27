@@ -4,8 +4,11 @@ open Printf
 open Utils
 
 
-module Ast = Tex_ast
+module Ast = Ast
 module Tex = Tex_syntax
+
+module Atom_lexer = Atom_lexer
+module Atom_Parser = Atom_parser
 
 (* Turn off prints *)
 (*
@@ -56,6 +59,32 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 	in
 	List.partition_tf segments is_subsegment
 
+let str_of_items items = 
+	str_of_str2_list items
+
+(* Given input string, 
+ * parse it using Atom_parser
+ *)
+let parse_atom input = 
+	let _ = d_printf "atom_to_ast input = %s" input in
+      let lexbuf = Lexing.from_string input in
+	    Atom_parser.top Atom_lexer.lexer lexbuf
+
+let mk_prompt (kind, point_val, body) =
+	Ast.Prompt.make ~point_val:point_val kind body 
+
+(*
+let mk_problem items = 
+	begin
+		match items with 
+		| [ ] -> None
+		| (kind_problem, point_val, body)::prompts ->
+				let	prompts = List.map prompts ~f:mk_prompt in
+				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val body prompts in
+				Some p
+	end
+*)
+
 %}	
 
 %token EOF
@@ -69,14 +98,20 @@ let nesteds_and_not kind (segments: Ast.segment List.t) =
 
 %token <string> HSPACE
 %token <string> NEWLINE
+
+(* the "character" itself and the label defined if any *)
 %token <string * string option> SIGCHAR
-%token <string option * string option * string option * string * string> ENV
+(* the "character" itself and the label defined if any *)
 %token <string * string option> PAR_SIGCHAR
-%token <string option * string option * string option * string * string> PAR_ENV
+
+%token <string> ENV
+
+(* points, title, label, body, all *) 
+%token <string> PAR_ENV
 
 %start top
 
-%type <Tex_ast.ast option> top
+%type <Ast.ast option> top
 
 /*  BEGIN RULES */
 %%
@@ -97,17 +132,17 @@ hspaces:
   x = hspace
   { xs ^ x }
 
-/* Non-space char */
+/* Non-space char.
+ * Not at a paragraph-start position.
+ */
 sigchar: 
 | d = SIGCHAR
   { let (d, ellopt) = d in
   	(d, ellopt) 
 	}
 | e = ENV
-  { let (popt, topt, lopt, body, all) = e in
-    let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "* env: %s\n" all in
-  	  (all, None)
+  { let _ = d_printf "* env: %s\n" e in
+  	  (e, None)
   }
 
 /* Non-space char at the beginning of a paragraph */
@@ -115,13 +150,11 @@ parstart:
 | d = PAR_SIGCHAR
   { let (d, elopt) = d in
 (*    let _ = d_printf "Parser matched par_sigchar = %s" d in *)
-	  (None, None, None, d, d, elopt) 
+	  (d, elopt) 
 	}
 | e = PAR_ENV
-  { let (popt, topt, lopt, body, all) = e in
-    let label = match lopt with | None -> "" | Some l -> l in
-    let _ = d_printf "* env: %s\n" all in
-  	  (popt, topt, lopt, body, all, None)
+  { let _ = d_printf "* env: %s\n" e in
+  	  (e, None)
   }
 
 /* All characters */
@@ -180,12 +213,11 @@ line_parstart:
   cs = chars;
   nl = newline
   {
-		let (popt, topt, lopt, body, all, elopt_ps) = ps in
+		let (ps, elopt) = ps in
 		let (cs, ell) = cs in
-		let l = hs ^ all  ^ cs ^ nl in
-		let all = hs ^ all ^ cs ^ nl in
+		let all = hs ^ ps ^ cs ^ nl in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
-    (popt, topt, lopt, body, all, extend_labels ell elopt_ps)
+    (all, extend_labels ell elopt)
   }
 
 
@@ -196,9 +228,9 @@ textpar:
 	| lp = line_parstart;
 		tail = textpar_tail;
 		{ 
-  	  let (popt, topt, lopt, body, all, ell_lp) = lp in
+  	  let (all, ell_lp) = lp in
 			let (tail, ell_tail) = tail in
- 	 		(popt, topt, lopt, body, all ^ tail, ell_lp @ ell_tail)
+ 	 		(all ^ tail, ell_lp @ ell_tail)
 	}  
 
 textpar_tail:
@@ -287,30 +319,28 @@ atom:
   fs = emptylines;
   tp_all = textpar;
   {	 
-	 let (popt, topt, lopt, body, all, ell) = tp_all in
-	 let all = String.strip all in
-	 let single = Tex.take_single_env all in
-	 let (kind, popt, topt,  lopt, body) = 
-	   match single with 
-		 | None -> 
-				 (Tex.kw_gram, None, None, None, all)
-		 | Some (env, _) -> 
-				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
-	 in 
-(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
-	 let body = String.strip body in
-	   if Tex.is_label_only body then
-(*			 let _ = d_printf "atom is label only" in *)
-			 ([ ], ell)
-		 else
-			 let a = Ast.Atom.make 
-					 ~point_val:popt 
-					 ~title:topt 
-					 ~label:lopt  
-					 kind  
-					 body
-			 in
-			 ([ a ], ell)
+	 let (all, ell) = tp_all in
+   let a = parse_atom all in
+	 let (kind, popt, topt, lopt, body, problem_opt) = 
+	   match a with 
+		 | None -> (Tex.kw_gram, None, None, None, all, None)
+		 | Some (kind, popt, topt, lopt, body, items) -> 
+				 let problem_opt = Ast.problem_of_items items in
+				 (kind, popt, topt, lopt, body, problem_opt)
+	 in			 
+	 let body = String.strip ~drop:is_vert_space body in
+	 if Tex.is_label_only body then
+		 ([ ], ell)
+	 else
+		 let a = Ast.Atom.make 
+				 ~point_val:popt 
+				 ~title:topt 
+				 ~label:lopt  
+				 ~problem:problem_opt
+				 kind  
+				 body
+		 in
+		 ([ a ], ell)
   }
 
 atoms:
@@ -381,3 +411,37 @@ elements:
 /**********************************************************************
  ** END: Elements
  **********************************************************************/
+
+
+/*
+atom: 
+  fs = emptylines;
+  tp = textpar;
+  {	 
+	 let (all, ell) = tp in
+	 let all = String.strip ~drop:is_vert_space all in
+	 let single = Tex.take_single_env all in
+	 let (kind, popt, topt,  lopt, body) = 
+	   match single with 
+		 | None -> 
+				 (Tex.kw_gram, None, None, None, all)
+		 | Some (env, _) -> 
+				 let atom = atom_to_ast all in						 
+				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
+	 in 
+(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
+	 let body = String.strip ~drop:is_vert_space body in
+	   if Tex.is_label_only body then
+(*			 let _ = d_printf "atom is label only" in *)
+			 ([ ], ell)
+		 else
+			 let a = Ast.Atom.make 
+					 ~point_val:popt 
+					 ~title:topt 
+					 ~label:lopt  
+					 kind  
+					 body
+			 in
+			 ([ a ], ell)
+  }
+*/

@@ -58,31 +58,32 @@ $ lexer.native
 
 # Grammar
 
-## Note: Plural items, sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
+## Overview
+The grammar is primarily designed to avoid conflicts in the parser.  
+
+For example,  plural items, such as sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
+
+The parsing infrastructure is separated into two stages.  First, we use a "top-level"pparser to parse latex into "atoms" and then we use a separate atom lexer and parser atom/atom_lexer and atom/atom_parser) to parse each atom.  The motivation is to reduce complexity. 
+
+The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  
 
 ## preambles and tailtexts
 
-  One difficulty in the parser was accommodating text outside the atoms.  I wanted to allow any text outside of an atom and the idea would be for all these texts not to be taken into account in terms of uploading to diderot but still be preserved so that we can heve an idempontent system that does not loose any of the input TeX file.
+  One difficulty in the parser was accommodating text, mainly whitespace, outside the atoms. 
 
   To solve this problem, I allow 
    * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
-   * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext".  this tail text is represented is part of the block node in the ast.
+   * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext". 
  
 
-## Chapters and sections
+## Segments: chapters and sections
 
 *  We have four levels of sectioning:
   chapter, section, subsection, subsubsection
 
-  These have to be "properly nested" as in the order above.  For example, "subsubsection" inside "section" is disallowed.
+  These don't have to be "properly nested" 
 
-  Each section has the form: 
-  X ::= heading + label + block + paragraphs + subX
-  where X = chapter | section | subsection | subsubsection
-  and subX = section | subsection | subsubsection | "nothing"
-  respectively
-
-  A paragraph is a paragraph heading followed by a "block"
+  A segment is a heading followed by a block.
 
   A block is a sequence of elements with tail text.
 
@@ -93,9 +94,29 @@ $ lexer.native
 
   An atom is a preamble text followed by \begin{atom}...\end{atom}
 
-  Note that paragraphs are "floating" sections and can appear anywhere
+## Problems, Prompts, Cookies
 
-  We refer to all sections and paragraph as a *_segment_*  
+  Each atom can be followed by a problem. The user writes the problem as a sequence of command-body pairs of the form
+
+  \problem_kind Instructions
+  list of cookies
+  List of prompts
+
+  A prompt is a (\problem_part_kind Instructions
+                 followed by             
+                 \list of cookies).
+
+
+  A cookie could look like this
+  \hint[optional cost] some hint   
+  \explain[optional cost] some explanation
+  \sol[optional cost] some solution
+  \notes[optional cost] some notes
+  \rubric[optional cost] a rubric
+  
+  The optional costs are not always meaningful.  The idea is that if a student demants a hint, they will pay some cost and this could be specified.
+  
+  For simplicity, the parser simply parses the list and then processes it to construct the parts.  
 
 ## Automatic labeling
 
@@ -124,7 +145,6 @@ Tested it on several 210 chapters. Works surprisingly well.
 
 ### Limitation
 
-* Does not drop latex environments for some odd reason.  This is a bug.
 
 # OVERALL STRATEGY
 

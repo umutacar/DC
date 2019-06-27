@@ -3,6 +3,19 @@ open Printf
 
 let debug = false
 
+
+let str_of_char x = String.make 1 x
+
+let str_of_pval_opt x = 
+  match x with 
+  | None -> "None"
+  | Some x -> "Some" ^ x
+
+
+(* is C vertical space *)
+let is_vert_space c = 
+  c = '\n' || c = '\r' 
+
 let str_of_str_opt so = 
 	match so with 
 	| None -> ""
@@ -11,6 +24,19 @@ let str_of_str_opt so =
 
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
+
+let str_of_str2_list (xs: (string * string) list): string = 
+	let l = List.map xs ~f:(fun (item, body) -> item ^ " " ^ body) in 
+  String.concat ~sep:", " l
+
+let str_of_items (xs: (string * string option * string) list): string = 
+  let str_of_item (kind, pvalopt, body) = 
+		match pvalopt with 
+		| None -> kind ^ "\n" ^ body ^ "\n"
+		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ body ^ "\n"
+	in
+	let l = List.map xs ~f:str_of_item in
+  String.concat ~sep:", " l
 
 (* BEGIN: Debug Prints *) 
 
@@ -35,7 +61,6 @@ let d_printf_strlist heading (xs: string list) =
     d_printf "%s = %s \n" heading s  
 
 (* END Debug Prints *) 
-
 
 
 (* BEGIN: File names etc *) 

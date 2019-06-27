@@ -1,7 +1,7 @@
 open Core
 open Lexing
 
-module Ast = Tex_ast
+module Ast = Ast
 module Lexer = Tex_lexer
 module Parser = Tex_parser
 
