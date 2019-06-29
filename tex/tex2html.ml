@@ -18,9 +18,7 @@ module Tex = Tex_syntax
  ** BEGIN: Globals
  **********************************************************************)
 
-type translation_options = 
-  Generic of bool 
-| Code of string option * string option (* code is language name and other argument *) 
+type translation_options = bool
 
 let html_extension = "html"
 let latex_extension = "tex"
@@ -38,13 +36,12 @@ let mk_unique () =
  *  "true" means that this was a single paragraph and the
  * <p> </p> annotations must be removed.
  *) 
-let body_is_single_par = Generic false
-let explain_is_single_par = Generic false
-let hint_is_single_par = Generic false
-let refsol_is_single_par = Generic false
-let rubric_is_single_par = Generic false
-let title_is_single_par = Generic true
-let atom_is_code lang_opt arg_opt = Code (lang_opt, arg_opt)
+let body_is_single_par =  false
+let explain_is_single_par =  false
+let hint_is_single_par =  false
+let refsol_is_single_par =  false
+let rubric_is_single_par =  false
+let title_is_single_par =  true
 
 let single_paragraph_status_of_kind = 
   [ Xml.body, body_is_single_par;
@@ -314,23 +311,10 @@ let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents =
 (**
  **
  **)
-let contents_to_html be_verbose tmp_dir meta_dir  lang_opt_default unique preamble contents options = 
-  match options with 
-  | Generic is_single_paragraph -> 
-			tex_to_html 
-				be_verbose tmp_dir meta_dir lang_opt_default 
-				unique preamble contents is_single_paragraph
-  | Code (lang_opt, arg_opt) -> 
-    match lang_opt with 
-    | None -> 
-      (match lang_opt_default with 
-       | None -> code_to_html be_verbose tmp_dir meta_dir None unique arg_opt contents
-       | Some lang -> let lang_arg = MdSyntax.mk_code_block_arg_indicate lang in
-                      let arg_opt_new = MdSyntax.add_to_code_block_arg lang_arg arg_opt in 
-                        code_to_html be_verbose tmp_dir meta_dir lang_opt_default unique arg_opt_new contents 
-      )
-    | Some lang -> code_to_html be_verbose tmp_dir meta_dir (Some lang) unique arg_opt contents
-
+let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preamble contents is_single_paragraph = 
+	tex_to_html 
+		be_verbose tmp_dir meta_dir lang_opt_default 
+		unique preamble contents is_single_paragraph
 
 (**********************************************************************
  ** mk_translator makes a tex to html translator function 

@@ -24,17 +24,6 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 let points_correct = 1.0
 let points_incorrect = 0.0
 
-(* *_single_par flags are used for html post-processing:
- *  "true" means that this was a single paragraph and the
- * <p> </p> annotations must be removed.
- *) 
-let body_is_single_par = Tex2html.Generic false
-let explain_is_single_par = Tex2html.Generic false
-let hint_is_single_par = Tex2html.Generic false
-let refsol_is_single_par = Tex2html.Generic false
-let rubric_is_single_par = Tex2html.Generic false
-let title_is_single_par = Tex2html.Generic true
-let atom_is_code lang_opt arg_opt = Tex2html.Code (lang_opt, arg_opt)
 (**********************************************************************
  ** END: Constants
  **********************************************************************)
