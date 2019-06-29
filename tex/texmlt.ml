@@ -32,7 +32,7 @@ let mk_translator () =
     | None -> ""
     | Some x -> In_channel.read_all x
   in
-    Tex2html.mk_translator_auto 
+    Tex2html.mk_translator 
 		!verbose 
 		!tmp_dir 
 		!meta_dir

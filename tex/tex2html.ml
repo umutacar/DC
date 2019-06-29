@@ -334,27 +334,10 @@ let contents_to_html be_verbose tmp_dir meta_dir  lang_opt_default unique preamb
 
 (**********************************************************************
  ** mk_translator makes a tex to html translator function 
- ** and returns it.  The returned translator requires
- ** a unique string.
- **********************************************************************)
-let mk_translator be_verbose tmp_dir lang_opt preamble = 
-   (* Create tmp dir *) 
-   let command = "mkdir " ^ tmp_dir in
-   let _ = Sys.command command in  
-
-   (* translator *)
-   let translate unique contents options = 
-     let contents = text_prep contents in 
-       contents_to_html be_verbose tmp_dir lang_opt unique preamble contents options
-   in
-     translate
-
-(**********************************************************************
- ** mk_translator makes a tex to html translator function 
  ** and returns it.  The returned translator function does 
  ** not require a unique string but generates it.
  **********************************************************************)
-let mk_translator_auto be_verbose tmp_dir meta_dir  lang_opt preamble = 
+let mk_translator be_verbose tmp_dir meta_dir  lang_opt preamble = 
    (* Create tmp dir *) 
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  
