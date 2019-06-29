@@ -207,6 +207,9 @@ let contains_substring (search: string) (target: string) =
    \begin{lstlisting}[language = my_language ...] 
    and cleanup it my_language by deleting [, ], {, }
    characters.
+
+   This algorithm is wonky.
+   Ideally, it should iterate over the body string replace each match with its sanitized version.  This one replaces each match globally.  The only reason for this is that I could not find a primitive of the sort needed for iteration/mapping over the string.
  *)
 let sanitize_lst_language body = 
   (* regexp, group \1 is the language matched *)
