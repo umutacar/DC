@@ -233,6 +233,12 @@ for references or  the standard
 ```
 We replace the former with `\hyperref[][]` command so that we can get proper  linked refs is latex/ pdf.
 
+### Colors
+
+You can use colors as follows
+```
+\textcolor{red}{my text}
+```
 
 ### The rest
 
