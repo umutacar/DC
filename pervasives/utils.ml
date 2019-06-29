@@ -215,6 +215,7 @@ let sanitize_lst_language body =
   (* You want to define clean = Str.regexp "[\\]\\[{}]+" but there is an exception
      * for close bracket.  It has to be the first char in the set.
      *)
+  let mk_regexp s = Str.regexp (Str.quote s) in
   let next pos body = 
 	try 
 		let pos_match = Str.search_forward r body pos in
@@ -223,8 +224,8 @@ let sanitize_lst_language body =
 		let _ = printf "matched lsthead = %s" lsthead in
 		let _ = printf "matched language = %s" language in  
     let language_c = Str.global_replace clean "" language in
-    let lsthead_c = Str.global_replace (Str.regexp language) language_c lsthead in
-    let body_c =  Str.global_replace (Str.regexp lsthead) lsthead_c body in
+    let lsthead_c = Str.global_replace (mk_regexp language) language_c lsthead in
+    let body_c =  Str.global_replace (mk_regexp lsthead) lsthead_c body in
     let _ = printf "Sanitized body = %s" body_c in
 		Some (pos_match, body_c)
 	with
@@ -233,7 +234,7 @@ let sanitize_lst_language body =
 	let rec all pos body = 
 		match (next pos body) with 
 		| None -> body
-		| Some (npos, nbody) -> all npos nbody
+		| Some (npos, nbody) -> all (npos + 1) nbody
 	in
 	all 0 body
 
