@@ -210,14 +210,14 @@ let contains_substring (search: string) (target: string) =
  *)
 let sanitize_lst_language body = 
   (* regexp, group \1 is the language matched *)
-  let r = Str.regexp "\\begin{lstlisting}[ ]*\\[language[ ]*=[ ]*\\(.+\\)" in
+  let r = Str.regexp "\\\\begin{lstlisting}[ ]*\\[language[ ]*=[ ]*\\(.+\\)" in
   let clean = Str.regexp "[]\\[{}]+" in
   (* You want to define clean = Str.regexp "[\\]\\[{}]+" but there is an exception
      * for close bracket.  It has to be the first char in the set.
      *)
-  let next i body = 
+  let next pos body = 
 	try 
-		let pos = Str.search_forward r body 0 in
+		let pos_match = Str.search_forward r body pos in
 		let lsthead = Str.matched_group 0 body in
 		let language = Str.matched_group 1 body in
 		let _ = printf "matched lsthead = %s" lsthead in
@@ -226,9 +226,9 @@ let sanitize_lst_language body =
     let lsthead_c = Str.global_replace (Str.regexp language) language_c lsthead in
     let body_c =  Str.global_replace (Str.regexp lsthead) lsthead_c body in
     let _ = printf "Sanitized body = %s" body_c in
-		Some (pos, body_c)
+		Some (pos_match, body_c)
 	with
-		Not_found -> None
+		Not_found -> (printf "sanitize: no match\n"; None)
 	in
 	let rec all pos body = 
 		match (next pos body) with 
