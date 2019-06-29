@@ -198,9 +198,46 @@ let contains_substring (search: string) (target: string) =
 				false
     | Some x -> 
 (*				let _ = d_printf "contains_substring: found match %d\n" x in *)
-				true 
+				true
   in
     res
+
+
+(* Takes a title that has at most one occurrence of 
+   language = my_language 
+   and cleanup it my_language by deleting [, ], {, }
+   characters.
+ *)
+let sanitize_language title = 
+  (* regexp, group \1 is the language matched *)
+  let r = Str.regexp "\\begin{lstlisting}[ ]*\\[language[ ]*=[ ]*\\(.+\\)" in
+  let clean = Str.regexp "[]\\[{}]+" in
+  (* You want to define clean = Str.regexp "[\\]\\[{}]+" but there is an exception
+     * for close bracket.  It has to be the first char in the set.
+     *)
+  let next i title = 
+	try 
+		let pos = Str.search_forward r title 0 in
+		let lsthead = Str.matched_group 0 title in
+		let language = Str.matched_group 1 title in
+		let _ = printf "matched lsthead = %s" lsthead in
+		let _ = printf "matched language = %s" language in  
+    let language_c = Str.global_replace clean "" language in
+    let lsthead_c = Str.global_replace (Str.regexp language) language_c lsthead in
+    let title_c =  Str.global_replace (Str.regexp lsthead) lsthead_c title in
+    let _ = printf "Sanitized title = %s" title_c in
+		Some (pos, title_c)
+	with
+		Not_found -> None
+	in
+	let rec all pos title = 
+		match (next pos title) with 
+		| None -> title
+		| Some (npos, ntitle) -> all npos ntitle
+	in
+	all 0 title
+
+
 (* END String and substring search *) 
 
 

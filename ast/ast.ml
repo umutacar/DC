@@ -543,6 +543,7 @@ struct
 			let _ = d_printf "body_to_xml: atom = %s, Promoting to code" atom.kind in
 			let _ = atom.kind <- Xml.code in
 			let title = str_of_str_opt atom.title in
+      let title = sanitize_language title in
 			let newbody = 
 				"\\begin{lstlisting}" ^ "[" ^ title ^ "]" ^ newline ^
 				atom.body ^ newline ^
