@@ -543,19 +543,22 @@ struct
 			let _ = d_printf "body_to_xml: atom = %s, Promoting to code" atom.kind in
 			let _ = atom.kind <- Xml.code in
 			let title = str_of_str_opt atom.title in
-      let title = sanitize_language title in
 			let newbody = 
 				"\\begin{lstlisting}" ^ "[" ^ title ^ "]" ^ newline ^
 				atom.body ^ newline ^
 				"\\end{lstlisting}"					
 			in
-			let _ = atom.body <- newbody in
+			let newbody_c = sanitize_lst_language newbody in
+      let _ = d_printf "newbody sanitized:\n %s" newbody_c in
+			let _ = atom.body <- newbody_c in
 			let _ = atom.title <- None in
 			let body_xml = tex2html Xml.body newbody in
 			body_xml
 		else
 			let _ = d_printf "body_to_xml: atom = %s, Not promoting to code" atom.kind in
-			tex2html Xml.body atom.body
+			let body_c = sanitize_lst_language atom.body in
+      let _ = d_printf "body sanitized:\n %s" body_c in
+			tex2html Xml.body body_c
 			
   let to_xml tex2html atom = 
 		(* Translate body to xml *)

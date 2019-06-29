@@ -203,39 +203,39 @@ let contains_substring (search: string) (target: string) =
     res
 
 
-(* Takes a title that has at most one occurrence of 
-   language = my_language 
+(* Takes an atom body that has occurrences of the form 
+   \begin{lstlisting}[language = my_language ...] 
    and cleanup it my_language by deleting [, ], {, }
    characters.
  *)
-let sanitize_language title = 
+let sanitize_lst_language body = 
   (* regexp, group \1 is the language matched *)
   let r = Str.regexp "\\begin{lstlisting}[ ]*\\[language[ ]*=[ ]*\\(.+\\)" in
   let clean = Str.regexp "[]\\[{}]+" in
   (* You want to define clean = Str.regexp "[\\]\\[{}]+" but there is an exception
      * for close bracket.  It has to be the first char in the set.
      *)
-  let next i title = 
+  let next i body = 
 	try 
-		let pos = Str.search_forward r title 0 in
-		let lsthead = Str.matched_group 0 title in
-		let language = Str.matched_group 1 title in
+		let pos = Str.search_forward r body 0 in
+		let lsthead = Str.matched_group 0 body in
+		let language = Str.matched_group 1 body in
 		let _ = printf "matched lsthead = %s" lsthead in
 		let _ = printf "matched language = %s" language in  
     let language_c = Str.global_replace clean "" language in
     let lsthead_c = Str.global_replace (Str.regexp language) language_c lsthead in
-    let title_c =  Str.global_replace (Str.regexp lsthead) lsthead_c title in
-    let _ = printf "Sanitized title = %s" title_c in
-		Some (pos, title_c)
+    let body_c =  Str.global_replace (Str.regexp lsthead) lsthead_c body in
+    let _ = printf "Sanitized body = %s" body_c in
+		Some (pos, body_c)
 	with
 		Not_found -> None
 	in
-	let rec all pos title = 
-		match (next pos title) with 
-		| None -> title
-		| Some (npos, ntitle) -> all npos ntitle
+	let rec all pos body = 
+		match (next pos body) with 
+		| None -> body
+		| Some (npos, nbody) -> all npos nbody
 	in
-	all 0 title
+	all 0 body
 
 
 (* END String and substring search *) 
