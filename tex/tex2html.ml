@@ -216,6 +216,11 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, html_file_name) 
  **)
 
 let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
+	let error_out languages = 
+		let _ = printf "Parse Error: MTL allows one programming language per atom.\n" in
+		let _ = printf "This atom has multiple, i.e., %s" (str_of_str_list languages) in
+		exit 1
+	in
   (* prep for translation *)
   let contents = text_prep contents in
   (* Doing something slightly dangerous.
@@ -228,9 +233,7 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 		match languages with 
 		| [ ] -> default_lang_opt
 		| lang::[ ] -> Some lang
-		| _ ->
-			(printf "Parse Error: I can only handle one programming language per atom.\n This atom has multiple languages, i.e., %s" (str_of_str_list languages);
-			 exit 1)
+		| _ -> error_out languages
 	in
   let latex_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ latex_extension in
   let _ = mk_tex_document latex_file_name preamble contents in
