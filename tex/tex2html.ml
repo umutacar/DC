@@ -138,8 +138,16 @@ let text_prep s =
 (**********************************************************************
  ** BEGIN: Utils
  **********************************************************************)
-
-
+(* Create a latex document from contents and preamble *)
+let mk_tex_document latex_file_name preamble contents =
+	let latex_file = Out_channel.create latex_file_name in
+	let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
+	let () = Out_channel.output_string latex_file (preamble ^ "\n") in
+	let () = Out_channel.output_string latex_file (latex_begin_document ^ "\n") in
+	let () = Out_channel.output_string latex_file (contents ^ "\n") in
+	let () = Out_channel.output_string latex_file (latex_end_document ^ "\n") in
+	let () = Out_channel.close latex_file in
+	()
 (**********************************************************************
  ** END: Utils
  **********************************************************************)
@@ -150,18 +158,13 @@ let text_prep s =
  *  html_file_name
  * Ignores all but the first language
  *)
-let latex_file_to_html be_verbose meta_dir languages (latex_file_name, html_file_name) = 
+let latex_file_to_html be_verbose meta_dir language_opt (latex_file_name, html_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
 
-    let language = 
-       match languages with 
-       | [] -> None
-       | h::t -> Some h
-    in
-    let command = (set_pandoc be_verbose meta_dir language) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
+    let command = (set_pandoc be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
     let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
@@ -212,44 +215,39 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, html_file_name) 
  ** match specifies that what is expected is a single paragraph
  **)
 
-let tex_to_html be_verbose tmp_dir meta_dir default_lang  unique preamble contents match_single_paragraph = 
+let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
   let languages = find_lang contents  in
-  let languages = match languages with 
-                  | [] -> (match default_lang with 
-                           | None -> []
-                           | Some x -> [x])
-                  | _ -> languages
-  in       
+	let language_opt = 
+		match languages with 
+		| [ ] -> default_lang_opt
+		| lang::[ ] -> Some lang
+		| _ ->
+			(printf "Parse Error: I can only handle one programming language per atom.\n This atom has multiple languages, i.e., %s" (str_of_str_list languages);
+			 exit 1)
+	in
   let latex_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ latex_extension in
-  let latex_file = Out_channel.create latex_file_name in
-  let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
-  let () = Out_channel.output_string latex_file (preamble ^ "\n") in
-  let () = Out_channel.output_string latex_file (latex_begin_document ^ "\n") in
-  let () = Out_channel.output_string latex_file (contents ^ "\n") in
-  let () = Out_channel.output_string latex_file (latex_end_document ^ "\n") in
-  let () = Out_channel.close latex_file in
-
+  let _ = mk_tex_document latex_file_name preamble contents in
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let () = latex_file_to_html be_verbose meta_dir  languages (latex_file_name, html_file_name) in
+  let () = latex_file_to_html be_verbose meta_dir  language_opt (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
-    if not match_single_paragraph then
+	if not match_single_paragraph then
 (*      let _ = printf "html: %s" html in *)
-        html
-    else
-      let matched = try Str.search_forward regexp_html_paragraph html 0 
-                    with Not_found -> -1
-      in
+    html
+  else
+    let matched = try Str.search_forward regexp_html_paragraph html 0 
+    with Not_found -> -1
+    in
         (* Group names start counting from 1. *)
-        if matched >= 0 then
-          let contents:string = Str.matched_group 1 html  in
+    if matched >= 0 then
+      let contents:string = Str.matched_group 1 html  in
 (*            printf "matched contents: %s" contents; *)
-            contents
-        else
-          let () = printf "\nFATAL ERROR in LaTeX to html translation!\n" in
-            "FATAL ERROR in LaTeX to html translation"
+      contents
+    else
+      let () = printf "\nFATAL ERROR in LaTeX to html translation!\n" in
+      "FATAL ERROR in LaTeX to html translation"
 
 (**********************************************************************)
 
@@ -315,27 +313,3 @@ let mk_translator be_verbose tmp_dir meta_dir  lang_opt preamble =
      translate
 
 
-
-
-(* Depracated code *)
-(* Return the list of languages used in the contents 
-   TODO: this looks into comments
-(*  *\) *)
-(* let find_lang contents  = *)
-(*   let extract_lang (m: Re2.Match.t) = *)
-(*     let source = Re2.Match.get ~sub:(`Name "lang") m in *)
-(*       match source with  *)
-(*       | None -> let _ = d_printf "tex2html.find_lang: None" in [] *)
-(*       | Some x -> let _ = d_printf "tex2html.find_lang: Some %s" x in [x] *)
-(*   in *)
-(*   (\* The quad escape's are due to ocaml's string representation that requires escaping \ *\) *)
-(*   let regex = Re2.create_exn *)
-(*                   "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*\)([','' ''=']|[[:alnum:]])*\\]"     *)
-(*   in *)
-(*   let pattern = Re2.pattern regex in *)
-(*   let _ = d_printf "tex2html.find_lang: Pattern for this regex = %s\n" pattern in  *)
-
-(*   let all_matches = Re2.get_matches_exn regex contents in *)
-(*   let languages: string list = List.concat_map all_matches ~f:extract_lang in *)
-(* (\*  let _ = d_printf_strlist "tex2html.find_lange: languages" languages in *\) *)
-(*     languages *)

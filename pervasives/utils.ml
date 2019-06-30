@@ -229,7 +229,7 @@ let sanitize_lst_language body =
   let r = "\\({\\[[A-Za-z0-9]+\\][A-Za-z0-9]+}\\)" in
   let re_lst = Str.regexp (l ^ r) in
   let clean = Str.regexp "[]\\[{}]" in
-  (* You want to define clean = Str.regexp "[\\]\\[{}]" but there is an exception
+  (* I want to define clean = Str.regexp "[\\]\\[{}]" but there is an exception
      * for close bracket.  It has to be the first char in the set.
      *)
   let mk_regexp s = Str.regexp (Str.quote s) in
@@ -258,6 +258,25 @@ let sanitize_lst_language body =
 	in
 	find 0 body []
 
+(* Find all the programming languages *)  
+let find_lang contents  =
+  let extract_lang (m: Re2.Match.t) =
+    let source = Re2.Match.get ~sub:(`Name "lang") m in
+      match source with 
+      | None -> let _ = d_printf "tex2html.find_lang: None" in []
+      | Some x -> let _ = d_printf "tex2html.find_lang: Some %s" x in [x]
+  in
+  (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
+  let regex = Re2.create_exn
+                  "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
+  in
+  let pattern = Re2.pattern regex in
+  let _ = d_printf "tex2html.find_lang: Pattern for this regex = %s\n" pattern in 
+
+  let all_matches = Re2.get_matches_exn regex contents in
+  let languages: string list = List.concat_map all_matches ~f:extract_lang in
+(*  let _ = d_printf_strlist "tex2html.find_lange: languages" languages in *)
+    languages
 
 (* END String and substring search *) 
 
