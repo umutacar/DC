@@ -24,17 +24,6 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 let points_correct = 1.0
 let points_incorrect = 0.0
 
-(* *_single_par flags are used for html post-processing:
- *  "true" means that this was a single paragraph and the
- * <p> </p> annotations must be removed.
- *) 
-let body_is_single_par = Tex2html.Generic false
-let explain_is_single_par = Tex2html.Generic false
-let hint_is_single_par = Tex2html.Generic false
-let refsol_is_single_par = Tex2html.Generic false
-let rubric_is_single_par = Tex2html.Generic false
-let title_is_single_par = Tex2html.Generic true
-let atom_is_code lang_opt arg_opt = Tex2html.Code (lang_opt, arg_opt)
 (**********************************************************************
  ** END: Constants
  **********************************************************************)
@@ -540,23 +529,26 @@ struct
 
   let body_to_xml tex2html atom =
 		if atom.kind = Xml.lstlisting then
-			let _ = d_printf "body_to_xml: atom = %s, Promoting to code" atom.kind in
-			let _ = atom.kind <- Xml.code in
+			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram" atom.kind in
+			let _ = atom.kind <- Xml.gram in
 			let title = str_of_str_opt atom.title in
 			let newbody = 
 				"\\begin{lstlisting}" ^ "[" ^ title ^ "]" ^ newline ^
 				atom.body ^ newline ^
 				"\\end{lstlisting}"					
 			in
-			let newbody_c = sanitize_lst_language newbody in
+			let (newbody_c, languages) = sanitize_lst_language newbody in
+(*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "newbody sanitized:\n %s" newbody_c in
 			let _ = atom.body <- newbody_c in
 			let _ = atom.title <- None in
-			let body_xml = tex2html Xml.body newbody in
+			let body_xml = tex2html Xml.body newbody_c in
 			body_xml
 		else
-			let _ = d_printf "body_to_xml: atom = %s, Not promoting to code" atom.kind in
-			let body_c = sanitize_lst_language atom.body in
+			let _ = d_printf "body_to_xml: atom = %s, Not promoting" atom.kind in
+      let body = atom.body in
+			let (body_c, languages) = sanitize_lst_language body in
+(*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "body sanitized:\n %s" body_c in
 			tex2html Xml.body body_c
 			
