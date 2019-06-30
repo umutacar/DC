@@ -90,7 +90,9 @@ let main () =
               ("-o", Arg.String (set_str_arg out_file), "Sets output file");
               ("-bib", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any.");
               ("-meta", Arg.Set_string meta_dir, "Directory for meta informaiton, e.g., highlighting definitions, lua filters, etc.");
+(*  Don't support default language.
               ("-lang", Arg.String (set_str_arg default_lang), "Sets the default programming language.");
+*)
               ("-preamble", Arg.String (set_str_arg preamble_file), "Sets LaTeX preamble, if any.");
               ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp.")
              ]
