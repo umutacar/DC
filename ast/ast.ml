@@ -537,6 +537,7 @@ struct
 				atom.body ^ newline ^
 				"\\end{lstlisting}"					
 			in
+			let newbody = rm_comments newbody in
 			let (newbody_c, languages) = sanitize_lst_language newbody in
       let _ = d_printf "newbody sanitized:\n %s" newbody_c in
 			let _ = atom.body <- newbody_c in
@@ -545,7 +546,8 @@ struct
 			body_xml
 		else
 			let _ = d_printf "body_to_xml: atom = %s, Not promoting to code" atom.kind in
-			let (body_c, languages) = sanitize_lst_language atom.body in
+      let body = rm_comments atom.body in
+			let (body_c, languages) = sanitize_lst_language body in
       let _ = d_printf "body sanitized:\n %s" body_c in
 			tex2html Xml.body body_c
 			
