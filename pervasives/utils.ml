@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = true
+let debug = false
 
 
 let str_of_char x = String.make 1 x
@@ -202,6 +202,9 @@ let contains_substring (search: string) (target: string) =
   in
     res
 
+(* This is dangerous.  If the body has things line \lstinline'x % 5 =
+ *  0' then it is going to be treated as comment
+ *)
 let rm_comments body = 
   let diderot_percent = "__diderotpercentsign__" in
   let re_percent = Str.regexp "\\\\%" in
@@ -238,15 +241,15 @@ let sanitize_lst_language body =
 		let pos_match = Str.search_forward re_lst body pos in
 		let lsthead = Str.matched_group 0 body in
 		let language = Str.matched_group 1 body in
-		let _ = printf "matched lsthead = %s" lsthead in
-		let _ = printf "matched language = %s" language in  
+		let _ = d_printf "matched lsthead = %s" lsthead in
+		let _ = d_printf "matched language = %s" language in  
     let language_c = Str.global_replace clean "" language in
     let lsthead_c = Str.global_replace (mk_regexp language) language_c lsthead in
     let body_c =  Str.global_replace (mk_regexp lsthead) lsthead_c body in
-    let _ = printf "Sanitized body = %s" body_c in
+    let _ = d_printf "Sanitized body = %s" body_c in
 		Some (pos_match, body_c, language, language_c)
 	with
-		Not_found -> (printf "sanitize: no match\n"; None)
+		Not_found -> (d_printf "sanitize: no match\n"; None)
 	in
 	let rec find pos body languages = 
 		match (next pos body) with 

@@ -529,25 +529,24 @@ struct
 
   let body_to_xml tex2html atom =
 		if atom.kind = Xml.lstlisting then
-			let _ = d_printf "body_to_xml: atom = %s, Promoting to code" atom.kind in
-			let _ = atom.kind <- Xml.code in
+			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram" atom.kind in
+			let _ = atom.kind <- Xml.gram in
 			let title = str_of_str_opt atom.title in
 			let newbody = 
 				"\\begin{lstlisting}" ^ "[" ^ title ^ "]" ^ newline ^
 				atom.body ^ newline ^
 				"\\end{lstlisting}"					
 			in
-			let newbody = rm_comments newbody in
 			let (newbody_c, languages) = sanitize_lst_language newbody in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "newbody sanitized:\n %s" newbody_c in
 			let _ = atom.body <- newbody_c in
 			let _ = atom.title <- None in
-			let body_xml = tex2html Xml.body newbody in
+			let body_xml = tex2html Xml.body newbody_c in
 			body_xml
 		else
-			let _ = d_printf "body_to_xml: atom = %s, Not promoting to code" atom.kind in
-      let body = rm_comments atom.body in
+			let _ = d_printf "body_to_xml: atom = %s, Not promoting" atom.kind in
+      let body = atom.body in
 			let (body_c, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "body sanitized:\n %s" body_c in

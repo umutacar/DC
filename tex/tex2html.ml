@@ -218,7 +218,12 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, html_file_name) 
 let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
   (* prep for translation *)
   let contents = text_prep contents in
-  let languages = find_lang contents  in
+  (* Doing something slightly dangerous.
+     Removing "comments" as part of language detection.
+     This is not always safe because % can appear inside verbatime environments.
+     The hope is that this is not going to cause a huge problem.
+   *)
+  let languages = uniques_of_list (find_lang (rm_comments contents))  in
 	let language_opt = 
 		match languages with 
 		| [ ] -> default_lang_opt
