@@ -202,11 +202,23 @@ let contains_substring (search: string) (target: string) =
   in
     res
 
+let rm_comments body = 
+  let diderot_percent = "__diderotpercentsign__" in
+  let re_percent = Str.regexp "\\\\%" in
+  let re_diderot_percent = Str.regexp diderot_percent in
+  let re_comment = Str.regexp "[ \t]*%.*\n" in
+
+  let body_nopercent = Str.global_replace re_percent diderot_percent body in
+  let body_nocomment = Str.global_replace re_comment "" body_nopercent in
+  let body_clean = Str.global_replace re_diderot_percent "\\%" body_nocomment in
+    body_clean
 
 (* Takes an atom body that has occurrences of the form 
    \begin{lstlisting}[language = my_language ...] 
    and cleanup it my_language by deleting [, ], {, }
    characters.
+  
+   Assumes that comments are removed.
 
    This algorithm is wonky.
    Ideally, it should iterate over the body string replace each match with its sanitized version.  This one replaces each match globally.  The only reason for this is that I could not find a primitive of the sort needed for iteration/mapping over the string.
@@ -232,16 +244,19 @@ let sanitize_lst_language body =
     let lsthead_c = Str.global_replace (mk_regexp language) language_c lsthead in
     let body_c =  Str.global_replace (mk_regexp lsthead) lsthead_c body in
     let _ = printf "Sanitized body = %s" body_c in
-		Some (pos_match, body_c)
+		Some (pos_match, body_c, language, language_c)
 	with
 		Not_found -> (printf "sanitize: no match\n"; None)
 	in
-	let rec all pos body = 
+	let rec find pos body languages = 
 		match (next pos body) with 
-		| None -> body
-		| Some (npos, nbody) -> all (npos + 1) nbody
+		| None -> 
+				(body, languages)
+		| Some (npos, nbody, language, language_c) -> 
+				let l = (language, language_c)::languages in
+				find (npos + 1) nbody l
 	in
-	all 0 body
+	find 0 body []
 
 
 (* END String and substring search *) 
