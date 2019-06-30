@@ -228,7 +228,8 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
      This is not always safe because % can appear inside verbatime environments.
      The hope is that this is not going to cause a huge problem.
    *)
-  let languages = uniques_of_list (find_lang (rm_comments contents))  in
+  let languages = dedup_str_list (find_lang (rm_comments contents))  in
+  let _ = printf "languages found = %s" (str_of_str_list languages) in
 	let language_opt = 
 		match languages with 
 		| [ ] -> default_lang_opt

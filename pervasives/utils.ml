@@ -113,6 +113,9 @@ let uniques_of_list l =
 	in
 	uniques l	 
 
+let dedup_str_list l = 
+  List.dedup String.compare l
+
 (* END Operations on string lists *)
 
 
