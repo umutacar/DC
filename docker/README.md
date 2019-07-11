@@ -109,3 +109,15 @@ bash-3.2$ docker login
 
 # Next steps
 Upload MTL sources to the container.
+
+
+$ docker run -v /Users/umut/MeTaL:/mtl ocaml/opam2:centos  ls -l /mtl
+
+$ docker run -v /Users/umut/MeTaL:/mtl ocaml/opam2:centos  touch /mtl/testfile
+
+We updated the Dockerfile and 
+
+docker build -t umutacar/mtl:lambda .
+
+To run do:
+$ docker run -it -v /Users/umut/MeTaL:/mtl ocaml/opam2:centos /bin/bash

@@ -240,9 +240,8 @@ You can use colors as follows
 \textcolor{red}{my text}
 ```
 
-### The rest
+### Limitations
 
-There is not really much else to it.  There are some caveats.
 
 * For XML translation work, the chapter should be compileable to PDF.
 
@@ -251,6 +250,10 @@ There is not really much else to it.  There are some caveats.
 * Each chapter must have a unique label.
 
 * Fancy packages will not work.  Stick to basic latex and AMS Math packages.
+
+* Table borders doesn't work.
+ 
+* Center environment doesn't work.
 
 * For figures specify the width/height in terms of concrete units, e.g.,
   width = 4in, height = 8cm.
