@@ -1,0 +1,3 @@
+FROM ocaml/opam2:fedora-28-ocaml-4.08
+RUN opam update
+RUN opam install --unlock-base core getopt menhir re2

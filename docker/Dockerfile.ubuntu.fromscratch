@@ -1,0 +1,12 @@
+FROM ubuntu:18.04
+RUN apt-get update
+RUN apt-get install -y wget libcap2 gcc make m4
+RUN wget http://security.ubuntu.com/ubuntu/pool/main/b/bubblewrap/bubblewrap_0.2.1-1ubuntu0.1_amd64.deb
+RUN dpkg -i bubblewrap_0.2.1-1ubuntu0.1_amd64.deb
+RUN apt-get install -y software-properties-common
+RUN add-apt-repository ppa:avsm/ppa
+RUN apt install -y opam
+RUN opam init --disable-sandboxing --reinit
+RUN opam update
+RUN opam install -y core ocamlbuild getopt menhir re2
+RUN eval $(opam env)
