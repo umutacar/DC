@@ -411,8 +411,8 @@ let find_all_env contents  =
   let all_end: string list = List.concat_map all_end_ ~f:extract_env in
   let _ = d_printf_strlist "tex_syntax.find_env: all_begin" all_begin in 
   let _ = d_printf_strlist "tex_syntax.find_env: all_end" all_end in 
-	let all_begin = List.sort Pervasives.compare all_begin in
-	let all_end = List.sort Pervasives.compare all_end in
+	let all_begin = List.sort ~compare:Stdlib.String.compare all_begin in
+	let all_end = List.sort ~compare:Stdlib.String.compare all_end in
 	try
 	let ok = List.fold2_exn all_begin all_end ~init:true ~f:(fun r x y -> r && (x = y)) in
 		  (assert ok;

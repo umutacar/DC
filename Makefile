@@ -16,6 +16,10 @@ all: tex2tex.native texel.native texmlt.native
 
 clean:
 	$(OCB) -clean
+	rm -f *.native
+	rm -f *.dbg
+	rm -f *.profile
+
 
 
 # atom
