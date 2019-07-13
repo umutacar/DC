@@ -42,6 +42,7 @@ let str_of_items items =
 	      string option *   (* title *)
         string option *   (* label *)
         string *          (* body *)
+        string option *   (* caption *)
         ((string * string option * string) list)  (* items kind, point opt, body *)
 	      ) option>  top  (* all *)
 
@@ -55,7 +56,7 @@ atom:
 | a = ATOM
   { let (kind, popt, topt, lopt, body, capopt, items, all) = a in
     let _ = d_printf "* atom: %s\n" all in
-		(kind, popt, topt, lopt, body, items) 
+		(kind, popt, topt, lopt, body, capopt, items) 
   }
 
 top:

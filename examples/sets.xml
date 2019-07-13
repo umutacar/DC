@@ -93,7 +93,7 @@ Sets are both a mathematical structure and an abstract datatype
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:XXch:sets::something
+grp:XXch:sets::image
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -102,16 +102,16 @@ grp:XXch:sets::something
 <atom name='figure'>
 <field name='title'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Some image above.
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Some image above.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-figure:XXch:sets::something
+fig:XXch:sets::image
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -121,7 +121,7 @@ figure:XXch:sets::something
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p><img src="Something" alt="image" /> <strong>Some image above.</strong></p>
+<p><img src="Something" alt="image" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -150,7 +150,7 @@ figure:XXch:sets::something
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:XXch:sets::image
+grp:XXch:sets::something
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -159,16 +159,16 @@ grp:XXch:sets::image
 <atom name='table'>
 <field name='title'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Some image above.
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Some image above.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-table:XXch:sets::something
+tbl:XXch:sets::image
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -178,7 +178,7 @@ table:XXch:sets::something
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p><img src="Something" alt="image" /> <strong>Some image above.</strong></p>
+<p><img src="Something" alt="image" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
