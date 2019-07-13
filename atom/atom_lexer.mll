@@ -337,7 +337,7 @@ and take_env =
      let (arg, c_c) = take_arg lexbuf in
      let capopt = Some arg in
      let all = x ^ arg ^ c_c in
-     let _ = printf "!lexer matched caption %s." all  in
+     let _ = d_printf "!lexer matched caption %s." all  in
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
       (lopt,  all ^ y, capopt, items, h_e)
