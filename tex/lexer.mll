@@ -7,10 +7,7 @@ open Utils
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 let char_to_str x = String.make 1 x
-let pvalopt_to_str x = 
-  match x with 
-  | None -> "None"
-  | Some x -> "Some" ^ x
+
 
 (**********************************************************************
  ** BEGIN: lits
@@ -48,24 +45,6 @@ let do_end_latex_env () =
 
 
 (**********************************************************************
- ** BEGIN: square bracked depth machinery
- **********************************************************************)
-let sq_depth = ref 0  
-
-let inc_sq_depth () =
-  sq_depth := !sq_depth + 1
-
-let dec_sq_depth () =
-  sq_depth := !sq_depth - 1
-
-let sq_depth () =
-  !sq_depth
-(**********************************************************************
- ** END: square bracked depth machinery
- **********************************************************************)
-
-
-(**********************************************************************
  ** BEGIN: verbatim machinery 
  **********************************************************************)
 
@@ -86,95 +65,77 @@ let exit_verbatim lexbuf =
 (** END: HEADER **)
 
 (** BEGIN: PATTERNS *)	
-let p_comma = ','
 let p_space = ' '
 let p_newline = '\n'
 let p_tab = '\t'	
 let p_ws = [' ' '\t' '\n' '\r']*	
 let p_percent = '%'
 let p_comment_line = p_percent [^ '\n']* '\n'
-let p_skip = p_ws
-
 let p_digit = ['0'-'9']
-let p_integer = ['0'-'9']+
-let p_frac = '.' p_digit*
-let p_exp = ['e' 'E'] ['-' '+']? p_digit+
-let p_float = p_digit* p_frac? p_exp?
-
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
+let p_integer = ['0'-'9']+
+(*  A LaTeX/Diderot environment name *) 
+let p_name = (p_alpha)+('*')?
+let p_name_skip = (p_alpha) + ('*')? + "xd"
 
-(* BEGIN: key value pairs *)
-(* key is alphas *)
-let p_keyalpha = (p_alpha)+
-(* value is everything but white space, comma, or equal *)
-let p_valueofkey = [^ ',' '=']+
-let p_key_value_pair = (p_keyalpha as key) p_ws '=' p_ws (p_valueofkey as value)
-let p_key_value_list = (p_key_value_pair) (p_ws ',' p_ws p_key_value_pair)*
-(* END: key value pairs *)
 
 (* No white space after backslash *)
 let p_backslash = '\\'
-let p_o_curly = p_ws '{' p_ws
-let p_c_curly = p_ws '}' p_ws
+let p_o_curly = '{' p_ws
+let p_c_curly = '}' p_ws
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_ws											
 let p_special_percent = p_backslash p_percent
 
-let p_com_depend = '\\' "depend" p_ws p_o_curly p_ws												 
-let p_com_label = '\\' "label" p_ws												 
+let p_label = '\\' "label" p_ws												 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)												 
-let p_com_begin = '\\' "begin" p_ws												 
-let p_com_end = '\\' "end" p_ws												 
-let p_com_choice = '\\' "choice"
-let p_com_correct_choice = '\\' "choice*"
-
-let p_com_explain = '\\' "explain"
-let p_com_hint = '\\' "help"
-let p_com_rubric = '\\' "rubric"
-let p_com_refsol = '\\' "sol"
+let p_begin = '\\' "begin" p_ws												 
+let p_end = '\\' "end" p_ws												 
+let p_choice = '\\' "choice"
+let p_correctchoice = '\\' "correctchoice"
 
 let p_part = '\\' "part"
 let p_part_arg = p_part p_ws  (p_o_sq as o_sq) (p_integer) (p_c_sq as c_sq)
+
+
+let p_begin_skip = p_begin p_ws p_o_curly p_ws p_name_skip p_ws p_c_curly
+let p_end_skip = p_end p_ws p_o_curly p_ws p_name_skip p_ws p_c_curly
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
  *)
 let p_verbatim = "verbatim"
-let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
-let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
+let p_begin_verbatim = p_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
+let p_end_verbatim = p_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
 (* begin: parts
  * we will ignore these.
  *)
 let p_parts = "parts"
-let p_begin_parts = p_com_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
-let p_end_parts = p_com_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+let p_begin_parts = p_begin p_ws p_o_curly p_ws p_parts p_ws p_c_curly
+let p_end_parts = p_end p_ws p_o_curly p_ws p_parts p_ws p_c_curly
 (* end: parts *)
 
+
 let p_chapter = '\\' "chapter" p_ws
-let p_chapter_with_points = '\\' "chapter" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 let p_section = '\\' "section" p_ws
-let p_section_with_points = '\\' "section" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
-
-let p_subsection = '\\' "subsection" p_ws 
-let p_subsection_with_points = '\\' "subsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
-
-let p_subsubsection = '\\' "subsubsection" p_ws 
-let p_subsubsection_with_points = '\\' "subsubsection" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
-
+let p_titled_question = '\\' "titledsection" p_ws
+let p_subsection = '\\' "subsection" p_ws
+let p_subsubsection = '\\' "subsubsection" p_ws
 let p_paragraph = '\\' "paragraph" p_ws												
-let p_paragraph_with_points = '\\' "paragraph" p_ws (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_subparagraph = '\\' "subparagraph" p_ws												
 
-let p_cluster = "cluster"
-let p_flex = "flex"
-let p_problem_cluster = "mproblem"
+let p_b_group = '\\' "begin{flex}" p_ws	
+let p_e_group = '\\' "end{flex}" p_ws
+
 
 let p_xxx = "xxx"
 let p_b_xxx = '\\' "begin" p_o_curly p_xxx p_ws p_c_curly
 let p_e_xxx = '\\' "end" p_o_curly p_xxx p_ws p_c_curly
+
 
 let p_diderot_atom = "diderot" ['a'-'z''A'-'Z']*	
 let p_algorithm = "algorithm"
@@ -202,23 +163,15 @@ let p_slide = "slide"
 let p_solution = "solution"
 let p_syntax = "syntax"
 let p_task = "task"
+let p_teachask = "teachask"
+let p_teachnote = "teachnote"
 let p_theorem = "theorem"
 
-(* Treat teach atoms as tail text, thus they will not be loaded as atoms *)
-let p_teachask = "xx__teachask__xx"
-let p_teachnote = "xx__teachnote__xx"
-
-
 (* Ilists *)
-let p_chooseone = "xchoice"
-let p_chooseany = "anychoice"
+let p_pickone = "pickone"
+let p_pickany = "pickany"
 
-let p_ilist_separator = p_com_choice | p_com_correct_choice
-let p_ilist_separator_arg = (p_com_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-                            | (p_com_correct_choice as kind) p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-
-(* A latex environment consists of alphabethical chars plus an optional star *)
-let p_latex_env = (p_alpha)+('*')?
+let p_ilist_separator = p_choice | p_correctchoice
 
 let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_algorithm as kind) p_ws as kindws) |
@@ -250,37 +203,20 @@ let p_atom = ((p_diderot_atom as kind) p_ws as kindws) |
              ((p_teachnote as kind) p_ws as kindws) |
              ((p_theorem as kind) p_ws as kindws) 
 
+let p_begin_atom = (p_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
+let p_end_atom = (p_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
 
-let p_begin_atom = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) 
-let p_begin_atom_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_atom (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-let p_end_atom = (p_com_end p_ws as e) (p_o_curly as o) p_atom (p_c_curly as c) 
-
-let p_begin_code_atom = (p_com_begin p_ws as b) (p_o_curly as o) ((p_code as kind) p_ws as kindws) (p_c_curly as c) 
-
-let p_end_code_atom = (p_com_end p_ws as e) (p_o_curly as o) ((p_code as kind) p_ws as kindws) (p_c_curly as c) 
-
-let p_ilist_kinds = (p_chooseone | p_chooseany)
+let p_ilist_kinds = (p_pickone | p_pickany)
 let p_ilist = ((p_ilist_kinds as kind) p_ws as kindws) 
 
-let p_begin_ilist = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
+let p_begin_ilist = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-(* point values now go with atoms.
-let p_begin_ilist_arg = (p_com_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-*)
+let p_begin_ilist_arg = (p_begin p_ws as b) (p_o_curly as o) p_ilist (p_c_curly as c)  (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
  
-let p_end_ilist = (p_com_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
+let p_end_ilist = (p_end p_ws as e) (p_o_curly as o) p_ilist (p_c_curly as c) 
 
-let p_begin_latex_env = (p_com_begin p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
-let p_end_latex_env = (p_com_end p_ws) (p_o_curly) (p_latex_env) (p_c_curly) 
-
-
-let p_group = ((p_cluster as kind) p_ws as kindws) |
-              ((p_flex as kind) p_ws as kindws) |
-              ((p_problem_cluster as kind) p_ws as kindws) 
-
-let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
-let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
-let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
+let p_begin_latex_env = (p_begin p_ws) (p_o_curly) (p_name) (p_c_curly) 
+let p_end_latex_env = (p_end p_ws) (p_o_curly) (p_name) (p_c_curly) 
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -305,141 +241,79 @@ rule token = parse
 | p_comment_line as x
   	{d_printf "!lexer matched comment line %s." x; COMMENT_LINE(x)}		
 
-| p_com_depend as h_b 
-      {
-       let _ = d_printf "!lexer: begin depend:\n" in
-       let (l, h_e) = depend lexbuf in
-       let sl =  h_b ^ (String.concat "," l) ^ h_e in
-       let _ = d_printf "!lexer: depend matched = %s" sl in
-            KW_DEPEND(h_b, l, h_e)          
-      }   
-
 | p_label_and_name as x
   	{d_printf "!lexer matched %s." x; KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name)}		
 | p_backslash as x
-
+(*
+| p_label as x
+  	{d_printf "!lexer matched %s." x; KW_LABEL(x)}		
+*)
+				
 | p_chapter as x
-  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, None)}		
-| p_chapter_with_points as x
-  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x, Some point_val)}		
-
+  	{d_printf "!lexer matched %s." x; KW_CHAPTER(x)}		
 | p_section as x
-  	{d_printf "!lexer matched: %s." x; KW_SECTION(x, None)}		
-| p_section_with_points as x
-  	{let _ = d_printf "lexer matched section with points: %s" x in
-       KW_SECTION(x, Some point_val)
-    }		
-
+  	{d_printf "!lexer matched: %s." x; KW_SECTION(x)}		
+| p_titled_question as x
+  	{d_printf "!lexer matched: %s." x; KW_TITLED_QUESTION(x)}		
 | p_subsection as x
-  	{d_printf "!lexer matched subsection: %s." x; KW_SUBSECTION(x, None)}
-| p_subsection_with_points as x
-  	{let _ = d_printf "lexer matched subsection with points: %s" x in
-       KW_SUBSECTION(x, Some point_val)
-    }		
-
+  	{d_printf "!lexer matched: %s." x; KW_SUBSECTION(x)}
 | p_subsubsection as x
-  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x, None)}
-| p_subsubsection_with_points as x
-  	{let _ = d_printf "lexer matched subsubsection with points: %s" x in
-       KW_SUBSUBSECTION(x, Some point_val)
-    }		
+  	{d_printf "!lexer matched: %s." x; KW_SUBSUBSECTION(x)}
 | p_paragraph as x
-  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x, None)}
-| p_paragraph_with_points as x
-  	{let _ = d_printf "!lexer matched: %s." x in 
-       KW_PARAGRAPH(x, Some point_val)
-    }
-
-| p_begin_group
-  	{let all = b ^ o ^ kindws ^ c in
-       d_printf "lexer matched begin group: %s" kind;
-       KW_BEGIN_GROUP(kind, all, None)
-    }		
-| p_begin_group_with_points as x
-  	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
-       d_printf "lexer matched begin group %s with points = %s" kind point_val;
-       KW_BEGIN_GROUP(kind, all,  Some point_val)
-    }		
-
-| p_end_group
-  	{let all = e ^ o ^ kindws ^ c in
-       d_printf "lexer matched end group: %s" kind;
-       KW_END_GROUP(kind, all)
-    }		
-
-(* Code atoms are special.
- * We "skip" over their body.
- *)
-| (p_begin_code_atom as h_b) p_ws (p_o_sq as o_sq)
-    {
-       let _ = d_printf "!lexer: begin code atom with arg\n" in
-       let _ = inc_sq_depth () in
-       let (arg, label_opt, depend_opt, body, h_e) = take_atom_arg lexbuf in
-       let _ = d_printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
-         KW_CODE_ATOM(kind, Some arg, label_opt, depend_opt, body, h_e)
-    }		
-
-| p_begin_code_atom as h_b
-    {
-       let _ = d_printf "!lexer: begin code atom without arg\n" in
-       let (label_opt, depend_opt, body, h_e) = take_atom_label lexbuf in
-       let _ = d_printf "!lexer: code atom matched = %s, h = %s h_e = %s" body h_b h_e in
-         KW_CODE_ATOM(kind, None, label_opt, depend_opt, body, h_e)
-    }		
-
-(* Atoms *)
-| p_begin_atom
+  	{d_printf "!lexer matched: %s." x; KW_PARAGRAPH(x)}				
+| p_subparagraph as x
+  	{d_printf "!lexer matched: %s." x; KW_SUBPARAGRAPH(x)}		
+| p_b_group as x
+  	{d_printf "!lexer matched: %s." x; KW_BEGIN_GROUP(x)}		
+| p_e_group as x
+  	{d_printf "!lexer matched: %s." x; KW_END_GROUP(x)}
+| p_begin_atom 
   	{let all = b ^ o ^ kindws ^ c in
        d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all, None)
-    }		
-| p_begin_atom_with_points
-  	{let all = b ^ o ^ kindws ^ c ^ o_sq ^ point_val ^ c_sq in
-       d_printf "lexer matched begin atom: %s" kind;
-       KW_BEGIN_ATOM(kind, all, Some point_val)
+       KW_BEGIN_ATOM(kind, all)
     }		
 | p_end_atom
   	{let all = e ^ o ^ kindws ^ c in
        d_printf "lexer matched end atom: %s" kind;
        KW_END_ATOM(kind, all)
     }		
-
-
-(* Ilists *)
 | p_begin_ilist 
       {let kw_b = b ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: begin ilist: %s\n" kw_b in
        let _ = do_begin_ilist () in
        let (_, l, kw_e) = ilist lexbuf in
-
-       let l_joined = List.map (fun (x, y, z) -> x ^ (pvalopt_to_str y) ^ z) l in
+       let l_joined = List.map (fun (x, y) -> x ^ y) l in
        let sl = kw_b ^ String.concat "," l_joined ^ kw_e in
        let _ = d_printf "!lexer: ilist matched = %s" sl in
             ILIST(kind, kw_b, None, l, kw_e)          
       }   
 
-(* Hints *)
-| p_com_hint as h 
-      {
-       let _ = d_printf "!lexer: begin hint\n" in
-       let (body, sol_opt, exp_opt, rubric_opt, h_e) = hint lexbuf in
-       let (h_e_a, h_e_b) = h_e in
-       let _ = d_printf "!lexer: hint matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-       let _ = d_printf_opt_str "explain" exp_opt in
-       let _ = d_printf_opt_str "solution" sol_opt in
-       let _ = d_printf_opt_str "rubric" rubric_opt in
-         HINT(h, body, sol_opt, exp_opt, rubric_opt, h_e)
+| p_begin_ilist_arg 
+      {let kw_b = b ^ o ^ kindws ^ c  in
+       let kw_b_arg = kw_b ^ o_sq ^ point_val ^ c_sq in
+       let _ = d_printf "!lexer: begin ilist: %s\n" kw_b_arg in
+       let _ = do_begin_ilist () in
+       let (_, l, kw_e) = ilist lexbuf in
+       let l_joined = List.map (fun (x, y) -> x ^ y) l in
+       let sl = kw_b_arg ^ String.concat "," l_joined ^ kw_e in
+       let _ = d_printf "!lexer: ilist matched = %s" sl in
+            ILIST(kind, kw_b, Some (o_sq,  point_val, c_sq), l, kw_e)          
       }   
+| p_part           (* drop *)
+    {token lexbuf}		
+| p_part_arg       (* drop *)
+    {token lexbuf}		
+| p_begin_parts    (* drop *)
+    {token lexbuf}		
+| p_end_parts      (* drop *)
+    {token lexbuf}		
 
-| p_com_refsol as h 
-      {
-       let _ = d_printf "!lexer: begin refsol\n" in
-       let (body, exp_opt, rubric_opt, h_e) = refsol lexbuf in
-       let (h_e_a, h_e_b) = h_e in
-       let _ = d_printf "!lexer: refsol matched = %s, h = %s h_e = %s, %s" body h h_e_a h_e_b in
-       let _ = d_printf_opt_str "explain" exp_opt in
-       let _ = d_printf_opt_str "rubric" rubric_opt in
-         REFSOL(h, body, exp_opt, rubric_opt, h_e)
+| p_begin_skip as x
+      { 
+          let _ = d_printf "!lexer: begin skipping: %s\n" x in
+          let y = skip lexbuf in
+          let _ = d_printf "!lexer: end skipping, matched = %s" (x ^ y) in
+            token lexbuf          
       }   
 
 | p_begin_latex_env as x
@@ -461,6 +335,7 @@ rule token = parse
             ENV(x ^ y)
           
       }   
+
 | p_word as x
 		{d_printf "!found word: %s." x;
      WORD(x)
@@ -509,121 +384,17 @@ and latex_env =
         { let y = latex_env lexbuf in
             (char_to_str x) ^ y
         }
-and depend = 
-  parse
-  | (p_label_name as x) p_ws p_comma p_ws 
-        {
-            let _ = d_printf "!lexer.depend: label %s\n" x in
-            let (t, h_e) = depend lexbuf in
-            let l = x :: t in
-              (l, h_e)                           
-        }
-  | (p_label_name as x) (p_ws p_c_curly p_ws as h_e) 
-        {
-            let _ = d_printf "!lexer.depend: label %s\n" x in
-              ([x], h_e)
-        }
-  | p_c_curly p_ws as x 
-      {
-         ([], x)
-      }
-and take_atom_arg = 
-  parse 
-  | '[' as x
-    {
-     let _ = inc_sq_depth () in
-     let (arg, lopt, dopt, body, he) = take_atom_arg lexbuf in 
-       ((char_to_str x) ^ arg, lopt, dopt, body, he)
-    }
-  | ']' as x
-    {
-     let _ = dec_sq_depth () in
-       if sq_depth () = 0 then
-         let (lopt, dopt, body, he) = take_atom_label lexbuf in 
-           ("", lopt, dopt, body, he)
-       else
-         let (arg, lopt, dopt, body, he) = take_atom_arg lexbuf in 
-           ((char_to_str x) ^ arg, lopt, dopt, body, he)       
-    }
-
-  | _ as x
-    {
-     let (arg, lopt, dopt, body, he) = take_atom_arg lexbuf in 
-       ((char_to_str x) ^ arg, lopt, dopt, body, he)
-    }
-
-and take_atom_label =
-  parse
-  | p_label_and_name as x
-  	{
-     let _ = d_printf "!lexer matched %s." x in
-     let (dopt, body, he) = take_atom_depend lexbuf in 
-       (Some label_name, dopt, body, he)
-    }
-  | p_com_depend as h_b 
-      {
-       let _ = d_printf "!lexer: begin depend:\n" in
-       let (l, h_e) = depend lexbuf in
-       let sl =  h_b ^ (String.concat "," l) ^ h_e in
-       let _ = d_printf "!lexer: depend matched = %s" sl in
-       let (body, he) = take_atom_body lexbuf in 
-         (None, Some l, body, he)
-      }   
-  | _ as x
-    {
-     let (body, he) = take_atom_body lexbuf in 
-       (None, None, (char_to_str x) ^ body, he)
-    } 
-and take_atom_depend = 
-  parse
-  | p_com_depend as h_b 
-      {
-       let _ = d_printf "!lexer: begin depend:\n" in
-       let (l, h_e) = depend lexbuf in
-       let sl =  h_b ^ (String.concat "," l) ^ h_e in
-       let _ = d_printf "!lexer: depend matched = %s" sl in
-       let (body, he) = take_atom_body lexbuf in 
-         (Some l, body, he)
-      }   
-  | _  as x
-    {
-     let (body, he) = take_atom_body lexbuf in 
-       (None, (char_to_str x) ^ body, he)
-    }
-
-and take_atom_body = 
-  parse
-  | p_end_atom
-        { 
-  	     let all = e ^ o ^ kindws ^ c in
-         let _ = d_printf "lexer matched end atom: %s" kindws in
-         let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", kind)
-        }
-  | _  as x
-        { let (body, h_e) = take_atom_body lexbuf in
-            ((char_to_str x) ^ body, h_e)
-        }
-
 and ilist = 
   parse
   | p_ilist_separator as x
         {
             let _ = d_printf "!lexer: ilist separator: %s\n" x in
             let (y, zs, e) = ilist lexbuf in
-            let l = (x, None, y) :: zs in
+            let l = (x, y) :: zs in
               ("", l, e)                           
         }
 
-  | p_ilist_separator_arg as x
-        {
-            let _ = d_printf "!lexer: ilist separator: %s\n" x in
-            let (y, zs, e) = ilist lexbuf in
-            let l = (kind, Some point_val, y) :: zs in
-              ("", l, e)                           
-        }
-
-  | p_end_ilist
+  | p_end_ilist as x 
       {
   	   let all = e ^ o ^ kindws ^ c in
        let _ = d_printf "!lexer: end of ilist: %s\n" all in
@@ -635,112 +406,17 @@ and ilist =
             ((char_to_str x) ^ y, zs, e)
         }
 
-and rubric = 
-  parse 
-  | p_end_atom
-        { 
-  	     let all = e ^ o ^ kindws ^ c in
-         let _ = d_printf "lexer matched end problem: %s" kind in
-         let _ = d_printf "!lexer: exiting rubric\n" in
-           ("", (kind, all))
-        }  
-  | _  as x
-        { let (body, h_e) = rubric lexbuf in
-            ((char_to_str x) ^ body, h_e)
-        }
-
-and explain = 
-  parse 
-  | p_com_rubric
-      {
-       let _ = d_printf "!lexer: begin rubric\n" in
-       let (body, h_e) = rubric lexbuf in
-       let _ = d_printf "rubric matched = %s" body in
-         ("", Some body, h_e)
-      }   
-  | p_end_atom
-        { 
-  	     let all = e ^ o ^ kindws ^ c in
-         let _ = d_printf "lexer matched end problem: %s" kind in
-         let _ = d_printf "!lexer: exiting explain\n" in
-           ("", None, (kind, all))
-        }  
-  | _  as x
-        { let (body, rubric_opt, h_e) = explain lexbuf in
-            ((char_to_str x) ^ body, rubric_opt, h_e)
-        }
-
-and refsol =
+and skip =
   parse
-  | p_end_atom
+  | p_end_skip as x
         { 
-  	     let all = e ^ o ^ kindws ^ c in
-         let _ = d_printf "lexer matched end problem: %s" kind in
-         let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", None, None, (kind, all))
+            let _ = d_printf "!lexer: exiting skip\n" in
+                x
         }
-  | p_com_explain
-      {
-       let _ = d_printf "!lexer: begin explain\n" in
-       let (body, rubric_opt, h_e) = explain lexbuf in
-       let _ = d_printf "explain matched = %s" body in
-         ("", Some body, rubric_opt, h_e)
-      }   
-  | p_com_rubric
-      {
-       let _ = d_printf "!lexer: begin rubric\n" in
-       let (body, h_e) = rubric lexbuf in
-       let _ = d_printf "rubric matched = %s" body in
-         ("", None, Some body, h_e)
-      }   
   | _  as x
-        { let (body, exp, rubric_opt, h_e) = refsol lexbuf in
-            ((char_to_str x) ^ body, exp, rubric_opt, h_e)
+        { let y = skip lexbuf in
+            (char_to_str x) ^ y
         }
-
-and hint =
-  parse
-  (* just a hint, no solution, no explanation *)
-  | p_end_atom
-        { 
-  	     let all = e ^ o ^ kindws ^ c in
-         let _ = d_printf "lexer matched end problem: %s" kind in
-         let _ = d_printf "!lexer: exiting refsol\n" in
-           ("", None, None, None, (kind, all))
-        }
-
-  (* hint + refsol plus optional explanation *) 
-  | p_com_refsol
-      {
-       let _ = d_printf "!lexer: begin refsol\n" in
-       let (body, exp_opt, rubric_opt, h_e) = refsol lexbuf in
-       let _ = d_printf "refsol matched = %s" body in
-         ("", Some body, exp_opt, rubric_opt, h_e)
-      }   
-
-  (* hint + explanation, no solution *)
-  | p_com_explain
-      {
-       let _ = d_printf "!lexer: begin explain\n" in
-       let (body, rubric_opt, h_e) = explain lexbuf in
-       let _ = d_printf "explain matched = %s" body in
-         ("", None, Some body, rubric_opt, h_e)
-      }   
-
-  (* hint + rubric, no solution, no explanation *)
-  | p_com_rubric
-      {
-       let _ = d_printf "!lexer: begin rubric\n" in
-       let (body, h_e) = rubric lexbuf in
-       let _ = d_printf "rubric matched = %s" body in
-         ("", None, None, Some body, h_e)
-      }   
-
-  | _  as x
-        { let (body, sol_opt, exp_opt, rubric_opt, h_e) = hint lexbuf in
-            ((char_to_str x) ^ body, sol_opt, exp_opt, rubric_opt, h_e)
-        }
-
 and verbatim =
   parse
   | p_end_verbatim as x
@@ -753,7 +429,6 @@ and verbatim =
         { let y = verbatim lexbuf in
             (char_to_str x) ^ y
         }
-
 
 (** BEGIN TRAILER **)
 {
