@@ -68,10 +68,11 @@ let arg_depth () =
  ** END: argument depth machinery
  **********************************************************************)
 
-let mk_atom_str (h_b, body, items, h_e) = 
+let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
-	 let all_but_items = h_b ^ body ^ h_e in
-	 let all = h_b ^ body ^ items ^ h_e in
+   let cap = str_of_str_opt capopt in
+	 let all_but_items = h_b ^ body ^ cap ^ h_e in
+	 let all = h_b ^ body ^ cap ^ items ^ h_e in
      (all_but_items, all)	 	 
 
 }
@@ -203,8 +204,8 @@ rule initial = parse
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
-   	 let (all_but_items, all) = mk_atom_str (h_b, body, items, h_e) in
-       ATOM (kind, Some point_val, Some title, lopt, body, items, all)
+   	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
+       ATOM (kind, Some point_val, Some title, lopt, body, capopt, items, all)
 }
 
 | p_begin_env_with_points as h_b
@@ -214,9 +215,9 @@ rule initial = parse
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
-   	 let (all_but_items, all) = mk_atom_str (h_b, body, items, h_e) in
+   	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
-     ATOM(kind, Some point_val, None, lopt, body, items, all)
+     ATOM(kind, Some point_val, None, lopt, body, capopt, items, all)
        
 }   
 
@@ -231,8 +232,8 @@ rule initial = parse
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
-   	 let (all_but_items, all) = mk_atom_str (h_b, body, items, h_e) in
-     ATOM(kind, None, Some title, lopt, body, items, all)
+   	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
+     ATOM(kind, None, Some title, lopt, body, capopt, items, all)
 }
 
 | p_begin_env as h_b
@@ -242,9 +243,9 @@ rule initial = parse
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
-   	 let (all_but_items, all) = mk_atom_str (h_b, body, items, h_e) in
+   	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
-     ATOM(kind, None, None, lopt, body, items, all)
+     ATOM(kind, None, None, lopt, body,  capopt, items, all)
        
     }   
 
