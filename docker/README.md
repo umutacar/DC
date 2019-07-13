@@ -120,4 +120,9 @@ We updated the Dockerfile and
 docker build -t umutacar/mtl:lambda .
 
 To run do:
+$ docker run -it -v /Users/umut/MeTaL:/mtl umutacar/mtl:lambda
+
+If you want to run bin/bash, you can do
+
 $ docker run -it -v /Users/umut/MeTaL:/mtl ocaml/opam2:centos /bin/bash
+

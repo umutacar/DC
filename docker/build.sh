@@ -6,8 +6,8 @@ make clean
 echo "Making now."
 make
 echo "Removing absolute symlinks."
-rm ./*.native
-rm ./*.dbg
-rm ./*.profile
+rm -f ./*.native
+rm -f ./*.dbg
+rm -f ./*.profile
 
 
