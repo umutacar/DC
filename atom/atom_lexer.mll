@@ -169,6 +169,7 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 let p_env = (p_alpha)+('*')?
 
 
+let p_caption = "\\caption"
 let p_short_answer = "\\shortanswer"
 let p_free_response = "\\freeresponse"
 let p_one_choice  = "\\onechoice"
@@ -328,12 +329,22 @@ and take_env =
           (* Important: Drop inner label lopt *)
           (Some label_name, all ^ y, items, h_e)  
 			}		
-| p_percent_esc as x 
+
+	| (p_caption p_ws p_o_curly) as x
+		{
+     let _ = inc_arg_depth () in
+     let (arg, c_c) = take_arg lexbuf in
+     let all = x ^ arg ^ c_c in
+     let _ = printf "!lexer matched caption %s." all  in
+		 let (lopt, y, items, h_e) = take_env lexbuf in
+      (lopt,  all ^ y, items, h_e)
+    }
+	| p_percent_esc as x 
     { let (lopt, y, items, h_e) = take_env lexbuf in
       (lopt,  x ^ y, items, h_e)
     }
 
-| p_percent as x 
+	| p_percent as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let rest = take_comment lexbuf in
