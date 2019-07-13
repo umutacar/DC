@@ -28,7 +28,18 @@ This chapter presents an overview of the genome sequencing problem and how it ma
 \end{preamble}
 
 
-\begin{code}
+\begin{lstlisting}
+fib n {
+  if n < 2 {
+    n
+  }
+  else {
+    return fib (n-1) + fib (n-2)
+
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language = c]
 % Here is a latex comment
 % If we didn't skip over this, we would be in trouble.
 fib n {
@@ -39,9 +50,9 @@ fib n {
     return fib (n-1) + fib (n-2)
 
 }
-\end{code}
+\end{lstlisting}
 
-\begin{code}[language = c]
+\begin{lstlisting}[language=c,title = An implementation of Fibonacci]
 % Here is a latex comment
 % If we didn't skip over this, we would be in trouble.
 fib n {
@@ -52,20 +63,7 @@ fib n {
     return fib (n-1) + fib (n-2)
 
 }
-\end{code}
-
-\begin{code}[title = An implementation of Fibonacci, language = c]
-% Here is a latex comment
-% If we didn't skip over this, we would be in trouble.
-fib n {
-  if n < 2 {
-    n
-  }
-  else {
-    return fib (n-1) + fib (n-2)
-
-}
-\end{code}
+\end{lstlisting}
 
 
 \section{Genome Sequencing Problem}
