@@ -1,8 +1,8 @@
 # Anecdotal install steps on Ubuntu 16.04 #
 
- Starting with no OCaml experience.
+Starting with no OCaml experience.
 
- ## Installing OCaml compiler ##
+## Installing OCaml compiler ##
 1. Install [OPAM](https://opam.ocaml.org/doc/Install.html)
   - easiest way: `sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)`
 2. Install [bubblewrap](https://github.com/projectatomic/bubblewrap)
