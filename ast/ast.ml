@@ -455,9 +455,18 @@ struct
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
+      ?capopt: (capopt = None)
 			?problem: (problem = None)
 			kind
 			body = 
+
+    (* Set title to caption if captionable. *)
+    let title = 
+			if Tex.is_atom_captionable kind then
+				capopt
+			else
+				title
+		in
 		match label with 
 		| None -> 
 				{kind; point_val; title; label; depend; problem; body=body; 

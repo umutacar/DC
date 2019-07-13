@@ -321,12 +321,12 @@ atom:
   {	 
 	 let (all, ell) = tp_all in
    let a = parse_atom all in
-	 let (kind, popt, topt, lopt, body, problem_opt) = 
+	 let (kind, popt, topt, lopt, body, capopt, problem_opt) = 
 	   match a with 
-		 | None -> (Tex.kw_gram, None, None, None, all, None)
-		 | Some (kind, popt, topt, lopt, body, items) -> 
+		 | None -> (Tex.kw_gram, None, None, None,  all, None, None)
+		 | Some (kind, popt, topt, lopt, body, capopt, items) -> 
 				 let problem_opt = Ast.problem_of_items items in
-				 (kind, popt, topt, lopt, body, problem_opt)
+				 (kind, popt, topt, lopt, body, capopt, problem_opt)
 	 in			 
 	 let body = String.strip ~drop:is_vert_space body in
 	 if Tex.is_label_only body then
@@ -336,6 +336,7 @@ atom:
 				 ~point_val:popt 
 				 ~title:topt 
 				 ~label:lopt  
+				 ~capopt:capopt  
 				 ~problem:problem_opt
 				 kind  
 				 body
