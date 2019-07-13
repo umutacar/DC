@@ -1,3 +1,9 @@
+# Real world ocaml updated version 
+https://dev.realworldocaml.org/records.html
+
+Regexp examples
+http://pleac.sourceforge.net/pleac_ocaml/patternmatching.html
+
 # Usage
 
 ## tex2tex
@@ -19,6 +25,20 @@ $ make tex2xml.native
 
   This will parse tex/star.tex and generate an incomplete xml
   Completing this translation is currently what I am working on.
+
+
+
+
+##
+## OCAML
+
+To load a module into the ocaml REPL use #load, e.g.,
+# #load "Str.cma";;
+# Str.split (Str.regexp (",[ ]*"))  "x = y y = z";;
+
+# PPX 
+To get access to fancy record accessors use 
+- `opam install ppx_deriving`
 
 
 ######################################################################

@@ -1,14 +1,18 @@
 # TODO
+  - Clusters: now that we have groups and multipart problems are within them, do we need clusters?
+
+  - ProblemCluster is defunct: delete it...
+
+  - Update the backend to support new groups
+
+  - Testing: make sure that the updates did not break anything by running regression tests with existing chapters.
+
+    Connect back with the diderot development. 
+
+  - superblocks include blocks.  This leads to shift/reduce conflict.  Look into this.  Is this harmless?
   - diderot keywords such as labels can appear inside bodies.  How to deal with these?  We can include them as a word but this will likely lead to many conflicts.
 
     this suggests that "hijacking" latex commands as diderot commands can be a bit painful.  we have to be careful
-
- - Clean up the parser code (shared constants and so on) and upload several chapters (on staging) to test its robustness.
-
- - Test the parser on 210 files.
-
- - Extend XML translation to match older MLX translation.
-
 
    -- The major remaining gap: the older translation does some strictfication as an optimization to reduce the many nested section/subsection/subsubsection that would otherwise be needed.  I forget now how this was done.  I will need to look into it.
    
@@ -34,6 +38,180 @@ So whatever latex produces must be mediated through this.
  
 
 # JOURNAL
+
+- [May 20]
+  * Set up the infrastructure for label generation
+  * TODO: we must be able to generate labels always.
+
+- [May 19]
+  * Started working on elaboration for labeling.
+
+- [May 14]
+  * Completed quiz.  
+    Introduced blocks, cleaned up terminology and fixed some bugs.
+
+- [May 13]
+  * Add point value to all segments.  Author should be able so specify and if not they should be computed during evaluation.
+    Updated lexer, parser and elaboration
+    TODO: Update printing and to xml conversion to take points into account.
+
+- [May 12]
+  * cluster is now a group.  
+  * adding paragraphs as floatin sections.
+    - This is tricky.  The problem is that paragraphs don't have a proper end.  As a result if you have \paragrah{P} atom1 atom2, does atom2 stand on its own or does it go under the paragraph.  To prevent this, paragraphs should be treated as nested objects.  a block can start with elements followed by a sequence of paragraphs, so a block is a lot like a section.  once you start a paragraph, you cannot exit.
+
+   - I was able to resolve this but only by taking the "intertext" treatment out.  Intertext makes things more complicated because it can be ambigous where the intertext belongs to.  I will have to study this separately.
+
+ * Problem: textbetween atoms should be discarded.  how to do this?
+   - One idea is to allow each "segment" (ch, sec, subsec, atom etc) to have a preamble. This will cover all intertext space.  This seems extremely difficult to make work with the parser due to constraints.  The problem is that each segment starts with a preamble, so the parser gets confused about which direction to take.  For example when it sees some "preamble text" should it skip the paragraph coming up or should it not?  without know what the heading is it does not know...  
+   
+   So this preamble idea simply does not work. 
+  
+   - The other idea, which somewhat worked in the past, was
+      -- have a preamble for each atom and group
+      -- have a postamble for each sequence of atoms, including empty sequence.
+      -- have a postamble for each sequence of elements (atoms and groups)
+      etc.  
+  
+      This could work it seems but there it should allow these sequences to be empty.  I should solve this first be allowing them to be empty... OK, done.
+ 
+      Now, are we covered?  
+      It seems that this will go a long way because all others (segments) consist of as elements as leaves so it should suffice.
+  
+      OK, this is probaly a good place to test things a bit... Done and merged.
+
+
+
+- [May 11]
+  * multipart problems should have points.
+    - added to lexer/parser.
+    - added to xml
+  * group points are calculated from those of the atoms within. 
+  * added rubric, passed through compiler and lexer, passed through tex-to-tex translation.
+  * TODO: i need to add points to all sections and chapters.
+  * TODO: first a few changes to the section structure
+    - create a new group, called "cluster" whose goal is to tie together entities together.
+      the idea would be that you want all atoms to be visible (unlike flex) but the atoms are related as in a flex.  this can help contextualize discussions.
+    - replace clusters with paragraphs??? is there value to this?  given that we have groups, why do we need this?  the only advantage is its compatibility with latex.  authors who use paragraphs, for example, in papers we use them a lot might like this feature.  it would make it possible to upload the same latex with minimal changes.  
+
+
+- [May 10]
+  * Fixed up some bugs with lexing and parsing.  
+  * tested tex2tex translation with different of groups: mproblem and flex.
+  * tested xml translation
+
+
+- [May 9]
+  * Extend parser with multipart problems.  These would be another block, basically like a flex, but would use a different title.
+    - Started doing this.  TODO: paremeterize group's so that I can use the same definitions, much like with atoms.  Working on this done with parser and lexer.
+
+
+- [ May 7 ] 
+  * Made a multichoice list. This works is late
+  * TODO: current points scheme with optional titles and points, both being optional arguments doesn't work well with latex. There should not be more than one optional argument...
+    Idea: detect the one that is a number and treat it specially.  
+    OK This works.  Now carry it forward by fleshing it out.  If you don't want to care about the order of arguments, then you will need to be more careful about things in parsing also.  Maybe this is not the best thing.  It might be better to require the first argument always be poins.  Also for consistency.   
+
+- [May 6]
+  * Started working on XML translation.  The code has gotten unwieldy, so I want to reorg first...
+    Reorg done.
+  * Hint and explains fields created and translated to xml.
+
+  * Worked on updating our latex sytle files to allow compiling problems to pdf.  It didn't work out by using the exam package, because of differences in style.  Not sure how to handle this.  I don't think it is going to be pretty.  I think the easiest thing is to define my own lists instead of using the exam package.
+
+- [May 5]
+  * Getting back to things...
+  * Add \explain and \hint to atoms.
+    The syntax would be
+    \begin{atom}
+
+    \hint
+    ..
+    \solution
+    ..
+    \explain (explain the solution).
+
+   \end{atom}  
+ 
+   The tricky things is that all of the above are optional, so when we find one, we would need to stop when we find another or the end of atom.  The end of atom in turn should (though doesn't have to be) passed out and returned to the parser.
+
+   Working on this: figuring first the tex-to-tex translation.
+   Ok this is done. 
+  * Next TODO: extend XML translation to deal with hints, explanations, and solutions.
+
+
+- [April 14]
+  * Started testing lexing of \depend'ency lists and. Fixed some lexer issues.
+  * Now extending ast to include depency lists for atoms.
+
+- [April 13]
+  * Added lexer and parser support for \depend{label1, label2, label3}...
+
+    I don't think I can add depend to atoms without inflating the parser dramatically.  We will need to simplify things...
+  * TODO: Ok, simplified the mk_atom function of the parser to accommodate \depend{} command.  Now I need to update the ast to include dependencies in addition to labels.
+
+- [April 12]
+  Got \input inlining to work by using OCAML's regular expressions.
+
+- [April 11]
+  * Added recognition for \input{filename} in branch pre_input.  The idea would be to read the contents of filename and include it in the current body of text.  The question is whether this should be done in a preprocessing step so that if there are diderot commands within the file, they could be handled properly.  I think the answer is obviously this is how it should be..
+
+  I implemented this by extending the lexer but perhaps this is overkill.  It might be more straightforward to simply read in a file and substitute \input{filename} with the contents of the file.  I don't think it is necessary to parse the file.  It should be possible to do this much more simply, without having to do anything at all, and by simply using a string query and a replacement.
+
+  I am therefore going to reset to quiz branch and implement preprocessing as a separate pass.
+
+- [April 9]
+  * Added elaboration to tex and xml generation. So this should be good to merge upstream.
+    
+- [April 8]
+  - Working on making elobaration idempotent.  I need to be able to assign points to items optionally.
+    * items now have points
+    * clusters also should..
+    * ok items and clusters now have points.  
+    * BUT: suppose that the cluster sums don't match up the given sum.  What do we do? 
+      One idea is to disallaw optional points this in the surface syntax.  Another is to scale. 
+      This is a bit of a policy decision.  We will need to see...
+
+- [April 7]  
+  - Need a function to compute point values for clusters.
+  - Renamed "block" to "element".  
+    An element now is either a group or an atom.
+  - Renamed "superblock to block"
+    A block now is either a cluster or an element.
+  - Wrote a set of  traversal functions that traverse the AST without doin anything.
+    TODO: Need to customize this so that it can do traversals.
+  - Started working on Elaboration.
+    DOne: a basic elaboration for points.  Untested.
+
+- [March 24]
+  -> atoms now have points. if not specified, then they have 0 points.
+     the syntax is \begin{atom}[pointval][title]
+     pointval is optional
+   
+     
+  -> added points to clusters.  but clusters are not given points at the syntax level. 
+     the question now is how to compute this stuff for clusters.
+- [March 23]
+  -> Updated beamer to recognize clusters.
+  -> Allow point scores to be added to clusters.  
+
+  How should we do this? What should the syntax be? 
+  Maybe recreate a 210 exam to see how.  
+
+  -> Played with the exam package and latex.  The conclusion is problems will support two optional arguments: titles and points.  The integer numbers will become points, the other will become title.
+
+  -> It seems that it will be cleanest to have a solution field within a problem. This will indicate whether the problem is free response or not.  And if so, whether there should be a textbox.
+
+  -> Allow points to have point values.  See ilists an an example, the idea is to match the point value as part of the begin{atom}.  For example \begin{atom}[20]
+
+- [Marh 22]
+  -> Chapters can now have blocks.  One problem is that this leads to an additional shift/reduce conflict, because a superblock can be a block. So I  will have to look into this.
+  -> Superblocks and clusters are now good.
+
+- [Marh 21]
+  -> Extended the parser and AST/XML to support clusters.
+  -> Cluster are currently not hooked up to the syntax. That is the next thing to do.
+  --> Will need to test and cluster, when not used don't change anything.
 
 - [March 15] 
   -> Starting to work on free responses.

@@ -8,7 +8,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% DIDEROT ADDITION
-\usepackage[utf8]{inputenc}
+%% pandoc does not like htis
+%%\usepackage[utf8]{inputenc}
 
 % htmlmath
 % This is purely for pandoc to insert delegate
@@ -26,7 +27,8 @@
 \fi
 }
 
-
+\newcommand{\fillin}[1]
+{\underline{#1}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% PAGE LAYOUT
 \addtolength{\parskip}{7pt}

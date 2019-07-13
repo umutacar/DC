@@ -5,12 +5,27 @@
   Sets are both a mathematical structure and an abstract datatype
   supported by many programming languages.  This chapter presents an ADT for
   finite sets of elements taken from a fixed domain and several cost models, including one based on \href{ch:bst::adt}{balanced binary search trees}.
+
 \end{preamble}
 
-\begin{code}
+\begin{table}
+\begin{tabular}{lll}
+Here & there & where? 
+\\
+where & there & here? 
+\end{tabular}
+\end{table}
 
-\input{/Users/umut/lambdabricks/src/atoms/models_code.py}
-\end{code}
+\begin{figure}
+\includegraphics{Something}
+\caption{Some image above.}
+\end{figure}
+
+
+\begin{table}
+\includegraphics{Something}
+\caption{Some image above.}
+\end{table}
 
 \section{Motivation}
 \label{XXsec:sets::math}
@@ -40,19 +55,23 @@ of a set needs to be built up from primitive notions, such as the
 integers or reals, by using various composition rules, such as
 Cartesian products.
 \end{gram}
-
-\begin{gram}[Choices]
-Select any one of the following.
-\begin{choices}
-\choice a
-\choice $b = y^2$
-\correctchoice c
-\correctchoice d
-\choice e
-\end{choices}
+\begin{gram}
+x
 \end{gram}
 
-\begin{gram}
+\begin{gram}[10][Choices]
+Select any one of the following.
+\begin{anychoice}
+\choice a
+\choice $b = y^2$
+\choice* c
+\choice* d
+\choice e
+\end{anychoice}
+\end{gram}
+
+\begin{gram}[ 20  ] [ x]
+\label{xy}
 Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
 %
 We discuss tables \href{ch:tables}{in the next chapter.}
@@ -87,7 +106,9 @@ We note that \href{ch:sequences::adt}{sequences} are a particular type of table-
 \section{Sets ADT}
 
 \begin{datatype}[Sets]
+
 \label{XXadt:sets} 
+
 For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
 \adt{SET} abstract data type is a type $\sss$ representing the power 
 set of $\uuu$ (i.e., all subsets of $\uuu$) limited to sets of finite 
@@ -423,6 +444,8 @@ All of these approaches assume an equality function on the elements (with natura
 \end{gram}
 
 \begin{flex}
+\label{sets:cluster:arraysets}
+
 \begin{costspec}[Array Sets for Enumerable Sets]
 \label{XXcost:sets::arrayseqs}
 

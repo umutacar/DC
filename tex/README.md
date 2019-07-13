@@ -1,3 +1,19 @@
+# Executables
+
+## tex2tex
+
+This reads the tex file and elobarates it such that 
+* Each atom has a group (no orphan atoms)
+* Each node of the document tree has point scores
+* Each node of the document tree has a unique label.
+
+It then prints out the resulting tex file.
+
+## tex2xml
+
+This reads the tex file and elobarates as in tex2tex translation and translates it to xml using pandoc.
+
+
 # DEVELOPMENT
 ## USAGE
   To compile run the parser 
@@ -11,6 +27,8 @@
   `$ menhir --dump --explain parser.mly`
   and look into file `parser.conflicts` and `parser.automaton`
 
+  To generate .messages file menhir --list-errors parser.mly > parser.messages
+
   To compile a particular module try something like this
   ocamlfind ocamlc -package core -c tex2html.ml
 
@@ -18,6 +36,14 @@
 Turn this on to see the various parser steps.
 $ export OCAMLRUNPARAM='p'
 
+## Re2
+We use Re2 expressions alot see here.
+* https://ocaml.janestreet.com/ocaml-core/109.55.00/tmp/re2/Regex.html
+
+
+* https://regex-golang.appspot.com/assets/html/index.html
+
+* https://github.com/google/re2/wiki/Syntax
 
 ## OCAML 
 
@@ -28,6 +54,96 @@ $ ocamlbuild -use-ocamlfind -quiet top.native
 $ ocamllex lexer.mll
 $ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
 $ lexer.native
+
+
+# Grammar
+
+## Overview
+The grammar is primarily designed to avoid conflicts in the parser.  
+
+For example,  plural items, such as sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
+
+The parsing infrastructure is separated into two stages.  First, we use a "top-level"pparser to parse latex into "atoms" and then we use a separate atom lexer and parser atom/atom_lexer and atom/atom_parser) to parse each atom.  The motivation is to reduce complexity. 
+
+The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  
+
+## preambles and tailtexts
+
+  One difficulty in the parser was accommodating text, mainly whitespace, outside the atoms. 
+
+  To solve this problem, I allow 
+   * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
+   * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext". 
+ 
+
+## Segments: chapters and sections
+
+*  We have four levels of sectioning:
+  chapter, section, subsection, subsubsection
+
+  These don't have to be "properly nested" 
+
+  A segment is a heading followed by a block.
+
+  A block is a sequence of elements with tail text.
+
+  An element is either an atom or a group 
+
+  A group is a preamble text followed by a sequence of atoms and tailtext.
+  Note that the tailtext belong to the sequence of atoms.
+
+  An atom is a preamble text followed by \begin{atom}...\end{atom}
+
+## Problems, Prompts, Cookies
+
+  Each atom can be followed by a problem. The user writes the problem as a sequence of command-body pairs of the form
+
+  \problem_kind Instructions
+  list of cookies
+  List of prompts
+
+  A prompt is a (\problem_part_kind Instructions
+                 followed by             
+                 \list of cookies).
+
+
+  A cookie could look like this
+  \hint[optional cost] some hint   
+  \explain[optional cost] some explanation
+  \sol[optional cost] some solution
+  \notes[optional cost] some notes
+  \rubric[optional cost] a rubric
+  
+  The optional costs are not always meaningful.  The idea is that if a student demants a hint, they will pay some cost and this could be specified.
+  
+  For simplicity, the parser simply parses the list and then processes it to construct the parts.  
+
+## Automatic labeling
+
+The idea is to require the user to follow some discipline in labeling segments such as
+ch:chapter_label
+sec:section_label
+sec:paragraph_label
+(encourage using the same prefix, because paragraph can become section later and you don't want to change all the references to the label)
+grp:cluster_label
+grp:flex_label
+(here gr stands for group)
+
+We then generate labels automatically. The generated labels follow the labeling discipline above but if the user's original labels did not follow this approach, then the algorithm works but the auto-generated labels are not uniform with the author's style anymore, which is probably a small annoyance.
+
+The algorithm employs a few heuristics so that the labels can be reasonably good.
+
+We maintain a hash table of all the labels in the chapter and check against it to make sure that all labels are unique.
+We try out words from the title (for sections) or title + body for atoms, giving priority to titles.
+We avoid some common stop words and diderot keywords.
+We avoid contents of comments, latex commands etc, and contents of \label{} and \depend commands.
+For groups, which usually don't have a title, and therefore we use the titles and bodies of nested atoms. For the bodies, we take the first 1/2 of each atom's body, for no real good reason other reducing work Note that because of the prefix difference, the same label can be used for an atom and its group and there will be no collision (hence this is not a good reason).
+For sections (section/subsection/subsection/paragraph), we expect a title. In the odd case that the title is empty, we look into the titles and bodies of the atoms & groups up until the first nested section if any.
+If all this fails, we generate a unique number.
+TESTING
+Tested it on several 210 chapters. Works surprisingly well.
+
+### Limitation
 
 
 # OVERALL STRATEGY
