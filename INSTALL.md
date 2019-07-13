@@ -17,15 +17,36 @@ Starting with no OCaml experience.
   - ``eval `opam env` ``
   - make sure it worked: `which ocaml` and `ocaml -version`
 
-## Installing packages for MeTaL ##
+ ## Installing packages for MeTaL ##
 Assuming you got OPAM as described above:
-- `opam install core getopt menhir`
+- `opam install core getopt menhir re2`
+and add  -package ppx_fields_conv
+to the Makefile
 
-## Installing MeTaL ##
+## Ocaml interpreter
+Place the following in your root directory file .ocamlinit
+
+```
+#use "topfind";;
+#thread;;
+#camlp4o;;
+#require "core.top";;
+#require "core.syntax";;
+```
+
+ ## Installing MeTaL ##
 - clone this repo and run `make` in the `MeTaL` directory
-- the file `tex2xml.native` is the main executable, so copy that to where you want it
+- The executable `texmlt` or `texmlt.native` generates xml from latex.
+  Example usage from within the root of MeTaL.
+  ```
+  $./texmlt examples/genome.tex -preamble examples/preamble.tex -o genome.xml
+  ```
+- The executable `texel` or `texel.native` elaborates the input latex file in several ways.
+  ```
+  $./texel examples/genome.tex -o genome_elaborated.xml
 
-#### Disabling debug output ####
+
+ #### Disabling debug output ####
 If you get lots of debug output when compiling to xml, (eg: `!lexer matched` and `!found word:`) you can disable debugging output to get rid of it
 - edit the file `MeTaL/pervasives/utils.ml`
   - find the line `let debug = true` and change it to `let debug = false`
