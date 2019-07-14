@@ -15,6 +15,10 @@ type t_lexer_state =
 	| Idle
  
 
+(* State is either busy or idle.
+ * Idle means that we are not in the middle of a paragraph.
+ * Busy means htat we are in the middle of handling a paragraph.
+ *)
 let state_to_string st = 
 	match st with 
 	|  Busy -> "Busy"
