@@ -598,7 +598,7 @@ let lexer: Lexing.lexbuf -> token =
         (* Because next token is newline, we will return a newline *)
 				let _ = set_trace Ver_space in 
 				()
-  
+			in
       (* Take token from cache, 
        * if cache is empty,  then take from the lexer 
        *)
