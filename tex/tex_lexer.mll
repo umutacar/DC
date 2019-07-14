@@ -43,6 +43,7 @@ let space_state_to_string () =
 	| Vertical -> "Vertical"
 
 
+
 (* Indicates the depth at which the lexer is operating at
    0 = surface level
    1 = inside of an env
@@ -590,14 +591,20 @@ let lexer: Lexing.lexbuf -> token =
 				 tk_to_return)
 			in
 			let is_token_from_cache = ref false in
+      let handle_keyword tk = 
+				match !state with 
+   			| Idle -> 
+						let _ = set_space_state Horizontal in
+						set_state Idle
+				| Busy -> 
+						(* Force end of paragraph *)
+						let _ = cache_insert (NEWLINE "\n") in
+						let _ = cache_insert tk in
+						let _ = set_next_token (Some (NEWLINE "\n")) in
+            (* Because next token is newline, we will return a newline *)
+						let _ = set_space_state Vertical in 
+						set_state Busy
 
-      let force_end_par tk = 
-				let _ = cache_insert (NEWLINE "\n") in
-				let _ = cache_insert tk in
-				let _ = set_next_token (Some (NEWLINE "\n")) in
-        (* Because next token is newline, we will return a newline *)
-				let _ = set_space_state Vertical in 
-				()
 			in
       (* Take token from cache, 
        * if cache is empty,  then take from the lexer 
@@ -664,33 +671,26 @@ let lexer: Lexing.lexbuf -> token =
 								()
 						end
 
-				| KW_BEGIN_GROUP x 
-				| KW_END_GROUP x 
-        | KW_FOLD x 
-				| KW_HEADING x ->
-(*  					let _ = d_printf "** token = begin heading %s \n"  x in *)
-            begin
-						match !state with 
-   					| Idle -> 
-								let _ = set_space_state Horizontal in
-								set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								set_state Busy
-						end
+				| KW_BEGIN_GROUP x ->
+(*  					let _ = d_printf "** token = begin group \n"  in *)
+            handle_keyword tk
 
+				| KW_END_GROUP x ->
+(*  					let _ = d_printf "** token = end group \n"  in *)
+            handle_keyword tk
+
+				| KW_FOLD x ->
+(*  					let _ = d_printf "** token = fold \n"  in *)
+            handle_keyword tk
+
+				| KW_HEADING x ->
+(*  					let _ = d_printf "** token = heading \n"  in *)
+            handle_keyword tk
 
         | EOF -> 
 (*						let _ = d_printf "token = EOF \n" in *)
-            (* TODO THIS IS NOT ENOUGH 
-               WE NEED TWO NEWLINES. *)
-						begin
-						match !state with 
-   					| Idle -> set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								  set_state Busy
-						end
+						handle_keyword tk
+
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = Idle && (get_state () = Busy) then
@@ -702,55 +702,4 @@ let lexer: Lexing.lexbuf -> token =
 (** END TRAILER **)
 
 
-(** Redundant version.
-
-				| KW_BEGIN_GROUP x ->
-(*  					let _ = d_printf "** token = begin group \n"  in *)
-            begin
-						match !state with 
-   					| Idle -> 
-								let _ = set_space_state Horizontal in
-								set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								set_state Busy
-						end
-
-				| KW_END_GROUP x ->
-(*  					let _ = d_printf "** token = end group \n"  in *)
-            begin
-						match !state with 
-   					| Idle -> 
-								let _ = set_space_state Horizontal in
-								set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								set_state Busy
-						end
-
-				| KW_FOLD x ->
-(*  					let _ = d_printf "** token = fold \n"  in *)
-            begin
-						match !state with 
-   					| Idle -> 
-								let _ = set_space_state Horizontal in
-								set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								set_state Busy
-						end
-
-				| KW_HEADING x ->
-(*  					let _ = d_printf "** token = heading \n"  in *)
-            begin
-						match !state with 
-   					| Idle -> 
-								let _ = set_space_state Horizontal in
-								set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								set_state Busy
-						end
-
-*)
 
