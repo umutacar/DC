@@ -9,6 +9,7 @@ open Tex_parser
 let d_printf args = 
     ifprintf stdout args
 *)
+(*let d_printf args = printf args*)
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -24,21 +25,22 @@ let set_state s =
   state := s
 let get_state = fun () -> !state 
 
-type t_space_trace = 
-	| No_space
-	| Hor_space
-	| Ver_space
+(* Are we making progress horizontally or vertically? 
+ *
+ *)
+type t_space_state = 
+	| Horizontal
+	| Vertical
 
-let trace = ref No_space
-let set_trace t = 
-  trace := t
-let get_trace () = 
-	!trace
-let trace_to_string () =
-	match !trace with  
-	| No_space -> "No space"
-	| Hor_space -> "Hor space"
-	| Ver_space -> "Ver space"
+let space_state = ref Horizontal
+let set_space_state t = 
+  space_state := t
+let get_space_state () = 
+	!space_state
+let space_state_to_string () =
+	match !space_state with  
+	| Horizontal -> "Horizontal"
+	| Vertical -> "Vertical"
 
 
 (* Indicates the depth at which the lexer is operating at
@@ -584,7 +586,7 @@ let lexer: Lexing.lexbuf -> token =
 					| Some ntk -> ntk
 				in
 				(prev_token := Some tk_to_return;
-(*				 d_printf "returning token: %s\n" (token_to_str tk_ret); *)
+				 d_printf "returning token: %s\n" (token_to_str tk_to_return); 
 				 tk_to_return)
 			in
 			let is_token_from_cache = ref false in
@@ -594,7 +596,7 @@ let lexer: Lexing.lexbuf -> token =
 				let _ = cache_insert tk in
 				let _ = set_next_token (Some (NEWLINE "\n")) in
         (* Because next token is newline, we will return a newline *)
-				let _ = set_trace Ver_space in 
+				let _ = set_space_state Vertical in 
 				()
 			in
       (* Take token from cache, 
@@ -604,61 +606,62 @@ let lexer: Lexing.lexbuf -> token =
 				match cache_remove () with 
 				| None -> (is_token_from_cache := false; lexer lexbuf)
 				| Some t -> (is_token_from_cache := true; t) in
-(*			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in *)
+			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in 
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
 (*						let _ = d_printf "\n **token = newline! \n" in *)
-(*						let _ = d_printf " **trace = %s! \n" (trace_to_string ()) in *)
+(*						let _ = d_printf " **space_state = %s! \n" (space_state_to_string ()) in *)
 						begin
-            match get_trace () with 
-						| No_space ->
-								let _ = set_trace Ver_space in
+            match get_space_state () with 
+						| Horizontal ->
+								let _ = set_space_state Vertical in
 								  ()
-						| Hor_space ->
-								let _ = set_trace Ver_space in
-								  ()
-						| Ver_space ->
-								let _ = set_trace Ver_space in
+						| Vertical ->
 								let _ = set_state Idle in
 								if !is_token_from_cache then
 									()
 (*									d_printf "token is from cache.\n"  *)
 								else 
+                  (* IMPORTANT: We are skipping over some horizontal spaces.
+										 This will show up if you compare input latex
+										 with the latex serialization of AST
+									*)
 									let (ntk, n) = take_spaces lexbuf in
 (*									let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in *)
 									cache_insert ntk
 									
 						end
-				| HSPACE x -> 
-        (* IMPORTANT: We are skipping over some horizontal spaces.
-           This will show up if you compare input latex
-           with the latex serialization of AST
-         *)
+				| HSPACE x ->  
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
-						begin
-						match get_trace () with 
-						| Ver_space -> set_trace Ver_space
-						| _ -> set_trace Hor_space 
-						end
+						(* Does not change space state! *)
+						()
 				| SIGCHAR x -> 
 						let (c, l) =  x in
 (*						let _ = d_printf "** token = sigchar %s \n" c in *)
 (*						let _ = d_printf "%s" x in *)
-						let _ = set_trace No_space in
+						let _ = set_space_state Horizontal in
 						begin
 						match !state with 
-   					| Idle -> (set_state Busy; next_token := Some (PAR_SIGCHAR x))
-						| Busy -> set_state Busy
+   					| Idle -> 						
+								let _ = set_state Busy in
+								next_token := Some (PAR_SIGCHAR x)
+						| Busy -> 
+								let _ = set_state Busy in
+								()
 						end
 
 				| ENV x -> 
 (*						let _ = d_printf "** token = env %s \n" (fst x) in  *)
-						let _ = set_trace No_space in
+						let _ = set_space_state Horizontal in
 						begin
 						match !state with 
-   					| Idle -> (set_state Busy; next_token := Some (PAR_ENV x))
-						| Busy -> set_state Busy
+   					| Idle -> 
+								let _ = set_state Busy in
+								next_token := Some (PAR_ENV x)
+						| Busy -> 
+								let _ = set_state Busy in
+								()
 						end
 
 				| KW_BEGIN_GROUP x ->
@@ -666,7 +669,7 @@ let lexer: Lexing.lexbuf -> token =
             begin
 						match !state with 
    					| Idle -> 
-								let _ = set_trace No_space in
+								let _ = set_space_state Horizontal in
 								set_state Idle
 						| Busy -> 
                 let _ = force_end_par tk in
@@ -678,7 +681,7 @@ let lexer: Lexing.lexbuf -> token =
             begin
 						match !state with 
    					| Idle -> 
-								let _ = set_trace No_space in
+								let _ = set_space_state Horizontal in
 								set_state Idle
 						| Busy -> 
                 let _ = force_end_par tk in
@@ -690,7 +693,7 @@ let lexer: Lexing.lexbuf -> token =
             begin
 						match !state with 
    					| Idle -> 
-								let _ = set_trace No_space in
+								let _ = set_space_state Horizontal in
 								set_state Idle
 						| Busy -> 
                 let _ = force_end_par tk in
@@ -702,7 +705,7 @@ let lexer: Lexing.lexbuf -> token =
             begin
 						match !state with 
    					| Idle -> 
-								let _ = set_trace No_space in
+								let _ = set_space_state Horizontal in
 								set_state Idle
 						| Busy -> 
                 let _ = force_end_par tk in
@@ -722,8 +725,7 @@ let lexer: Lexing.lexbuf -> token =
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = Idle && (get_state () = Busy) then
-(*        d_printf "!!START PARAGRAPH!!\n" *)
-				()
+        d_printf "!!START PARAGRAPH!!\n"
       in 
         return_token tk
 
