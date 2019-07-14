@@ -664,6 +664,46 @@ let lexer: Lexing.lexbuf -> token =
 								()
 						end
 
+				| KW_BEGIN_GROUP x 
+				| KW_END_GROUP x 
+        | KW_FOLD x 
+				| KW_HEADING x ->
+(*  					let _ = d_printf "** token = begin heading %s \n"  x in *)
+            begin
+						match !state with 
+   					| Idle -> 
+								let _ = set_space_state Horizontal in
+								set_state Idle
+						| Busy -> 
+                let _ = force_end_par tk in
+								set_state Busy
+						end
+
+
+        | EOF -> 
+(*						let _ = d_printf "token = EOF \n" in *)
+            (* TODO THIS IS NOT ENOUGH 
+               WE NEED TWO NEWLINES. *)
+						begin
+						match !state with 
+   					| Idle -> set_state Idle
+						| Busy -> 
+                let _ = force_end_par tk in
+								  set_state Busy
+						end
+        | _ -> printf "Fatal Error: token match not found!!!\n"
+			in  
+      let _ = if old_state = Idle && (get_state () = Busy) then
+        d_printf "!!START PARAGRAPH!!\n"
+      in 
+        return_token tk
+
+}
+(** END TRAILER **)
+
+
+(** Redundant version.
+
 				| KW_BEGIN_GROUP x ->
 (*  					let _ = d_printf "** token = begin group \n"  in *)
             begin
@@ -711,25 +751,6 @@ let lexer: Lexing.lexbuf -> token =
                 let _ = force_end_par tk in
 								set_state Busy
 						end
-        | EOF -> 
-(*						let _ = d_printf "token = EOF \n" in *)
-            (* TODO THIS IS NOT ENOUGH 
-               WE NEED TWO NEWLINES. *)
-						begin
-						match !state with 
-   					| Idle -> set_state Idle
-						| Busy -> 
-                let _ = force_end_par tk in
-								  set_state Busy
-						end
-        | _ -> printf "Fatal Error: token match not found!!!\n"
-			in  
-      let _ = if old_state = Idle && (get_state () = Busy) then
-        d_printf "!!START PARAGRAPH!!\n"
-      in 
-        return_token tk
 
-}
-(** END TRAILER **)
-
+*)
 
