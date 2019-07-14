@@ -399,12 +399,15 @@ rule initial = parse
 | p_percent as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let is_line_empty = line_is_empty () in
      let rest = take_comment lexbuf in
+     let _ = printf "line empty = %b" is_line_empty in
      let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
-		 if line_is_empty () then
+		 if is_line_empty then
       (* Drop comments *)
-       initial lexbuf
+       initial lexbuf 
+
 		 else
 			 NEWLINE comment
     }
