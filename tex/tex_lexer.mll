@@ -577,8 +577,6 @@ let lexer: Lexing.lexbuf -> token =
 			let next_token = ref None in
 			let set_next_token t = next_token := t in
 
-			let start_par tk = (set_state Busy; next_token := Some tk) in
-
 			let return_token tk = 
 				let tk_to_return = 
 					match !next_token with 
@@ -650,7 +648,7 @@ let lexer: Lexing.lexbuf -> token =
 						let _ = set_trace No_space in
 						begin
 						match !state with 
-   					| Idle -> start_par (PAR_SIGCHAR x)
+   					| Idle -> (set_state Busy; next_token := Some (PAR_SIGCHAR x))
 						| Busy -> set_state Busy
 						end
 
@@ -659,7 +657,7 @@ let lexer: Lexing.lexbuf -> token =
 						let _ = set_trace No_space in
 						begin
 						match !state with 
-   					| Idle -> start_par (PAR_ENV x)
+   					| Idle -> (set_state Busy; next_token := Some (PAR_ENV x))
 						| Busy -> set_state Busy
 						end
 
