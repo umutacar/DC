@@ -30,7 +30,8 @@ let set_state s =
 let get_state = fun () -> !state 
 
 (* Are we making progress horizontally or vertically? 
- *
+ * Vertically means that we are in the middle of a run of empty lines
+ * possibly with horizontal spaces.
  *)
 type t_space_state = 
 	| Horizontal
