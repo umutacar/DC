@@ -568,16 +568,6 @@ let lexer: Lexing.lexbuf -> token =
 
 let lexer: Lexing.lexbuf -> token =
   let prev_token = ref None in
-
-	let rec take_spaces lexbuf =
-		let t = lexer lexbuf in
-		match t with
-		| HSPACE _ -> take_spaces lexbuf 
-		| NEWLINE _ -> 
-				let (ntk, m) = take_spaces lexbuf in
-				(ntk, m+1)
-		| _ -> (t, 0) 
-	in
     fun lexbuf ->
 (*  		let _ = d_printf "!lexer: state = %s\n" (state_to_string !state) in *)
       let old_state = get_state () in
@@ -631,18 +621,7 @@ let lexer: Lexing.lexbuf -> token =
 								  ()
 						| Vertical ->
 								let _ = set_state Idle in
-								if !is_token_from_cache then
-									()
-(*									d_printf "token is from cache.\n"  *)
-								else 
-                  (* IMPORTANT: We are skipping over some horizontal spaces.
-										 This will show up if you compare input latex
-										 with the latex serialization of AST
-									*)
-									let (ntk, n) = take_spaces lexbuf in
-(*									let _ = d_printf "took %s spaces and next token = %s \n" (string_of_int n) (token_to_str ntk) in *)
-									cache_insert ntk
-									
+                ()
 						end
 				| HSPACE x ->  
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
