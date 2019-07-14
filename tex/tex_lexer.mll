@@ -548,16 +548,15 @@ let lexer: Lexing.lexbuf -> token =
 
 (* This is the spiced up lexer that modifies the token stream in
  * several ways.
- * First, it maintains a state and implements a state transition 
- * system that allows it to detect the beginning of paragraps.
  *
- * It also emits an additional newline token to force end a paragraph
+ * First, it maintains  state and implements a state transition 
+ * system to detect the beginning of paragraphs.
+ *
+ * It also emits an additional newline token to "force end" a paragraph
  * when a heading or EOF is encountered but a paragraph is not 
  * completed.  When an extra token is emitted, the current token
  * is cached and emitted at the next request.
  *)
-
-
 
 let lexer: Lexing.lexbuf -> token =
   let prev_token = ref None in
@@ -580,17 +579,29 @@ let lexer: Lexing.lexbuf -> token =
 
 			let start_par tk = (set_state Busy; next_token := Some tk) in
 
-			let return_tk tk = 
-				let tk_ret = 
+			let return_token tk = 
+				let tk_to_return = 
 					match !next_token with 
 					| None -> tk
 					| Some ntk -> ntk
 				in
-				(prev_token := Some tk_ret;
+				(prev_token := Some tk_to_return;
 (*				 d_printf "returning token: %s\n" (token_to_str tk_ret); *)
-				 tk_ret)
+				 tk_to_return)
 			in
 			let is_token_from_cache = ref false in
+
+      let force_end_par tk = 
+				let _ = cache_insert (NEWLINE "\n") in
+				let _ = cache_insert tk in
+				let _ = set_next_token (Some (NEWLINE "\n")) in
+        (* Because next token is newline, we will return a newline *)
+				let _ = set_trace Ver_space in 
+				()
+  
+      (* Take token from cache, 
+       * if cache is empty,  then take from the lexer 
+       *)
   		let tk = 
 				match cache_remove () with 
 				| None -> (is_token_from_cache := false; lexer lexbuf)
@@ -660,10 +671,7 @@ let lexer: Lexing.lexbuf -> token =
 								let _ = set_trace No_space in
 								set_state Idle
 						| Busy -> 
-								let _ = cache_insert (NEWLINE "\n") in
-								let _ = cache_insert tk in
-								let _ = set_next_token (Some (NEWLINE "\n")) in
-								let _ = set_trace Ver_space in (* Because we will return a newline *)
+                let _ = force_end_par tk in
 								set_state Busy
 						end
 
@@ -675,10 +683,7 @@ let lexer: Lexing.lexbuf -> token =
 								let _ = set_trace No_space in
 								set_state Idle
 						| Busy -> 
-								let _ = cache_insert (NEWLINE "\n") in
-								let _ = cache_insert tk in
-								let _ = set_next_token (Some (NEWLINE "\n")) in
-								let _ = set_trace Ver_space in (* Because we will return a newline *)
+                let _ = force_end_par tk in
 								set_state Busy
 						end
 
@@ -690,10 +695,7 @@ let lexer: Lexing.lexbuf -> token =
 								let _ = set_trace No_space in
 								set_state Idle
 						| Busy -> 
-								let _ = cache_insert (NEWLINE "\n") in
-								let _ = cache_insert tk in
-								let _ = set_next_token (Some (NEWLINE "\n")) in
-								let _ = set_trace Ver_space in (* Because we will return a newline *)
+                let _ = force_end_par tk in
 								set_state Busy
 						end
 
@@ -705,10 +707,7 @@ let lexer: Lexing.lexbuf -> token =
 								let _ = set_trace No_space in
 								set_state Idle
 						| Busy -> 
-								let _ = cache_insert (NEWLINE "\n") in
-								let _ = cache_insert tk in
-								let _ = set_next_token (Some (NEWLINE "\n")) in
-								let _ = set_trace Ver_space in (* Because we will return a newline *)
+                let _ = force_end_par tk in
 								set_state Busy
 						end
         | EOF -> 
@@ -719,20 +718,16 @@ let lexer: Lexing.lexbuf -> token =
 						match !state with 
    					| Idle -> set_state Idle
 						| Busy -> 
-								let _ = cache_insert (NEWLINE "\n") in
-								let _ = cache_insert tk in
-								let _ = set_next_token (Some (NEWLINE "\n")) in
-								let _ = set_trace Ver_space in (* Because we will return a newline *)
+                let _ = force_end_par tk in
 								  set_state Busy
 						end
-
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = Idle && (get_state () = Busy) then
 (*        d_printf "!!START PARAGRAPH!!\n" *)
 				()
       in 
-        return_tk tk
+        return_token tk
 
 }
 (** END TRAILER **)
