@@ -382,6 +382,17 @@ rule initial = parse
        KW_END_GROUP(kind, x)
     }		
 
+
+| (p_begin_env_verbatim as x)
+    {
+     let _ = printf "!lexer matched begin verbatim %s." x in 
+     let (rest, h_e) = skip_env kw_verbatim lexbuf in
+   	 let all = x ^ rest ^ h_e in
+     let _ = printf "!lexer matched verbatim \n %s." all in 
+		 (* Drop comments *)
+     CHUNK(all, None)
+}
+
 | (p_begin_env_comment as x)
     {
      let _ = printf "!lexer matched begin comment %s." x in 
