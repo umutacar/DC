@@ -102,10 +102,8 @@ let token_to_str tk =
 	match tk with 
 	| NEWLINE x -> "* lexer: token = newline."
 	| HSPACE x ->  "* lexer: token = hspace."
-	| ENV x ->  "* lexer: token = env = " ^ x
-	| PAR_ENV x ->  "* lexer: token = env = " ^ x
-	| PAR_SIGCHAR (x, lopt) -> "* lexer: token = par sigchar: " ^ x
-	| SIGCHAR (x, lopt) ->  "* lexer: token = sigchar: " ^ x 
+	| PAR_CHUNK (x, lopt) -> "* lexer: token = par chunk " ^ x
+	| CHUNK (x, lopt) ->  "* lexer: token = chunk " ^ x 
 	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
 	| KW_END_GROUP (x, _) -> "* lexer: token = end group " ^ x
 	| KW_FOLD (x) -> "* lexer: token = fold: " ^ x
@@ -370,7 +368,7 @@ rule initial = parse
      let (rest, h_e) = take_env lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ =  set_line_nonempty () in
-            ENV(all)
+            CHUNK(all, None)
 }
 
 | p_label_and_name as x
@@ -379,21 +377,21 @@ rule initial = parse
       let _ =  set_line_nonempty () in
 			let all = label_pre ^ label_name ^ label_post in
 (*			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name) *)
-			SIGCHAR (all, Some label_name)
+			CHUNK (all, Some label_name)
 		}		
 
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
      let _ =  set_line_nonempty () in
-     SIGCHAR(str_of_char x, None)
+     CHUNK(str_of_char x, None)
     }
 
 | p_percent_esc as x 
 		{
 (*     d_printf "!lexer found: espaced percent char: %s." x; *)
      let _ =  set_line_nonempty () in
-     SIGCHAR(x, None)
+     CHUNK(x, None)
     }
 
 | p_percent as x 
@@ -644,7 +642,7 @@ let lexer: Lexing.lexbuf -> token =
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						(* Does not change space state! *)
 						()
-				| SIGCHAR x -> 
+				| CHUNK x -> 
 						let (c, l) =  x in
 (*						let _ = d_printf "** token = sigchar %s \n" c in *)
 (*						let _ = d_printf "%s" x in *)
@@ -653,20 +651,7 @@ let lexer: Lexing.lexbuf -> token =
 						match !state with 
    					| Idle -> 						
 								let _ = set_state Busy in
-								next_token := Some (PAR_SIGCHAR x)
-						| Busy -> 
-								let _ = set_state Busy in
-								()
-						end
-
-				| ENV x -> 
-(*						let _ = d_printf "** token = env %s \n" (fst x) in  *)
-						let _ = set_space_state Horizontal in
-						begin
-						match !state with 
-   					| Idle -> 
-								let _ = set_state Busy in
-								next_token := Some (PAR_ENV x)
+								next_token := Some (PAR_CHUNK x)
 						| Busy -> 
 								let _ = set_state Busy in
 								()
