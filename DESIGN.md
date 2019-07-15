@@ -1,64 +1,8 @@
-# Executables
+# Design
 
-## tex2tex
+This is a summary of the basic design of the compiler.
 
-This reads the tex file and elobarates it such that 
-* Each atom has a group (no orphan atoms)
-* Each node of the document tree has point scores
-* Each node of the document tree has a unique label.
-
-It then prints out the resulting tex file.
-
-## tex2xml
-
-This reads the tex file and elobarates as in tex2tex translation and translates it to xml using pandoc.
-
-
-# DEVELOPMENT
-## USAGE
-  To compile run the parser 
-  `$ build.sh`
-
-  To generate the parser try
-  `$ menhir --explain parser.mly`
-  This explains the conflicts.
-  
-  To understand conflicts try
-  `$ menhir --dump --explain parser.mly`
-  and look into file `parser.conflicts` and `parser.automaton`
-
-  To generate .messages file menhir --list-errors parser.mly > parser.messages
-
-  To compile a particular module try something like this
-  ocamlfind ocamlc -package core -c tex2html.ml
-
-## DEBUG
-Turn this on to see the various parser steps.
-$ export OCAMLRUNPARAM='p'
-
-## Re2
-We use Re2 expressions alot see here.
-* https://ocaml.janestreet.com/ocaml-core/109.55.00/tmp/re2/Regex.html
-
-
-* https://regex-golang.appspot.com/assets/html/index.html
-
-* https://github.com/google/re2/wiki/Syntax
-
-## OCAML 
-
-### Commands for building using ocamlbuild
-$ ocamlbuild -use-ocamlfind -quiet top.native
-
-###  Commands for hand compiling
-$ ocamllex lexer.mll
-$ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
-$ lexer.native
-
-
-# Grammar
-
-## Overview
+## Grammar
 The grammar is primarily designed to avoid conflicts in the parser.  
 
 For example,  plural items, such as sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
@@ -72,7 +16,7 @@ The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) 
 
 Crucially, the top level lexer eliminates all comments to streamline the subsequent phases of the compilation.
 
-The atom-level pa
+The atom-level parser ...
 
 ## preambles and tailtexts
 
@@ -153,7 +97,7 @@ Tested it on several 210 chapters. Works surprisingly well.
 ### Limitation
 
 
-# OVERALL STRATEGY
+# JOURNAL
 
 Our strategy rests on several observations.
 
