@@ -9,7 +9,9 @@ open Tex_parser
 let d_printf args = 
     ifprintf stdout args
 *)
-
+(*
+let d_printf args = printf args
+*)
 let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
@@ -18,7 +20,7 @@ let kw_comment = "comment"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
 
-(*let d_printf args = printf args*)
+
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -510,7 +512,7 @@ and take_lstinline =
     { let x = str_of_char x in
   		let _ = d_printf "take_lstinline: delimiter %s\n" x in 
       let _ = inc_arg_depth () in
-      let (rest, c) = take_arg x x lexbuf in
+      let (rest, c) = take_skip_arg x x lexbuf in
       let all =  x ^ rest ^ c in
 			let _ = d_printf "take_lstinline: all = %s\n"  all in
         all
@@ -612,7 +614,7 @@ and take_arg delimiter_open delimiter_close =
   | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
-     let (rest, h_e) = take_env lexbuf in 
+     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
      (* Drop comment, including newline at the end of the comment.   *)
      (rest, h_e)
      } 
@@ -641,6 +643,35 @@ and take_arg delimiter_open delimiter_close =
 			 let (rest, c_c) = take_arg delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
+
+and take_skip_arg delimiter_open delimiter_close = 
+	  (* this is like take_arg but does not skip over comments *)
+  parse
+  | _ as x
+    {
+     let x = str_of_char x in
+     let _ = d_printf "take_skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
+     (* Tricky: check close first so that you can handle 
+        a single delimeter used for both open and close,
+        as in lstinline.
+      *)
+		 if x = delimiter_close then
+			 let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
+				 let _ = d_printf "exit\n" in
+         ("", x)
+       else
+         let (arg, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in 
+         (x ^ arg, c_c)					 
+		 else if x = delimiter_open then
+			 let _ = inc_arg_depth () in
+			 let (arg, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in 
+			 (x ^ arg, c_c)
+		 else
+			 let (rest, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in
+       (x ^ rest, c_c)
+    }
+
 (** BEGIN TRAILER **)
 {
 (* This is the default lexer *)
@@ -688,7 +719,7 @@ let lexer: Lexing.lexbuf -> token =
 					| Some ntk -> ntk
 				in
 				(prev_token := Some tk_to_return;
-				 d_printf "returning token: %s\n" (token_to_str tk_to_return); 
+(*				 d_printf "returning token: %s\n" (token_to_str tk_to_return);  *)
 				 tk_to_return)
 			in
 			let is_token_from_cache = ref false in
@@ -714,7 +745,7 @@ let lexer: Lexing.lexbuf -> token =
 				match cache_remove () with 
 				| None -> (is_token_from_cache := false; lexer lexbuf)
 				| Some t -> (is_token_from_cache := true; t) in
-			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in 
+(*			let _ = d_printf "!lexer: handling token: %s\n" (token_to_str tk) in *)
 			let _ =
 				match tk with 
 				| NEWLINE x -> 
