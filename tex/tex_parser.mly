@@ -146,20 +146,20 @@ par_chunk:
 	  k
 	}
 
-/* All elements */
-element: 
+/* All blobs */
+blob: 
   s = hspace
   { (s, None)}
 | c = chunk
   { c }
 
-elements: 
+blobs: 
   {"", [ ]}
-| es = elements;
-  e = element
-  { let (es, ell) = cs in
-	  let (e, elopt) = c in
-		(es ^ e, extend_labels ell elopt)
+| bs = blobs;
+  b = blob
+  { let (bs, ell) = bs in
+	  let (b, elopt) = b in
+		(bs ^ b, extend_labels ell elopt)
 	}
 /* A newline. */
 newline: 
@@ -182,11 +182,11 @@ emptylines:
 line: 
   hs = hspaces;
   k = chunk;
-  es = elements;
+  bs = blobs;
   nl = newline
   {let (k, elopt) = k in
-	 let (es, ll) = es in
-	 let l = hs ^ k ^ es ^ nl in
+	 let (bs, ll) = bs in
+	 let l = hs ^ k ^ bs ^ nl in
    let _ = d_printf "* line: %s.\n" l in	 
      (l, extend_labels ll elopt)
   }
@@ -197,12 +197,12 @@ line:
 line_parstart: 
   hs = hspaces;
   ps = par_chunk;
-  es = elements;
+  bs = blobs;
   nl = newline
   {
 		let (ps, elopt) = ps in
-		let (es, ell) = es in
-		let all = hs ^ ps ^ es ^ nl in
+		let (bs, ell) = bs in
+		let all = hs ^ ps ^ bs ^ nl in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
     (all, extend_labels ell elopt)
   }
