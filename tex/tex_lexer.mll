@@ -591,6 +591,21 @@ and skip_env stop_kind =
 
 and take_arg delimiter_open delimiter_close = 
   parse
+  (* Important because otherwise lexer will think that it is comment *)
+  | p_percent_esc as x 
+		{
+     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+          (x ^ rest, h_e)
+    }
+
+  | p_percent as x   (* comments *)
+   	{ 
+     let y = take_comment lexbuf in
+     let (rest, h_e) = take_env lexbuf in 
+     (* Drop comment, including newline at the end of the comment.   *)
+     (rest, h_e)
+     } 
+
   | _ as x
     {
      let x = str_of_char x in
