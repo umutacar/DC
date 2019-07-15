@@ -265,6 +265,7 @@ let p_item_arg =
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 (* Latex environment: alphabethical chars plus an optional star *)
+let p_env_lstlisting = "lstlisting"
 let p_env = (p_alpha)+('*')?
 
 (* Segments *)
@@ -300,6 +301,9 @@ let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
+
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
+let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly) 
 
 let p_list = 
 	(p_questions as kind) p_ws as kindws 
@@ -364,6 +368,16 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
+
+| (p_begin_env_lstlisting as x)
+    {
+     let _ = printf "!lexer matched begin lstlisting %s." x in 
+     let (rest, h_e) = take_env_lstlisting lexbuf in
+   	 let all = x ^ rest ^ h_e in
+     let _ = printf "!lexer matched begin lstlisting\n %s." all in 
+     let _ =  set_line_nonempty () in
+     ENV(all)
+}
 
 | (p_begin_env as x)
     {
@@ -494,6 +508,15 @@ and take_env =
      (x ^ body ^ rest, h_e)          
     }
 
+	| (p_begin_env_lstlisting as x)
+    {
+     let _ = printf "!lexer matched begin lstlisting %s." x in 
+     let (body, h_e) = take_env_lstlisting lexbuf in
+   	 let lst = x ^ body ^ h_e in
+     let _ = printf "!lexer matched begin lstlisting\n %s." lst in 
+     let (rest, h_e) = take_env lexbuf in
+     (lst ^ rest, h_e)
+    }
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -521,11 +544,12 @@ and take_env =
      let (rest, h_e) = take_env lexbuf in
           (x ^ rest, h_e)
     }
+
   | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
      let (rest, h_e) = take_env lexbuf in 
-     (* Drop comment *)
+     (* Drop comment, including newline at the end of the comment.   *)
      (rest, h_e)
      } 
 
@@ -544,6 +568,17 @@ and verbatim =
         { let y = verbatim lexbuf in
             (str_of_char x) ^ y
         }
+and take_env_lstlisting =
+  parse
+  | p_end_env_lstlisting as x
+      { let _ = d_printf "!lexer: exiting lstlisting\n" in
+        ("", x)
+      }
+  | _  as x
+      { let (y, h_e) = take_env_lstlisting lexbuf in
+        ((str_of_char x) ^ y, h_e)
+      }
+
 and take_arg = 
   parse 
   | p_o_curly as x
