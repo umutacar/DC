@@ -567,6 +567,19 @@ let lexer: Lexing.lexbuf -> token =
  * when a heading or EOF is encountered but a paragraph is not 
  * completed.  When an extra token is emitted, the current token
  * is cached and emitted at the next request.
+ *
+ * The sate machine consists of two piece of state.  
+ * One tracks whether we are "Busy" in the middle of a paragraph
+ * or "Idle".
+ * The "space state" tracks whether we have are in the middle of a 
+ * "Vertical" space run, or "Horizontal" space run.
+ * Here, "Vertical" means that we have seen at least two newlines
+ * and a bunch of horizontal spaces, no non-space characters.
+ * Horizontal means that we are processing significant non-space 
+ * characters along with horizontal white space.
+ * 
+ * The state machine transitions from Busy to Idle when we see 
+ * a newline and we are in "Vertical" state.
  *)
 
 let lexer: Lexing.lexbuf -> token =
