@@ -393,12 +393,16 @@ rule initial = parse
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let is_line_empty = line_is_empty () in
      let rest = take_comment lexbuf in
+     (* Comment ends with a newline, so start a new line *)
+     let _ =  set_line_empty () in
      let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
 		 if is_line_empty then
-      (* Drop comments *)
+      (* Drop lines consisting of only comments *)
        initial lexbuf
+
 		 else
+       (* Keep partial comments *)
 			 NEWLINE comment
     }
 
@@ -424,7 +428,6 @@ and take_comment =
   parse
   | p_newline as x
     { (* let _ = d_printf "take_comment: newline %s" x in *)
-     let _ =  set_line_empty () in
         x
     } 
   | _ as x 
@@ -549,6 +552,7 @@ let lexer: Lexing.lexbuf -> token =
 
 (* This is the spiced up lexer that modifies the token stream in
  * several ways.
+ *
  * First, it maintains a state and implements a state transition 
  * system that allows it to detect the beginning of paragraps.
  *
@@ -556,6 +560,19 @@ let lexer: Lexing.lexbuf -> token =
  * when a heading or EOF is encountered but a paragraph is not 
  * completed.  When an extra token is emitted, the current token
  * is cached and emitted at the next request.
+ * 
+ * The sate machine consists of two piece of state.  
+ * One tracks whether we are "Busy" in the middle of a paragraph
+ * or "Idle".
+ * The "space state" tracks whether we have are in the middle of a 
+ * "Vertical" space run, or "Horizontal" space run.
+ * Here, "Vertical" means that we have seen at least two newlines
+ * and a bunch of horizontal spaces, no non-space characters.
+ * Horizontal means that we are processing significant non-space 
+ * characters along with horizontal white space.
+ * 
+ * The state machine transitions from Busy to Idle when we see 
+ * a newline and we are in "Vertical" state.
  *)
 
 
