@@ -10,6 +10,10 @@ let d_printf args =
     ifprintf stdout args
 *)
 
+let kw_curly_open = "{"
+let kw_curly_close = "}"
+let kw_sq_open = "["
+let kw_sq_close = "]"
 let kw_comment = "comment"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
@@ -327,8 +331,8 @@ rule initial = parse
 | (p_heading as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg lexbuf in
+    let _ = inc_arg_depth () in
+     let (arg, c_c) = take_arg kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
@@ -339,7 +343,7 @@ rule initial = parse
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
      let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg lexbuf in
+     let (arg, c_c) = take_arg kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
@@ -391,7 +395,6 @@ rule initial = parse
 | (p_begin_env_lstlisting as x)
     {
      let _ = printf "!lexer matched begin lstlisting %s." x in 
-(*     let (rest, h_e) = take_env_lstlisting lexbuf in *)
      let (rest, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = printf "!lexer matched begin lstlisting\n %s." all in 
@@ -493,9 +496,11 @@ and take_comment =
 and take_lstinline = 		
   parse
   | _ as x
-    { let _ = printf "take_lstinline: delimiter %c\n" x in 
-      let rest = take_lstinline_tail x lexbuf in
-      let all = (str_of_char x) ^ rest in
+    { let x = str_of_char x in
+  		let _ = printf "take_lstinline: delimiter %s\n" x in 
+      let _ = inc_arg_depth () in
+      let (rest, c) = take_arg x x lexbuf in
+      let all =  x ^ rest ^ c in
 			let _ = printf "take_lstinline: all = %s\n"  all in
         all
     } 
@@ -531,7 +536,7 @@ and take_env =
 	| (p_begin_env_lstlisting as x)
     {
      let _ = printf "!lexer matched begin lstlisting %s." x in 
-     let (body, h_e) = take_env_lstlisting lexbuf in
+     let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let lst = x ^ body ^ h_e in
      let _ = printf "!lexer matched begin lstlisting\n %s." lst in 
      let (rest, h_e) = take_env lexbuf in
@@ -600,27 +605,43 @@ and skip_env stop_kind =
 						(x ^ y, h_e)
       }
   | _  as x
-      { let (y, h_e) = take_env_lstlisting lexbuf in
+      { let (y, h_e) = skip_env stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
 
-and take_env_lstlisting =
+and take_arg delimiter_open delimiter_close = 
   parse
-  | p_end_env_lstlisting as x
-      { let _ = d_printf "!lexer: exiting lstlisting\n" in
-        ("", x)
-      }
-  | _  as x
-      { let (y, h_e) = take_env_lstlisting lexbuf in
-        ((str_of_char x) ^ y, h_e)
-      }
+  | _ as x
+    {
+     let x = str_of_char x in
+     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
+     (* Tricky: check close first so that you can handle 
+        a single delimeter used for both open and close,
+        as in lstinline.
+      *)
+		 if x = delimiter_close then
+			 let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
+				 let _ = d_printf "exit\n" in
+         ("", x)
+       else
+         let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
+         (x ^ arg, c_c)					 
+		 else if x = delimiter_open then
+			 let _ = inc_arg_depth () in
+			 let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
+			 (x ^ arg, c_c)
+		 else
+			 let (rest, c_c) = take_arg delimiter_open delimiter_close lexbuf in
+       (x ^ rest, c_c)
+    }
 
-and take_arg = 
+and take_arg_curly = 
   parse 
   | p_o_curly as x
     {
      let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg lexbuf in 
+     let (arg, c_c) = take_arg_curly lexbuf in 
        (x ^ arg, c_c)
     }
   | (p_c_curly p_ws) as x
@@ -629,12 +650,12 @@ and take_arg =
        if arg_depth () = 0 then
            ("", x)
        else
-         let (arg, c_c) = take_arg lexbuf in 
+         let (arg, c_c) = take_arg_curly lexbuf in 
            (x ^ arg, c_c)
     }
   | _ as x
     {
-     let (arg, c_c) = take_arg lexbuf in 
+     let (arg, c_c) = take_arg_curly lexbuf in 
        ((str_of_char x) ^ arg, c_c)
     }
 and take_opt_arg = 
