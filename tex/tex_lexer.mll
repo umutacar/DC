@@ -181,10 +181,6 @@ let p_ws = [' ' '\t' '\n' '\r']*
 let p_skip = p_hs
 let p_par_break = '\n' p_ws '\n' p_hs
 
-let p_emptyline = [' ' '\t' '\r']* '\n'
-let p_emptyline = [' ' '\t' '\r']* '\n'
-let p_nonemptyline = [' ' '\t']* [^ ' ' '\t' 'r' '\n']+ [^ '\r' '\n']*  ['r']? '\n' 
-
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
 let p_frac = '.' p_digit*
@@ -199,31 +195,21 @@ let p_backslash = '\\'
 let p_o_curly = '{' p_ws
 (* don't take newline with close *)
 let p_c_curly = '}' p_hs
-
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
+
 let p_special_percent = p_backslash p_percent
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+
+
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
-
-let p_com_ask = '\\' "ask"
-let p_com_choice = '\\' "choice"
-let p_com_choice_correct = '\\' "choice*"
-let p_com_explain = '\\' "explain"
-let p_com_fold = '\\' "fold"
-let p_com_hint = '\\' "help"
-let p_com_notes = '\\' "notes"
-let p_com_rubric = '\\' "rubric"
-let p_com_refsol = '\\' "sol"
-
-let p_com_lstinline = '\\' "lstinline"
-
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let p_com_fold = '\\' "fold" p_ws												 
+let p_com_lstinline = '\\' "lstinline" p_ws
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
-
 
 let p_kw_chapter = ("chapter" as kind) ['*']? 
 let p_chapter = p_kw_chapter
@@ -248,38 +234,25 @@ let p_cluster = "cluster"
 let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
-let p_questions = "ques"
-
-let p_item = 
-	(p_com_ask as kind) |
-	(p_com_choice as kind) |
-	(p_com_choice_correct as kind) |
-	(p_com_explain as kind) |
-  (p_com_hint as kind) |
-  (p_com_notes as kind) |
-  (p_com_refsol as kind) |
-  (p_com_rubric as kind) 
-
-let p_item_arg = 
-  p_item p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
-
-let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
-
 (* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
-
-
 let p_env_lstlisting = "lstlisting"
 let p_env_comment = "comment"
 let p_env_verbatim = "verbatim"
 
-let p_end_env_generic = "\\end" p_ws "{" p_ws (p_env as kind) p_ws "}"
+
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
+let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
-
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
+let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+
+
 (* end: verbatim *)
 
 
@@ -310,21 +283,6 @@ let p_group = ((p_cluster as kind) p_ws as kindws) |
 let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
 let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
-
-
-
-let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
-let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env) (p_c_curly) 
-
-let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
-let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly) 
-
-let p_list = 
-	(p_questions as kind) p_ws as kindws 
-
-let p_begin_list = (p_com_begin p_ws as b) (p_o_curly as o) p_list (p_c_curly as c) 
-let p_end_list = (p_com_end p_ws as e) (p_o_curly as o) p_list (p_c_curly as c) 
 
 
 (** END PATTERNS *)			
@@ -589,7 +547,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
 
 and skip_env stop_kind =
   parse
-  | p_end_env_generic as x
+  | p_end_env as x
       { let _ = d_printf "!lexer: exiting environment\n" in
           if kind = stop_kind then
 						("", x)
