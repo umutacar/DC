@@ -1,5 +1,0 @@
-Rewrite this.  The idea is to assign each key in universe an integer
-id in a fixed range from 0...n.
-
-Forget about arrays and such and present this as a mathematical
-property.
