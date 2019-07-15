@@ -209,6 +209,8 @@ let p_com_notes = '\\' "notes"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
+let p_com_lstinline = '\\' "lstinline"
+
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
@@ -382,6 +384,15 @@ rule initial = parse
 			SIGCHAR (all, Some label_name)
 		}		
 
+| p_com_lstinline as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ =  set_line_nonempty () in
+     let body = take_lstinline lexbuf in
+     let all = x ^ body in
+		   SIGCHAR(all, None)
+    }
+
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
@@ -401,7 +412,7 @@ rule initial = parse
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let is_line_empty = line_is_empty () in
      let rest = take_comment lexbuf in
-     let _ = printf "line empty = %b" is_line_empty in
+     let _ = d_printf "line empty = %b\n" is_line_empty in
      (* A comment ends with a newline so set the line empty *)
      let _ =  set_line_empty () in
      let comment = (str_of_char x) ^ rest in
@@ -444,8 +455,26 @@ and take_comment =
      let comment = take_comment lexbuf in 
        (str_of_char x) ^ comment
     }
-
-
+and take_lstinline = 		
+  parse
+  | _ as x
+    { let _ = printf "take_lstinline: delimiter %c\n" x in 
+      let rest = take_lstinline_tail x lexbuf in
+      let all = (str_of_char x) ^ rest in
+			let _ = printf "take_lstinline: all = %s\n"  all in
+        all
+    } 
+and take_lstinline_tail delimiter = 		
+  parse
+  | _ as x
+    {
+(*     let _ = d_printf "take_lstinline_tail: %s" (str_of_char x) in *) 
+		 if x = delimiter then
+			 str_of_char x
+		 else
+			 let rest = take_lstinline_tail delimiter lexbuf in 
+       (str_of_char x) ^ rest
+    }
 and take_env =
   parse
   | p_begin_verbatim as x
@@ -456,6 +485,14 @@ and take_env =
           let (rest, h_e) = take_env lexbuf in
             (x ^ y ^ rest, h_e)          
       }   
+  | p_com_lstinline as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let body = take_lstinline lexbuf in
+     let (rest, h_e) = take_env lexbuf in
+     (x ^ body ^ rest, h_e)          
+    }
+
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -701,6 +738,4 @@ let lexer: Lexing.lexbuf -> token =
 
 }
 (** END TRAILER **)
-
-
 
