@@ -16,13 +16,21 @@ The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) 
 
 Crucially, the top level lexer eliminates all comments to streamline the subsequent phases of the compilation.
 
+Because latex has quite a flexible structure, and allows regions of text to be skipped completely and don't obey the laws of the language, e.g., with  "verbatim/comment/lstinline" commands, at the top level, we have to be quite careful about these.  To this end, we define two kinds of lexing/parsing mechanisms.  One does not care about comments and all and simply skips regions of text until an enclosing command is found.  This "skip_env" is what we use for comment/verbatim/lstinline environments.  For other environments, we use "take_env", which skipns over comments. Skipping over comments is necessary because otherwise, we could think that the text within comment is significant, e.g. 
+```
+\begin{definition}
+% \end{definition}
+Something
+\end{definition}
+```
+
 The atom-level parser ...
 
 ## preambles and tailtexts
 
   One difficulty in the parser was accommodating text, mainly whitespace, outside the atoms. 
 
-  To solve this problem, I allow 
+  To solve  this problem, I allow 
    * each "leaf" in the AST tree, which is either an atom/group to have a "preamble" text, and
    * each sequence of atoms/groups (elements), which is called a *block* can have a "tailtext". 
  
