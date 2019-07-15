@@ -9,12 +9,16 @@ open Tex_parser
 let d_printf args = 
     ifprintf stdout args
 *)
+
+let kw_comment = "comment"
+let kw_lstlisting = "lstlisting"
+let kw_verbatim = "verbatim"
+
 (*let d_printf args = printf args*)
 type t_lexer_state = 
 	| Busy
 	| Idle
  
-
 (* State is either busy or idle.
  * Idle means that we are not in the middle of a paragraph.
  * Busy means htat we are in the middle of handling a paragraph.
@@ -214,13 +218,6 @@ let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
 
-(* begin: verbatim 
- * we will treat verbatim as a "box"
- *)
-let p_verbatim = "verbatim"
-let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
-let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
-(* end: verbatim *)
 
 let p_kw_chapter = ("chapter" as kind) ['*']? 
 let p_chapter = p_kw_chapter
@@ -263,8 +260,22 @@ let p_item_arg =
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 (* Latex environment: alphabethical chars plus an optional star *)
-let p_env_lstlisting = "lstlisting"
 let p_env = (p_alpha)+('*')?
+
+
+let p_env_lstlisting = "lstlisting"
+let p_env_comment = "comment"
+let p_env_verbatim = "verbatim"
+
+let p_end_env_generic = "\\end" p_ws "{" p_ws (p_env as kind) p_ws "}"
+
+let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
+let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
+
+let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+(* end: verbatim *)
+
 
 (* Segments *)
 let p_segment = 
@@ -366,6 +377,16 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
+
+| (p_begin_env_comment as x)
+    {
+     let _ = printf "!lexer matched begin comment %s." x in 
+     let (rest, h_e) = skip_env kw_comment lexbuf in
+   	 let all = x ^ rest ^ h_e in
+     let _ = printf "!lexer matched comment \n %s." all in 
+		 (* Drop comments *)
+     initial lexbuf
+}
 
 | (p_begin_env_lstlisting as x)
     {
@@ -490,7 +511,7 @@ and take_lstinline_tail delimiter =
     }
 and take_env =
   parse
-  | p_begin_verbatim as x
+  | p_begin_env_verbatim as x
       { 
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
           let y = verbatim lexbuf in
@@ -557,7 +578,7 @@ and take_env =
         }
 and verbatim =
   parse
-  | p_end_verbatim as x
+  | p_end_env_verbatim as x
         { 
             let _ = d_printf "!lexer: exiting verbatim\n" in
                 x
@@ -566,6 +587,22 @@ and verbatim =
         { let y = verbatim lexbuf in
             (str_of_char x) ^ y
         }
+
+and skip_env stop_kind =
+  parse
+  | p_end_env_generic as x
+      { let _ = d_printf "!lexer: exiting environment\n" in
+          if kind = stop_kind then
+						("", x)
+          else 
+            let (y, h_e) = skip_env stop_kind lexbuf in
+						(x ^ y, h_e)
+      }
+  | _  as x
+      { let (y, h_e) = take_env_lstlisting lexbuf in
+        ((str_of_char x) ^ y, h_e)
+      }
+
 and take_env_lstlisting =
   parse
   | p_end_env_lstlisting as x
