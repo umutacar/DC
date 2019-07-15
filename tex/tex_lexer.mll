@@ -402,6 +402,8 @@ rule initial = parse
      let is_line_empty = line_is_empty () in
      let rest = take_comment lexbuf in
      let _ = printf "line empty = %b" is_line_empty in
+     (* A comment ends with a newline so set the line empty *)
+     let _ =  set_line_empty () in
      let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
 		 if is_line_empty then
@@ -434,7 +436,6 @@ and take_comment =
   parse
   | p_newline as x
     { (* let _ = d_printf "take_comment: newline %s" x in *)
-     let _ =  set_line_empty () in
         x
     } 
   | _ as x 
