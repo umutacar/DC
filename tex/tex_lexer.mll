@@ -374,7 +374,7 @@ rule initial = parse
    	 let all = x ^ rest ^ h_e in
      let _ = printf "!lexer matched begin lstlisting\n %s." all in 
      let _ =  set_line_nonempty () in
-     ENV(all)
+     CHUNK(all, None)
 }
 
 | (p_begin_env as x)
@@ -402,7 +402,7 @@ rule initial = parse
      let _ =  set_line_nonempty () in
      let body = take_lstinline lexbuf in
      let all = x ^ body in
-		   SIGCHAR(all, None)
+		   CHUNK(all, None)
     }
 
 | p_sigchar as x
