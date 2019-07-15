@@ -504,26 +504,17 @@ and take_lstinline =
 			let _ = d_printf "take_lstinline: all = %s\n"  all in
         all
     } 
-and take_lstinline_tail delimiter = 		
-  parse
-  | _ as x
-    {
-(*     let _ = d_printf "take_lstinline_tail: %s" (str_of_char x) in *) 
-		 if x = delimiter then
-			 str_of_char x
-		 else
-			 let rest = take_lstinline_tail delimiter lexbuf in 
-       (str_of_char x) ^ rest
-    }
-and take_env =
+
+and take_env =  (* not a skip environment, because we have to ignore comments *)
   parse
   | p_begin_env_verbatim as x
       { 
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
-          let y = verbatim lexbuf in
-          let _ = d_printf "!lexer: verbatim matched = %s" (x ^ y) in
-          let (rest, h_e) = take_env lexbuf in
-            (x ^ y ^ rest, h_e)          
+       let (v_body, v_e) = skip_env kw_verbatim lexbuf in
+       let v = x ^ v_body ^ v_e in
+       let _ = d_printf "!lexer: verbatim matched = %s" v in
+       let (rest, h_e) = take_env lexbuf in
+       (v ^ rest, h_e)          
       }   
   | p_com_lstinline as x 
 		{
@@ -581,17 +572,6 @@ and take_env =
   | _  as x
         { let (rest, h_e) = take_env lexbuf in
             ((str_of_char x) ^ rest, h_e)
-        }
-and verbatim =
-  parse
-  | p_end_env_verbatim as x
-        { 
-            let _ = d_printf "!lexer: exiting verbatim\n" in
-                x
-        }
-  | _  as x
-        { let y = verbatim lexbuf in
-            (str_of_char x) ^ y
         }
 
 and skip_env stop_kind =
