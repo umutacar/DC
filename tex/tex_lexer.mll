@@ -391,7 +391,8 @@ rule initial = parse
 | (p_begin_env_lstlisting as x)
     {
      let _ = printf "!lexer matched begin lstlisting %s." x in 
-     let (rest, h_e) = take_env_lstlisting lexbuf in
+(*     let (rest, h_e) = take_env_lstlisting lexbuf in *)
+     let (rest, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = printf "!lexer matched begin lstlisting\n %s." all in 
      let _ =  set_line_nonempty () in
