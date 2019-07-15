@@ -354,7 +354,7 @@ rule initial = parse
     {
      let _ = d_printf "!lexer matched begin group %s." kind in 
      let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_opt_arg lexbuf in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ =  set_line_nonempty () in
@@ -497,11 +497,11 @@ and take_lstinline =
   parse
   | _ as x
     { let x = str_of_char x in
-  		let _ = printf "take_lstinline: delimiter %s\n" x in 
+  		let _ = d_printf "take_lstinline: delimiter %s\n" x in 
       let _ = inc_arg_depth () in
       let (rest, c) = take_arg x x lexbuf in
       let all =  x ^ rest ^ c in
-			let _ = printf "take_lstinline: all = %s\n"  all in
+			let _ = d_printf "take_lstinline: all = %s\n"  all in
         all
     } 
 and take_lstinline_tail delimiter = 		
@@ -635,53 +635,6 @@ and take_arg delimiter_open delimiter_close =
 			 let (rest, c_c) = take_arg delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
-
-and take_arg_curly = 
-  parse 
-  | p_o_curly as x
-    {
-     let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg_curly lexbuf in 
-       (x ^ arg, c_c)
-    }
-  | (p_c_curly p_ws) as x
-    {
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
-           ("", x)
-       else
-         let (arg, c_c) = take_arg_curly lexbuf in 
-           (x ^ arg, c_c)
-    }
-  | _ as x
-    {
-     let (arg, c_c) = take_arg_curly lexbuf in 
-       ((str_of_char x) ^ arg, c_c)
-    }
-and take_opt_arg = 
-  parse 
-  | p_o_sq as x
-    {
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_opt_arg lexbuf in 
-       (x ^ arg, c_sq)
-    }
-  | (p_c_sq p_hs) as x
-    {
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
-           ("", x)
-       else
-         let (arg, c_sq) = take_opt_arg lexbuf in 
-           (x ^ arg, c_sq)
-    }
-  | _ as x
-    {
-     let (arg, c_sq) = take_opt_arg lexbuf in 
-       ((str_of_char x) ^ arg, c_sq)
-    }
-
-
 (** BEGIN TRAILER **)
 {
 (* This is the default lexer *)
