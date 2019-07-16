@@ -185,12 +185,11 @@ let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
-let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
-let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 (* end: environments *)
 
 let p_caption = "\\caption"
@@ -210,18 +209,29 @@ let p_end_list = "mambo"
 (** END PATTERNS *)			
 
 rule initial = parse
+
 | (p_begin_env_lstlisting as x) (p_o_sq as a)
     {
-     let _ = printf "!atom lexer matched begin lstlisting %s." x in 
+     let _ = d_printf "!atom lexer matched begin lstlisting %s." x in 
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
-     let _ = printf "!atom lexer matched begin lstlisting\n %s." all in 
+     let _ = d_printf "!atom lexer matched begin lstlisting\n %s." all in 
      ATOM(kind, None, Some title, None, body, None, [], all)
 }
 
+| (p_begin_env_skip as x)
+    {
+     let _ = d_printf "!atom lexer matched begin skip kind =  %s." kind in 
+     let h_b = x in
+     let (body, h_e) = skip_env kind lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ = d_printf "!atom lexer matched skip environment\n %s." all in 
+     ATOM(kind, None, None, None, body, None, [], all)
+}
+(*
 | (p_begin_env_lstlisting as x)
     {
      let _ = printf "!atom lexer matched begin lstlisting %s." x in 
@@ -241,7 +251,7 @@ rule initial = parse
 		 (* Drop comments *)
      ATOM(kind, None, None, None, body, None, [], all)
 }
-
+*)
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
      let _ = d_printf "!atom lexer: matched begin group %s." kind in 
