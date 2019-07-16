@@ -301,29 +301,10 @@ rule initial = parse
      SIGCHAR(str_of_char x)
     }
 
-| p_percent_esc as x 
-		{
-(*     d_printf "!atom lexer: found: espaced percent char: %s." x; *)
-     SIGCHAR(x)
-    }
-
 | eof
 		{EOF}
 | _
     {initial lexbuf}		
-
-and take_comment = 		
-  parse
-  | p_newline as x
-    { (* let _ = d_printf "take_comment: newline %s" x in *)
-        x
-    } 
-  | _ as x 
-    {
-     (* let _ = d_printf "take_comment: %s" (str_of_char x) in *)
-     let comment = take_comment lexbuf in 
-       (str_of_char x) ^ comment
-    }
 
 and take_env =
   parse
@@ -388,19 +369,7 @@ and take_env =
      (* Drop capopt_, it would be another caption. *)
       (lopt,  all ^ y, capopt, items, h_e)
     }
-	| p_percent_esc as x 
-    { let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-      (lopt,  x ^ y, capopt, items, h_e)
-    }
 
-	| p_percent as x 
-		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let rest = take_comment lexbuf in
-     let comment = (str_of_char x) ^ rest in
-     let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-       (lopt, comment ^ y, capopt, items, h_e)
-    }
   | _  as x
     { let (lopt, y, capopt, items, h_e) = take_env lexbuf in
       (lopt, (str_of_char x) ^ y, capopt, items, h_e)
