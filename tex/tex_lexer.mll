@@ -354,37 +354,6 @@ rule initial = parse
      CHUNK(all, None)
 }
 
-| (p_begin_env_comment as x)
-    {
-     let _ = d_printf "!lexer matched begin comment %s." x in 
-     let (rest, h_e) = skip_env kw_comment lexbuf in
-   	 let all = x ^ rest ^ h_e in
-     let _ = d_printf "!lexer matched comment \n %s." all in 
-		 (* Drop comments *)
-     initial lexbuf
-}
-
-| (p_begin_env_lstlisting as x)
-    {
-     let _ = d_printf "!lexer matched begin lstlisting %s." x in 
-     let (rest, h_e) = skip_env kw_lstlisting lexbuf in
-   	 let all = x ^ rest ^ h_e in
-     let _ = d_printf "!lexer matched begin lstlisting\n %s." all in 
-     let _ =  set_line_nonempty () in
-     CHUNK(all, None)
-}
-
-| (p_begin_env_verbatim as x)
-    {
-     let _ = d_printf "!lexer matched begin verbatim %s." x in 
-     let (rest, h_e) = skip_env kw_verbatim lexbuf in
-   	 let all = x ^ rest ^ h_e in
-     let _ = d_printf "!lexer matched verbatim \n %s." all in 
-     let _ =  set_line_nonempty () in
-		 (* Drop comments *)
-     CHUNK(all, None)
-}
-
 | (p_begin_env as x)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
@@ -512,15 +481,6 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
        (v ^ rest, h_e)          
       }   
 
-  | p_begin_env_verbatim as x
-      { 
-(*          let _ = d_printf "!lexer: entering verbatim\n" in *)
-       let (v_body, v_e) = skip_env kw_verbatim lexbuf in
-       let v = x ^ v_body ^ v_e in
-       let _ = d_printf "!lexer: verbatim matched = %s" v in
-       let (rest, h_e) = take_env lexbuf in
-       (v ^ rest, h_e)          
-      }   
   | p_com_lstinline  p_ws p_o_sq  as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
@@ -540,15 +500,6 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
      (x ^ body ^ rest, h_e)          
     }
 
-	| (p_begin_env_lstlisting as x)
-    {
-     let _ = d_printf "!lexer matched begin lstlisting %s." x in 
-     let (body, h_e) = skip_env kw_lstlisting lexbuf in
-   	 let lst = x ^ body ^ h_e in
-     let _ = d_printf "!lexer matched begin lstlisting\n %s." lst in 
-     let (rest, h_e) = take_env lexbuf in
-     (lst ^ rest, h_e)
-    }
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
