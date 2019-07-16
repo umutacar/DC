@@ -212,13 +212,13 @@ rule initial = parse
 
 | (p_begin_env_lstlisting as x) (p_o_sq as a)
     {
-     let _ = d_printf "!atom lexer matched begin lstlisting %s." x in 
+     let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
      let h_b = x ^ a ^ title ^ c_sq in
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
-     let _ = d_printf "!atom lexer matched begin lstlisting\n %s." all in 
+     let _ = d_printf "!atom lexer matched lstlisting\n %s." all in 
      ATOM(kind, None, Some title, None, body, None, [], all)
 }
 
@@ -231,27 +231,6 @@ rule initial = parse
      let _ = d_printf "!atom lexer matched skip environment\n %s." all in 
      ATOM(kind, None, None, None, body, None, [], all)
 }
-(*
-| (p_begin_env_lstlisting as x)
-    {
-     let _ = printf "!atom lexer matched begin lstlisting %s." x in 
-     let h_b = x in
-     let (body, h_e) = skip_env kw_lstlisting lexbuf in
-   	 let all = h_b ^ body ^ h_e in
-     let _ = printf "!atom lexer matched begin lstlisting\n %s." all in 
-     ATOM(kind, None, None, None, body, None, [], all)
-}
-
-| (p_begin_env_verbatim as x)
-    {
-     let _ = printf "!atom lexer matched begin verbatim %s." x in 
-     let (body, h_e) = skip_env kw_verbatim lexbuf in
-   	 let all = x ^ body ^ h_e in
-     let _ = printf "!atom lexer matched verbatim \n %s." all in 
-		 (* Drop comments *)
-     ATOM(kind, None, None, None, body, None, [], all)
-}
-*)
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
      let _ = d_printf "!atom lexer: matched begin group %s." kind in 
@@ -320,24 +299,15 @@ rule initial = parse
 
 and take_env =
   parse
-  | p_begin_env_verbatim as x
+  | p_begin_env_skip as x
       { 
 (*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
-       let (v_body, v_e) = skip_env kw_verbatim lexbuf in
+       let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
-       let _ = d_printf "!atom lexer: verbatim matched = %s" v in
+       let _ = printf "!atom lexer: skip env matched = %s" v in
        let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
        (lopt, v ^ rest, capopt, items, h_e)          
       }   
-	| (p_begin_env_lstlisting as x)
-    {
-     let _ = printf "!atom lexer matched begin lstlisting %s." x in 
-     let (body, h_e) = skip_env kw_lstlisting lexbuf in
-   	 let lst = x ^ body ^ h_e in
-     let _ = printf "!atom lexer matched begin lstlisting\n %s." lst in 
-     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
-     (lopt, lst ^ rest, capopt, items, h_e)
-    }
 	| p_begin_list as x
 			{
 		   (* This should be at the top level, not nested within other env's.         
@@ -502,3 +472,45 @@ let lexer: Lexing.lexbuf -> token =
 (** END TRAILER **)
 
 
+(*
+| (p_begin_env_lstlisting as x)
+    {
+     let _ = printf "!atom lexer matched begin lstlisting %s." x in 
+     let h_b = x in
+     let (body, h_e) = skip_env kw_lstlisting lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ = printf "!atom lexer matched begin lstlisting\n %s." all in 
+     ATOM(kind, None, None, None, body, None, [], all)
+}
+
+| (p_begin_env_verbatim as x)
+    {
+     let _ = printf "!atom lexer matched begin verbatim %s." x in 
+     let (body, h_e) = skip_env kw_verbatim lexbuf in
+   	 let all = x ^ body ^ h_e in
+     let _ = printf "!atom lexer matched verbatim \n %s." all in 
+		 (* Drop comments *)
+     ATOM(kind, None, None, None, body, None, [], all)
+}
+
+  | p_begin_env_verbatim as x
+      { 
+(*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
+       let (v_body, v_e) = skip_env kw_verbatim lexbuf in
+       let v = x ^ v_body ^ v_e in
+       let _ = d_printf "!atom lexer: verbatim matched = %s" v in
+       let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
+       (lopt, v ^ rest, capopt, items, h_e)          
+      }   
+	| (p_begin_env_lstlisting as x)
+    {
+     let _ = printf "!atom lexer matched begin lstlisting %s." x in 
+     let (body, h_e) = skip_env kw_lstlisting lexbuf in
+   	 let lst = x ^ body ^ h_e in
+     let _ = printf "!atom lexer matched begin lstlisting\n %s." lst in 
+     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
+     (lopt, lst ^ rest, capopt, items, h_e)
+    }
+
+
+*)

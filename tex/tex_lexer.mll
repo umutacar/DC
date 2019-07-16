@@ -502,6 +502,16 @@ and take_lstinline =
 
 and take_env =  (* not a skip environment, because we have to ignore comments *)
   parse
+  | p_begin_env_skip as x
+      { 
+(*          let _ = d_printf "!lexer: entering verbatim\n" in *)
+       let (v_body, v_e) = skip_env kind lexbuf in
+       let v = x ^ v_body ^ v_e in
+       let _ = d_printf "!lexer: env skip matched = %s" v in
+       let (rest, h_e) = take_env lexbuf in
+       (v ^ rest, h_e)          
+      }   
+
   | p_begin_env_verbatim as x
       { 
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
