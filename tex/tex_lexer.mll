@@ -499,6 +499,17 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
        let (rest, h_e) = take_env lexbuf in
        (v ^ rest, h_e)          
       }   
+  | p_com_lstinline  (p_o_sq as o_sq) as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let body = take_lstinline lexbuf in
+     let lst = x ^ o_sq ^ arg ^ c_sq ^ body in
+     let (rest, h_e) = take_env lexbuf in
+		 (lst ^ rest, h_e)
+    }
+
   | p_com_lstinline as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
@@ -547,6 +558,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
   | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
+     let _ = printf "drop comment = %s" y in
      let (rest, h_e) = take_env lexbuf in 
      (* Drop comment, including newline at the end of the comment.   *)
      (rest, h_e)
@@ -593,7 +605,7 @@ and take_arg delimiter_open delimiter_close =
   | _ as x
     {
      let x = str_of_char x in
-     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
