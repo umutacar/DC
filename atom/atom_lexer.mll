@@ -9,8 +9,9 @@ open Atom_parser
 let d_printf args = 
     ifprintf stdout args
 *)
+(*
 let d_printf args = printf args 
-
+*)
 let kw_comment = "comment"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"

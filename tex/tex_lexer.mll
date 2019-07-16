@@ -9,9 +9,9 @@ open Tex_parser
 let d_printf args = 
     ifprintf stdout args
 *)
-
+(*
 let d_printf args = printf args
-
+*)
 let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
@@ -344,30 +344,30 @@ rule initial = parse
 
 | (p_begin_env_comment as x)
     {
-     let _ = printf "!lexer matched begin comment %s." x in 
+     let _ = d_printf "!lexer matched begin comment %s." x in 
      let (rest, h_e) = skip_env kw_comment lexbuf in
    	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched comment \n %s." all in 
+     let _ = d_printf "!lexer matched comment \n %s." all in 
 		 (* Drop comments *)
      initial lexbuf
 }
 
 | (p_begin_env_lstlisting as x)
     {
-     let _ = printf "!lexer matched begin lstlisting %s." x in 
+     let _ = d_printf "!lexer matched begin lstlisting %s." x in 
      let (rest, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched begin lstlisting\n %s." all in 
+     let _ = d_printf "!lexer matched begin lstlisting\n %s." all in 
      let _ =  set_line_nonempty () in
      CHUNK(all, None)
 }
 
 | (p_begin_env_verbatim as x)
     {
-     let _ = printf "!lexer matched begin verbatim %s." x in 
+     let _ = d_printf "!lexer matched begin verbatim %s." x in 
      let (rest, h_e) = skip_env kw_verbatim lexbuf in
    	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched verbatim \n %s." all in 
+     let _ = d_printf "!lexer matched verbatim \n %s." all in 
      let _ =  set_line_nonempty () in
 		 (* Drop comments *)
      CHUNK(all, None)
@@ -520,10 +520,10 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
 
 	| (p_begin_env_lstlisting as x)
     {
-     let _ = printf "!lexer matched begin lstlisting %s." x in 
+     let _ = d_printf "!lexer matched begin lstlisting %s." x in 
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let lst = x ^ body ^ h_e in
-     let _ = printf "!lexer matched begin lstlisting\n %s." lst in 
+     let _ = d_printf "!lexer matched begin lstlisting\n %s." lst in 
      let (rest, h_e) = take_env lexbuf in
      (lst ^ rest, h_e)
     }
@@ -558,7 +558,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
   | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
-     let _ = printf "drop comment = %s" y in
+     let _ = d_printf "drop comment = %s" y in
      let (rest, h_e) = take_env lexbuf in 
      (* Drop comment, including newline at the end of the comment.   *)
      (rest, h_e)
