@@ -247,11 +247,12 @@ let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly)
 
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
-let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
-let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 
 (* end: environments *)
 
@@ -341,6 +342,17 @@ rule initial = parse
      let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
+
+
+| (p_begin_env_skip as x)
+    {
+     let _ = d_printf "!lexer matched begin skip env kind = %s." kind in 
+     let (rest, h_e) = skip_env kind lexbuf in
+   	 let all = x ^ rest ^ h_e in
+     let _ = d_printf "!lexer matched skip env: %s.\n" all in 
+     let _ =  set_line_nonempty () in
+     CHUNK(all, None)
+}
 
 | (p_begin_env_comment as x)
     {
