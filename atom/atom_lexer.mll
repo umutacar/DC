@@ -9,6 +9,7 @@ open Atom_parser
 let d_printf args = 
     ifprintf stdout args
 *)
+let d_printf args = printf args 
 
 let kw_comment = "comment"
 let kw_lstlisting = "lstlisting"
@@ -387,15 +388,17 @@ and skip_env stop_kind =
   (* Assumes non-nested environments *)
   parse
   | p_end_env as x
-      { let _ = d_printf "!atom lexer: exiting environment\n" in
-          if kind = stop_kind then
-						("", x)
-          else 
-            let (y, h_e) = skip_env stop_kind lexbuf in
-						(x ^ y, h_e)
+      {if kind = stop_kind then
+				let _ = d_printf "!atom lexer: exiting environment stop = %s tk = %s\n" stop_kind x in
+				("", x)
+      else 
+				let _ = d_printf "!atom lexer: skip_env, stop = %s: %s \n" stop_kind x in
+        let (y, h_e) = skip_env stop_kind lexbuf in
+				(x ^ y, h_e)
       }
   | _  as x
-      { let (y, h_e) = skip_env stop_kind lexbuf in
+      { let _ = d_printf "!atom lexer: skip_env, stop = %s: %c \n" stop_kind x in
+		    let (y, h_e) = skip_env stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
 

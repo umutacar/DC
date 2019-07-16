@@ -9,9 +9,9 @@ open Tex_parser
 let d_printf args = 
     ifprintf stdout args
 *)
-(*
+
 let d_printf args = printf args
-*)
+
 let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
@@ -391,6 +391,18 @@ rule initial = parse
 (*			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name) *)
 			CHUNK (all, Some label_name)
 		}		
+
+| p_com_lstinline  (p_o_sq as o_sq) as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ o_sq ^ arg ^ c_sq in
+     let body = take_lstinline lexbuf in
+     let _ =  set_line_nonempty () in
+     let all = h ^ body in
+		   CHUNK(all, None)
+    }
 
 | p_com_lstinline as x 
 		{
