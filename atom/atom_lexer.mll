@@ -167,7 +167,24 @@ let p_item_arg =
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 (* Latex environment: alphabethical chars plus an optional star *)
+(* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
+let p_env_comment = "comment"
+let p_env_lstlisting = "lstlisting"
+let p_env_verbatim = "verbatim"
+
+
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
+let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
+
+let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
+let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
+let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
+let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+(* end: environments *)
 
 
 let p_caption = "\\caption"
@@ -183,11 +200,6 @@ let p_begin_list =
 	(p_any_choice as kind) 
 
 let p_end_list = "mambo"
-
-let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
-let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
-
 
 (** END PATTERNS *)			
 
@@ -370,6 +382,23 @@ and verbatim =
         { let y = verbatim lexbuf in
             (str_of_char x) ^ y
         }
+
+and skip_env stop_kind =
+  (* Assumes non-nested environments *)
+  parse
+  | p_end_env as x
+      { let _ = d_printf "!lexer: exiting environment\n" in
+          if kind = stop_kind then
+						("", x)
+          else 
+            let (y, h_e) = skip_env stop_kind lexbuf in
+						(x ^ y, h_e)
+      }
+  | _  as x
+      { let (y, h_e) = skip_env stop_kind lexbuf in
+        ((str_of_char x) ^ y, h_e)
+      }
+
 and take_arg = 
   parse 
   | p_o_curly as x

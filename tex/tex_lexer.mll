@@ -236,8 +236,8 @@ let p_problem_cluster = "mproblem"
 
 (* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
-let p_env_lstlisting = "lstlisting"
 let p_env_comment = "comment"
+let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
 
 
@@ -253,7 +253,7 @@ let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 
 
-(* end: verbatim *)
+(* end: environments *)
 
 
 (* Segments *)
@@ -546,6 +546,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
         }
 
 and skip_env stop_kind =
+  (* Assumes non-nested environments *)
   parse
   | p_end_env as x
       { let _ = d_printf "!lexer: exiting environment\n" in
