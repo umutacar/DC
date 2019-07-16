@@ -220,6 +220,16 @@ rule initial = parse
      ATOM(kind, None, Some title, None, body, None, [], all)
 }
 
+| (p_begin_env_lstlisting as x)
+    {
+     let _ = printf "!lexer matched begin lstlisting %s." x in 
+     let h_b = x in
+     let (body, h_e) = skip_env kw_lstlisting lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ = printf "!lexer matched begin lstlisting\n %s." all in 
+     ATOM(kind, None, None, None, body, None, [], all)
+}
+
 | (p_begin_env_verbatim as x)
     {
      let _ = printf "!lexer matched begin verbatim %s." x in 
