@@ -362,13 +362,13 @@ rule initial = parse
      CHUNK(all, None)
 }
 
-
 | (p_begin_env_verbatim as x)
     {
      let _ = printf "!lexer matched begin verbatim %s." x in 
      let (rest, h_e) = skip_env kw_verbatim lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = printf "!lexer matched verbatim \n %s." all in 
+     let _ =  set_line_nonempty () in
 		 (* Drop comments *)
      CHUNK(all, None)
 }

@@ -10,6 +10,12 @@ let d_printf args =
     ifprintf stdout args
 *)
 
+let kw_comment = "comment"
+let kw_lstlisting = "lstlisting"
+let kw_verbatim = "verbatim"
+
+
+
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 
@@ -173,19 +179,17 @@ let p_env_comment = "comment"
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
 
-
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
-let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
-let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 (* end: environments *)
-
 
 let p_caption = "\\caption"
 let p_short_answer = "\\shortanswer"
@@ -203,8 +207,29 @@ let p_end_list = "mambo"
 
 (** END PATTERNS *)			
 
-
 rule initial = parse
+| (p_begin_env_lstlisting as x) (p_o_sq as a)
+    {
+     let _ = printf "!lexer matched begin lstlisting %s." x in 
+     let _ = inc_arg_depth () in
+     let (title, c_sq) = take_opt_arg lexbuf in
+     let h_b = x ^ a ^ title ^ c_sq in
+     let (body, h_e) = skip_env kw_lstlisting lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ = printf "!lexer matched begin lstlisting\n %s." all in 
+     ATOM(kind, None, Some title, None, body, None, [], all)
+}
+
+| (p_begin_env_verbatim as x)
+    {
+     let _ = printf "!lexer matched begin verbatim %s." x in 
+     let (body, h_e) = skip_env kw_verbatim lexbuf in
+   	 let all = x ^ body ^ h_e in
+     let _ = printf "!lexer matched verbatim \n %s." all in 
+		 (* Drop comments *)
+     ATOM(kind, None, None, None, body, None, [], all)
+}
+
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
      let _ = d_printf "!atom lexer: matched begin group %s." kind in 
@@ -229,8 +254,7 @@ rule initial = parse
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
-     ATOM(kind, Some point_val, None, lopt, body, capopt, items, all)
-       
+     ATOM(kind, Some point_val, None, lopt, body, capopt, items, all)       
 }   
 
 | (p_begin_env as x) (p_o_sq as a)
