@@ -392,12 +392,12 @@ rule initial = parse
 			CHUNK (all, Some label_name)
 		}		
 
-| p_com_lstinline  (p_o_sq as o_sq) as x 
+| p_com_lstinline p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
-     let h = x ^ o_sq ^ arg ^ c_sq in
+     let h = x ^ arg ^ c_sq in
      let body = take_lstinline lexbuf in
      let _ =  set_line_nonempty () in
      let all = h ^ body in
@@ -499,13 +499,13 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
        let (rest, h_e) = take_env lexbuf in
        (v ^ rest, h_e)          
       }   
-  | p_com_lstinline  (p_o_sq as o_sq) as x 
+  | p_com_lstinline  p_ws p_o_sq  as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
      let body = take_lstinline lexbuf in
-     let lst = x ^ o_sq ^ arg ^ c_sq ^ body in
+     let lst = x ^ arg ^ c_sq ^ body in
      let (rest, h_e) = take_env lexbuf in
 		 (lst ^ rest, h_e)
     }
