@@ -398,6 +398,7 @@ rule initial = parse
 		 if is_line_empty then
       (* Drop linens consisting of comments only *)
        initial lexbuf
+
 		 else
 			 NEWLINE comment
     }
