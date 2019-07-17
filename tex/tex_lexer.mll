@@ -206,7 +206,8 @@ let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
 let p_com_fold = '\\' "fold" p_ws												 
-let p_com_lstinline = '\\' "lstinline" p_ws
+let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
+let p_com_skip = p_com_lstinline
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -373,23 +374,23 @@ rule initial = parse
 			CHUNK (all, Some label_name)
 		}		
 
-| p_com_lstinline p_ws p_o_sq as x 
+| p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
-     let body = take_lstinline lexbuf in
+     let body = skip_inline kind lexbuf in
      let _ =  set_line_nonempty () in
      let all = h ^ body in
 		   CHUNK(all, None)
     }
 
-| p_com_lstinline as x 
+| p_com_skip as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ =  set_line_nonempty () in
-     let body = take_lstinline lexbuf in
+     let body = skip_inline kind lexbuf in
      let all = x ^ body in
 		   CHUNK(all, None)
     }
@@ -457,18 +458,6 @@ and take_comment =
      let comment = take_comment lexbuf in 
        (str_of_char x) ^ comment
     }
-and take_lstinline = 		
-  parse
-  | _ as x
-    { let x = str_of_char x in
-  		let _ = d_printf "take_lstinline: delimiter %s\n" x in 
-      let _ = inc_arg_depth () in
-      let (rest, c) = take_skip_arg x x lexbuf in
-      let all =  x ^ rest ^ c in
-			let _ = d_printf "take_lstinline: all = %s\n"  all in
-        all
-    } 
-
 and take_env =  (* not a skip environment, because we have to ignore comments *)
   parse
   | p_begin_env_skip as x
@@ -486,7 +475,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ = inc_arg_depth () in
      let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
-     let body = take_lstinline lexbuf in
+     let body = skip_inline kind lexbuf in
      let lst = x ^ arg ^ c_sq ^ body in
      let (rest, h_e) = take_env lexbuf in
 		 (lst ^ rest, h_e)
@@ -495,7 +484,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
   | p_com_lstinline as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let body = take_lstinline lexbuf in
+     let body = skip_inline kind lexbuf in
      let (rest, h_e) = take_env lexbuf in
      (x ^ body ^ rest, h_e)          
     }
@@ -541,6 +530,18 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
         { let (rest, h_e) = take_env lexbuf in
             ((str_of_char x) ^ rest, h_e)
         }
+
+and skip_inline kind = 		
+  parse
+  | _ as x
+    { let x = str_of_char x in
+  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in 
+      let _ = inc_arg_depth () in
+      let (rest, c) = skip_arg x x lexbuf in
+      let all =  x ^ rest ^ c in
+			let _ = d_printf "skip_inline all = %s\n"  all in
+        all
+    } 
 
 and skip_env stop_kind =
   (* Assumes non-nested environments *)
@@ -600,13 +601,13 @@ and take_arg delimiter_open delimiter_close =
        (x ^ rest, c_c)
     }
 
-and take_skip_arg delimiter_open delimiter_close = 
+and skip_arg delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
   | _ as x
     {
      let x = str_of_char x in
-     let _ = d_printf "take_skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
+     let _ = d_printf "skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -617,14 +618,14 @@ and take_skip_arg delimiter_open delimiter_close =
 				 let _ = d_printf "exit\n" in
          ("", x)
        else
-         let (arg, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
 			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in 
+			 let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = skip_arg delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
