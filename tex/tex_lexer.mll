@@ -532,6 +532,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
         }
 
 and skip_inline kind = 		
+  (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
   parse
   | _ as x
     { let x = str_of_char x in
@@ -561,6 +562,17 @@ and skip_env stop_kind =
 
 and take_arg delimiter_open delimiter_close = 
   parse
+  | p_com_skip p_ws p_o_sq as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ arg ^ c_sq in
+     let i = skip_inline kind lexbuf in
+     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+		 (h ^ i ^ rest, h_e)
+    }
+
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
