@@ -396,7 +396,7 @@ rule initial = parse
      let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
 		 if is_line_empty then
-      (* Drop comments *)
+      (* Drop linens consisting of comments only *)
        initial lexbuf
 		 else
 			 NEWLINE comment
