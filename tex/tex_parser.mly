@@ -66,7 +66,7 @@ let str_of_items items =
  * parse it using Atom_parser
  *)
 let parse_atom input = 
-	let _ = d_printf "atom_to_ast input = %s" input in
+	let _ = d_printf "*atom_parser: atom_to_ast input = %s" input in
       let lexbuf = Lexing.from_string input in
 	    Atom_parser.top Atom_lexer.lexer lexbuf
 
@@ -99,15 +99,12 @@ let mk_problem items =
 %token <string> HSPACE
 %token <string> NEWLINE
 
-(* the "character" itself and the label defined if any *)
-%token <string * string option> SIGCHAR
-(* the "character" itself and the label defined if any *)
-%token <string * string option> PAR_SIGCHAR
+(* the "chunk" itself and the label defined if any *)
+%token <string * string option> CHUNK
+(* the "chunk" itself and the label defined if any *)
+%token <string * string option> PAR_CHUNK
 
-%token <string> ENV
 
-(* points, title, label, body, all *) 
-%token <string> PAR_ENV
 
 %start top
 
@@ -132,47 +129,37 @@ hspaces:
   x = hspace
   { xs ^ x }
 
-/* Non-space char.
+/* Non-space chunk.
  * Not at a paragraph-start position.
  */
-sigchar: 
-| d = SIGCHAR
-  { let (d, ellopt) = d in
-  	(d, ellopt) 
+chunk: 
+| k = CHUNK
+  { let (text, ellopt) = k in
+    k
 	}
-| e = ENV
-  { let _ = d_printf "* env: %s\n" e in
-  	  (e, None)
-  }
 
-/* Non-space char at the beginning of a paragraph */
-parstart: 
-| d = PAR_SIGCHAR
-  { let (d, elopt) = d in
-(*    let _ = d_printf "Parser matched par_sigchar = %s" d in *)
-	  (d, elopt) 
+/* Non-space chunk at the beginning of a paragraph */
+par_chunk: 
+| k = PAR_CHUNK
+  { let (text, elopt) = k in
+(*    let _ = d_printf "Parser matched par_chunk = %s" d in *)
+	  k
 	}
-| e = PAR_ENV
-  { let _ = d_printf "* env: %s\n" e in
-  	  (e, None)
-  }
 
-/* All characters */
-char: 
+/* All blobs */
+blob: 
   s = hspace
   { (s, None)}
-| d = sigchar
-  { let (d, elopt) = d in 
-	  (d, elopt)
-	} 
+| c = chunk
+  { c }
 
-chars: 
+blobs: 
   {"", [ ]}
-| cs = chars;
-  c = char
-  { let (cs, ell) = cs in
-	  let (c, elopt) = c in
-		(cs ^ c, extend_labels ell elopt)
+| bs = blobs;
+  b = blob
+  { let (bs, ell) = bs in
+	  let (b, elopt) = b in
+		(bs ^ b, extend_labels ell elopt)
 	}
 /* A newline. */
 newline: 
@@ -194,28 +181,28 @@ emptylines:
 /* A nonempty line. */
 line: 
   hs = hspaces;
-  d = sigchar;
-  cs = chars;
+  k = chunk;
+  bs = blobs;
   nl = newline
-  {let (d, elopt) = d in
-	 let (cs, ll) = cs in
-	 let l = hs ^ d ^ cs ^ nl in
+  {let (k, elopt) = k in
+	 let (bs, ll) = bs in
+	 let l = hs ^ k ^ bs ^ nl in
    let _ = d_printf "* line: %s.\n" l in	 
      (l, extend_labels ll elopt)
   }
 
 /* A nonempty line at the start of a paragraph. 
- * Starts with a sigchar
+ * Starts with a chunk
  */
 line_parstart: 
   hs = hspaces;
-  ps = parstart;
-  cs = chars;
+  ps = par_chunk;
+  bs = blobs;
   nl = newline
   {
 		let (ps, elopt) = ps in
-		let (cs, ell) = cs in
-		let all = hs ^ ps ^ cs ^ nl in
+		let (bs, ell) = bs in
+		let all = hs ^ ps ^ bs ^ nl in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
     (all, extend_labels ell elopt)
   }

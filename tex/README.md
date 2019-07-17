@@ -65,7 +65,14 @@ For example,  plural items, such as sections, atoms, etc can be tricky.   If a p
 
 The parsing infrastructure is separated into two stages.  First, we use a "top-level"pparser to parse latex into "atoms" and then we use a separate atom lexer and parser atom/atom_lexer and atom/atom_parser) to parse each atom.  The motivation is to reduce complexity. 
 
-The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  
+The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  The basic idea of the top level lexer is to tokenize the input at the level of 
+* chunks: which are non-space fragments of text that could (optionally come with a label),
+* spaces: such as horizontal and vertical
+* headings and commands such as section names, groups, group commands (fold etc).
+
+Crucially, the top level lexer eliminates all comments to streamline the subsequent phases of the compilation.
+
+The atom-level pa
 
 ## preambles and tailtexts
 
