@@ -206,7 +206,8 @@ let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
 let p_com_fold = '\\' "fold" p_ws												 
-let p_com_lstinline = '\\' "lstinline" p_ws
+let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
+let p_com_skip = p_com_lstinline
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -236,8 +237,8 @@ let p_problem_cluster = "mproblem"
 
 (* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
-let p_env_lstlisting = "lstlisting"
 let p_env_comment = "comment"
+let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
 
 
@@ -247,13 +248,14 @@ let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly)
 
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
-let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting) p_ws (p_c_curly) 
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
-let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 
-(* end: verbatim *)
+(* end: environments *)
 
 
 (* Segments *)
@@ -342,34 +344,14 @@ rule initial = parse
        KW_END_GROUP(kind, x)
     }		
 
-| (p_begin_env_comment as x)
-    {
-     let _ = printf "!lexer matched begin comment %s." x in 
-     let (rest, h_e) = skip_env kw_comment lexbuf in
-   	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched comment \n %s." all in 
-		 (* Drop comments *)
-     initial lexbuf
-}
 
-| (p_begin_env_lstlisting as x)
+| (p_begin_env_skip as x)
     {
-     let _ = printf "!lexer matched begin lstlisting %s." x in 
-     let (rest, h_e) = skip_env kw_lstlisting lexbuf in
+     let _ = d_printf "!lexer matched begin skip env kind = %s." kind in 
+     let (rest, h_e) = skip_env kind lexbuf in
    	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched begin lstlisting\n %s." all in 
+     let _ = d_printf "!lexer matched skip env: %s.\n" all in 
      let _ =  set_line_nonempty () in
-     CHUNK(all, None)
-}
-
-
-| (p_begin_env_verbatim as x)
-    {
-     let _ = printf "!lexer matched begin verbatim %s." x in 
-     let (rest, h_e) = skip_env kw_verbatim lexbuf in
-   	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched verbatim \n %s." all in 
-		 (* Drop comments *)
      CHUNK(all, None)
 }
 
@@ -392,11 +374,23 @@ rule initial = parse
 			CHUNK (all, Some label_name)
 		}		
 
-| p_com_lstinline as x 
+| p_com_skip p_ws p_o_sq as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ arg ^ c_sq in
+     let body = skip_inline kind lexbuf in
+     let _ =  set_line_nonempty () in
+     let all = h ^ body in
+		   CHUNK(all, None)
+    }
+
+| p_com_skip as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ =  set_line_nonempty () in
-     let body = take_lstinline lexbuf in
+     let body = skip_inline kind lexbuf in
      let all = x ^ body in
 		   CHUNK(all, None)
     }
@@ -464,46 +458,37 @@ and take_comment =
      let comment = take_comment lexbuf in 
        (str_of_char x) ^ comment
     }
-and take_lstinline = 		
-  parse
-  | _ as x
-    { let x = str_of_char x in
-  		let _ = d_printf "take_lstinline: delimiter %s\n" x in 
-      let _ = inc_arg_depth () in
-      let (rest, c) = take_skip_arg x x lexbuf in
-      let all =  x ^ rest ^ c in
-			let _ = d_printf "take_lstinline: all = %s\n"  all in
-        all
-    } 
-
 and take_env =  (* not a skip environment, because we have to ignore comments *)
   parse
-  | p_begin_env_verbatim as x
+  | p_begin_env_skip as x
       { 
 (*          let _ = d_printf "!lexer: entering verbatim\n" in *)
-       let (v_body, v_e) = skip_env kw_verbatim lexbuf in
+       let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
-       let _ = d_printf "!lexer: verbatim matched = %s" v in
+       let _ = d_printf "!lexer: env skip matched = %s" v in
        let (rest, h_e) = take_env lexbuf in
        (v ^ rest, h_e)          
       }   
+
+  | p_com_lstinline  p_ws p_o_sq  as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let body = skip_inline kind lexbuf in
+     let lst = x ^ arg ^ c_sq ^ body in
+     let (rest, h_e) = take_env lexbuf in
+		 (lst ^ rest, h_e)
+    }
+
   | p_com_lstinline as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let body = take_lstinline lexbuf in
+     let body = skip_inline kind lexbuf in
      let (rest, h_e) = take_env lexbuf in
      (x ^ body ^ rest, h_e)          
     }
 
-	| (p_begin_env_lstlisting as x)
-    {
-     let _ = printf "!lexer matched begin lstlisting %s." x in 
-     let (body, h_e) = skip_env kw_lstlisting lexbuf in
-   	 let lst = x ^ body ^ h_e in
-     let _ = printf "!lexer matched begin lstlisting\n %s." lst in 
-     let (rest, h_e) = take_env lexbuf in
-     (lst ^ rest, h_e)
-    }
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -535,6 +520,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
   | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
+     let _ = d_printf "drop comment = %s" y in
      let (rest, h_e) = take_env lexbuf in 
      (* Drop comment, including newline at the end of the comment.   *)
      (rest, h_e)
@@ -545,7 +531,21 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
             ((str_of_char x) ^ rest, h_e)
         }
 
+and skip_inline kind = 		
+  (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
+  parse
+  | _ as x
+    { let x = str_of_char x in
+  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in 
+      let _ = inc_arg_depth () in
+      let (rest, c) = skip_arg x x lexbuf in
+      let all =  x ^ rest ^ c in
+			let _ = d_printf "skip_inline all = %s\n"  all in
+        all
+    } 
+
 and skip_env stop_kind =
+  (* Assumes non-nested environments *)
   parse
   | p_end_env as x
       { let _ = d_printf "!lexer: exiting environment\n" in
@@ -562,6 +562,17 @@ and skip_env stop_kind =
 
 and take_arg delimiter_open delimiter_close = 
   parse
+  | p_com_skip p_ws p_o_sq as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ arg ^ c_sq in
+     let i = skip_inline kind lexbuf in
+     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+		 (h ^ i ^ rest, h_e)
+    }
+
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
@@ -580,7 +591,7 @@ and take_arg delimiter_open delimiter_close =
   | _ as x
     {
      let x = str_of_char x in
-     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -602,13 +613,13 @@ and take_arg delimiter_open delimiter_close =
        (x ^ rest, c_c)
     }
 
-and take_skip_arg delimiter_open delimiter_close = 
+and skip_arg delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
   | _ as x
     {
      let x = str_of_char x in
-     let _ = d_printf "take_skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
+     let _ = d_printf "skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -619,14 +630,14 @@ and take_skip_arg delimiter_open delimiter_close =
 				 let _ = d_printf "exit\n" in
          ("", x)
        else
-         let (arg, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
 			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in 
+			 let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = take_skip_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = skip_arg delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 

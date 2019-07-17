@@ -240,6 +240,22 @@ You can use colors as follows
 \textcolor{red}{my text}
 ```
 
+### Code
+Use lstinline and always specify the language as first option
+
+Example:
+'''
+\begin{lstinline}[language=C, numbers=left]
+...
+\end{lstinline}
+'''
+
+'''
+\begin{lstinline}[language={[C0]C}, numbers=left]
+...
+\end{lstinline}
+'''
+
 ### Limitations
 
 
@@ -251,7 +267,7 @@ You can use colors as follows
 
 * Fancy packages will not work.  Stick to basic latex and AMS Math packages.
 
-* Table borders doesn't work.
+* Support for tabular environment is limited: borders don't work, neither does columnt alignment, columns are centered.  You can use the array (math/mathjax) as a substitute.  This could require using \mbox{} for text fields.  
  
 * Center environment doesn't work.
 
@@ -260,7 +276,13 @@ You can use colors as follows
 
 * We use mathjax to math environments.  This works in many cases, especially for AMS Math consistent usages.  There are a few important caveats. 
 
- - Once you switch to math, try to stay in math.  You can switch to text mode using \mbox{} but if you use macros inside mbox, they might not work (because mathjax don't know about your macros).
+ - Once you switch to math, try to stay in math.  You can switch to text mode using \mbox{} but if you use macros inside mbox, they might not work (because mathjax don't know about your macros).  For example, this won't work 
+```
+$\lstinline'xyz'$
+```
+this should be outside math.
+
+
 
  -  The "tabular" environment does not work in MathJax.  Use "array" instead.
 

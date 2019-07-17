@@ -9,6 +9,14 @@ open Atom_parser
 let d_printf args = 
     ifprintf stdout args
 *)
+(*
+let d_printf args = printf args 
+*)
+let kw_comment = "comment"
+let kw_lstlisting = "lstlisting"
+let kw_verbatim = "verbatim"
+
+
 
 (* Some Utilities *)
 let start = Lexing.lexeme_start
@@ -167,8 +175,22 @@ let p_item_arg =
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
 (* Latex environment: alphabethical chars plus an optional star *)
+(* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
+let p_env_comment = "comment"
+let p_env_lstlisting = "lstlisting"
+let p_env_verbatim = "verbatim"
 
+let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
+let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
+
+let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
+let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
+let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
+let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
+(* end: environments *)
 
 let p_caption = "\\caption"
 let p_short_answer = "\\shortanswer"
@@ -184,15 +206,31 @@ let p_begin_list =
 
 let p_end_list = "mambo"
 
-let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
-let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
-
-
 (** END PATTERNS *)			
 
-
 rule initial = parse
+
+| (p_begin_env_lstlisting as x) (p_o_sq as a)
+    {
+     let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
+     let _ = inc_arg_depth () in
+     let (title, c_sq) = take_opt_arg lexbuf in
+     let h_b = x ^ a ^ title ^ c_sq in
+     let (body, h_e) = skip_env kw_lstlisting lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ = d_printf "!atom lexer matched lstlisting\n %s." all in 
+     ATOM(kind, None, Some title, None, body, None, [], all)
+}
+
+| (p_begin_env_skip as x)
+    {
+     let _ = d_printf "!atom lexer matched begin skip kind =  %s." kind in 
+     let h_b = x in
+     let (body, h_e) = skip_env kind lexbuf in
+   	 let all = h_b ^ body ^ h_e in
+     let _ = d_printf "!atom lexer matched skip environment\n %s." all in 
+     ATOM(kind, None, None, None, body, None, [], all)
+}
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
      let _ = d_printf "!atom lexer: matched begin group %s." kind in 
@@ -217,8 +255,7 @@ rule initial = parse
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
-     ATOM(kind, Some point_val, None, lopt, body, capopt, items, all)
-       
+     ATOM(kind, Some point_val, None, lopt, body, capopt, items, all)       
 }   
 
 | (p_begin_env as x) (p_o_sq as a)
@@ -255,39 +292,21 @@ rule initial = parse
      SIGCHAR(str_of_char x)
     }
 
-| p_percent_esc as x 
-		{
-(*     d_printf "!atom lexer: found: espaced percent char: %s." x; *)
-     SIGCHAR(x)
-    }
-
 | eof
 		{EOF}
 | _
     {initial lexbuf}		
 
-and take_comment = 		
-  parse
-  | p_newline as x
-    { (* let _ = d_printf "take_comment: newline %s" x in *)
-        x
-    } 
-  | _ as x 
-    {
-     (* let _ = d_printf "take_comment: %s" (str_of_char x) in *)
-     let comment = take_comment lexbuf in 
-       (str_of_char x) ^ comment
-    }
-
 and take_env =
   parse
-  | p_begin_verbatim as x
+  | p_begin_env_skip as x
       { 
 (*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
-          let y = verbatim lexbuf in
-          let _ = d_printf "!atom lexer: verbatim matched = %s" (x ^ y) in
-          let (lopt, z, capopt, items, h_e) = take_env lexbuf in
-            (lopt, x ^ y ^ z, capopt, items, h_e)          
+       let (v_body, v_e) = skip_env kind lexbuf in
+       let v = x ^ v_body ^ v_e in
+       let _ = printf "!atom lexer: skip env matched = %s" v in
+       let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
+       (lopt, v ^ rest, capopt, items, h_e)          
       }   
 	| p_begin_list as x
 			{
@@ -309,7 +328,6 @@ and take_env =
             let (lopt, y, capopt, items, h_e) = take_env lexbuf in
                 (lopt, x ^ y, capopt, items, h_e)              
         }
-
   | p_end_env as x
         { 
             let _ = d_printf "!atom lexer: end latex env: %s\n" x in 
@@ -330,46 +348,41 @@ and take_env =
           (* Important: Drop inner label lopt *)
           (Some label_name, all ^ y, capopt, items, h_e)  
 			}		
-
 	| (p_caption p_ws p_o_curly) as x
 		{
      let _ = inc_arg_depth () in
      let (arg, c_c) = take_arg lexbuf in
      let capopt = Some arg in
      let all = x ^ arg ^ c_c in
-     let _ = d_printf "!lexer matched caption %s." all  in
+     let _ = d_printf "!atom lexer matched caption %s." all  in
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
       (lopt,  all ^ y, capopt, items, h_e)
     }
-	| p_percent_esc as x 
-    { let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-      (lopt,  x ^ y, capopt, items, h_e)
-    }
 
-	| p_percent as x 
-		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let rest = take_comment lexbuf in
-     let comment = (str_of_char x) ^ rest in
-     let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-       (lopt, comment ^ y, capopt, items, h_e)
-    }
   | _  as x
     { let (lopt, y, capopt, items, h_e) = take_env lexbuf in
       (lopt, (str_of_char x) ^ y, capopt, items, h_e)
     }
-and verbatim =
+
+and skip_env stop_kind =
+  (* Assumes non-nested environments *)
   parse
-  | p_end_verbatim as x
-        { 
-            let _ = d_printf "!atom lexer: exiting verbatim\n" in
-                x
-        }
+  | p_end_env as x
+      {if kind = stop_kind then
+				let _ = d_printf "!atom lexer: exiting environment stop = %s tk = %s\n" stop_kind x in
+				("", x)
+      else 
+				let _ = d_printf "!atom lexer: skip_env, stop = %s: %s \n" stop_kind x in
+        let (y, h_e) = skip_env stop_kind lexbuf in
+				(x ^ y, h_e)
+      }
   | _  as x
-        { let y = verbatim lexbuf in
-            (str_of_char x) ^ y
-        }
+      { let _ = d_printf "!atom lexer: skip_env, stop = %s: %c \n" stop_kind x in
+		    let (y, h_e) = skip_env stop_kind lexbuf in
+        ((str_of_char x) ^ y, h_e)
+      }
+
 and take_arg = 
   parse 
   | p_o_curly as x
@@ -457,5 +470,4 @@ let lexer: Lexing.lexbuf -> token =
 
 }
 (** END TRAILER **)
-
 
