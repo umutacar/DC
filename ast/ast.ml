@@ -2,11 +2,10 @@ open Core
 open Utils
 
 (* Turn off all prints *)
-(*
+
 let d_printf args = 
     ifprintf stdout args
 
-*)
 module Labels = Tex_labels
 module Tex = Tex_syntax
 module Words = English_words
@@ -519,7 +518,7 @@ struct
 	 * To assign label use words from title and body.  
 	*)
 	let assign_label prefix label_set atom = 		
-    let _ =d_printf "Atom.assign_label\n" in
+    let _ = d_printf "Atom.assign_label\n" in 
 		let (tt_p, tb_p) = 
 			match atom.problem with
 			| None -> ([], [])

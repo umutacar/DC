@@ -55,7 +55,7 @@ let str_of_items items =
 atom:
 | a = ATOM
   { let (kind, popt, topt, lopt, body, capopt, items, all) = a in
-    let _ = d_printf "* atom: %s\n" all in
+(*    let _ = d_printf "* atom: %s\n" all in *)
 		(kind, popt, topt, lopt, body, capopt, items) 
   }
 
