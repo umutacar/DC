@@ -1,9 +1,18 @@
 # Overview
 
-This document contains a trace of commands that we (Alex and I) to play with docker.  Our goal was to create a Docker container for compiling MTL.
+This directory provides infrastructure for using docker to build an Ubuntu version of the compiler.
+
+# Usage 
+
+To build a version of the mtl compiler run
+```
+$ docker run -it -v /Users/umut/MeTaL:/mtl umutacar/mtl:lambda
+```
+The resulting binaries will be under _build/tex/*.native
 
 # Trace
 
+This section contains a trace of commands that we (Alex and I) used to play with docker.  Our goal was to create a Docker container for compiling MTL.
 
 ```
 bash-3.2$ docker

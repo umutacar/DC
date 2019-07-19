@@ -11,8 +11,8 @@ DEPEND = \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_ast.ml tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
-default: tex2tex.native texel.native texmlt.native
-all: tex2tex.native texel.native texmlt.native 
+default: tex2tex.native texel.native texmlt.native texml.native
+all: tex2tex.native texel.native texmlt.native texml.native
 
 clean:
 	$(OCB) -clean
@@ -49,6 +49,17 @@ texel.debug: $(DEPEND) tex/texel.ml
 	$(OCB) -tag debug texel.byte
 
 
+# texml
+texml.native: $(DEPEND) tex/texml.ml
+	$(OCB) texml.native
+
+texml.profile: $(DEPEND) tex/texml.ml
+	$(OCB) -tag profile texml.native
+
+texml.debug: $(DEPEND) tex/texml.ml
+	$(OCB) -tag debug texml.byte
+
+
 # texmlt
 texmlt.native: $(DEPEND) tex/texmlt.ml
 	$(OCB) texmlt.native
@@ -58,6 +69,7 @@ texmlt.profile: $(DEPEND) tex/texmlt.ml
 
 texmlt.debug: $(DEPEND) tex/texmlt.ml
 	$(OCB) -tag debug texmlt.byte
+
 
 
 # traverse
