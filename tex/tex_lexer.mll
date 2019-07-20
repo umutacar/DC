@@ -127,10 +127,10 @@ let token_to_dbg_str tk =
 	| HSPACE x ->  x
 	| PAR_CHUNK (x, lopt) -> x
 	| CHUNK (x, lopt) ->  x
-	| KW_BEGIN_GROUP (x, _, _) -> x
-	| KW_END_GROUP (x, _) -> x
+	| KW_BEGIN_GROUP (kind, arg, _) -> sprintf "\\begin{%s}" kind 
+	| KW_END_GROUP (kind, _) -> sprintf "\\end{%s}" kind 
 	| KW_FOLD (x) -> x
-	| KW_HEADING (x, _, _) -> x
+	| KW_HEADING (kind, title, _) -> sprintf "\\%s{%s}" kind title 
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 

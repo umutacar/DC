@@ -244,15 +244,19 @@ let sanitize_lst_language body =
 		let pos_match = Str.search_forward re_lst body pos in
 		let lsthead = Str.matched_group 0 body in
 		let language = Str.matched_group 1 body in
+(*
 		let _ = d_printf "matched lsthead = %s" lsthead in
 		let _ = d_printf "matched language = %s" language in  
+*)
     let language_c = Str.global_replace clean "" language in
     let lsthead_c = Str.global_replace (mk_regexp language) language_c lsthead in
     let body_c =  Str.global_replace (mk_regexp lsthead) lsthead_c body in
+(*
     let _ = d_printf "Sanitized body = %s" body_c in
+*)
 		Some (pos_match, body_c, language, language_c)
 	with
-		Not_found -> (d_printf "sanitize: no match\n"; None)
+		Not_found -> (None)
 	in
 	let rec find pos body languages = 
 		match (next pos body) with 
@@ -269,19 +273,20 @@ let find_lang contents  =
   let extract_lang (m: Re2.Match.t) =
     let source = Re2.Match.get ~sub:(`Name "lang") m in
       match source with 
-      | None -> let _ = d_printf "tex2html.find_lang: None" in []
-      | Some x -> let _ = d_printf "tex2html.find_lang: Some %s" x in [x]
+      | None -> let _ = d_printf "utils.find_lang: None" in []
+      | Some x -> let _ = d_printf "utils.find_lang: Some %s" x in [x]
   in
   (* The quad escape's are due to ocaml's string representation that requires escaping \ *)
   let regex = Re2.create_exn
                   "\\\\begin{lstlisting}\\[language[' ']*=[' ']*(?P<lang>[[:alnum:]]*)([','' ''=']|[[:alnum:]])*\\]"    
   in
   let pattern = Re2.pattern regex in
-  let _ = d_printf "tex2html.find_lang: Pattern for this regex = %s\n" pattern in 
-
+(*
+  let _ = d_printf "utils.find_lang: Pattern for this regex = %s\n" pattern in 
+*)
   let all_matches = Re2.get_matches_exn regex contents in
   let languages: string list = List.concat_map all_matches ~f:extract_lang in
-(*  let _ = d_printf_strlist "tex2html.find_lange: languages" languages in *)
+(*  let _ = d_printf_strlist "utils.find_lange: languages" languages in *)
     languages
 
 (* END String and substring search *) 
@@ -293,7 +298,7 @@ let float_opt_to_string fopt =
   | None -> "None"
   | Some x -> 
     let f = Float.to_string x in
-    let _ = d_printf ("float_opt_to_string: points = %f\n") x in
+(*    let _ = d_printf ("float_opt_to_string: points = %f\n") x in *)
       "Some" ^ f
 
 
@@ -302,7 +307,7 @@ let float_opt_to_string_opt fopt =
   | None -> None
   | Some x -> 
     let f = Float.to_string x in
-    let _ = d_printf ("fopt_opt_to_string_opt: points = %f\n") x in
+(*    let _ = d_printf ("fopt_opt_to_string_opt: points = %f\n") x in *)
       Some f
 
 
