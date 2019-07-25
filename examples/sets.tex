@@ -1,5 +1,5 @@
 \chapter{Sets}
-\label{XXch:sets}
+\label{ch:sets}
 
 \begin{preamble}
   Sets are both a mathematical structure and an abstract datatype
@@ -48,7 +48,7 @@ where & there & here?
 \end{table}
 
 \section{Motivation}
-\label{XXsec:sets::math}
+\label{sec:sets::math}
 
 
 \begin{gram}
@@ -127,7 +127,7 @@ We note that \href{ch:sequences::adt}{sequences} are a particular type of table-
 
 \begin{datatype}[Sets]
 
-\label{XXadt:sets} 
+\label{adt:sets} 
 
 For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
 \adt{SET} abstract data type is a type $\sss$ representing the power 
@@ -144,7 +144,7 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 \end{datatype}
 
 \begin{syntax}[Sets] 
-\label{XXsyn:sets}
+\label{syn:sets}
 In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
   indicate a set.  The notation $\emptyset$ or $\cset{}$ refers to an
   empty set. We also use the conventional mathematical syntax for set
@@ -467,7 +467,7 @@ All of these approaches assume an equality function on the elements (with natura
 \label{sets:cluster:arraysets}
 
 \begin{costspec}[Array Sets for Enumerable Sets]
-\label{XXcost:sets::arrayseqs}
+\label{cost:sets::arrayseqs}
 
 Let the universe $U$ be defined as the set 
 %
@@ -507,7 +507,7 @@ For the specification \href{cost:sets::trees}{specified below}, we assume that t
 \end{gram}
 
 \begin{costspec}[Tree Sets]
-\label{XXcost:sets::trees}
+\label{cost:sets::trees}
 \input{./sets-and-tables/cost-sets-tree}
 \end{costspec}
 
@@ -612,7 +612,7 @@ of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 % \end{notesonly}
 
 \begin{example}
-\label{XXex:st::fromseq-imp}
+\label{ex:st::fromseq-imp}
 We can  convert a sequence to a set by inserting the elements
 one by one as follows
 \[
