@@ -1,0 +1,2020 @@
+State 0:
+chapter' -> . chapter [ # ]
+-- On chapter shift to state 1
+-- On boxes shift to state 2
+-- On WORD reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_CHAPTER reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 1:
+chapter' -> chapter . [ # ]
+-- On # accept chapter
+
+State 2:
+boxes -> boxes . box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_CHAPTER ENV COMMENT_LINE BACKSLASH ]
+chapter -> boxes . mk_heading(KW_CHAPTER) label block paragraphs mk_sections(section) EOF [ # ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On KW_CHAPTER shift to state 26
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On mk_heading(KW_CHAPTER) shift to state 28
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+
+State 3:
+word -> WORD . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> WORD 
+-- On REFSOL reduce production word -> WORD 
+-- On PERCENT reduce production word -> WORD 
+-- On O_SQ_BRACKET reduce production word -> WORD 
+-- On O_CURLY reduce production word -> WORD 
+-- On KW_SUBSUBSECTION reduce production word -> WORD 
+-- On KW_SUBSECTION reduce production word -> WORD 
+-- On KW_SECTION reduce production word -> WORD 
+-- On KW_PARAGRAPH reduce production word -> WORD 
+-- On KW_LABEL_AND_NAME reduce production word -> WORD 
+-- On KW_END_GROUP reduce production word -> WORD 
+-- On KW_END_ATOM reduce production word -> WORD 
+-- On KW_CODE_ATOM reduce production word -> WORD 
+-- On KW_CHAPTER reduce production word -> WORD 
+-- On KW_BEGIN_GROUP reduce production word -> WORD 
+-- On KW_BEGIN_ATOM reduce production word -> WORD 
+-- On ILIST reduce production word -> WORD 
+-- On HINT reduce production word -> WORD 
+-- On EOF reduce production word -> WORD 
+-- On ENV reduce production word -> WORD 
+-- On C_SQ_BRACKET reduce production word -> WORD 
+-- On C_CURLY reduce production word -> WORD 
+-- On COMMENT_LINE reduce production word -> WORD 
+-- On BACKSLASH reduce production word -> WORD 
+
+State 4:
+word -> PERCENT . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> PERCENT 
+-- On REFSOL reduce production word -> PERCENT 
+-- On PERCENT reduce production word -> PERCENT 
+-- On O_SQ_BRACKET reduce production word -> PERCENT 
+-- On O_CURLY reduce production word -> PERCENT 
+-- On KW_SUBSUBSECTION reduce production word -> PERCENT 
+-- On KW_SUBSECTION reduce production word -> PERCENT 
+-- On KW_SECTION reduce production word -> PERCENT 
+-- On KW_PARAGRAPH reduce production word -> PERCENT 
+-- On KW_LABEL_AND_NAME reduce production word -> PERCENT 
+-- On KW_END_GROUP reduce production word -> PERCENT 
+-- On KW_END_ATOM reduce production word -> PERCENT 
+-- On KW_CODE_ATOM reduce production word -> PERCENT 
+-- On KW_CHAPTER reduce production word -> PERCENT 
+-- On KW_BEGIN_GROUP reduce production word -> PERCENT 
+-- On KW_BEGIN_ATOM reduce production word -> PERCENT 
+-- On ILIST reduce production word -> PERCENT 
+-- On HINT reduce production word -> PERCENT 
+-- On EOF reduce production word -> PERCENT 
+-- On ENV reduce production word -> PERCENT 
+-- On C_SQ_BRACKET reduce production word -> PERCENT 
+-- On C_CURLY reduce production word -> PERCENT 
+-- On COMMENT_LINE reduce production word -> PERCENT 
+-- On BACKSLASH reduce production word -> PERCENT 
+
+State 5:
+sq_box -> O_SQ_BRACKET . boxes C_SQ_BRACKET [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_DEPEND KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On boxes shift to state 6
+-- On WORD reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On C_SQ_BRACKET reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 6:
+boxes -> boxes . box [ WORD PERCENT O_SQ_BRACKET O_CURLY ENV C_SQ_BRACKET COMMENT_LINE BACKSLASH ]
+sq_box -> O_SQ_BRACKET boxes . C_SQ_BRACKET [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_DEPEND KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ENV shift to state 9
+-- On C_SQ_BRACKET shift to state 25
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+
+State 7:
+curly_box -> O_CURLY . boxes C_CURLY [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On boxes shift to state 8
+-- On WORD reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On C_CURLY reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 8:
+boxes -> boxes . box [ WORD PERCENT O_SQ_BRACKET O_CURLY ENV C_CURLY COMMENT_LINE BACKSLASH ]
+curly_box -> O_CURLY boxes . C_CURLY [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ENV shift to state 9
+-- On C_CURLY shift to state 10
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+
+State 9:
+env -> ENV . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production env -> ENV 
+-- On REFSOL reduce production env -> ENV 
+-- On PERCENT reduce production env -> ENV 
+-- On O_SQ_BRACKET reduce production env -> ENV 
+-- On O_CURLY reduce production env -> ENV 
+-- On KW_SUBSUBSECTION reduce production env -> ENV 
+-- On KW_SUBSECTION reduce production env -> ENV 
+-- On KW_SECTION reduce production env -> ENV 
+-- On KW_PARAGRAPH reduce production env -> ENV 
+-- On KW_LABEL_AND_NAME reduce production env -> ENV 
+-- On KW_END_GROUP reduce production env -> ENV 
+-- On KW_END_ATOM reduce production env -> ENV 
+-- On KW_CODE_ATOM reduce production env -> ENV 
+-- On KW_CHAPTER reduce production env -> ENV 
+-- On KW_BEGIN_GROUP reduce production env -> ENV 
+-- On KW_BEGIN_ATOM reduce production env -> ENV 
+-- On ILIST reduce production env -> ENV 
+-- On HINT reduce production env -> ENV 
+-- On EOF reduce production env -> ENV 
+-- On ENV reduce production env -> ENV 
+-- On C_SQ_BRACKET reduce production env -> ENV 
+-- On C_CURLY reduce production env -> ENV 
+-- On COMMENT_LINE reduce production env -> ENV 
+-- On BACKSLASH reduce production env -> ENV 
+
+State 10:
+curly_box -> O_CURLY boxes C_CURLY . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On REFSOL reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On PERCENT reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On O_SQ_BRACKET reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On O_CURLY reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_SUBSUBSECTION reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_SUBSECTION reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_SECTION reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_PARAGRAPH reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_LABEL_AND_NAME reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_END_GROUP reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_END_ATOM reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_CODE_ATOM reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_CHAPTER reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_BEGIN_GROUP reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On KW_BEGIN_ATOM reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On ILIST reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On HINT reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On EOF reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On ENV reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On C_SQ_BRACKET reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On C_CURLY reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On COMMENT_LINE reduce production curly_box -> O_CURLY boxes C_CURLY 
+-- On BACKSLASH reduce production curly_box -> O_CURLY boxes C_CURLY 
+
+State 11:
+word -> COMMENT_LINE . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> COMMENT_LINE 
+-- On REFSOL reduce production word -> COMMENT_LINE 
+-- On PERCENT reduce production word -> COMMENT_LINE 
+-- On O_SQ_BRACKET reduce production word -> COMMENT_LINE 
+-- On O_CURLY reduce production word -> COMMENT_LINE 
+-- On KW_SUBSUBSECTION reduce production word -> COMMENT_LINE 
+-- On KW_SUBSECTION reduce production word -> COMMENT_LINE 
+-- On KW_SECTION reduce production word -> COMMENT_LINE 
+-- On KW_PARAGRAPH reduce production word -> COMMENT_LINE 
+-- On KW_LABEL_AND_NAME reduce production word -> COMMENT_LINE 
+-- On KW_END_GROUP reduce production word -> COMMENT_LINE 
+-- On KW_END_ATOM reduce production word -> COMMENT_LINE 
+-- On KW_CODE_ATOM reduce production word -> COMMENT_LINE 
+-- On KW_CHAPTER reduce production word -> COMMENT_LINE 
+-- On KW_BEGIN_GROUP reduce production word -> COMMENT_LINE 
+-- On KW_BEGIN_ATOM reduce production word -> COMMENT_LINE 
+-- On ILIST reduce production word -> COMMENT_LINE 
+-- On HINT reduce production word -> COMMENT_LINE 
+-- On EOF reduce production word -> COMMENT_LINE 
+-- On ENV reduce production word -> COMMENT_LINE 
+-- On C_SQ_BRACKET reduce production word -> COMMENT_LINE 
+-- On C_CURLY reduce production word -> COMMENT_LINE 
+-- On COMMENT_LINE reduce production word -> COMMENT_LINE 
+-- On BACKSLASH reduce production word -> COMMENT_LINE 
+
+State 12:
+word -> BACKSLASH . BACKSLASH [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+word -> BACKSLASH . O_CURLY [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+word -> BACKSLASH . C_CURLY [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+word -> BACKSLASH . O_SQ_BRACKET [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+word -> BACKSLASH . C_SQ_BRACKET [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+word -> BACKSLASH . WORD [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 13
+-- On O_SQ_BRACKET shift to state 14
+-- On O_CURLY shift to state 15
+-- On C_SQ_BRACKET shift to state 16
+-- On C_CURLY shift to state 17
+-- On BACKSLASH shift to state 18
+
+State 13:
+word -> BACKSLASH WORD . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> BACKSLASH WORD 
+-- On REFSOL reduce production word -> BACKSLASH WORD 
+-- On PERCENT reduce production word -> BACKSLASH WORD 
+-- On O_SQ_BRACKET reduce production word -> BACKSLASH WORD 
+-- On O_CURLY reduce production word -> BACKSLASH WORD 
+-- On KW_SUBSUBSECTION reduce production word -> BACKSLASH WORD 
+-- On KW_SUBSECTION reduce production word -> BACKSLASH WORD 
+-- On KW_SECTION reduce production word -> BACKSLASH WORD 
+-- On KW_PARAGRAPH reduce production word -> BACKSLASH WORD 
+-- On KW_LABEL_AND_NAME reduce production word -> BACKSLASH WORD 
+-- On KW_END_GROUP reduce production word -> BACKSLASH WORD 
+-- On KW_END_ATOM reduce production word -> BACKSLASH WORD 
+-- On KW_CODE_ATOM reduce production word -> BACKSLASH WORD 
+-- On KW_CHAPTER reduce production word -> BACKSLASH WORD 
+-- On KW_BEGIN_GROUP reduce production word -> BACKSLASH WORD 
+-- On KW_BEGIN_ATOM reduce production word -> BACKSLASH WORD 
+-- On ILIST reduce production word -> BACKSLASH WORD 
+-- On HINT reduce production word -> BACKSLASH WORD 
+-- On EOF reduce production word -> BACKSLASH WORD 
+-- On ENV reduce production word -> BACKSLASH WORD 
+-- On C_SQ_BRACKET reduce production word -> BACKSLASH WORD 
+-- On C_CURLY reduce production word -> BACKSLASH WORD 
+-- On COMMENT_LINE reduce production word -> BACKSLASH WORD 
+-- On BACKSLASH reduce production word -> BACKSLASH WORD 
+
+State 14:
+word -> BACKSLASH O_SQ_BRACKET . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On REFSOL reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On PERCENT reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On O_SQ_BRACKET reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On O_CURLY reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_SUBSUBSECTION reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_SUBSECTION reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_SECTION reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_PARAGRAPH reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_LABEL_AND_NAME reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_END_GROUP reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_END_ATOM reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_CODE_ATOM reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_CHAPTER reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_BEGIN_GROUP reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On KW_BEGIN_ATOM reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On ILIST reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On HINT reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On EOF reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On ENV reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On C_SQ_BRACKET reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On C_CURLY reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On COMMENT_LINE reduce production word -> BACKSLASH O_SQ_BRACKET 
+-- On BACKSLASH reduce production word -> BACKSLASH O_SQ_BRACKET 
+
+State 15:
+word -> BACKSLASH O_CURLY . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> BACKSLASH O_CURLY 
+-- On REFSOL reduce production word -> BACKSLASH O_CURLY 
+-- On PERCENT reduce production word -> BACKSLASH O_CURLY 
+-- On O_SQ_BRACKET reduce production word -> BACKSLASH O_CURLY 
+-- On O_CURLY reduce production word -> BACKSLASH O_CURLY 
+-- On KW_SUBSUBSECTION reduce production word -> BACKSLASH O_CURLY 
+-- On KW_SUBSECTION reduce production word -> BACKSLASH O_CURLY 
+-- On KW_SECTION reduce production word -> BACKSLASH O_CURLY 
+-- On KW_PARAGRAPH reduce production word -> BACKSLASH O_CURLY 
+-- On KW_LABEL_AND_NAME reduce production word -> BACKSLASH O_CURLY 
+-- On KW_END_GROUP reduce production word -> BACKSLASH O_CURLY 
+-- On KW_END_ATOM reduce production word -> BACKSLASH O_CURLY 
+-- On KW_CODE_ATOM reduce production word -> BACKSLASH O_CURLY 
+-- On KW_CHAPTER reduce production word -> BACKSLASH O_CURLY 
+-- On KW_BEGIN_GROUP reduce production word -> BACKSLASH O_CURLY 
+-- On KW_BEGIN_ATOM reduce production word -> BACKSLASH O_CURLY 
+-- On ILIST reduce production word -> BACKSLASH O_CURLY 
+-- On HINT reduce production word -> BACKSLASH O_CURLY 
+-- On EOF reduce production word -> BACKSLASH O_CURLY 
+-- On ENV reduce production word -> BACKSLASH O_CURLY 
+-- On C_SQ_BRACKET reduce production word -> BACKSLASH O_CURLY 
+-- On C_CURLY reduce production word -> BACKSLASH O_CURLY 
+-- On COMMENT_LINE reduce production word -> BACKSLASH O_CURLY 
+-- On BACKSLASH reduce production word -> BACKSLASH O_CURLY 
+
+State 16:
+word -> BACKSLASH C_SQ_BRACKET . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On REFSOL reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On PERCENT reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On O_SQ_BRACKET reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On O_CURLY reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_SUBSUBSECTION reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_SUBSECTION reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_SECTION reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_PARAGRAPH reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_LABEL_AND_NAME reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_END_GROUP reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_END_ATOM reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_CODE_ATOM reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_CHAPTER reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_BEGIN_GROUP reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On KW_BEGIN_ATOM reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On ILIST reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On HINT reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On EOF reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On ENV reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On C_SQ_BRACKET reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On C_CURLY reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On COMMENT_LINE reduce production word -> BACKSLASH C_SQ_BRACKET 
+-- On BACKSLASH reduce production word -> BACKSLASH C_SQ_BRACKET 
+
+State 17:
+word -> BACKSLASH C_CURLY . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> BACKSLASH C_CURLY 
+-- On REFSOL reduce production word -> BACKSLASH C_CURLY 
+-- On PERCENT reduce production word -> BACKSLASH C_CURLY 
+-- On O_SQ_BRACKET reduce production word -> BACKSLASH C_CURLY 
+-- On O_CURLY reduce production word -> BACKSLASH C_CURLY 
+-- On KW_SUBSUBSECTION reduce production word -> BACKSLASH C_CURLY 
+-- On KW_SUBSECTION reduce production word -> BACKSLASH C_CURLY 
+-- On KW_SECTION reduce production word -> BACKSLASH C_CURLY 
+-- On KW_PARAGRAPH reduce production word -> BACKSLASH C_CURLY 
+-- On KW_LABEL_AND_NAME reduce production word -> BACKSLASH C_CURLY 
+-- On KW_END_GROUP reduce production word -> BACKSLASH C_CURLY 
+-- On KW_END_ATOM reduce production word -> BACKSLASH C_CURLY 
+-- On KW_CODE_ATOM reduce production word -> BACKSLASH C_CURLY 
+-- On KW_CHAPTER reduce production word -> BACKSLASH C_CURLY 
+-- On KW_BEGIN_GROUP reduce production word -> BACKSLASH C_CURLY 
+-- On KW_BEGIN_ATOM reduce production word -> BACKSLASH C_CURLY 
+-- On ILIST reduce production word -> BACKSLASH C_CURLY 
+-- On HINT reduce production word -> BACKSLASH C_CURLY 
+-- On EOF reduce production word -> BACKSLASH C_CURLY 
+-- On ENV reduce production word -> BACKSLASH C_CURLY 
+-- On C_SQ_BRACKET reduce production word -> BACKSLASH C_CURLY 
+-- On C_CURLY reduce production word -> BACKSLASH C_CURLY 
+-- On COMMENT_LINE reduce production word -> BACKSLASH C_CURLY 
+-- On BACKSLASH reduce production word -> BACKSLASH C_CURLY 
+
+State 18:
+word -> BACKSLASH BACKSLASH . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production word -> BACKSLASH BACKSLASH 
+-- On REFSOL reduce production word -> BACKSLASH BACKSLASH 
+-- On PERCENT reduce production word -> BACKSLASH BACKSLASH 
+-- On O_SQ_BRACKET reduce production word -> BACKSLASH BACKSLASH 
+-- On O_CURLY reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_SUBSUBSECTION reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_SUBSECTION reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_SECTION reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_PARAGRAPH reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_LABEL_AND_NAME reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_END_GROUP reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_END_ATOM reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_CODE_ATOM reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_CHAPTER reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_BEGIN_GROUP reduce production word -> BACKSLASH BACKSLASH 
+-- On KW_BEGIN_ATOM reduce production word -> BACKSLASH BACKSLASH 
+-- On ILIST reduce production word -> BACKSLASH BACKSLASH 
+-- On HINT reduce production word -> BACKSLASH BACKSLASH 
+-- On EOF reduce production word -> BACKSLASH BACKSLASH 
+-- On ENV reduce production word -> BACKSLASH BACKSLASH 
+-- On C_SQ_BRACKET reduce production word -> BACKSLASH BACKSLASH 
+-- On C_CURLY reduce production word -> BACKSLASH BACKSLASH 
+-- On COMMENT_LINE reduce production word -> BACKSLASH BACKSLASH 
+-- On BACKSLASH reduce production word -> BACKSLASH BACKSLASH 
+
+State 19:
+blob -> word . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production blob -> word 
+-- On REFSOL reduce production blob -> word 
+-- On PERCENT reduce production blob -> word 
+-- On O_SQ_BRACKET reduce production blob -> word 
+-- On O_CURLY reduce production blob -> word 
+-- On KW_SUBSUBSECTION reduce production blob -> word 
+-- On KW_SUBSECTION reduce production blob -> word 
+-- On KW_SECTION reduce production blob -> word 
+-- On KW_PARAGRAPH reduce production blob -> word 
+-- On KW_LABEL_AND_NAME reduce production blob -> word 
+-- On KW_END_GROUP reduce production blob -> word 
+-- On KW_END_ATOM reduce production blob -> word 
+-- On KW_CODE_ATOM reduce production blob -> word 
+-- On KW_CHAPTER reduce production blob -> word 
+-- On KW_BEGIN_GROUP reduce production blob -> word 
+-- On KW_BEGIN_ATOM reduce production blob -> word 
+-- On ILIST reduce production blob -> word 
+-- On HINT reduce production blob -> word 
+-- On EOF reduce production blob -> word 
+-- On ENV reduce production blob -> word 
+-- On C_SQ_BRACKET reduce production blob -> word 
+-- On C_CURLY reduce production blob -> word 
+-- On COMMENT_LINE reduce production blob -> word 
+-- On BACKSLASH reduce production blob -> word 
+
+State 20:
+box -> sq_box . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production box -> sq_box 
+-- On REFSOL reduce production box -> sq_box 
+-- On PERCENT reduce production box -> sq_box 
+-- On O_SQ_BRACKET reduce production box -> sq_box 
+-- On O_CURLY reduce production box -> sq_box 
+-- On KW_SUBSUBSECTION reduce production box -> sq_box 
+-- On KW_SUBSECTION reduce production box -> sq_box 
+-- On KW_SECTION reduce production box -> sq_box 
+-- On KW_PARAGRAPH reduce production box -> sq_box 
+-- On KW_LABEL_AND_NAME reduce production box -> sq_box 
+-- On KW_END_GROUP reduce production box -> sq_box 
+-- On KW_END_ATOM reduce production box -> sq_box 
+-- On KW_CODE_ATOM reduce production box -> sq_box 
+-- On KW_CHAPTER reduce production box -> sq_box 
+-- On KW_BEGIN_GROUP reduce production box -> sq_box 
+-- On KW_BEGIN_ATOM reduce production box -> sq_box 
+-- On ILIST reduce production box -> sq_box 
+-- On HINT reduce production box -> sq_box 
+-- On EOF reduce production box -> sq_box 
+-- On ENV reduce production box -> sq_box 
+-- On C_SQ_BRACKET reduce production box -> sq_box 
+-- On C_CURLY reduce production box -> sq_box 
+-- On COMMENT_LINE reduce production box -> sq_box 
+-- On BACKSLASH reduce production box -> sq_box 
+
+State 21:
+blob -> env . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production blob -> env 
+-- On REFSOL reduce production blob -> env 
+-- On PERCENT reduce production blob -> env 
+-- On O_SQ_BRACKET reduce production blob -> env 
+-- On O_CURLY reduce production blob -> env 
+-- On KW_SUBSUBSECTION reduce production blob -> env 
+-- On KW_SUBSECTION reduce production blob -> env 
+-- On KW_SECTION reduce production blob -> env 
+-- On KW_PARAGRAPH reduce production blob -> env 
+-- On KW_LABEL_AND_NAME reduce production blob -> env 
+-- On KW_END_GROUP reduce production blob -> env 
+-- On KW_END_ATOM reduce production blob -> env 
+-- On KW_CODE_ATOM reduce production blob -> env 
+-- On KW_CHAPTER reduce production blob -> env 
+-- On KW_BEGIN_GROUP reduce production blob -> env 
+-- On KW_BEGIN_ATOM reduce production blob -> env 
+-- On ILIST reduce production blob -> env 
+-- On HINT reduce production blob -> env 
+-- On EOF reduce production blob -> env 
+-- On ENV reduce production blob -> env 
+-- On C_SQ_BRACKET reduce production blob -> env 
+-- On C_CURLY reduce production blob -> env 
+-- On COMMENT_LINE reduce production blob -> env 
+-- On BACKSLASH reduce production blob -> env 
+
+State 22:
+box -> curly_box . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production box -> curly_box 
+-- On REFSOL reduce production box -> curly_box 
+-- On PERCENT reduce production box -> curly_box 
+-- On O_SQ_BRACKET reduce production box -> curly_box 
+-- On O_CURLY reduce production box -> curly_box 
+-- On KW_SUBSUBSECTION reduce production box -> curly_box 
+-- On KW_SUBSECTION reduce production box -> curly_box 
+-- On KW_SECTION reduce production box -> curly_box 
+-- On KW_PARAGRAPH reduce production box -> curly_box 
+-- On KW_LABEL_AND_NAME reduce production box -> curly_box 
+-- On KW_END_GROUP reduce production box -> curly_box 
+-- On KW_END_ATOM reduce production box -> curly_box 
+-- On KW_CODE_ATOM reduce production box -> curly_box 
+-- On KW_CHAPTER reduce production box -> curly_box 
+-- On KW_BEGIN_GROUP reduce production box -> curly_box 
+-- On KW_BEGIN_ATOM reduce production box -> curly_box 
+-- On ILIST reduce production box -> curly_box 
+-- On HINT reduce production box -> curly_box 
+-- On EOF reduce production box -> curly_box 
+-- On ENV reduce production box -> curly_box 
+-- On C_SQ_BRACKET reduce production box -> curly_box 
+-- On C_CURLY reduce production box -> curly_box 
+-- On COMMENT_LINE reduce production box -> curly_box 
+-- On BACKSLASH reduce production box -> curly_box 
+
+State 23:
+boxes -> boxes box . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production boxes -> boxes box 
+-- On REFSOL reduce production boxes -> boxes box 
+-- On PERCENT reduce production boxes -> boxes box 
+-- On O_SQ_BRACKET reduce production boxes -> boxes box 
+-- On O_CURLY reduce production boxes -> boxes box 
+-- On KW_SUBSUBSECTION reduce production boxes -> boxes box 
+-- On KW_SUBSECTION reduce production boxes -> boxes box 
+-- On KW_SECTION reduce production boxes -> boxes box 
+-- On KW_PARAGRAPH reduce production boxes -> boxes box 
+-- On KW_LABEL_AND_NAME reduce production boxes -> boxes box 
+-- On KW_END_GROUP reduce production boxes -> boxes box 
+-- On KW_END_ATOM reduce production boxes -> boxes box 
+-- On KW_CODE_ATOM reduce production boxes -> boxes box 
+-- On KW_CHAPTER reduce production boxes -> boxes box 
+-- On KW_BEGIN_GROUP reduce production boxes -> boxes box 
+-- On KW_BEGIN_ATOM reduce production boxes -> boxes box 
+-- On ILIST reduce production boxes -> boxes box 
+-- On HINT reduce production boxes -> boxes box 
+-- On EOF reduce production boxes -> boxes box 
+-- On ENV reduce production boxes -> boxes box 
+-- On C_SQ_BRACKET reduce production boxes -> boxes box 
+-- On C_CURLY reduce production boxes -> boxes box 
+-- On COMMENT_LINE reduce production boxes -> boxes box 
+-- On BACKSLASH reduce production boxes -> boxes box 
+
+State 24:
+box -> blob . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production box -> blob 
+-- On REFSOL reduce production box -> blob 
+-- On PERCENT reduce production box -> blob 
+-- On O_SQ_BRACKET reduce production box -> blob 
+-- On O_CURLY reduce production box -> blob 
+-- On KW_SUBSUBSECTION reduce production box -> blob 
+-- On KW_SUBSECTION reduce production box -> blob 
+-- On KW_SECTION reduce production box -> blob 
+-- On KW_PARAGRAPH reduce production box -> blob 
+-- On KW_LABEL_AND_NAME reduce production box -> blob 
+-- On KW_END_GROUP reduce production box -> blob 
+-- On KW_END_ATOM reduce production box -> blob 
+-- On KW_CODE_ATOM reduce production box -> blob 
+-- On KW_CHAPTER reduce production box -> blob 
+-- On KW_BEGIN_GROUP reduce production box -> blob 
+-- On KW_BEGIN_ATOM reduce production box -> blob 
+-- On ILIST reduce production box -> blob 
+-- On HINT reduce production box -> blob 
+-- On EOF reduce production box -> blob 
+-- On ENV reduce production box -> blob 
+-- On C_SQ_BRACKET reduce production box -> blob 
+-- On C_CURLY reduce production box -> blob 
+-- On COMMENT_LINE reduce production box -> blob 
+-- On BACKSLASH reduce production box -> blob 
+
+State 25:
+sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_END_GROUP KW_END_ATOM KW_DEPEND KW_CODE_ATOM KW_CHAPTER KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV C_SQ_BRACKET C_CURLY COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On REFSOL reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On PERCENT reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On O_SQ_BRACKET reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On O_CURLY reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_SUBSUBSECTION reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_SUBSECTION reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_SECTION reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_PARAGRAPH reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_LABEL_AND_NAME reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_END_GROUP reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_END_ATOM reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_DEPEND reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_CODE_ATOM reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_CHAPTER reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_BEGIN_GROUP reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On KW_BEGIN_ATOM reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On ILIST reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On HINT reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On EOF reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On ENV reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On C_SQ_BRACKET reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On C_CURLY reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On COMMENT_LINE reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+-- On BACKSLASH reduce production sq_box -> O_SQ_BRACKET boxes C_SQ_BRACKET 
+
+State 26:
+mk_heading(KW_CHAPTER) -> KW_CHAPTER . curly_box [ KW_LABEL_AND_NAME ]
+-- On O_CURLY shift to state 7
+-- On curly_box shift to state 27
+
+State 27:
+mk_heading(KW_CHAPTER) -> KW_CHAPTER curly_box . [ KW_LABEL_AND_NAME ]
+-- On KW_LABEL_AND_NAME reduce production mk_heading(KW_CHAPTER) -> KW_CHAPTER curly_box 
+
+State 28:
+chapter -> boxes mk_heading(KW_CHAPTER) . label block paragraphs mk_sections(section) EOF [ # ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On label shift to state 30
+
+State 29:
+label -> KW_LABEL_AND_NAME . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_END_ATOM KW_DEPEND KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM ILIST HINT EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production label -> KW_LABEL_AND_NAME 
+-- On REFSOL reduce production label -> KW_LABEL_AND_NAME 
+-- On PERCENT reduce production label -> KW_LABEL_AND_NAME 
+-- On O_SQ_BRACKET reduce production label -> KW_LABEL_AND_NAME 
+-- On O_CURLY reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_SUBSUBSECTION reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_SUBSECTION reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_SECTION reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_PARAGRAPH reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_END_GROUP reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_END_ATOM reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_DEPEND reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_CODE_ATOM reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_BEGIN_GROUP reduce production label -> KW_LABEL_AND_NAME 
+-- On KW_BEGIN_ATOM reduce production label -> KW_LABEL_AND_NAME 
+-- On ILIST reduce production label -> KW_LABEL_AND_NAME 
+-- On HINT reduce production label -> KW_LABEL_AND_NAME 
+-- On EOF reduce production label -> KW_LABEL_AND_NAME 
+-- On ENV reduce production label -> KW_LABEL_AND_NAME 
+-- On COMMENT_LINE reduce production label -> KW_LABEL_AND_NAME 
+-- On BACKSLASH reduce production label -> KW_LABEL_AND_NAME 
+
+State 30:
+chapter -> boxes mk_heading(KW_CHAPTER) label . block paragraphs mk_sections(section) EOF [ # ]
+-- On elements shift to state 31
+-- On block shift to state 86
+-- On WORD reduce production elements -> 
+-- On PERCENT reduce production elements -> 
+-- On O_SQ_BRACKET reduce production elements -> 
+-- On O_CURLY reduce production elements -> 
+-- On KW_SECTION reduce production elements -> 
+-- On KW_PARAGRAPH reduce production elements -> 
+-- On KW_CODE_ATOM reduce production elements -> 
+-- On KW_BEGIN_GROUP reduce production elements -> 
+-- On KW_BEGIN_ATOM reduce production elements -> 
+-- On EOF reduce production elements -> 
+-- On ENV reduce production elements -> 
+-- On COMMENT_LINE reduce production elements -> 
+-- On BACKSLASH reduce production elements -> 
+
+State 31:
+block -> elements . boxes [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH EOF ]
+elements -> elements . element [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On mk_group(KW_BEGIN_GROUP,KW_END_GROUP) shift to state 32
+-- On mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) shift to state 33
+-- On group shift to state 34
+-- On element shift to state 35
+-- On code_atom shift to state 36
+-- On boxes shift to state 37
+-- On atom shift to state 85
+-- On WORD reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_SUBSUBSECTION reduce production boxes -> 
+-- On KW_SUBSECTION reduce production boxes -> 
+-- On KW_SECTION reduce production boxes -> 
+-- On KW_PARAGRAPH reduce production boxes -> 
+-- On KW_CODE_ATOM reduce production boxes -> 
+-- On KW_BEGIN_GROUP reduce production boxes -> 
+-- On KW_BEGIN_ATOM reduce production boxes -> 
+-- On EOF reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 32:
+group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On PERCENT reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On O_SQ_BRACKET reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On O_CURLY reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_SUBSUBSECTION reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_SUBSECTION reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_SECTION reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_PARAGRAPH reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_CODE_ATOM reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_BEGIN_GROUP reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On KW_BEGIN_ATOM reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On EOF reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On ENV reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On COMMENT_LINE reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+-- On BACKSLASH reduce production group -> mk_group(KW_BEGIN_GROUP,KW_END_GROUP) 
+
+State 33:
+atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On PERCENT reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On O_SQ_BRACKET reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On O_CURLY reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_SUBSUBSECTION reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_SUBSECTION reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_SECTION reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_PARAGRAPH reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_END_GROUP reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_CODE_ATOM reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_BEGIN_GROUP reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On KW_BEGIN_ATOM reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On EOF reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On ENV reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On COMMENT_LINE reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+-- On BACKSLASH reduce production atom -> mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) 
+
+State 34:
+element -> group . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production element -> group 
+-- On PERCENT reduce production element -> group 
+-- On O_SQ_BRACKET reduce production element -> group 
+-- On O_CURLY reduce production element -> group 
+-- On KW_SUBSUBSECTION reduce production element -> group 
+-- On KW_SUBSECTION reduce production element -> group 
+-- On KW_SECTION reduce production element -> group 
+-- On KW_PARAGRAPH reduce production element -> group 
+-- On KW_CODE_ATOM reduce production element -> group 
+-- On KW_BEGIN_GROUP reduce production element -> group 
+-- On KW_BEGIN_ATOM reduce production element -> group 
+-- On EOF reduce production element -> group 
+-- On ENV reduce production element -> group 
+-- On COMMENT_LINE reduce production element -> group 
+-- On BACKSLASH reduce production element -> group 
+
+State 35:
+elements -> elements element . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production elements -> elements element 
+-- On PERCENT reduce production elements -> elements element 
+-- On O_SQ_BRACKET reduce production elements -> elements element 
+-- On O_CURLY reduce production elements -> elements element 
+-- On KW_SUBSUBSECTION reduce production elements -> elements element 
+-- On KW_SUBSECTION reduce production elements -> elements element 
+-- On KW_SECTION reduce production elements -> elements element 
+-- On KW_PARAGRAPH reduce production elements -> elements element 
+-- On KW_CODE_ATOM reduce production elements -> elements element 
+-- On KW_BEGIN_GROUP reduce production elements -> elements element 
+-- On KW_BEGIN_ATOM reduce production elements -> elements element 
+-- On EOF reduce production elements -> elements element 
+-- On ENV reduce production elements -> elements element 
+-- On COMMENT_LINE reduce production elements -> elements element 
+-- On BACKSLASH reduce production elements -> elements element 
+
+State 36:
+atom -> code_atom . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production atom -> code_atom 
+-- On PERCENT reduce production atom -> code_atom 
+-- On O_SQ_BRACKET reduce production atom -> code_atom 
+-- On O_CURLY reduce production atom -> code_atom 
+-- On KW_SUBSUBSECTION reduce production atom -> code_atom 
+-- On KW_SUBSECTION reduce production atom -> code_atom 
+-- On KW_SECTION reduce production atom -> code_atom 
+-- On KW_PARAGRAPH reduce production atom -> code_atom 
+-- On KW_END_GROUP reduce production atom -> code_atom 
+-- On KW_CODE_ATOM reduce production atom -> code_atom 
+-- On KW_BEGIN_GROUP reduce production atom -> code_atom 
+-- On KW_BEGIN_ATOM reduce production atom -> code_atom 
+-- On EOF reduce production atom -> code_atom 
+-- On ENV reduce production atom -> code_atom 
+-- On COMMENT_LINE reduce production atom -> code_atom 
+-- On BACKSLASH reduce production atom -> code_atom 
+
+State 37:
+block -> elements boxes . [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH EOF ]
+boxes -> boxes . box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+code_atom -> boxes . KW_CODE_ATOM [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes . KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes . KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On KW_CODE_ATOM shift to state 38
+-- On KW_BEGIN_GROUP shift to state 39
+-- On KW_BEGIN_ATOM shift to state 47
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On KW_SUBSUBSECTION reduce production block -> elements boxes 
+-- On KW_SUBSECTION reduce production block -> elements boxes 
+-- On KW_SECTION reduce production block -> elements boxes 
+-- On KW_PARAGRAPH reduce production block -> elements boxes 
+-- On EOF reduce production block -> elements boxes 
+
+State 38:
+code_atom -> boxes KW_CODE_ATOM . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On PERCENT reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On O_SQ_BRACKET reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On O_CURLY reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_SUBSUBSECTION reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_SUBSECTION reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_SECTION reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_PARAGRAPH reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_END_GROUP reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_CODE_ATOM reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_BEGIN_GROUP reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On KW_BEGIN_ATOM reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On EOF reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On ENV reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On COMMENT_LINE reduce production code_atom -> boxes KW_CODE_ATOM 
+-- On BACKSLASH reduce production code_atom -> boxes KW_CODE_ATOM 
+
+State 39:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP . option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP . sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On O_SQ_BRACKET shift to state 5
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On sq_box shift to state 40
+-- On option(label) shift to state 82
+-- On label shift to state 72
+-- On WORD reduce production option(label) -> 
+-- On PERCENT reduce production option(label) -> 
+-- On O_SQ_BRACKET reduce production option(label) -> 
+-- On O_CURLY reduce production option(label) -> 
+-- On KW_END_GROUP reduce production option(label) -> 
+-- On KW_CODE_ATOM reduce production option(label) -> 
+-- On KW_BEGIN_ATOM reduce production option(label) -> 
+-- On ENV reduce production option(label) -> 
+-- On COMMENT_LINE reduce production option(label) -> 
+-- On BACKSLASH reduce production option(label) -> 
+** Conflict on O_SQ_BRACKET
+
+State 40:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box . option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On option(label) shift to state 41
+-- On label shift to state 72
+-- On WORD reduce production option(label) -> 
+-- On PERCENT reduce production option(label) -> 
+-- On O_SQ_BRACKET reduce production option(label) -> 
+-- On O_CURLY reduce production option(label) -> 
+-- On KW_END_GROUP reduce production option(label) -> 
+-- On KW_CODE_ATOM reduce production option(label) -> 
+-- On KW_BEGIN_ATOM reduce production option(label) -> 
+-- On ENV reduce production option(label) -> 
+-- On COMMENT_LINE reduce production option(label) -> 
+-- On BACKSLASH reduce production option(label) -> 
+
+State 41:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) . atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On atoms_and_tailtext shift to state 42
+-- On atoms shift to state 45
+-- On WORD reduce production atoms -> 
+-- On PERCENT reduce production atoms -> 
+-- On O_SQ_BRACKET reduce production atoms -> 
+-- On O_CURLY reduce production atoms -> 
+-- On KW_END_GROUP reduce production atoms -> 
+-- On KW_CODE_ATOM reduce production atoms -> 
+-- On KW_BEGIN_ATOM reduce production atoms -> 
+-- On ENV reduce production atoms -> 
+-- On COMMENT_LINE reduce production atoms -> 
+-- On BACKSLASH reduce production atoms -> 
+
+State 42:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext . mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On KW_END_GROUP shift to state 43
+-- On mk_group_end(KW_END_GROUP) shift to state 44
+
+State 43:
+mk_group_end(KW_END_GROUP) -> KW_END_GROUP . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On PERCENT reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On O_SQ_BRACKET reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On O_CURLY reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_SUBSUBSECTION reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_SUBSECTION reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_SECTION reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_PARAGRAPH reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_CODE_ATOM reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_BEGIN_GROUP reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On KW_BEGIN_ATOM reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On EOF reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On ENV reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On COMMENT_LINE reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+-- On BACKSLASH reduce production mk_group_end(KW_END_GROUP) -> KW_END_GROUP 
+
+State 44:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On PERCENT reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On O_SQ_BRACKET reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On O_CURLY reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_SUBSUBSECTION reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_SUBSECTION reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_SECTION reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_PARAGRAPH reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_CODE_ATOM reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_BEGIN_GROUP reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_BEGIN_ATOM reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On EOF reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On ENV reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On COMMENT_LINE reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On BACKSLASH reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP sq_box option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+
+State 45:
+atoms -> atoms . atom [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+atoms_and_tailtext -> atoms . boxes [ KW_END_GROUP ]
+-- On mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) shift to state 33
+-- On code_atom shift to state 36
+-- On boxes shift to state 46
+-- On atom shift to state 81
+-- On WORD reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_END_GROUP reduce production boxes -> 
+-- On KW_CODE_ATOM reduce production boxes -> 
+-- On KW_BEGIN_ATOM reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 46:
+atoms_and_tailtext -> atoms boxes . [ KW_END_GROUP ]
+boxes -> boxes . box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+code_atom -> boxes . KW_CODE_ATOM [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes . KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On KW_CODE_ATOM shift to state 38
+-- On KW_BEGIN_ATOM shift to state 47
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On KW_END_GROUP reduce production atoms_and_tailtext -> atoms boxes 
+
+State 47:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM . option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM . option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM . boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM . sq_box boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 48
+-- On option(sq_box) shift to state 59
+-- On env shift to state 21
+-- On curly_box shift to state 75
+-- On boxes_start_no_sq shift to state 77
+-- On blob shift to state 79
+-- On REFSOL reduce production boxes_start_no_sq -> 
+-- On KW_LABEL_AND_NAME reduce production boxes_start_no_sq -> 
+-- On KW_LABEL_AND_NAME reduce production option(sq_box) -> 
+-- On KW_END_ATOM reduce production boxes_start_no_sq -> 
+-- On KW_DEPEND reduce production option(sq_box) -> 
+-- On ILIST reduce production boxes_start_no_sq -> 
+-- On HINT reduce production boxes_start_no_sq -> 
+** Conflict on KW_LABEL_AND_NAME
+
+State 48:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box . boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+option(sq_box) -> sq_box . [ KW_LABEL_AND_NAME KW_DEPEND ]
+-- On boxes shift to state 49
+-- On WORD reduce production boxes -> 
+-- On REFSOL reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_LABEL_AND_NAME reduce production option(sq_box) -> sq_box 
+-- On KW_END_ATOM reduce production boxes -> 
+-- On KW_DEPEND reduce production option(sq_box) -> sq_box 
+-- On ILIST reduce production boxes -> 
+-- On HINT reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 49:
+boxes -> boxes . box [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes . mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ILIST shift to state 50
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On option(ilist) shift to state 51
+-- On mk_atom_tail(KW_END_ATOM) shift to state 57
+-- On ilist shift to state 58
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On REFSOL reduce production option(ilist) -> 
+-- On KW_END_ATOM reduce production option(ilist) -> 
+-- On HINT reduce production option(ilist) -> 
+
+State 50:
+ilist -> ILIST . [ REFSOL KW_LABEL_AND_NAME KW_END_ATOM HINT ]
+-- On REFSOL reduce production ilist -> ILIST 
+-- On KW_LABEL_AND_NAME reduce production ilist -> ILIST 
+-- On KW_END_ATOM reduce production ilist -> ILIST 
+-- On HINT reduce production ilist -> ILIST 
+
+State 51:
+mk_atom_tail(KW_END_ATOM) -> option(ilist) . KW_END_ATOM [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom_tail(KW_END_ATOM) -> option(ilist) . refsol [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom_tail(KW_END_ATOM) -> option(ilist) . hint [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On REFSOL shift to state 52
+-- On KW_END_ATOM shift to state 53
+-- On HINT shift to state 54
+-- On refsol shift to state 55
+-- On hint shift to state 56
+
+State 52:
+refsol -> REFSOL . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production refsol -> REFSOL 
+-- On PERCENT reduce production refsol -> REFSOL 
+-- On O_SQ_BRACKET reduce production refsol -> REFSOL 
+-- On O_CURLY reduce production refsol -> REFSOL 
+-- On KW_SUBSUBSECTION reduce production refsol -> REFSOL 
+-- On KW_SUBSECTION reduce production refsol -> REFSOL 
+-- On KW_SECTION reduce production refsol -> REFSOL 
+-- On KW_PARAGRAPH reduce production refsol -> REFSOL 
+-- On KW_END_GROUP reduce production refsol -> REFSOL 
+-- On KW_CODE_ATOM reduce production refsol -> REFSOL 
+-- On KW_BEGIN_GROUP reduce production refsol -> REFSOL 
+-- On KW_BEGIN_ATOM reduce production refsol -> REFSOL 
+-- On EOF reduce production refsol -> REFSOL 
+-- On ENV reduce production refsol -> REFSOL 
+-- On COMMENT_LINE reduce production refsol -> REFSOL 
+-- On BACKSLASH reduce production refsol -> REFSOL 
+
+State 53:
+mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On PERCENT reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On O_SQ_BRACKET reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On O_CURLY reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_SUBSUBSECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_SUBSECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_SECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_PARAGRAPH reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_END_GROUP reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_CODE_ATOM reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_BEGIN_GROUP reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On KW_BEGIN_ATOM reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On EOF reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On ENV reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On COMMENT_LINE reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+-- On BACKSLASH reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) KW_END_ATOM 
+
+State 54:
+hint -> HINT . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production hint -> HINT 
+-- On PERCENT reduce production hint -> HINT 
+-- On O_SQ_BRACKET reduce production hint -> HINT 
+-- On O_CURLY reduce production hint -> HINT 
+-- On KW_SUBSUBSECTION reduce production hint -> HINT 
+-- On KW_SUBSECTION reduce production hint -> HINT 
+-- On KW_SECTION reduce production hint -> HINT 
+-- On KW_PARAGRAPH reduce production hint -> HINT 
+-- On KW_END_GROUP reduce production hint -> HINT 
+-- On KW_CODE_ATOM reduce production hint -> HINT 
+-- On KW_BEGIN_GROUP reduce production hint -> HINT 
+-- On KW_BEGIN_ATOM reduce production hint -> HINT 
+-- On EOF reduce production hint -> HINT 
+-- On ENV reduce production hint -> HINT 
+-- On COMMENT_LINE reduce production hint -> HINT 
+-- On BACKSLASH reduce production hint -> HINT 
+
+State 55:
+mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On PERCENT reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On O_SQ_BRACKET reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On O_CURLY reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_SUBSUBSECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_SUBSECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_SECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_PARAGRAPH reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_END_GROUP reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_CODE_ATOM reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_BEGIN_GROUP reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_BEGIN_ATOM reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On EOF reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On ENV reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On COMMENT_LINE reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+-- On BACKSLASH reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) refsol 
+
+State 56:
+mk_atom_tail(KW_END_ATOM) -> option(ilist) hint . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On PERCENT reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On O_SQ_BRACKET reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On O_CURLY reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_SUBSUBSECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_SUBSECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_SECTION reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_PARAGRAPH reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_END_GROUP reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_CODE_ATOM reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_BEGIN_GROUP reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_BEGIN_ATOM reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On EOF reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On ENV reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On COMMENT_LINE reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+-- On BACKSLASH reduce production mk_atom_tail(KW_END_ATOM) -> option(ilist) hint 
+
+State 57:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On PERCENT reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On O_SQ_BRACKET reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On O_CURLY reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_SUBSUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_SUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_SECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_PARAGRAPH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_END_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_CODE_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_BEGIN_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_BEGIN_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On EOF reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On ENV reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On COMMENT_LINE reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+-- On BACKSLASH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM sq_box boxes mk_atom_tail(KW_END_ATOM) 
+
+State 58:
+option(ilist) -> ilist . [ REFSOL KW_LABEL_AND_NAME KW_END_ATOM HINT ]
+-- On REFSOL reduce production option(ilist) -> ilist 
+-- On KW_LABEL_AND_NAME reduce production option(ilist) -> ilist 
+-- On KW_END_ATOM reduce production option(ilist) -> ilist 
+-- On HINT reduce production option(ilist) -> ilist 
+
+State 59:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) . label option(depend) boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) . depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On KW_DEPEND shift to state 60
+-- On label shift to state 61
+-- On depend shift to state 66
+
+State 60:
+depend -> KW_DEPEND . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production depend -> KW_DEPEND 
+-- On REFSOL reduce production depend -> KW_DEPEND 
+-- On PERCENT reduce production depend -> KW_DEPEND 
+-- On O_SQ_BRACKET reduce production depend -> KW_DEPEND 
+-- On O_CURLY reduce production depend -> KW_DEPEND 
+-- On KW_LABEL_AND_NAME reduce production depend -> KW_DEPEND 
+-- On KW_END_ATOM reduce production depend -> KW_DEPEND 
+-- On ILIST reduce production depend -> KW_DEPEND 
+-- On HINT reduce production depend -> KW_DEPEND 
+-- On ENV reduce production depend -> KW_DEPEND 
+-- On COMMENT_LINE reduce production depend -> KW_DEPEND 
+-- On BACKSLASH reduce production depend -> KW_DEPEND 
+
+State 61:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label . option(depend) boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On KW_DEPEND shift to state 60
+-- On option(depend) shift to state 62
+-- On depend shift to state 65
+-- On WORD reduce production option(depend) -> 
+-- On REFSOL reduce production option(depend) -> 
+-- On PERCENT reduce production option(depend) -> 
+-- On O_SQ_BRACKET reduce production option(depend) -> 
+-- On O_CURLY reduce production option(depend) -> 
+-- On KW_END_ATOM reduce production option(depend) -> 
+-- On ILIST reduce production option(depend) -> 
+-- On HINT reduce production option(depend) -> 
+-- On ENV reduce production option(depend) -> 
+-- On COMMENT_LINE reduce production option(depend) -> 
+-- On BACKSLASH reduce production option(depend) -> 
+
+State 62:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) . boxes mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On boxes shift to state 63
+-- On WORD reduce production boxes -> 
+-- On REFSOL reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_END_ATOM reduce production boxes -> 
+-- On ILIST reduce production boxes -> 
+-- On HINT reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 63:
+boxes -> boxes . box [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes . mk_atom_tail(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ILIST shift to state 50
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On option(ilist) shift to state 51
+-- On mk_atom_tail(KW_END_ATOM) shift to state 64
+-- On ilist shift to state 58
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On REFSOL reduce production option(ilist) -> 
+-- On KW_END_ATOM reduce production option(ilist) -> 
+-- On HINT reduce production option(ilist) -> 
+
+State 64:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On PERCENT reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On O_SQ_BRACKET reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On O_CURLY reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_SUBSUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_SUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_SECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_PARAGRAPH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_END_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_CODE_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_BEGIN_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On KW_BEGIN_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On EOF reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On ENV reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On COMMENT_LINE reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+-- On BACKSLASH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) label option(depend) boxes mk_atom_tail(KW_END_ATOM) 
+
+State 65:
+option(depend) -> depend . [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production option(depend) -> depend 
+-- On REFSOL reduce production option(depend) -> depend 
+-- On PERCENT reduce production option(depend) -> depend 
+-- On O_SQ_BRACKET reduce production option(depend) -> depend 
+-- On O_CURLY reduce production option(depend) -> depend 
+-- On KW_END_ATOM reduce production option(depend) -> depend 
+-- On ILIST reduce production option(depend) -> depend 
+-- On HINT reduce production option(depend) -> depend 
+-- On ENV reduce production option(depend) -> depend 
+-- On COMMENT_LINE reduce production option(depend) -> depend 
+-- On BACKSLASH reduce production option(depend) -> depend 
+
+State 66:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend . boxes mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On boxes shift to state 67
+-- On WORD reduce production boxes -> 
+-- On REFSOL reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_LABEL_AND_NAME reduce production boxes -> 
+-- On KW_END_ATOM reduce production boxes -> 
+-- On ILIST reduce production boxes -> 
+-- On HINT reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 67:
+boxes -> boxes . box [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes . mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ILIST shift to state 50
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On option(ilist) shift to state 68
+-- On mk_atom_tail_with_label_opt(KW_END_ATOM) shift to state 74
+-- On ilist shift to state 58
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On REFSOL reduce production option(ilist) -> 
+-- On KW_LABEL_AND_NAME reduce production option(ilist) -> 
+-- On KW_END_ATOM reduce production option(ilist) -> 
+-- On HINT reduce production option(ilist) -> 
+
+State 68:
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) . option(label) KW_END_ATOM [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) . refsol [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) . hint [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On REFSOL shift to state 52
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On HINT shift to state 54
+-- On refsol shift to state 69
+-- On option(label) shift to state 70
+-- On label shift to state 72
+-- On hint shift to state 73
+-- On KW_END_ATOM reduce production option(label) -> 
+
+State 69:
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On PERCENT reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On O_SQ_BRACKET reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On O_CURLY reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_SUBSUBSECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_SUBSECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_SECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_PARAGRAPH reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_END_GROUP reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_CODE_ATOM reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_BEGIN_GROUP reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On KW_BEGIN_ATOM reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On EOF reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On ENV reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On COMMENT_LINE reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+-- On BACKSLASH reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) refsol 
+
+State 70:
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) . KW_END_ATOM [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On KW_END_ATOM shift to state 71
+
+State 71:
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On PERCENT reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On O_SQ_BRACKET reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On O_CURLY reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_SUBSUBSECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_SUBSECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_SECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_PARAGRAPH reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_END_GROUP reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_CODE_ATOM reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_BEGIN_GROUP reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On KW_BEGIN_ATOM reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On EOF reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On ENV reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On COMMENT_LINE reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+-- On BACKSLASH reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) option(label) KW_END_ATOM 
+
+State 72:
+option(label) -> label . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_END_ATOM KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production option(label) -> label 
+-- On PERCENT reduce production option(label) -> label 
+-- On O_SQ_BRACKET reduce production option(label) -> label 
+-- On O_CURLY reduce production option(label) -> label 
+-- On KW_SUBSUBSECTION reduce production option(label) -> label 
+-- On KW_SUBSECTION reduce production option(label) -> label 
+-- On KW_SECTION reduce production option(label) -> label 
+-- On KW_PARAGRAPH reduce production option(label) -> label 
+-- On KW_END_GROUP reduce production option(label) -> label 
+-- On KW_END_ATOM reduce production option(label) -> label 
+-- On KW_CODE_ATOM reduce production option(label) -> label 
+-- On KW_BEGIN_GROUP reduce production option(label) -> label 
+-- On KW_BEGIN_ATOM reduce production option(label) -> label 
+-- On EOF reduce production option(label) -> label 
+-- On ENV reduce production option(label) -> label 
+-- On COMMENT_LINE reduce production option(label) -> label 
+-- On BACKSLASH reduce production option(label) -> label 
+
+State 73:
+mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On PERCENT reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On O_SQ_BRACKET reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On O_CURLY reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_SUBSUBSECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_SUBSECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_SECTION reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_PARAGRAPH reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_END_GROUP reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_CODE_ATOM reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_BEGIN_GROUP reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On KW_BEGIN_ATOM reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On EOF reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On ENV reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On COMMENT_LINE reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+-- On BACKSLASH reduce production mk_atom_tail_with_label_opt(KW_END_ATOM) -> option(ilist) hint 
+
+State 74:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On PERCENT reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On O_SQ_BRACKET reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On O_CURLY reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_SUBSUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_SUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_SECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_PARAGRAPH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_END_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_CODE_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_BEGIN_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_BEGIN_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On EOF reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On ENV reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On COMMENT_LINE reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On BACKSLASH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM option(sq_box) depend boxes mk_atom_tail_with_label_opt(KW_END_ATOM) 
+
+State 75:
+boxes_start_no_sq -> curly_box . boxes [ REFSOL KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ]
+-- On boxes shift to state 76
+-- On WORD reduce production boxes -> 
+-- On REFSOL reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_LABEL_AND_NAME reduce production boxes -> 
+-- On KW_END_ATOM reduce production boxes -> 
+-- On ILIST reduce production boxes -> 
+-- On HINT reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 76:
+boxes -> boxes . box [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+boxes_start_no_sq -> curly_box boxes . [ REFSOL KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On REFSOL reduce production boxes_start_no_sq -> curly_box boxes 
+-- On KW_LABEL_AND_NAME reduce production boxes_start_no_sq -> curly_box boxes 
+-- On KW_END_ATOM reduce production boxes_start_no_sq -> curly_box boxes 
+-- On ILIST reduce production boxes_start_no_sq -> curly_box boxes 
+-- On HINT reduce production boxes_start_no_sq -> curly_box boxes 
+
+State 77:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq . mk_atom_tail_with_label_opt(KW_END_ATOM) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On ILIST shift to state 50
+-- On option(ilist) shift to state 68
+-- On mk_atom_tail_with_label_opt(KW_END_ATOM) shift to state 78
+-- On ilist shift to state 58
+-- On REFSOL reduce production option(ilist) -> 
+-- On KW_LABEL_AND_NAME reduce production option(ilist) -> 
+-- On KW_END_ATOM reduce production option(ilist) -> 
+-- On HINT reduce production option(ilist) -> 
+
+State 78:
+mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_END_GROUP KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On PERCENT reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On O_SQ_BRACKET reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On O_CURLY reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_SUBSUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_SUBSECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_SECTION reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_PARAGRAPH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_END_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_CODE_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_BEGIN_GROUP reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On KW_BEGIN_ATOM reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On EOF reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On ENV reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On COMMENT_LINE reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+-- On BACKSLASH reduce production mk_atom(KW_BEGIN_ATOM,KW_END_ATOM) -> boxes KW_BEGIN_ATOM boxes_start_no_sq mk_atom_tail_with_label_opt(KW_END_ATOM) 
+
+State 79:
+boxes_start_no_sq -> blob . boxes [ REFSOL KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ]
+-- On boxes shift to state 80
+-- On WORD reduce production boxes -> 
+-- On REFSOL reduce production boxes -> 
+-- On PERCENT reduce production boxes -> 
+-- On O_SQ_BRACKET reduce production boxes -> 
+-- On O_CURLY reduce production boxes -> 
+-- On KW_LABEL_AND_NAME reduce production boxes -> 
+-- On KW_END_ATOM reduce production boxes -> 
+-- On ILIST reduce production boxes -> 
+-- On HINT reduce production boxes -> 
+-- On ENV reduce production boxes -> 
+-- On COMMENT_LINE reduce production boxes -> 
+-- On BACKSLASH reduce production boxes -> 
+
+State 80:
+boxes -> boxes . box [ WORD REFSOL PERCENT O_SQ_BRACKET O_CURLY KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ENV COMMENT_LINE BACKSLASH ]
+boxes_start_no_sq -> blob boxes . [ REFSOL KW_LABEL_AND_NAME KW_END_ATOM ILIST HINT ]
+-- On WORD shift to state 3
+-- On PERCENT shift to state 4
+-- On O_SQ_BRACKET shift to state 5
+-- On O_CURLY shift to state 7
+-- On ENV shift to state 9
+-- On COMMENT_LINE shift to state 11
+-- On BACKSLASH shift to state 12
+-- On word shift to state 19
+-- On sq_box shift to state 20
+-- On env shift to state 21
+-- On curly_box shift to state 22
+-- On box shift to state 23
+-- On blob shift to state 24
+-- On REFSOL reduce production boxes_start_no_sq -> blob boxes 
+-- On KW_LABEL_AND_NAME reduce production boxes_start_no_sq -> blob boxes 
+-- On KW_END_ATOM reduce production boxes_start_no_sq -> blob boxes 
+-- On ILIST reduce production boxes_start_no_sq -> blob boxes 
+-- On HINT reduce production boxes_start_no_sq -> blob boxes 
+
+State 81:
+atoms -> atoms atom . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_END_GROUP KW_CODE_ATOM KW_BEGIN_ATOM ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production atoms -> atoms atom 
+-- On PERCENT reduce production atoms -> atoms atom 
+-- On O_SQ_BRACKET reduce production atoms -> atoms atom 
+-- On O_CURLY reduce production atoms -> atoms atom 
+-- On KW_END_GROUP reduce production atoms -> atoms atom 
+-- On KW_CODE_ATOM reduce production atoms -> atoms atom 
+-- On KW_BEGIN_ATOM reduce production atoms -> atoms atom 
+-- On ENV reduce production atoms -> atoms atom 
+-- On COMMENT_LINE reduce production atoms -> atoms atom 
+-- On BACKSLASH reduce production atoms -> atoms atom 
+
+State 82:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) . atoms_and_tailtext mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On atoms_and_tailtext shift to state 83
+-- On atoms shift to state 45
+-- On WORD reduce production atoms -> 
+-- On PERCENT reduce production atoms -> 
+-- On O_SQ_BRACKET reduce production atoms -> 
+-- On O_CURLY reduce production atoms -> 
+-- On KW_END_GROUP reduce production atoms -> 
+-- On KW_CODE_ATOM reduce production atoms -> 
+-- On KW_BEGIN_ATOM reduce production atoms -> 
+-- On ENV reduce production atoms -> 
+-- On COMMENT_LINE reduce production atoms -> 
+-- On BACKSLASH reduce production atoms -> 
+
+State 83:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext . mk_group_end(KW_END_GROUP) [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On KW_END_GROUP shift to state 43
+-- On mk_group_end(KW_END_GROUP) shift to state 84
+
+State 84:
+mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On PERCENT reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On O_SQ_BRACKET reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On O_CURLY reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_SUBSUBSECTION reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_SUBSECTION reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_SECTION reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_PARAGRAPH reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_CODE_ATOM reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_BEGIN_GROUP reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On KW_BEGIN_ATOM reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On EOF reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On ENV reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On COMMENT_LINE reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+-- On BACKSLASH reduce production mk_group(KW_BEGIN_GROUP,KW_END_GROUP) -> boxes KW_BEGIN_GROUP option(label) atoms_and_tailtext mk_group_end(KW_END_GROUP) 
+
+State 85:
+element -> atom . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production element -> atom 
+-- On PERCENT reduce production element -> atom 
+-- On O_SQ_BRACKET reduce production element -> atom 
+-- On O_CURLY reduce production element -> atom 
+-- On KW_SUBSUBSECTION reduce production element -> atom 
+-- On KW_SUBSECTION reduce production element -> atom 
+-- On KW_SECTION reduce production element -> atom 
+-- On KW_PARAGRAPH reduce production element -> atom 
+-- On KW_CODE_ATOM reduce production element -> atom 
+-- On KW_BEGIN_GROUP reduce production element -> atom 
+-- On KW_BEGIN_ATOM reduce production element -> atom 
+-- On EOF reduce production element -> atom 
+-- On ENV reduce production element -> atom 
+-- On COMMENT_LINE reduce production element -> atom 
+-- On BACKSLASH reduce production element -> atom 
+
+State 86:
+chapter -> boxes mk_heading(KW_CHAPTER) label block . paragraphs mk_sections(section) EOF [ # ]
+-- On KW_PARAGRAPH shift to state 87
+-- On paragraphs shift to state 89
+-- On paragraph shift to state 117
+-- On mk_heading(KW_PARAGRAPH) shift to state 119
+-- On KW_SECTION reduce production paragraphs -> 
+-- On EOF reduce production paragraphs -> 
+
+State 87:
+mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH . curly_box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On O_CURLY shift to state 7
+-- On curly_box shift to state 88
+
+State 88:
+mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On PERCENT reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On O_SQ_BRACKET reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On O_CURLY reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_SUBSUBSECTION reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_SUBSECTION reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_SECTION reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_PARAGRAPH reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_LABEL_AND_NAME reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_CODE_ATOM reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_BEGIN_GROUP reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On KW_BEGIN_ATOM reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On EOF reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On ENV reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On COMMENT_LINE reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+-- On BACKSLASH reduce production mk_heading(KW_PARAGRAPH) -> KW_PARAGRAPH curly_box 
+
+State 89:
+chapter -> boxes mk_heading(KW_CHAPTER) label block paragraphs . mk_sections(section) EOF [ # ]
+-- On mk_sections(section) shift to state 90
+-- On KW_SECTION reduce production mk_sections(section) -> 
+-- On EOF reduce production mk_sections(section) -> 
+
+State 90:
+chapter -> boxes mk_heading(KW_CHAPTER) label block paragraphs mk_sections(section) . EOF [ # ]
+mk_sections(section) -> mk_sections(section) . section [ KW_SECTION EOF ]
+-- On KW_SECTION shift to state 91
+-- On EOF shift to state 93
+-- On section shift to state 94
+-- On mk_section(KW_SECTION,subsection) shift to state 95
+-- On mk_heading(KW_SECTION) shift to state 96
+
+State 91:
+mk_heading(KW_SECTION) -> KW_SECTION . curly_box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On O_CURLY shift to state 7
+-- On curly_box shift to state 92
+
+State 92:
+mk_heading(KW_SECTION) -> KW_SECTION curly_box . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On PERCENT reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On O_SQ_BRACKET reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On O_CURLY reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_SUBSECTION reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_SECTION reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_PARAGRAPH reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_LABEL_AND_NAME reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_CODE_ATOM reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_BEGIN_GROUP reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On KW_BEGIN_ATOM reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On EOF reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On ENV reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On COMMENT_LINE reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+-- On BACKSLASH reduce production mk_heading(KW_SECTION) -> KW_SECTION curly_box 
+
+State 93:
+chapter -> boxes mk_heading(KW_CHAPTER) label block paragraphs mk_sections(section) EOF . [ # ]
+-- On # reduce production chapter -> boxes mk_heading(KW_CHAPTER) label block paragraphs mk_sections(section) EOF 
+
+State 94:
+mk_sections(section) -> mk_sections(section) section . [ KW_SECTION EOF ]
+-- On KW_SECTION reduce production mk_sections(section) -> mk_sections(section) section 
+-- On EOF reduce production mk_sections(section) -> mk_sections(section) section 
+
+State 95:
+section -> mk_section(KW_SECTION,subsection) . [ KW_SECTION EOF ]
+-- On KW_SECTION reduce production section -> mk_section(KW_SECTION,subsection) 
+-- On EOF reduce production section -> mk_section(KW_SECTION,subsection) 
+
+State 96:
+mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) . option(label) block paragraphs mk_sections(subsection) [ KW_SECTION EOF ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On option(label) shift to state 97
+-- On label shift to state 72
+-- On WORD reduce production option(label) -> 
+-- On PERCENT reduce production option(label) -> 
+-- On O_SQ_BRACKET reduce production option(label) -> 
+-- On O_CURLY reduce production option(label) -> 
+-- On KW_SUBSECTION reduce production option(label) -> 
+-- On KW_SECTION reduce production option(label) -> 
+-- On KW_PARAGRAPH reduce production option(label) -> 
+-- On KW_CODE_ATOM reduce production option(label) -> 
+-- On KW_BEGIN_GROUP reduce production option(label) -> 
+-- On KW_BEGIN_ATOM reduce production option(label) -> 
+-- On EOF reduce production option(label) -> 
+-- On ENV reduce production option(label) -> 
+-- On COMMENT_LINE reduce production option(label) -> 
+-- On BACKSLASH reduce production option(label) -> 
+
+State 97:
+mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) option(label) . block paragraphs mk_sections(subsection) [ KW_SECTION EOF ]
+-- On elements shift to state 31
+-- On block shift to state 98
+-- On WORD reduce production elements -> 
+-- On PERCENT reduce production elements -> 
+-- On O_SQ_BRACKET reduce production elements -> 
+-- On O_CURLY reduce production elements -> 
+-- On KW_SUBSECTION reduce production elements -> 
+-- On KW_SECTION reduce production elements -> 
+-- On KW_PARAGRAPH reduce production elements -> 
+-- On KW_CODE_ATOM reduce production elements -> 
+-- On KW_BEGIN_GROUP reduce production elements -> 
+-- On KW_BEGIN_ATOM reduce production elements -> 
+-- On EOF reduce production elements -> 
+-- On ENV reduce production elements -> 
+-- On COMMENT_LINE reduce production elements -> 
+-- On BACKSLASH reduce production elements -> 
+
+State 98:
+mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) option(label) block . paragraphs mk_sections(subsection) [ KW_SECTION EOF ]
+-- On KW_PARAGRAPH shift to state 87
+-- On paragraphs shift to state 99
+-- On paragraph shift to state 117
+-- On mk_heading(KW_PARAGRAPH) shift to state 119
+-- On KW_SUBSECTION reduce production paragraphs -> 
+-- On KW_SECTION reduce production paragraphs -> 
+-- On EOF reduce production paragraphs -> 
+
+State 99:
+mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) option(label) block paragraphs . mk_sections(subsection) [ KW_SECTION EOF ]
+-- On mk_sections(subsection) shift to state 100
+-- On KW_SUBSECTION reduce production mk_sections(subsection) -> 
+-- On KW_SECTION reduce production mk_sections(subsection) -> 
+-- On EOF reduce production mk_sections(subsection) -> 
+
+State 100:
+mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) option(label) block paragraphs mk_sections(subsection) . [ KW_SECTION EOF ]
+mk_sections(subsection) -> mk_sections(subsection) . subsection [ KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSECTION shift to state 101
+-- On subsection shift to state 103
+-- On mk_section(KW_SUBSECTION,subsubsection) shift to state 104
+-- On mk_heading(KW_SUBSECTION) shift to state 105
+-- On KW_SECTION reduce production mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) option(label) block paragraphs mk_sections(subsection) 
+-- On EOF reduce production mk_section(KW_SECTION,subsection) -> mk_heading(KW_SECTION) option(label) block paragraphs mk_sections(subsection) 
+
+State 101:
+mk_heading(KW_SUBSECTION) -> KW_SUBSECTION . curly_box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On O_CURLY shift to state 7
+-- On curly_box shift to state 102
+
+State 102:
+mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On PERCENT reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On O_SQ_BRACKET reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On O_CURLY reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_SUBSUBSECTION reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_SUBSECTION reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_SECTION reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_PARAGRAPH reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_LABEL_AND_NAME reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_CODE_ATOM reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_BEGIN_GROUP reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On KW_BEGIN_ATOM reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On EOF reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On ENV reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On COMMENT_LINE reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+-- On BACKSLASH reduce production mk_heading(KW_SUBSECTION) -> KW_SUBSECTION curly_box 
+
+State 103:
+mk_sections(subsection) -> mk_sections(subsection) subsection . [ KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSECTION reduce production mk_sections(subsection) -> mk_sections(subsection) subsection 
+-- On KW_SECTION reduce production mk_sections(subsection) -> mk_sections(subsection) subsection 
+-- On EOF reduce production mk_sections(subsection) -> mk_sections(subsection) subsection 
+
+State 104:
+subsection -> mk_section(KW_SUBSECTION,subsubsection) . [ KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSECTION reduce production subsection -> mk_section(KW_SUBSECTION,subsubsection) 
+-- On KW_SECTION reduce production subsection -> mk_section(KW_SUBSECTION,subsubsection) 
+-- On EOF reduce production subsection -> mk_section(KW_SUBSECTION,subsubsection) 
+
+State 105:
+mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) . option(label) block paragraphs mk_sections(subsubsection) [ KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On option(label) shift to state 106
+-- On label shift to state 72
+-- On WORD reduce production option(label) -> 
+-- On PERCENT reduce production option(label) -> 
+-- On O_SQ_BRACKET reduce production option(label) -> 
+-- On O_CURLY reduce production option(label) -> 
+-- On KW_SUBSUBSECTION reduce production option(label) -> 
+-- On KW_SUBSECTION reduce production option(label) -> 
+-- On KW_SECTION reduce production option(label) -> 
+-- On KW_PARAGRAPH reduce production option(label) -> 
+-- On KW_CODE_ATOM reduce production option(label) -> 
+-- On KW_BEGIN_GROUP reduce production option(label) -> 
+-- On KW_BEGIN_ATOM reduce production option(label) -> 
+-- On EOF reduce production option(label) -> 
+-- On ENV reduce production option(label) -> 
+-- On COMMENT_LINE reduce production option(label) -> 
+-- On BACKSLASH reduce production option(label) -> 
+
+State 106:
+mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) . block paragraphs mk_sections(subsubsection) [ KW_SUBSECTION KW_SECTION EOF ]
+-- On elements shift to state 31
+-- On block shift to state 107
+-- On WORD reduce production elements -> 
+-- On PERCENT reduce production elements -> 
+-- On O_SQ_BRACKET reduce production elements -> 
+-- On O_CURLY reduce production elements -> 
+-- On KW_SUBSUBSECTION reduce production elements -> 
+-- On KW_SUBSECTION reduce production elements -> 
+-- On KW_SECTION reduce production elements -> 
+-- On KW_PARAGRAPH reduce production elements -> 
+-- On KW_CODE_ATOM reduce production elements -> 
+-- On KW_BEGIN_GROUP reduce production elements -> 
+-- On KW_BEGIN_ATOM reduce production elements -> 
+-- On EOF reduce production elements -> 
+-- On ENV reduce production elements -> 
+-- On COMMENT_LINE reduce production elements -> 
+-- On BACKSLASH reduce production elements -> 
+
+State 107:
+mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) block . paragraphs mk_sections(subsubsection) [ KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_PARAGRAPH shift to state 87
+-- On paragraphs shift to state 108
+-- On paragraph shift to state 117
+-- On mk_heading(KW_PARAGRAPH) shift to state 119
+-- On KW_SUBSUBSECTION reduce production paragraphs -> 
+-- On KW_SUBSECTION reduce production paragraphs -> 
+-- On KW_SECTION reduce production paragraphs -> 
+-- On EOF reduce production paragraphs -> 
+
+State 108:
+mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) block paragraphs . mk_sections(subsubsection) [ KW_SUBSECTION KW_SECTION EOF ]
+-- On mk_sections(subsubsection) shift to state 109
+-- On KW_SUBSUBSECTION reduce production mk_sections(subsubsection) -> 
+-- On KW_SUBSECTION reduce production mk_sections(subsubsection) -> 
+-- On KW_SECTION reduce production mk_sections(subsubsection) -> 
+-- On EOF reduce production mk_sections(subsubsection) -> 
+
+State 109:
+mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) block paragraphs mk_sections(subsubsection) . [ KW_SUBSECTION KW_SECTION EOF ]
+mk_sections(subsubsection) -> mk_sections(subsubsection) . subsubsection [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSUBSECTION shift to state 110
+-- On subsubsection shift to state 112
+-- On mk_heading(KW_SUBSUBSECTION) shift to state 113
+-- On KW_SUBSECTION reduce production mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) block paragraphs mk_sections(subsubsection) 
+-- On KW_SECTION reduce production mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) block paragraphs mk_sections(subsubsection) 
+-- On EOF reduce production mk_section(KW_SUBSECTION,subsubsection) -> mk_heading(KW_SUBSECTION) option(label) block paragraphs mk_sections(subsubsection) 
+
+State 110:
+mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION . curly_box [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On O_CURLY shift to state 7
+-- On curly_box shift to state 111
+
+State 111:
+mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box . [ WORD PERCENT O_SQ_BRACKET O_CURLY KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH KW_LABEL_AND_NAME KW_CODE_ATOM KW_BEGIN_GROUP KW_BEGIN_ATOM EOF ENV COMMENT_LINE BACKSLASH ]
+-- On WORD reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On PERCENT reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On O_SQ_BRACKET reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On O_CURLY reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_SUBSUBSECTION reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_SUBSECTION reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_SECTION reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_PARAGRAPH reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_LABEL_AND_NAME reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_CODE_ATOM reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_BEGIN_GROUP reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On KW_BEGIN_ATOM reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On EOF reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On ENV reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On COMMENT_LINE reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+-- On BACKSLASH reduce production mk_heading(KW_SUBSUBSECTION) -> KW_SUBSUBSECTION curly_box 
+
+State 112:
+mk_sections(subsubsection) -> mk_sections(subsubsection) subsubsection . [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSUBSECTION reduce production mk_sections(subsubsection) -> mk_sections(subsubsection) subsubsection 
+-- On KW_SUBSECTION reduce production mk_sections(subsubsection) -> mk_sections(subsubsection) subsubsection 
+-- On KW_SECTION reduce production mk_sections(subsubsection) -> mk_sections(subsubsection) subsubsection 
+-- On EOF reduce production mk_sections(subsubsection) -> mk_sections(subsubsection) subsubsection 
+
+State 113:
+subsubsection -> mk_heading(KW_SUBSUBSECTION) . option(label) block paragraphs [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On option(label) shift to state 114
+-- On label shift to state 72
+-- On WORD reduce production option(label) -> 
+-- On PERCENT reduce production option(label) -> 
+-- On O_SQ_BRACKET reduce production option(label) -> 
+-- On O_CURLY reduce production option(label) -> 
+-- On KW_SUBSUBSECTION reduce production option(label) -> 
+-- On KW_SUBSECTION reduce production option(label) -> 
+-- On KW_SECTION reduce production option(label) -> 
+-- On KW_PARAGRAPH reduce production option(label) -> 
+-- On KW_CODE_ATOM reduce production option(label) -> 
+-- On KW_BEGIN_GROUP reduce production option(label) -> 
+-- On KW_BEGIN_ATOM reduce production option(label) -> 
+-- On EOF reduce production option(label) -> 
+-- On ENV reduce production option(label) -> 
+-- On COMMENT_LINE reduce production option(label) -> 
+-- On BACKSLASH reduce production option(label) -> 
+
+State 114:
+subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) . block paragraphs [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On elements shift to state 31
+-- On block shift to state 115
+-- On WORD reduce production elements -> 
+-- On PERCENT reduce production elements -> 
+-- On O_SQ_BRACKET reduce production elements -> 
+-- On O_CURLY reduce production elements -> 
+-- On KW_SUBSUBSECTION reduce production elements -> 
+-- On KW_SUBSECTION reduce production elements -> 
+-- On KW_SECTION reduce production elements -> 
+-- On KW_PARAGRAPH reduce production elements -> 
+-- On KW_CODE_ATOM reduce production elements -> 
+-- On KW_BEGIN_GROUP reduce production elements -> 
+-- On KW_BEGIN_ATOM reduce production elements -> 
+-- On EOF reduce production elements -> 
+-- On ENV reduce production elements -> 
+-- On COMMENT_LINE reduce production elements -> 
+-- On BACKSLASH reduce production elements -> 
+
+State 115:
+subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) block . paragraphs [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_PARAGRAPH shift to state 87
+-- On paragraphs shift to state 116
+-- On paragraph shift to state 117
+-- On mk_heading(KW_PARAGRAPH) shift to state 119
+-- On KW_SUBSUBSECTION reduce production paragraphs -> 
+-- On KW_SUBSECTION reduce production paragraphs -> 
+-- On KW_SECTION reduce production paragraphs -> 
+-- On EOF reduce production paragraphs -> 
+
+State 116:
+subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) block paragraphs . [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSUBSECTION reduce production subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) block paragraphs 
+-- On KW_SUBSECTION reduce production subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) block paragraphs 
+-- On KW_SECTION reduce production subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) block paragraphs 
+-- On EOF reduce production subsubsection -> mk_heading(KW_SUBSUBSECTION) option(label) block paragraphs 
+
+State 117:
+paragraphs -> paragraph . paragraphs [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_PARAGRAPH shift to state 87
+-- On paragraphs shift to state 118
+-- On paragraph shift to state 117
+-- On mk_heading(KW_PARAGRAPH) shift to state 119
+-- On KW_SUBSUBSECTION reduce production paragraphs -> 
+-- On KW_SUBSECTION reduce production paragraphs -> 
+-- On KW_SECTION reduce production paragraphs -> 
+-- On EOF reduce production paragraphs -> 
+
+State 118:
+paragraphs -> paragraph paragraphs . [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION EOF ]
+-- On KW_SUBSUBSECTION reduce production paragraphs -> paragraph paragraphs 
+-- On KW_SUBSECTION reduce production paragraphs -> paragraph paragraphs 
+-- On KW_SECTION reduce production paragraphs -> paragraph paragraphs 
+-- On EOF reduce production paragraphs -> paragraph paragraphs 
+
+State 119:
+paragraph -> mk_heading(KW_PARAGRAPH) . option(label) block [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH EOF ]
+-- On KW_LABEL_AND_NAME shift to state 29
+-- On option(label) shift to state 120
+-- On label shift to state 72
+-- On WORD reduce production option(label) -> 
+-- On PERCENT reduce production option(label) -> 
+-- On O_SQ_BRACKET reduce production option(label) -> 
+-- On O_CURLY reduce production option(label) -> 
+-- On KW_SUBSUBSECTION reduce production option(label) -> 
+-- On KW_SUBSECTION reduce production option(label) -> 
+-- On KW_SECTION reduce production option(label) -> 
+-- On KW_PARAGRAPH reduce production option(label) -> 
+-- On KW_CODE_ATOM reduce production option(label) -> 
+-- On KW_BEGIN_GROUP reduce production option(label) -> 
+-- On KW_BEGIN_ATOM reduce production option(label) -> 
+-- On EOF reduce production option(label) -> 
+-- On ENV reduce production option(label) -> 
+-- On COMMENT_LINE reduce production option(label) -> 
+-- On BACKSLASH reduce production option(label) -> 
+
+State 120:
+paragraph -> mk_heading(KW_PARAGRAPH) option(label) . block [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH EOF ]
+-- On elements shift to state 31
+-- On block shift to state 121
+-- On WORD reduce production elements -> 
+-- On PERCENT reduce production elements -> 
+-- On O_SQ_BRACKET reduce production elements -> 
+-- On O_CURLY reduce production elements -> 
+-- On KW_SUBSUBSECTION reduce production elements -> 
+-- On KW_SUBSECTION reduce production elements -> 
+-- On KW_SECTION reduce production elements -> 
+-- On KW_PARAGRAPH reduce production elements -> 
+-- On KW_CODE_ATOM reduce production elements -> 
+-- On KW_BEGIN_GROUP reduce production elements -> 
+-- On KW_BEGIN_ATOM reduce production elements -> 
+-- On EOF reduce production elements -> 
+-- On ENV reduce production elements -> 
+-- On COMMENT_LINE reduce production elements -> 
+-- On BACKSLASH reduce production elements -> 
+
+State 121:
+paragraph -> mk_heading(KW_PARAGRAPH) option(label) block . [ KW_SUBSUBSECTION KW_SUBSECTION KW_SECTION KW_PARAGRAPH EOF ]
+-- On KW_SUBSUBSECTION reduce production paragraph -> mk_heading(KW_PARAGRAPH) option(label) block 
+-- On KW_SUBSECTION reduce production paragraph -> mk_heading(KW_PARAGRAPH) option(label) block 
+-- On KW_SECTION reduce production paragraph -> mk_heading(KW_PARAGRAPH) option(label) block 
+-- On KW_PARAGRAPH reduce production paragraph -> mk_heading(KW_PARAGRAPH) option(label) block 
+-- On EOF reduce production paragraph -> mk_heading(KW_PARAGRAPH) option(label) block 
+
