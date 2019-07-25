@@ -98,14 +98,6 @@ let prompt_kinds =
    kw_part, ()
   ]
 
-let cookie_kinds = 
-  [
-   com_explain, ();
-   com_hint, ();
-   com_notes, ();
-   com_rubric, ();
-   com_solution, ()
-  ]
 
 
 (* Utilities *)
@@ -125,6 +117,6 @@ let kind_of_segment kind =
 
 (* is subseg nested in segment seg ? *)
 let segment_is_nested subseg seg = 
-  (int_of_string subseg) < (int_of_string segh)
+  (int_of_string subseg) < (int_of_string seg)
 
 
