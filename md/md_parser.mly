@@ -58,7 +58,7 @@ let str_of_items items =
  * parse it using Atom_parser
  *)
 let parse_atom input = 
-	let _ = d_printf "*atom_parser: atom_to_ast input = %s" input in
+(*	let _ = d_printf "*atom_parser: atom_to_ast input = %s" input in *)
   let lexbuf = Lexing.from_string input in
 	Atom_parser.top Atom_lexer.lexer lexbuf
 
