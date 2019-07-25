@@ -4,7 +4,7 @@ open Printf
 open Utils
 
 
-module Il_ast = Ast
+module Ast = Il_ast
 module Tex = Tex_syntax
 (*
 module Atom_lexer = Atom_lexer
@@ -100,7 +100,7 @@ let mk_problem items =
 
 %start top
 
-%type <Ast.ast option> top
+%type <Il_ast.ast option> top
 
 /*  BEGIN RULES */
 %%

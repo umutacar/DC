@@ -3,7 +3,6 @@ open Core
 open Printf
 open Utils
 
-module Ast = Ast
 module Tex = Tex_syntax
 
 (* Turn off prints *)

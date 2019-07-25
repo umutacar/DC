@@ -161,7 +161,7 @@ struct
 		let _ = 
 			match cookie.label with 
 			| None ->
-					let lk = Tex_syntax.mk_label_prefix_from_kind cookie.kind in
+					let lk = Tex.mk_label_prefix_from_kind cookie.kind in
 					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
 					cookie.label <- Some l
 		| Some _ -> ()
@@ -267,7 +267,7 @@ struct
 		let _ = 
 			match prompt.label with 
 			| None ->
-					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
+					let lk = Tex.mk_label_prefix_from_kind prompt.kind in
 					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					prompt.label <- Some l
 		| Some _ -> ()
@@ -388,7 +388,7 @@ struct
 		let _ = 
 			match  problem.label with 
 			| None ->
-					let lk = Tex_syntax.mk_label_prefix_from_kind problem.kind in
+					let lk = Tex.mk_label_prefix_from_kind problem.kind in
 					let l = Labels.mk_label_force label_set lk prefix t_all in
 					problem.label <- Some l
 		| Some _ -> ()
@@ -528,7 +528,7 @@ struct
 		let _ = 
 			match (label atom) with 
 			| None ->
-					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
+					let lk = Tex.mk_label_prefix_from_kind (kind atom) in
 					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					atom.label <- Some l
 		| Some _ -> ()
@@ -667,7 +667,7 @@ struct
 		let _ = 
 			match (label group) with 
 			| None ->
-					let lk = Tex_syntax.mk_label_prefix_from_kind (kind group) in
+					let lk = Tex.mk_label_prefix_from_kind (kind group) in
 					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					group.label <- Some l
 		| Some _ -> ()
@@ -963,7 +963,7 @@ struct
 	  match (label segment) with 
 		| Some _ -> ()
 		| None ->
-  	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
+  	  let lk = Tex.mk_label_prefix_from_kind (kind segment) in
 			let tt_s = Words.tokenize_spaces (title segment) in
 			match Labels.mk_label label_set lk prefix tt_s with
 			| None -> 

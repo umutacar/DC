@@ -4,7 +4,7 @@ open Printf
 open Utils
 
 
-module Ast = Ast
+module Ast = Il_ast
 module Tex = Tex_syntax
 
 module Atom_lexer = Atom_lexer
