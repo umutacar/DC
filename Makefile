@@ -22,9 +22,6 @@ clean:
 
 
 
-# atom
-atomize.native: $(DEPEND) atom/atomize.ml
-	$(OCB) atomize.native
 
 
 # tex2tex
@@ -47,7 +44,6 @@ texel.profile: $(DEPEND) tex/texel.ml
 
 texel.debug: $(DEPEND) tex/texel.ml
 	$(OCB) -tag debug texel.byte
-
 
 # texml
 texml.native: $(DEPEND) tex/texml.ml
@@ -82,3 +78,45 @@ traverse.profile: $(DEPEND) tex/traverse.ml
 traverse.debug: $(DEPEND) tex/traverse.ml
 	$(OCB) -tag debug traverse.byte
 
+
+bin_macos:
+	cp tex2tex.native bin/macos/tex2tex
+	cp texel.native bin/macos/texel
+	cp texml.native bin/macos/texml
+
+bin_macos_dbg:
+	cp tex2tex.native bin/macos/tex2tex.dbg
+	cp texel.native bin/macos/texel.dbg
+	cp texml.native bin/macos/texml.dbg
+
+bin_ubuntu:
+	cp tex2tex.native bin/ubuntu/tex2tex
+	cp texel.native bin/ubuntu/texel
+	cp texml.native bin/ubuntu/texml
+
+bin_ubuntu_dbg:
+	cp tex2tex.native bin/ubuntu/tex2tex.dbg
+	cp texel.native bin/ubuntu/texel.dbg
+	cp texml.native bin/ubuntu/texml.dbg
+
+
+guide_macos:
+	cp tex2tex.native guide/mtl/bin/macos/tex2tex
+	cp texel.native guide/mtl/bin/macos/texel
+	cp texml.native guide/mtl/bin/macos/texml
+
+guide_macos_dbg:
+	cp tex2tex.native guide/mtl/bin/macos/tex2tex.dbg
+	cp texel.native guide/mtl/bin/macos/texel.dbg
+	cp texml.native guide/mtl/bin/macos/texml.dbg
+
+
+guide_ubuntu:
+	cp tex2tex.native guide/mtl/bin/ubuntu/tex2tex
+	cp texel.native guide/mtl/bin/ubuntu/texel
+	cp texml.native guide/mtl/bin/ubuntu/texml
+
+guide_ubuntu_dbg:
+	cp tex2tex.native guide/mtl/bin/ubuntu/tex2tex.dbg
+	cp texel.native guide/mtl/bin/ubuntu/texel.dbg
+	cp texml.native guide/mtl/bin/ubuntu/texml.dbg

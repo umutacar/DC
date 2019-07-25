@@ -5,19 +5,19 @@ PREAMBLE = ./templates/preamble-mtl.tex
 PANDOC = pandoc --verbose --mathjax -f latex
 
 ifeq ($(OS),Windows_NT)
-	MTL_HOME = ../../mtl/bin/windows
+	MTL_HOME = ../mtl/bin/windows
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		MTL_HOME = ../../mtl/bin/ubuntu
+		MTL_HOME = ../mtl/bin/ubuntu
 	endif
 	ifeq ($(UNAME_S),Darwin)
-		MTL_HOME = ../../mtl/bin/macos
+		MTL_HOME = ../mtl/bin/macos
 	endif
 endif
 
 TEX2XML = $(MTL_HOME)/texml
-TEX2XMLDBG = $(MTL_HOME)/texml.dbg
+TEX2XML_DBG = $(MTL_HOME)/texml.dbg
 
 default: book
 
@@ -30,7 +30,7 @@ FORCE:
 	$(TEX2XML) -meta ./meta -preamble $(PREAMBLE) $< -o $@
 
 %.xmldbg : %.tex
-	$(TEX2XML) -meta ./meta -preamble $(PREAMBLE) $< -o $@
+	$(TEX2XML_DBG) -meta ./meta -preamble $(PREAMBLE) $< -o $@
 
 
 clean: 
