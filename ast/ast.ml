@@ -743,7 +743,7 @@ struct
 				Element_group g				
 		| Element_group g ->
 				Element_group g
-
+					
 	let to_xml tex2html e = 
 		match e with
 		| Element_atom a ->
@@ -1128,6 +1128,9 @@ let assign_labels ast =
 
 let normalize ast = 
 	Segment.normalize ast
+
+let to_md ast = 
+	Segment.to_tex ast
 
 let to_tex ast = 
 	Segment.to_tex ast

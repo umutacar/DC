@@ -5,6 +5,7 @@ open Utils
 
 
 module Ast = Ast
+module Tex = Tex_syntax
 (*
 module Atom_lexer = Atom_lexer
 module Atom_Parser = Atom_parser
@@ -49,15 +50,6 @@ let get_label () =
 let reset_labels () = 
 	labels := [ ]
 
-(* Given kind and segments,
- * partition segments into those that are subsegments of
- * kind and that are not, return them in that order.
- *)
-let nesteds_and_not kind (segments: Ast.segment List.t) = 
-	let is_subsegment s = 
-		Tex.segment_is_nested (Ast.Segment.kind s) kind 		
-	in
-	List.partition_tf segments is_subsegment
 
 let str_of_items items = 
 	str_of_str2_list items

@@ -196,12 +196,12 @@ let p_c_sq = ']' p_hs
 let p_chapter = ("#" as kind) 
 
 let p_section = ("##" as kind)
-let p_subsection = "###" as kind)
+let p_subsection = ("###" as kind)
 let p_subsubsection = ("###" as kind)
 let p_paragraph = ("####" as kind) p_ws												
 
 (* Latex environment: alphabethical chars plus an optional star *)
-let p_env = ```[`]*
+let p_env = ("```"['`']* as kind)
 
 let p_begin_env = p_env
 let p_end_env = p_env
@@ -264,6 +264,21 @@ rule initial = parse
 | _
     {initial lexbuf}		
 
+and take_line  = 		
+  parse
+  | p_newline as x 
+    { x
+    } 
+  | _ as x
+    { let x = str_of_char x in
+(*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
+      let rest = take_line lexbuf in
+      let all =  x ^ rest  in
+(*			let _ = d_printf "skip_inline all = %s\n"  all in *)
+        all
+    } 
+
+
 and skip_inline kind = 		
   (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
   parse
@@ -292,59 +307,6 @@ and skip_env stop_kind =
       { let (y, h_e) = skip_env stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
-
-and take_arg delimiter_open delimiter_close = 
-  parse
-  | p_com_skip p_ws p_o_sq as x 
-		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
-     let h = x ^ arg ^ c_sq in
-     let i = skip_inline kind lexbuf in
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
-		 (h ^ i ^ rest, h_e)
-    }
-
-  (* Important because otherwise lexer will think that it is comment *)
-  | p_percent_esc as x 
-		{
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
-          (x ^ rest, h_e)
-    }
-
-  | p_percent as x   (* comments *)
-   	{ 
-     let y = take_comment lexbuf in
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
-     (* Drop comment, including newline at the end of the comment.   *)
-     (rest, h_e)
-     } 
-
-  | _ as x
-    {
-     let x = str_of_char x in
-(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
-     (* Tricky: check close first so that you can handle 
-        a single delimeter used for both open and close,
-        as in lstinline.
-      *)
-		 if x = delimiter_close then
-			 let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
-(*				 let _ = d_printf "exit\n" in *)
-         ("", x)
-       else
-         let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
-         (x ^ arg, c_c)					 
-		 else if x = delimiter_open then
-			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
-			 (x ^ arg, c_c)
-		 else
-			 let (rest, c_c) = take_arg delimiter_open delimiter_close lexbuf in
-       (x ^ rest, c_c)
-    }
 
 and skip_arg delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)

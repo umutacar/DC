@@ -2,17 +2,20 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I atom -I english  -I tex -I xml -I pervasives 
+OCB_FLAGS = -use-ocamlfind -package re2 -package core -I ast -I atom -I english -I md -I pervasives  -I tex -I xml 
 OCB = ocamlbuild $(OCB_FLAGS)
 DEPEND = \
   ast/ast.ml \
   atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
+  md/md_lexer.mll md/md_parser.mly md/md2md.ml \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
-default: tex2tex.native texel.native texmlt.native texml.native
-all: tex2tex.native texel.native texmlt.native texml.native
+default: md2md.native \
+  tex2tex.native texel.native texmlt.native texml.native
+all: md2md.native\
+  tex2tex.native texel.native texmlt.native texml.native
 
 clean:
 	$(OCB) -clean
@@ -22,7 +25,9 @@ clean:
 
 
 
-
+# md2md
+md2md.native: $(DEPEND) md/md2md.ml
+	$(OCB) md2md.native
 
 # tex2tex
 tex2tex.native: $(DEPEND) tex/tex2tex.ml
