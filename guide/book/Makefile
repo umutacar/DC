@@ -16,8 +16,8 @@ else
 	endif
 endif
 
-TEX2XML = $(MTL_HOME)/texmlt
-TEX2XMLDBG = $(MTL_HOME)/texmlt.dbg
+TEX2XML = $(MTL_HOME)/texml
+TEX2XMLDBG = $(MTL_HOME)/texml.dbg
 
 default: book
 
