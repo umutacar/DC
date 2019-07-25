@@ -201,10 +201,10 @@ let p_subsubsection = ("###" as kind)
 let p_paragraph = ("####" as kind) p_ws												
 
 (* Latex environment: alphabethical chars plus an optional star *)
-let p_env = ("```"['`']* as kind)
+let p_codeblock = "```"['`']*
 
-let p_begin_env = p_env
-let p_end_env = p_env
+let p_begin_env = (p_codeblock as kind) | '<' p_ws (p_alpha+ as kind) p_ws '>'
+let p_end_env = (p_codeblock as kind) | "</" p_ws (p_alpha+ as kind) p_ws '>'
 (* end: environments *)
 
 
@@ -233,9 +233,11 @@ rule initial = parse
 
 | (p_begin_env as x)
     {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
+     let _ = d_printf "!lexer matched begin env %s." kind in 
      let (body, y) = skip_env kind lexbuf in
      let env = x ^ body ^ y in
+     let _ = d_printf "!lexer matched env %s." env in 
+
        CHUNK(env, None)
 }
 
@@ -296,10 +298,13 @@ and skip_env stop_kind =
   (* Assumes non-nested environments *)
   parse
   | p_end_env as x
-      { (* let _ = d_printf "!lexer: exiting environment\n" in *)
+      { 
+       let _ = d_printf "!lexer: end environment kind= %s stop kind = %s\n" kind stop_kind in 
           if kind = stop_kind then
+            let _ = d_printf "!lexer: exiting environment stop kind = %s\n" stop_kind in 
 						("", x)
           else 
+            let _ = d_printf "!lexer: not exiting environment kind = %s\n" kind  in 
             let (y, h_e) = skip_env stop_kind lexbuf in
 						(x ^ y, h_e)
       }
