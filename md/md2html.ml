@@ -63,9 +63,9 @@ let get_single_paragraph_status kind =
 
 (* END: Associative list for single par *)
 
-let latex_document_header = "\\documentclass{article}" 
-let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotdrop}[1]{}"
-let latex_end_document = "\\end{document}"
+let md_document_header = ""
+let md_begin_document = ""
+let md_end_document = ""
 
 (** generate standalone html files
  **
@@ -140,14 +140,14 @@ let text_prep s =
  ** BEGIN: Utils
  **********************************************************************)
 (* Create a latex document from contents and preamble *)
-let mk_tex_document latex_file_name preamble contents =
-	let latex_file = Out_channel.create latex_file_name in
-	let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
-	let () = Out_channel.output_string latex_file (preamble ^ "\n") in
-	let () = Out_channel.output_string latex_file (latex_begin_document ^ "\n") in
-	let () = Out_channel.output_string latex_file (contents ^ "\n") in
-	let () = Out_channel.output_string latex_file (latex_end_document ^ "\n") in
-	let () = Out_channel.close latex_file in
+let mk_md_document md_file_name preamble contents =
+	let md_file = Out_channel.create md_file_name in
+	let () = Out_channel.output_string md_file (md_document_header ^ "\n") in
+	let () = Out_channel.output_string md_file (preamble ^ "\n") in
+	let () = Out_channel.output_string md_file (md_begin_document ^ "\n") in
+	let () = Out_channel.output_string md_file (contents ^ "\n") in
+	let () = Out_channel.output_string md_file (md_end_document ^ "\n") in
+	let () = Out_channel.close md_file in
 	()
 (**********************************************************************
  ** END: Utils
@@ -155,18 +155,18 @@ let mk_tex_document latex_file_name preamble contents =
 
 
 
-(* Translate the contents of latex_file_name and write it into
+(* Translate the contents of md_file_name and write it into
  *  html_file_name
  * Ignores all but the first language
  *)
-let latex_file_to_html be_verbose meta_dir language_opt (latex_file_name, html_file_name) = 
+let md_file_to_html be_verbose meta_dir language_opt (md_file_name, html_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
 
-    let command = (set_pandoc be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
-    let _ = printf "\n*latex_file_to_html: Executing command: %s\n" command in
+    let command = (set_pandoc be_verbose meta_dir language_opt) ^ " " ^ md_file_name ^  " -o " ^ html_file_name  in
+    let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
         begin
@@ -177,7 +177,7 @@ let latex_file_to_html be_verbose meta_dir language_opt (latex_file_name, html_f
         end
       else
         begin
-          printf "LaTex code is in file: %s\n" latex_file_name;
+          printf "LaTex code is in file: %s\n" md_file_name;
           printf "HTML code is in file: %s\n" html_file_name
         end
 
@@ -237,11 +237,11 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 		| lang::[ ] -> Some lang
 		| _ -> error_out languages
 	in
-  let latex_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
-  let _ = mk_tex_document latex_file_name preamble contents in
+  let md_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
+  let _ = mk_md_document md_file_name preamble contents in
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let () = latex_file_to_html be_verbose meta_dir  language_opt (latex_file_name, html_file_name) in
+  let () = md_file_to_html be_verbose meta_dir  language_opt (md_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
 	if not match_single_paragraph then
 (*      let _ = printf "html: %s" html in *)
