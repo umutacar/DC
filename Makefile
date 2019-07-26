@@ -8,9 +8,10 @@ OCB = ocamlbuild $(OCB_FLAGS)
 #  il/il_syntax.ml il/il_ast.ml \
 
 DEPEND = \
+  ast/ast.ml \
   atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
-  md/md_lexer.mll md/md_parser.mly md/md_syntax.ml  md/md2md.ml md/mdxml.ml  \
+  md/md_lexer.mll md/md_parser.mly md/md_syntax.ml md/md2html.ml  md/md2md.ml md/mdxml.ml  \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 

@@ -4,7 +4,7 @@ open Lexing
 module Ast = Ast
 module Lexer = Md_lexer
 module Parser = Md_parser
-module Translator = Tex2html
+module Translator = Md2html
 
 let file_extension_xml = ".xml"
 let verbose = ref false

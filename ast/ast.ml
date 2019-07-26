@@ -131,7 +131,7 @@ struct
   (* Traverse cookie by applying f to its fields *) 
   let traverse cookie state f = 
 		let {kind; point_val; title; label; body} = cookie in
-		let _ = d_printf "Cookie.traverse: %s " kind in
+		let _ = d_printf "Cookie.traverse: %s \n" kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -183,7 +183,7 @@ struct
     	(tt, tb)
 
   let body_to_xml translator cookie =
-		let _ = d_printf "cookie.body_to_xml: cookie = %s" cookie.kind in
+		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
 		translator Xml.body cookie.body
 
   let to_xml translator cookie = 
@@ -244,7 +244,7 @@ struct
   (* Traverse prompt by applying f to its fields *) 
   let traverse prompt state f = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let _ = d_printf "Prompt.traverse: %s " kind in
+		let _ = d_printf "Prompt.traverse: %s\n" kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -303,7 +303,7 @@ struct
     	(tt_all, tb_all)
 
   let body_to_xml translator prompt =
-		let _ = d_printf "prompt.body_to_xml: prompt = %s" prompt.kind in
+		let _ = d_printf "prompt.body_to_xml: prompt = %s\n" prompt.kind in
 		translator Xml.body prompt.body
 
   (* TODO incorporate cookies. *)
@@ -375,7 +375,7 @@ struct
 		let f_tr_cookie state prompt = Cookie.traverse prompt state f in
 		let f_tr_prompt state prompt = Prompt.traverse prompt state f in
   
-		let _ = d_printf "Problem.traverse: %s " kind in
+		let _ = d_printf "Problem.traverse: %s\n" kind in
 		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
 		let s = List.fold_left cookies ~init:s ~f:f_tr_cookie in
 		List.fold_left prompts ~init:s ~f:f_tr_prompt
@@ -437,7 +437,7 @@ struct
 		(tt_all, tb_all)
 
   let body_to_xml translator problem =
-		let _ = d_printf "problem.body_to_xml: problem = %s" problem.kind in
+		let _ = d_printf "problem.body_to_xml: problem = %s\n" problem.kind in
 		translator Xml.body problem.body
 
   let to_xml translator problem = 
@@ -518,7 +518,8 @@ struct
   (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
 		let {kind; point_val; title; label; depend; problem; body} = atom in
-		let _ = d_printf "Atom.traverse: %s " kind in
+		let _ = d_printf "Atom.traverse: kind = %s \n" kind in
+(*		let _ = d_printf "Atom.traverse: body = %s \n" body in *)
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -604,7 +605,7 @@ struct
 
   let body_to_xml translator atom =
 		if atom.kind = Xml.lstlisting then
-			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram" atom.kind in
+			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram\n" atom.kind in
 			let _ = atom.kind <- Xml.gram in
 			let title = str_of_str_opt atom.title in
 			let newbody = 
@@ -614,13 +615,13 @@ struct
 			in
 			let (newbody_c, languages) = sanitize_lst_language newbody in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
-      let _ = d_printf "newbody sanitized:\n %s" newbody_c in
+      let _ = d_printf "newbody sanitized:\n %s\n" newbody_c in
 			let _ = atom.body <- newbody_c in
 			let _ = atom.title <- None in
 			let body_xml = translator Xml.body newbody_c in
 			body_xml
 		else
-			let _ = d_printf "body_to_xml: atom = %s, Not promoting" atom.kind in
+			let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
       let body = atom.body in
 			let (body_c, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
@@ -700,7 +701,7 @@ struct
 		let s = f Ast_group state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
 
 		let atom_tr_f state atom = Atom.traverse atom state f in
-		let _ = d_printf "Group.traverse: %s " kind in
+		let _ = d_printf "Group.traverse: %s \n" kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -953,7 +954,7 @@ struct
   let rec traverse segment state f = 
 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
+		let _ = d_printf "Segment.traverse: %s title = %s\n" kind title in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -1093,6 +1094,7 @@ struct
 
   let rec to_xml translator segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+    let _ = d_printf "ast.segment.to_xml: title = %s\n" title in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title (Some title) in
     let depend = depend_to_xml depend in
@@ -1170,7 +1172,7 @@ let check_preamble ast: bool =
 		| Ast_atom ->
 				let Some (kind) = kind in
 				if kind = Xml.preamble then
-					let _ = d_printf "Preamble found: pos = %d, found = %d" no found in
+					let _ = d_printf "Preamble found: pos = %d, found = %d\n" no found in
 					(no+1, found + 1)
 				else
 					(no+1, found)
@@ -1232,8 +1234,17 @@ let collect_labels ast: Labels.t =
 let assign_labels ast = 
 	let label_set = collect_labels ast in
   let chlabel = Segment.label ast in
+
+  (* HACK ALERT.  THIS SHOULD NOT PASS.
+   * TODO: THERE SHOULD BE A CHAPTER LABEL.
+   *)
+  let chlabel = 
 	 match chlabel with 
-	 | None -> (printf "Fatal Error." ; exit 1)
+	 | None -> Some "make_up_label_for_md"
+   | Some x -> Some x
+  in
+	 match chlabel with 
+	 | None -> (printf "ast.assign_labels: Fatal Error. Chapter found without label" ; exit 1)
 	 | Some chl -> 
      let prefix = Labels.drop_label_prefix chl in
        Segment.assign_label prefix label_set ast 
