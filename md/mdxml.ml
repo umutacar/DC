@@ -9,7 +9,8 @@ module Translator = Md2html
 let file_extension_xml = ".xml"
 let verbose = ref false
 let do_inline = ref false
-let default_lang = ref None
+(* Specify type, so inference can proceed *)
+let default_lang: string option ref = ref None
 let meta_dir = ref "."  (* Current directory by default *)
 let tmp_dir = ref "/tmp"
 let bib_file = ref None

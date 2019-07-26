@@ -92,15 +92,13 @@ let pandoc =  pandoc_minor
  * This file should be in the "kate" directory specified.
  *)
    
-let set_pandoc be_verbose meta_dir language = 
-  let lang = 
-		match language with 
-    | None -> ""
-    | Some l -> " --syntax-definition=" ^ meta_dir ^ "/" ^ l ^ ".xml"
-  in
-	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" ^ lang in
-    if be_verbose then
-      pandoc_verbose_minor ^ filter
+let set_pandoc be_verbose meta_dir language =    
+  (* pandoc knows how to handle languages in markdown.
+   * no lua-filtering needed.
+   *)
+  let filter = "" in
+  if be_verbose then
+    pandoc_verbose_minor ^ filter
 (*
       pandoc_verbose_minor ^ " --lua-filter ./pandoc/filters/codeblock.lua" ^ lang 
 *)
@@ -115,22 +113,9 @@ let regexp_caption = Str.regexp Md.pattern_caption
 
 (* prep string for conversion *)
 let text_prep s = 
-  (* Replace NEWLINE with SPACE + NEWLINE
-   * This prevents some math conversion problems by making sure that 
-   * operators have a space after them in case they had a NEWLINE
-   *)
-  let s = Str.global_replace regexp_newline " \n" s in
+  (* Delete vertical space around the atom *)    
+  (String.strip ~drop:is_vert_space s)
 
-  (* Replace \label{label} declarations with space. 
-   * We label things ourselves and don't need them in the xml.
-   *)
-
-  let s = Str.global_replace regexp_label " " s in
-
-  (* Delete \caption with \diderotdrop. *)
-  let s = Str.global_replace regexp_caption "\\diderotdrop" s in
-
-	s
 
 (*********************************************************************
  ** END: Globals
@@ -216,7 +201,7 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, html_file_name) 
  ** match specifies that what is expected is a single paragraph
  **)
 
-let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
+let md_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
 	let error_out languages = 
 		let _ = printf "Parse Error: MTL allows one programming language per atom.\n" in
 		let _ = printf "This atom has multiple, i.e., %s" (str_of_str_list languages) in
@@ -229,14 +214,7 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
      This is not always safe because % can appear inside verbatime environments.
      The hope is that this is not going to cause a huge problem.
    *)
-  let languages = dedup_str_list (find_lang (rm_comments contents))  in
-  let _ = printf "languages found = %s" (str_of_str_list languages) in
-	let language_opt = 
-		match languages with 
-		| [ ] -> default_lang_opt
-		| lang::[ ] -> Some lang
-		| _ -> error_out languages
-	in
+	let language_opt =  None in
   let md_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ md_extension in
   let _ = mk_md_document md_file_name preamble contents in
   (** translate to html **)
@@ -299,7 +277,7 @@ let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents =
  **
  **)
 let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preamble contents is_single_paragraph = 
-	tex_to_html 
+	md_to_html 
 		be_verbose tmp_dir meta_dir lang_opt_default 
 		unique preamble contents is_single_paragraph
 
