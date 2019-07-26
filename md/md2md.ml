@@ -1,5 +1,5 @@
-(* texel.ml 
- * Elaborator tool for LaTex.
+(* md2md.ml 
+ * Read in markdown, lex + parse, generate ast, and write it out.
  *) 
 open Core
 open Lexing

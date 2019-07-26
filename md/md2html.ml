@@ -1,5 +1,5 @@
 (**********************************************************************
- ** tex/tex2html.ml
+ ** md/md2html.ml
  ** Provides the function mk_translator 
  ** which returns a function that translates tex to html using pandoc.
  **********************************************************************)
