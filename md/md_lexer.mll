@@ -4,7 +4,7 @@ open Printf
 open Utils
 
 open Md_parser
-open Il_syntax
+open Md_syntax
 (* Turn off prints *)
 (*
 let d_printf args = 
@@ -229,7 +229,7 @@ rule initial = parse
      let title = take_line lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
      let _ = d_printf "!lexer matched segment title =  %s" title in 
-     let kind = kind_of_segment kind in
+     let kind = il_kind_of_segment kind in
        KW_HEADING(kind, title, None)
     }		
 

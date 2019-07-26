@@ -6,7 +6,7 @@ open Lexing
 open Utils
 
 
-module Ast = Il_ast
+module Ast = Ast
 module Lexer = Tex_lexer
 module Parser = Tex_parser
 

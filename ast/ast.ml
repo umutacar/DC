@@ -7,6 +7,7 @@ let d_printf args =
     ifprintf stdout args
 
 module Labels = Tex_labels
+module Md = Md_syntax
 module Tex = Tex_syntax
 module Words = English_words
 module Xml = Xml_syntax
@@ -149,6 +150,19 @@ struct
 		  heading ^ " " ^ l ^ 
 		  body 
 
+  let to_md prompt = 
+		let {kind; point_val; title; label; body} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let heading = Md.mk_command kind point_val in
+		let l = 
+			if label_is_given prompt then	""
+			else Md.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body 
+
 
   (* If cookie doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
@@ -247,6 +261,20 @@ struct
 		let l = 
 			if label_is_given prompt then	""
 			else Tex.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body ^ cookies
+
+  let to_md prompt = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let heading = Md.mk_command kind point_val in
+		let cookies = map_concat_with newline Cookie.to_md cookies in
+		let l = 
+			if label_is_given prompt then	""
+			else Md.mk_label label 
 
 		in
 		  heading ^ " " ^ l ^ 
@@ -367,6 +395,19 @@ struct
 		let d = Tex.mk_depend depend in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
 		let prompts = map_concat_with newline Prompt.to_tex prompts in
+		  heading ^ " " ^ l ^  d ^ 
+      body ^ cookies ^ prompts
+
+  let to_md problem = 
+		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let heading = Md.mk_command kind point_val in
+		let l = Md.mk_label label in
+		let d = Md.mk_depend depend in
+		let cookies = map_concat_with newline Cookie.to_md cookies in
+		let prompts = map_concat_with newline Prompt.to_md prompts in
 		  heading ^ " " ^ l ^  d ^ 
       body ^ cookies ^ prompts
 
@@ -510,6 +551,32 @@ struct
 		  body ^ newline ^ problem ^ newline ^
       h_end		
 
+  let to_md atom = 
+		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let problem = 
+			match problem with 
+			| None -> ""
+			| Some problem -> Problem.to_md problem 
+		in
+		let h_begin = Md.mk_begin kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l = 
+			if label_is_given atom then	""
+			else Md.mk_label label 
+
+		in
+		let d = Md.mk_depend depend in		
+    let a = 
+		  h_begin ^
+		  l ^ 
+		  d ^ 
+		  body ^ newline ^ problem ^ newline ^
+      h_end		
+    in
+      (String.strip ~drop:is_vert_space a) ^ newline
 
 
   (* If atom doesn't have a label, then
@@ -654,6 +721,22 @@ struct
 		  d ^ 
 		  atoms ^ h_end		
 
+  let to_md group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let h_begin = Md.mk_begin kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l = Md.mk_label label in
+		let d = Md.mk_depend depend in
+		let atoms = map_concat_with newline Atom.to_md atoms in
+		  h_begin ^ 
+		  l ^ 
+		  d ^ 
+		  atoms ^ h_end		
+
+
   (* If group doesn't have a label, then
 	 * assign fresh label to each atom (unique wrt label_set).
    * Return the updated label set.
@@ -723,6 +806,14 @@ struct
 		| Element_group g ->
 				Group.to_tex g
 
+	let to_md e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_md a
+		| Element_group g ->
+				Group.to_md g
+
+
   (* If block doesn't have a label, then
 	 * assign fresh label the block (unique wrt label_set).
 	 * To assign label use words from title and body.
@@ -784,6 +875,9 @@ struct
 
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
+
+	let to_md b = 
+		map_concat_with "\n" Element.to_md (elements b)
 
   (* We don't assign labels to blocks, but 
 	 * tokenize the contents.
@@ -906,6 +1000,23 @@ struct
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
+
+  let rec to_md segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let h_begin = Md.mk_segment_header kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l_opt = Md.mk_label label in
+		let d_opt = Md.mk_depend depend in
+		let block = Block.to_md block in
+		let subsegments = map_concat_with "\n" to_md subsegments in
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
+		  block ^ newline ^ 
+      subsegments
+
 (*
   let rec to_tex segment =
 		to_tex_level 0 segment
@@ -1130,7 +1241,7 @@ let normalize ast =
 	Segment.normalize ast
 
 let to_md ast = 
-	Segment.to_tex ast
+	Segment.to_md ast
 
 let to_tex ast = 
 	Segment.to_tex ast

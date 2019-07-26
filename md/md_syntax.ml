@@ -6,7 +6,7 @@
 open Core
 open Utils
 
-module Il = Il_syntax
+module Il = Tex_syntax
 
 exception Md_syntax_error
 
@@ -119,16 +119,31 @@ let numbers = "numbers"
 *)
 (* END: label prefixes *)
 (* Utilities *)
-let kw_of_segment s = 
-  if s = Il.segment_chapter then
+let il_kind_of_segment kind = 
+  if kind = kw_chapter then
+		Il.kw_chapter
+  else if kind = kw_section then
+		Il.kw_section
+  else if kind = kw_subsection then
+		Il.kw_subsection
+  else if kind = kw_subsubsection then
+		Il.kw_subsubsection
+  else if kind = kw_paragraph then
+		Il.kw_paragraph
+  else
+    raise Md_syntax_error 
+
+
+let md_of_il_segment s = 
+  if s = Il.kw_chapter then
 		kw_chapter
-  else if s = Il.segment_section then
+  else if s = Il.kw_section then
 		kw_section
-  else if s = Il.segment_subsection then
+  else if s = Il.kw_subsection then
 		kw_subsection
-  else if s = Il.segment_subsubsection then
+  else if s = Il.kw_subsubsection then
 		kw_subsubsection
-  else if s = Il.segment_paragraph then
+  else if s = Il.kw_paragraph then
 		kw_paragraph
   else
     raise Md_syntax_error 
@@ -185,7 +200,7 @@ let mk_command kind p =
   ""
 
 let mk_segment_header kind p t = 
-  let kw =  kw_of_segment kind in
+  let kw =  md_of_il_segment kind in
     kw ^ space ^ t ^ newline
 
 let mk_begin name p t = 
