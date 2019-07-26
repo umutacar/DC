@@ -108,7 +108,7 @@ let mk_problem items =
 
 %start top
 
-%type <Ast.ast option> top
+%type <Il_ast.ast option> top
 
 /*  BEGIN RULES */
 %%
