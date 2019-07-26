@@ -546,7 +546,7 @@ struct
 			else Tex.mk_label label 
 
 		in
-		let d = Tex.mk_depend depend in		
+		let d = Tex.mk_depend depend in		    
 		  h_begin ^
 		  l ^ 
 		  d ^ 
@@ -571,11 +571,15 @@ struct
 
 		in
 		let d = Md.mk_depend depend in		
+    let a = 
 		  h_begin ^
 		  l ^ 
 		  d ^ 
 		  body ^ newline ^ problem ^ newline ^
       h_end		
+    in
+      (String.strip ~drop:is_vert_space a) ^ newline
+
 
 
 

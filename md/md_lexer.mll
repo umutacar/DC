@@ -224,7 +224,7 @@ let p_heading = p_segment
 
 rule initial = parse
 
-| (p_heading as x)
+| (p_heading as x) p_hs
     {
      let title = take_line lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
