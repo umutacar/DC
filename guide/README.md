@@ -241,20 +241,20 @@ You can use colors as follows
 ```
 
 ### Code
-Use lstinline and always specify the language as first option
+Use `lstinline` and always specify the language as first option
 
 Example:
-'''
+```
 \begin{lstinline}[language=C, numbers=left]
 ...
 \end{lstinline}
-'''
+```
 
-'''
+```
 \begin{lstinline}[language={[C0]C}, numbers=left]
 ...
 \end{lstinline}
-'''
+```
 
 ### Limitations
 
