@@ -2,10 +2,10 @@ open Core
 open Utils
 
 (* Turn off all prints *)
-
+(*
 let d_printf args = 
     ifprintf stdout args
-
+*)
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax
@@ -51,16 +51,16 @@ let tokenize sa_opt sb_opt =
 	(mk sa_opt, mk sb_opt)
 
 (* Translate string to xml *)
-let str_to_xml tex2html kind source =
-	let source_xml = tex2html kind source in
+let str_to_xml translator kind source =
+	let source_xml = translator kind source in
     (source_xml, source)
 
 (* Translate source string option to xml, return both *)
-let str_opt_to_xml tex2html kind source_opt =
+let str_opt_to_xml translator kind source_opt =
    match source_opt with 
    | None -> None 
    | Some source -> 
-			 let source_xml = tex2html kind source  in
+			 let source_xml = translator kind source  in
        Some (source_xml, source)
 
 let depend_to_xml dopt = 
@@ -182,17 +182,17 @@ struct
 		in
     	(tt, tb)
 
-  let body_to_xml tex2html cookie =
+  let body_to_xml translator cookie =
 		let _ = d_printf "cookie.body_to_xml: cookie = %s" cookie.kind in
-		tex2html Xml.body cookie.body
+		translator Xml.body cookie.body
 
-  let to_xml tex2html cookie = 
+  let to_xml translator cookie = 
 		let {kind; point_val; title; label; depend; body} = cookie in
 		(* Translate body to xml *)
-    let body_xml = body_to_xml tex2html cookie in
+    let body_xml = body_to_xml translator cookie in
 		let point_val = normalize_point_val point_val in
     let depend = depend_to_xml depend in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
 		let r = 
 			Xml.mk_cookie 
 				~kind:kind 
@@ -302,18 +302,18 @@ struct
 		in
     	(tt_all, tb_all)
 
-  let body_to_xml tex2html prompt =
+  let body_to_xml translator prompt =
 		let _ = d_printf "prompt.body_to_xml: prompt = %s" prompt.kind in
-		tex2html Xml.body prompt.body
+		translator Xml.body prompt.body
 
   (* TODO incorporate cookies. *)
-  let to_xml tex2html prompt = 
+  let to_xml translator prompt = 
 		let {kind; point_val; title; label; depend; body; cookies} = prompt in
 		(* Translate body to xml *)
-    let body_xml = body_to_xml tex2html prompt in
+    let body_xml = body_to_xml translator prompt in
 		let point_val = normalize_point_val point_val in
     let depend = depend_to_xml depend in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
 		let r = 
 			Xml.mk_prompt 
 				~kind:kind 
@@ -436,18 +436,18 @@ struct
 		in
 		(tt_all, tb_all)
 
-  let body_to_xml tex2html problem =
+  let body_to_xml translator problem =
 		let _ = d_printf "problem.body_to_xml: problem = %s" problem.kind in
-		tex2html Xml.body problem.body
+		translator Xml.body problem.body
 
-  let to_xml tex2html problem = 
+  let to_xml translator problem = 
 		let {kind; point_val; title; label; depend; body; cookies; prompts} = problem in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
     let depend = depend_to_xml depend in
-    let body_xml = body_to_xml tex2html problem in
-		let cookies = map_concat_with newline (Cookie.to_xml tex2html) cookies in
-		let prompts = map_concat_with newline (Prompt.to_xml tex2html) prompts in
+    let body_xml = body_to_xml translator problem in
+		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
+		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
 		let r = 
 			Xml.mk_problem 
 				~kind:kind 
@@ -602,7 +602,7 @@ struct
 		in
     	(tt_all, tb_all)
 
-  let body_to_xml tex2html atom =
+  let body_to_xml translator atom =
 		if atom.kind = Xml.lstlisting then
 			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram" atom.kind in
 			let _ = atom.kind <- Xml.gram in
@@ -617,7 +617,7 @@ struct
       let _ = d_printf "newbody sanitized:\n %s" newbody_c in
 			let _ = atom.body <- newbody_c in
 			let _ = atom.title <- None in
-			let body_xml = tex2html Xml.body newbody_c in
+			let body_xml = translator Xml.body newbody_c in
 			body_xml
 		else
 			let _ = d_printf "body_to_xml: atom = %s, Not promoting" atom.kind in
@@ -625,20 +625,20 @@ struct
 			let (body_c, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "body sanitized:\n %s" body_c in
-			tex2html Xml.body body_c
+			translator Xml.body body_c
 			
-  let to_xml tex2html atom = 
+  let to_xml translator atom = 
 		(* Translate body to xml *)
-    let body_xml = body_to_xml tex2html atom in
+    let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
 		let {kind; point_val; title; label; depend; problem; body} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
 		let problem_xml:string = 
 			match problem with 
 			| None -> ""
-			| Some problem -> Problem.to_xml tex2html problem 
+			| Some problem -> Problem.to_xml translator problem 
 		in
 		let r = 
 			Xml.mk_atom 
@@ -757,12 +757,12 @@ struct
 		in
 		(tt_all, tb_all)
 
-  let to_xml tex2html group = 
+  let to_xml translator group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
     let depend = depend_to_xml depend in
-		let atoms = map_concat_with newline (Atom.to_xml tex2html) atoms in
+		let atoms = map_concat_with newline (Atom.to_xml translator) atoms in
 		let r = 
 			Xml.mk_group 
 				~kind:kind 
@@ -835,12 +835,12 @@ struct
 		| Element_group g ->
 				Element_group g
 					
-	let to_xml tex2html e = 
+	let to_xml translator e = 
 		match e with
 		| Element_atom a ->
-				Atom.to_xml tex2html a
+				Atom.to_xml translator a
 		| Element_group g ->
-				Group.to_xml tex2html g
+				Group.to_xml translator g
 
 end
 
@@ -892,9 +892,9 @@ struct
 		let elements = List.map elements ~f:Element.normalize in
 		  block.elements <- elements
 
-  let to_xml tex2html block = 
+  let to_xml translator block = 
 		let {point_val; label; elements} = block in
-		let elements = map_concat_with newline (Element.to_xml tex2html) elements in
+		let elements = map_concat_with newline (Element.to_xml translator) elements in
 		elements
 
 
@@ -951,6 +951,7 @@ struct
 
   (* Traverse (pre-order) group by applying f to its fields *) 
   let rec traverse segment state f = 
+
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
 (*
@@ -1090,13 +1091,13 @@ struct
 		()
 
 
-  let rec to_xml tex2html segment = 
+  let rec to_xml translator segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title (Some title) in
+    let titles = str_opt_to_xml translator Xml.title (Some title) in
     let depend = depend_to_xml depend in
-		let block =  Block.to_xml tex2html block in
-		let subsegments = map_concat_with newline (to_xml tex2html) subsegments in
+		let block =  Block.to_xml translator block in
+		let subsegments = map_concat_with newline (to_xml translator) subsegments in
 		let body = block ^ newline ^ subsegments in
 		let r = 
 			Xml.mk_group 
@@ -1169,7 +1170,7 @@ let check_preamble ast: bool =
 		| Ast_atom ->
 				let Some (kind) = kind in
 				if kind = Xml.preamble then
-					let _ =d_printf "Preamble found: pos = %d, found = %d" no found in
+					let _ = d_printf "Preamble found: pos = %d, found = %d" no found in
 					(no+1, found + 1)
 				else
 					(no+1, found)
@@ -1246,18 +1247,18 @@ let to_md ast =
 let to_tex ast = 
 	Segment.to_tex ast
 
-let to_xml tex2html ast = 
-	let xml:string = Segment.to_xml tex2html ast in
+let to_xml atom_translator ast = 
+	let xml:string = Segment.to_xml atom_translator ast in
 	Xml.mk_standalone xml 
 
 (* Ast validation *)
 let validate ast = 
   let passed = check_preamble ast in
 	if passed then
-		(printf "Ast validation passed.\n";
+		(printf "ast.ast: Ast validation passed.\n";
 		 ast)
 	else
-		(printf "Fatal Error: Ast validation failed. Terminating.\n";
+		(printf "ast.ast: Fatal Error: Ast validation failed. Terminating.\n";
 		 exit 1)
  
 (* Create a problem from items *)
