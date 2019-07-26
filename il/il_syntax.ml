@@ -14,11 +14,22 @@ let d_printf args =
 let d_printf_strlist x y = 
 	()
 
-let segment_chapter = "0"
-let segment_section = "1"
-let segment_subsection = "2"
-let segment_subsubsection = "3"
-let segment_paragraph = "4"
+let newline = "\n"
+let space = " "
+let correct_choice_indicator = "*"
+
+
+let segment_chapter = "1"
+let segment_section = "2"
+let segment_subsection = "3"
+let segment_subsubsection = "4"
+let segment_paragraph = "5"
+
+let kw_chapter = "#"
+let kw_section = "##"
+let kw_subsection = "###"
+let kw_subsubsection = "####"
+let kw_paragraph = "#####"
 
 let kw_cluster = "cluster"
 let kw_problem_cluster = "mproblem"
@@ -64,6 +75,16 @@ let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
 let kw_part = "\\part"
 
+(* BEGIN: Keywords *)
+let com_depend = "\\depend"
+let com_explain = "\\explain"
+let com_hint = "\\help"
+let com_label = "\\label"
+let com_notes = "\\notes"
+let com_rubric = "\\rubric"
+let com_solution = "\\sol"
+
+
 (* END: Keywords *)
 
 (* BEGIN: lstlisting arguments *)
@@ -99,24 +120,48 @@ let prompt_kinds =
   ]
 
 
+let cookie_kinds = 
+  [
+   com_explain, ();
+   com_hint, ();
+   com_notes, ();
+   com_rubric, ();
+   com_solution, ()
+  ]
 
 (* Utilities *)
 let kind_of_segment kind = 
-  if kind = "#" then
+  if kind = kw_chapter then
 		segment_chapter
-  else if kind = "##" then
+  else if kind = kw_section then
 		segment_section
-  else if kind = "###" then
+  else if kind = kw_subsection then
 		segment_subsection
-  else if kind = "####" then
+  else if kind = kw_subsubsection then
 		segment_subsubsection
-  else if kind = "#####" then
+  else if kind = kw_paragraph then
 		segment_paragraph
   else
     raise Il_syntax_error 
 
 (* is subseg nested in segment seg ? *)
 let segment_is_nested subseg seg = 
-  (int_of_string subseg) < (int_of_string seg)
+  (int_of_string subseg) > (int_of_string seg)
 
+let is_atom_captionable kind = 
+	kind = kw_figure || kind = kw_table		
 
+let is_cookie kind = 
+   match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_problem kind = 
+   match List.Assoc.find problem_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_prompt kind = 
+   match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false

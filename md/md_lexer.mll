@@ -271,7 +271,7 @@ rule initial = parse
 and take_line  = 		
   parse
   | p_newline as x 
-    { x
+    { ""
     } 
   | _ as x
     { let x = str_of_char x in

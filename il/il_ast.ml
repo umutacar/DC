@@ -7,7 +7,10 @@ let d_printf args =
     ifprintf stdout args
 
 module Labels = Tex_labels
+module Il = Il_syntax
+module Md = Md_syntax
 module Tex = Tex_syntax
+
 module Words = English_words
 module Xml = Xml_syntax
 
@@ -16,9 +19,9 @@ type ast_member = Ast_cookie | Ast_prompt | Ast_problem | Ast_atom | Ast_group |
 (**********************************************************************
  ** BEGIN: Constants
  *********************************************************************)
-let newline = Tex.newline
-let space = Tex.space
-let correct_choice_indicator = Tex.correct_choice_indicator
+let newline = Il.newline
+let space = Il.space
+let correct_choice_indicator = Il.correct_choice_indicator
 
 let points_correct = 1.0
 let points_incorrect = 0.0
@@ -149,6 +152,19 @@ struct
 		  heading ^ " " ^ l ^ 
 		  body 
 
+  let to_md prompt = 
+		let {kind; point_val; title; label; body} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let heading = Md.mk_command kind point_val in
+		let l = 
+			if label_is_given prompt then	""
+			else Md.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body 
+
 
   (* If cookie doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
@@ -252,6 +268,20 @@ struct
 		  heading ^ " " ^ l ^ 
 		  body ^ cookies
 
+  let to_md prompt = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let heading = Md.mk_command kind point_val in
+		let cookies = map_concat_with newline Cookie.to_md cookies in
+		let l = 
+			if label_is_given prompt then	""
+			else Md.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body ^ cookies
+
 
   (* If prompt doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
@@ -329,7 +359,7 @@ struct
 	let prompts p = p.prompts
 
 	let make  
-			?kind: (kind = Tex.kw_cluster) 
+			?kind: (kind = Il.kw_cluster) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?label: (label = None) 
@@ -367,6 +397,19 @@ struct
 		let d = Tex.mk_depend depend in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
 		let prompts = map_concat_with newline Prompt.to_tex prompts in
+		  heading ^ " " ^ l ^  d ^ 
+      body ^ cookies ^ prompts
+
+  let to_md problem = 
+		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let heading = Md.mk_command kind point_val in
+		let l = Md.mk_label label in
+		let d = Md.mk_depend depend in
+		let cookies = map_concat_with newline Cookie.to_md cookies in
+		let prompts = map_concat_with newline Prompt.to_md prompts in
 		  heading ^ " " ^ l ^  d ^ 
       body ^ cookies ^ prompts
 
@@ -461,7 +504,7 @@ struct
 
     (* Set title to caption if captionable. *)
     let title = 
-			if Tex.is_atom_captionable kind then
+			if Il.is_atom_captionable kind then
 				capopt
 			else
 				title
@@ -504,6 +547,30 @@ struct
 
 		in
 		let d = Tex.mk_depend depend in		
+		  h_begin ^
+		  l ^ 
+		  d ^ 
+		  body ^ newline ^ problem ^ newline ^
+      h_end		
+
+  let to_md atom = 
+		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let problem = 
+			match problem with 
+			| None -> ""
+			| Some problem -> Problem.to_md problem 
+		in
+		let h_begin = Md.mk_begin kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l = 
+			if label_is_given atom then	""
+			else Md.mk_label label 
+
+		in
+		let d = Md.mk_depend depend in		
 		  h_begin ^
 		  l ^ 
 		  d ^ 
@@ -619,7 +686,7 @@ struct
 	let atoms g = g.atoms
 
 	let make  
-			?kind: (kind = Tex.kw_cluster) 
+			?kind: (kind = Il.kw_cluster) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?label: (label = None) 
@@ -649,6 +716,22 @@ struct
 		let l = Tex.mk_label label in
 		let d = Tex.mk_depend depend in
 		let atoms = map_concat_with newline Atom.to_tex atoms in
+		  h_begin ^ 
+		  l ^ 
+		  d ^ 
+		  atoms ^ h_end		
+
+
+  let to_md group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let h_begin = Md.mk_begin kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l = Md.mk_label label in
+		let d = Md.mk_depend depend in
+		let atoms = map_concat_with newline Atom.to_md atoms in
 		  h_begin ^ 
 		  l ^ 
 		  d ^ 
@@ -723,6 +806,13 @@ struct
 		| Element_group g ->
 				Group.to_tex g
 
+	let to_md e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_md a
+		| Element_group g ->
+				Group.to_md g
+
   (* If block doesn't have a label, then
 	 * assign fresh label the block (unique wrt label_set).
 	 * To assign label use words from title and body.
@@ -739,7 +829,7 @@ struct
  		match e with
 		| Element_atom a ->
 				(* Insert an empty group *)
-				let g = Group.make ~kind:Tex.kw_cluster [a] in
+				let g = Group.make ~kind:Il.kw_cluster [a] in
 				Element_group g				
 		| Element_group g ->
 				Element_group g
@@ -785,6 +875,9 @@ struct
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
 
+	let to_md b = 
+		map_concat_with "\n" Element.to_md (elements b)
+
   (* We don't assign labels to blocks, but 
 	 * tokenize the contents.
 	*)
@@ -828,7 +921,7 @@ struct
 	let subsegments s = s.subsegments
 
 	let make  
-			?kind: (kind = Tex.kw_gram) 
+			?kind: (kind = Il.kw_gram) 
 			?point_val: (point_val = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
@@ -891,6 +984,7 @@ struct
 		  block ^ newline ^ 
       subsegments
 
+
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
@@ -906,6 +1000,23 @@ struct
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
+
+  let rec to_md segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let h_begin = Md.mk_segment_header kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l_opt = Md.mk_label label in
+		let d_opt = Md.mk_depend depend in
+		let block = Block.to_md block in
+		let subsegments = map_concat_with "\n" to_md subsegments in
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
+		  block ^ newline ^ 
+      subsegments
+
 (*
   let rec to_tex segment =
 		to_tex_level 0 segment
@@ -927,7 +1038,7 @@ struct
 			match segments with 
 			| [ ] -> (home, [ ])
 			| h::t ->
-					if Tex.segment_is_nested (kind h) (kind home) then
+					if Il.segment_is_nested (kind h) (kind home) then
 						let s = home.subsegments in
 						let _ = home.subsegments <- s @ [h] in
 						  take_nesteds home t 
@@ -1021,7 +1132,7 @@ let is_wellformed ast =
   let s = ast in
 	let wf = 
 		map_reduce 
-			(fun ss -> Tex.segment_is_nested (Segment.kind ss) (Segment.kind s)) 
+			(fun ss -> Il.segment_is_nested (Segment.kind ss) (Segment.kind s)) 
 			(fun x y -> x || y)
 			(Segment.subsegments s) 
 	in
@@ -1130,7 +1241,7 @@ let normalize ast =
 	Segment.normalize ast
 
 let to_md ast = 
-	Segment.to_tex ast
+	Segment.to_md ast
 
 let to_tex ast = 
 	Segment.to_tex ast
@@ -1156,7 +1267,7 @@ type t_item = (string * string option * string)
 (* Create a cookie from an item *)
 let cookie_of_item (item: t_item): cookie = 
 	let (kind, point_val, body) = item in
-	if Tex.is_cookie kind then
+	if Il.is_cookie kind then
 		Cookie.make ~point_val kind body 
 	else
 		(printf "Parse Error"; exit 1)
@@ -1169,7 +1280,7 @@ let prompt_of_items (items: t_item list): prompt =
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
 			let  (kind, point_val, body) = item in
-			if Tex.is_prompt kind then
+			if Il.is_prompt kind then
 				let cookies = List.map rest_items ~f:cookie_of_item in
 				Prompt.make ~point_val kind body cookies 
 		else
@@ -1194,11 +1305,11 @@ let problem_of_items (items: t_item list) =
 		let (cp, prompts) = current in
 		let  (kind, point_val, body) = item in
 		let _ = d_printf "ast.collect: kind = %s\n" kind in
-		if Tex.is_prompt kind then
+		if Il.is_prompt kind then
       (* item is a prompt *)
 			let prompt = [item] in
 			(prompt, prompts @ [cp])
-		else if Tex.is_cookie kind then
+		else if Il.is_cookie kind then
       (* item is a cookie for the current prompt *)
 			let cookie = [item] in
         (cp @ cookie, prompts)
@@ -1212,7 +1323,7 @@ let problem_of_items (items: t_item list) =
 		| [ ] -> None
 		| item::items_rest ->
 				let (kind, point_val, body) = item in
-				if Tex.is_problem kind then
+				if Il.is_problem kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
 					let prompts = prompts @ [prompt] in

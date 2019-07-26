@@ -8,7 +8,7 @@ DEPEND = \
   atom/atom_lexer.mll atom/atom_parser.mly \
   english/english_words.ml \
   il/il_syntax.ml il/il_ast.ml \
-  md/md_lexer.mll md/md_parser.mly md/md2md.ml \
+  md/md_lexer.mll md/md_parser.mly md/md2md.ml md/md_syntax.ml \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
