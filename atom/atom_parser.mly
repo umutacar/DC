@@ -27,7 +27,7 @@ let str_of_items items =
 %token <string> SIGCHAR
 %token <string *          (* kind *)
         string option *   (* points *)
-	      string option *   (* title *)
+	      (string * string) list *   (* keyword arguments *)
         string option *   (* label *)
         string *          (* body *)
         string option *   (* caption *)
@@ -38,7 +38,7 @@ let str_of_items items =
 
 %type <(string *          (* kind *)
         string option *   (* points *)
-	      string option *   (* title *)
+	      (string * string) list *   (*  keyword arguments *)
         string option *   (* label *)
         string *          (* body *)
         string option *   (* caption *)
@@ -53,9 +53,9 @@ let str_of_items items =
  **********************************************************************/
 atom:
 | a = ATOM
-  { let (kind, popt, topt, lopt, body, capopt, items, all) = a in
+  { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
 (*    let _ = d_printf "* atom: %s\n" all in *)
-		(kind, popt, topt, lopt, body, capopt, items) 
+		(kind, popt, kwargs, lopt, body, capopt, items) 
   }
 
 top:

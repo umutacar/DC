@@ -312,3 +312,10 @@ let float_opt_to_string_opt fopt =
 
 
 (* END Operations on float options *) 
+
+(* Association lists *)
+
+(* Find value of key is list key-value list l *)
+let find_in_list  (l: (string * string) list) (key: string) = 
+	List.Assoc.find l ~equal:String.equal key
+

@@ -83,6 +83,13 @@ let mk_atom_str (h_b, body, capopt, items, h_e) =
 	 let all = h_b ^ body ^ cap ^ items ^ h_e in
      (all_but_items, all)	 	 
 
+let mk_heading (heading, title, kwargs) =
+  match kwargs with
+  | [ ] -> 
+	  heading ^ "[" ^ title ^ "]" 
+  | (l: (string * string) list) -> 
+    heading ^ "[" ^ title ^ "]" ^ "[" ^ (str_of_str2_list l) ^ "]"
+
 }
 (** END: HEADER **)
 
@@ -217,12 +224,12 @@ rule initial = parse
     {
      let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
      let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
+     let (title, kwargs) = take_atom_args lexbuf in
+     let h_b = mk_heading (x, title, kwargs) in
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
      let _ = d_printf "!atom lexer matched lstlisting\n %s." all in 
-     ATOM(kind, None, Some title, None, body, None, [], all)
+     ATOM(kind, None, ["title", title], None, body, None, [], all)
 }
 
 | (p_begin_env_skip as x)
@@ -232,21 +239,21 @@ rule initial = parse
      let (body, h_e) = skip_env kind lexbuf in
    	 let all = h_b ^ body ^ h_e in
      let _ = d_printf "!atom lexer matched skip environment\n %s." all in 
-     ATOM(kind, None, None, None, body, None, [], all)
+     ATOM(kind, None, [], None, body, None, [], all)
 }
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
      let _ = d_printf "!atom lexer: matched begin env %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
+     let (title, kwargs) = take_atom_args lexbuf in
+     let h_b = mk_heading (x, title, kwargs) in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
-       ATOM (kind, Some point_val, Some title, lopt, body, capopt, items, all)
+       ATOM (kind, Some point_val, ["title", title], lopt, body, capopt, items, all)
 }
 
 | p_begin_env_with_points as h_b
@@ -258,7 +265,7 @@ rule initial = parse
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
-     ATOM(kind, Some point_val, None, lopt, body, capopt, items, all)       
+     ATOM(kind, Some point_val, [], lopt, body, capopt, items, all)       
 }   
 
 | (p_begin_env as x) (p_o_sq as a)
@@ -267,17 +274,13 @@ rule initial = parse
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, kwargs) = take_atom_args lexbuf in
-     let h_b = 
-       match kwargs with
-       | [ ] -> x ^ a ^ title ^ "]" 
-       | (l: (string * string) list) -> x ^ a ^ title ^ "]" ^ "[" ^ (str_of_str2_list l) ^ "]"
-     in
+     let h_b = mk_heading (x, title, kwargs) in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
-     ATOM(kind, None, Some title, lopt, body, capopt, items, all)
+     ATOM(kind, None, ["title", title], lopt, body, capopt, items, all)
 }
 
 | p_begin_env as h_b
@@ -289,7 +292,7 @@ rule initial = parse
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
-     ATOM(kind, None, None, lopt, body,  capopt, items, all)
+     ATOM(kind, None, [], lopt, body,  capopt, items, all)
        
     }   
 
@@ -411,28 +414,6 @@ and take_arg =
     {
      let (arg, c_c) = take_arg lexbuf in 
        ((str_of_char x) ^ arg, c_c)
-    }
-and take_opt_arg = 
-  parse 
-  | p_o_sq as x
-    {
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_opt_arg lexbuf in 
-       (x ^ arg, c_sq)
-    }
-  | (p_c_sq p_hs) as x
-    {
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
-           ("", x)
-       else
-         let (arg, c_sq) = take_opt_arg lexbuf in 
-           (x ^ arg, c_sq)
-    }
-  | _ as x
-    {
-     let (arg, c_sq) = take_opt_arg lexbuf in 
-       ((str_of_char x) ^ arg, c_sq)
     }
 and take_atom_args = 
   parse 
