@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = true
+let debug = false
 
 
 let str_of_char x = String.make 1 x
@@ -25,9 +25,15 @@ let str_of_str_opt so =
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
 
-let str_of_str2_list (xs: (string * string) list): string = 
+let str_of_str2_list_with seperator (xs: (string * string) list): string = 
 	let l = List.map xs ~f:(fun (item, body) -> item ^ " " ^ body) in 
-  String.concat ~sep:", " l
+  String.concat ~sep:seperator l
+
+let str_of_str2_list (xs: (string * string) list): string = 
+  str_of_str2_list_with ", " xs
+
+
+
 
 let str_of_items (xs: (string * string option * string) list): string = 
   let str_of_item (kind, pvalopt, body) = 

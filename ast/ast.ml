@@ -537,12 +537,13 @@ struct
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
+    let kw_args = Tex.mk_kw_args in
 		let problem = 
 			match problem with 
 			| None -> ""
 			| Some problem -> Problem.to_tex problem 
 		in
-		let h_begin = Tex.mk_begin kind point_val title in
+		let h_begin = Tex.mk_begin_atom kind point_val title in
 		let h_end = Tex.mk_end kind in
 		let l = 
 			if label_is_given atom then	""

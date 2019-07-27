@@ -257,7 +257,7 @@ let cookie_kinds =
  *  defn -> defn.
  *)  
 let mk_label_prefix_from_kind kind = 
-   match List.Assoc.find label_prefix_of_kind ~equal: String.equal kind with 
+   match List.Assoc.find label_prefix_of_kind ~equal:String.equal kind with 
    | Some prefix -> prefix
    | None -> kind
 (*
@@ -279,6 +279,11 @@ let mk_point_val popt =
   |  None -> ""
   |  Some pts -> mk_opt_arg pts
 
+let mk_kw_args l = 
+  match l with 
+  | [ ] -> ""
+  | _ -> "[" ^ (str_of_str2_list_with "; " l) ^
+         "]"
 
 let mk_label lopt = 
   match lopt with 
@@ -336,6 +341,10 @@ let mk_segment_header kind p t =
 let mk_begin name p t = 
   let b = "\\begin" ^ (mk_arg name) in
   b ^  p ^  t ^ "\n"
+
+let mk_begin_atom name p t kw_args = 
+  let b = "\\begin" ^ (mk_arg name)  in
+  b ^  p ^  t ^ kw_args ^ "\n"
 
 let mk_end kind = 
   "\\end" ^ (mk_arg kind) ^ "\n"
