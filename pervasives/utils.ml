@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = false
+let debug = true
 
 
 let str_of_char x = String.make 1 x

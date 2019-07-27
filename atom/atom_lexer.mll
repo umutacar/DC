@@ -5,8 +5,10 @@ open Utils
 open Atom_parser
 
 (* Turn off prints *)
+(*
 let d_printf args = 
     ifprintf stdout args
+*)
 (*
 let d_printf args = printf args 
 *)
@@ -234,7 +236,7 @@ rule initial = parse
 }
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
-     let _ = d_printf "!atom lexer: matched begin group %s." kind in 
+     let _ = d_printf "!atom lexer: matched begin env %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, c_sq) = take_opt_arg lexbuf in
@@ -261,7 +263,7 @@ rule initial = parse
 
 | (p_begin_env as x) (p_o_sq as a)
     {
-     let _ = d_printf "!atom lexer: matched begin group %s." kind in 
+     let _ = d_printf "!atom lexer: matched begin env %s.\n" kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
      let (title, kwargs) = take_atom_args lexbuf in
@@ -438,6 +440,7 @@ and take_atom_args =
     {
      let _ = dec_arg_depth () in
        if arg_depth () = 0 then
+				 let _ = inc_arg_depth () in
          let (a, l) = take_kw_args lexbuf in
            ("", (kw, a)::l)
        else
@@ -470,6 +473,7 @@ and take_kw_args =
   parse 
   | (p_c_sq p_ws as x)
     {
+     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in
      let _ = dec_arg_depth () in
        if arg_depth () = 0 then
            ("", [])
@@ -479,17 +483,20 @@ and take_kw_args =
     }
   | ',' p_ws (p_keyword as kw) p_ws '=' p_ws 
  	  {
+     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in
       let (arg, l) = take_kw_args lexbuf in 
         ("", (kw, arg)::l)
     }
   | p_o_sq as x
     {
+     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in
      let _ = inc_arg_depth () in
      let (arg, l) = take_kw_args lexbuf in 
        (x ^ arg, l)
     }
   | _ as x
     {
+     let _ = d_printf "atom_lexer: take_kw_args: %s\n" (str_of_char x) in
      let (arg, l) = take_kw_args lexbuf in 
        ((str_of_char x) ^ arg, l)
     }

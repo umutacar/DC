@@ -370,10 +370,10 @@ rule initial = parse
 
 | (p_begin_env as x)
     {
-(*     let _ = d_printf "!lexer matched begin group %s." kind in *)
      let _ = do_begin_env () in		
      let (rest, h_e) = take_env lexbuf in
    	 let all = x ^ rest ^ h_e in
+     let _ = d_printf "!lexer matched env %s.\n" all in 
      let _ =  set_line_nonempty () in
             CHUNK(all, None)
 }
