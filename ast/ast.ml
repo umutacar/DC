@@ -84,6 +84,7 @@ let collect_labels (labels: (string list * string list) list): string list * str
 	in
 	(tt_merged, tb_merged)
 
+
 (**********************************************************************
  ** END: Utilities
  **********************************************************************)
@@ -533,17 +534,18 @@ struct
 		| Some p -> Problem.traverse p s f 
 
   let to_tex atom = 
-		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let {kind; point_val; title; cover; sound; label; depend; problem; body} = atom in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
-    let kw_args = Tex.mk_kw_args in
+    let kw_args = ["cover", cover; "sound", sound] in
+    let kw_args = Tex.mk_kw_args kw_args in
 		let problem = 
 			match problem with 
 			| None -> ""
 			| Some problem -> Problem.to_tex problem 
 		in
-		let h_begin = Tex.mk_begin_atom kind point_val title in
+		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
 		let h_end = Tex.mk_end kind in
 		let l = 
 			if label_is_given atom then	""
@@ -637,7 +639,7 @@ struct
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let {kind; point_val; title; cover; sound; label; depend; problem; body} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
@@ -651,6 +653,8 @@ struct
 				~kind:kind 
         ~pval:point_val
         ~topt:titles
+        ~copt:cover
+        ~sopt:sound
         ~lopt:label
 				~dopt:depend 
         ~body_src:body

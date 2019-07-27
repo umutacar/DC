@@ -279,11 +279,8 @@ let mk_point_val popt =
   |  None -> ""
   |  Some pts -> mk_opt_arg pts
 
-let mk_kw_args l = 
-  match l with 
-  | [ ] -> ""
-  | _ -> "[" ^ (str_of_str2_list_with "; " l) ^
-         "]"
+let mk_kw_args l =   
+  str_of_kw_list_with " " "; " l
 
 let mk_label lopt = 
   match lopt with 

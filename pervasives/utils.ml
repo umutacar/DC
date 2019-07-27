@@ -25,12 +25,21 @@ let str_of_str_opt so =
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
 
-let str_of_str2_list_with seperator (xs: (string * string) list): string = 
-	let l = List.map xs ~f:(fun (item, body) -> item ^ " " ^ body) in 
+let str_of_str2_list_with equals seperator (xs: (string * string) list): string = 
+	let l = List.map xs ~f:(fun (item, body) -> item ^ equals ^ body) in 
+  String.concat ~sep:seperator l
+
+let str_of_kw_list_with equals seperator (xs: (string * string option) list): string = 
+  let mapper (k, v) = 
+    match v with 
+    | None -> ""
+    | Some v -> k ^ equals ^ v
+  in
+	let l = List.map xs ~f:mapper in
   String.concat ~sep:seperator l
 
 let str_of_str2_list (xs: (string * string) list): string = 
-  str_of_str2_list_with ", " xs
+  str_of_str2_list_with " " ", " xs
 
 
 
