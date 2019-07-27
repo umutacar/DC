@@ -457,7 +457,7 @@ and take_kw_args =
   parse 
   | (p_c_sq p_ws as x)
     {
-     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in
+(*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
      let _ = dec_arg_depth () in
        if arg_depth () = 0 then
            ("", [])
@@ -467,20 +467,20 @@ and take_kw_args =
     }
   | ';' p_ws (p_keyword as kw) p_ws '=' p_ws 
  	  {
-     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in
+(*     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in *)
       let (arg, l) = take_kw_args lexbuf in 
         ("", (kw, arg)::l)
     }
   | p_o_sq as x
     {
-     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in
+(*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
      let _ = inc_arg_depth () in
      let (arg, l) = take_kw_args lexbuf in 
        (x ^ arg, l)
     }
   | _ as x
     {
-     let _ = d_printf "atom_lexer: take_kw_args: %s\n" (str_of_char x) in
+(*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" (str_of_char x) in *)
      let (arg, l) = take_kw_args lexbuf in 
        ((str_of_char x) ^ arg, l)
     }

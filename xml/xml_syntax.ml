@@ -197,6 +197,8 @@ let append_opt x_opt l =
 let mk_field_generic(name, contents) =
   let b = mk_begin_field(name) in
   let e = mk_end_field(name) in
+  (* Strip white space around fields *)
+  let contents =   String.strip ~drop:is_space contents in
   let result = b ^ C.newline ^ contents ^ C.newline ^ e in
     result
 

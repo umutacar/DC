@@ -53,7 +53,7 @@ baslik
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
-...NOT.PROVIDED.COVER...
+image
 </field> <!-- cover -->
 <field name='sound'>
 ...NOT.PROVIDED.SOUND...
@@ -130,10 +130,10 @@ grp:sets::lll
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
-...NOT.PROVIDED.COVER...
+coverimage.pdf
 </field> <!-- cover -->
 <field name='sound'>
-...NOT.PROVIDED.SOUND...
+playthis.mp3
 </field> <!-- sound -->
 <field name='label'>
 tbl:sets::lll

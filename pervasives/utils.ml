@@ -16,6 +16,10 @@ let str_of_pval_opt x =
 let is_vert_space c = 
   c = '\n' || c = '\r' 
 
+(* is C vertical space *)
+let is_space c = 
+  c = '\n' || c = '\r' || c = '\t' || c = ' ' 
+
 let str_of_str_opt so = 
 	match so with 
 	| None -> ""
