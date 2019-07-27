@@ -118,6 +118,7 @@ let p_float = p_digit* p_frac? p_exp?
 
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
+let p_keyword = p_alpha+
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -127,6 +128,8 @@ let p_c_curly = '}' p_hs
 
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
+let p_o_sq_and_kw = '[' p_ws (p_keyword as keyword) p_ws '=' 
+
 let p_special_percent = p_backslash p_percent
 
 let p_com_begin = '\\' "begin" p_ws												 
@@ -261,8 +264,12 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin group %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
-     let (title, c_sq) = take_opt_arg lexbuf in
-     let h_b = x ^ a ^ title ^ c_sq in
+     let (title, kwargs) = take_atom_args lexbuf in
+     let h_b = 
+       match kwargs with
+       | [ ] -> x ^ a ^ title ^ "]" 
+       | (l: (string * string) list) -> x ^ a ^ title ^ "]" ^ "[" ^ (str_of_str2_list l) ^ "]"
+     in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
@@ -424,6 +431,67 @@ and take_opt_arg =
     {
      let (arg, c_sq) = take_opt_arg lexbuf in 
        ((str_of_char x) ^ arg, c_sq)
+    }
+and take_atom_args = 
+  parse 
+  | (p_c_sq p_ws as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws)
+    {
+     let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
+         let (a, l) = take_kw_args lexbuf in
+           ("", (kw, a)::l)
+       else
+         let (arg, l) = take_atom_args lexbuf in 
+           (x ^ arg, l)
+     }   
+  | p_o_sq as x
+    {
+     let _ = inc_arg_depth () in
+     let (arg, l) = take_atom_args lexbuf in 
+       (x ^ arg, l)
+    }
+
+  | (p_c_sq p_hs) as x
+    {
+     let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
+           ("", [])
+       else
+         let (arg, l) = take_atom_args lexbuf in 
+           (x ^ arg, l)
+    }
+  | _ as x
+    {
+     let (arg, l) = take_atom_args lexbuf in 
+       ((str_of_char x) ^ arg, l)
+    }
+
+and take_kw_args = 
+  parse 
+  | (p_c_sq p_ws as x)
+    {
+     let _ = dec_arg_depth () in
+       if arg_depth () = 0 then
+           ("", [])
+       else
+         let (arg, l) = take_kw_args lexbuf in 
+           (x ^ arg, l)
+    }
+  | ',' p_ws (p_keyword as kw) p_ws '=' p_ws 
+ 	  {
+      let (arg, l) = take_kw_args lexbuf in 
+        ("", (kw, arg)::l)
+    }
+  | p_o_sq as x
+    {
+     let _ = inc_arg_depth () in
+     let (arg, l) = take_kw_args lexbuf in 
+       (x ^ arg, l)
+    }
+  | _ as x
+    {
+     let (arg, l) = take_kw_args lexbuf in 
+       ((str_of_char x) ^ arg, l)
     }
 
 and take_list =
