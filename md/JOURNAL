@@ -1,0 +1,9 @@
+# TODO
+
+ 
+
+# JOURNAL
+
+- [July 25]
+  * Started taking first steps.  Took a stab and md lexer.
+  * Idea: to handle md, we want to limit the changes to the front end of the compiler.  It should take markdown and generate the ast and after that things should basically remain exactly the same, except perhaps small cosmetics things.

@@ -1,15 +1,15 @@
 # Overview
 
-Diderot is an online book system that integrates discussions with content.  Diderot consists of two largely separate systems that are designed to work together.  The first is the Diderot site, which provides the users (instructors and students) with an online interface for reading books and discussions.  The second is the MTL (read "metal") compiler that translates LaTeX sources to XML, which can then be uploaded onto the Diderot site.  In addition to XML, Diderot site accepts conventional PDF documents and slide decks for upload.  This document describes MTL and its use.  
+Diderot is an online book system that integrates discussions with content.  Diderot consists of two largely separate systems that are designed to work together.  The first is the Diderot site, which provides the users (instructors and students) with an online interface for reading books and discussions.  The second is the MTL (read "metal") compiler that translates LaTeX and Markdown sources to XML, which can then be uploaded onto the Diderot site.  In addition to XML, Diderot site accepts conventional PDF documents and slide decks for upload.  This document describes MTL and its use.  
 
 For any questions or comments, please don't hesitate to contact Umut at `umut@cs.cmu.edu`.
 
 # Typesetting with LaTex and MTL (MeTaL)
 
-MTL tries to remain compatible with LaTeX.   If you have  LaTeX sources that you are able to compile and generate PDF from, then in most cases, you can use MTL to generate XML from your LaTeX sources.  Translation of LaTeX sources to XML, however, is not perfect at this time but works quite well for simple LaTeX sources.
+MTL tries to remain compatible with LaTeX.   If you have  LaTeX sources that you are able to compile and generate PDF from, then in most cases, you can use MTL to generate XML from your LaTeX sources.  Translation of LaTeX sources to XML is not perfect at this time but works quite well for simple LaTeX sources.
 
 ## Examples 
-  See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples diderot chapters.  These are set up with Makefiles so that you can generate both PDF and XML from the sources. For each book you generate the book PDF by running the following.
+  See directories `book` (a book with parts and chapters) and `booklet` (with chapters and no parts) for examples diderot books and chapters.  These are set up with Makefiles so that you can generate both PDF and XML from the sources. For each book you generate the book PDF by running the following.
 
 ``` 
 $ make book.pdf
@@ -57,7 +57,7 @@ MTL thinks of a LaTeX source as being organized in terms of segments (chapters, 
 
 ```
 
-Here `elements` is a sequence of "atoms" and "flex'es" as
+Here `elements` is a sequence of "atoms" and "flex's".
 
 ### Atoms
 An *element* is an atom or a group. 
@@ -70,7 +70,7 @@ optional but highly recommended: \label{atom-label}
 \end{<atom>}
 ```
 
-Note that atoms are defined by "vertical white spaces", i.e., they are single standing paragraphs.  White space therofere matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.
+Note that atoms are defined by "vertical white spaces", i.e., they are single standing paragraphs.  White space therefore matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.
 
 In addition to plain paragraphs, there are many atoms to choose from.  Here is a complete list.  Let me (umut@cs.cmu.edu) know if you want others.
 
@@ -241,20 +241,20 @@ You can use colors as follows
 ```
 
 ### Code
-Use lstinline and always specify the language as first option
+Use `lstinline` and always specify the language as first option
 
 Example:
-'''
+```
 \begin{lstinline}[language=C, numbers=left]
 ...
 \end{lstinline}
-'''
+```
 
-'''
+```
 \begin{lstinline}[language={[C0]C}, numbers=left]
 ...
 \end{lstinline}
-'''
+```
 
 ### Limitations
 
@@ -274,9 +274,13 @@ Example:
 * For figures specify the width/height in terms of concrete units, e.g.,
   width = 4in, height = 8cm.
 
+* You can use itemize and enumerate in their basic form.  Changing label format with enumitem package and similar packages do not work.  You can imitate these by using heading for your items.  
+
+* In general labeling and referencing is relatively limited to atoms.  You can label atoms and refer to them, but you cannot label codelines, items in lists, etc.
+
 * We use mathjax to math environments.  This works in many cases, especially for AMS Math consistent usages.  There are a few important caveats. 
 
- - Once you switch to math, try to stay in math.  You can switch to text mode using \mbox{} but if you use macros inside mbox, they might not work (because mathjax don't know about your macros).  For example, this won't work 
+    - Once you switch to math, try to stay in math.  You can switch to text mode using \mbox{} but if you use macros inside mbox, they might not work (because mathjax don't know about your macros).  For example, this won't work 
 ```
 $\lstinline'xyz'$
 ```
@@ -284,9 +288,9 @@ this should be outside math.
 
 
 
- -  The "tabular" environment does not work in MathJax.  Use "array" instead.
+    -  The "tabular" environment does not work in MathJax.  Use "array" instead.
 
- -  The environment 
+    -  The environment 
     ```
     \begin{alignat} 
     ... 
@@ -294,6 +298,7 @@ this should be outside math.
     ```
  
     should be wrapped with `\htmlmath`, e.g.,
+
     ```
      \htmlmath{
      \begin{alignat} 
@@ -302,9 +307,6 @@ this should be outside math.
      }
     ``` 
 
-* You can use itemize and enumerate in their basic form.  Changing label format with enumitem package and similar packages do not work.  You can imitate these by using heading for your items.  
-
-* In general labeling and referencing is relatively limited to atoms.  You can label atoms and refer to them, but you cannot label codelines, items in lists, etc.
   
 
 # Compilation
@@ -396,17 +398,17 @@ $ make ch2/main.xmldbg
 
 Assuming that you structure your book as suggested above, then you will mostly be using the Makefile but you could also use the MTL tools directly. 
 
-## Tool: texmlt  (read "tech-melt")
+## Tool: texml  
 This tools translates the given input LaTeX file to xml.
 
-Example: `texmlt -meta ./meta input_file.tex -o output_file.xml`
+Example: `texml  -meta ./meta -preamble preamble.tex input_file.tex -o output_file.xml`
 
 The meta direcotry contains some files that may be used in the xml translation.  You can ignore this to start with.
 
-## Tool: texmlt.dbg 
-This tools is the "debug" version of the texmlt binary above. As you might notite, `texmlt` doesn't currenty give reasonable error messages.  The debug version prints out the text that it parses, so you can have some sense of where things have gone wrong.  As you will learn below, `texmlt` should work if your latex sources are otherwise correct (you can run them through pdflatex), so hopefully, you will not have to use this binary much.  
+## Tool: texml.dbg 
+This tools is the "debug" version of the texml binary above. As you might notite, `texml` doesn't currenty give reasonable error messages.  The debug version prints out the text that it parses, so you can have some sense of where things have gone wrong.  As you will likely experience, `texml` should work if your latex sources are otherwise correct (you can run them through pdflatex), so hopefully, you will not have to use this binary much.  
 
-Example: `texmlt -meta ./meta input_file.tex -o output_file.xml `
+Example: `texml -meta ./meta -preamble preamble.tex input_file.tex -o output_file.xml `
 
 
 ## Tool: tex2tex
@@ -447,4 +449,6 @@ Some example full labels:
 * thm:star:costbound
 
 
+
+# Typesetting with Markdown and MTL (MeTaL)
 

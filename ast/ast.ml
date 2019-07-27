@@ -2,11 +2,12 @@ open Core
 open Utils
 
 (* Turn off all prints *)
-
+(*
 let d_printf args = 
     ifprintf stdout args
-
+*)
 module Labels = Tex_labels
+module Md = Md_syntax
 module Tex = Tex_syntax
 module Words = English_words
 module Xml = Xml_syntax
@@ -50,16 +51,16 @@ let tokenize sa_opt sb_opt =
 	(mk sa_opt, mk sb_opt)
 
 (* Translate string to xml *)
-let str_to_xml tex2html kind source =
-	let source_xml = tex2html kind source in
+let str_to_xml translator kind source =
+	let source_xml = translator kind source in
     (source_xml, source)
 
 (* Translate source string option to xml, return both *)
-let str_opt_to_xml tex2html kind source_opt =
+let str_opt_to_xml translator kind source_opt =
    match source_opt with 
    | None -> None 
    | Some source -> 
-			 let source_xml = tex2html kind source  in
+			 let source_xml = translator kind source  in
        Some (source_xml, source)
 
 let depend_to_xml dopt = 
@@ -130,7 +131,7 @@ struct
   (* Traverse cookie by applying f to its fields *) 
   let traverse cookie state f = 
 		let {kind; point_val; title; label; body} = cookie in
-		let _ = d_printf "Cookie.traverse: %s " kind in
+		let _ = d_printf "Cookie.traverse: %s \n" kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -144,6 +145,19 @@ struct
 		let l = 
 			if label_is_given prompt then	""
 			else Tex.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body 
+
+  let to_md prompt = 
+		let {kind; point_val; title; label; body} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let heading = Md.mk_command kind point_val in
+		let l = 
+			if label_is_given prompt then	""
+			else Md.mk_label label 
 
 		in
 		  heading ^ " " ^ l ^ 
@@ -168,17 +182,17 @@ struct
 		in
     	(tt, tb)
 
-  let body_to_xml tex2html cookie =
-		let _ = d_printf "cookie.body_to_xml: cookie = %s" cookie.kind in
-		tex2html Xml.body cookie.body
+  let body_to_xml translator cookie =
+		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
+		translator Xml.body cookie.body
 
-  let to_xml tex2html cookie = 
+  let to_xml translator cookie = 
 		let {kind; point_val; title; label; depend; body} = cookie in
 		(* Translate body to xml *)
-    let body_xml = body_to_xml tex2html cookie in
+    let body_xml = body_to_xml translator cookie in
 		let point_val = normalize_point_val point_val in
     let depend = depend_to_xml depend in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
 		let r = 
 			Xml.mk_cookie 
 				~kind:kind 
@@ -230,7 +244,7 @@ struct
   (* Traverse prompt by applying f to its fields *) 
   let traverse prompt state f = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let _ = d_printf "Prompt.traverse: %s " kind in
+		let _ = d_printf "Prompt.traverse: %s\n" kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -247,6 +261,20 @@ struct
 		let l = 
 			if label_is_given prompt then	""
 			else Tex.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body ^ cookies
+
+  let to_md prompt = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let heading = Md.mk_command kind point_val in
+		let cookies = map_concat_with newline Cookie.to_md cookies in
+		let l = 
+			if label_is_given prompt then	""
+			else Md.mk_label label 
 
 		in
 		  heading ^ " " ^ l ^ 
@@ -274,18 +302,18 @@ struct
 		in
     	(tt_all, tb_all)
 
-  let body_to_xml tex2html prompt =
-		let _ = d_printf "prompt.body_to_xml: prompt = %s" prompt.kind in
-		tex2html Xml.body prompt.body
+  let body_to_xml translator prompt =
+		let _ = d_printf "prompt.body_to_xml: prompt = %s\n" prompt.kind in
+		translator Xml.body prompt.body
 
   (* TODO incorporate cookies. *)
-  let to_xml tex2html prompt = 
+  let to_xml translator prompt = 
 		let {kind; point_val; title; label; depend; body; cookies} = prompt in
 		(* Translate body to xml *)
-    let body_xml = body_to_xml tex2html prompt in
+    let body_xml = body_to_xml translator prompt in
 		let point_val = normalize_point_val point_val in
     let depend = depend_to_xml depend in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
 		let r = 
 			Xml.mk_prompt 
 				~kind:kind 
@@ -347,7 +375,7 @@ struct
 		let f_tr_cookie state prompt = Cookie.traverse prompt state f in
 		let f_tr_prompt state prompt = Prompt.traverse prompt state f in
   
-		let _ = d_printf "Problem.traverse: %s " kind in
+		let _ = d_printf "Problem.traverse: %s\n" kind in
 		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
 		let s = List.fold_left cookies ~init:s ~f:f_tr_cookie in
 		List.fold_left prompts ~init:s ~f:f_tr_prompt
@@ -367,6 +395,19 @@ struct
 		let d = Tex.mk_depend depend in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
 		let prompts = map_concat_with newline Prompt.to_tex prompts in
+		  heading ^ " " ^ l ^  d ^ 
+      body ^ cookies ^ prompts
+
+  let to_md problem = 
+		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let heading = Md.mk_command kind point_val in
+		let l = Md.mk_label label in
+		let d = Md.mk_depend depend in
+		let cookies = map_concat_with newline Cookie.to_md cookies in
+		let prompts = map_concat_with newline Prompt.to_md prompts in
 		  heading ^ " " ^ l ^  d ^ 
       body ^ cookies ^ prompts
 
@@ -395,18 +436,18 @@ struct
 		in
 		(tt_all, tb_all)
 
-  let body_to_xml tex2html problem =
-		let _ = d_printf "problem.body_to_xml: problem = %s" problem.kind in
-		tex2html Xml.body problem.body
+  let body_to_xml translator problem =
+		let _ = d_printf "problem.body_to_xml: problem = %s\n" problem.kind in
+		translator Xml.body problem.body
 
-  let to_xml tex2html problem = 
+  let to_xml translator problem = 
 		let {kind; point_val; title; label; depend; body; cookies; prompts} = problem in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
     let depend = depend_to_xml depend in
-    let body_xml = body_to_xml tex2html problem in
-		let cookies = map_concat_with newline (Cookie.to_xml tex2html) cookies in
-		let prompts = map_concat_with newline (Prompt.to_xml tex2html) prompts in
+    let body_xml = body_to_xml translator problem in
+		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
+		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
 		let r = 
 			Xml.mk_problem 
 				~kind:kind 
@@ -477,7 +518,8 @@ struct
   (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
 		let {kind; point_val; title; label; depend; problem; body} = atom in
-		let _ = d_printf "Atom.traverse: %s " kind in
+		let _ = d_printf "Atom.traverse: kind = %s \n" kind in
+(*		let _ = d_printf "Atom.traverse: body = %s \n" body in *)
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -510,6 +552,32 @@ struct
 		  body ^ newline ^ problem ^ newline ^
       h_end		
 
+  let to_md atom = 
+		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let problem = 
+			match problem with 
+			| None -> ""
+			| Some problem -> Problem.to_md problem 
+		in
+		let h_begin = Md.mk_begin kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l = 
+			if label_is_given atom then	""
+			else Md.mk_label label 
+
+		in
+		let d = Md.mk_depend depend in		
+    let a = 
+		  h_begin ^
+		  l ^ 
+		  d ^ 
+		  body ^ newline ^ problem ^ newline ^
+      h_end		
+    in
+      (String.strip ~drop:is_vert_space a) ^ newline
 
 
   (* If atom doesn't have a label, then
@@ -535,9 +603,9 @@ struct
 		in
     	(tt_all, tb_all)
 
-  let body_to_xml tex2html atom =
+  let body_to_xml translator atom =
 		if atom.kind = Xml.lstlisting then
-			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram" atom.kind in
+			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram\n" atom.kind in
 			let _ = atom.kind <- Xml.gram in
 			let title = str_of_str_opt atom.title in
 			let newbody = 
@@ -547,31 +615,31 @@ struct
 			in
 			let (newbody_c, languages) = sanitize_lst_language newbody in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
-      let _ = d_printf "newbody sanitized:\n %s" newbody_c in
+      let _ = d_printf "newbody sanitized:\n %s\n" newbody_c in
 			let _ = atom.body <- newbody_c in
 			let _ = atom.title <- None in
-			let body_xml = tex2html Xml.body newbody_c in
+			let body_xml = translator Xml.body newbody_c in
 			body_xml
 		else
-			let _ = d_printf "body_to_xml: atom = %s, Not promoting" atom.kind in
+			let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
       let body = atom.body in
 			let (body_c, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "body sanitized:\n %s" body_c in
-			tex2html Xml.body body_c
+			translator Xml.body body_c
 			
-  let to_xml tex2html atom = 
+  let to_xml translator atom = 
 		(* Translate body to xml *)
-    let body_xml = body_to_xml tex2html atom in
+    let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
 		let {kind; point_val; title; label; depend; problem; body} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
 		let problem_xml:string = 
 			match problem with 
 			| None -> ""
-			| Some problem -> Problem.to_xml tex2html problem 
+			| Some problem -> Problem.to_xml translator problem 
 		in
 		let r = 
 			Xml.mk_atom 
@@ -633,7 +701,7 @@ struct
 		let s = f Ast_group state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
 
 		let atom_tr_f state atom = Atom.traverse atom state f in
-		let _ = d_printf "Group.traverse: %s " kind in
+		let _ = d_printf "Group.traverse: %s \n" kind in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -653,6 +721,22 @@ struct
 		  l ^ 
 		  d ^ 
 		  atoms ^ h_end		
+
+  let to_md group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let title = Md.mk_title title in
+		let h_begin = Md.mk_begin kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l = Md.mk_label label in
+		let d = Md.mk_depend depend in
+		let atoms = map_concat_with newline Atom.to_md atoms in
+		  h_begin ^ 
+		  l ^ 
+		  d ^ 
+		  atoms ^ h_end		
+
 
   (* If group doesn't have a label, then
 	 * assign fresh label to each atom (unique wrt label_set).
@@ -674,12 +758,12 @@ struct
 		in
 		(tt_all, tb_all)
 
-  let to_xml tex2html group = 
+  let to_xml translator group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title title in
+    let titles = str_opt_to_xml translator Xml.title title in
     let depend = depend_to_xml depend in
-		let atoms = map_concat_with newline (Atom.to_xml tex2html) atoms in
+		let atoms = map_concat_with newline (Atom.to_xml translator) atoms in
 		let r = 
 			Xml.mk_group 
 				~kind:kind 
@@ -723,6 +807,14 @@ struct
 		| Element_group g ->
 				Group.to_tex g
 
+	let to_md e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_md a
+		| Element_group g ->
+				Group.to_md g
+
+
   (* If block doesn't have a label, then
 	 * assign fresh label the block (unique wrt label_set).
 	 * To assign label use words from title and body.
@@ -743,13 +835,13 @@ struct
 				Element_group g				
 		| Element_group g ->
 				Element_group g
-
-	let to_xml tex2html e = 
+					
+	let to_xml translator e = 
 		match e with
 		| Element_atom a ->
-				Atom.to_xml tex2html a
+				Atom.to_xml translator a
 		| Element_group g ->
-				Group.to_xml tex2html g
+				Group.to_xml translator g
 
 end
 
@@ -785,6 +877,9 @@ struct
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
 
+	let to_md b = 
+		map_concat_with "\n" Element.to_md (elements b)
+
   (* We don't assign labels to blocks, but 
 	 * tokenize the contents.
 	*)
@@ -798,9 +893,9 @@ struct
 		let elements = List.map elements ~f:Element.normalize in
 		  block.elements <- elements
 
-  let to_xml tex2html block = 
+  let to_xml translator block = 
 		let {point_val; label; elements} = block in
-		let elements = map_concat_with newline (Element.to_xml tex2html) elements in
+		let elements = map_concat_with newline (Element.to_xml translator) elements in
 		elements
 
 
@@ -857,8 +952,9 @@ struct
 
   (* Traverse (pre-order) group by applying f to its fields *) 
   let rec traverse segment state f = 
+
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let _ = d_printf "Segment.traverse: %s title = %s " kind title in
+		let _ = d_printf "Segment.traverse: %s title = %s\n" kind title in
 (*
     let _ = d_printf_optstr "label " label in
 *)
@@ -906,6 +1002,23 @@ struct
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
+
+  let rec to_md segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+		let point_val = Md.mk_point_val point_val in
+		let h_begin = Md.mk_segment_header kind point_val title in
+		let h_end = Md.mk_end kind in
+		let l_opt = Md.mk_label label in
+		let d_opt = Md.mk_depend depend in
+		let block = Block.to_md block in
+		let subsegments = map_concat_with "\n" to_md subsegments in
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
+		  block ^ newline ^ 
+      subsegments
+
 (*
   let rec to_tex segment =
 		to_tex_level 0 segment
@@ -979,13 +1092,14 @@ struct
 		()
 
 
-  let rec to_xml tex2html segment = 
+  let rec to_xml translator segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+    let _ = d_printf "ast.segment.to_xml: title = %s\n" title in
 		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml tex2html Xml.title (Some title) in
+    let titles = str_opt_to_xml translator Xml.title (Some title) in
     let depend = depend_to_xml depend in
-		let block =  Block.to_xml tex2html block in
-		let subsegments = map_concat_with newline (to_xml tex2html) subsegments in
+		let block =  Block.to_xml translator block in
+		let subsegments = map_concat_with newline (to_xml translator) subsegments in
 		let body = block ^ newline ^ subsegments in
 		let r = 
 			Xml.mk_group 
@@ -1058,7 +1172,7 @@ let check_preamble ast: bool =
 		| Ast_atom ->
 				let Some (kind) = kind in
 				if kind = Xml.preamble then
-					let _ =d_printf "Preamble found: pos = %d, found = %d" no found in
+					let _ = d_printf "Preamble found: pos = %d, found = %d\n" no found in
 					(no+1, found + 1)
 				else
 					(no+1, found)
@@ -1120,8 +1234,17 @@ let collect_labels ast: Labels.t =
 let assign_labels ast = 
 	let label_set = collect_labels ast in
   let chlabel = Segment.label ast in
+
+  (* HACK ALERT.  THIS SHOULD NOT PASS.
+   * TODO: THERE SHOULD BE A CHAPTER LABEL.
+   *)
+  let chlabel = 
 	 match chlabel with 
-	 | None -> (printf "Fatal Error." ; exit 1)
+	 | None -> Some "make_up_label_for_md"
+   | Some x -> Some x
+  in
+	 match chlabel with 
+	 | None -> (printf "ast.assign_labels: Fatal Error. Chapter found without label" ; exit 1)
 	 | Some chl -> 
      let prefix = Labels.drop_label_prefix chl in
        Segment.assign_label prefix label_set ast 
@@ -1129,21 +1252,24 @@ let assign_labels ast =
 let normalize ast = 
 	Segment.normalize ast
 
+let to_md ast = 
+	Segment.to_md ast
+
 let to_tex ast = 
 	Segment.to_tex ast
 
-let to_xml tex2html ast = 
-	let xml:string = Segment.to_xml tex2html ast in
+let to_xml atom_translator ast = 
+	let xml:string = Segment.to_xml atom_translator ast in
 	Xml.mk_standalone xml 
 
 (* Ast validation *)
 let validate ast = 
   let passed = check_preamble ast in
 	if passed then
-		(printf "Ast validation passed.\n";
+		(printf "ast.ast: Ast validation passed.\n";
 		 ast)
 	else
-		(printf "Fatal Error: Ast validation failed. Terminating.\n";
+		(printf "ast.ast: Fatal Error: Ast validation failed. Terminating.\n";
 		 exit 1)
  
 (* Create a problem from items *)
