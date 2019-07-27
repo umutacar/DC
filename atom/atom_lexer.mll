@@ -83,8 +83,8 @@ let mk_atom_str (h_b, body, capopt, items, h_e) =
 	 let all = h_b ^ body ^ cap ^ items ^ h_e in
      (all_but_items, all)	 	 
 
-let mk_heading (heading, title, kwargs) =
-  match kwargs with
+let mk_heading (heading, title, kw_args) =
+  match kw_args with
   | [ ] -> 
 	  heading ^ "[" ^ title ^ "]" 
   | (l: (string * string) list) -> 
@@ -224,12 +224,13 @@ rule initial = parse
     {
      let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
      let _ = inc_arg_depth () in
-     let (title, kwargs) = take_atom_args lexbuf in
-     let h_b = mk_heading (x, title, kwargs) in
+     let (title, kw_args) = take_atom_args lexbuf in
+     let h_b = mk_heading (x, title, kw_args) in
+     let kw_args = ["title", title] @ kw_args in 
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
      let _ = d_printf "!atom lexer matched lstlisting\n %s." all in 
-     ATOM(kind, None, ["title", title], None, body, None, [], all)
+     ATOM(kind, None, kw_args, None, body, None, [], all)
 }
 
 | (p_begin_env_skip as x)
@@ -246,14 +247,15 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin env %s." kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
-     let (title, kwargs) = take_atom_args lexbuf in
-     let h_b = mk_heading (x, title, kwargs) in
+     let (title, kw_args) = take_atom_args lexbuf in
+     let h_b = mk_heading (x, title, kw_args) in
+     let kw_args = ["title", title] @ kw_args in 
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
-       ATOM (kind, Some point_val, ["title", title], lopt, body, capopt, items, all)
+       ATOM (kind, Some point_val, kw_args, lopt, body, capopt, items, all)
 }
 
 | p_begin_env_with_points as h_b
@@ -273,14 +275,15 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin env %s.\n" kind in 
 	   let _ = set_current_atom kind in
      let _ = inc_arg_depth () in
-     let (title, kwargs) = take_atom_args lexbuf in
-     let h_b = mk_heading (x, title, kwargs) in
+     let (title, kw_args) = take_atom_args lexbuf in
+     let h_b = mk_heading (x, title, kw_args) in
+     let kw_args = ["title", title] @ kw_args in 
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
      let (lopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
-     ATOM(kind, None, ["title", title], lopt, body, capopt, items, all)
+     ATOM(kind, None, kw_args, lopt, body, capopt, items, all)
 }
 
 | p_begin_env as h_b

@@ -85,6 +85,8 @@ let mk_problem items =
 	end
 *)
 
+let str_of_kw_args kw_args =
+  str_of_str2_list_with " = " ";" kw_args
 %}	
 
 %token EOF
@@ -308,23 +310,26 @@ atom:
   {	 
 	 let (all, ell) = tp_all in
    let a = parse_atom all in
-	 let (kind, popt, kwargs, lopt, body, capopt, problem_opt) = 
+	 let (kind, popt, kw_args, lopt, body, capopt, problem_opt) = 
 	   match a with 
 		 | None -> (Tex.kw_gram, None, [], None,  all, None, None)
-		 | Some (kind, popt, kwargs, lopt, body, capopt, items) -> 
+		 | Some (kind, popt, kw_args, lopt, body, capopt, items) -> 
 				 let problem_opt = Ast.problem_of_items items in
-				 (kind, popt, kwargs, lopt, body, capopt, problem_opt)
+				 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
 	 in			 
+   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in
 	 let body = String.strip ~drop:is_vert_space body in
-   let topt = find_in_list kwargs "title" in
+   let topt = find_in_list kw_args "title" in
+   let copt = find_in_list kw_args "cover" in
+   let sopt = find_in_list kw_args "sound" in
 	 if Tex.is_label_only body then
 		 ([ ], ell)
 	 else
 		 let a = Ast.Atom.make 
 				 ~point_val:popt 
 				 ~title:topt
-         ~cover:None
-         ~sound:None 
+         ~cover:copt
+         ~sound:sopt 
 				 ~label:lopt  
 				 ~capopt:capopt  
 				 ~problem:problem_opt
