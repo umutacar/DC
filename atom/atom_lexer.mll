@@ -481,7 +481,7 @@ and take_kw_args =
          let (arg, l) = take_kw_args lexbuf in 
            (x ^ arg, l)
     }
-  | ',' p_ws (p_keyword as kw) p_ws '=' p_ws 
+  | ';' p_ws (p_keyword as kw) p_ws '=' p_ws 
  	  {
      let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in
       let (arg, l) = take_kw_args lexbuf in 
