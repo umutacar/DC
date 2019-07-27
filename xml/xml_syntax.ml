@@ -54,6 +54,7 @@ let choice = "choice"
 let choice_src = "choice_src"
 let cluster = "cluster"
 let code = "code"
+let cover = "cover"
 let corollary = "corollary"
 let cost_spec = "costspec"
 let datastr = "datastr"
@@ -95,6 +96,7 @@ let remark = "remark"
 let rubric = "rubric"
 let rubric_src = "rubric_src"
 let solution = "solution"
+let sound = "sound"
 let syntax = "syntax"
 let task = "task"
 let teach_ask = "teachask"
@@ -195,6 +197,8 @@ let append_opt x_opt l =
 let mk_field_generic(name, contents) =
   let b = mk_begin_field(name) in
   let e = mk_end_field(name) in
+  (* Strip white space around fields *)
+  let contents =   String.strip ~drop:is_space contents in
   let result = b ^ C.newline ^ contents ^ C.newline ^ e in
     result
 
@@ -209,6 +213,11 @@ let mk_body_src (x) =
 
 let mk_body_pop (x) = 
   mk_field_generic(body_pop, mk_cdata(x))
+
+let mk_cover_opt(x) = 
+  match x with
+  | None -> mk_field_generic(cover, C.no_cover)
+  | Some y -> mk_field_generic(cover, y)
 
 let mk_depend_opt(x) = 
   match x with
@@ -235,7 +244,6 @@ let mk_label_opt(x) =
   match x with
   | None -> mk_field_generic(label, C.no_label)
   | Some y -> mk_field_generic(label, y)
-
 
 let mk_point_value_opt(x) = 
   match x with
@@ -285,6 +293,12 @@ let mk_rubrics_opt rubrics_opt =
         let rubric_xml = mk_rubric r_xml in
         let rubric_src = mk_rubric_src r_src in
           [rubric_xml; rubric_src]
+
+
+let mk_sound_opt(x) = 
+  match x with
+  | None -> mk_field_generic(sound, C.no_sound)
+  | Some y -> mk_field_generic(sound, y)
 
 
 let mk_title(x) = 
@@ -404,15 +418,16 @@ let mk_problem ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~cookies ~promp
   let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_src; body_xml; cookies; prompts] in
     mk_segment_generic kind fields
 
-let mk_atom ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~problem_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
+let mk_atom ~kind ~pval ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_xml ~problem_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
+  let cover_xml = mk_cover_opt copt in
+  let sound_xml = mk_sound_opt sopt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
-  let fields_base = titles @ [label_xml; depend_xml; pval_xml; body_xml; body_src; problem_xml] in
-
+  let fields_base = titles @ [cover_xml; sound_xml; label_xml; depend_xml; pval_xml; body_xml; body_src; problem_xml] in
   (* Now add in optional fields *)
   let hints = mk_hints_opt hints_opt in
   let refsols = mk_refsols_opt refsols_opt in

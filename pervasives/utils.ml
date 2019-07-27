@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = false
+let debug = true
 
 
 let str_of_char x = String.make 1 x
@@ -16,6 +16,10 @@ let str_of_pval_opt x =
 let is_vert_space c = 
   c = '\n' || c = '\r' 
 
+(* is C vertical space *)
+let is_space c = 
+  c = '\n' || c = '\r' || c = '\t' || c = ' ' 
+
 let str_of_str_opt so = 
 	match so with 
 	| None -> ""
@@ -25,9 +29,24 @@ let str_of_str_opt so =
 let str_of_str_list (xs: string list): string = 
   String.concat ~sep:", " xs
 
+let str_of_str2_list_with equals seperator (xs: (string * string) list): string = 
+	let l = List.map xs ~f:(fun (item, body) -> item ^ equals ^ body) in 
+  String.concat ~sep:seperator l
+
+let str_of_kw_list_with equals seperator (xs: (string * string option) list): string = 
+  let mapper (k, v) = 
+    match v with 
+    | None -> ""
+    | Some v -> k ^ equals ^ v
+  in
+	let l = List.map xs ~f:mapper in
+  String.concat ~sep:seperator l
+
 let str_of_str2_list (xs: (string * string) list): string = 
-	let l = List.map xs ~f:(fun (item, body) -> item ^ " " ^ body) in 
-  String.concat ~sep:", " l
+  str_of_str2_list_with " " ", " xs
+
+
+
 
 let str_of_items (xs: (string * string option * string) list): string = 
   let str_of_item (kind, pvalopt, body) = 
@@ -312,3 +331,10 @@ let float_opt_to_string_opt fopt =
 
 
 (* END Operations on float options *) 
+
+(* Association lists *)
+
+(* Find value of key is list key-value list l *)
+let find_in_list  (l: (string * string) list) (key: string) = 
+	List.Assoc.find l ~equal:String.equal key
+
