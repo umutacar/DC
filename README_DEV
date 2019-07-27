@@ -1,77 +1,75 @@
-# Real world ocaml updated version 
+# Anecdotal install steps on Ubuntu 16.04 #
+
+Starting with no OCaml experience.
+
+## Installing OCaml compiler ##
+1. Install [OPAM](https://opam.ocaml.org/doc/Install.html)
+  - easiest way: `sh <(curl -sL https://raw.githubusercontent.com/ocaml/opam/master/shell/install.sh)`
+2. Install [bubblewrap](https://github.com/projectatomic/bubblewrap)
+  - On 16.04, `dwayne`'s instructions [here](https://github.com/ocaml/opam/issues/3424) worked well:
+    - download [http://security.ubuntu.com/ubuntu/pool/main/b/bubblewrap/bubblewrap_0.2.1-1ubuntu0.1_i386.deb](http://security.ubuntu.com/ubuntu/pool/main/b/bubblewrap/bubblewrap_0.2.1-1ubuntu0.1_i386.deb)
+    - `sudo dpkg -i bubblewrap_0.2.1-1ubuntu0.1_i386.deb`
+  - It looks like other distros/versions have it in the repos instead
+3. Remaining steps copied from the OPAM section on the [OCaml website](https://ocaml.org/docs/install.html):
+  - `opam init`
+  - ``eval `opam env` ``
+  - `opam switch create 4.06.1`
+  - ``eval `opam env` ``
+  - make sure it worked: `which ocaml` and `ocaml -version`
+
+ ## Installing packages for MeTaL ##
+Assuming you got OPAM as described above:
+- `opam install core getopt menhir re2`
+and add  -package ppx_fields_conv
+to the Makefile
+
+## Ocaml interpreter
+Place the following in your root directory file .ocamlinit
+
+```
+#use "topfind";;
+#thread;;
+#camlp4o;;
+#require "core.top";;
+#require "core.syntax";;
+```
+
+ ## Installing MeTaL ##
+- clone this repo and run `make` in the `MeTaL` directory
+- The executable `texmlt` or `texmlt.native` generates xml from latex.
+  Example usage from within the root of MeTaL.
+  ```
+  $./texmlt examples/genome.tex -preamble examples/preamble.tex -o genome.xml
+  ```
+- The executable `texel` or `texel.native` elaborates the input latex file in several ways.
+  ```
+  $./texel examples/genome.tex -o genome_elaborated.xml
+
+
+ #### Disabling debug output ####
+If you get lots of debug output when compiling to xml, (eg: `!lexer matched` and `!found word:`) you can disable debugging output to get rid of it
+- edit the file `MeTaL/pervasives/utils.ml`
+  - find the line `let debug = true` and change it to `let debug = false`
+  - re-run `make` in the `MeTaL` directory and copy the file `tex2xml.native` to wherever you want it
+
+# Developer Resources
+
+## Real world ocaml updated version 
 https://dev.realworldocaml.org/records.html
 
 Regexp examples
 http://pleac.sourceforge.net/pleac_ocaml/patternmatching.html
 
-# Usage
-
-## tex2tex
-$ make
-  This will generate tex2tex.native
-  Run 
-  $ tex2tex.native tex/star.tex s.tex
-
-  This will parse tex/star.tex and write the parsed document into s.tex
-  Run now 
-  $ diff s.tex tex/star.tex
-  And there should be no difference, because the parser is idempotent.
-
-## tex2xml
-$ make tex2xml.native
-  This will generate tex2xml.native
-  Run 
-  $ tex2xml.native tex/star.tex s.xml
-
-  This will parse tex/star.tex and generate an incomplete xml
-  Completing this translation is currently what I am working on.
-
-
-
-
-##
 ## OCAML
 
 To load a module into the ocaml REPL use #load, e.g.,
+```
 # #load "Str.cma";;
 # Str.split (Str.regexp (",[ ]*"))  "x = y y = z";;
+```
 
-# PPX 
+### PPX 
 To get access to fancy record accessors use 
 - `opam install ppx_deriving`
 
-
-######################################################################
-## Pre-OCAML README, September 2018
-
-# IMPORTANT: 
-1) the module pervasives/ must match that inside the diderot
-2) the module mlx should containt syntax.py and this should be identical to that from diderot.
-
-This is how MeTaL and Diderot communicate.
-  
-
-# Translation to MLX
-
-  In the past, it used to be that strictification and elaboration was done at the DEX level.  We now do these at the MLX level because XML tools make these operations relatively straightforward to implement.  Theferefore dex2mlx does a relatively straightforward translation of DEX to MLX.
-  
-
-# Create a standalone executable
-pip install pyinstaller
-pyinstaller --onefile --windowed file.py
-
-# CAML Version of MTL
-
-  * tex/ contains a block-parser for latex written in ocaml
-  * xml/ contains code for Diderot XML written in ocaml
-  
-
-# Note on Python 3
-
-  I (Umut) was able to port MeTaL to python3 without much difficulty.
-  The code for ported dex/ directory is in dex3
-  See README3.
-
-  I think we are not going to switch to python3 at the moment.  So I
-  am not going to maintain this codebase.
 
