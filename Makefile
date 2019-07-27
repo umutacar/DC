@@ -111,6 +111,9 @@ bin_ubuntu_dbg:
 	cp texml.native bin/ubuntu/texml.dbg
 
 
+guide:
+	pandoc guide/README.md -o guide/README.pdf
+
 guide_macos:
 	cp tex2tex.native guide/mtl/bin/macos/tex2tex
 	cp texel.native guide/mtl/bin/macos/texel
