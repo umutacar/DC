@@ -220,6 +220,18 @@ syntax : "syn"
 task : "tsk"
 theorem : "thm"
 ```
+### Code
+
+For code, you can use the lstlisting environment.  The language has to be specified first (see below for an example).  The Kate language highligting spec should be included in the "meta" directory and the name of the file should match that of the language.  For example if `language = C`, then the Kate file should be `meta/C.xml`.  If the language is a dialect, then, e.g., `language = {[Cdialect]C}`, then the file should be called `CdialectC`.  Kate highlighting definitions for most languages are available online.
+
+
+```
+\begin{lstlisting}[language = {[Cdialect]C}, ...]
+main () {
+  return void
+}
+\end{lstlisting}
+```
 
 ### Label references
 
@@ -403,7 +415,7 @@ This tools translates the given input LaTeX file to xml.
 
 Example: `texml  -meta ./meta -preamble preamble.tex input_file.tex -o output_file.xml`
 
-The meta direcotry contains some files that may be used in the xml translation.  You can ignore this to start with.
+The meta direcotry contains some files that may be used in the xml translation.  You can ignore this directory to start with and then start populating it based on your needs.  The main file that you might want to add are Kate highlighting specifications to be used for highlighting code.
 
 ## Tool: texml.dbg 
 This tools is the "debug" version of the texml binary above. As you might notite, `texml` doesn't currenty give reasonable error messages.  The debug version prints out the text that it parses, so you can have some sense of where things have gone wrong.  As you will likely experience, `texml` should work if your latex sources are otherwise correct (you can run them through pdflatex), so hopefully, you will not have to use this binary much.  
