@@ -310,8 +310,7 @@ rule initial = parse
 | (p_heading as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-    let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
@@ -321,8 +320,7 @@ rule initial = parse
 | (p_heading_with_points as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
      let _ =  set_line_nonempty () in
@@ -332,8 +330,7 @@ rule initial = parse
 | (p_begin_group as x) (p_o_sq as a)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
      let _ =  set_line_nonempty () in
@@ -394,8 +391,7 @@ rule initial = parse
 | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
      let body = skip_inline kind lexbuf in
      let _ =  set_line_nonempty () in
@@ -490,7 +486,7 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = skip_inline kind lexbuf in
      let lst = x ^ arg ^ c_sq ^ body in
      let (rest, h_e) = take_env lexbuf in
@@ -576,30 +572,29 @@ and skip_env stop_kind =
         ((str_of_char x) ^ y, h_e)
       }
 
-and take_arg delimiter_open delimiter_close = 
+and take_arg depth delimiter_open delimiter_close = 
   parse
   | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
      let i = skip_inline kind lexbuf in
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+     let (rest, h_e) = take_arg depth delimiter_open delimiter_close lexbuf in
 		 (h ^ i ^ rest, h_e)
     }
 
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+     let (rest, h_e) = take_arg depth delimiter_open delimiter_close lexbuf in
           (x ^ rest, h_e)
     }
 
   | p_percent as x   (* comments *)
    	{ 
      let y = take_comment lexbuf in
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+     let (rest, h_e) = take_arg depth delimiter_open delimiter_close lexbuf in
      (* Drop comment, including newline at the end of the comment.   *)
      (rest, h_e)
      } 
@@ -613,23 +608,76 @@ and take_arg delimiter_open delimiter_close =
         as in lstinline.
       *)
 		 if x = delimiter_close then
+			 let depth = depth - 1 in
+       if depth = 0 then
+(*				 let _ = d_printf "exit\n" in *)
+         ("", x)
+       else
+         let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
+         (x ^ arg, c_c)					 
+		 else if x = delimiter_open then
+			 let depth = depth + 1 in
+			 let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
+			 (x ^ arg, c_c)
+		 else
+			 let (rest, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in
+       (x ^ rest, c_c)
+    }
+
+and take_arg_ delimiter_open delimiter_close = 
+  parse
+  | p_com_skip p_ws p_o_sq as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let _ = inc_arg_depth () in
+     let (arg, c_sq) = take_arg_ kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ arg ^ c_sq in
+     let i = skip_inline kind lexbuf in
+     let (rest, h_e) = take_arg_ delimiter_open delimiter_close lexbuf in
+		 (h ^ i ^ rest, h_e)
+    }
+
+  (* Important because otherwise lexer will think that it is comment *)
+  | p_percent_esc as x 
+		{
+     let (rest, h_e) = take_arg_ delimiter_open delimiter_close lexbuf in
+          (x ^ rest, h_e)
+    }
+
+  | p_percent as x   (* comments *)
+   	{ 
+     let y = take_comment lexbuf in
+     let (rest, h_e) = take_arg_ delimiter_open delimiter_close lexbuf in
+     (* Drop comment, including newline at the end of the comment.   *)
+     (rest, h_e)
+     } 
+
+  | _ as x
+    {
+     let x = str_of_char x in
+(*     let _ = d_printf "take_arg_ x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+     (* Tricky: check close first so that you can handle 
+        a single delimeter used for both open and close,
+        as in lstinline.
+      *)
+		 if x = delimiter_close then
 			 let _ = dec_arg_depth () in
        if arg_depth () = 0 then
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = take_arg_ delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
 			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
+			 let (arg, c_c) = take_arg_ delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = take_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = take_arg_ delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
-and skip_arg delimiter_open delimiter_close = 
+and skip_arg  delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
   | _ as x
