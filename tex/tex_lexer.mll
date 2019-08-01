@@ -341,6 +341,26 @@ parse
 		   CHUNK(all, None)
     }
 
+(* (\* BEGIN: TODO: Testing complete this *\) *)
+(* | p_o_sq as x  *)
+(*   { *)
+(*      let (arg, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in *)
+(*      let all = x ^ arg ^ c_c in *)
+(* (\*     let _ = d_printf "!lexer matched segment all: %s." h in *\) *)
+(*        CHUNK(all, None) *)
+
+(*   } *)
+
+(* | p_o_curly as x  *)
+(*   { *)
+(*      let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in *)
+(*      let all = x ^ arg ^ c_c in *)
+(* (\*     let _ = d_printf "!lexer matched segment all: %s." h in *\) *)
+(*        CHUNK(all, None) *)
+
+(*   } *)
+(* (\** END: TODO **\) *)
+
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)

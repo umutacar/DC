@@ -33,7 +33,7 @@ let str_of_items items =
 	      (string * string) list *   (* keyword arguments *)
         string option *   (* label *)
         string *          (* body *)
-        string option *   (* caption *)
+        (string option * string) option *   (* caption: title option, body option *)
         ((string * string option * string) list) *   (* items kind, point opt, body *)
 	      string> ATOM       (* all *)
 
@@ -44,7 +44,7 @@ let str_of_items items =
 	      (string * string) list *   (*  keyword arguments *)
         string option *   (* label *)
         string *          (* body *)
-        string option *   (* caption *)
+        (string option * string) option *   (* caption *)
         ((string * string option * string) list)  (* items kind, point opt, body *)
 	      ) option>  top  (* all *)
 

@@ -1,5 +1,18 @@
-* atom lexer does not take into account lstinline's inside arguments and environments.  it should.
-* Make a PR from pure to master.
+* atmm book uses lots of multiparagraph arguments for examples   
+  \sidenote{
+   Para 1
+  
+   Para 2
+  }
+ 
+  This breaks in MTL because we don't take "{ .. }" as a chunk but dive into newlines.  We could skip over open and close braces.  I have to think about the implications of that.   
+
+  This seems to break, because we can see things like \left\{ and \[  and \] though the latter will be ok.  So if we handle espace characters first, perhaps we will be ok?
+   
+
+* lstinline inside arguments is not tested well.  create some tests.
+* captions now accept optional title argument but it is not tested.  test using atmm book.
+   
 * Caption could take an optional argument handle that as follows:
   -- Extend atom parser to recognize parser with optional argument
      translate perhaps the title to something like this, perhaps maintain it separately

@@ -11,7 +11,7 @@ module Ast = Ast
 module Tex = Tex_syntax
 
 module Atom_lexer = Atom_lexer
-module Atom_Parser = Atom_parser
+module Atom_parser = Atom_parser
 
 (* Turn off prints *)
 (*
@@ -322,6 +322,7 @@ atom:
 	 in			 
    let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in
 	 let body = String.strip ~drop:is_vert_space body in
+   let capopt = normalize_caption capopt in
    let topt = find_in_list kw_args "title" in
    let copt = find_in_list kw_args "cover" in
    let sopt = find_in_list kw_args "sound" in
