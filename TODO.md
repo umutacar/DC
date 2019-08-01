@@ -1,3 +1,4 @@
+* atom lexer does not take into account lstinline's inside arguments and environments.  it should.
 * Make a PR from pure to master.
 * Caption could take an optional argument handle that as follows:
   -- Extend atom parser to recognize parser with optional argument
