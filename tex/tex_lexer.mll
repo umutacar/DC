@@ -65,15 +65,7 @@ let space_state_to_string () =
 (** END State Machine **)
 
 (** BEGIN: Line Emptiness Status **)
-let lexer_line_status = ref true
-let set_line_empty () = 
-	lexer_line_status := true
-
-let set_line_nonempty () = 
-	lexer_line_status := false
-
-let line_is_empty () = 
-	!lexer_line_status
+let is_line_empty = ref false
 (** END: Line Emptiness Status **)
 
 
@@ -257,7 +249,7 @@ let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c
 
 
 (** END PATTERNS *)			
-
+(* Takes is_empty, the emptiness status of the current line *)
 rule initial is_empty = 
 parse
 | (p_heading as x) (p_o_curly as o_c)
@@ -266,7 +258,6 @@ parse
      let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-     let _ =  set_line_nonempty () in
        KW_HEADING(kind, arg, None)
     }		
 
@@ -276,7 +267,6 @@ parse
      let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-     let _ =  set_line_nonempty () in
        KW_HEADING(kind, arg, Some point_val)
     }		
 
@@ -286,28 +276,24 @@ parse
      let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
-     let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, arg, None)
     }		
 
 | p_begin_group as x
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, x, None)
     }		
 
 | p_com_fold as x
     {
 (*     let _ = d_printf "!lexer matched fold %s." x in *)
-     let _ =  set_line_nonempty () in
        KW_FOLD(x)
     }		
 
 | p_end_group as x
     {
 (*     let _ = d_printf "!lexer matched end group %s." kind in *)
-     let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
 
@@ -318,7 +304,6 @@ parse
      let (rest, h_e) = skip_env kind lexbuf in
    	 let all = x ^ rest ^ h_e in
 (*     let _ = d_printf "!lexer matched skip env: %s.\n" all in  *)
-     let _ =  set_line_nonempty () in
      CHUNK(all, None)
 }
 
@@ -327,14 +312,12 @@ parse
      let (rest, h_e) = take_env 1 false lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = d_printf "!lexer matched env %s.\n" all in 
-     let _ =  set_line_nonempty () in
-            CHUNK(all, None)
+     CHUNK(all, None)
 }
 
 | p_label_and_name as x
  		{ 
 (*	    let _ = d_printf "!lexer matched %s." x in *)
-      let _ =  set_line_nonempty () in
 			let all = label_pre ^ label_name ^ label_post in
 (*			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name) *)
 			CHUNK (all, Some label_name)
@@ -346,7 +329,6 @@ parse
      let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
      let body = skip_inline kind lexbuf in
-     let _ =  set_line_nonempty () in
      let all = h ^ body in
 		   CHUNK(all, None)
     }
@@ -354,7 +336,6 @@ parse
 | p_com_skip as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ =  set_line_nonempty () in
      let body = skip_inline kind lexbuf in
      let all = x ^ body in
 		   CHUNK(all, None)
@@ -363,30 +344,24 @@ parse
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
-     let _ =  set_line_nonempty () in
      CHUNK(str_of_char x, None)
     }
 
 | p_percent_esc as x 
 		{
 (*     d_printf "!lexer found: espaced percent char: %s." x; *)
-     let _ =  set_line_nonempty () in
      CHUNK(x, None)
     }
 
 | p_percent as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let is_line_empty = line_is_empty () in
      let rest = take_comment lexbuf in
-     (* A comment ends with a newline so set the line empty *)
-     let _ =  set_line_empty () in
      let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
-		 if is_line_empty then
-      (* Drop linens consisting of comments only *)
+		 if !is_line_empty then
+      (* Drop linens consisting of comments only *)			 
        initial true lexbuf
-
 		 else
       (* Drop comments but finish the line, which is not empty *)
 			 NEWLINE "\n"
@@ -394,8 +369,6 @@ parse
 
 | p_newline as x
 		{
-(*	   d_printf "!lexer found: newline: %s." x; *)
-     let _ =  set_line_empty () in
        NEWLINE(x)
     }
 
@@ -481,12 +454,11 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
 
   | p_percent as x   (* comments *)
    	{ 
-     let line_is_empty = is_empty in
      let y = take_comment lexbuf in
 (*     let _ = d_printf "drop comment = %s" y in *)
      let (rest, h_e) = take_env depth true lexbuf in 
      (* Drop comment, adjust for  newline at the end of the comment.   *)
-     if line_is_empty then
+     if is_empty then
 			 (rest, h_e)
 		 else
 			 ("\n" ^ rest, h_e)
@@ -552,11 +524,10 @@ and take_arg depth is_empty delimiter_open delimiter_close =
   | p_percent as x   (* comments *)
    	{ 
      
-     let line_is_empty = is_empty in
      let y = take_comment lexbuf in
      let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
      (* Drop comment, adjust for  newline at the end of the comment.   *)
-     if line_is_empty then
+     if is_empty then
 			 (rest, h_e)
 		 else
 			 ("\n" ^ rest, h_e)
@@ -626,7 +597,7 @@ and skip_arg depth delimiter_open delimiter_close =
 {
 (* This is the default lexer *)
 let lexer: Lexing.lexbuf -> token = 
-		initial false
+		initial (!is_line_empty)
 
 (* This is the spiced up lexer that modifies the token stream in
  * several ways.
@@ -703,19 +674,22 @@ let lexer: Lexing.lexbuf -> token =
 (*						let _ = d_printf "\n **token = newline! \n" in *)
 (*						let _ = d_printf " **space_state = %s! \n" (space_state_to_string ()) in *)
 						begin
-            match get_space_state () with 
-						| Horizontal ->
-								let _ = set_space_state Vertical in
+							let _ = is_line_empty := true in
+							match get_space_state () with 
+							| Horizontal ->
+									let _ = set_space_state Vertical in
 								  ()
-						| Vertical ->
-								let _ = set_state Idle in
-                ()
+							| Vertical ->
+									let _ = set_state Idle in
+									()
 						end
 				| HSPACE x ->  
+							let _ = is_line_empty := false in
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						(* Does not change space state! *)
 						()
 				| CHUNK x -> 
+						let _ = is_line_empty := false in
 						let (c, l) =  x in
 (*						let _ = d_printf "** token = sigchar %s \n" c in *)
 (*						let _ = d_printf "%s" x in *)
@@ -732,18 +706,22 @@ let lexer: Lexing.lexbuf -> token =
 
 				| KW_BEGIN_GROUP x ->
 (*  					let _ = d_printf "** token = begin group \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_END_GROUP x ->
 (*  					let _ = d_printf "** token = end group \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_FOLD x ->
 (*  					let _ = d_printf "** token = fold \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_HEADING x ->
 (*  					let _ = d_printf "** token = heading \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
         | EOF -> 
