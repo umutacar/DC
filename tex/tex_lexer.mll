@@ -356,7 +356,7 @@ rule initial = parse
 | (p_begin_env as x)
     {
      let _ = do_begin_env () in		
-     let (rest, h_e) = take_env 1 lexbuf in
+     let (rest, h_e) = take_env 1 false lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = d_printf "!lexer matched env %s.\n" all in 
      let _ =  set_line_nonempty () in
@@ -454,7 +454,7 @@ and take_comment =
      let comment = take_comment lexbuf in 
        (str_of_char x) ^ comment
     }
-and take_env depth =  (* not a skip environment, because we have to ignore comments *)
+and take_env depth is_empty =  (* not a skip environment, because we have to ignore comments *)
   parse
   | p_begin_env_skip as x
       { 
@@ -462,7 +462,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
 (*       let _ = d_printf "!lexer: env skip matched = %s" v in *)
-       let (rest, h_e) = take_env depth lexbuf in
+       let (rest, h_e) = take_env depth false lexbuf in
        (v ^ rest, h_e)          
       }   
 
@@ -472,7 +472,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
      let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = skip_inline kind lexbuf in
      let lst = x ^ arg ^ c_sq ^ body in
-     let (rest, h_e) = take_env depth lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
 		 (lst ^ rest, h_e)
     }
 
@@ -480,14 +480,14 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let body = skip_inline kind lexbuf in
-     let (rest, h_e) = take_env depth lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
      (x ^ body ^ rest, h_e)          
     }
 
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-            let (rest, h_e) = take_env (depth+1) lexbuf in
+            let (rest, h_e) = take_env (depth+1) false lexbuf in
                 (x ^ rest, h_e)              
         }
 
@@ -499,7 +499,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
               ( "", x)
             else
-              let (rest, h_e) = take_env depth lexbuf in
+              let (rest, h_e) = take_env depth false lexbuf in
               (x ^ rest, h_e)  
         }      
 
@@ -507,20 +507,29 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (rest, h_e) = take_env depth lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
           (x ^ rest, h_e)
     }
 
   | p_percent as x   (* comments *)
    	{ 
+     let line_is_empty = is_empty in
      let y = take_comment lexbuf in
 (*     let _ = d_printf "drop comment = %s" y in *)
-     let (rest, h_e) = take_env depth lexbuf in 
+     let (rest, h_e) = take_env depth true lexbuf in 
      (* Drop comment, including newline at the end of the comment.   *)
-     (rest, h_e)
+     if line_is_empty then
+			 (rest, h_e)
+		 else
+			 ("\n" ^ rest, h_e)
      } 
+  | p_newline as x
+    { let (rest, h_e) = take_env depth true lexbuf in
+      (x ^ rest,  h_e)
+		}
+
   | _  as x
-        { let (rest, h_e) = take_env depth lexbuf in
+        { let (rest, h_e) = take_env depth false lexbuf in
             ((str_of_char x) ^ rest, h_e)
         }
 
