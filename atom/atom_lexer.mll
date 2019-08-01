@@ -63,22 +63,6 @@ let get_current_atom () =
  **********************************************************************)
 
 
-(**********************************************************************
- ** BEGIN: Argument depth machinery
- **********************************************************************)
-let arg_depth = ref 0  
-
-let inc_arg_depth () =
-  arg_depth := !arg_depth + 1
-
-let dec_arg_depth () =
-  arg_depth := !arg_depth - 1
-
-let arg_depth () =
-  !arg_depth
-(**********************************************************************
- ** END: argument depth machinery
- **********************************************************************)
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
@@ -227,8 +211,7 @@ rule initial = parse
 | (p_begin_env_lstlisting as x) (p_o_sq as a)
     {
      let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
-     let _ = inc_arg_depth () in
-     let (title, kw_args) = take_atom_args lexbuf in
+     let (title, kw_args) = take_atom_args 1 lexbuf in
      let h_b = mk_heading (x, title, kw_args) in
      let kw_args = ["title", title] @ kw_args in 
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
@@ -250,8 +233,7 @@ rule initial = parse
     {
      let _ = d_printf "!atom lexer: matched begin env %s." kind in 
 	   let _ = set_current_atom kind in
-     let _ = inc_arg_depth () in
-     let (title, kw_args) = take_atom_args lexbuf in
+     let (title, kw_args) = take_atom_args 1 lexbuf in
      let h_b = mk_heading (x, title, kw_args) in
      let kw_args = ["title", title] @ kw_args in 
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
@@ -278,8 +260,7 @@ rule initial = parse
     {
      let _ = d_printf "!atom lexer: matched begin env %s.\n" kind in 
 	   let _ = set_current_atom kind in
-     let _ = inc_arg_depth () in
-     let (title, kw_args) = take_atom_args lexbuf in
+     let (title, kw_args) = take_atom_args 1 lexbuf in
      let h_b = mk_heading (x, title, kw_args) in
      let kw_args = ["title", title] @ kw_args in 
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
@@ -367,8 +348,7 @@ and take_env =
 			}		
 	| (p_caption p_ws p_o_curly) as x
 		{
-     let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg lexbuf in
+     let (arg, c_c) = take_arg 1 lexbuf in
      let capopt = Some arg in
      let all = x ^ arg ^ c_c in
      let _ = d_printf "!atom lexer matched caption %s." all  in
@@ -400,92 +380,90 @@ and skip_env stop_kind =
         ((str_of_char x) ^ y, h_e)
       }
 
-and take_arg = 
+and take_arg depth = 
   parse 
   | p_o_curly as x
     {
-     let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg lexbuf in 
+     let depth = depth + 1 in
+     let (arg, c_c) = take_arg depth lexbuf in 
        (x ^ arg, c_c)
     }
   | (p_c_curly p_ws) as x
     {
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+     let depth = depth - 1 in
+       if depth = 0 then
            ("", x)
        else
-         let (arg, c_c) = take_arg lexbuf in 
+         let (arg, c_c) = take_arg depth lexbuf in 
            (x ^ arg, c_c)
     }
   | _ as x
     {
-     let (arg, c_c) = take_arg lexbuf in 
+     let (arg, c_c) = take_arg depth lexbuf in 
        ((str_of_char x) ^ arg, c_c)
     }
-and take_atom_args = 
+and take_atom_args depth = 
   parse 
   | (p_c_sq p_ws as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws)
     {
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
-				 let _ = inc_arg_depth () in
-         let (a, l) = take_kw_args lexbuf in
+     let depth = depth - 1 in
+       if depth = 0 then
+         let (a, l) = take_kw_args 1 lexbuf in
            ("", (kw, a)::l)
        else
-         let (arg, l) = take_atom_args lexbuf in 
+         let (arg, l) = take_atom_args depth lexbuf in 
            (x ^ arg, l)
      }   
   | p_o_sq as x
     {
-     let _ = inc_arg_depth () in
-     let (arg, l) = take_atom_args lexbuf in 
+     let (arg, l) = take_atom_args (depth + 1) lexbuf in 
        (x ^ arg, l)
     }
 
   | (p_c_sq p_hs) as x
     {
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+     let depth = depth - 1 in
+       if depth = 0 then
            ("", [])
        else
-         let (arg, l) = take_atom_args lexbuf in 
+         let (arg, l) = take_atom_args depth lexbuf in 
            (x ^ arg, l)
     }
   | _ as x
     {
-     let (arg, l) = take_atom_args lexbuf in 
+     let (arg, l) = take_atom_args depth lexbuf in 
        ((str_of_char x) ^ arg, l)
     }
 
-and take_kw_args = 
+and take_kw_args depth = 
   parse 
   | (p_c_sq p_ws as x)
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
-     let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+     let depth = depth - 1 in
+       if depth = 0 then
            ("", [])
        else
-         let (arg, l) = take_kw_args lexbuf in 
+         let (arg, l) = take_kw_args depth lexbuf in 
            (x ^ arg, l)
     }
   | ';' p_ws (p_keyword as kw) p_ws '=' p_ws 
  	  {
 (*     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in *)
-      let (arg, l) = take_kw_args lexbuf in 
+      let (arg, l) = take_kw_args depth lexbuf in 
         ("", (kw, arg)::l)
     }
   | p_o_sq as x
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
-     let _ = inc_arg_depth () in
-     let (arg, l) = take_kw_args lexbuf in 
+     let depth = depth + 1 in
+     let (arg, l) = take_kw_args depth lexbuf in 
        (x ^ arg, l)
     }
   | _ as x
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" (str_of_char x) in *)
-     let (arg, l) = take_kw_args lexbuf in 
+     let (arg, l) = take_kw_args depth lexbuf in 
        ((str_of_char x) ^ arg, l)
     }
 

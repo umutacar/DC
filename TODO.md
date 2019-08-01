@@ -1,4 +1,3 @@
-* Regression test pure with 15122.
 * Make a PR from pure to master.
 * Caption could take an optional argument handle that as follows:
   -- Extend atom parser to recognize parser with optional argument
