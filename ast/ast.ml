@@ -5,10 +5,10 @@ open Core
 open Utils
 
 (* Turn off all prints *)
-(*
+
 let d_printf args = 
     ifprintf stdout args
-*)
+
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax
@@ -1193,13 +1193,13 @@ let check_preamble ast: bool =
 	in
 	let (_, found) = Segment.traverse ast (0, 0) check in	
 	if found = 0  then
-		(printf ("Preamble check: no preamble found.\n");
+		(d_printf ("Preamble check: no preamble found.\n");
 		 true)
   else if found = 1 then
-		(printf ("Preamble check:  one preamble found.\n");
+		(d_printf ("Preamble check:  one preamble found.\n");
 		 true)
   else if found > 1 then
-		(printf ("Preamble check: error. Multiple preambles found.\n");
+		(d_printf ("Preamble check: error. Multiple preambles found.\n");
 		 false)
 	else
 		(printf ("Preamble check:  error. Out of range.\n");

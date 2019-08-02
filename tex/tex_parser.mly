@@ -69,7 +69,7 @@ let str_of_items items =
  * parse it using Atom_parser
  *)
 let parse_atom input = 
-(*	let _ = d_printf "*atom_parser: atom_to_ast input = %s" input in *)
+	let _ = d_printf "* matched atom: atom_to_ast input =\n%s" input in 
   let lexbuf = Lexing.from_string input in
 	Atom_parser.top Atom_lexer.lexer lexbuf
 
@@ -320,7 +320,7 @@ atom:
 				 let problem_opt = Ast.problem_of_items items in
 				 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
 	 in			 
-   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in
+(*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
 	 let body = String.strip ~drop:is_vert_space body in
    let capopt = normalize_caption capopt in
    let topt = find_in_list kw_args "title" in

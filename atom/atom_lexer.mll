@@ -9,10 +9,10 @@ open Utils
 open Atom_parser
 
 (* Turn off prints *)
-(*
+
 let d_printf args = 
     ifprintf stdout args
-*)
+
 (*
 let d_printf args = printf args 
 *)
@@ -309,7 +309,7 @@ and take_env =
 (*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
-       let _ = printf "!atom lexer: skip env matched = %s" v in
+       let _ = d_printf "!atom lexer: skip env matched = %s" v in
        let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
        (lopt, v ^ rest, capopt, items, h_e)          
       }   

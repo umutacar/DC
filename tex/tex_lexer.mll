@@ -9,10 +9,8 @@ open Utils
 open Tex_parser
 
 (* Turn off prints *)
-(*
 let d_printf args = 
     ifprintf stdout args
-*)
 (*
 let d_printf args = printf args
 *)
@@ -302,10 +300,10 @@ parse
 
 | (p_begin_env_skip as x)
     {
-(*     let _ = d_printf "!lexer matched begin skip env kind = %s." kind in *)
+     let _ = d_printf "!lexer matched begin skip env kind = %s." kind in 
      let (rest, h_e) = skip_env kind lexbuf in
    	 let all = x ^ rest ^ h_e in
-(*     let _ = d_printf "!lexer matched skip env: %s.\n" all in  *)
+     let _ = d_printf "!lexer matched skip env: %s.\n" all in  
      CHUNK(all, None)
 }
 
@@ -354,7 +352,7 @@ parse
   {
      let (arg, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let all = x ^ arg ^ c_c in
-(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+     let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
        CHUNK(all, None)
 
   }
@@ -363,7 +361,7 @@ parse
   {
      let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
      let all = x ^ arg ^ c_c in
-(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+     let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
        CHUNK(all, None)
 
   }

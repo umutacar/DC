@@ -1,3 +1,4 @@
+* add python xml
 * atmm book uses lots of multiparagraph arguments for examples   
   \sidenote{
    Para 1
