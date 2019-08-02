@@ -325,8 +325,9 @@ and take_env =
   | p_com_skip as x 
 		{
      let body = skip_inline kind lexbuf in
-     let all = x ^ body in
-		   CHUNK(all, None)
+     let s = x ^ body in
+     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
+       (lopt, s ^ rest, capopt, items, h_e)
     }
 
 
