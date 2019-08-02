@@ -23,6 +23,7 @@ let mk_point_val_f_opt (s: string option) =
 
 let str_of_items items = 
 	str_of_str2_list items
+
 %}	
 
 %token EOF
@@ -45,8 +46,9 @@ let str_of_items items =
         string option *   (* label *)
         string *          (* body *)
         string option *   (* caption *)
-        ((string * string option * string) list)  (* items kind, point opt, body *)
-	      ) option>  top  (* all *)
+        ((string * string option * string) list) *  (* items kind, point opt, body *)
+        string            (* all *)
+	      , string) result>  top  (* all *)
 
 /*  BEGIN RULES */
 %%
@@ -58,11 +60,11 @@ atom:
 | a = ATOM
   { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
     let _ = d_printf "* atom_parser, atom body = %s\n" body in 
-		(kind, popt, kwargs, lopt, body, capopt, items) 
+		(kind, popt, kwargs, lopt, body, capopt, items, all) 
   }
 
 any:
-| a = Atom
+| a = ATOM
   { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
       all
   }
@@ -78,18 +80,20 @@ many:
    
 top:
 | a = atom
-  EOF
-  {
-	 Is_atom a
+  EOF 
+  {let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
+	 Ok a
 	}
 | a = atom
   m = many
-  { Non_atom a ^ m }
+  { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
+			Error (all ^ m) 
+  }
 
 | c = SIGCHAR
-  { Non_atom c }
+  { Error c }
 
 
 | c = SIGCHAR
   m = many
-  { Non_atom c ^ m }
+  { Error (c ^ m) }

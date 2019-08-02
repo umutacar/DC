@@ -315,8 +315,8 @@ atom:
    let a = parse_atom all in
 	 let (kind, popt, kw_args, lopt, body, capopt, problem_opt) = 
 	   match a with 
-		 | None -> (Tex.kw_gram, None, [], None, all, None, None)
-		 | Some (kind, popt, kw_args, lopt, body, capopt, items) -> 
+		 | Error all-> (Tex.kw_gram, None, [], None, all, None, None)
+		 | Ok (kind, popt, kw_args, lopt, body, capopt, items, all) -> 
          if Tex.is_atom kind then
 					 let problem_opt = Ast.problem_of_items items in
 					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
