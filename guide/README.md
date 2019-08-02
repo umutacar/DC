@@ -72,8 +72,6 @@ optional but highly recommended: \label{atom-label}
 \end{<atom>}
 ```
 
-Note that atoms are defined by "vertical white spaces", i.e., they are single standing and are not surrounded by other text.  White space therefore matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.
-
 In addition to plain paragraphs, there are many atoms to choose from.  Here is a complete list.  Let me (umut@cs.cmu.edu) know if you want others.
 
 * `algorithm`
@@ -107,6 +105,64 @@ In addition to plain paragraphs, there are many atoms to choose from.  Here is a
 
 
 Currently, we only allow you to use these atoms. You can also ask Umut to create new atoms if you need one.
+
+
+
+Note that atoms are defined by "vertical white spaces", i.e., they are single standing and are not surrounded by other text.  White space therefore matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.  For example, the following code will not be a definiton atom, but will be a plain paragraph atom, because definition is not single standing.
+
+```
+We can now define Kleene closure as follows.
+\begin{definition}
+\end{definition}
+```
+
+#### Controlling granularity
+
+Diderot will treat each paragraph as an atom.  This can sometimes be too distracting, especially if the paragraphs are small.  For example, the following text consists of three small paragraphs.
+
+```
+\noindent If this then that.
+
+\noindent If that then this.
+
+\noindent This if and only of if that.
+```
+
+When you upload this document on to dideret, you will get three atoms, one for each line.  You might find this too fine-grained.  You can coarsen this text by wrapping it in a single atom.
+
+```
+\begin{gram}[If and only If]
+\noindent If this then that.
+
+\noindent If that then this.
+
+\noindent This if and only of if that.
+\end{gram}
+```
+
+Alternatively you can wrap the text by curly braces as follows.
+
+```
+\begin{gram}[If and only If]
+\noindent If this then that.
+
+\noindent If that then this.
+
+\noindent This if and only of if that.
+\end{gram}
+```
+```
+{
+\noindent If this then that.
+
+\noindent If that then this.
+
+\noindent This if and only of if that.
+}
+```
+
+Both will have no impact on the PDF but on Diderot, you will have only one atom for the three sentences.
+
 
 ### Groups
 
