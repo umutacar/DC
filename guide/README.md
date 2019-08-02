@@ -105,38 +105,8 @@ In addition to plain paragraphs, there are many atoms to choose from.  Here is a
 * `theorem`
 
 
-TODO: THIS IS BOGUS.  WE NEED TO WRAP ONLY OUR ATOMS AS ATOMS AND LEAVE OTHERS ALONE.
 
-Currently, we only allow you to use these atoms.  This means that if you have a paragraph that starts with anything else, you will likely encounter an error.  For example 
-
-```
-\begin{thm}
-...
-\end{thm}
-```
-
-is not a legitimate atom.
-
-Sometimes it becomes necessary to have atoms of this sort.  In this case, you can use one of several tricks:
-
-
- Currently, we expect you to wrap this with another atom, or don't make it paragraph,  For example,
-
-```
-The following theorem...
-\begin{thm}
-\end{thm}
-```
-or
-
-```
-\begin{gram}
-\begin{thm}
-\end{thm}
-\end{gram}
-```
-
-You can also ask Umut to create an atom called "thm" and we would be happy to do so. 
+Currently, we only allow you to use these atoms. You can also ask Umut to create new atoms if you need one.
 
 ### Groups
 
