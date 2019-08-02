@@ -377,8 +377,8 @@ and take_env =
      let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = take_arg_ws lexbuf in
      let capopt = Some (Some title, body) in
-     let all = x ^ body ^ c_c ^ kw_curly_open ^ body ^ kw_curly_close in
-     let _ = d_printf "!atom lexer matched caption %s." all  in
+     let all = x ^ title ^ c_c ^ kw_curly_open ^ body ^ kw_curly_close in
+     let _ = printf "!atom lexer matched caption: title = %s \n %s." title all  in
      
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
@@ -390,7 +390,7 @@ and take_env =
      let (body, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let capopt = Some (None, body) in
      let all = x ^ body ^ c_c in
-     let _ = d_printf "!atom lexer matched caption %s." all  in
+     let _ = printf "!atom lexer matched caption %s." all  in
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
       (lopt,  all ^ y, capopt, items, h_e)
