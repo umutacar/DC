@@ -129,7 +129,10 @@ let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
 (* newline *)
 let p_newline = '\n' | ('\r' '\n')
 let p_percent = '%'	
-let p_percent_esc = "\\%"	
+let p_esc_percent = "\\%"	
+let p_esc_curly = "\\{"	
+let p_special_char = p_esc_curly | p_esc_percent
+
 
 let p_newline = '\n' | ('\r' '\n')
 let p_comment_line = p_percent [^ '\n']* '\n'
@@ -159,7 +162,6 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let p_special_percent = p_backslash p_percent
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
 
@@ -341,36 +343,36 @@ parse
 		   CHUNK(all, None)
     }
 
-(* (\* BEGIN: TODO: Testing complete this *\) *)
-(* | p_o_sq as x  *)
-(*   { *)
-(*      let (arg, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in *)
-(*      let all = x ^ arg ^ c_c in *)
-(* (\*     let _ = d_printf "!lexer matched segment all: %s." h in *\) *)
-(*        CHUNK(all, None) *)
+| p_special_char as x 
+		{
+(*     d_printf "!lexer found: espaced char: %s." x; *)
+     CHUNK(x, None)
+    }
 
-(*   } *)
+(* BEGIN: TODO: Testing complete this *)
+| p_o_sq as x
+  {
+     let (arg, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let all = x ^ arg ^ c_c in
+(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+       CHUNK(all, None)
 
-(* | p_o_curly as x  *)
-(*   { *)
-(*      let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in *)
-(*      let all = x ^ arg ^ c_c in *)
-(* (\*     let _ = d_printf "!lexer matched segment all: %s." h in *\) *)
-(*        CHUNK(all, None) *)
+  }
 
-(*   } *)
-(* (\** END: TODO **\) *)
+| p_o_curly as x
+  {
+     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
+     let all = x ^ arg ^ c_c in
+(*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+       CHUNK(all, None)
+
+  }
+(** END: TODO **)
 
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
      CHUNK(str_of_char x, None)
-    }
-
-| p_percent_esc as x 
-		{
-(*     d_printf "!lexer found: espaced percent char: %s." x; *)
-     CHUNK(x, None)
     }
 
 | p_percent as x 
@@ -465,7 +467,7 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
         }      
 
   (* Important because otherwise lexer will think that it is comment *)
-  | p_percent_esc as x 
+  | p_esc_percent as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
      let (rest, h_e) = take_env depth false lexbuf in
@@ -535,7 +537,7 @@ and take_arg depth is_empty delimiter_open delimiter_close =
     }
 
   (* Important because otherwise lexer will think that it is comment *)
-  | p_percent_esc as x 
+  | p_esc_percent as x 
 		{
      let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
           (x ^ rest, h_e)
