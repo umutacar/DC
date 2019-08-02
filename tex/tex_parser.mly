@@ -317,8 +317,12 @@ atom:
 	   match a with 
 		 | None -> (Tex.kw_gram, None, [], None,  all, None, None)
 		 | Some (kind, popt, kw_args, lopt, body, capopt, items) -> 
-				 let problem_opt = Ast.problem_of_items items in
-				 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
+         if Tex.is_atom kind then
+					 let problem_opt = Ast.problem_of_items items in
+					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
+				 else
+					 (Tex.kw_gram, None, [], None, all, None, None)
+					 
 	 in			 
 (*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
 	 let body = String.strip ~drop:is_vert_space body in
