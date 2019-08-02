@@ -377,7 +377,10 @@ and take_env =
      let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = take_arg_ws lexbuf in
      let capopt = Some (Some title, body) in
-     let all = x ^ title ^ c_c ^ kw_curly_open ^ body ^ kw_curly_close in
+     (* IMPORTANT HACK: Drop title from the caption.
+        We will promote it to be actual title if needed.
+      *)
+     let all = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
      let _ = printf "!atom lexer matched caption: title = %s \n %s." title all  in
      
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in

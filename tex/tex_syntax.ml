@@ -408,7 +408,8 @@ let rubric_opt rubric_opt =
        heading ^ "\n" ^ x)
 
 let is_atom_captionable kind = 
-	kind = kw_figure || kind = kw_table		
+	kind = kw_figure || kind = kw_table 		
+
 
 let is_group kw = 
   kw = kw_cluster ||

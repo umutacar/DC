@@ -57,7 +57,7 @@ let str_of_items items =
 atom:
 | a = ATOM
   { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
-(*    let _ = d_printf "* atom: %s\n" all in *)
+    let _ = printf "* atom_parser, atom body = %s\n" body in 
 		(kind, popt, kwargs, lopt, body, capopt, items) 
   }
 

@@ -511,10 +511,11 @@ struct
     (* Set title to caption if captionable. *)
     let title = 
 			if Tex.is_atom_captionable kind then
-				capopt
+        capopt
 			else
 				title
 		in
+
 		match label with 
 		| None -> 
 				{kind; point_val; title; cover; sound; label; depend; problem; body=body; 

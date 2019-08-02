@@ -315,7 +315,7 @@ atom:
    let a = parse_atom all in
 	 let (kind, popt, kw_args, lopt, body, capopt, problem_opt) = 
 	   match a with 
-		 | None -> (Tex.kw_gram, None, [], None,  all, None, None)
+		 | None -> (Tex.kw_gram, None, [], None, all, None, None)
 		 | Some (kind, popt, kw_args, lopt, body, capopt, items) -> 
          if Tex.is_atom kind then
 					 let problem_opt = Ast.problem_of_items items in
@@ -326,10 +326,21 @@ atom:
 	 in			 
 (*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
 	 let body = String.strip ~drop:is_vert_space body in
-   let capopt = normalize_caption capopt in
    let topt = find_in_list kw_args "title" in
    let copt = find_in_list kw_args "cover" in
    let sopt = find_in_list kw_args "sound" in
+	 let (topt, capopt) = 		 
+        match topt with 
+        | None -> 
+						begin
+							match capopt with 
+							| None -> (None, None)
+							| Some (None, body) -> (None, Some body)
+							| Some (Some t, body) -> (Some t, Some body)
+						end
+				| Some _ -> (topt, normalize_caption capopt)
+	 in
+
 	 if Tex.is_label_only body then
 		 ([ ], ell)
 	 else
