@@ -25,6 +25,7 @@ let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
 
 
+(** BEGIN: State Machine **)
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -61,39 +62,14 @@ let space_state_to_string () =
 	| Horizontal -> "Horizontal"
 	| Vertical -> "Vertical"
 
+(** END State Machine **)
+
+(** BEGIN: Line Emptiness Status **)
+let is_line_empty = ref false
+(** END: Line Emptiness Status **)
 
 
-(* Indicates the depth at which the lexer is operating at
-   0 = surface level
-   1 = inside of an env
- *)
-let lexer_depth = ref 0
-let get_lexer_depth () =
-	!lexer_depth
-let inc_lexer_depth () = 
-   lexer_depth := !lexer_depth + 1
-let dec_lexer_depth () = 
-  (assert (!lexer_depth > 0);
-   lexer_depth := !lexer_depth - 1
-		 )
-
-		
-(* Indicates that the current line is empty *)
-let lexer_line_status = ref true
-let set_line_empty () = 
-	if get_lexer_depth () = 0 then
-		lexer_line_status := true
-
-let set_line_nonempty () = 
-	if get_lexer_depth () = 0 then
-		lexer_line_status := false
-let line_is_empty () = 
-	if get_lexer_depth () = 0 then
-		!lexer_line_status
-	else
-		(* Always return true, empty lines are harmless *)
-		true
-
+(** BEGIN: Token Cache **)
 type t_cache = token list
 let cache = ref [ ]
 let cache_is_empty () =
@@ -108,6 +84,8 @@ let cache_remove () =
 	| h::t -> 
 			(cache := t;
 			 Some h)
+
+(** END: Token Cache **)
 
 (* Some Utilities *)
 let start = Lexing.lexeme_start
@@ -138,40 +116,6 @@ let token_to_dbg_str tk =
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
-(**********************************************************************
- ** BEGIN: latex env machinery 
- **********************************************************************)
-
-let env_pos = ref 0  
-let env_depth = ref 0  
-
-let do_begin_env () =
-  inc_lexer_depth ()
-
-let do_end_env () =
-  let _ = dec_lexer_depth () in
-    get_lexer_depth () = 0
-
-(**********************************************************************
- ** END: latex env machinery 
- **********************************************************************)
-
-(**********************************************************************
- ** BEGIN: curly bracked depth machinery
- **********************************************************************)
-let arg_depth = ref 0  
-
-let inc_arg_depth () =
-  arg_depth := !arg_depth + 1
-
-let dec_arg_depth () =
-  arg_depth := !arg_depth - 1
-
-let arg_depth () =
-  !arg_depth
-(**********************************************************************
- ** END: curly bracked depth machinery
- **********************************************************************)
 
 }
 (** END: HEADER **)
@@ -305,59 +249,51 @@ let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c
 
 
 (** END PATTERNS *)			
-
-rule initial = parse
+(* Takes is_empty, the emptiness status of the current line *)
+rule initial is_empty = 
+parse
 | (p_heading as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-    let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-     let _ =  set_line_nonempty () in
        KW_HEADING(kind, arg, None)
     }		
 
 | (p_heading_with_points as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_c) = take_arg kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-     let _ =  set_line_nonempty () in
        KW_HEADING(kind, arg, Some point_val)
     }		
 
 | (p_begin_group as x) (p_o_sq as a)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
-     let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, arg, None)
     }		
 
 | p_begin_group as x
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let _ =  set_line_nonempty () in
        KW_BEGIN_GROUP(kind, x, None)
     }		
 
 | p_com_fold as x
     {
 (*     let _ = d_printf "!lexer matched fold %s." x in *)
-     let _ =  set_line_nonempty () in
        KW_FOLD(x)
     }		
 
 | p_end_group as x
     {
 (*     let _ = d_printf "!lexer matched end group %s." kind in *)
-     let _ =  set_line_nonempty () in
        KW_END_GROUP(kind, x)
     }		
 
@@ -368,24 +304,20 @@ rule initial = parse
      let (rest, h_e) = skip_env kind lexbuf in
    	 let all = x ^ rest ^ h_e in
 (*     let _ = d_printf "!lexer matched skip env: %s.\n" all in  *)
-     let _ =  set_line_nonempty () in
      CHUNK(all, None)
 }
 
 | (p_begin_env as x)
     {
-     let _ = do_begin_env () in		
-     let (rest, h_e) = take_env lexbuf in
+     let (rest, h_e) = take_env 1 false lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = d_printf "!lexer matched env %s.\n" all in 
-     let _ =  set_line_nonempty () in
-            CHUNK(all, None)
+     CHUNK(all, None)
 }
 
 | p_label_and_name as x
  		{ 
 (*	    let _ = d_printf "!lexer matched %s." x in *)
-      let _ =  set_line_nonempty () in
 			let all = label_pre ^ label_name ^ label_post in
 (*			KW_LABEL_AND_NAME(label_pre ^ label_name ^ label_post, label_name) *)
 			CHUNK (all, Some label_name)
@@ -394,11 +326,9 @@ rule initial = parse
 | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
      let body = skip_inline kind lexbuf in
-     let _ =  set_line_nonempty () in
      let all = h ^ body in
 		   CHUNK(all, None)
     }
@@ -406,7 +336,6 @@ rule initial = parse
 | p_com_skip as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ =  set_line_nonempty () in
      let body = skip_inline kind lexbuf in
      let all = x ^ body in
 		   CHUNK(all, None)
@@ -415,30 +344,24 @@ rule initial = parse
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
-     let _ =  set_line_nonempty () in
      CHUNK(str_of_char x, None)
     }
 
 | p_percent_esc as x 
 		{
 (*     d_printf "!lexer found: espaced percent char: %s." x; *)
-     let _ =  set_line_nonempty () in
      CHUNK(x, None)
     }
 
 | p_percent as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let is_line_empty = line_is_empty () in
      let rest = take_comment lexbuf in
-     (* A comment ends with a newline so set the line empty *)
-     let _ =  set_line_empty () in
      let comment = (str_of_char x) ^ rest in
 (*     let _ = d_printf "!lexer found: comment: %s." result in *)
-		 if is_line_empty then
-      (* Drop linens consisting of comments only *)
-       initial lexbuf
-
+		 if !is_line_empty then
+      (* Drop linens consisting of comments only *)			 
+       initial true lexbuf
 		 else
       (* Drop comments but finish the line, which is not empty *)
 			 NEWLINE "\n"
@@ -446,8 +369,6 @@ rule initial = parse
 
 | p_newline as x
 		{
-(*	   d_printf "!lexer found: newline: %s." x; *)
-     let _ =  set_line_empty () in
        NEWLINE(x)
     }
 
@@ -460,7 +381,7 @@ rule initial = parse
 | eof
 		{EOF}
 | _
-    {initial lexbuf}		
+    {initial false lexbuf}		
 
 and take_comment = 		
   parse
@@ -474,7 +395,7 @@ and take_comment =
      let comment = take_comment lexbuf in 
        (str_of_char x) ^ comment
     }
-and take_env =  (* not a skip environment, because we have to ignore comments *)
+and take_env depth is_empty =  (* not a skip environment, because we have to ignore comments *)
   parse
   | p_begin_env_skip as x
       { 
@@ -482,18 +403,17 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
 (*       let _ = d_printf "!lexer: env skip matched = %s" v in *)
-       let (rest, h_e) = take_env lexbuf in
+       let (rest, h_e) = take_env depth false lexbuf in
        (v ^ rest, h_e)          
       }   
 
   | p_com_lstinline  p_ws p_o_sq  as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let body = skip_inline kind lexbuf in
      let lst = x ^ arg ^ c_sq ^ body in
-     let (rest, h_e) = take_env lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
 		 (lst ^ rest, h_e)
     }
 
@@ -501,35 +421,34 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let body = skip_inline kind lexbuf in
-     let (rest, h_e) = take_env lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
      (x ^ body ^ rest, h_e)          
     }
 
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-            let _ = do_begin_env () in
-            let (rest, h_e) = take_env lexbuf in
+            let (rest, h_e) = take_env (depth+1) false lexbuf in
                 (x ^ rest, h_e)              
         }
 
   | p_end_env as x
         { 
 (*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
-            let do_exit = do_end_env () in
-                if do_exit then
+            let depth = depth - 1 in
+            if depth = 0 then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-                        ( "", x)
-                else
-                    let (rest, h_e) = take_env lexbuf in
-                      (x ^ rest, h_e)  
+              ( "", x)
+            else
+              let (rest, h_e) = take_env depth false lexbuf in
+              (x ^ rest, h_e)  
         }      
 
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
 (*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (rest, h_e) = take_env lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
           (x ^ rest, h_e)
     }
 
@@ -537,13 +456,21 @@ and take_env =  (* not a skip environment, because we have to ignore comments *)
    	{ 
      let y = take_comment lexbuf in
 (*     let _ = d_printf "drop comment = %s" y in *)
-     let (rest, h_e) = take_env lexbuf in 
-     (* Drop comment, including newline at the end of the comment.   *)
-     (rest, h_e)
-     } 
+     let (rest, h_e) = take_env depth true lexbuf in 
+     (* Drop comment, adjust for  newline at the end of the comment.   *)
+     if is_empty then
+			 (rest, h_e)
+		 else
+			 ("\n" ^ rest, h_e)
+    } 
+
+  | p_newline as x
+    { let (rest, h_e) = take_env depth true lexbuf in
+      (x ^ rest,  h_e)
+		}
 
   | _  as x
-        { let (rest, h_e) = take_env lexbuf in
+        { let (rest, h_e) = take_env depth false lexbuf in
             ((str_of_char x) ^ rest, h_e)
         }
 
@@ -553,8 +480,7 @@ and skip_inline kind =
   | _ as x
     { let x = str_of_char x in
 (*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
-      let _ = inc_arg_depth () in
-      let (rest, c) = skip_arg x x lexbuf in
+      let (rest, c) = skip_arg 1 x x lexbuf in
       let all =  x ^ rest ^ c in
 (*			let _ = d_printf "skip_inline all = %s\n"  all in *)
         all
@@ -576,33 +502,41 @@ and skip_env stop_kind =
         ((str_of_char x) ^ y, h_e)
       }
 
-and take_arg delimiter_open delimiter_close = 
+and take_arg depth is_empty delimiter_open delimiter_close = 
   parse
   | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let _ = inc_arg_depth () in
-     let (arg, c_sq) = take_arg kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
      let i = skip_inline kind lexbuf in
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
 		 (h ^ i ^ rest, h_e)
     }
 
   (* Important because otherwise lexer will think that it is comment *)
   | p_percent_esc as x 
 		{
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
+     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
           (x ^ rest, h_e)
     }
 
   | p_percent as x   (* comments *)
    	{ 
+     
      let y = take_comment lexbuf in
-     let (rest, h_e) = take_arg delimiter_open delimiter_close lexbuf in
-     (* Drop comment, including newline at the end of the comment.   *)
-     (rest, h_e)
+     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
+     (* Drop comment, adjust for  newline at the end of the comment.   *)
+     if is_empty then
+			 (rest, h_e)
+		 else
+			 ("\n" ^ rest, h_e)
      } 
+
+  | p_newline as x
+    { let (rest, h_e) = take_arg depth true delimiter_open delimiter_close lexbuf in
+      (x ^ rest,  h_e)
+		}
 
   | _ as x
     {
@@ -613,23 +547,24 @@ and take_arg delimiter_open delimiter_close =
         as in lstinline.
       *)
 		 if x = delimiter_close then
-			 let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+			 let depth = depth - 1 in
+       if depth = 0 then
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
-			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = take_arg delimiter_open delimiter_close lexbuf in 
+			 let depth = depth + 1 in
+			 let (arg, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = take_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
-and skip_arg delimiter_open delimiter_close = 
+
+and skip_arg depth delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
   | _ as x
@@ -641,27 +576,28 @@ and skip_arg delimiter_open delimiter_close =
         as in lstinline.
       *)
 		 if x = delimiter_close then
-			 let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+			 let depth = depth - 1 in
+       if depth = 0 then
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
-			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
+			 let depth = depth + 1 in
+			 let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = skip_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
+
 
 (** BEGIN TRAILER **)
 {
 (* This is the default lexer *)
 let lexer: Lexing.lexbuf -> token = 
-		initial
+		initial (!is_line_empty)
 
 (* This is the spiced up lexer that modifies the token stream in
  * several ways.
@@ -738,19 +674,22 @@ let lexer: Lexing.lexbuf -> token =
 (*						let _ = d_printf "\n **token = newline! \n" in *)
 (*						let _ = d_printf " **space_state = %s! \n" (space_state_to_string ()) in *)
 						begin
-            match get_space_state () with 
-						| Horizontal ->
-								let _ = set_space_state Vertical in
+							let _ = is_line_empty := true in
+							match get_space_state () with 
+							| Horizontal ->
+									let _ = set_space_state Vertical in
 								  ()
-						| Vertical ->
-								let _ = set_state Idle in
-                ()
+							| Vertical ->
+									let _ = set_state Idle in
+									()
 						end
 				| HSPACE x ->  
+							let _ = is_line_empty := false in
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						(* Does not change space state! *)
 						()
 				| CHUNK x -> 
+						let _ = is_line_empty := false in
 						let (c, l) =  x in
 (*						let _ = d_printf "** token = sigchar %s \n" c in *)
 (*						let _ = d_printf "%s" x in *)
@@ -767,18 +706,22 @@ let lexer: Lexing.lexbuf -> token =
 
 				| KW_BEGIN_GROUP x ->
 (*  					let _ = d_printf "** token = begin group \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_END_GROUP x ->
 (*  					let _ = d_printf "** token = end group \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_FOLD x ->
 (*  					let _ = d_printf "** token = fold \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_HEADING x ->
 (*  					let _ = d_printf "** token = heading \n"  in *)
+						let _ = is_line_empty := false in
             handle_keyword tk
 
         | EOF -> 
