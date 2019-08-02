@@ -61,17 +61,35 @@ atom:
 		(kind, popt, kwargs, lopt, body, capopt, items) 
   }
 
+any:
+| a = Atom
+  { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
+      all
+  }
+| c = SIGCHAR
+  { c } 
+
+many: 
+| a = any
+  { a } 
+| m = many
+  a = any
+  { m ^ a}
+   
 top:
 | a = atom
   EOF
   {
-	 Some a
+	 Is_atom a
 	}
 | a = atom
-  b = atom
-  { None }
-| n = atom
-  c = SIGCHAR
-  { None }
+  m = many
+  { Non_atom a ^ m }
+
 | c = SIGCHAR
-  { None }
+  { Non_atom c }
+
+
+| c = SIGCHAR
+  m = many
+  { Non_atom c ^ m }
