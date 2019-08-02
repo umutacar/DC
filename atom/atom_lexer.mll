@@ -9,10 +9,10 @@ open Utils
 open Atom_parser
 
 (* Turn off prints *)
-(*
+
 let d_printf args = 
     ifprintf stdout args
-*)
+
 (*
 let d_printf args = printf args 
 *)
@@ -70,6 +70,7 @@ let get_current_atom () =
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
+   let capopt = normalize_caption capopt in
    let cap = str_of_str_opt capopt in
 	 let all_but_items = h_b ^ body ^ cap ^ h_e in
 	 let all = h_b ^ body ^ cap ^ items ^ h_e in
@@ -308,7 +309,7 @@ and take_env =
 (*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
-       let _ = printf "!atom lexer: skip env matched = %s" v in
+       let _ = d_printf "!atom lexer: skip env matched = %s" v in
        let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
        (lopt, v ^ rest, capopt, items, h_e)          
       }   
@@ -371,11 +372,27 @@ and take_env =
           (* Important: Drop inner label lopt *)
           (Some label_name, all ^ y, capopt, items, h_e)  
 			}		
+	| (p_caption p_ws p_o_sq) as x
+		{
+     let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
+     let body = take_arg_ws lexbuf in
+     let capopt = Some (Some title, body) in
+     (* IMPORTANT HACK: Drop title from the caption.
+        We will promote it to be actual title if needed.
+      *)
+     let all = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
+     let _ = d_printf "!atom lexer matched caption: title = %s \n %s." title all  in
+     
+		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
+     (* Drop capopt_, it would be another caption. *)
+      (lopt,  all ^ y, capopt, items, h_e)
+    }
+
 	| (p_caption p_ws p_o_curly) as x
 		{
-     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
-     let capopt = Some arg in
-     let all = x ^ arg ^ c_c in
+     let (body, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+     let capopt = Some (None, body) in
+     let all = x ^ body ^ c_c in
      let _ = d_printf "!atom lexer matched caption %s." all  in
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
@@ -419,6 +436,18 @@ and skip_inline kind =
         all
     } 
 
+and take_arg_ws =  
+  (* Take argument but skip whitespace at the start. *)
+  parse
+  | p_ws as x   
+    {
+       take_arg_ws lexbuf 
+    }
+  | p_o_curly as x 
+    {
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+       arg
+    }   
 and take_arg depth delimiter_open delimiter_close = 
   parse
   | p_com_skip p_ws p_o_sq as x 

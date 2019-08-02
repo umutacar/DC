@@ -320,7 +320,7 @@ atom:
 				 ~point_val:popt 
 				 ~title:topt 
 				 ~label:lopt  
-				 ~capopt:capopt  
+				 ~capopt:None
 				 ~problem:problem_opt
 				 kind  
 				 body

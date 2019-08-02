@@ -64,7 +64,7 @@ let get_single_paragraph_status kind =
 (* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 
-let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotdrop}[1]{}"
+let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{#1}"
 let latex_end_document = "\\end{document}"
 
 (** generate standalone html files
@@ -127,8 +127,8 @@ let text_prep s =
 
   let s = Str.global_replace regexp_label " " s in
 
-  (* Delete \caption with \diderotdrop. *)
-  let s = Str.global_replace regexp_caption "\\diderotdrop" s in
+  (* Delete \caption with \diderotcaption. *)
+  let s = Str.global_replace regexp_caption "\\diderotcaption" s in
 
 	s
 

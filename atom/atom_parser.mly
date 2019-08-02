@@ -33,7 +33,7 @@ let str_of_items items =
 	      (string * string) list *   (* keyword arguments *)
         string option *   (* label *)
         string *          (* body *)
-        string option *   (* caption *)
+        (string option * string) option *   (* caption: title option, body option *)
         ((string * string option * string) list) *   (* items kind, point opt, body *)
 	      string> ATOM       (* all *)
 
@@ -44,7 +44,7 @@ let str_of_items items =
 	      (string * string) list *   (*  keyword arguments *)
         string option *   (* label *)
         string *          (* body *)
-        string option *   (* caption *)
+        (string option * string) option *   (* caption *)
         ((string * string option * string) list)  (* items kind, point opt, body *)
 	      ) option>  top  (* all *)
 
@@ -57,7 +57,7 @@ let str_of_items items =
 atom:
 | a = ATOM
   { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
-(*    let _ = d_printf "* atom: %s\n" all in *)
+    let _ = d_printf "* atom_parser, atom body = %s\n" body in 
 		(kind, popt, kwargs, lopt, body, capopt, items) 
   }
 

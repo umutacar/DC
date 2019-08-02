@@ -62,7 +62,9 @@ Here `elements` is a sequence of "atoms" and "flex's".
 ### Atoms
 An *element* is an atom or a group. 
 
-An *atom* is either a plain paragraph or a paragraph consisting of a single environment of the form
+An *atom* is either
+1) a plain paragraph, or
+2) a single-standing environment of the form
 ```
 \begin{<atom>}[Optional title]
 optional but highly recommended: \label{atom-label}
@@ -70,7 +72,7 @@ optional but highly recommended: \label{atom-label}
 \end{<atom>}
 ```
 
-Note that atoms are defined by "vertical white spaces", i.e., they are single standing paragraphs.  White space therefore matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.
+Note that atoms are defined by "vertical white spaces", i.e., they are single standing and are not surrounded by other text.  White space therefore matters. In the common case, this goes along with our intuition of how text is organized but is worth keeping in mind.
 
 In addition to plain paragraphs, there are many atoms to choose from.  Here is a complete list.  Let me (umut@cs.cmu.edu) know if you want others.
 
@@ -102,6 +104,9 @@ In addition to plain paragraphs, there are many atoms to choose from.  Here is a
 * `teachnote`
 * `theorem`
 
+
+TODO: THIS IS BOGUS.  WE NEED TO WRAP ONLY OUR ATOMS AS ATOMS AND LEAVE OTHERS ALONE.
+
 Currently, we only allow you to use these atoms.  This means that if you have a paragraph that starts with anything else, you will likely encounter an error.  For example 
 
 ```
@@ -110,7 +115,12 @@ Currently, we only allow you to use these atoms.  This means that if you have a 
 \end{thm}
 ```
 
-is not a legitimate atom.  Currently, we expect you to wrap this with another atom, or don't make it paragraph,  For example,
+is not a legitimate atom.
+
+Sometimes it becomes necessary to have atoms of this sort.  In this case, you can use one of several tricks:
+
+
+ Currently, we expect you to wrap this with another atom, or don't make it paragraph,  For example,
 
 ```
 The following theorem...

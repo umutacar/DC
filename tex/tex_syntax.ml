@@ -225,6 +225,40 @@ let label_prefix_of_kind =
    kw_choice_correct, label_prefix_choice_correct
   ]
 
+let atom_kinds = 
+  [kw_algorithm, ();
+   kw_assumption, ();
+   kw_code, ();
+   kw_corollary, ();
+   kw_costspec, ();
+   kw_datastr, ();
+   kw_datatype, ();
+   kw_definition, ();
+   kw_example, ();
+   kw_exercise, ();
+   kw_figure, ();
+   kw_hint, ();
+   kw_important, ();
+   kw_lemma, ();
+   kw_note, ();
+   kw_gram, ();
+   kw_preamble, ();
+   kw_problem, ();
+   kw_proof, ();
+   kw_proposition, ();
+   kw_remark, ();
+   kw_reminder, ();
+   kw_slide, ();
+   kw_solution, ();
+   kw_syntax, ();
+   kw_table, ();
+   kw_task, ();
+   kw_teachask, ();
+   kw_teachnote, ();
+   kw_theorem, ()
+  ]
+
+
 let problem_kinds = 
   [
    kw_one_choice, ();
@@ -374,7 +408,8 @@ let rubric_opt rubric_opt =
        heading ^ "\n" ^ x)
 
 let is_atom_captionable kind = 
-	kind = kw_figure || kind = kw_table		
+	kind = kw_figure || kind = kw_table 		
+
 
 let is_group kw = 
   kw = kw_cluster ||
@@ -440,6 +475,13 @@ let is_label_only contents =
   let contents = String.strip contents in
   str_match_full pattern_label contents 
   
+let is_atom kind = 
+   let _ = d_printf "is_atom: kind = %s\n" kind in 
+   match List.Assoc.find atom_kinds ~equal: String.equal kind with 
+   | Some _ -> (printf "true"; true)
+   | None -> (printf "false"; false)
+
+
 let is_problem kind = 
    match List.Assoc.find problem_kinds ~equal: String.equal kind with 
    | Some _ -> true
