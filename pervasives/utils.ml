@@ -338,13 +338,3 @@ let float_opt_to_string_opt fopt =
 let find_in_list  (l: (string * string) list) (key: string) = 
 	List.Assoc.find l ~equal:String.equal key
 
-let normalize_caption capopt = 
-  match capopt with 
-	| None -> None
-  | Some (topt, body) ->
-      begin
-				match topt with 
-				| None -> Some body
-				| Some t -> Some (t ^ ": " ^ body)
-      end
-

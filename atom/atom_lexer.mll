@@ -70,7 +70,6 @@ let get_current_atom () =
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
-   let capopt = normalize_caption capopt in
    let cap = str_of_str_opt capopt in
 	 let all_but_items = h_b ^ body ^ cap ^ h_e in
 	 let all = h_b ^ body ^ cap ^ items ^ h_e in
@@ -376,8 +375,7 @@ and take_env =
 		{
      let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = take_arg_ws lexbuf in
-     (* Absorb title into the body *)
-     let body = title ^ ": " ^ body in
+     (* Drop short title, used in some latex packages for titling the figure *)
      let capopt = Some body in
      let all = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
      let _ = d_printf "!atom lexer matched caption: title = %s \n %s." title all  in

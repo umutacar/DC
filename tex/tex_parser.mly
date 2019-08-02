@@ -329,16 +329,13 @@ atom:
    let topt = find_in_list kw_args "title" in
    let copt = find_in_list kw_args "cover" in
    let sopt = find_in_list kw_args "sound" in
-	 let (topt, capopt) = 		 
+	 let (topt, capopt) =
+ 		 if Tex.is_atom_captionable kind then
         match topt with 
-        | None -> 
-						begin
-							match capopt with 
-							| None -> (None, None)
-							| Some (None, body) -> (None, Some body)
-							| Some (Some t, body) -> (Some t, Some body)
-						end
-				| Some _ -> (topt, normalize_caption capopt)
+        | None ->  (capopt, None)
+				| Some _ -> (topt, capopt)
+		 else
+			 (topt, capopt)
 	 in
 
 	 if Tex.is_label_only body then
