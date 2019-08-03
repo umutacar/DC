@@ -420,18 +420,6 @@ and skip_inline kind =
         all
     } 
 
-and take_arg_ws =  
-  (* Take argument but skip whitespace at the start. *)
-  parse
-  | p_ws as x   
-    {
-       take_arg_ws lexbuf 
-    }
-  | p_o_curly as x 
-    {
-     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
-       arg
-    }   
 and take_arg depth delimiter_open delimiter_close = 
   parse
   | p_com_skip p_ws p_o_sq as x 
