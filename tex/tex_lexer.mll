@@ -162,13 +162,12 @@ let p_c_sq = ']' p_hs
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
 
-
-
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
 let p_com_fold = '\\' "fold" p_ws												 
 let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_skip = p_com_lstinline
+let p_com_caption = "\\caption"
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -366,7 +365,6 @@ parse
 
   }
 (** END: TODO **)
-
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
@@ -464,6 +462,20 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
               (x ^ rest, h_e)  
         }      
 
+
+	| (p_com_caption p_ws p_o_sq) as x
+		{
+     let (title, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let body = take_arg_force lexbuf in
+     (* Drop short title, used in some latex packages for titling the figure *)
+     let caption = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
+     let _ = d_printf "!tex_lexer matched caption: title = %s \n %s." title caption  in
+     
+		 let (rest, h_e) = take_env depth false lexbuf in
+     (* Drop capopt_, it would be another caption. *)
+      (caption ^ rest, h_e)
+    }
+
   (* Important because otherwise lexer will think that it is comment *)
   | p_esc_percent as x 
 		{
@@ -521,6 +533,19 @@ and skip_env stop_kind =
       { let (y, h_e) = skip_env stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
+
+and take_arg_force =  
+  (* Take argument of the form { ... }, skip whitespace at the start. *)
+  parse
+  | p_ws as x   
+    {
+       take_arg_force lexbuf 
+    }
+  | p_o_curly as x 
+    {
+     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
+       arg
+    }   
 
 and take_arg depth is_empty delimiter_open delimiter_close = 
   parse
