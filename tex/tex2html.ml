@@ -98,7 +98,9 @@ let set_pandoc be_verbose meta_dir language =
     | None -> ""
     | Some l -> " --syntax-definition=" ^ meta_dir ^ "/" ^ l ^ ".xml"
   in
-	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" ^ lang in
+	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" 
+               ^ " --lua-filter " ^ meta_dir ^ "/includevideo.lua" 
+               ^ lang in
     if be_verbose then
       pandoc_verbose_minor ^ filter
 (*
