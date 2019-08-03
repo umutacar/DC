@@ -371,19 +371,6 @@ and take_env =
           (* Important: Drop inner label lopt *)
           (Some label_name, all ^ y, capopt, items, h_e)  
 			}		
-	| (p_caption p_ws p_o_sq) as x
-		{
-     let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
-     let body = take_arg_ws lexbuf in
-     (* Drop short title, used in some latex packages for titling the figure *)
-     let capopt = Some body in
-     let all = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
-     let _ = d_printf "!atom lexer matched caption: title = %s \n %s." title all  in
-     
-		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
-     (* Drop capopt_, it would be another caption. *)
-      (lopt,  all ^ y, capopt, items, h_e)
-    }
 
 	| (p_caption p_ws p_o_curly) as x
 		{
