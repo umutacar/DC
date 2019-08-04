@@ -1,5 +1,5 @@
 (********************************************************************** 
- ** atom/atom_parser.mly
+n ** atom/atom_parser.mly
  **********************************************************************)
 %{
 open Core
@@ -32,6 +32,7 @@ let str_of_items items =
         string option *   (* points *)
 	      (string * string) list *   (* keyword arguments *)
         string option *   (* label *)
+        string option *   (* programming language *)
         string *          (* body *)
         string option *   (* caption: body option *)
         ((string * string option * string) list) *   (* items kind, point opt, body *)
@@ -43,6 +44,7 @@ let str_of_items items =
         string option *   (* points *)
 	      (string * string) list *   (*  keyword arguments *)
         string option *   (* label *)
+        string option *   (* programming language *)
         string *          (* body *)
         string option *   (* caption *)
         ((string * string option * string) list)  (* items kind, point opt, body *)
@@ -56,9 +58,9 @@ let str_of_items items =
  **********************************************************************/
 atom:
 | a = ATOM
-  { let (kind, popt, kwargs, lopt, body, capopt, items, all) = a in
+  { let (kind, popt, kwargs, lopt, plopt, body, capopt, items, all) = a in
     let _ = d_printf "* atom_parser, atom body = %s\n" body in 
-		(kind, popt, kwargs, lopt, body, capopt, items) 
+		(kind, popt, kwargs, lopt, plopt, body, capopt, items) 
   }
 
 top:

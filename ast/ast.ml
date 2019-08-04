@@ -482,6 +482,7 @@ struct
 				mutable cover: string option;
 				mutable sound: string option;
 				mutable label: string option; 
+				pl: string option; 
 				depend: string list option;
 				mutable body: string;
         problem: problem option; 
@@ -502,6 +503,7 @@ struct
 			?cover: (cover = None) 
 			?sound: (sound = None) 
 			?label: (label = None) 
+			?pl: (pl = None) 
 			?depend: (depend = None)
       ?capopt: (capopt = None)
 			?problem: (problem = None)
@@ -518,10 +520,10 @@ struct
 
 		match label with 
 		| None -> 
-				{kind; point_val; title; cover; sound; label; depend; problem; body=body; 
+				{kind; point_val; title; cover; sound; label; pl = pl; depend; problem; body=body; 
 					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; cover; sound; label; depend; problem; body=body; 
+				{kind; point_val; title; cover; sound; label; pl = pl; depend; problem; body=body; 
 					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 

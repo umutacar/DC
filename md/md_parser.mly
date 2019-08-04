@@ -304,12 +304,12 @@ atom:
   {	 
 	 let (all, ell) = tp_all in
    let a = parse_atom all in
-	 let (kind, popt, kwargs, lopt, body, capopt, problem_opt) = 
+	 let (kind, popt, kwargs, lopt, plopt, body, capopt, problem_opt) = 
 	   match a with 
-		 | None -> (Tex.kw_gram, None, [], None,  all, None, None)
-		 | Some (kind, popt, kwargs, lopt, body, capopt, items) -> 
+		 | None -> (Tex.kw_gram, None, [], None, None, all, None, None)
+		 | Some (kind, popt, kwargs, lopt, plopt, body, capopt, items) -> 
 				 let problem_opt = Ast.problem_of_items items in
-				 (kind, popt, kwargs, lopt, body, capopt, problem_opt)
+				 (kind, popt, kwargs, lopt, plopt, body, capopt, problem_opt)
 	 in			 
 	 let body = String.strip ~drop:is_vert_space body in
    let topt = find_in_list kwargs "title" in
@@ -320,6 +320,7 @@ atom:
 				 ~point_val:popt 
 				 ~title:topt 
 				 ~label:lopt  
+				 ~pl:plopt  
 				 ~capopt:None
 				 ~problem:problem_opt
 				 kind  
