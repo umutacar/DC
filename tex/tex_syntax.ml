@@ -34,6 +34,7 @@ let pattern_label = "\\\\label" ^ pattern_ws ^ "{" ^ pattern_ws ^
 	                  "[^} \r\t\n]*" ^ pattern_ws ^ "}"
 let pattern_caption = "\\\\caption"
 
+
 (* BEGIN: Keywords *)
 let com_depend = "\\depend"
 let com_explain = "\\explain"

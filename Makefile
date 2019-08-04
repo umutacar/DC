@@ -4,6 +4,7 @@
 
 OCB_FLAGS = -use-ocamlfind -package re2 -package core -I atom -I ast -I english -I md -I pervasives  -I tex -I xml 
 OCB = ocamlbuild $(OCB_FLAGS)
+GUIDE_DIR = ~/diderot/guide
 
 #  il/il_syntax.ml il/il_ast.ml \
 
@@ -115,26 +116,26 @@ bin_ubuntu_dbg:
 readme: ./README.md
 	pandoc README.md -o README.pdf
 
-guide: ./guide/README.md
-	pandoc guide/README.md -o guide/README.pdf
+guide: ./$(GUIDE_DIR)README.md
+	pandoc $(GUIDE_DIR)README.md -o $(GUIDE_DIR)README.pdf
 
 guide_macos:
-	cp tex2tex.native guide/mtl/bin/macos/tex2tex
-	cp texel.native guide/mtl/bin/macos/texel
-	cp texml.native guide/mtl/bin/macos/texml
+	cp texel.native $(GUIDE_DIR)/bin/macos/texel
+#	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex
+#	cp texml.native $(GUIDE_DIR)/bin/macos/texml
 
 guide_macos_dbg:
-	cp tex2tex.native guide/mtl/bin/macos/tex2tex.dbg
-	cp texel.native guide/mtl/bin/macos/texel.dbg
-	cp texml.native guide/mtl/bin/macos/texml.dbg
+	cp texel.native $(GUIDE_DIR)/bin/macos/texel.dbg
+#	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex.dbg
+#	cp texml.native $(GUIDE_DIR)/bin/macos/texml.dbg
 
 
 guide_ubuntu:
-	cp tex2tex.native guide/mtl/bin/ubuntu/tex2tex
-	cp texel.native guide/mtl/bin/ubuntu/texel
-	cp texml.native guide/mtl/bin/ubuntu/texml
+	cp texel.native $(GUIDE_DIR)/bin/ubuntu/texel
+#	cp tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
+#	cp texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 
 guide_ubuntu_dbg:
-	cp tex2tex.native guide/mtl/bin/ubuntu/tex2tex.dbg
-	cp texel.native guide/mtl/bin/ubuntu/texel.dbg
-	cp texml.native guide/mtl/bin/ubuntu/texml.dbg
+	cp texel.native $(GUIDE_DIR)/bin/ubuntu/texel.dbg
+#	cp tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex.dbg
+#	cp texml.native $(GUIDE_DIR)/bin/ubuntu/texml.dbg

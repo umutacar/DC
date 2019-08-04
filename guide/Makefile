@@ -6,14 +6,14 @@ PANDOC = pandoc --verbose --mathjax -f latex
 
 
 ifeq ($(OS),Windows_NT)
-	MTL_HOME = ./mtl/bin/windows
+	MTL_HOME = ./bin/windows
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		MTL_HOME = ./mtl/bin/ubuntu
+		MTL_HOME = ./bin/ubuntu
 	endif
 	ifeq ($(UNAME_S),Darwin)
-		MTL_HOME = ./mtl/bin/macos
+		MTL_HOME = ./bin/macos
 	endif
 endif
 

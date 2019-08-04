@@ -99,6 +99,7 @@ let set_pandoc be_verbose meta_dir language =
     | Some l -> " --syntax-definition=" ^ meta_dir ^ "/" ^ l ^ ".xml"
   in
 	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" 
+               ^ " --lua-filter " ^ meta_dir ^ "/span.lua" 
                ^ lang in
 (*                ^ " --lua-filter " ^ meta_dir ^ "/includevideo.lua" *)
 
@@ -127,9 +128,9 @@ let text_prep s =
   (* Replace \label{label} declarations with space. 
    * We label things ourselves and don't need them in the xml.
    *)
-
+  (* Don't: labels may appear in verbatim env's.
   let s = Str.global_replace regexp_label " " s in
-
+  *)
   (* Delete \caption with \diderotcaption. *)
   let s = Str.global_replace regexp_caption "\\diderotcaption" s in
 

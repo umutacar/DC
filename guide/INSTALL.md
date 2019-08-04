@@ -1,6 +1,6 @@
 # Installation
 
-  To use Diderot install version 2.7.2.
+  To use Diderot install pandoc version 2.7.2.
 
   Go to the link below and install the right package for your system.
 
