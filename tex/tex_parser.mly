@@ -325,8 +325,11 @@ atom:
 					 
 	 in			 
 (*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
-	 let body = String.strip ~drop:is_vert_space body in
+	 let body = String.strip ~drop:is_vert_space body in   
+   let _ = printf "tex_parser: kw_args = %s\n" (str_of_str2_list kw_args) in
    let topt = find_in_list kw_args "title" in
+   let plopt = find_in_list kw_args "language" in
+   let _ = printf "tex_parser: atom language = %s\n" (str_of_str_opt plopt) in
    let copt = find_in_list kw_args "cover" in
    let sopt = find_in_list kw_args "sound" in
 	 let (topt, capopt) =

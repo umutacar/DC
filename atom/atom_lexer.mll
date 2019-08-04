@@ -80,7 +80,7 @@ let mk_heading (heading, title, kw_args) =
   | [ ] -> 
 	  heading ^ "[" ^ title ^ "]" 
   | (l: (string * string) list) -> 
-    heading ^ "[" ^ title ^ "]" ^ "[" ^ (str_of_str2_list l) ^ "]"
+    heading ^ "[" ^ title ^ "]" ^ "[" ^ (str_of_kw_args l) ^ "]"
 
 }
 (** END: HEADER **)
@@ -222,7 +222,8 @@ rule initial = parse
      let kw_args = ["title", title] @ kw_args in 
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
-     let _ = d_printf "!atom lexer matched lstlisting\n %s." all in 
+     let _ = printf "!atom lexer matched lstlisting\n %s." all in 
+     let _ = printf "!atom lexer kw_args = \n %s." all in 
      ATOM(kind, None, kw_args, None, body, None, [], all)
 }
 
@@ -303,6 +304,18 @@ rule initial = parse
 
 and take_env =
   parse
+| (p_begin_env_lstlisting as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws)
+    {
+     let (a, l) = take_kw_args 1 lexbuf in
+     let kw_args = (kw, a)::l in
+     let str_kw_args = str_of_kw_args kw_args in
+     let _ = printf "!atom lexer: kw_args = \n %s\n" str_kw_args in
+     let (s_body, s_e) = skip_env kind lexbuf in    
+     let s = x ^ "[" ^ str_kw_args ^ "]" ^ "\n" ^ s_body ^ "\n" ^s_e in
+     let _ = printf "!atom lexer: lstlisting env matched = \n %s\n" s in
+     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
+     (lopt, s ^ rest, capopt, items, h_e)               
+     }   
   | p_begin_env_skip as x
       { 
 (*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
@@ -524,6 +537,13 @@ and take_kw_args depth =
          let (arg, l) = take_kw_args depth lexbuf in 
            (x ^ arg, l)
     }
+  | ',' p_ws (p_keyword as kw) p_ws '=' p_ws 
+ 	  {
+(*     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in *)
+      let (arg, l) = take_kw_args depth lexbuf in 
+        ("", (kw, arg)::l)
+    }
+
   | ';' p_ws (p_keyword as kw) p_ws '=' p_ws 
  	  {
 (*     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in *)

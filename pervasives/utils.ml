@@ -45,8 +45,8 @@ let str_of_kw_list_with equals seperator (xs: (string * string option) list): st
 let str_of_str2_list (xs: (string * string) list): string = 
   str_of_str2_list_with " " ", " xs
 
-
-
+let str_of_kw_args (kw_args: (string * string) list): string = 
+  str_of_str2_list_with "=" ", " kw_args
 
 let str_of_items (xs: (string * string option * string) list): string = 
   let str_of_item (kind, pvalopt, body) = 
