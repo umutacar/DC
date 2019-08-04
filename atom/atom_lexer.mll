@@ -128,7 +128,7 @@ let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_hs
 
 let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_hs											
+let p_c_sq = ']' p_hs	  (* Do not take newlines, because otherwise indentation gets messed up *)										
 let p_o_sq_and_kw = '[' p_ws (p_keyword as keyword) p_ws '=' 
 
 let p_special_percent = p_backslash p_percent
@@ -246,7 +246,7 @@ rule initial = parse
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
-     let (lopt, body, capopt, items, h_e) = take_env lexbuf in
+     let (lopt, plopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
        ATOM (kind, Some point_val, kw_args, lopt, body, capopt, items, all)
 }
@@ -257,7 +257,7 @@ rule initial = parse
 	   let _ = set_current_atom kind in
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
-     let (lopt, body, capopt, items, h_e) = take_env lexbuf in
+     let (lopt, plopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
      ATOM(kind, Some point_val, [], lopt, body, capopt, items, all)       
@@ -273,7 +273,7 @@ rule initial = parse
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
-     let (lopt, body, capopt, items, h_e) = take_env lexbuf in
+     let (lopt, plopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
      ATOM(kind, None, kw_args, lopt, body, capopt, items, all)
 }
@@ -284,7 +284,7 @@ rule initial = parse
      let _ = d_printf "!atom lexer: begin latex env: %s\n" h_b in 
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
-     let (lopt, body, capopt, items, h_e) = take_env lexbuf in
+     let (lopt, plopt, body, capopt, items, h_e) = take_env lexbuf in
    	 let (all_but_items, all) = mk_atom_str (h_b, body, capopt, items, h_e) in
 (*          let _ = d_printf "!atom lexer: latex env matched = %s.\n" (x ^ y) in *)
      ATOM(kind, None, [], lopt, body,  capopt, items, all)
@@ -313,10 +313,11 @@ and take_env =
      let (s_body, s_e) = skip_env kind lexbuf in    
      let s = x ^ "[" ^ str_kw_args ^ "]" ^ "\n" ^ s_body ^ s_e in
      let _ = printf "!atom lexer: lstlisting env matched = \n %s\n" s in
-     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
-		 let plopt = find_in_list kw_args "language" in
+     let (lopt, plopt_rest, rest, capopt, items, h_e) = take_env lexbuf in
+		 let plopt_s = find_in_list kw_args "language" in
+     let plopt = merge_opts plopt_s plopt_rest in
 		 let _ = printf "atom_parser: env language = %s\n" (str_of_str_opt plopt) in
-     (lopt, s ^ rest, capopt, items, h_e)               
+     (lopt, plopt, s ^ rest, capopt, items, h_e)               
      }   
   | p_begin_env_skip as x
       { 
@@ -324,8 +325,8 @@ and take_env =
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
        let _ = d_printf "!atom lexer: skip env matched = %s" v in
-       let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
-       (lopt, v ^ rest, capopt, items, h_e)          
+       let (lopt, plopt, rest, capopt, items, h_e) = take_env lexbuf in
+       (lopt, plopt, v ^ rest, capopt, items, h_e)          
       }   
   | p_com_skip p_ws p_o_sq as x 
 		{
@@ -333,16 +334,16 @@ and take_env =
      let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = skip_inline kind lexbuf in
      let s = x ^ arg ^ c_sq ^ body in
-     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
-       (lopt, s ^ rest, capopt, items, h_e)
+     let (lopt, plopt, rest, capopt, items, h_e) = take_env lexbuf in
+       (lopt, plopt, s ^ rest, capopt, items, h_e)
     }
 
   | p_com_skip as x 
 		{
      let body = skip_inline kind lexbuf in
      let s = x ^ body in
-     let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
-       (lopt, s ^ rest, capopt, items, h_e)
+     let (lopt, plopt, rest, capopt, items, h_e) = take_env lexbuf in
+       (lopt, plopt, s ^ rest, capopt, items, h_e)
     }
 
 
@@ -357,14 +358,14 @@ and take_env =
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind_of_list, None, body)::items in 
           (* Drop items from body *)
- 	        (None, "", None, items, h_e)
+ 	        (None, None,  "", None, items, h_e)
       }
   | p_begin_env as x
         {
             let _ = d_printf "!atom lexer: begin latex env: %s\n" x in 
             let _ = do_begin_env () in
-            let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-                (lopt, x ^ y, capopt, items, h_e)              
+            let (lopt, plopt, y, capopt, items, h_e) = take_env lexbuf in
+                (lopt, plopt, x ^ y, capopt, items, h_e)              
         }
   | p_end_env as x
         { 
@@ -372,19 +373,19 @@ and take_env =
             let do_exit = do_end_env () in
                 if do_exit then
                   let _ = d_printf "!atom lexer: exiting latex env\n" in
-                  ( None, "", None, [], x)
+                  ( None, None, "", None, [], x)
                 else
                   let _ = d_printf "!atom lexer: not exiting env\n" in
-                  let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-                  (lopt, x ^ y, capopt, items, h_e)  
+                  let (lopt, plopt, y, capopt, items, h_e) = take_env lexbuf in
+                  (lopt, plopt, x ^ y, capopt, items, h_e)  
         }      
   | p_label_and_name as x
   		{ 
 (*		    let _ = d_printf "!atom lexer: matched label %s." x in *)
 				let all = label_pre ^ label_name ^ label_post in
-        let (lopt, y, capopt, items, h_e) = take_env lexbuf in
+        let (lopt, plopt, y, capopt, items, h_e) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
-          (Some label_name, all ^ y, capopt, items, h_e)  
+          (Some label_name, plopt, all ^ y, capopt, items, h_e)  
 			}		
 
 	| (p_caption p_ws p_o_curly) as x
@@ -393,14 +394,14 @@ and take_env =
      let capopt = Some body in
      let all = x ^ body ^ c_c in
      let _ = d_printf "!atom lexer matched caption %s." all  in
-		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
+		 let (lopt, plopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
-      (lopt,  all ^ y, capopt, items, h_e)
+      (lopt, plopt, all ^ y, capopt, items, h_e)
     }
 
   | _  as x
-    { let (lopt, y, capopt, items, h_e) = take_env lexbuf in
-      (lopt, (str_of_char x) ^ y, capopt, items, h_e)
+    { let (lopt, plopt, y, capopt, items, h_e) = take_env lexbuf in
+      (lopt, plopt, (str_of_char x) ^ y, capopt, items, h_e)
     }
 
 and skip_env stop_kind =
@@ -529,7 +530,7 @@ and take_atom_args depth =
 
 and take_kw_args depth = 
   parse 
-  | (p_c_sq p_ws as x)
+  | (p_c_sq p_hs as x)
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
      let depth = depth - 1 in
