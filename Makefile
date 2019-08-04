@@ -15,9 +15,9 @@ DEPEND = \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
-default: texml.native
-#md2md.native mdxml.native \
-#  tex2tex.native texel.native texmlt.native texml.native
+default: texml.native \
+  md2md.native mdxml.native \
+  tex2tex.native texel.native texmlt.native texml.native
 all: md2md.native mdxml.native \
   tex2tex.native texel.native texmlt.native texml.native
 

@@ -1,20 +1,20 @@
 PDFLATEX = pdflatex
 LATEX = latex
 
-PREAMBLE = ./templates/preamble.tex
+PREAMBLE = ./templates/preamble-diderot.tex
 # resource paths don't seem to work
 PANDOC = pandoc --verbose --mathjax -f latex
 
 
 ifeq ($(OS),Windows_NT)
-	MTL_HOME = ../mtl/bin/windows
+	MTL_HOME = ../../bin/windows
 else
 	UNAME_S := $(shell uname -s)
 	ifeq ($(UNAME_S),Linux)
-		MTL_HOME = ../mtl/bin/ubuntu
+		MTL_HOME = ../../bin/ubuntu
 	endif
 	ifeq ($(UNAME_S),Darwin)
-		MTL_HOME = ../mtl/bin/macos
+		MTL_HOME = ../../bin/macos
 	endif
 endif
 
@@ -60,7 +60,7 @@ book.pdf:
 	$(PDFLATEX) --jobname="book" '\input{book}' ; \
 
 
-hw2 : book.pdf hw2/main.tex
-	$(PDFLATEX) --jobname="hw2" '\includeonly{hw2/main}\input{book}'
+skyline.pdf : book.pdf skyline/main.tex
+	$(PDFLATEX) --jobname="skyline" '\includeonly{skyline/main}\input{book}'
 
 
