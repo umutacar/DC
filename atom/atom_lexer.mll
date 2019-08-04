@@ -214,16 +214,20 @@ let p_end_list = "mambo"
 
 rule initial = parse
 
-| (p_begin_env_lstlisting as x) (p_o_sq as a)
+| (p_begin_env_lstlisting as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws)
     {
      let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
-     let (title, kw_args) = take_atom_args 1 lexbuf in
-     let h_b = mk_heading (x, title, kw_args) in
-     let kw_args = ["title", title] @ kw_args in 
+     let (a, l) = take_kw_args 1 lexbuf in
+     let kw_args = (kw, a)::l in
+     let str_kw_args = str_of_kw_args kw_args in
+     let _ = printf "!atom lexer: kw_args = \n %s\n" str_kw_args in
+     (* Treat kw_args as title for making the heading *)
+     let h_b = mk_heading (x, str_kw_args, [ ]) in
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
      let _ = printf "!atom lexer matched lstlisting\n %s." all in 
-     let _ = printf "!atom lexer kw_args = \n %s." all in 
+     let _ = printf "!atom lexer all = \n %s." all in 
+		 let plopt = find_in_list kw_args "language" in
      ATOM(kind, None, kw_args, None, body, None, [], all)
 }
 
