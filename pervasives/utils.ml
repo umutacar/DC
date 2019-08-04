@@ -338,3 +338,7 @@ let float_opt_to_string_opt fopt =
 let find_in_list  (l: (string * string) list) (key: string) = 
 	List.Assoc.find l ~equal:String.equal key
 
+let merge_opts a b = 
+  match a with 
+  | None -> b
+  | Some x -> a

@@ -311,7 +311,7 @@ and take_env =
      let str_kw_args = str_of_kw_args kw_args in
      let _ = printf "!atom lexer: kw_args = \n %s\n" str_kw_args in
      let (s_body, s_e) = skip_env kind lexbuf in    
-     let s = x ^ "[" ^ str_kw_args ^ "]" ^ "\n" ^ s_body ^ s_e in
+     let s = x ^ "[" ^ str_kw_args ^ "]" ^ s_body ^ s_e in
      let _ = printf "!atom lexer: lstlisting env matched = \n %s\n" s in
      let (lopt, plopt_rest, rest, capopt, items, h_e) = take_env lexbuf in
 		 let plopt_s = find_in_list kw_args "language" in
