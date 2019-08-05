@@ -1,5 +1,8 @@
 (********************************************************************** 
  ** atom/atom_parser.mly
+ ** This parser does not parse the whole input but just 
+ ** checks that the input is a (single standing) atom.
+ ** If not, it basically aborts and returns None.
  **********************************************************************)
 %{
 open Core
@@ -20,9 +23,6 @@ let mk_point_val_f_opt (s: string option) =
   | None -> (None, "None")
   | Some x -> (Some (float_of_string x), "Some " ^ x)
 
-
-let str_of_items items = 
-	str_of_str2_list items
 %}	
 
 %token EOF

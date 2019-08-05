@@ -321,6 +321,7 @@ atom:
 					 let problem_opt = Ast.problem_of_items items in
 					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
 				 else
+           (* Promote all non-atom, but single standing environments to gram atom. *)
 					 (Tex.kw_gram, None, [], None, all, None, None)
 					 
 	 in			 
@@ -425,35 +426,3 @@ elements:
  **********************************************************************/
 
 
-/*
-atom: 
-  fs = emptylines;
-  tp = textpar;
-  {	 
-	 let (all, ell) = tp in
-	 let all = String.strip ~drop:is_vert_space all in
-	 let single = Tex.take_single_env all in
-	 let (kind, popt, topt,  lopt, body) = 
-	   match single with 
-		 | None -> 
-				 (Tex.kw_gram, None, None, None, all)
-		 | Some (env, _) -> 
-				 let atom = atom_to_ast all in						 
-				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
-	 in 
-(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
-	 let body = String.strip ~drop:is_vert_space body in
-	   if Tex.is_label_only body then
-(*			 let _ = d_printf "atom is label only" in *)
-			 ([ ], ell)
-		 else
-			 let a = Ast.Atom.make 
-					 ~point_val:popt 
-					 ~title:topt 
-					 ~label:lopt  
-					 kind  
-					 body
-			 in
-			 ([ a ], ell)
-  }
-*/
