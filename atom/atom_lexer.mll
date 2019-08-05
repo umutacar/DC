@@ -457,28 +457,6 @@ and take_arg depth delimiter_open delimiter_close =
        (x ^ rest, c_c)
     }
 
-and take_arg_ depth = 
-  parse 
-  | p_o_curly as x
-    {
-     let depth = depth + 1 in
-     let (arg, c_c) = take_arg_ depth lexbuf in 
-       (x ^ arg, c_c)
-    }
-  | (p_c_curly p_ws) as x
-    {
-     let depth = depth - 1 in
-       if depth = 0 then
-           ("", x)
-       else
-         let (arg, c_c) = take_arg_ depth lexbuf in 
-           (x ^ arg, c_c)
-    }
-  | _ as x
-    {
-     let (arg, c_c) = take_arg_ depth lexbuf in 
-       ((str_of_char x) ^ arg, c_c)
-    }
 and take_atom_args depth = 
   parse 
   | (p_c_sq p_ws as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws)
