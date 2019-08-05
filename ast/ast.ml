@@ -617,29 +617,12 @@ struct
     	(tt_all, tb_all)
 
   let body_to_xml translator atom =
-		if atom.kind = Xml.lstlisting then
-			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram\n" atom.kind in
-			let _ = atom.kind <- Xml.gram in
-			let title = str_of_str_opt atom.title in
-			let newbody = 
-				"\\begin{lstlisting}" ^ "[" ^ title ^ "]" ^ newline ^
-				atom.body ^ newline ^
-				"\\end{lstlisting}"					
-			in
-			let (newbody_c, languages) = sanitize_lst_language newbody in
+  	let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
+    let body = atom.body in
+  	let (body_c, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
-      let _ = d_printf "newbody sanitized:\n %s\n" newbody_c in
-			let _ = atom.body <- newbody_c in
-			let _ = atom.title <- None in
-			let body_xml = translator Xml.body newbody_c in
-			body_xml
-		else
-			let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
-      let body = atom.body in
-			let (body_c, languages) = sanitize_lst_language body in
-(*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
-      let _ = d_printf "body sanitized:\n %s" body_c in
-			translator Xml.body body_c
+    let _ = d_printf "body sanitized:\n %s" body_c in
+	  translator Xml.body body_c
 			
   let to_xml translator atom = 
 		(* Translate body to xml *)

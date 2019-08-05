@@ -321,6 +321,7 @@ atom:
 					 let problem_opt = Ast.problem_of_items items in
 					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
 				 else
+           (* All non-atoms are promoted to plain paragraph atoms. *)
 					 (Tex.kw_gram, None, [], None, all, None, None)
 					 
 	 in			 
