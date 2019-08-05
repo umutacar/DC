@@ -321,6 +321,7 @@ atom:
 					 let problem_opt = Ast.problem_of_items items in
 					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
 				 else
+           (* Promote all non-atom, but single standing environments to gram atom. *)
 					 (Tex.kw_gram, None, [], None, all, None, None)
 					 
 	 in			 

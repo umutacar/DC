@@ -614,7 +614,8 @@ struct
 		in
     	(tt_all, tb_all)
 
-  let body_to_xml translator atom =
+  (* Depracated *)
+  let body_to_xml_ translator atom =
 		if atom.kind = Xml.lstlisting then
 			let _ = d_printf "body_to_xml: atom = %s, Promoting to gram\n" atom.kind in
 			let _ = atom.kind <- Xml.gram in
@@ -638,6 +639,13 @@ struct
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
       let _ = d_printf "body sanitized:\n %s" body_c in
 			translator Xml.body body_c
+
+  let body_to_xml translator atom =
+		let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
+		let (body, languages) = sanitize_lst_language atom.body in
+(*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
+    let _ = d_printf "body sanitized:\n %s" body in
+		translator Xml.body body
 			
   let to_xml translator atom = 
 		(* Translate body to xml *)
