@@ -114,6 +114,10 @@ let p_ws = [' ' '\t' '\n' '\r']*
 
 
 let p_comma = ','
+let p_backslash = '\\'
+let p_special = '\\' | '`'
+let p_escape = p_backslash p_special
+
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
 let p_frac = '.' p_digit*
@@ -125,16 +129,19 @@ let p_separator = [':' '.' '-' '_' '/']
 
 
 (* Inline skip *)
-let p_backquote = '`' 
-let p_skip = (p_backquote as delimeter)
+let p_backtick = "`" 
+let p_double_backtick = "``" 
+let p_skip = 
+	(p_backtick as delimeter) |	(p_double_backtick as delimeter)
+
 
 (* BEGIN: environments *)
-let p_codeblock = "```"['`']*
+let p_codeblock = ("```"['`']* as kind)
 let p_html_begin = '<' (p_alpha+ as kind) '>'
 let p_html_end = "</" (p_alpha+ as kind) '>'
 
-let p_begin_env = (p_codeblock as kind) | p_html_begin
-let p_end_env = (p_codeblock as kind) | p_html_end
+let p_begin_env = p_codeblock | p_html_begin
+let p_end_env = p_codeblock | p_html_end
 (* END: environments *)
 
 (* Segments *)
@@ -158,6 +165,11 @@ let p_heading = p_segment
 
 rule initial = parse
 
+| p_escape as x 
+  {
+   CHUNK(x, None)
+	}
+
 | (p_heading as x) p_hs
     {
      let title = take_line lexbuf in
@@ -179,7 +191,6 @@ rule initial = parse
 | (p_skip as delimiter) 
 		{
 (*     let _ = d_printf "!lexer found: skip %s." (str_of_char x) in *)
-     let delimeter = str_of_char delimeter in
      let (body, _) = take_arg 1 delimeter delimeter lexbuf in
      let all = delimeter ^ body ^ delimeter in
 		   CHUNK(all, None)
