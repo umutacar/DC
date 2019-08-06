@@ -105,7 +105,7 @@ let p_comma = ','
 (* horizontal space *)
 let p_hspace = ' ' | '\t' | '\r' 
 (* non-space character *)
-let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
+let p_sigchar = [^ ' ' '\t' '\n' '\r']
 (* newline *)
 let p_newline = '\n' | ('\r' '\n')
 
@@ -114,8 +114,6 @@ let p_newline = '\n' | ('\r' '\n')
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
-let p_skip = p_hs
-let p_par_break = '\n' p_ws '\n' p_hs
 
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
@@ -127,27 +125,24 @@ let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 
 (* No white space after backslash *)
-let p_backslash = '\\'
-let p_o_curly = '{' p_ws
 (* don't take newline with close *)
-let p_c_curly = '}' p_hs
-let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_hs											
+let p_backquote = '`' p_hs											
 
 
 let p_chapter = ("#" as kind) 
-
 let p_section = ("##" as kind)
 let p_subsection = ("###" as kind)
 let p_subsubsection = ("###" as kind)
 let p_paragraph = ("####" as kind) p_ws												
 
-(* Latex environment: alphabethical chars plus an optional star *)
+(** BEGIN: environments **)
 let p_codeblock = "```"['`']*
+let p_html_begin = '<' (p_alpha+ as kind) '>'
+let p_html_end = "</" (p_alpha+ as kind) '>'
 
-let p_begin_env = (p_codeblock as kind) | '<' p_ws (p_alpha+ as kind) p_ws '>'
-let p_end_env = (p_codeblock as kind) | "</" p_ws (p_alpha+ as kind) p_ws '>'
-(* end: environments *)
+let p_begin_env = (p_codeblock as kind) | p_html_begin
+let p_end_env = (p_codeblock as kind) | p_html_end
+(* END: environments *)
 
 
 (* Segments *)
