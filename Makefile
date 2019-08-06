@@ -16,9 +16,9 @@ DEPEND = \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
-default: texml.native \
-  md2md.native mdxml.native \
-  tex2tex.native texel.native texmlt.native texml.native
+
+default: texml.native mdxml.native
+
 all: md2md.native mdxml.native \
   tex2tex.native texel.native texmlt.native texml.native
 
@@ -120,22 +120,22 @@ guide: ./$(GUIDE_DIR)README.md
 	pandoc $(GUIDE_DIR)README.md -o $(GUIDE_DIR)README.pdf
 
 guide_macos:
-	cp texel.native $(GUIDE_DIR)/bin/macos/texel
+#	cp texel.native $(GUIDE_DIR)/bin/macos/texel
 #	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex
-#	cp texml.native $(GUIDE_DIR)/bin/macos/texml
+	cp texml.native $(GUIDE_DIR)/bin/macos/texml
 
 guide_macos_dbg:
-	cp texel.native $(GUIDE_DIR)/bin/macos/texel.dbg
+#	cp texel.native $(GUIDE_DIR)/bin/macos/texel.dbg
 #	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex.dbg
-#	cp texml.native $(GUIDE_DIR)/bin/macos/texml.dbg
+	cp texml.native $(GUIDE_DIR)/bin/macos/texml.dbg
 
 
 guide_ubuntu:
-	cp texel.native $(GUIDE_DIR)/bin/ubuntu/texel
-#	cp tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
-#	cp texml.native $(GUIDE_DIR)/bin/ubuntu/texml
+#	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
+#	cp  _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
+	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 
 guide_ubuntu_dbg:
-	cp texel.native $(GUIDE_DIR)/bin/ubuntu/texel.dbg
-#	cp tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex.dbg
-#	cp texml.native $(GUIDE_DIR)/bin/ubuntu/texml.dbg
+#	cp _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel.dbg
+#	cp _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex.dbg
+	cp _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml.dbg

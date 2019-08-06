@@ -301,7 +301,7 @@ let find_lang contents  =
   in
   let pattern = Re2.pattern regex in
 (*
-  let _ = d_printf "utils.find_lang: Pattern for this regex = %s\n" pattern in 
+  let _ = d_printf "utils.find_lang: Pattern for this regex = %s\no" pattern in 
 *)
   let all_matches = Re2.get_matches_exn regex contents in
   let languages: string list = List.concat_map all_matches ~f:extract_lang in
