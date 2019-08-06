@@ -128,9 +128,16 @@ let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 
 
-(* Inline skip *)
+(* Delimiters are used for span/inline environment that are not nested.
+ * They can be multiple characters.  In that case, extend take_arg
+ * to match them first.
+ * TODO: code block should be treated like this.
+ *)
 let p_backtick = "`" 
 let p_double_backtick = "``" 
+
+
+(* Inline skip *)
 let p_skip = 
 	(p_backtick as delimeter) |	(p_double_backtick as delimeter)
 
@@ -142,6 +149,9 @@ let p_html_end = "</" (p_alpha+ as kind) '>'
 
 let p_begin_env = p_codeblock | p_html_begin
 let p_end_env = p_codeblock | p_html_end
+
+
+
 (* END: environments *)
 
 (* Segments *)
@@ -164,7 +174,6 @@ let p_heading = p_segment
 (** END PATTERNS *)			
 
 rule initial = parse
-
 | p_escape as x 
   {
    CHUNK(x, None)
@@ -258,6 +267,30 @@ and take_arg depth delimiter_open delimiter_close =
   * Allow nesting. (TODO: probably unnecessary?) 
   *)
   parse
+  | p_double_backtick as x
+    {
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+     (* Tricky: check close first so that you can handle 
+        a single delimeter used for both open and close,
+        as in lstinline.
+      *)
+		 if x = delimiter_close then
+			 let depth = depth - 1 in
+       if depth = 0 then
+(*				 let _ = d_printf "exit\n" in *)
+         ("", x)
+       else
+         let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
+         (x ^ arg, c_c)					 
+		 else if x = delimiter_open then
+			 let depth = depth + 1 in
+			 let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
+			 (x ^ arg, c_c)
+		 else
+			 let (rest, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in
+       (x ^ rest, c_c)
+    }
+
   | _ as x
     {
      let x = str_of_char x in
@@ -331,7 +364,7 @@ let lexer: Lexing.lexbuf -> token =
 				in
 				let _ = d_printf "%s" (token_to_dbg_str tk_to_return) in
 				(prev_token := Some tk_to_return;
-(*				 d_printf "returning token: %s\n" (token_to_str tk_to_return);  *)
+(*   			 d_printf "returning token: %s\n" (token_to_str tk_to_return); *)
 				 tk_to_return)
 			in
 			let is_token_from_cache = ref false in

@@ -45,10 +45,23 @@ let mk_translator () =
 		preamble 
 
 let md2ast infile = 
-	let ic = In_channel.create infile in
+(*	let ic = In_channel.create infile in *)
+  let contents = In_channel.read_all infile in
+  let tripledash = Str.regexp "---" in
+  let contents = 
+    if Str.string_match tripledash contents 0 then
+      try 
+        let pos = Str.search_forward tripledash contents 3 in
+				  String.slice contents (pos + 3) (String.length contents)
+       with Not_found -> contents
+    else
+			contents
+  in
+(*  let _ = printf "contents:\n%s" contents in *)
 	let ast = 
    	try 
-      let lexbuf = Lexing.from_channel ic in
+(*      let lexbuf = Lexing.from_channel ic in *)
+      let lexbuf = Lexing.from_string contents in
 	    let ast = Parser.top Lexer.lexer lexbuf in
 			match ast with 
 			| None -> (printf "Parse Error."; exit 1)

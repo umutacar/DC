@@ -240,13 +240,13 @@ heading:
 		}
 
 top:
-	fs = emptylines;
+	e = emptylines;
   ss = segments;
   EOF
   {match Ast.Segment.nest_segments ss with
 	 | None -> 
-	 let _ = printf "Fatal Error.  There should be a top level chapter" in
-	 None
+  	 let _ = printf "Fatal Error.  There should be a top level chapter" in
+  	 None
 	 | Some s -> Some s
 	 }
 
