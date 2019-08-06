@@ -260,8 +260,12 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 (*            printf "matched contents: %s" contents; *)
       contents
     else
-      let () = printf "\nFATAL ERROR in LaTeX to html translation!\n" in
-      "FATAL ERROR in LaTeX to html translation"
+      (* Contents was empty.  This is OK. No need to raise an error.
+       * let () = printf "\nFATAL ERROR in LaTeX to html translation!\n" in
+       * "FATAL ERROR in LaTeX to html translation" 
+       *)
+      contents
+
 
 (**********************************************************************)
 
