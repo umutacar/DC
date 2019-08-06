@@ -18,6 +18,7 @@ let d_printf args =
 let d_printf args = printf args
 *)
 
+(** Lexer State **)
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -32,8 +33,7 @@ let state_to_string st =
 	|  Idle -> "Idle"
 
 let state = ref Idle
-let set_state s = 
-  state := s
+let set_state s =  state := s
 let get_state = fun () -> !state 
 
 (* Are we making progress horizontally or vertically? 
@@ -45,56 +45,27 @@ type t_space_state =
 	| Vertical
 
 let space_state = ref Horizontal
-let set_space_state t = 
-  space_state := t
-let get_space_state () = 
-	!space_state
+let set_space_state t =  space_state := t
+let get_space_state () = !space_state
 let space_state_to_string () =
 	match !space_state with  
 	| Horizontal -> "Horizontal"
 	| Vertical -> "Vertical"
 
 
-
-(* Indicates the depth at which the lexer is operating at
-   0 = surface level
-   1 = inside of an env
- *)
-let lexer_depth = ref 0
-let get_lexer_depth () =
-	!lexer_depth
-let inc_lexer_depth () = 
-   lexer_depth := !lexer_depth + 1
-let dec_lexer_depth () = 
-  (assert (!lexer_depth > 0);
-   lexer_depth := !lexer_depth - 1
-		 )
-
-		
-(* Indicates that the current line is empty *)
-let lexer_line_status = ref true
-let set_line_empty () = 
-	if get_lexer_depth () = 0 then
-		lexer_line_status := true
-
-let set_line_nonempty () = 
-	if get_lexer_depth () = 0 then
-		lexer_line_status := false
-let line_is_empty () = 
-	if get_lexer_depth () = 0 then
-		!lexer_line_status
-	else
-		(* Always return true, empty lines are harmless *)
-		true
-
+(** Token Cache **)
 type t_cache = token list
+
 let cache = ref [ ]
+
 let cache_is_empty () =
   match !cache with 
 	| [ ] -> true
 	| _ -> false
+
 let cache_insert t =
   cache := !cache @ [ t ]
+
 let cache_remove () =
   match !cache with 
 	| [ ] -> None
@@ -102,7 +73,7 @@ let cache_remove () =
 			(cache := t;
 			 Some h)
 
-(* Some Utilities *)
+(** Some Utilities **)
 let start = Lexing.lexeme_start
 
 let token_to_str tk =
@@ -125,40 +96,6 @@ let token_to_dbg_str tk =
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
-(**********************************************************************
- ** BEGIN: latex env machinery 
- **********************************************************************)
-
-let env_pos = ref 0  
-let env_depth = ref 0  
-
-let do_begin_env () =
-  inc_lexer_depth ()
-
-let do_end_env () =
-  let _ = dec_lexer_depth () in
-    get_lexer_depth () = 0
-
-(**********************************************************************
- ** END: latex env machinery 
- **********************************************************************)
-
-(**********************************************************************
- ** BEGIN: curly bracked depth machinery
- **********************************************************************)
-let arg_depth = ref 0  
-
-let inc_arg_depth () =
-  arg_depth := !arg_depth + 1
-
-let dec_arg_depth () =
-  arg_depth := !arg_depth - 1
-
-let arg_depth () =
-  !arg_depth
-(**********************************************************************
- ** END: curly bracked depth machinery
- **********************************************************************)
 
 }
 (** END: HEADER **)
@@ -250,14 +187,12 @@ rule initial = parse
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
-     let _ =  set_line_nonempty () in
      CHUNK(str_of_char x, None)
     }
 
 | p_newline as x
 		{
 (*	   d_printf "!lexer found: newline: %s." x; *)
-     let _ =  set_line_empty () in
        NEWLINE(x)
     }
 
@@ -293,8 +228,7 @@ and skip_inline kind =
   | _ as x
     { let x = str_of_char x in
 (*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
-      let _ = inc_arg_depth () in
-      let (rest, c) = skip_arg x x lexbuf in
+      let (rest, c) = skip_arg 1 x x lexbuf in
       let all =  x ^ rest ^ c in
 (*			let _ = d_printf "skip_inline all = %s\n"  all in *)
         all
@@ -319,7 +253,8 @@ and skip_env stop_kind =
         ((str_of_char x) ^ y, h_e)
       }
 
-and skip_arg delimiter_open delimiter_close = 
+
+and skip_arg depth delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
   | _ as x
@@ -331,19 +266,19 @@ and skip_arg delimiter_open delimiter_close =
         as in lstinline.
       *)
 		 if x = delimiter_close then
-			 let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+			 let depth = depth - 1 in
+       if depth = 0 then
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
-			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
+			 let depth = depth + 1 in
+			 let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = skip_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
