@@ -511,13 +511,12 @@ struct
     (* Set title to caption if captionable. *)
     let title = 
  		 if Tex.is_atom_captionable kind then
-        let _ = printf "atom %s is captionable\n" kind in
-        let _ = printf "caption = %s" (str_of_str_opt capopt) in
+(*     let _ = d_printf "atom %s is captionable, caption = %s\n" kind (str_of_str_opt capopt) in *)
         match title with 
-        | None ->  (printf ("title is none.\n"); capopt)
-				| Some _ -> (printf ("title is some.\n"); title)
+        | None ->  capopt
+				| Some _ -> title
 		 else
-       let _ = printf "atom %s is not captionable\n" kind in
+(*       let _ = printf "atom %s is not captionable\n" kind in *)
 			 title
 		in
 
