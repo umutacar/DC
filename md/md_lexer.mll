@@ -180,7 +180,7 @@ rule initial = parse
 		{
 (*     let _ = d_printf "!lexer found: skip %s." (str_of_char x) in *)
      let delimeter = str_of_char delimeter in
-     let (body, _) = skip_arg 1 delimeter delimeter lexbuf in
+     let (body, _) = take_arg 1 delimeter delimeter lexbuf in
      let all = delimeter ^ body ^ delimeter in
 		   CHUNK(all, None)
     }
@@ -242,13 +242,15 @@ and skip_env stop_kind =
       }
 
 
-and skip_arg depth delimiter_open delimiter_close = 
-	  (* this is like take_arg but does not skip over comments *)
+and take_arg depth delimiter_open delimiter_close = 
+ (* Take argument delimited by delimiter open and close.
+  * Allow nesting. (TODO: probably unnecessary?) 
+  *)
   parse
   | _ as x
     {
      let x = str_of_char x in
-(*     let _ = d_printf "skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -259,14 +261,14 @@ and skip_arg depth delimiter_open delimiter_close =
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
 			 let depth = depth + 1 in
-			 let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
+			 let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
