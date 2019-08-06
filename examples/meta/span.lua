@@ -15,21 +15,21 @@ function Span(block)
     -- else check that the block text is same as label
     -- if so, then delete, else skip.
     if l == nil then
-      print ('label not found')
+      -- print ('label not found')
       return block
     else  
       if id == l then
         -- delete this block
-        print ('deleted id =', id)
+        -- print ('deleted id =', id)
         return {}
       else
-        print ('kept id =', id)
+        -- print ('kept id =', id)
         return block
       end
     end
   else 
     -- if span has a non-empty class return it unmodified.
-    print ('class found')
+    -- print ('class found')
     return block
   end
 end
