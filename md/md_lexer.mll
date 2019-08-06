@@ -2,7 +2,7 @@
  ** md/md_lexer.mll
  **********************************************************************)
 
-(** BEGIN: HEADER **)
+(* BEGIN: HEADER *)
 {
 open Printf
 open Utils
@@ -18,7 +18,7 @@ let d_printf args =
 let d_printf args = printf args
 *)
 
-(** Lexer State **)
+(* Lexer State *)
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -53,7 +53,7 @@ let space_state_to_string () =
 	| Vertical -> "Vertical"
 
 
-(** Token Cache **)
+(* Token Cache *)
 type t_cache = token list
 
 let cache = ref [ ]
@@ -73,7 +73,7 @@ let cache_remove () =
 			(cache := t;
 			 Some h)
 
-(** Some Utilities **)
+(* Some Utilities *)
 let start = Lexing.lexeme_start
 
 let token_to_str tk =
@@ -101,20 +101,19 @@ let token_to_dbg_str tk =
 (** END: HEADER **)
 
 (** BEGIN: PATTERNS *)	
-let p_comma = ','
-(* horizontal space *)
-let p_hspace = ' ' | '\t' | '\r' 
-(* non-space character *)
+
+(* significant, non-space character *)
 let p_sigchar = [^ ' ' '\t' '\n' '\r']
-(* newline *)
-let p_newline = '\n' | ('\r' '\n')
 
+(* white space *)
+let p_hspace = ' ' | '\t' | '\r' 
 let p_newline = '\n' | ('\r' '\n')
-
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
 
+
+let p_comma = ','
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
 let p_frac = '.' p_digit*
@@ -124,18 +123,12 @@ let p_float = p_digit* p_frac? p_exp?
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 
-(* No white space after backslash *)
-(* don't take newline with close *)
-let p_backquote = '`' p_hs											
 
+(* Inline skip *)
+let p_backquote = '`' 
+let p_skip = (p_backquote as delimeter)
 
-let p_chapter = ("#" as kind) 
-let p_section = ("##" as kind)
-let p_subsection = ("###" as kind)
-let p_subsubsection = ("###" as kind)
-let p_paragraph = ("####" as kind) p_ws												
-
-(** BEGIN: environments **)
+(* BEGIN: environments *)
 let p_codeblock = "```"['`']*
 let p_html_begin = '<' (p_alpha+ as kind) '>'
 let p_html_end = "</" (p_alpha+ as kind) '>'
@@ -144,8 +137,13 @@ let p_begin_env = (p_codeblock as kind) | p_html_begin
 let p_end_env = (p_codeblock as kind) | p_html_end
 (* END: environments *)
 
-
 (* Segments *)
+let p_chapter = ("#" as kind) 
+let p_section = ("##" as kind)
+let p_subsection = ("###" as kind)
+let p_subsubsection = ("###" as kind)
+let p_paragraph = ("####" as kind) p_ws												
+
 let p_segment = 
 	p_chapter |
   p_section |
@@ -175,9 +173,17 @@ rule initial = parse
      let (body, y) = skip_env kind lexbuf in
      let env = x ^ body ^ y in
      let _ = d_printf "!lexer matched env %s." env in 
-
        CHUNK(env, None)
 }
+
+| (p_skip as delimiter) 
+		{
+(*     let _ = d_printf "!lexer found: skip %s." (str_of_char x) in *)
+     let delimeter = str_of_char delimeter in
+     let (body, _) = skip_arg 1 delimeter delimeter lexbuf in
+     let all = delimeter ^ body ^ delimeter in
+		   CHUNK(all, None)
+    }
 
 | p_sigchar as x
 		{
@@ -212,19 +218,6 @@ and take_line  =
 (*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
       let rest = take_line lexbuf in
       let all =  x ^ rest  in
-(*			let _ = d_printf "skip_inline all = %s\n"  all in *)
-        all
-    } 
-
-
-and skip_inline kind = 		
-  (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
-  parse
-  | _ as x
-    { let x = str_of_char x in
-(*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
-      let (rest, c) = skip_arg 1 x x lexbuf in
-      let all =  x ^ rest ^ c in
 (*			let _ = d_printf "skip_inline all = %s\n"  all in *)
         all
     } 
