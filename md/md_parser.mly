@@ -58,14 +58,6 @@ let reset_labels () =
 let str_of_items items = 
 	str_of_str2_list items
 
-(* Given input string, 
- * parse it using Atom_parser
- *)
-let parse_atom input = 
-	let _ = d_printf "*atom_parser: atom_to_ast input = %s" input in 
-  let lexbuf = Lexing.from_string input in
-	Atom_parser.top Atom_lexer.lexer lexbuf
-
 %}	
 
 %token EOF
@@ -287,28 +279,16 @@ atom:
   tp_all = textpar;
   {	 
 	 let (all, ell) = tp_all in
-   let a = parse_atom all in
-	 let (kind, popt, kwargs, lopt, body, capopt, problem_opt) = 
-	   match a with 
-		 | None -> (Tex.kw_gram, None, [], None,  all, None, None)
-		 | Some (kind, popt, kwargs, lopt, body, capopt, items) -> 
-				 let problem_opt = Ast.problem_of_items items in
-				 (kind, popt, kwargs, lopt, body, capopt, problem_opt)
-	 in			 
-	 let body = String.strip ~drop:is_vert_space body in
-   let topt = find_in_list kwargs "title" in
-	 if Tex.is_label_only body then
-		 ([ ], ell)
-	 else
-		 let a = Ast.Atom.make 
-				 ~point_val:popt 
-				 ~title:topt 
-				 ~label:lopt  
-				 ~capopt:None
-				 ~problem:problem_opt
-				 kind  
-				 body
-		 in
+	 let body = String.strip ~drop:is_vert_space all in
+	 let a = Ast.Atom.make 
+			 ~point_val:None
+			 ~title:None
+			 ~label:None  
+			 ~capopt:None
+			 ~problem:None
+			 Tex.kw_gram
+			 body
+	 in
 		 ([ a ], ell)
   }
 
