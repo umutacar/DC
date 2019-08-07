@@ -285,10 +285,9 @@ let is_significant_word (x: string): bool =
 (* Tokenizes body with respect to spaces
  * after doing some sanitization such as 
  * removal of comments, deletion of \label, \depend, \begin \end, math.
- * Drops stop words and trivial words of 1 character, and 
- * returns a list of tokens where words with 4 or more characters come first.
+ * returns a list of tokens.
  *)
-let tokenize_spaces body = 
+let tokenize_spaces_raw body = 
   (* Delete all comments *)
 (* This is not necessary. Also break uniformity with pandoc.
    Not necessary because we delete comments.
@@ -325,6 +324,18 @@ let tokenize_spaces body =
          if none is found, returns the whole string.
         *)
   let tokens = List.map tokens  String.lowercase in 
+    tokens
+
+(* Tokenizes body with respect to spaces
+ * after doing some sanitization such as 
+ * removal of comments, deletion of \label, \depend, \begin \end, math.
+ * Drops stop words and trivial words of 1 character, and 
+ * returns a list of tokens where words with 4 or more characters come first.
+ *)
+let tokenize_spaces body = 
+  let tokens = tokenize_spaces_raw body in
+
+  (* Now drop small and insignificant words *)
   let tokens = List.filter tokens ~f:is_significant_word in
   let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
   (* Reorder so small words are not preferred *)
