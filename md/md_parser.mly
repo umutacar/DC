@@ -58,35 +58,11 @@ let reset_labels () =
 let str_of_items items = 
 	str_of_str2_list items
 
-(* Given input string, 
- * parse it using Atom_parser
- *)
-let parse_atom input = 
-(*	let _ = d_printf "*atom_parser: atom_to_ast input = %s" input in *)
-  let lexbuf = Lexing.from_string input in
-	Atom_parser.top Atom_lexer.lexer lexbuf
-
-let mk_prompt (kind, point_val, body) =
-	Ast.Prompt.make ~point_val:point_val kind body 
-
-(*
-let mk_problem items = 
-	begin
-		match items with 
-		| [ ] -> None
-		| (kind_problem, point_val, body)::prompts ->
-				let	prompts = List.map prompts ~f:mk_prompt in
-				let p = Ast.Problem.make ~kind:kind_problem ~point_val:point_val body prompts in
-				Some p
-	end
-*)
-
 %}	
 
 %token EOF
 
 
-%token <string> KW_FOLD
 %token <string * string * string option> KW_HEADING
 %token <string * string * string option> KW_BEGIN_GROUP
 %token <string * string> KW_END_GROUP
@@ -229,7 +205,7 @@ textpar_tail:
 
 
 /**********************************************************************
- ** BEGIN: Latex Segments
+ ** BEGIN: Segments
  **********************************************************************/
 
 heading:
@@ -240,7 +216,7 @@ heading:
 		}
 
 top:
-	fs = emptylines;
+	fs = emptylines
   ss = segments;
   EOF
   {match Ast.Segment.nest_segments ss with
@@ -270,12 +246,12 @@ segments:
 
 
 /**********************************************************************
- ** END: Latex Segments
+ ** END: Segments
  **********************************************************************/
 
 /**********************************************************************
  ** BEGIN: Blocks
- ** A blocks is sequence of elements
+ ** A block is sequence of elements
  **********************************************************************/
 
 block: 
@@ -303,42 +279,22 @@ atom:
   tp_all = textpar;
   {	 
 	 let (all, ell) = tp_all in
-   let a = parse_atom all in
-	 let (kind, popt, kwargs, lopt, body, capopt, problem_opt) = 
-	   match a with 
-		 | None -> (Tex.kw_gram, None, [], None,  all, None, None)
-		 | Some (kind, popt, kwargs, lopt, body, capopt, items) -> 
-				 let problem_opt = Ast.problem_of_items items in
-				 (kind, popt, kwargs, lopt, body, capopt, problem_opt)
-	 in			 
-	 let body = String.strip ~drop:is_vert_space body in
-   let topt = find_in_list kwargs "title" in
-	 if Tex.is_label_only body then
-		 ([ ], ell)
-	 else
-		 let a = Ast.Atom.make 
-				 ~point_val:popt 
-				 ~title:topt 
-				 ~label:lopt  
-				 ~capopt:None
-				 ~problem:problem_opt
-				 kind  
-				 body
-		 in
+	 let body = String.strip ~drop:is_vert_space all in
+	 let a = Ast.Atom.make 
+			 ~point_val:None
+			 ~title:None
+			 ~label:None  
+			 ~capopt:None
+			 ~problem:None
+			 Tex.kw_gram
+			 body
+	 in
 		 ([ a ], ell)
   }
 
 atoms:
 | 
 	{ ([ ], [ ]) }
-| aa = atoms;
-	el = emptylines;
-  f = KW_FOLD
-	a = atom
-		{ let (aa, ell_aa) = aa in
-		  let (a, ell_a) = a in
-			  (aa @ a, ell_aa @ ell_a)
-		}
 | aa = atoms;
 	a = atom
 		{ let (aa, ell_aa) = aa in
@@ -396,37 +352,3 @@ elements:
 /**********************************************************************
  ** END: Elements
  **********************************************************************/
-
-
-/*
-atom: 
-  fs = emptylines;
-  tp = textpar;
-  {	 
-	 let (all, ell) = tp in
-	 let all = String.strip ~drop:is_vert_space all in
-	 let single = Tex.take_single_env all in
-	 let (kind, popt, topt,  lopt, body) = 
-	   match single with 
-		 | None -> 
-				 (Tex.kw_gram, None, None, None, all)
-		 | Some (env, _) -> 
-				 let atom = atom_to_ast all in						 
-				 (env,  popt, topt, lopt, body)  (* favor body computed by the lexer *)
-	 in 
-(*	 let _ = d_printf "parser matched atom: body = \n %s \n" body in *)
-	 let body = String.strip ~drop:is_vert_space body in
-	   if Tex.is_label_only body then
-(*			 let _ = d_printf "atom is label only" in *)
-			 ([ ], ell)
-		 else
-			 let a = Ast.Atom.make 
-					 ~point_val:popt 
-					 ~title:topt 
-					 ~label:lopt  
-					 kind  
-					 body
-			 in
-			 ([ a ], ell)
-  }
-*/

@@ -3,7 +3,6 @@ open Printf
 
 let debug = true
 
-
 let str_of_char x = String.make 1 x
 
 let str_of_pval_opt x = 
@@ -338,3 +337,8 @@ let float_opt_to_string_opt fopt =
 let find_in_list  (l: (string * string) list) (key: string) = 
 	List.Assoc.find l ~equal:String.equal key
 
+let labelize s = 
+  let symbols = Str.regexp "[][ `'@#\\$%^&\\*()_\\+={}\\,;\"]" in
+  let result = Str.global_replace symbols "-" s in
+  let _ = printf "labelize: %s --> %s\n" s result in
+  result

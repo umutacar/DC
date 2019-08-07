@@ -45,10 +45,26 @@ let mk_translator () =
 		preamble 
 
 let md2ast infile = 
-	let ic = In_channel.create infile in
+(*	let ic = In_channel.create infile in *)
+  let contents = In_channel.read_all infile in
+  let tripledash = Str.regexp "---" in
+  let contents = 
+    if Str.string_match tripledash contents 0 then
+      try 
+        let pos = Str.search_forward tripledash contents 3 in
+				  String.slice contents (pos + 3) (String.length contents)
+       with Not_found -> contents
+    else
+			contents
+  in
+(*
+  let _ = printf "**contents:\n%s" contents in 
+  let _ = printf "**contents done\n" in 
+*)
 	let ast = 
    	try 
-      let lexbuf = Lexing.from_channel ic in
+(*      let lexbuf = Lexing.from_channel ic in *)
+      let lexbuf = Lexing.from_string contents in
 	    let ast = Parser.top Lexer.lexer lexbuf in
 			match ast with 
 			| None -> (printf "Parse Error."; exit 1)
@@ -95,11 +111,12 @@ let main () =
               ("-o", Arg.String (set_str_arg out_file), "Sets output file");
               ("-bib", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any.");
               ("-meta", Arg.Set_string meta_dir, "Directory for meta informaiton, e.g., highlighting definitions, lua filters, etc.");
-(*  Don't support default language.
-              ("-lang", Arg.String (set_str_arg default_lang), "Sets the default programming language.");
-*)
-              ("-preamble", Arg.String (set_str_arg preamble_file), "Sets LaTeX preamble, if any.");
               ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp.")
+(*  Don't support default language, preamble.
+              ("-lang", Arg.String (set_str_arg default_lang), "Sets the default programming language.");
+
+              ("-preamble", Arg.String (set_str_arg preamble_file), "Sets LaTeX preamble, if any.");
+*)
              ]
   in 
 
@@ -126,11 +143,6 @@ let main () =
   in
   let xml_chapter = md2xml !verbose !do_inline in_file_name !preamble_file !default_lang in       
   let _ = Out_channel.write_all outfile_name ~data:xml_chapter in
-	let _ = 
-		match !preamble_file with 
-		| None -> printf "Warning: no LaTeX preamble was specified.\n"
-    | _ -> ()
-	in
      printf "Output written in %s\n" outfile_name 
 		
   

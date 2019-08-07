@@ -2,7 +2,7 @@
  ** md/md_lexer.mll
  **********************************************************************)
 
-(** BEGIN: HEADER **)
+(* BEGIN: HEADER *)
 {
 open Printf
 open Utils
@@ -10,14 +10,8 @@ open Utils
 open Md_parser
 open Md_syntax
 (* Turn off prints *)
-(*
-let d_printf args = 
-    ifprintf stdout args
-*)
-(*
-let d_printf args = printf args
-*)
 
+(* Lexer State *)
 type t_lexer_state = 
 	| Busy
 	| Idle
@@ -32,8 +26,7 @@ let state_to_string st =
 	|  Idle -> "Idle"
 
 let state = ref Idle
-let set_state s = 
-  state := s
+let set_state s =  state := s
 let get_state = fun () -> !state 
 
 (* Are we making progress horizontally or vertically? 
@@ -45,56 +38,27 @@ type t_space_state =
 	| Vertical
 
 let space_state = ref Horizontal
-let set_space_state t = 
-  space_state := t
-let get_space_state () = 
-	!space_state
+let set_space_state t =  space_state := t
+let get_space_state () = !space_state
 let space_state_to_string () =
 	match !space_state with  
 	| Horizontal -> "Horizontal"
 	| Vertical -> "Vertical"
 
 
-
-(* Indicates the depth at which the lexer is operating at
-   0 = surface level
-   1 = inside of an env
- *)
-let lexer_depth = ref 0
-let get_lexer_depth () =
-	!lexer_depth
-let inc_lexer_depth () = 
-   lexer_depth := !lexer_depth + 1
-let dec_lexer_depth () = 
-  (assert (!lexer_depth > 0);
-   lexer_depth := !lexer_depth - 1
-		 )
-
-		
-(* Indicates that the current line is empty *)
-let lexer_line_status = ref true
-let set_line_empty () = 
-	if get_lexer_depth () = 0 then
-		lexer_line_status := true
-
-let set_line_nonempty () = 
-	if get_lexer_depth () = 0 then
-		lexer_line_status := false
-let line_is_empty () = 
-	if get_lexer_depth () = 0 then
-		!lexer_line_status
-	else
-		(* Always return true, empty lines are harmless *)
-		true
-
+(* Token Cache *)
 type t_cache = token list
+
 let cache = ref [ ]
+
 let cache_is_empty () =
   match !cache with 
 	| [ ] -> true
 	| _ -> false
+
 let cache_insert t =
   cache := !cache @ [ t ]
+
 let cache_remove () =
   match !cache with 
 	| [ ] -> None
@@ -125,60 +89,27 @@ let token_to_dbg_str tk =
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
-(**********************************************************************
- ** BEGIN: latex env machinery 
- **********************************************************************)
-
-let env_pos = ref 0  
-let env_depth = ref 0  
-
-let do_begin_env () =
-  inc_lexer_depth ()
-
-let do_end_env () =
-  let _ = dec_lexer_depth () in
-    get_lexer_depth () = 0
-
-(**********************************************************************
- ** END: latex env machinery 
- **********************************************************************)
-
-(**********************************************************************
- ** BEGIN: curly bracked depth machinery
- **********************************************************************)
-let arg_depth = ref 0  
-
-let inc_arg_depth () =
-  arg_depth := !arg_depth + 1
-
-let dec_arg_depth () =
-  arg_depth := !arg_depth - 1
-
-let arg_depth () =
-  !arg_depth
-(**********************************************************************
- ** END: curly bracked depth machinery
- **********************************************************************)
 
 }
 (** END: HEADER **)
 
 (** BEGIN: PATTERNS *)	
-let p_comma = ','
-(* horizontal space *)
+
+(* significant, non-space character *)
+let p_sigchar = [^ ' ' '\t' '\n' '\r']
+
+(* white space *)
 let p_hspace = ' ' | '\t' | '\r' 
-(* non-space character *)
-let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
-(* newline *)
 let p_newline = '\n' | ('\r' '\n')
-
-let p_newline = '\n' | ('\r' '\n')
-
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
-let p_skip = p_hs
-let p_par_break = '\n' p_ws '\n' p_hs
+
+
+let p_comma = ','
+let p_backslash = '\\'
+let p_special = '\\' | '`' | '#'
+let p_escape = p_backslash p_special
 
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
@@ -189,31 +120,39 @@ let p_float = p_digit* p_frac? p_exp?
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 
-(* No white space after backslash *)
-let p_backslash = '\\'
-let p_o_curly = '{' p_ws
-(* don't take newline with close *)
-let p_c_curly = '}' p_hs
-let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_hs											
+
+(* Delimiters are used for span/inline environment that are not nested.
+ * They can be multiple characters.  In that case, extend take_arg
+ * to match them first.
+ * TODO: code block should be treated like this.
+ *)
+let p_backtick = "`" 
+let p_double_backtick = "``" 
+let p_many_backtick = ("```"['`']*)  (* three or more *)
+
+(* Inline skip *)
+let p_skip = 
+	(p_backtick as delimeter) |	
+  (p_double_backtick as delimeter) |
+  (p_many_backtick as delimeter)
 
 
+(* BEGIN: environments *)
+let p_html_begin = '<' (p_alpha+ as kind) '>'
+let p_html_end = "</" (p_alpha+ as kind) '>'
+
+let p_begin_env = p_html_begin
+let p_end_env =  p_html_end
+
+(* END: environments *)
+
+(* Segments *)
 let p_chapter = ("#" as kind) 
-
 let p_section = ("##" as kind)
 let p_subsection = ("###" as kind)
 let p_subsubsection = ("###" as kind)
 let p_paragraph = ("####" as kind) p_ws												
 
-(* Latex environment: alphabethical chars plus an optional star *)
-let p_codeblock = "```"['`']*
-
-let p_begin_env = (p_codeblock as kind) | '<' p_ws (p_alpha+ as kind) p_ws '>'
-let p_end_env = (p_codeblock as kind) | "</" p_ws (p_alpha+ as kind) p_ws '>'
-(* end: environments *)
-
-
-(* Segments *)
 let p_segment = 
 	p_chapter |
   p_section |
@@ -227,13 +166,18 @@ let p_heading = p_segment
 (** END PATTERNS *)			
 
 rule initial = parse
+| p_escape as x 
+  {
+   CHUNK(x, None)
+	}
 
 | (p_heading as x) p_hs
     {
      let title = take_line lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
-     let _ = d_printf "!lexer matched segment title =  %s" title in 
      let kind = il_kind_of_segment kind in
+     let _ = printf "!lexer matched segment kind = %s title =  %s\n" kind title in 
+
        KW_HEADING(kind, title, None)
     }		
 
@@ -243,21 +187,26 @@ rule initial = parse
      let (body, y) = skip_env kind lexbuf in
      let env = x ^ body ^ y in
      let _ = d_printf "!lexer matched env %s." env in 
-
        CHUNK(env, None)
 }
+
+| (p_skip as delimiter) 
+		{
+(*     let _ = d_printf "!lexer found: skip %s." (str_of_char x) in *)
+     let (body, _) = take_arg 1 delimeter delimeter lexbuf in
+     let all = delimeter ^ body ^ delimeter in
+		   CHUNK(all, None)
+    }
 
 | p_sigchar as x
 		{
 (*     d_printf "!%s" (str_of_char x); *)
-     let _ =  set_line_nonempty () in
      CHUNK(str_of_char x, None)
     }
 
 | p_newline as x
 		{
 (*	   d_printf "!lexer found: newline: %s." x; *)
-     let _ =  set_line_empty () in
        NEWLINE(x)
     }
 
@@ -286,20 +235,6 @@ and take_line  =
         all
     } 
 
-
-and skip_inline kind = 		
-  (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
-  parse
-  | _ as x
-    { let x = str_of_char x in
-(*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
-      let _ = inc_arg_depth () in
-      let (rest, c) = skip_arg x x lexbuf in
-      let all =  x ^ rest ^ c in
-(*			let _ = d_printf "skip_inline all = %s\n"  all in *)
-        all
-    } 
-
 and skip_env stop_kind =
   (* Assumes non-nested environments *)
   parse
@@ -319,31 +254,58 @@ and skip_env stop_kind =
         ((str_of_char x) ^ y, h_e)
       }
 
-and skip_arg delimiter_open delimiter_close = 
-	  (* this is like take_arg but does not skip over comments *)
+
+and take_arg depth delimiter_open delimiter_close = 
+ (* Take argument delimited by delimiter open and close.
+  * Allow nesting. (TODO: probably unnecessary?) 
+  *)
   parse
-  | _ as x
+  | p_many_backtick as x | p_double_backtick as x
     {
-     let x = str_of_char x in
-(*     let _ = d_printf "skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
       *)
 		 if x = delimiter_close then
-			 let _ = dec_arg_depth () in
-       if arg_depth () = 0 then
+			 let depth = depth - 1 in
+       if depth = 0 then
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
-			 let _ = inc_arg_depth () in
-			 let (arg, c_c) = skip_arg delimiter_open delimiter_close lexbuf in 
+			 let depth = depth + 1 in
+			 let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = skip_arg delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in
+       (x ^ rest, c_c)
+    }
+
+  | _ as x
+    {
+     let x = str_of_char x in
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+     (* Tricky: check close first so that you can handle 
+        a single delimeter used for both open and close,
+        as in lstinline.
+      *)
+		 if x = delimiter_close then
+			 let depth = depth - 1 in
+       if depth = 0 then
+(*				 let _ = d_printf "exit\n" in *)
+         ("", x)
+       else
+         let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
+         (x ^ arg, c_c)					 
+		 else if x = delimiter_open then
+			 let depth = depth + 1 in
+			 let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
+			 (x ^ arg, c_c)
+		 else
+			 let (rest, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
@@ -395,7 +357,7 @@ let lexer: Lexing.lexbuf -> token =
 				in
 				let _ = d_printf "%s" (token_to_dbg_str tk_to_return) in
 				(prev_token := Some tk_to_return;
-(*				 d_printf "returning token: %s\n" (token_to_str tk_to_return);  *)
+(*   			 d_printf "returning token: %s\n" (token_to_str tk_to_return); *)
 				 tk_to_return)
 			in
 			let is_token_from_cache = ref false in
@@ -461,10 +423,6 @@ let lexer: Lexing.lexbuf -> token =
 
 				| KW_END_GROUP x ->
 (*  					let _ = d_printf "** token = end group \n"  in *)
-            handle_keyword tk
-
-				| KW_FOLD x ->
-(*  					let _ = d_printf "** token = fold \n"  in *)
             handle_keyword tk
 
 				| KW_HEADING x ->
