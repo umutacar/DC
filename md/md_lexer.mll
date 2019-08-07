@@ -128,22 +128,21 @@ let p_separator = [':' '.' '-' '_' '/']
  *)
 let p_backtick = "`" 
 let p_double_backtick = "``" 
-
+let p_many_backtick = ("```"['`']*)  (* three or more *)
 
 (* Inline skip *)
 let p_skip = 
-	(p_backtick as delimeter) |	(p_double_backtick as delimeter)
+	(p_backtick as delimeter) |	
+  (p_double_backtick as delimeter) |
+  (p_many_backtick as delimeter)
 
 
 (* BEGIN: environments *)
-let p_codeblock = ("```"['`']* as kind)
 let p_html_begin = '<' (p_alpha+ as kind) '>'
 let p_html_end = "</" (p_alpha+ as kind) '>'
 
-let p_begin_env = p_codeblock | p_html_begin
-let p_end_env = p_codeblock | p_html_end
-
-
+let p_begin_env = p_html_begin
+let p_end_env =  p_html_end
 
 (* END: environments *)
 
@@ -261,7 +260,7 @@ and take_arg depth delimiter_open delimiter_close =
   * Allow nesting. (TODO: probably unnecessary?) 
   *)
   parse
-  | p_double_backtick as x
+  | p_many_backtick as x | p_double_backtick as x
     {
 (*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
      (* Tricky: check close first so that you can handle 
