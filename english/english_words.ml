@@ -313,6 +313,9 @@ let tokenize_spaces_raw body =
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
 
+  (* Delete all 's suffix *)
+  let body = Str.global_replace (Str.regexp "'[ ]*s") "" body in
+
   (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
   (* Regexp for this may seem strange. *)
   let body = Str.global_replace (Str.regexp "[^-^0-9^A-Z^a-z]+") " " body in

@@ -95,6 +95,7 @@ let add_label_of_title topt tokens =
 			match tt with
 			| [ ] -> tokens 
 			| _ -> let l = String.concat ~sep:"-" tt in
+             let _ = d_printf "add_label_of_title: label = %s\n" l in
 				     l::tokens
 
 (**********************************************************************
