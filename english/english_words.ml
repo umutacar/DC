@@ -285,13 +285,14 @@ let is_significant_word (x: string): bool =
 (* Tokenizes body with respect to spaces
  * after doing some sanitization such as 
  * removal of comments, deletion of \label, \depend, \begin \end, math.
- * Drops stop words and trivial words of 1 character, and 
- * returns a list of tokens where words with 4 or more characters come first.
+ * returns a list of tokens.
  *)
-let tokenize_spaces body = 
+let tokenize_spaces_raw body = 
   (* Delete all comments *)
+(* This is not necessary. Also break uniformity with pandoc.
+   Not necessary because we delete comments.
   let body = Str.global_replace (Str.regexp ("%.*" ^ Tex.pattern_newline)) "" body in
-
+*)
   (* Delete labels *)
   (* It might seem like a good idea to reuse them but this can be bad
    * because it could generate permutations of the same words.
@@ -312,6 +313,9 @@ let tokenize_spaces body =
   (* Delete all latex commands *)
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
 
+  (* Delete all 's suffix *)
+  let body = Str.global_replace (Str.regexp "'[ ]*s") "" body in
+
   (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
   (* Regexp for this may seem strange. *)
   let body = Str.global_replace (Str.regexp "[^-^0-9^A-Z^a-z]+") " " body in
@@ -323,6 +327,18 @@ let tokenize_spaces body =
          if none is found, returns the whole string.
         *)
   let tokens = List.map tokens  String.lowercase in 
+    tokens
+
+(* Tokenizes body with respect to spaces
+ * after doing some sanitization such as 
+ * removal of comments, deletion of \label, \depend, \begin \end, math.
+ * Drops stop words and trivial words of 1 character, and 
+ * returns a list of tokens where words with 4 or more characters come first.
+ *)
+let tokenize_spaces body = 
+  let tokens = tokenize_spaces_raw body in
+
+  (* Now drop small and insignificant words *)
   let tokens = List.filter tokens ~f:is_significant_word in
   let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
   (* Reorder so small words are not preferred *)

@@ -119,6 +119,7 @@ let pattern_whitespace = "[ \n\r\x0c\t]+"
 
 
 (* BEGIN: label prefixes *)
+let label_prefix_chapter = "ch"
 let label_prefix_section = "sec"
 let label_prefix_subsection = "sec"
 let label_prefix_subsubsection = "sec"
@@ -181,6 +182,7 @@ let label_prefix_of_kind =
   ]
   @
   [
+   kw_chapter, label_prefix_chapter;
    kw_section, label_prefix_section;
    kw_subsection, label_prefix_subsection;
    kw_subsubsection, label_prefix_subsubsection;
