@@ -481,8 +481,8 @@ let is_label_only contents =
 let is_atom kind = 
    let _ = d_printf "is_atom: kind = %s\n" kind in 
    match List.Assoc.find atom_kinds ~equal: String.equal kind with 
-   | Some _ -> (printf "true"; true)
-   | None -> (printf "false"; false)
+   | Some _ -> (d_printf "true"; true)
+   | None -> (d_printf "false"; false)
 
 
 let is_problem kind = 
