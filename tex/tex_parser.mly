@@ -10,8 +10,8 @@ open Utils
 module Ast = Ast
 module Tex = Tex_syntax
 
-module Atom_lexer = Atom_lexer
-module Atom_parser = Atom_parser
+module Atom_lexer = Tex_atom_lexer
+module Atom_parser = Tex_atom_parser
 
 (* Turn off prints *)
 (*
