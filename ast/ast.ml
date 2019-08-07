@@ -45,13 +45,32 @@ let normalize_point_val po =
 			if pts = 0.0 then None
       else Some (Float.to_string pts)
 
-let tokenize sa_opt sb_opt = 
-	let mk sopt =
-		match sopt with 
+(* Tokenize title:
+   Given Some "this is a title" it "sort of" returns 
+   ["this-is-a-title", "this", "title", "is", "a"]
+   except that it also removes stop words and short words.
+ *)
+let tokenize_title topt = 
+  match topt with 
+	| None -> [ ]
+  | Some t ->
+	    let tr = Words.tokenize_spaces_raw t in			
+			match tr with
+			| [ ] -> [ ] 
+			| _ -> let l = String.concat ~sep:"-" tr in
+             let _ = d_printf "add_label_of_title: label = %s\n" l in
+				     let tf = Words.filter_tokens tr in
+				     l::tf
+
+let tokenize_title_body topt bopt = 
+  let tt = tokenize_title topt in
+	let tb = 
+		match bopt with 
 		| None -> [ ] 
 		| Some s -> Words.tokenize_spaces s
 	in
-	(mk sa_opt, mk sb_opt)
+	(tt, tb)
+
 
 (* Translate string to xml *)
 let str_to_xml translator kind source =
@@ -87,16 +106,6 @@ let collect_labels (labels: (string list * string list) list): string list * str
 	in
 	(tt_merged, tb_merged)
 
-let add_label_of_title topt tokens = 
-  match topt with
-	| None -> tokens 
-	| Some t ->
-			let tt = Words.tokenize_spaces_raw t in			
-			match tt with
-			| [ ] -> tokens 
-			| _ -> let l = String.concat ~sep:"-" tt in
-             let _ = d_printf "add_label_of_title: label = %s\n" l in
-				     l::tokens
 
 (**********************************************************************
  ** END: Utilities
@@ -185,8 +194,7 @@ struct
 	*)
 	let assign_label prefix label_set cookie = 		
     let _ = d_printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
-		let (tt, tb) = tokenize cookie.title (Some (cookie.body)) in
-    let tt = add_label_of_title cookie.title tt in
+		let (tt, tb) = tokenize_title_body cookie.title (Some (cookie.body)) in
 		let _ = 
 			match cookie.label with 
 			| None ->
@@ -305,8 +313,7 @@ struct
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let t_i = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
 		let (tt_i, tb_i) = collect_labels t_i in
-		let (tt, tb) = tokenize prompt.title (Some (prompt.body)) in
-    let tt = add_label_of_title prompt.title tt in
+		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
     let (tt_all, tb_all) = (tt @ tt_i, tb @ tb_i) in
 		let _ = 
 			match prompt.label with 
@@ -438,8 +445,7 @@ struct
 		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
 		let (tt_c, tb_c) = collect_labels t_p in
 		let (tt_p, tb_p) = collect_labels t_p in
-		let (tt, tb) = tokenize (title problem) (Some (body problem)) in
-    let tt = add_label_of_title (title problem) tt in
+		let (tt, tb) = tokenize_title_body (title problem) (Some (body problem)) in
 		let tt_all = tt @ tt_c @ tt_p in
 		let tb_all = tb @ tb_c @ tb_p in
 		let t_all = tt_all @ tb_all in
@@ -623,8 +629,7 @@ struct
 			match atom.problem with
 			| None -> ([], [])
 			| Some p -> Problem.assign_label prefix label_set p in
-		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
-    let tt = add_label_of_title (title atom) tt in
+		let (tt, tb) = tokenize_title_body (title atom) (Some (body atom)) in
 		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
 		let _ = 
 			match (label atom) with 
@@ -764,8 +769,7 @@ struct
 	let assign_label prefix label_set group = 		
 		let t_a = List.map group.atoms ~f:(Atom.assign_label prefix label_set) in
     let (tt_a, tb_a) = collect_labels t_a in
-		let tt_g = Words.tokenize_spaces_opt (title group) in
-    let tt_g = add_label_of_title (title group) tt_g in
+		let tt_g = tokenize_title (title group) in
     let (tt_all, tb_all) = (tt_g @ tt_a, tb_a) in
 		let _ = 
 			match (label group) with 
@@ -1097,8 +1101,7 @@ struct
 		| Some _ -> ()
 		| None ->
   	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
-			let tt_s = Words.tokenize_spaces (title segment) in
-      let tt_s = add_label_of_title (Some (title segment)) tt_s in
+			let tt_s = tokenize_title (Some (title segment)) in
 			match Labels.mk_label label_set lk prefix tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
@@ -1107,24 +1110,18 @@ struct
     	| Some l -> segment.label <- Some l
 
   let mk_label_force segment label_set kind = 
-		let tokens = Words.tokenize_spaces_raw (title segment) in			
-    let tokens = 
-			match tokens with 
-			| [ ] -> tokens
-			| _ -> let l = String.concat ~sep:"-" tokens in
-				     l::tokens
-    in
+		let tokens = tokenize_title (Some (title segment)) in			
     (* label kind *)
     let lk = Tex.mk_label_prefix_from_kind kind in
 		let l = Labels.mk_label_force label_set lk "" tokens in
     let _ = printf "Segment.mk_label_force label = %s\n" l in
     l
+
   let rec normalize segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let _ = Block.normalize block in
 		let _ = List.map subsegments ~f:normalize in
 		()
-
 
   let rec to_xml translator segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in

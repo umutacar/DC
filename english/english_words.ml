@@ -329,15 +329,7 @@ let tokenize_spaces_raw body =
   let tokens = List.map tokens  String.lowercase in 
     tokens
 
-(* Tokenizes body with respect to spaces
- * after doing some sanitization such as 
- * removal of comments, deletion of \label, \depend, \begin \end, math.
- * Drops stop words and trivial words of 1 character, and 
- * returns a list of tokens where words with 4 or more characters come first.
- *)
-let tokenize_spaces body = 
-  let tokens = tokenize_spaces_raw body in
-
+let filter_tokens tokens = 
   (* Now drop small and insignificant words *)
   let tokens = List.filter tokens ~f:is_significant_word in
   let (tokens_small, tokens_big) = List.partition_tf ~f:(fun x -> String.length x <= 3) tokens in
@@ -346,6 +338,15 @@ let tokenize_spaces body =
   let _ = d_printf_strlist "tokenize_spaces: tokens = %s\n" tokens in
     tokens
 
+(* Tokenizes body with respect to spaces
+ * after doing some sanitization such as 
+ * removal of comments, deletion of \label, \depend, \begin \end, math.
+ * Drops stop words and trivial words of 1 character, and 
+ * returns a list of tokens where words with 4 or more characters come first.
+ *)
+let tokenize_spaces body = 
+  let tokens = tokenize_spaces_raw body in
+    filter_tokens tokens
 
 let tokenize_spaces_opt body_opt = 
   match body_opt with
