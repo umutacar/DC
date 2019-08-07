@@ -57,7 +57,8 @@ let md2ast infile =
     else
 			contents
   in
-(*  let _ = printf "contents:\n%s" contents in *)
+  let _ = printf "**contents:\n%s" contents in 
+  let _ = printf "**contents done\n" in 
 	let ast = 
    	try 
 (*      let lexbuf = Lexing.from_channel ic in *)

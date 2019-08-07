@@ -10,13 +10,6 @@ open Utils
 open Md_parser
 open Md_syntax
 (* Turn off prints *)
-(*
-let d_printf args = 
-    ifprintf stdout args
-*)
-(*
-let d_printf args = printf args
-*)
 
 (* Lexer State *)
 type t_lexer_state = 
@@ -115,7 +108,7 @@ let p_ws = [' ' '\t' '\n' '\r']*
 
 let p_comma = ','
 let p_backslash = '\\'
-let p_special = '\\' | '`'
+let p_special = '\\' | '`' | '#'
 let p_escape = p_backslash p_special
 
 let p_digit = ['0'-'9']
@@ -183,8 +176,9 @@ rule initial = parse
     {
      let title = take_line lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
-     let _ = d_printf "!lexer matched segment title =  %s" title in 
      let kind = il_kind_of_segment kind in
+     let _ = printf "!lexer matched segment kind = %s title =  %s" kind title in 
+
        KW_HEADING(kind, title, None)
     }		
 
