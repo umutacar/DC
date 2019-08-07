@@ -950,6 +950,9 @@ struct
 		{kind; point_val; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
+  let label_from_title segment = 
+    labelize (segment.title)
+
   (* Traverse (pre-order) group by applying f to its fields *) 
   let rec traverse segment state f = 
 
@@ -1240,7 +1243,7 @@ let assign_labels ast =
    *)
   let chlabel = 
 	 match chlabel with 
-	 | None -> Some "make_up_label_for_md"
+	 | None -> Some (Segment.label_from_title ast)
    | Some x -> Some x
   in
 	 match chlabel with 
