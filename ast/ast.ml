@@ -509,6 +509,9 @@ struct
 			body = 
 
     (* Set title to caption if captionable. *)
+    (* Don't do this.
+       Some captions are long.
+
     let title = 
  		 if Tex.is_atom_captionable kind then
 (*     let _ = d_printf "atom %s is captionable, caption = %s\n" kind (str_of_str_opt capopt) in *)
@@ -518,8 +521,9 @@ struct
 		 else
 (*       let _ = printf "atom %s is not captionable\n" kind in *)
 			 title
+    
 		in
-
+    *)
 		match label with 
 		| None -> 
 				{kind; point_val; title; cover; sound; label; depend; problem; body=body; 

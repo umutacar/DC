@@ -64,7 +64,7 @@ let get_single_paragraph_status kind =
 (* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 
-let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{}"
+let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}"
 let latex_end_document = "\\end{document}"
 
 (** generate standalone html files
