@@ -151,7 +151,7 @@ let md_file_to_html be_verbose meta_dir language_opt (md_file_name, html_file_na
      **)
 
     let command = (set_pandoc be_verbose meta_dir language_opt) ^ " " ^ md_file_name ^  " -o " ^ html_file_name  in
-    let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
+    let _ = printf "\n* md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
         begin

@@ -1109,12 +1109,13 @@ struct
       	segment.label <- Some l
     	| Some l -> segment.label <- Some l
 
-  let mk_label_force segment label_set kind = 
+  let assign_label_force segment label_set kind = 
 		let tokens = tokenize_title (Some (title segment)) in			
     (* label kind *)
     let lk = Tex.mk_label_prefix_from_kind kind in
 		let l = Labels.mk_label_force label_set lk "" tokens in
-    let _ = printf "Segment.mk_label_force label = %s\n" l in
+    let _ = d_printf "Segment.mk_label_force label = %s\n" l in
+    let _ = segment.label <- Some l in
     l
 
   let rec normalize segment = 
@@ -1269,18 +1270,18 @@ let assign_labels ast =
   let chlabel =
   	match (Segment.label ast) with 
 		| None -> 
-				let l = Segment.mk_label_force ast label_set Tex.kw_chapter in
-        let _ = printf "chapter/None label = %s" l in
+				let l = Segment.assign_label_force ast label_set Tex.kw_chapter in
+        let _ = d_printf "chapter/None label = %s\n" l in
 				Some l
 		| Some l ->
-        let _ = printf "chapter/Some label = %s" l in
+        let _ = d_printf "chapter/Some label = %s\n" l in
 				Some l 
 	in
 	match chlabel with 
 	| None -> (printf "ast.assign_labels: Fatal Error. Chapter found without label" ; exit 1)
 	| Some chl -> 
 			let prefix = Labels.drop_label_prefix chl in
-      let _ = printf "chapter prefix label = %s" prefix in
+      let _ = d_printf "chapter prefix label = %s" prefix in
       Segment.assign_label prefix label_set ast 
 
 
