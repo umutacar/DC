@@ -348,7 +348,3 @@ let tokenize_spaces body =
   let tokens = tokenize_spaces_raw body in
     filter_tokens tokens
 
-let tokenize_spaces_opt body_opt = 
-  match body_opt with
-	| None -> [ ]
-	| Some body -> tokenize_spaces body 
