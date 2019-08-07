@@ -290,8 +290,10 @@ let is_significant_word (x: string): bool =
  *)
 let tokenize_spaces body = 
   (* Delete all comments *)
+(* This is not necessary. Also break uniformity with pandoc.
+   Not necessary because we delete comments.
   let body = Str.global_replace (Str.regexp ("%.*" ^ Tex.pattern_newline)) "" body in
-
+*)
   (* Delete labels *)
   (* It might seem like a good idea to reuse them but this can be bad
    * because it could generate permutations of the same words.

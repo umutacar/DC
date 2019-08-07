@@ -87,12 +87,11 @@ let collect_labels (labels: (string list * string list) list): string list * str
 	in
 	(tt_merged, tb_merged)
 
-let add_label_of_title title tokens = 
-  match title with 
-  | None -> tokens
-  | Some t -> 
-			let l = labelize t in
-        l::tokens
+let add_label_of_title tokens = 
+  match tokens with
+  | [ ] -> [ ] 
+  | _ -> let l = String.concat ~sep:"-" tokens in
+         l::tokens
 
 (**********************************************************************
  ** END: Utilities
@@ -182,6 +181,7 @@ struct
 	let assign_label prefix label_set cookie = 		
     let _ = d_printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
 		let (tt, tb) = tokenize cookie.title (Some (cookie.body)) in
+    let tt = add_label_of_title tt in
 		let _ = 
 			match cookie.label with 
 			| None ->
@@ -301,6 +301,7 @@ struct
 		let t_i = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
 		let (tt_i, tb_i) = collect_labels t_i in
 		let (tt, tb) = tokenize prompt.title (Some (prompt.body)) in
+    let tt = add_label_of_title tt in
     let (tt_all, tb_all) = (tt @ tt_i, tb @ tb_i) in
 		let _ = 
 			match prompt.label with 
@@ -433,6 +434,7 @@ struct
 		let (tt_c, tb_c) = collect_labels t_p in
 		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize (title problem) (Some (body problem)) in
+    let tt = add_label_of_title tt in
 		let tt_all = tt @ tt_c @ tt_p in
 		let tb_all = tb @ tb_c @ tb_p in
 		let t_all = tt_all @ tb_all in
@@ -617,7 +619,7 @@ struct
 			| None -> ([], [])
 			| Some p -> Problem.assign_label prefix label_set p in
 		let (tt, tb) = tokenize (title atom) (Some (body atom)) in
-    let tt = add_label_of_title atom.title tt in
+    let tt = add_label_of_title tt in
 		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
 		let _ = 
 			match (label atom) with 
@@ -758,7 +760,7 @@ struct
 		let t_a = List.map group.atoms ~f:(Atom.assign_label prefix label_set) in
     let (tt_a, tb_a) = collect_labels t_a in
 		let tt_g = Words.tokenize_spaces_opt (title group) in
-    let tt_g = add_label_of_title group.title tt_g in
+    let tt_g = add_label_of_title tt_g in
     let (tt_all, tb_all) = (tt_g @ tt_a, tb_a) in
 		let _ = 
 			match (label group) with 
@@ -1093,7 +1095,7 @@ struct
 		| None ->
   	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
 			let tt_s = Words.tokenize_spaces (title segment) in
-      let tt_s = add_label_of_title (Some (title segment)) tt_s in
+      let tt_s = add_label_of_title tt_s in
 			match Labels.mk_label label_set lk prefix tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
