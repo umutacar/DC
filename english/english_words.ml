@@ -314,7 +314,7 @@ let tokenize_spaces_raw body =
   let body = Str.global_replace (Str.regexp "\\\\[A-Za-z]+") "" body in
 
   (* Delete all 's suffix *)
-  let body = Str.global_replace (Str.regexp "[A-Za-z]+'s") "" body in
+  let body = Str.global_replace (Str.regexp "\\([A-Za-z]+\\)'s") "\\1" body in
 
   (* Replace all  non-(alpha-numeric plus dash plus underscore) characters with space *)
   (* Regexp for this may seem strange. *)
