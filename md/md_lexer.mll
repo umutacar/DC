@@ -432,10 +432,6 @@ let lexer: Lexing.lexbuf -> token =
 (*  					let _ = d_printf "** token = end group \n"  in *)
             handle_keyword tk
 
-				| KW_FOLD x ->
-(*  					let _ = d_printf "** token = fold \n"  in *)
-            handle_keyword tk
-
 				| KW_HEADING x ->
 (*  					let _ = d_printf "** token = heading \n"  in *)
             handle_keyword tk
