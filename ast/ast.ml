@@ -964,8 +964,6 @@ struct
 		{kind; point_val; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
-  let label_from_title segment = 
-    labelize (segment.title)
 
   (* Traverse (pre-order) group by applying f to its fields *) 
   let rec traverse segment state f = 
@@ -1103,6 +1101,11 @@ struct
       	segment.label <- Some l
     	| Some l -> segment.label <- Some l
 
+  let mk_label_force segment label_set kind prefix= 
+		let tt = Words.tokenize_spaces (title segment) in
+    let tt = add_label_of_title tt in
+    let l = Labels.mk_label_force label_set kind prefix tt in
+      l
   let rec normalize segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let _ = Block.normalize block in
@@ -1250,22 +1253,23 @@ let collect_labels ast: Labels.t =
 
 (* Assign labels to all members of the AST. *)
 let assign_labels ast = 
-	let label_set = collect_labels ast in
-  let chlabel = Segment.label ast in
+	let label_set = collect_labels ast in  
 
-  (* HACK ALERT.  THIS SHOULD NOT PASS.
-   * TODO: THERE SHOULD BE A CHAPTER LABEL.
-   *)
-  let chlabel = 
-	 match chlabel with 
-	 | None -> Some (Segment.label_from_title ast)
-   | Some x -> Some x
-  in
-	 match chlabel with 
-	 | None -> (printf "ast.assign_labels: Fatal Error. Chapter found without label" ; exit 1)
-	 | Some chl -> 
-     let prefix = Labels.drop_label_prefix chl in
-       Segment.assign_label prefix label_set ast 
+  (* Make sure that the chapter has a label *)
+  let chlabel =
+  	match (Segment.label ast) with 
+		| None -> 
+				let l = Segment.mk_label_force ast label_set Tex.kw_chapter Tex.label_prefix_chapter in
+				Some l
+		| Some l ->
+				Some l 
+	in
+	match chlabel with 
+	| None -> (printf "ast.assign_labels: Fatal Error. Chapter found without label" ; exit 1)
+	| Some chl -> 
+			let prefix = Labels.drop_label_prefix chl in
+      Segment.assign_label prefix label_set ast 
+
 
 let normalize ast = 
 	Segment.normalize ast

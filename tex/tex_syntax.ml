@@ -119,6 +119,7 @@ let pattern_whitespace = "[ \n\r\x0c\t]+"
 
 
 (* BEGIN: label prefixes *)
+let label_prefix_chapter = "ch"
 let label_prefix_section = "sec"
 let label_prefix_subsection = "sec"
 let label_prefix_subsubsection = "sec"
