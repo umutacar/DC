@@ -2,7 +2,16 @@
 
 This is a summary of the basic design of the compiler.
 
-## Grammar
+## Basic Structure
+
+The compiler has two front-ends one for LaTeX and one for Markdown.  These are translated into an AST (Abstract Syntax Tree), which can be thought as an IL (Intermediate-level Language), which is apart from the "leaves" (which are markdown/latex) is LaTeX.  I favored using LaTeX as an IL to keep things simple and lightweight.  Not doing so would have required inventing new syntax for an IL.  This could be independently interesting but probably is not a significant problem.
+
+## Markdown Grammar
+
+Markdows is pretty straightforward, for now, probably because we don't handle the full markdown.  
+
+## LaTeX Grammar
+
 The grammar is primarily designed to avoid conflicts in the parser.  
 
 For example,  plural items, such as sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
