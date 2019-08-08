@@ -104,7 +104,7 @@ let file_is_markdown filename =
     | None -> false
     | Some x -> 
 				let _ = printf "file_is_markdown: %s\n" x in
-				x = Constant.ext_markdown
+				x = Constants.ext_markdown
 
 (* END File names etc *) 
 
