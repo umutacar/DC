@@ -316,7 +316,7 @@ let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preambl
  ** and returns it.  The returned translator function does 
  ** not require a unique string but generates it.
  **********************************************************************)
-let mk_translator be_verbose tmp_dir meta_dir  lang_opt preamble = 
+let mk_translator be_verbose tmp_dir meta_dir  lang_opt (preamble: string) = 
    (* Create tmp dir *) 
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  

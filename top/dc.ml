@@ -2,22 +2,15 @@ open Core
 open Lexing
 
 module Ast = Ast
-module Lexer = Tex_lexer
-module Parser = Tex_parser
-module MDTranslator = Md2html
-module TexTranslator = Tex2html
+module Tex_Lexer = Tex_lexer
+module Md_Lexer = Md_lexer
+module Tex_parser = Tex_parser
+module Md_parser = Md_parser
+module Md_translator = Md2html
+module Tex_translator = Tex2html
 
 let file_extension_xml = ".xml"
-let verbose = ref false
-let do_inline = ref false
-let default_pl = ref None
-let meta_dir = ref "."  (* Current directory by default *)
-let tmp_dir = ref "/tmp"
-let bib_file = ref None
-let preamble_file = ref None
-let in_file = ref None
-let out_file = ref None
-
+let arg_verbose = ref false
 
 (* Set string argument *)
 let set_str_arg r v = r := Some v
@@ -28,36 +21,34 @@ let get_str_arg r v =
   | None -> (printf "Fatal Error"; exit 1)
   | Some s -> s
 
-let mk_tex_translator preamble_file default_pl = 
-  let preamble = 
-    match preamble with 
-    | None -> ""
-    | Some x -> In_channel.read_all x
-  in
-    TexTranslator.mk_translator 
-		!verbose 
-		!tmp_dir 
-		!meta_dir
-		default_pl
-		preamble 
-
-let mk_md_translator default_pl = 
+let mk_md_translator verbose tmp_dir meta_dir default_pl = 
   let preamble = "" in
-  MDTranslator.mk_translator 
-		!verbose 
-		!tmp_dir 
-		!meta_dir
+  Md_translator.mk_translator 
+		verbose 
+		tmp_dir 
+		meta_dir
     default_pl
 		preamble 
 
+let mk_tex_translator verbose tmp_dir meta_dir default_pl (preamble_file: string option) = 
+  let preamble = 
+    match preamble_file with 
+    | None -> ""
+    | Some x -> In_channel.read_all x
+  in
+    Tex_translator.mk_translator 
+		verbose 
+		tmp_dir 
+		meta_dir
+		default_pl
+		preamble 
 
-let prep_input infile =
-  let is_md = Utils.file_is_markdown infile in
-  let contents = In_channel.read_all infile in
 
-  (* Remove frontmatter if markdown *) 
-  let contents = 
-		if is_md then
+
+let prep_input is_md verbose tmp_dir meta_dir default_pl infile (preamble_file: string option) =
+  let prep_md contents = 
+    (* Remove frontmatter if markdown *) 
+		let contents = 
 			let tripledash = Str.regexp "---" in
 			if Str.string_match tripledash contents 0 then
 				try 
@@ -65,19 +56,22 @@ let prep_input infile =
 					String.slice contents (pos + 3) (String.length contents)
 				with Not_found -> contents
 			else
-				contents
-		else
-			contents
-  let translator =  
-		if is_md then
-			mk_md_translator default_pl
-		else
-			mk_tex_translator preamble_file default_pl 
+				contents					
+		in
+		let translator = mk_md_translator verbose tmp_dir meta_dir default_pl in
+		(contents, translator)
 	in
-	(contents, translator)
+	let prep_tex contents = 
+    let translator = mk_tex_translator verbose tmp_dir meta_dir default_pl preamble_file in
+		(contents, translator)
+	in
+  let contents = In_channel.read_all infile in
+	if is_md then
+		prep_md contents
+	else
+		prep_tex contents
 
-
-let ast_from_string contents = 
+let ast_from_string (lex, parse) contents = 
 (*
   let _ = printf "**contents:\n%s" contents in 
   let _ = printf "**contents done\n" in 
@@ -86,62 +80,79 @@ let ast_from_string contents =
    	try 
 (*      let lexbuf = Lexing.from_channel ic in *)
       let lexbuf = Lexing.from_string contents in
-	    let ast = Parser.top Lexer.lexer lexbuf in
+	    let ast = parse lex lexbuf in
 			match ast with 
 			| None -> (printf "Parse Error."; exit 1)
 			| Some ast -> ast
     with End_of_file -> exit 0
 	in
 	let _ = Ast.validate ast in
-  let _  = Ast.normalize ast in
+  let _ = Ast.normalize ast in
   let _ = Ast.assign_labels ast in
 		ast
 
-let input_to_xml infile  outfile preamble_file default_pl = 
-  let (contents, translator) = prep_input infile in
-  let ast = ast_from_string contents in
+let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile  outfile preamble_file = 
+  let (contents, translator) = prep_input is_md verbose tmp_dir meta_dir default_pl infile preamble_file in
+  let ast = 
+		if is_md then
+			ast_from_string (Md_lexer.lexer, Md_parser.top) contents 
+		else
+			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents 
+	in
   let xml = Ast.to_xml translator ast in
+    xml
 
 let main () = 
+	let arg_default_pl = ref None in
+  (* Current directory by default *)
+  let arg_meta_dir = ref "./meta"  in
+	let arg_tmp_dir = ref "/tmp" in
+	let arg_bib_file = ref None in
+	let arg_preamble_file = ref None in
+	let arg_infile = ref None in
+	let arg_outfile = ref None in
+
   let spec = [
-              ("-v", Arg.Set verbose, "Enables verbose mode; default is false.");
-(*              ("-inline", Arg.Set do_inline, "Inline latex input directives; default is false."); *)
-              ("-o", Arg.String (set_str_arg out_file), "Sets output file");
-              ("-meta", Arg.Set_string meta_dir, "Directory for meta informaiton, e.g., highlighting definitions, lua filters, etc.");
+              ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
+              ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
+              ("-meta[./meta] (Latex Only)", Arg.Set_string arg_meta_dir, "Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");
 (*  Don't support default language.
-              ("-lang", Arg.String (set_str_arg default_pl), "Sets the default programming language.");
+              ("-lang", Arg.String (set_str_arg arg_default_pl), "Sets the default programming language.");
 *)
-              ("-tmp", Arg.Set_string tmp_dir, "Sets the temporary directory, default is /tmp.");
-              ("-preamble (LaTeX only)", Arg.String (set_str_arg preamble_file), "Sets LaTeX preamble, if any.");
-              ("-bib (LaTeX only)", Arg.String (set_str_arg bib_file), "Sets bibliography (bib) file if any.");
+              ("-tmp", Arg.Set_string arg_tmp_dir, "Sets the temporary directory, default is /tmp.");
+              ("-preamble (LaTeX only)", Arg.String (set_str_arg arg_preamble_file), "Sets LaTeX preamble, if any.");
+              ("-bib (LaTeX only)", Arg.String (set_str_arg arg_bib_file), "Sets bibliography (bib) file if any.");
              ]
   in 
 
   let take_infile_name anon = 
-    match !in_file with 
-    | None -> in_file := Some anon
+    match !arg_infile with 
+    | None -> arg_infile := Some anon
     | Some _ -> (printf "Warning: multiple input files specified, taking first.\n")
   in
 
-  let usage_msg = "dc translates LaTeX/Markdwon to Diderot XML. \n Usage: dc <file>.\n Options available:" 
+  let usage_msg = "dc translates LaTeX/Markdown to Diderot XML. \n Usage: dc <file>.\n Options available:" 
   in
   let _  = Arg.parse spec take_infile_name usage_msg in
-  let in_file_name =  
-    match !in_file with 
+  let infile_name =  
+    match !arg_infile with 
     | None -> (printf "Error: Missing input file! \n%s" (Arg.usage_string spec usage_msg); exit 1)
     | Some x -> x
   in
-  let outfile_name = match !out_file with 
-          | None -> 
-            let x = Utils.mk_xml_filename in_file_name in
-              (out_file := Some x; x)
-          | Some x -> x
+  let outfile_name = 
+		match !arg_outfile with 
+    | None -> 
+        let x = Utils.mk_xml_filename infile_name in
+        (arg_outfile := Some x; x)
+    | Some x -> x
   in
-  let _ = printf "Executing command: dc %s\n" in_file_name in
-  let xml = input_to_xml in_file_name outfile_name !preamble_file  !verbose  !default_pl in       
+  let _ = printf "Executing command: dc %s\n" infile_name in
+  let is_md = Utils.file_is_markdown infile_name in
+  let xml = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
+                         infile_name outfile_name !arg_preamble_file in       
   let _ = Out_channel.write_all outfile_name ~data:xml in
 	let _ = 
-		match !preamble_file with 
+		match !arg_preamble_file with 
 		| None -> printf "Warning: no LaTeX preamble was specified.\n"
     | _ -> ()
 	in

@@ -2,7 +2,7 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core -I atom -I ast -I english -I md -I pervasives  -I tex -I xml 
+OCB_FLAGS = -use-ocamlfind -package re2 -package core -I atom -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
 OCB = ocamlbuild $(OCB_FLAGS)
 GUIDE_DIR = ~/diderot/guide
 
@@ -14,11 +14,12 @@ DEPEND = \
   md/md_lexer.mll md/md_parser.mly md/md_syntax.ml md/md2html.ml  md/md2md.ml md/mdxml.ml  \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_atom_lexer.mll tex/tex_atom_parser.mly tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
+  top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: texml.native mdxml.native
+default: dc.native texml.native mdxml.native
 
-all: md2md.native mdxml.native \
+all: dc.native md2md.native mdxml.native \
   tex2tex.native texel.native texmlt.native texml.native
 
 clean:
@@ -27,6 +28,8 @@ clean:
 	rm -f *.dbg
 	rm -f *.profile
 
+dc.native: $(DEPEND) top/dc.ml
+	$(OCB) dc.native
 
 # md2md
 md2md.native: $(DEPEND) md/md2md.ml
