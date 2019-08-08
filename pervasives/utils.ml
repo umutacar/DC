@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = false
+let debug = falseb
 
 let str_of_char x = String.make 1 x
 
@@ -92,12 +92,19 @@ let mk_xml_filename filename =
   let (filename_first, ext) = Filename.split_extension filename in
     filename_first ^ "." ^ Constants.ext_xml
 
-
 let file_ensure_tex filename =
   let (filename_first, ext) = Filename.split_extension filename in
     match ext with 
     | None -> filename_first ^ "." ^ Constants.ext_tex
     | Some x -> filename_first ^ x 
+
+let file_is_markdown filename =
+  let (filename_first, ext) = Filename.split_extension filename in
+    match ext with 
+    | None -> false
+    | Some x -> 
+				let _ = print "file_is_markdown: %s\n" x in
+				x = Constant.ext_markdown
 
 (* END File names etc *) 
 

@@ -81,7 +81,7 @@ let drop_label_prefix label =
      * rest has the form Str.Text  "xyz..." 
      *)
 
-    let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[A-Za-z]+[:_]+") label 2 in      
+    let (Str.Delim kind)::(Str.Text rest)::nil = Str.bounded_full_split (Str.regexp "[0-9.A-Za-z]+[:_]+") label 2 in      
       if str_match_prefix Tex.pattern_ch_prefix kind ||
          str_match_prefix Tex.pattern_sec_prefix kind ||
          str_match_prefix Tex.pattern_gr_prefix kind then
