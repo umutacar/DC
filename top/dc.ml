@@ -115,13 +115,13 @@ let main () =
   let spec = [
               ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
               ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
-              ("-meta[./meta] (Latex Only)", Arg.Set_string arg_meta_dir, "Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");
+              ("-meta", Arg.Set_string arg_meta_dir, "(Latex Only) Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");
 (*  Don't support default language.
               ("-lang", Arg.String (set_str_arg arg_default_pl), "Sets the default programming language.");
 *)
               ("-tmp", Arg.Set_string arg_tmp_dir, "Sets the temporary directory, default is /tmp.");
-              ("-preamble (LaTeX only)", Arg.String (set_str_arg arg_preamble_file), "Sets LaTeX preamble, if any.");
-              ("-bib (LaTeX only)", Arg.String (set_str_arg arg_bib_file), "Sets bibliography (bib) file if any.");
+              ("-preamble", Arg.String (set_str_arg arg_preamble_file), "(Latex Only) Sets LaTeX preamble, if any.");
+              ("-bib", Arg.String (set_str_arg arg_bib_file), "(LaTeX only) Sets bibliography (bib) file if any.");
              ]
   in 
 
