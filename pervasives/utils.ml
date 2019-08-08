@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = falseb
+let debug = false
 
 let str_of_char x = String.make 1 x
 
@@ -103,7 +103,7 @@ let file_is_markdown filename =
     match ext with 
     | None -> false
     | Some x -> 
-				let _ = print "file_is_markdown: %s\n" x in
+				let _ = printf "file_is_markdown: %s\n" x in
 				x = Constant.ext_markdown
 
 (* END File names etc *) 
