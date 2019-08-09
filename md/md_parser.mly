@@ -280,6 +280,7 @@ atom:
   {	 
 	 let (all, ell) = tp_all in
 	 let body = String.strip ~drop:is_vert_space all in
+   let _ = d_printf "* Parser matched atom:\n%s\n" body in
 	 let a = Ast.Atom.make 
 			 ~point_val:None
 			 ~title:None

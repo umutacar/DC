@@ -334,7 +334,7 @@ parse
 
 | p_com_skip as x 
 		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+(*     let _ = printf "!lexer found: p_com_skip %s." (str_of_char x) in  *)
      let body = skip_inline kind lexbuf in
      let all = x ^ body in
 		   CHUNK(all, None)
@@ -509,9 +509,21 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
 and skip_inline kind = 		
   (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
   parse
+  (* This should work but it will be a common error. 
+     And LaTeX seems allow it, probably because it boxes things.
+   *)
+  | '{' as x      
+    { let x = str_of_char x in
+  		let _ = printf "skip_inline kind = %s delimiter %s\n" kind x in
+      let (rest, c) = skip_arg 1 "{" "}" lexbuf in
+      let all =  x ^ rest ^ c in
+(*			let _ = d_printf "skip_inline all = %s\n"  all in *)
+        all
+    } 
+
   | _ as x
     { let x = str_of_char x in
-(*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
+  		let _ = printf "skip_inline kind = %s delimiter %s\n" kind x in
       let (rest, c) = skip_arg 1 x x lexbuf in
       let all =  x ^ rest ^ c in
 (*			let _ = d_printf "skip_inline all = %s\n"  all in *)
@@ -615,7 +627,7 @@ and skip_arg depth delimiter_open delimiter_close =
   | _ as x
     {
      let x = str_of_char x in
-(*     let _ = d_printf "skip_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+(*     let _ = printf "skip_arg x =  %s arg depth = %d\n" x depth  in *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -623,7 +635,7 @@ and skip_arg depth delimiter_open delimiter_close =
 		 if x = delimiter_close then
 			 let depth = depth - 1 in
        if depth = 0 then
-(*				 let _ = d_printf "exit\n" in *)
+(*				 let _ = printf "exit\n" in *)
          ("", x)
        else
          let (arg, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in 
