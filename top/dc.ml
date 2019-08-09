@@ -152,11 +152,14 @@ let main () =
                          infile_name outfile_name !arg_preamble_file in       
   let _ = Out_channel.write_all outfile_name ~data:xml in
 	let _ = 
-		match !arg_preamble_file with 
-		| None -> printf "Warning: no LaTeX preamble was specified.\n"
-    | _ -> ()
+		if is_md then
+			()
+		else
+			match !arg_preamble_file with 
+			| None -> printf "Warning: no LaTeX preamble was specified.\n"
+			| _ -> ()
 	in
-     printf "Output written in %s\n" outfile_name 
+  printf "Output written in %s\n" outfile_name 
 		
   
 

@@ -135,13 +135,13 @@ guide_macos_dbg: all
 	cp texml.native $(GUIDE_DIR)/bin/macos/texml.dbg
 
 
-guide_ubuntu: all
+guide_ubuntu: 
 	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc
 #	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
 #	cp  _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
 	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 
-guide_ubuntu_dbg: all
+guide_ubuntu_dbg: 
 	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc.dbg
 #	cp _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel.dbg
 #	cp _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex.dbg

@@ -4,9 +4,9 @@ This directory provides infrastructure for using docker to build an Ubuntu versi
 
 # Usage 
 
-To build a version of the mtl compiler run
+To build a version of the DC compiler run
 ```
-$ docker run -it -v /Users/umut/MTL:/mtl umutacar/mtl:lambda
+$ docker run -it -v /Users/umut/DC:/mtl umutacar/mtl:lambda
 ```
 The resulting binaries will be under _build/tex/*.native
 
