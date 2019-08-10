@@ -523,7 +523,7 @@ and skip_inline kind =
 
   | _ as x
     { let x = str_of_char x in
-  		let _ = printf "skip_inline kind = %s delimiter %s\n" kind x in
+(*  		let _ = printf "skip_inline kind = %s delimiter %s\n" kind x in *)
       let (rest, c) = skip_arg 1 x x lexbuf in
       let all =  x ^ rest ^ c in
 (*			let _ = d_printf "skip_inline all = %s\n"  all in *)
