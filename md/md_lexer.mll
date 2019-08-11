@@ -147,11 +147,11 @@ let p_end_env =  p_html_end
 (* END: environments *)
 
 (* Segments *)
-let p_chapter = ("\n#" as kind) 
-let p_section = ("\n##" as kind)
-let p_subsection = ("\n###" as kind)
-let p_subsubsection = ("\n###" as kind)
-let p_paragraph = ("\n####" as kind) p_ws												
+let p_chapter = p_newline ("#" as kind) 
+let p_section = p_newline ("##" as kind)
+let p_subsection = p_newline ("###" as kind)
+let p_subsubsection = p_newline ("###" as kind)
+let p_paragraph = p_newline ("####" as kind) p_ws												
 
 let p_segment = 
 	p_chapter |
@@ -176,14 +176,14 @@ rule initial = parse
      let title = take_line lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
      let kind = il_kind_of_segment kind in
-     let _ = d_printf "!lexer matched segment kind = %s title =  %s\n" kind title in 
+     let _ = printf "!lexer matched segment kind = %s title =  %s\n" kind title in 
 
        KW_HEADING(kind, title, None)
     }		
 
 | (p_begin_env as x)
     {
-     let _ = d_printf "!lexer matched begin env %s." kind in 
+     let _ = printf "!lexer matched begin env %s." kind in 
      let (body, y) = skip_env kind lexbuf in
      let env = x ^ body ^ y in
      let _ = d_printf "!lexer matched env %s." env in 
@@ -192,7 +192,7 @@ rule initial = parse
 
 | (p_skip as delimiter) 
 		{
-(*     let _ = d_printf "!lexer found: skip %s." (str_of_char x) in *)
+(*     let _ = d_printnf "!lexer found: skip %s." (str_of_char x) in *)
      let (body, _) = take_arg 1 delimeter delimeter lexbuf in
      let all = delimeter ^ body ^ delimeter in
 		   CHUNK(all, None)
@@ -206,7 +206,7 @@ rule initial = parse
 
 | p_newline as x
 		{
-(*	   d_printf "!lexer found: newline: %s." x; *)
+	   printf "!lexer found: newline: %s." x; 
        NEWLINE(x)
     }
 
