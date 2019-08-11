@@ -166,7 +166,8 @@ let p_com_begin = '\\' "begin" p_ws
 let p_com_end = '\\' "end" p_ws												 
 let p_com_fold = '\\' "fold" p_ws												 
 let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
-let p_com_skip = p_com_lstinline
+let p_com_verb = '\\' ("verb" as kind) p_ws
+let p_com_skip = p_com_lstinline | p_com_verb
 let p_com_caption = "\\caption"
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
