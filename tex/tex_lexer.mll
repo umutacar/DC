@@ -129,6 +129,10 @@ let mk_infer_arg (opener, body, width, closer) =
   in
   let _ = printf "mk_infer_arg: result = %s \n" result in
   result
+
+let mk_infer (h, opt, a, b) = 
+  let box = "\\mbox" ^ "{" ^ opt ^ "}" in
+  h ^ a ^ b ^ "\\quad" ^ box ^ "\n" 
 }
 (** END: HEADER **)
 
@@ -456,6 +460,17 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
      let body = skip_inline kind lexbuf in
      let (rest, h_e) = take_env depth false lexbuf in
      (x ^ body ^ rest, h_e)          
+    }
+
+  | (p_com_infer as h) (p_o_sq as x) 
+		{
+     let _ = printf "!lexer found: infer with opt %s." x in 
+     let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let a = take_arg_infer lexbuf in
+     let b = take_arg_infer lexbuf in
+     let i = mk_infer (h, opt, a, b) in 
+     let (rest, h_e) = take_env depth false lexbuf in
+     (i ^ rest, h_e)          
     }
 
   | p_com_infer as x 
