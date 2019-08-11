@@ -58,6 +58,10 @@ let prep_input is_md verbose tmp_dir meta_dir default_pl infile (preamble_file: 
 			else
 				contents					
 		in
+    (* Add newline to allow for an immediate header, e.g.,
+     * \n# Chapter
+     *)  
+    let contents = "\n" ^ contents in
 		let translator = mk_md_translator verbose tmp_dir meta_dir default_pl in
 		(contents, translator)
 	in

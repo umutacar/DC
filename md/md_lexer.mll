@@ -147,11 +147,11 @@ let p_end_env =  p_html_end
 (* END: environments *)
 
 (* Segments *)
-let p_chapter = ("#" as kind) 
-let p_section = ("##" as kind)
-let p_subsection = ("###" as kind)
-let p_subsubsection = ("###" as kind)
-let p_paragraph = ("####" as kind) p_ws												
+let p_chapter = ("\n#" as kind) 
+let p_section = ("\n##" as kind)
+let p_subsection = ("\n###" as kind)
+let p_subsubsection = ("\n###" as kind)
+let p_paragraph = ("\n####" as kind) p_ws												
 
 let p_segment = 
 	p_chapter |
