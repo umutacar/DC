@@ -5,10 +5,10 @@ open Core
 open Utils
 
 (* Turn off all prints *)
-
+(*
 let d_printf args = 
     ifprintf stdout args
-
+*)
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax

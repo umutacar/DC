@@ -10,6 +10,7 @@ open Utils
 open Md_parser
 open Md_syntax
 (* Turn off prints *)
+let d_printf args = printf args 
 
 (* Lexer State *)
 type t_lexer_state = 
@@ -200,7 +201,7 @@ rule initial = parse
 
 | p_sigchar as x
 		{
-(*     d_printf "!%s" (str_of_char x); *)
+     d_printf "!%s" (str_of_char x); 
      CHUNK(str_of_char x, None)
     }
 
@@ -212,7 +213,7 @@ rule initial = parse
 
 | p_hspace as x
 		{
-(*     d_printf "!lexer found: horizontal space: %s." (str_of_char x); *)
+     d_printf "!lexer found: horizontal space: %s." (str_of_char x); 
      HSPACE(str_of_char x)
     }
 
@@ -403,6 +404,7 @@ let lexer: Lexing.lexbuf -> token =
 						(* Does not change space state! *)
             (* Change state to busy so indented spaces don't start atoms *)            
 						let _ = set_state Busy in
+						let _ = set_space_state Horizontal in
 						()
 				| CHUNK x -> 
 						let (c, l) =  x in
@@ -438,8 +440,8 @@ let lexer: Lexing.lexbuf -> token =
         | _ -> printf "Fatal Error: token match not found!!!\n"
 			in  
       let _ = if old_state = Idle && (get_state () = Busy) then
-(*        d_printf "!!START PARAGRAPH!!\n" *)
-        ()
+                let _ = d_printf "!!START ATOM!!\n" in
+								()
       in 
         return_token tk
 

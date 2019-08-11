@@ -152,29 +152,25 @@ emptylines:
 
 /* A nonempty line. */
 line: 
-  hs = hspaces;
-  k = chunk;
   bs = blobs;
   nl = newline
-  {let (k, elopt) = k in
-	 let (bs, ll) = bs in
-	 let l = hs ^ k ^ bs ^ nl in
-(*   let _ = d_printf "* line: %s.\n" l in	 *)
-     (l, extend_labels ll elopt)
+  {let (bs, ll) = bs in
+	 let l = bs ^ nl in
+   let _ = d_printf "* md_parser: line: %s.\n" l in	 
+     (l, ll)
   }
 
 /* A nonempty line at the start of a paragraph. 
  * Starts with a chunk
  */
 line_parstart: 
-  hs = hspaces;
   ps = par_chunk;
   bs = blobs;
   nl = newline
   {
 		let (ps, elopt) = ps in
 		let (bs, ell) = bs in
-		let all = hs ^ ps ^ bs ^ nl in
+		let all = ps ^ bs ^ nl in
 (*		let _ = d_printf "!Parser matched: line_parstart_sig %s.\n" l in *)
     (all, extend_labels ell elopt)
   }
