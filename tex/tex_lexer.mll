@@ -10,7 +10,7 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    printf args
+    ifprintf stdout args
 (*
 let d_printf args = printf args
 *)
@@ -128,7 +128,7 @@ let mk_infer_arg (opener, body, width, closer) =
     "\\end{array}" ^ "\n" ^ 
     closer 
   in
-  let _ = printf "mk_infer_arg: result = %s \n" result in
+  let _ = d_printf "mk_infer_arg: result = %s \n" result in
   result
 
 let mk_infer (h, opt, a, b) = 
@@ -333,7 +333,7 @@ parse
     {
      let (rest, h_e) = take_env 1 false lexbuf in
    	 let all = x ^ rest ^ h_e in
-     let _ = printf "!lexer matched env %s.\n" all in 
+     let _ = d_printf "!lexer matched env %s.\n" all in 
      CHUNK(all, None)
 }
 
@@ -468,7 +468,7 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
 
   | (p_com_infer as h) (p_o_sq as x) 
 		{
-     let _ = printf "!lexer found: infer with opt %s." x in 
+     let _ = d_printf "!lexer found: infer with opt %s." x in 
      let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
@@ -479,7 +479,7 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
 
   | p_com_infer as x 
 		{
-     let _ = printf "!lexer found: infer %s." x in 
+     let _ = d_printf "!lexer found: infer %s." x in 
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
      let (rest, h_e) = take_env depth false lexbuf in
@@ -719,7 +719,7 @@ and take_arg_array =
 
   | (p_com_infer as h) (p_o_sq as x) 
 		{
-     let _ = printf "!lexer found: infer with opt %s." x in 
+     let _ = d_printf "!lexer found: infer with opt %s." x in 
      let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
