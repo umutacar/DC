@@ -10,7 +10,7 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    ifprintf stdout args
+    printf args
 (*
 let d_printf args = printf args
 *)
@@ -114,7 +114,21 @@ let token_to_dbg_str tk =
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
-
+let mk_infer_arg (opener, body, width, closer) = 
+  let rec mk_columns w = 
+    if w = 0 then "l"
+    else "l" ^ (mk_columns (w - 1))
+  in 
+  let columns = mk_columns width in
+  let result = 
+    opener ^
+		"\\begin{array}" ^ "{" ^ columns ^ "}" ^ "\n" ^ 
+    body ^ 
+    "\\end{array}" ^ "\n" ^ 
+    closer 
+  in
+  let _ = printf "mk_infer_arg: result = %s \n" result in
+  result
 }
 (** END: HEADER **)
 
@@ -165,6 +179,7 @@ let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
 let p_com_fold = '\\' "fold" p_ws												 
+let p_com_infer = '\\' "infer" p_ws												 
 let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_verb = '\\' ("verb" as kind) p_ws
 let p_com_skip = p_com_lstinline | p_com_verb
@@ -201,7 +216,6 @@ let p_env = (p_alpha)+('*')?
 let p_env_comment = "comment"
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
-
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
@@ -311,7 +325,7 @@ parse
     {
      let (rest, h_e) = take_env 1 false lexbuf in
    	 let all = x ^ rest ^ h_e in
-     let _ = d_printf "!lexer matched env %s.\n" all in 
+     let _ = printf "!lexer matched env %s.\n" all in 
      CHUNK(all, None)
 }
 
@@ -442,6 +456,15 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
      let body = skip_inline kind lexbuf in
      let (rest, h_e) = take_env depth false lexbuf in
      (x ^ body ^ rest, h_e)          
+    }
+
+  | p_com_infer as x 
+		{
+     let _ = printf "!lexer found: infer %s." x in 
+     let a = take_arg_infer lexbuf in
+     let b = take_arg_infer lexbuf in
+     let (rest, h_e) = take_env depth false lexbuf in
+     (x ^ a ^ b ^ rest, h_e)          
     }
 
   | p_begin_env as x
@@ -648,6 +671,55 @@ and skip_arg depth delimiter_open delimiter_close =
 		 else
 			 let (rest, c_c) = skip_arg depth delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
+    }
+
+and take_arg_infer = 
+  parse
+  | p_ws as x   
+    {
+       take_arg_infer lexbuf 
+    }
+  | p_o_curly as x
+    { let (a, wa, y) = take_arg_array lexbuf  in
+      let i = mk_infer_arg (x, a, wa, y) in
+      i
+    }
+
+
+and take_arg_array =  
+  (* Take argument of the form { arg_1 & arg_2 & arg_3 }, where
+   * arg_i may contain many instances of \infer{arg_11 & arg ... & ... \\ }{ .. & ... & }.
+   * Rewrite each nested as \infer{\begin{array}{lll...l} ... \end{array}
+   *)
+  parse
+  | ('&' p_ws) as x
+    {
+      let (rest, width, c_c) = take_arg_array lexbuf in
+      (x ^ rest, width+1, c_c)
+    }
+	| p_com_infer as x
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let a = take_arg_infer lexbuf  in
+     let b = take_arg_infer lexbuf  in
+     let (rest, width, c_c) = take_arg_array lexbuf in
+     (x ^ a ^ b ^ rest, width, c_c)          
+    }
+
+  | p_c_curly as x
+    {("", 0, x) }
+
+  | p_o_curly as x 
+    { let (arg, c_c_a) = take_arg 1 false "{" "}" lexbuf in 
+      let (rest, width, cc_i) = take_arg_array lexbuf in
+ 		  (x ^ arg ^ c_c_a ^ rest, width, cc_i)
+    }
+
+  | _ as x 
+  	{
+     let x = str_of_char x in
+     let (rest, width, c_c) = take_arg_array lexbuf in
+ 		 (x ^ rest, width, c_c)		 
     }
 
 
