@@ -401,6 +401,8 @@ let lexer: Lexing.lexbuf -> token =
 				| HSPACE x ->  
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						(* Does not change space state! *)
+            (* Change state to busy so indented spaces don't start atoms *)            
+						let _ = set_state Busy in
 						()
 				| CHUNK x -> 
 						let (c, l) =  x in
