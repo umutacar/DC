@@ -116,8 +116,9 @@ let token_to_dbg_str tk =
 
 let mk_infer_arg (opener, body, width, closer) = 
   let rec mk_columns w = 
-    if w = 0 then "l"
-    else "l" ^ (mk_columns (w - 1))
+    let column = "l@{\\qquad}" in
+    if w = 0 then column
+    else column ^ (mk_columns (w - 1))
   in 
   let columns = mk_columns width in
   let result = 
@@ -135,7 +136,7 @@ let mk_infer (h, opt, a, b) =
   | None -> h ^ a ^ b 
   | Some opt -> 
     let box = "\\mbox" ^ "{" ^ opt ^ "}" in
-    h ^ a ^ b ^ "\\quad" ^ box ^ "\n" 
+    h ^ a ^ b ^ "\\quad" ^ box 
 }
 (** END: HEADER **)
 
