@@ -131,8 +131,11 @@ let mk_infer_arg (opener, body, width, closer) =
   result
 
 let mk_infer (h, opt, a, b) = 
-  let box = "\\mbox" ^ "{" ^ opt ^ "}" in
-  h ^ a ^ b ^ "\\quad" ^ box ^ "\n" 
+  match opt with 
+  | None -> h ^ a ^ b 
+  | Some opt -> 
+    let box = "\\mbox" ^ "{" ^ opt ^ "}" in
+    h ^ a ^ b ^ "\\quad" ^ box ^ "\n" 
 }
 (** END: HEADER **)
 
@@ -468,7 +471,7 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
      let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
-     let i = mk_infer (h, opt, a, b) in 
+     let i = mk_infer (h, Some opt, a, b) in 
      let (rest, h_e) = take_env depth false lexbuf in
      (i ^ rest, h_e)          
     }
@@ -712,13 +715,25 @@ and take_arg_array =
       let (rest, width, c_c) = take_arg_array lexbuf in
       (x ^ rest, width+1, c_c)
     }
+  | (p_com_infer as h) (p_o_sq as x) 
+		{
+     let _ = printf "!lexer found: infer with opt %s." x in 
+     let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let a = take_arg_infer lexbuf in
+     let b = take_arg_infer lexbuf in
+     let i = mk_infer (h, Some opt, a, b) in 
+     let (rest, width, c_c) = take_arg_array lexbuf in
+     (i ^ rest, width, c_c)          
+    }
+
 	| p_com_infer as x
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let a = take_arg_infer lexbuf  in
      let b = take_arg_infer lexbuf  in
+     let i = mk_infer (x, None, a, b) in 
      let (rest, width, c_c) = take_arg_array lexbuf in
-     (x ^ a ^ b ^ rest, width, c_c)          
+     (i ^ rest, width, c_c)          
     }
 
   | p_c_curly as x
