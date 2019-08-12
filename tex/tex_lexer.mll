@@ -61,10 +61,6 @@ let space_state_to_string () =
 
 (** END State Machine **)
 
-(** BEGIN: Line Emptiness Status **)
-let is_line_empty = ref false
-(** END: Line Emptiness Status **)
-
 
 (** BEGIN: Token Cache **)
 type t_cache = token list
@@ -767,7 +763,6 @@ let lexer: Lexing.lexbuf -> token =
 (*						let _ = d_printf "\n **token = newline! \n" in *)
 (*						let _ = d_printf " **space_state = %s! \n" (space_state_to_string ()) in *)
 						begin
-							let _ = is_line_empty := true in
 							match get_space_state () with 
 							| Horizontal ->
 									let _ = set_space_state Vertical in
@@ -777,12 +772,10 @@ let lexer: Lexing.lexbuf -> token =
 									()
 						end
 				| HSPACE x ->  
-							let _ = is_line_empty := false in
 (*						let _ = d_printf "** token = hspace %s \n" x in *)
 						(* Does not change space state! *)
 						()
 				| CHUNK x -> 
-						let _ = is_line_empty := false in
 						let (c, l) =  x in
 (*						let _ = d_printf "** token = sigchar %s \n" c in *)
 (*						let _ = d_printf "%s" x in *)
@@ -799,22 +792,18 @@ let lexer: Lexing.lexbuf -> token =
 
 				| KW_BEGIN_GROUP x ->
 (*  					let _ = d_printf "** token = begin group \n"  in *)
-						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_END_GROUP x ->
 (*  					let _ = d_printf "** token = end group \n"  in *)
-						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_FOLD x ->
 (*  					let _ = d_printf "** token = fold \n"  in *)
-						let _ = is_line_empty := false in
             handle_keyword tk
 
 				| KW_HEADING x ->
 (*  					let _ = d_printf "** token = heading \n"  in *)
-						let _ = is_line_empty := false in
             handle_keyword tk
 
         | EOF -> 
