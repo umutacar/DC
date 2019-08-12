@@ -10,7 +10,7 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    ifprintf stdout args
+    printf args
 (*
 let d_printf args = printf args
 *)
@@ -145,19 +145,14 @@ let p_comma = ','
 (* horizontal space *)
 let p_hspace = ' ' | '\t' | '\r' 
 (* non-space character *)
-let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
+let p_sigchar = [^ ' ' '\t' '\n' '\r']
 (* newline *)
 let p_newline = '\n' | ('\r' '\n')
-let p_percent = '%'	
-let p_esc_percent = "\\%"	
-let p_esc_curly = "\\{"	
-let p_special_char = p_esc_curly | p_esc_percent
+let p_esc_curly = "\\{"	 | "\\}"
+let p_special_char = p_esc_curly
 
 
 let p_newline = '\n' | ('\r' '\n')
-let p_comment_line = p_percent [^ '\n']* '\n'
-let p_comment = p_percent [^ '\n']*
-let p_headerskip = ('\n' | p_comment_line | p_hspace)*
 
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
@@ -402,20 +397,6 @@ parse
      CHUNK(str_of_char x, None)
     }
 
-| p_percent as x 
-		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let rest = take_comment lexbuf in
-     let comment = (str_of_char x) ^ rest in
-(*     let _ = d_printf "!lexer found: comment: %s." result in *)
-		 if !is_line_empty then
-      (* Drop linens consisting of comments only *)			 
-       initial true lexbuf
-		 else
-      (* Drop comments but finish the line, which is not empty *)
-			 NEWLINE "\n"
-    }
-
 | p_newline as x
 		{
        NEWLINE(x)
@@ -432,18 +413,6 @@ parse
 | _
     {initial false lexbuf}		
 
-and take_comment = 		
-  parse
-  | p_newline as x
-    { (* let _ = d_printf "take_comment: newline %s" x in *)
-        x
-    } 
-  | _ as x 
-    {
-     (* let _ = d_printf "take_comment: %s" (str_of_char x) in *)
-     let comment = take_comment lexbuf in 
-       (str_of_char x) ^ comment
-    }
 and take_env depth is_empty =  (* not a skip environment, because we have to ignore comments *)
   parse
   | p_begin_env_skip as x
@@ -513,7 +482,6 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
               (x ^ rest, h_e)  
         }      
 
-
 	| (p_com_caption p_ws p_o_sq) as x
 		{
      let (title, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
@@ -526,31 +494,6 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
      (* Drop capopt_, it would be another caption. *)
       (caption ^ rest, h_e)
     }
-
-  (* Important because otherwise lexer will think that it is comment *)
-  | p_esc_percent as x 
-		{
-(*     let _ = d_printf "!lexer found: espaced percent char: %s." x in *)
-     let (rest, h_e) = take_env depth false lexbuf in
-          (x ^ rest, h_e)
-    }
-
-  | p_percent as x   (* comments *)
-   	{ 
-     let y = take_comment lexbuf in
-(*     let _ = d_printf "drop comment = %s" y in *)
-     let (rest, h_e) = take_env depth true lexbuf in 
-     (* Drop comment, adjust for  newline at the end of the comment.   *)
-     if is_empty then
-			 (rest, h_e)
-		 else
-			 ("\n" ^ rest, h_e)
-    } 
-
-  | p_newline as x
-    { let (rest, h_e) = take_env depth true lexbuf in
-      (x ^ rest,  h_e)
-		}
 
   | _  as x
         { let (rest, h_e) = take_env depth false lexbuf in
@@ -622,30 +565,6 @@ and take_arg depth is_empty delimiter_open delimiter_close =
 		 (h ^ i ^ rest, h_e)
     }
 
-  (* Important because otherwise lexer will think that it is comment *)
-  | p_esc_percent as x 
-		{
-     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
-          (x ^ rest, h_e)
-    }
-
-  | p_percent as x   (* comments *)
-   	{ 
-     
-     let y = take_comment lexbuf in
-     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
-     (* Drop comment, adjust for  newline at the end of the comment.   *)
-     if is_empty then
-			 (rest, h_e)
-		 else
-			 ("\n" ^ rest, h_e)
-     } 
-
-  | p_newline as x
-    { let (rest, h_e) = take_arg depth true delimiter_open delimiter_close lexbuf in
-      (x ^ rest,  h_e)
-		}
-
   | _ as x
     {
      let x = str_of_char x in
@@ -670,7 +589,6 @@ and take_arg depth is_empty delimiter_open delimiter_close =
 			 let (rest, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
-
 
 and skip_arg depth delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)

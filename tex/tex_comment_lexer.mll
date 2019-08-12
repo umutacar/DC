@@ -18,6 +18,10 @@ let d_printf args = printf args
 (* Some Utilities *)
 let start = Lexing.lexeme_start
 
+let kw_sq_open = "["
+let kw_sq_close = "]"
+
+
 }
 (** END: HEADER **)
 
@@ -39,9 +43,12 @@ let p_esc_percent = "\\%"
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
 
-let p_o_curly = '{' p_ws
+(* braces *)
 (* don't take newline with close *)
+let p_o_curly = '{' p_ws
 let p_c_curly = '}' p_hs
+let p_o_sq = '[' p_ws
+let p_c_sq = ']' p_hs											
 
 (* Skips *)
 let p_com_lstinline = '\\' ("lstinline" as kind) 
@@ -69,19 +76,35 @@ parse
 	   let _ = printf "! comment_lexer: skip env %s\n" x in
      let this_kind = kind in
      let env = skip_env kind lexbuf in
+     let env = x ^ env in
+	   let _ = printf "! comment_lexer: skipped env %s\n" env in
 		 let rest = initial false lexbuf in
 		 if this_kind = "comment" then
    		 rest
 		 else
-   		 x ^ env ^ rest
+   		 env ^ rest
 }
+
+| p_com_skip p_ws p_o_sq as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ arg ^ c_sq in
+     let body = skip_inline lexbuf in
+		 let rest = initial false lexbuf in
+     let all = h ^ body ^ rest in
+     let _ = printf "skip_sq: %s\n" all in
+     all
+    }
 
 | p_com_skip as x 
 		{
 (*     let _ = printf "!lexer found: p_com_skip %s." (str_of_char x) in  *)
      let inline = skip_inline lexbuf in
+     let inline = x ^ inline in
+	   let _ = printf "! comment_lexer: skipped inline %s\n" inline in
 		 let rest = initial false lexbuf in
-     x ^ inline ^ rest
+     inline ^ rest
     }
 
 | p_hspace as x 
@@ -93,7 +116,7 @@ parse
 
 | p_esc_percent as x 
     {
-(*     let _ = d_printf "!lexer matched segment: %s." kind in *)
+     let _ = printf "!lexer matched espace percent %s." x in
      let rest = initial false lexbuf in
 		 x ^ rest
     }		
@@ -101,8 +124,9 @@ parse
 | p_percent as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let rest = take_comment lexbuf in
-     let comment = (str_of_char x) ^ rest in
+     let body = take_comment lexbuf in
+     let comment = (str_of_char x) ^ body in
+     let _ = printf "comment taken:\n%s" body in
      (* If the line is empty, then we will nuke it.
         Otherwise, we will start a fresh line.
         In both cases, take the rest starting from the beginning of a line.
@@ -131,8 +155,10 @@ parse
 | _ as x
    (* Non-space char *)
     {
+     let x = (str_of_char x) in
+     let _ = printf "!%s" x in
 	   let rest = initial false lexbuf in 
-     (str_of_char x) ^ rest
+     x ^ rest
     }		
 
 and skip_inline = 		
@@ -150,7 +176,7 @@ and skip_inline =
 
   | _ as x
     { let rest = skip_arg x lexbuf in
-      x ^ rest
+      (str_of_char x) ^ rest
     } 
 
 and skip_arg delimiter_close = 
@@ -158,7 +184,7 @@ and skip_arg delimiter_close =
   parse
   | _ as x
     {
-     let _ = printf "skip_arg x =  %c\n" x  in 
+(*     let _ = printf "skip_arg x =  %c\n" x  in *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -199,6 +225,70 @@ and take_comment =
      let comment = take_comment lexbuf in 
        (str_of_char x) ^ comment
     }
+
+and take_arg depth is_empty delimiter_open delimiter_close = 
+parse
+| p_com_skip p_ws p_o_sq as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let h = x ^ arg ^ c_sq in
+     let i = skip_inline lexbuf in
+     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
+		 (h ^ i ^ rest, h_e)
+    }
+| p_esc_percent as x 
+    {
+     let _ = printf "!lexer matched espace percent %s." x in
+     let (rest, h_e) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+		 (x ^ rest, h_e)
+    }		
+
+| p_percent as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let body = take_comment lexbuf in
+     let comment = (str_of_char x) ^ body in
+     let _ = printf "comment taken:\n%s" body in
+     (* If the line is empty, then we will nuke it.
+        Otherwise, we will start a fresh line.
+        In both cases, take the rest starting from the beginning of a line.
+      *)
+     let (rest, h_e) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+		 if is_empty then
+		   (rest, h_e)
+		 else
+       ("\n" ^ rest, h_e)
+    }
+
+
+  | _ as x
+    {
+     let x = str_of_char x in
+(*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
+     (* Tricky: check close first so that you can handle 
+        a single delimeter used for both open and close,
+        as in lstinline.
+      *)
+		 if x = delimiter_close then
+			 let depth = depth - 1 in
+       if depth = 0 then
+(*				 let _ = d_printf "exit\n" in *)
+         ("", x)
+       else
+         let (arg, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in 
+         (x ^ arg, c_c)					 
+		 else if x = delimiter_open then
+			 let depth = depth + 1 in
+			 let (arg, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in 
+			 (x ^ arg, c_c)
+		 else
+			 let (rest, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in
+       (x ^ rest, c_c)
+    }
+
+
+
 (** BEGIN TRAILER **)
 {
 let lexer: Lexing.lexbuf -> string = 
