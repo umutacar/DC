@@ -67,7 +67,6 @@ let kw_datatype = "datatype"
 let kw_definition = "definition"
 let kw_example = "example"
 let kw_figure = "figure"
-let kw_figure_s = "figure*"
 let kw_exercise = "exercise"
 let kw_hint = "hint"
 let kw_important = "important"
@@ -84,7 +83,6 @@ let kw_slide = "slide"
 let kw_solution = "solution"
 let kw_syntax = "syntax"
 let kw_table = "table"
-let kw_table_s = "table*"
 let kw_task = "task"
 let kw_teachask = "teachask"
 let kw_teachnote = "teachnote"
@@ -203,7 +201,6 @@ let label_prefix_of_kind =
    kw_example, label_prefix_example;
    kw_exercise, label_prefix_exercise;
    kw_figure, label_prefix_figure;
-   kw_figure_s, label_prefix_figure;
    kw_hint, label_prefix_hint;
    kw_important, label_prefix_important;
    kw_lemma, label_prefix_lemma;
@@ -219,7 +216,6 @@ let label_prefix_of_kind =
    kw_solution, label_prefix_solution;
    kw_syntax, label_prefix_syntax;
    kw_table, label_prefix_table;
-   kw_table_s, label_prefix_table;
    kw_task, label_prefix_task;
    kw_teachask, label_prefix_teachask;
    kw_teachnote, label_prefix_teachnote;
@@ -244,7 +240,6 @@ let atom_kinds =
    kw_example, ();
    kw_exercise, ();
    kw_figure, ();
-   kw_figure_s, ();
    kw_hint, ();
    kw_important, ();
    kw_lemma, ();
@@ -260,7 +255,6 @@ let atom_kinds =
    kw_solution, ();
    kw_syntax, ();
    kw_table, ();
-   kw_table_s, ();
    kw_task, ();
    kw_teachask, ();
    kw_teachnote, ();

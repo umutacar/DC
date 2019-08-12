@@ -63,18 +63,24 @@ let set_current_atom a =
 let get_current_atom () =
   !current_atom
 
-let normalize_env_title (kind, title, kw_args) =
+let normalize_env (kind, title, kw_args) =
 	let _ = printf "normalize_env_title: kind = %s, title = %s\n" kind title in
-  if kind = "table" or kind = "table*" or 
-		 kind = "figure" or kind = "figure*" 
-	then
+
+  (* Drop final star if env name has one. *)
+  let kind = 
+		if kind = "table*" or kind = "figure*" then
+			Utils.drop_final_char kind
+		else
+			kind
+	in
+  if kind = "table" or kind = "figure" then
     if Tex.title_is_significant title then
-      (Some title, ("title", title)::kw_args)
+      (kind, Some title, ("title", title)::kw_args)
 		else
    		let _ = printf "normalize_env_title: title is not significant.\n" in
-			(None, kw_args)
+			(kind, None, kw_args)
 	else
-    (Some title, ("title", title)::kw_args)
+    (kind, Some title, ("title", title)::kw_args)
 		
 (**********************************************************************
  ** END: latex env machinery 
@@ -258,7 +264,7 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin env %s." kind in 
 	   let _ = set_current_atom kind in
      let (title, kw_args) = take_atom_args 1 lexbuf in
-     let (title_opt, kw_args) = normalize_env_title(kind, title, kw_args) in
+     let (kind, title_opt, kw_args) = normalize_env (kind, title, kw_args) in
      let h_b = mk_heading (x, title_opt, kw_args) in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
@@ -285,7 +291,7 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin env %s.\n" kind in 
 	   let _ = set_current_atom kind in
      let (title, kw_args) = take_atom_args 1 lexbuf in
-     let (title_opt, kw_args) = normalize_env_title(kind, title, kw_args) in
+     let (kind, title_opt, kw_args) = normalize_env (kind, title, kw_args) in
      let h_b = mk_heading (x, title_opt, kw_args) in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		

@@ -348,3 +348,5 @@ let find_in_list  (l: (string * string) list) (key: string) =
 	List.Assoc.find l ~equal:String.equal key
 
 
+let drop_final_char s = 
+  String.slice s 0 (String.length s - 1)
