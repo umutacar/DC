@@ -7,6 +7,7 @@ open Utils
 
 
 module Ast = Ast
+module Comment_lexer = Tex_comment_lexer
 module Lexer = Tex_lexer
 module Parser = Tex_parser
 
@@ -34,6 +35,8 @@ let tex2ast infile =
 	let ic = In_channel.create infile in
    	try 
       let lexbuf = Lexing.from_channel ic in
+			let contents = Comment_lexer.lexer lexbuf in
+      let lexbuf = Lexing.from_string contents in
 	    let ast = Parser.top Lexer.lexer lexbuf in
 			match ast with 
 			| None -> (printf "Parse Error."; exit 1)
