@@ -500,6 +500,9 @@ let is_cookie kind =
    | Some _ -> true
    | None -> false
 
+(* Meant for figure and table titles such as [h] [ht] [ht!] *)
+let title_is_significant title = 
+  String.length title > 4 
 
 (**********************************************************************
  ** BEGIN: DEPRACATED

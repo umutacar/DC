@@ -7,6 +7,7 @@
 open Printf
 open Utils
 open Tex_atom_parser
+module Tex = Tex_syntax
 
 (* Turn off prints *)
 
@@ -62,6 +63,19 @@ let set_current_atom a =
 let get_current_atom () =
   !current_atom
 
+let normalize_env_title (kind, title, kw_args) =
+	let _ = printf "normalize_env_title: kind = %s, title = %s\n" kind title in
+  if kind = "table" or kind = "table*" or 
+		 kind = "figure" or kind = "figure*" 
+	then
+    if Tex.title_is_significant title then
+      (Some title, ("title", title)::kw_args)
+		else
+   		let _ = printf "normalize_env_title: title is not significant.\n" in
+			(None, kw_args)
+	else
+    (Some title, ("title", title)::kw_args)
+		
 (**********************************************************************
  ** END: latex env machinery 
  **********************************************************************)
@@ -76,11 +90,15 @@ let mk_atom_str (h_b, body, capopt, items, h_e) =
      (all_but_items, all)	 	 
 
 let mk_heading (heading, title, kw_args) =
+	let title = 
+		match title with 
+		| None -> ""
+		| Some t -> "[" ^ t ^ "]" 
+	in
   match kw_args with
-  | [ ] -> 
-	  heading ^ "[" ^ title ^ "]" 
+  | [ ] ->  heading ^ title 
   | (l: (string * string) list) -> 
-    heading ^ "[" ^ title ^ "]" ^ "[" ^ (str_of_str2_list l) ^ "]"
+    heading ^ title ^ "[" ^ (str_of_str2_list l) ^ "]"
 
 }
 (** END: HEADER **)
@@ -218,7 +236,7 @@ rule initial = parse
     {
      let _ = d_printf "!!atom lexer matched begin lstlisting %s." x in 
      let (title, kw_args) = take_atom_args 1 lexbuf in
-     let h_b = mk_heading (x, title, kw_args) in
+     let h_b = mk_heading (x, Some title, kw_args) in
      let kw_args = ["title", title] @ kw_args in 
      let (body, h_e) = skip_env kw_lstlisting lexbuf in
    	 let all = h_b ^ body ^ h_e in
@@ -240,8 +258,8 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin env %s." kind in 
 	   let _ = set_current_atom kind in
      let (title, kw_args) = take_atom_args 1 lexbuf in
-     let h_b = mk_heading (x, title, kw_args) in
-     let kw_args = ["title", title] @ kw_args in 
+     let (title_opt, kw_args) = normalize_env_title(kind, title, kw_args) in
+     let h_b = mk_heading (x, title_opt, kw_args) in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
@@ -267,8 +285,8 @@ rule initial = parse
      let _ = d_printf "!atom lexer: matched begin env %s.\n" kind in 
 	   let _ = set_current_atom kind in
      let (title, kw_args) = take_atom_args 1 lexbuf in
-     let h_b = mk_heading (x, title, kw_args) in
-     let kw_args = ["title", title] @ kw_args in 
+     let (title_opt, kw_args) = normalize_env_title(kind, title, kw_args) in
+     let h_b = mk_heading (x, title_opt, kw_args) in
 (*     let _ = d_printf "!atom lexer: matched group all: %s." h in  *)
      let _ = do_reset_env () in		
      let _ = do_begin_env () in		
