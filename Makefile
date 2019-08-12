@@ -17,7 +17,7 @@ DEPEND = \
   top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native texml.native
+default: dc.native cc.native
 
 all: dc.native md2md.native \
   tex2tex.native texel.native texmlt.native texml.native
@@ -27,6 +27,9 @@ clean:
 	rm -f *.native
 	rm -f *.dbg
 	rm -f *.profile
+
+cc.native: $(DEPEND) top/cc.ml
+	$(OCB) cc.native
 
 dc.native: $(DEPEND) top/dc.ml
 	$(OCB) dc.native

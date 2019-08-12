@@ -79,8 +79,9 @@ parse
 | p_com_skip as x 
 		{
 (*     let _ = printf "!lexer found: p_com_skip %s." (str_of_char x) in  *)
-     let rest = skip_inline lexbuf in
-     x ^ rest
+     let inline = skip_inline lexbuf in
+		 let rest = initial false lexbuf in
+     x ^ inline ^ rest
     }
 
 | p_hspace as x 
