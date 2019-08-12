@@ -317,7 +317,15 @@ let mk_point_val popt =
   |  Some pts -> mk_opt_arg pts
 
 let mk_kw_args l =   
-  str_of_kw_list_with " " "; " l
+  let l = List.filter l ~f:(fun (k, v) -> match v with | None -> false | Some _ -> true) in
+  let mapper (k, v) = 
+    match v with 
+    | None -> "FATAL error"
+    | Some v -> k ^ " = " ^ v
+  in
+	let l = List.map l ~f:mapper in
+  String.concat ~sep:"; " l
+
 
 let mk_label lopt = 
   match lopt with 
