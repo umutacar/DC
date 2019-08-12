@@ -571,7 +571,6 @@ struct
 		let title = Tex.mk_title title in
     let kw_args = ["cover", cover; "sound", sound] in
     let kw_args = Tex.mk_kw_args kw_args in
-    let _ = printf "kw_args = %s" kw_args in    
 		let problem = 
 			match problem with 
 			| None -> ""
