@@ -73,11 +73,11 @@ rule initial is_empty =
 parse
 | (p_begin_env_skip as x)
     {
-	   let _ = printf "! comment_lexer: skip env %s\n" x in
+	   let _ = d_printf "! comment_lexer: skip env %s\n" x in
      let this_kind = kind in
      let env = skip_env kind lexbuf in
      let env = x ^ env in
-	   let _ = printf "! comment_lexer: skipped env %s\n" env in
+	   let _ = d_printf "! comment_lexer: skipped env %s\n" env in
 		 let rest = initial false lexbuf in
 		 if this_kind = "comment" then
    		 rest
@@ -93,16 +93,16 @@ parse
      let body = skip_inline lexbuf in
 		 let rest = initial false lexbuf in
      let all = h ^ body ^ rest in
-     let _ = printf "skip_sq: %s\n" all in
+     let _ = d_printf "skip_sq: %s\n" all in
      all
     }
 
 | p_com_skip as x 
 		{
-(*     let _ = printf "!lexer found: p_com_skip %s." (str_of_char x) in  *)
+(*     let _ = d_printf "!lexer found: p_com_skip %s." (str_of_char x) in  *)
      let inline = skip_inline lexbuf in
      let inline = x ^ inline in
-	   let _ = printf "! comment_lexer: skipped inline %s\n" inline in
+	   let _ = d_printf "! comment_lexer: skipped inline %s\n" inline in
 		 let rest = initial false lexbuf in
      inline ^ rest
     }
@@ -116,7 +116,7 @@ parse
 
 | p_esc_percent as x 
     {
-     let _ = printf "!lexer matched espace percent %s." x in
+     let _ = d_printf "!lexer matched espace percent %s." x in
      let rest = initial false lexbuf in
 		 x ^ rest
     }		
@@ -126,7 +126,7 @@ parse
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let body = take_comment lexbuf in
      let comment = (str_of_char x) ^ body in
-     let _ = printf "comment taken:\n%s" body in
+     let _ = d_printf "comment taken:\n%s" body in
      (* If the line is empty, then we will nuke it.
         Otherwise, we will start a fresh line.
         In both cases, take the rest starting from the beginning of a line.
@@ -156,7 +156,7 @@ parse
    (* Non-space char *)
     {
      let x = (str_of_char x) in
-     let _ = printf "!%s" x in
+     let _ = d_printf "!%s" x in
 	   let rest = initial false lexbuf in 
      x ^ rest
     }		
@@ -169,7 +169,7 @@ and skip_inline =
    *)
   | '{' as x      
     { let x = str_of_char x in
-(*  		let _ = printf "skip_inline kind = %s delimiter %s\n" x in *)
+(*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" x in *)
       let rest = skip_arg '}' lexbuf in
       x ^ rest
     } 
@@ -184,7 +184,7 @@ and skip_arg delimiter_close =
   parse
   | _ as x
     {
-(*     let _ = printf "skip_arg x =  %c\n" x  in *)
+(*     let _ = d_printf "skip_arg x =  %c\n" x  in *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,
         as in lstinline.
@@ -200,7 +200,7 @@ and skip_env stop_kind =
   (* Assumes non-nested environments *)
   parse
   | p_end_env as x
-      { (* let _ = printf "!lexer: end skip environment %s\n" x in *)
+      { (* let _ = d_printf "!lexer: end skip environment %s\n" x in *)
           if kind = stop_kind then
 						x
           else 
@@ -208,7 +208,7 @@ and skip_env stop_kind =
 						x ^ y
       }
   | _  as x
-      {(* let _ = printf "%c" x in *)
+      {(* let _ = d_printf "%c" x in *)
        let y = skip_env stop_kind lexbuf in
         (str_of_char x) ^ y
       }
@@ -239,7 +239,7 @@ parse
     }
 | p_esc_percent as x 
     {
-     let _ = printf "!lexer matched espace percent %s." x in
+     let _ = d_printf "!lexer matched espace percent %s." x in
      let (rest, h_e) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
 		 (x ^ rest, h_e)
     }		
@@ -249,7 +249,7 @@ parse
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let body = take_comment lexbuf in
      let comment = (str_of_char x) ^ body in
-     let _ = printf "comment taken:\n%s" body in
+     let _ = d_printf "comment taken:\n%s" body in
      (* If the line is empty, then we will nuke it.
         Otherwise, we will start a fresh line.
         In both cases, take the rest starting from the beginning of a line.

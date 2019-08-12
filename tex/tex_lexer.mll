@@ -10,7 +10,7 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    printf args
+    ifprintf stdout args
 (*
 let d_printf args = printf args
 *)
@@ -18,7 +18,6 @@ let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
 let kw_sq_close = "]"
-let kw_comment = "comment"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
 
@@ -218,7 +217,6 @@ let p_problem_cluster = "mproblem"
 
 (* Latex environment: alphabethical chars plus an optional star *)
 let p_env = (p_alpha)+('*')?
-let p_env_comment = "comment"
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
 
@@ -226,14 +224,12 @@ let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly)
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
-let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws (p_env_comment as kind) p_ws p_c_curly
-let p_end_env_comment = p_com_end p_ws p_o_curly p_ws (p_env_comment) p_ws p_c_curly
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 
-let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim | p_begin_env_comment
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 
 (* end: environments *)
 
@@ -269,12 +265,12 @@ let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c
 
 (** END PATTERNS *)			
 (* Takes is_empty, the emptiness status of the current line *)
-rule initial is_empty = 
+rule initial = 
 parse
 | (p_heading as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
        KW_HEADING(kind, arg, None)
@@ -283,7 +279,7 @@ parse
 | (p_heading_with_points as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
-     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
        KW_HEADING(kind, arg, Some point_val)
@@ -292,7 +288,7 @@ parse
 | (p_begin_group as x) (p_o_sq as a)
     {
 (*     let _ = d_printf "!lexer matched begin group %s." kind in *)
-     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let h = x ^ a ^ arg ^ c_sq in
 (*     let _ = d_printf "!lexer matched group all: %s." h in  *)
        KW_BEGIN_GROUP(kind, arg, None)
@@ -322,19 +318,14 @@ parse
      let _ = d_printf "!lexer matched begin skip env kind = %s." kind in 
      let keep_kind = kind in
      let (rest, h_e) = skip_env kind lexbuf in
-		 if keep_kind = "comment" then
-   		 let all = x ^ rest ^ h_e in
-			 let _ = d_printf "!lexer matched comment env, dropping: %s.\n" all in  
-			 initial is_empty lexbuf
-		 else
-   		 let all = x ^ rest ^ h_e in
-			 let _ = d_printf "!lexer matched skip env: %s.\n" all in  
-			 CHUNK(all, None)
+   	 let all = x ^ rest ^ h_e in
+		 let _ = d_printf "!lexer matched skip env: %s.\n" all in  
+		 CHUNK(all, None)
 }
 
 | (p_begin_env as x)
     {
-     let (rest, h_e) = take_env 1 false lexbuf in
+     let (rest, h_e) = take_env 1 lexbuf in
    	 let all = x ^ rest ^ h_e in
      let _ = d_printf "!lexer matched env %s.\n" all in 
      CHUNK(all, None)
@@ -351,9 +342,9 @@ parse
 | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
-     let body = skip_inline kind lexbuf in
+     let body = skip_inline lexbuf in
      let all = h ^ body in
 		   CHUNK(all, None)
     }
@@ -361,7 +352,7 @@ parse
 | p_com_skip as x 
 		{
 (*     let _ = printf "!lexer found: p_com_skip %s." (str_of_char x) in  *)
-     let body = skip_inline kind lexbuf in
+     let body = skip_inline lexbuf in
      let all = x ^ body in
 		   CHUNK(all, None)
     }
@@ -375,7 +366,7 @@ parse
 (* BEGIN: TODO: Testing complete this *)
 | p_o_sq as x
   {
-     let (arg, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let all = x ^ arg ^ c_c in
      let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
        CHUNK(all, None)
@@ -384,7 +375,7 @@ parse
 
 | p_o_curly as x
   {
-     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let all = x ^ arg ^ c_c in
      let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
        CHUNK(all, None)
@@ -411,9 +402,9 @@ parse
 | eof
 		{EOF}
 | _
-    {initial false lexbuf}		
+    {initial lexbuf}		
 
-and take_env depth is_empty =  (* not a skip environment, because we have to ignore comments *)
+and take_env depth =  (* not a skip environment, because we have to ignore comments *)
   parse
   | p_begin_env_skip as x
       { 
@@ -421,36 +412,36 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
 (*       let _ = d_printf "!lexer: env skip matched = %s" v in *)
-       let (rest, h_e) = take_env depth false lexbuf in
+       let (rest, h_e) = take_env depth lexbuf in
        (v ^ rest, h_e)          
       }   
 
   | p_com_lstinline  p_ws p_o_sq  as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
-     let body = skip_inline kind lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
+     let body = skip_inline lexbuf in
      let lst = x ^ arg ^ c_sq ^ body in
-     let (rest, h_e) = take_env depth false lexbuf in
+     let (rest, h_e) = take_env depth lexbuf in
 		 (lst ^ rest, h_e)
     }
 
   | p_com_lstinline as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let body = skip_inline kind lexbuf in
-     let (rest, h_e) = take_env depth false lexbuf in
+     let body = skip_inline lexbuf in
+     let (rest, h_e) = take_env depth lexbuf in
      (x ^ body ^ rest, h_e)          
     }
 
   | (p_com_infer as h) (p_o_sq as x) 
 		{
      let _ = d_printf "!lexer found: infer with opt %s." x in 
-     let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (opt, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
      let i = mk_infer (h, Some opt, a, b) in 
-     let (rest, h_e) = take_env depth false lexbuf in
+     let (rest, h_e) = take_env depth lexbuf in
      (i ^ rest, h_e)          
     }
 
@@ -459,14 +450,14 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
      let _ = d_printf "!lexer found: infer %s." x in 
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
-     let (rest, h_e) = take_env depth false lexbuf in
+     let (rest, h_e) = take_env depth lexbuf in
      (x ^ a ^ b ^ rest, h_e)          
     }
 
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-            let (rest, h_e) = take_env (depth+1) false lexbuf in
+            let (rest, h_e) = take_env (depth+1) lexbuf in
                 (x ^ rest, h_e)              
         }
 
@@ -478,29 +469,29 @@ and take_env depth is_empty =  (* not a skip environment, because we have to ign
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
               ( "", x)
             else
-              let (rest, h_e) = take_env depth false lexbuf in
+              let (rest, h_e) = take_env depth lexbuf in
               (x ^ rest, h_e)  
         }      
 
 	| (p_com_caption p_ws p_o_sq) as x
 		{
-     let (title, c_c) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = take_arg_force lexbuf in
      (* Drop short title, used in some latex packages for titling the figure *)
      let caption = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
      let _ = d_printf "!tex_lexer matched caption: title = %s \n %s." title caption  in
      
-		 let (rest, h_e) = take_env depth false lexbuf in
+		 let (rest, h_e) = take_env depth lexbuf in
      (* Drop capopt_, it would be another caption. *)
       (caption ^ rest, h_e)
     }
 
   | _  as x
-        { let (rest, h_e) = take_env depth false lexbuf in
+        { let (rest, h_e) = take_env depth lexbuf in
             ((str_of_char x) ^ rest, h_e)
         }
 
-and skip_inline kind = 		
+and skip_inline = 		
   (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
   parse
   (* This should work but it will be a common error. 
@@ -549,19 +540,19 @@ and take_arg_force =
     }
   | p_o_curly as x 
     {
-     let (arg, c_c) = take_arg 1 false kw_curly_open kw_curly_close lexbuf in
+     let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
        arg
     }   
 
-and take_arg depth is_empty delimiter_open delimiter_close = 
+and take_arg depth delimiter_open delimiter_close = 
   parse
   | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
-     let i = skip_inline kind lexbuf in
-     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
+     let i = skip_inline lexbuf in
+     let (rest, h_e) = take_arg depth delimiter_open delimiter_close lexbuf in
 		 (h ^ i ^ rest, h_e)
     }
 
@@ -579,14 +570,14 @@ and take_arg depth is_empty delimiter_open delimiter_close =
 (*				 let _ = d_printf "exit\n" in *)
          ("", x)
        else
-         let (arg, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in 
+         let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
          (x ^ arg, c_c)					 
 		 else if x = delimiter_open then
 			 let depth = depth + 1 in
-			 let (arg, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in 
+			 let (arg, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in 
 			 (x ^ arg, c_c)
 		 else
-			 let (rest, c_c) = take_arg depth false delimiter_open delimiter_close lexbuf in
+			 let (rest, c_c) = take_arg depth delimiter_open delimiter_close lexbuf in
        (x ^ rest, c_c)
     }
 
@@ -660,7 +651,7 @@ and take_arg_array =
   | (p_com_infer as h) (p_o_sq as x) 
 		{
      let _ = d_printf "!lexer found: infer with opt %s." x in 
-     let (opt, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
+     let (opt, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
      let i = mk_infer (h, Some opt, a, b) in 
@@ -682,7 +673,7 @@ and take_arg_array =
     {("", 0, [], x) }
 
   | p_o_curly as x 
-    { let (arg, c_c_a) = take_arg 1 false "{" "}" lexbuf in 
+    { let (arg, c_c_a) = take_arg 1 "{" "}" lexbuf in 
       let (rest, width, widths, cc_i) = take_arg_array lexbuf in
  		  (x ^ arg ^ c_c_a ^ rest, width, widths, cc_i)
     }
@@ -699,7 +690,7 @@ and take_arg_array =
 {
 (* This is the default lexer *)
 let lexer: Lexing.lexbuf -> token = 
-		initial (!is_line_empty)
+		initial
 
 (* This is the spiced up lexer that modifies the token stream in
  * several ways.
