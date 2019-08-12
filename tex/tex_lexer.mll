@@ -176,6 +176,8 @@ let p_separator = [':' '.' '-' '_' '/']
 
 (* No white space after backslash *)
 let p_backslash = '\\'
+let p_double_backslash = '\\' '\\' 
+let p_quad_backslash = '\\' '\\' '\\' '\\'
 let p_o_curly = '{' p_ws
 (* don't take newline with close *)
 let p_c_curly = '}' p_hs
@@ -699,8 +701,9 @@ and take_arg_infer =
        take_arg_infer lexbuf 
     }
   | p_o_curly as x
-    { let (a, wa, y) = take_arg_array lexbuf  in
-      let i = mk_infer_arg (x, a, wa, y) in
+    { let (a, w, widths, y) = take_arg_array lexbuf  in
+      let Some max_width = reduce  (fun x y -> if x > y then x else y) (w::widths) in
+      let i = mk_infer_arg (x, a, max_width, y) in
       i
     }
 
@@ -711,22 +714,22 @@ and take_arg_array =
    * Rewrite each nested as \infer{\begin{array}{lll...l} ... \end{array}
    *)
   parse
-  | "\\\\" as x
+  | p_quad_backslash as x (* This is quad backslash \\\\, espaced *)
     {
-      let (rest, width, c_c) = take_arg_array lexbuf in
-      ("\n" ^ rest, width, c_c)
+      let (rest, width, widths, c_c) = take_arg_array lexbuf in
+      ("\n" ^ rest, 0, width::widths, c_c)
     }
 
-  | "\\" as x
+  | p_double_backslash as x  (* This is double backslash \\, espaced *)
     {
-      let (rest, width, c_c) = take_arg_array lexbuf in
-      ("&" ^ rest, width+1, c_c)
+      let (rest, width, widths, c_c) = take_arg_array lexbuf in
+      ("&" ^ rest, width+1, widths, c_c)
     }
 
   | '&' as x
     {
-      let (rest, width, c_c) = take_arg_array lexbuf in
-      ("&" ^ rest, width+1, c_c)
+      let (rest, width, widths, c_c) = take_arg_array lexbuf in
+      ("&" ^ rest, width+1, widths, c_c)
     }
 
   | (p_com_infer as h) (p_o_sq as x) 
@@ -736,8 +739,8 @@ and take_arg_array =
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
      let i = mk_infer (h, Some opt, a, b) in 
-     let (rest, width, c_c) = take_arg_array lexbuf in
-     (i ^ rest, width, c_c)          
+     let (rest, width, widths, c_c) = take_arg_array lexbuf in
+     (i ^ rest, width, widths, c_c)          
     }
 
 	| p_com_infer as x
@@ -746,24 +749,24 @@ and take_arg_array =
      let a = take_arg_infer lexbuf  in
      let b = take_arg_infer lexbuf  in
      let i = mk_infer (x, None, a, b) in 
-     let (rest, width, c_c) = take_arg_array lexbuf in
-     (i ^ rest, width, c_c)          
+     let (rest, width, widths, c_c) = take_arg_array lexbuf in
+     (i ^ rest, width, widths, c_c)          
     }
 
   | p_c_curly as x
-    {("", 0, x) }
+    {("", 0, [], x) }
 
   | p_o_curly as x 
     { let (arg, c_c_a) = take_arg 1 false "{" "}" lexbuf in 
-      let (rest, width, cc_i) = take_arg_array lexbuf in
- 		  (x ^ arg ^ c_c_a ^ rest, width, cc_i)
+      let (rest, width, widths, cc_i) = take_arg_array lexbuf in
+ 		  (x ^ arg ^ c_c_a ^ rest, width, widths, cc_i)
     }
 
   | _ as x 
   	{
      let x = str_of_char x in
-     let (rest, width, c_c) = take_arg_array lexbuf in
- 		 (x ^ rest, width, c_c)		 
+     let (rest, width, widths, c_c) = take_arg_array lexbuf in
+ 		 (x ^ rest, width, widths, c_c)		 
     }
 
 

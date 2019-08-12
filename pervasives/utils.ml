@@ -123,6 +123,9 @@ let map_reduce (f: 'a -> 'b) (g: 'b -> 'b -> 'c) (xs: 'a list) : 'c option =
   let xs = List.map xs f in
     List.reduce xs g
 
+let reduce (f: 'b -> 'b -> 'c) (xs: 'a list) : 'c option = 
+	List.reduce xs f
+
 (* Return a sublist of input consisting of elements of l that are unique in l.
    For example l = [0, 1, 1, 2] returns 0 and 2.
  *)
