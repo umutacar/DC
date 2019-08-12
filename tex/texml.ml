@@ -2,8 +2,8 @@ open Core
 open Lexing
 
 module Ast = Ast
-module Lexer = Tex_lexer
 module Comment_lexer = Tex_comment_lexer
+module Lexer = Tex_lexer
 module Parser = Tex_parser
 
 let file_extension_xml = ".xml"
