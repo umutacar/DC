@@ -1,0 +1,12 @@
+=cluster;work-stealing;oracle
+colors=black,yellow,red
+=table
+yformat=%4.2f
+=norotate
+ylabel=speedup
+
+barnes-hut 7.73008227975 8.94334803808
+quickhull 6.48897795591 6.75052119527
+quicksort 8.15394242804 10.0540123457
+dmm 12.7149407719 14.7299690128
+smvm 3.20941054809 13.5425454545

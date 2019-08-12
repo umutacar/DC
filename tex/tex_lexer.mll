@@ -706,11 +706,23 @@ and take_arg_infer =
 
 
 and take_arg_array =  
-  (* Take argument of the form { arg_1 & arg_2 & arg_3 \\ ...  }, where
+  (* Take argument of the form { arg_1 &[\\] arg_2 &[\\] arg_3 \\\\ ...  }, where
    * arg_i may contain many instances of \infer{arg_11 & arg ... & ... \\ }{ .. & ... & }.
    * Rewrite each nested as \infer{\begin{array}{lll...l} ... \end{array}
    *)
   parse
+  | "\\\\" as x
+    {
+      let (rest, width, c_c) = take_arg_array lexbuf in
+      ("\n" ^ rest, width, c_c)
+    }
+
+  | "\\" as x
+    {
+      let (rest, width, c_c) = take_arg_array lexbuf in
+      ("&" ^ rest, width+1, c_c)
+    }
+
   | '&' as x
     {
       let (rest, width, c_c) = take_arg_array lexbuf in

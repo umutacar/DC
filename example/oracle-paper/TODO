@@ -1,0 +1,173 @@
+
+-- raw-work, total-work etc hsa to be hypenated.
+
+-- NOTE: The submitted version is in the separate directory submitted.
+   for THE JOURNAL VERSION, the material there may be helpful, because
+   it contains material taken out of the conference paper.
+
+-- Should we make clear that we don't discuss higher order functions here.
+
+-- Fix: Kappa >= 1 or Kappa >= 0.  There seems to be something tricky,
+   when kappa >= 1, we may not parallelize the leaves.
+
+-- FOR THE JOURNAL VERSION: I (Umut) feel that we can improve the
+"oracle scheduling" paper by changing the semantics slightly to make
+par/seq (oracle) decisions at function calls.  The main lemma that we
+get from this is that there is not more than constant amount of work
+between any two function calls; this is not true when we have explicit
+looping constructs but in a functional language it holds because we
+have to perform function calls to loop.  My intuition is that this
+will give us regularity for free.
+
+-- FOR THE JOURNAL VERSION: higher order functions
+
+-- and that we fall back
+   on work stealing when we are not able to give an asymptotic
+	bound. (explain the fact that we can always give zero or +oo as a cost)
+	not in particular, that we have not looked at higher-order functions
+
+-- explain in intro that the scheduling decisions are 
+	made independently of the calling context,
+	and independently of the load of the other processors
+
+
+-- you introduced {\em $(\corc,\cerr)$-oracle-scheduler}.
+	but never use this terminology. do you really want to
+	introduce it? (I think it just makes the thing look more scary :)
+
+
+%\uremark{on't know this cite? ~\cite{Graham69boundson}}
+
+
+
+-- complexity or cost function be consistent 
+	=> there are some occurences of "cost function" to be changed in the introduction;
+	the rest of the paper appears to be fine.
+
+-- mode versus semantics, be consistent 
+	=> i fixed some of them, there might remain a few
+
+
+-- conclusion: have a quick look at the future work
+
+-- cite chak, simon pj work on parallel haskell 
+
+
+------------------------------------------------
+------------------------------------------------
+LATER
+
+-- use periods at the end of paragraph title consistently. => fixed (no periods)
+
+-- do we really care about linux version ??
+
+-- be more precise about the cost of the GC in our experiments
+
+
+-- [TODO : add cite] for Cmax problem scheduling theory
+
+-- compare to static partition (?)
+
+-- Observe that in practice cost functions are only needed at the places
+   where the cutoff line might be crossed
+
+-- need to say that we do worse than work stealing by a factor
+   at most (1 + \tau + \sigma) / (1 + \tau).
+	In practice, we can get \sigma about 2\tau, so we cannot be
+	more than a factor 3 away from work-stealing.
+
+-- one thing required for higher-order functions is the ability
+	to specify where the cost constant is allocated (i.e., at top-level
+	or inside the body of a function).
+
+-- read more about the project funded by jane street that
+   introduces experimental support for multicore computations
+   in OCaml
+
+-- add the chart showing the distribution of the measures
+
+-- need a benchmark with exponential complexity
+
+-- comment on the interactions between side-effects and 
+   cost functions
+
+-- plot a curve that shows the predicted parallel exec time
+   (based on sequential runtime) vs the measured exec time
+
+------------------------------------------------
+------------------------------------------------
+OTHER STUFF
+
+-- observe that we are able to make good scheduling decisions 
+	based only on estimates of computational work, and not on computational depth.
+
+-- we may need to give a bit more detail on the overhead included in
+   the theorems.  does this cover only the task creation overhead or
+   also the load balancing overhead.  if the former, then how
+   significant is that (e.g., CILK can get rid of some of this
+   overhead).  the latter might be covered somehow but we know that
+   work stealing overhead is PD rather than W.  so it is actually more
+   related to depth than anything else.  
+
+-- read over your parallel algorithms book for some scheduling theory. 
+
+-- excess parallelism.  parallelism is often too much. 
+
+-- provably good. 
+
+-- experimental comparisons to the best possible would be great. 
+
+-- is there a case to be made for multiprogrammed systems, where
+    static partitioning does not dynamically adjust.  may be this is
+    further research?
+
+-- Brent's theorem worst case
+   For two processors
+
+   You want P+1 forks at each depth.  
+
+   Additional work can be exactly a multiple of P and \tau plus one
+   such that at least P-1 of the processors idle at each step. 
+   See fig below
+
+   *'s are stretched work, P=2, \tau = 4
+   o's are normal unit work.  
+   You can have as many o's as you want. 
+
+   * * * o o o o  
+   * * * o o o
+   * * * o o o
+   * * * o o o
+   1 2 1 2 1 2 1 (2 idling)   Processor assignment
+
+   Point is no matter how you schedule this, the greedy schedule will
+   be some permutation of these columns. 
+
+  
+   This shows that at each depth you can end up idling \tau steps even
+   when the normal work is plenty.  
+
+   For the worst case bound, we want to repeat this at each step.
+   Such that the total depth D remains close to raw depth d, i.e.,
+   none of the paths have too many forks on them. 
+
+   I think we can do this because we have flexibility in the above
+   approach to throw in as much additional work as we want. The idea
+   would be to have straight lines coming down. At each level P+1 one
+   of these lines would perform a work and then die at the next step
+   (dieing would prevent them from becoming "too deep").  Example below 
+
+   o o o   o o o   o o o   o o o  o o o  o o o 
+   * * *   o o o   o o o   o o o  o o o  o o o 
+           * * *   o o o   o o o  o o o  o o o 
+                   * * *   o o o  o o o  o o o 
+                           * * *  o o o  o o o 
+                                  * * *  o o o 
+                                         * * * 
+
+  *'s are forks.  
+
+  Thus the depth would be determined by o's but at each step there
+  would be \tau idling.
+
+

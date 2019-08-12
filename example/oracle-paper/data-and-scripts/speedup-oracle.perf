@@ -1,0 +1,13 @@
+=cluster;oracle
+colors=black,red
+=table
+yformat=%4.2f
+=norotate
+fontsz=14
+ylabel=speedup
+
+barnes-hut  7.83794564946
+quickhull  6.17786187323
+quicksort  7.41809290954
+dmm  9.63479230555
+smvm 8.36160714286

@@ -1,0 +1,154 @@
+
+\section{Related Work}
+\label{sec:related-work}
+
+\paragraph{Cutting off excess parallelism.}
+
+This study is not the first to propose using cost prediction to
+determine when to cut off parallelism.  One approach, developed in
+early work in functional programing, uses list size to determine cut
+offs~\cite{HuelsbergenLaAi94}. Using list size alone is limited,
+because the technique assumes linear work complexity for every
+parallel operation.
+
+Another way to handle cost prediction is to use the depth and height
+of the recursion tree~\cite{Weening89,PehoushekWe90}. But depth and
+height are not, in general, the most direct means to predict the
+execution time of subcomputations. In our oracle scheduling, we ask
+for either the programmer or compiler to provide for each function a
+cost function that expresses the asymptotic cost of applying the
+function.
+
+Lopez \textit{et. al.} take this approach as well, but in the context
+of logic programming~\cite{Lopez:1996:MGC:241129.241165}. On the
+surface, their technique is similar to our oracle scheduling, except
+that their cost estimators do not utilize profiling to estimate
+constant factors. An approach without constant-factor estimation is
+overly simplistic for modern processors, because it relies on
+complexity function predicting execution time exactly. On modern
+processors, execution time depends heavily on factors such as caching,
+pipelining, \textit{etc.} and it is not feasible in general to predict
+execution time from a complexity function alone.
+
+\paragraph{Reducing per-task costs.}
+
+One approach to the granularity problem is to focus on reducing
+the costs associated with tasks, rather than limiting how many tasks
+get created. This approach is taken by implementations of work
+stealing with lazy task
+creation~\cite{lazy-task-creation,message-passing-ltc,FrigoLeRa98,
+  rainey:phd,backtracking-based-load-balancing,SanchezADM}. In lazy
+task creation, the work stealing scheduler is implemented so as to
+avoid, in the common case, the major scheduling costs, in particular,
+those of inter-processor communication. But, in even the most
+efficient lazy task creation, there is still a non-negligable
+scheduling cost for each implicit thread.
+
+Lazy Binary Splitting (LBS) is an improvement to lazy task creation
+that applies to parallel loops~\cite{lazy-binary-splitting}. The
+crucial optimization comes from extending the representation of a task
+so that multiple loop iterations can be packed into a single
+task. This representation enables the scheduler to both avoid creating
+closures and executing deque operations for most iterations.
+A limitation of LBS is that it addresses only parallel loops whose
+iteration space is over integers.  Lazy Tree Splitting (LTS)
+generalizes LBS to handle parallel aggregate operations that produce
+and consume trees, such as map and
+reduce~\cite{BergstromFlRaReSh10}. LTS is limited, however, by the
+fact that it requires a special cursor data structure to be defined
+for each tree data structure.
+
+\paragraph{Amortizing per-task costs.}
+
+Feitelson \textit{et al.} study the granularity problem in the setting
+of distributed computing~\cite{aharoni92arun-time}, where the crucial
+issue is how to minimize the cost of inter-processor communication. In
+their setting, the granularity problem is modeled as a staging
+problem, in which there are two stages. The first stage consists of a
+set of processor-local task pools and the second stage consists of a
+global task pool. Moving a task to the global task pool requires
+inter-processor communication. The crucial decision is how often each
+processor should promote tasks from its local task pool to the global
+task pool. We consider a different model of staging in which there is
+one stage for parallel evaluation and one for sequential
+evaluation. 
+
+The approach proposed by Feitelson \textit{et al.} is based on an
+online algorithm called CG. In this approach, it is assumed that the
+cost of moving a task to the global task pool is an integer constant,
+called $g$. The basic idea is to use amortization to reduce the
+scheduling total cost of moving tasks to the global task pool. In
+particular, for each task that is moved to the global task pool, CG
+ensures that there are at least $g+1$ tasks added to the local task
+pool. Narlikar describes a similar approach based on an algorithm
+called DFDeques~\cite{Narlikar99}. Just as with work
+stealing, even though the scheduler can avoid the communication costs
+in the common case, the scheduler still has to pay a non-negligable
+cost for each implicit thread.
+
+\paragraph{Flattening and fusion.}
+
+Flattening is a well-known program transformation for nested parallel
+languages~\cite{Blelloch:1990:CCL:78246.78250}. Implementations of
+flattening include NESL~\cite{nesl-implement} and Data Parallel
+Haskell~\cite{PeytonJones08}. Flattening transforms the program into a
+form that maps well onto SIMD architectures. Flattened programs are
+typically much simpler to schedule at run time than nested programs,
+because much of the schedule is predetermined by the
+flattening~\cite{spoonhower:phd}. Controlling the
+granularity of such programs is correspondingly much simpler than in
+general. A limitation of existing flattening is that certain classes
+of programs generated by the translation suffer from space
+inefficiency~\cite{BlellochGr96}, as a consequence of the
+transformation making changes to data structures defined in the
+program. Our transformation involves no such changes.
+
+The NESL~\cite{nesl-implement} and Data Parallel
+Haskell~\cite{PeytonJones08} compilers implement fusion transformation
+in order to increase granularity. Fusion transforms the program to
+eliminate redundant synchronization points and intermediate
+arrays. Although fusion reduces scheduling costs by combining adjacent
+parallel loops, it is not relevant to controlling granularity within
+loops. As such, fusion is orthogonal to our oracle based approach.
+
+\paragraph{Cost Semantics.}
+To give an accurate accounting of task-creation of overheads in
+implicitly parallel languages we use a cost semantics, where
+evaluation steps (derivation rules) are decorated with work and depth
+information or ``costs''.  This information can then be used to
+directly to bound running time on parallel computers by using standard
+scheduling theorems that realize Brent's bound.  Many previous
+approaches also use the same technique to study work-depth properties,
+some of which also make precise the relationship between cost
+semantics and the standard directed-acyclic-graph
+models~\cite{BlellochGr95,BlellochGr96,SpoonhowerBlHaGi08}. The idea
+of instrumenting evaluations to generate cost information goes back to
+the early 90s~\cite{Sands-thesis,Rosendahl89}.  
+
+\paragraph{Inferring Complexity Bounds.}
+Our implementation of oracle scheduling requires the programmer to
+enter complexity bounds for all parallel tasks.  In some cases, these
+bounds can be inferred by various static analyses, for example, using
+type-based and other static analyses
+(e.g.,~\cite{CraryWe00,JostHaLoHo10}), symbolic
+techniques
+%(e.g.,~\cite{Metayer88,Rosendahl89,GoldsmithAiWi07,GulwaniMeCh09}). Our
+(e.g.,~\cite{GoldsmithAiWi07,GulwaniMeCh09}). Our
+approach can benefit from these approaches by reducing the programmer
+burden, making it ultimately easier to use the proposed techniques in
+practice.
+ 
+
+
+%% \begin{itemize}
+%% \item {\em Space-efficient scheduling for parallel, multithreaded computations}, by G. Narlikar~\cite{Narlikar:1999:SSP:930703}.
+%% \item {\em Provably Efficient Scheduling for Languages with Fine-Grained Parallelism}, by G. E. Blelloch, P. Gibbons and Y. Matias. Very related: the comment in the third paragraph of the conclusion.
+%% %\item {\em Semantics-based parallel cost models and their use in provably efficient implementations}, the thesis %of John Greiner. It has some cost semantics for fork-join parallelism. (see whether it is useful)
+%% \item Nesl
+%% [Automatic
+%%  granularity coarsening based on
+%%  profiling~\cite{Chen:2007:STC:1248377.1248396}]
+%% \end{itemize}
+
+
+

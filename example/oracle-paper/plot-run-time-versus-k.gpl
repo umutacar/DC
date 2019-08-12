@@ -1,0 +1,24 @@
+set terminal pdf enhanced fsize 14
+#set terminal postscript
+
+set output "plot-run-time-versus-k.pdf"
+#set size 0.5,0.5
+set pointsize 2.0
+set key top right
+set xlabel "Cutoff"
+set ylabel "Parallel Time"
+set xrange [0:160]
+#set yrange [0:6000]
+set ytics 1000
+
+mu = 1
+tau = 5
+gamma = 1
+phi = 2
+
+work = 4096
+depth = 12
+p=4
+f(x) = (1 + mu * (tau + gamma * phi) / x) * (work/p) + x * (mu+1) * depth
+#aplot (4096/4 + 2 * 4096/(4*x)) + x*12 lw 3 # title "(1+ 2/Kappa)(W/P) + (Kappa)(D), W = 4096, D = 12, P = 4" 
+plot f(x) lw 3 title "Parallel Time" # title "(1+ 2/Kappa)(W/P) + (Kappa)(D), W = 4096, D = 12, P = 4" 

@@ -1,0 +1,490 @@
+SPLASH 2011 - Author Response form for Technical Papers
+
+
+Title	Oracle Scheduling: Controlling Granularity in Implicitly Parallel Languages
+authors	Umut A. Acar, Max Planck Institute for Software Systems, umut@mpi-sws.org
+Arthur Charguéraud, Max Planck Institute for Software Systems, charguer@mpi-sws.org
+Mike Rainey, Max Planck Institute for Software Systems, mrainey@mpi-sws.org
+
+Available choices for the reviewers
+Choices for Classification
+I will champion this paper at the PC meeting (Advocate/Accept).
+I can accept this paper, but I will not champion it (accept, but could reject).
+This paper should be rejected, though I will not fight strongly against it (reject, but could accept).
+Serious problems. I will argue to reject this paper (Detractor).
+Choices for Expertise
+I am an expert in the subject area of this paper.
+I am knowledgeable in the subject areas of this paper, though not an expert.
+I am not an expert in the subject area of this paper. My evaluation is that of an informed outsider.
+Choices for Confidence
+I understand the details of the paper reasonably well.
+I have a good grasp of the paper's main ideas.
+I have some understanding of the paper.
+Choices for Relevance
+Significantly relevant.
+Relevant.
+Marginally relevant.
+Choices for Innovation
+Quirky, breaks the dominate paradigm, provocative, possibly the start of Something New.
+I'm sitting on the fence.
+Another brick in the wall: solid, thorough, worthy, useful.
+
+First
+reviewer's
+review	
+          >>> Classification <<<
+This paper should be rejected, though I will not fight strongly against it (reject, but could accept).
+
+          >>> Expertise <<<
+I am not an expert in the subject areas of this paper. My evaluation is that of an informed outsider.
+
+          >>> Confidence <<<
+I have some understanding of the paper.
+
+          >>> Relevance of the paper for this conference <<<
+Relevant.
+
+          >>> Innovation level <<<
+I'm sitting on the fence.
+
+          >>> Summary of the submission <<<
+
+The paper analyzes the cost of task creations in the execution of
+implicitly parallel programs, where programmers specify *possibly*
+parallel tasks and the language system decides they are really run in
+parallel, and uses such cost information for granurality control or to
+dynamically decide whether a certain task should be really considered
+parallelizable. The idea is implemented on top of a parallel
+implementation of ML. A benchmark results shows this system has
+better scalability than a system without granurality control.
+
+
+
+          >>> Evaluation <<<
+
+Points in favor:
+
++ A new cost model for parallel computation.
++ An implementation that demonstrates a potential of the approach.
+
+Points against:
+
+- It is not always realistic to expect programmers to provide
+ complexity information.
+
+- The paper could be better presented. In particular, it's not easy
+ to see a strong connection between the first (until Section 4) and
+ second halves.
+
+
+It is a convincing argument that the execution of implicitly parallel
+languages should take into account the cost of task creation and this
+work seems to be a good first step towards a more scalable
+implementation of implicitly parallel languages, which are a
+significant topic of research.
+
+My main reservation is about an assumption that a programmer has to
+give the complexity of each function that can run in parallel. I'm
+not sure if this is a realistic assumption, although, in the
+experiment conducted in the paper, the algorithms are well-known ones
+with well-studied complexity results.
+
+I have to confess that I wasn't able to understand much of the
+theoretical development partly because I'm not an expert in this area.
+However, I strongly feel the presentation could be better: as noted
+above, I don't see very clearly how the theory part and the
+implementation part are really related. The paper also contains a lot
+of typos.
+
+
+Minor comments and typos:
+
+p.1:
+
+- extent -> extend
+
+- a.k.a.'s (I think "a.k.a." stands for "also known as". So "'s"
+ doesn't make sense.)
+
+- provable reduces -> provably reduces ?
+
+- opportunities or parallelism -> ... of ...
+
+p.2:
+
+- A space should be put in "tasks(Section 4)".
+
+- parallel tasks Section 5 -> parallel tasks in Section 5.
+
+- show shows
+
+p.3:
+
+- asymtotic -> asymptotic
+
+- A space between "\tau" and "needs" is needed.
+
+p.4:
+
+- "For computations that ..., D can be ..." D should be \mathcal{D}?
+
+- Can you give a reference to "P|prec|Cmax"?
+
+- A period is needed after "... precedence constraints".
+
+p.6:
+
+- Figure 3: I think you should emphasize that w in the dynamic semantics
+judgment e \Downarrow^\alpha v, (w,d), (W, D) is not affected by \alpha.
+It would help understanding (the conditionals in) the last rule.
+
+p.7:
+
+- "a ideal oracle"
+
+p.12:
+
+- "require [a] user to"
+
+- "constants factors"
+
+- "Our compilation strategy introduce[s]"
+
+
+
+
+Second
+reviewer's
+review	
+          >>> Classification <<<
+I can accept this paper, but I will not champion it (accept, but could reject).
+
+          >>> Expertise <<<
+I am not an expert in the subject areas of this paper. My evaluation is that of an informed outsider.
+
+          >>> Confidence <<<
+I have some understanding of the paper.
+
+          >>> Relevance of the paper for this conference <<<
+Relevant.
+
+          >>> Innovation level <<<
+I'm sitting on the fence.
+
+          >>> Summary of the submission <<<
+
+The authors develop a theoretical model for potential parallel speedup which
+explicitly takes into account both task-creation time as well as time spent
+deciding whether parallel or sequential execution is desirable at any given
+potentially-parallel opportunity. If an oracle can be provided which makes
+accurate predictions of the time needed to perform a given task, then smarter
+parallel/sequential choices can be made. Even a not-especially-accurate oracle
+can be used profitably. The authors then suggest a somewhat-accurate oracle
+based on combining (1) manual complexity annotations on all functions with (2)
+online estimation of a single hidden constant factor for each such annotation.
+The system has been implemented in an implicitly-parallel dialect of Caml.
+Experiments show good speedups on a variety of small parallel benchmarks.
+
+
+
+
+          >>> Evaluation <<<
+
+The theoretical work is quite detailed; perhaps too detailed? I found it
+difficult to maintain my attention throughout the rather dense sections 2 and
+4. It seems the authors have truly done their homework, though, both on the
+theoretical side and in their real, working implementation. The result is a
+paper that is very long but also very thorough.
+
+A chief limitation is that "In this work, we only consider programs for which
+the execution time is (with high probability) proportional to the value
+obtained by evaluating the asymptotic complexity expression." How restrictive
+is that limitation in practice? Does that describe much of the code that people
+want to parallelize, or is that going to dramatically restrict the
+applicability of this work?
+
+Also, it is a bit misleading to state that these complexity expressions are
+needed only for functions. They are also needed for all components of parallel
+tuples, since the authors explicitly require that these be transformed into
+function applications if they were not already in that form. It is unclear just
+how much of an additional burden this will place on programmers.
+
+I know of one significant prior effort to compare empirical with theoretical
+complexity: "Measuring Empirical Computational Complexity" by Goldsmith, Aiken,
+and Wilkerson in FSE 2007. Goldsmith's Ph.D. dissertation also looks at this,
+presumably in greater depth. The authors are strongly encouraged to look
+closely at this work and consider how its findings apply here. See
+<http://sfg.users.sonic.net/> for links.
+
+The Constant-Estimator Data Structure (CED) seems to assume that each
+complexity function has only a single relevant hidden constant factor. The
+entire approach seems to assume that each function's performance is determined
+by the value of a single integer. Are these realistic assumptions for real
+parallel code? Consider a function that works with two lists of different
+lengths. Certainly a two-argument function could be curried into two
+single-argument functions. But then how would one describe the complexity
+expression for the inner function? Would it be possible to have that inner
+complexity expression refer to the sizes of *both* lists or only the size of
+the second list?
+
+The paper contains numerous errors in English usage, too many to list here. The
+authors are strongly encouraged to seek the help of a friendly native speaker
+to proofread their writing before publication.
+
+
+
+
+Third
+reviewer's
+review	
+          >>> Classification <<<
+I can accept this paper, but I will not champion it (accept, but could reject).
+
+          >>> Expertise <<<
+I am knowledgeable in the subject areas of this paper, though not an expert.
+
+          >>> Confidence <<<
+I have a good grasp of the paper's main ideas.
+
+          >>> Relevance of the paper for this conference <<<
+Significantly relevant.
+
+          >>> Innovation level <<<
+I'm sitting on the fence.
+
+          >>> Summary of the submission <<<
+
+This paper explores the granularity problem in parallel programming, making two
+contributions. First it generalizes Brent's theorem to account for the overhead
+of taks creation. Brent's theorem states that the time to run a parallel
+program is O(raw work / P + raw depth), where raw work is the amount of
+sequential work to perform, raw depth is the length of the longest sequential
+path through the program, and P is the number of processors. The bulk of the
+paper consists of proving the generalization of the theorem. The second
+contribution is to propose oracle scheduling, in which estimates of the sizes
+of parallel tasks (provided by an oracle) are used to decide whether to spawn a
+new parallel task or to run the task sequentially. Oracle scheduling is
+implemented in OCaml, compiling to Parallel ML, and demonstrates good
+scalability with low overhead.
+
+
+
+          >>> Evaluation <<<
+
+This is a very nice theoretical result. The work is well-presented and
+convincing (if dense).
+
+Performance results are good. However, the superlinear speedup for Intel needs
+a better explanation than "cache effects". I've come to read "cache effects" as
+"I don't know what's going on". For instance, it might be hyperthreading. It
+might be that the experiments were run with all 32 cores, not with 16 as was
+intended.
+
+The description of the compilation is less convincing than the theoretical
+results earlier. It is stated that parallel tuples are restricted to the form
+(| f_1 v_1, f_2 v_2 |) and that this does not limit expressiveness. This is
+true as far as the expressiveness of the programming language itself, but not
+expressiveness of the cost estimation functions. It seems the cost estimation
+works only if the inputs to the functions are known at compile time. This
+doesn't seem to be a realistic assumption. Moreover, MeasuredRun in Fig 5
+depends on the inputs being known. If the inputs are known statically, why run
+the function at all at run time? Just compute the result at compile time and be
+done with it.
+
+Comments:
+
+I think much of the proof could be moved to an appendix.
+
+p. 7: "W and D" should be consistently in \mathcal.
+
+Fig 4: [[ (v_1, v_2) ]] is redundant.
+
+There is some discussion of the difficulty of maintaining averages because of
+synchronization issues. But, if the averages are only used for cost estimation,
+could data races be allowed (resulting in sometimes incorrect estimates) on the
+assumption that the reduced overhead would override the advantage of having a
+more accurate estimate. Perhaps this is worth investigating.
+
+"OCAML" -> "OCaml"
+
+There are numerous grammatical errors and spelling throughout the paper, too
+many to enumerate. The paper needs a good proof read. Here's a few of them:
+
+Abstract: "extent" -> "extend", "a.k.a's" -> "a.k.a.", "provable" ->
+"provably"
+
+Intro: "such data races" -> "such as data races", "approach be realized", "show
+shows", "increase the called unless"
+
+Intro: last sentence on page 1.
+
+
+
+Fourth
+reviewer's
+review	
+          >>> Classification <<<
+I will champion this paper at the PC meeting (Advocate/Accept).
+
+          >>> Expertise <<<
+I am an expert in the subject areas of this paper.
+
+          >>> Confidence <<<
+I understand the details of the paper reasonably well.
+
+          >>> Relevance of the paper for this conference <<<
+Significantly relevant.
+
+          >>> Innovation level <<<
+Quirky, breaks the dominate paradigm, provocative, possibly the start of Something New.
+
+          >>> Evaluation <<<
+
+The extension of Brent's theorem is valuable,
+the semantics and the proofs seem to be sound,
+and moreover it has been implemented and benchmarked.
+What's not to like?
+
+I studied the proofs of the theorems and believe them to be correct.
+
+Some remarks on presentation:
+
+Abstract: "extent" => "extend", and "provable reduces" => "provably reduces"
+
+page 2: "show shows" => "shows"
+
+page 2, last full paragraph: it is not clear at this point
+whether you intend the two mentions of \kappa to refer to
+the same constant or two distinct constants. Make this more clear.
+
+page 3, last (partial) paragraph: need space between \tau and "needs";
+also, the reader's intuition is that a better cost model for task creation
+would be to assign a node with out-degree n an additional cost of (n-1)\tau
+rather than smply \tau (and indeed this is the net effect of your later
+restriction to tuples of length 2). So it is confusing to assert here that
+it makes sense to assgn a constant cost to the creation of an arbitrary
+number of tasks.
+
+page 4, proof of theorem 2.2, lines 5 and 6: "A greedy scheduler ..."
+Unlike the previous similar assertion in the proof of Theorem 2.1,
+this one is not so obvious, so please explain it.
+
+page 4: "there is still exactly d levels" => "there are still exactly d
+levels"
+
+page 4: "We remedy to" => "We remedy"
+
+page 4: in the statement of Theorem 2.3, "W" and "D" should be in the script
+font.
+
+page 4: should "directly on indirectly on" be "directly or indirectly on"?
+And in the last line of that same paragraph, "D" should be in the script font.
+
+page 4: I think the formula
+
+ T_{full} = \sum_{k=1}^{K-1} (u_{k+1}-v_k)
+
+should be
+
+ T_{full} = u_1 + \sum_{k=1}^{K-1} (u_{k+1}-v_k)
+
+Also, it is better to write T_{\hbox{\it full}} or perhaps T_{\mathit{full}}
+in order to get proper spacing of the letters in the word.
+
+page 4: "it therefore remains to show" => "it therefore suffices to show"
+
+page 4: "there must exists" => "there must exist"
+
+page 5: "aomunt" => amount", "are adjacents to each others" => "are adjacent to
+each other",
+"date" => "time", "earlier than $u_k$" => "no later than $u_k$"
+
+page 5, at end of proof of theorem 2.3: this proof, unlike that of theorem
+2.2,
+does not seem to rely on the assumption that the cost of a node is either 1
+or 1+\tau. If this is so, please point that out---it is important. This seems
+to be a very general result.
+
+page 6, Figure 3: I checked over this semantics pretty thoroughly.
+It seems to be okay EXCEPT that the occurrence of "v_1/x" in (case-left)
+should be "v_1/x_1", and the occurrence of "v_2/x" in (case-right) should
+be "v_2/x_2".
+
+page 7: "In addition to evaluating expression" => "In addition to evaluating
+expressions"
+Three lines later, "W" and "D" should be in script font.
+
+page 7: "the evaluation of parallel tuples induce" =>
+"the evaluation of parallel tuples induces"
+
+page 7: "each of the two both" => "each of the two"
+
+page 7: "For the time being the assumpton of a ideal" =>
+"For the time being, assume an ideal"
+
+page 7, first bullet, last two lines: "which tends to $1+{\tau \over 2}$
+as $n$ grows" This is true, but that fact is not relevant to the proof.
+What is relevant is that $1+{n \tau \over 2n+1} \leq 1+{\tau \over 2}$,
+so please state that fact instead. Please make similar corrections
+in the third, fourth, and fifth bulleted paragraphs.
+
+page 7: "is the raw depth" => "in the raw depth"
+
+page 8: "not a limitation, however" => "not a limitation; however,"
+
+page 8: "perfectly-accurate" => "perfectly accurate"
+
+page 8: I don't quite understand the prase "where $\kappa$ to be large
+in front of $\tau$ and $\phi$"
+
+page 8: "the two branches of this tuple is predicted" =>
+"the two branches of this tuple are predicted"
+
+page 8: don't use "* 2" to indicate multiplication by 2 in a math formula!
+
+page 9: "when $n$ gets larged" => "when $n$ gets large",
+"too small tasks" => "tasks that are too small",
+"Divide-and-conquer algorithm typically satisfy" =>
+"Divide-and-conquer algorithms typically satisfy",
+"one of the branch" => "one of the branches",
+"those two value is equal" => "those two values",
+"not being sequentialize" => not being sequentialized"
+
+page 10: "two mathematical inequality" => "two mathematical inequalities",
+"which as the original theorem" => "which, like the original theorem,"
+
+page 11: "is "large", however to compute" => "is "large"; however, to compute"
+
+page 11: "we quantify" => "we must quantify"
+
+page 12: "to that the expressions" => "so that the expressions"
+
+pagr 14: "pay attention to the fact that" => "pay attention to making sure
+that"
+
+page 15: "may spawns" => "may spawn"
+
+
+
+
+
+
+
+Fifth
+reviewer's
+review	
+The review is not available yet.
+
+Response
+(Optional)	
+There is no word limit on the author response, but bear in mind that it is the responsibility of the author to keep the reviewers motivated to read the response. Authors are encouraged to keep the response as brief as possible and tightly focused on questions or issues raised in the reviews. Reviewers are under no obligation to read all or even a substantial portion of a response if they do not find the response relevant or directly to the point. There is no obligation to file an author response.
+
+
+	
+ 
+Responses consisting of more than 500 words will not be stored!
+
+In case of problems, please contact Richard van de Stadt.
+
+CyberChairPROv7	 Copyright © by Richard van de Stadt  (Borbala Online Conference Services)
+Linux system administration: Ken Bauer (Tec de Monterrey, Campus Guadalaraja, Mexico)
