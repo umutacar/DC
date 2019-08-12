@@ -17,10 +17,10 @@ DEPEND = \
   top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native cc.native
+default: dc.native cc.native texml.native
 
 all: dc.native md2md.native \
-  tex2tex.native texel.native texmlt.native texml.native
+  tex2tex.native texel.native texml.native
 
 clean:
 	$(OCB) -clean
@@ -72,18 +72,6 @@ texml.profile: $(DEPEND) tex/texml.ml
 
 texml.debug: $(DEPEND) tex/texml.ml
 	$(OCB) -tag debug texml.byte
-
-
-# texmlt
-texmlt.native: $(DEPEND) tex/texmlt.ml
-	$(OCB) texmlt.native
-
-texmlt.profile: $(DEPEND) tex/texmlt.ml
-	$(OCB) -tag profile texmlt.native
-
-texmlt.debug: $(DEPEND) tex/texmlt.ml
-	$(OCB) -tag debug texmlt.byte
-
 
 
 # traverse

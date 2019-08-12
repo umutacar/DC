@@ -3,6 +3,7 @@ open Lexing
 
 module Ast = Ast
 module Lexer = Tex_lexer
+module Comment_lexer = Tex_comment_lexer
 module Parser = Tex_parser
 
 let file_extension_xml = ".xml"
@@ -44,6 +45,8 @@ let tex2ast infile =
 	let ast = 
    	try 
       let lexbuf = Lexing.from_channel ic in
+			let contents = Comment_lexer.lexer lexbuf in
+      let lexbuf = Lexing.from_string contents in
 	    let ast = Parser.top Lexer.lexer lexbuf in
 			match ast with 
 			| None -> (printf "Parse Error."; exit 1)
