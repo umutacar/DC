@@ -723,7 +723,8 @@ and take_arg_array =
   | p_quad_backslash as x (* This is quad backslash \\\\, espaced *)
     {
       let (rest, width, widths, c_c) = take_arg_array lexbuf in
-      ("\n" ^ rest, 0, width::widths, c_c)
+      (* Rewrite as newline for the array environment being created *)
+      ("\\\\" ^ rest, 0, width::widths, c_c)
     }
 
   | p_double_backslash as x  (* This is double backslash \\, espaced *)
