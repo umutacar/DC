@@ -150,7 +150,7 @@ and skip_inline =
 
   | _ as x
     { let rest = skip_arg x lexbuf in
-      rest
+      x ^ rest
     } 
 
 and skip_arg delimiter_close = 
