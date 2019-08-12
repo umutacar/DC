@@ -231,14 +231,14 @@ let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly)
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
-let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
-let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
+let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws (p_env_comment as kind) p_ws p_c_curly
+let p_end_env_comment = p_com_end p_ws p_o_curly p_ws (p_env_comment) p_ws p_c_curly
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 
-let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim | p_begin_env_comment
 
 (* end: environments *)
 
@@ -325,10 +325,16 @@ parse
 | (p_begin_env_skip as x)
     {
      let _ = d_printf "!lexer matched begin skip env kind = %s." kind in 
+     let keep_kind = kind in
      let (rest, h_e) = skip_env kind lexbuf in
-   	 let all = x ^ rest ^ h_e in
-     let _ = d_printf "!lexer matched skip env: %s.\n" all in  
-     CHUNK(all, None)
+		 if keep_kind = "comment" then
+   		 let all = x ^ rest ^ h_e in
+			 let _ = d_printf "!lexer matched comment env, dropping: %s.\n" all in  
+			 initial is_empty lexbuf
+		 else
+   		 let all = x ^ rest ^ h_e in
+			 let _ = d_printf "!lexer matched skip env: %s.\n" all in  
+			 CHUNK(all, None)
 }
 
 | (p_begin_env as x)
