@@ -1,0 +1,479 @@
+
+\section{Empirical Evaluation}
+\label{sec:exp}
+\label{sec:empirical-evaluation}
+
+In this section, we evaluate the effectiveness of our implementation
+through several experiments. We consider results from a range of
+benchmarks run on two machines with different architectures. The
+results show that, in each case, our oracle implementation improves on
+the plain work-stealing implementation. Furthermore, the results show
+that the oracle implementation scales well with up to sixteen processors.
+
+%-------------------------------------------------------------------
+\paragraph{Machines.}
+
+Our AMD machine has four quad-core AMD Opteron 8380 processors running
+at 2.5GHz.  Each core has 64Kb each of L1 instruction and data cache,
+and a 512Kb L2 cache. Each processor has a 6Mb L3 cache that is shared
+with the four cores of the processor.  The system has 32Gb of RAM and
+runs Debian Linux (kernel version 2.6.31.6-amd64).
+
+Our Intel machine has four eight-core Intel Xeon X7550 processors
+running at 2.0GHz. Each core has 32Kb each of L1 instruction and
+data cache and 256 Kb of L2 cache. Each processor has an 18Mb L3 cache
+that is shared by all eight cores. The system has 1Tb of RAM and runs
+Debian Linux (kernel version 2.6.32.22.1.amd64-smp).
+For uniformity, we consider results from just sixteen out of the
+thirty-two cores of the Intel machine. 
+
+\uremark{Rose's comments fixes up to here.}
+
+%-------------------------------------------------------------------
+\paragraph{Measuring scheduling costs.}
+
+We report estimates of the task-creation overheads for each of our test
+machines. To estimate, we use a synthetic benchmark expression $e$
+whose evaluation sums integers between zero and 30 million using a
+parallel divide-and-conquer computation. We chose this particular
+expression because most of its evaluation time is spent evaluating
+parallel pairs. 
+
+First, we measure $w_s$: the time required for executing a
+sequentialized version of the program (a copy of the program where
+parallel tuples are systematically replaced with sequential tuples).
+This measure serves as the baseline.  Second, we measure $w_w$: the
+time required for executing the program using work stealing, on a
+single processor.  This measure is used to evaluated $\csp$.  Third,
+we measure $w_o$: the time required for executing a version of the
+program with parallel tuples replaced with ordinary tuples but where
+we still call the oracle. %to predict the time and measure the time.
+This measure is used to evaluate $\corc$.
+
+We then define the work-stealing overhead $c_w = \frac{w_w}{w_s}$.
+We estimate the cost $\csp$ of creating a parallel task in work stealing
+by computing $\frac{w_w - w_s}{n}$, where
+$n$ is the number of parallel pairs evaluated in the program.
+%We obtained the value for $n$ by analysing the program.
+We also estimate the cost $\phi$ of invoking the oracle  by computing $\frac{w_o - w_s}{m}$,
+where $m$ is the number of times the oracle is invoked.
+%We used a runtime counter in the oracle to measure $m$.
+Our measures are as follows.
+%
+\begin{center}
+\begin{tabular}{l | c c c c}
+Machine & $c_w$  &  $\csp$ ($\mu$s) & $\phi$ ($\mu$s) \\
+\hline
+AMD   & 4.86   & 0.09  & 0.18 \\
+Intel & 3.90  &  0.18  & 0.94 \\
+\end{tabular}
+\end{center}
+
+\begin{comment}
+\begin{center}
+\begin{tabular}{l | c c c c}
+Machine & $c_w$  & $c_o$ &  $\csp$ ($\mu$s) & $\phi$ ($\mu$s) \\
+\hline
+AMD   & 4.86  & 8.25 & 0.09  & 0.18 \\
+Intel & 3.90 & 7.27 &  0.18  & 0.94 \\
+\end{tabular}
+\end{center}
+\end{comment}
+
+   \begin{comment}
+   \begin{center}
+   \begin{tabular}{l | c c }
+   Machine & $c_w$ & $\csp$ ($\mu$s) \\
+   \hline
+   AMD   & 4.86 & 0.09 \\
+   Intel & 3.90 & 0.18 \\
+   \end{tabular}
+   \end{center}
+   \end{comment}
+The first column indicates that work stealing alone can induce
+a slowdown by a factor of 4 or 5, for programs that create a
+huge number of parallel tuples. 
+Column two indicates that the cost of creating parallel task $\csp$ 
+is significant, taking roughly between 200 and 350 processor cycles. 
+The last column suggests that the oracle cost $\corc$
+is of the same order of magnitude ($\corc$ is 2 to 5 times larger than $\csp$).
+%It also suggests that slowdown due to scheduling cost can more than 
+%double if we execute an oracle but do not exploit its results appropriately.
+
+To determine a value for $\coff$, we use the formula
+$\frac{\cerr(\csp+\creg\corc)}{r}$ from \sref{sec:estimate}.  Recall
+that $r$ is the targette overhead for scheduling costs.  We aim for $r =
+10\%$.  Our oracle appears to be always accurate within a factor 2, so
+we set $\cerr = 2$.  Our benchmark programs are fairly regular, so we
+take $\creg = 3$.  We then use the values for $\csp$ and $\corc$
+specific to the machine and evaluate the formula
+$\frac{\cerr(\csp+\creg\corc)}{r}$.  We obtain $13\mu s$ for the AMD
+machine and $60\mu s$ for the Intel machine.  However, we were not able to
+use a cutoff as small as $13\mu s$ because the time function that we
+are using is only accurate up to $1\mu s$.  For this reason, we
+doubled the value to $26\mu s$.  (One possibility to achieve greater
+accuracy would be to use architecture-specific registers that are able
+to report on the number of processor cycles involved in the execution
+of a task.)
+
+In our experiments, we used $\coff = 26\mu s$ on the AMD machine and $\coff = 61\mu s$ on the Intel machine.
+
+% insert \kappa here
+
+\begin{figure*}
+\begin{center}
+  \begin{tabular}{p{3.25in}@{\hfil}p{3.25in}}
+    \begin{center}
+      AMD
+      \medfig{pictures/work-stealing-vs-oracle--for--machine=hexi--proc=16.pdf}
+    \end{center}%
+    &
+    \begin{center}
+      Intel
+      \medfig{pictures/work-stealing-vs-oracle--for--machine=srv-53-07--proc=16.pdf}
+    \end{center}%
+  \end{tabular}
+\end{center}
+\vspace*{-6mm}
+\caption{Comparison of the speedup on sixteen processors. Higher bars
+  are better.}
+\label{fig:comparison-oracle-work-stealing}
+\end{figure*}
+
+\begin{figure*}
+\begin{center}
+  \begin{tabular}{p{3.25in}@{\hfil}p{3.25in}}
+    \begin{center}
+      AMD
+      \medfig{pictures/sequential-vs-oracle-vs-work-stealing--for--machine=hexi--proc=1.pdf}
+    \end{center}%
+    &
+    \begin{center}
+      Intel
+      \medfig{pictures/sequential-vs-oracle-vs-work-stealing--for--machine=srv-53-07--proc=1.pdf}
+    \end{center}%
+  \end{tabular}
+\end{center}
+\vspace*{-6mm}
+\caption{Comparison of execution times (normalized) on a single
+  processor. Lower bars are better.}
+\label{fig:comparison-sequential-oracle-work-stealing}
+\end{figure*}
+
+
+%-------------------------------------------------------------------
+\paragraph{Benchmarks.}
+
+We used five benchmarks in our empirical evaluation. Each benchmark
+program was originally written by other researchers and ported to our
+dialect of Caml. 
+
+The Quicksort benchmark sorts a sequence of 2 million integers. Our
+program is adapted from a functional, tree-based
+algorithm~\cite{BlellochGr95}. The algorithm runs with $O(n
+\log n)$ raw work and $O(\log^2 n)$ raw depth, where $n$ is the length
+of the sequence. Sequences of integers are represented as binary trees
+in which sequence elements are stored at leaf nodes and each internal
+node caches the number of leaves contained in its subtree.
+
+The Quickhull benchmark calculates the convex hull of a sequence of
+3 million points contained in 2-d space. The algorithm runs with $O(n
+\log n)$ raw work and $O(\log^2 n)$ raw depth, where $n$ is the length
+of the sequence. The representation of points is similar to that of
+Quicksort, except that leaves store 2-d points instead of integers.
+
+The Barnes-Hut benchmark is an $n$-body simulation that calculates the
+gravitational forces between $n$ particles as they move through 2-d
+space~\cite{barnes-hut}. The Barnes-Hut computation consists of two
+phases. In the first, the simulation volume is divided into square
+cells via a quadtree, so that only particles from nearby cells need to
+be handled individually and particles from distant cells can be
+grouped together and treated as large particles. The second phase
+calculates gravitational forces using the quadtree to accelerate the
+computation. The algorithm runs with $O(n \log n)$ raw work and
+$O(\log n)$ raw depth. Our benchmark runs 10 iterations over 100,000
+particles generated from a random Plummer
+distribution~\cite{plummer-distribution}. The program is adapted from
+a Data-Parallel Haskell
+program~\cite{PeytonJonesHarnessingMulticores}. The representation we
+use for sequences of particles is similar to that of Quicksort.
+
+The SMVM benchmark multiplies an $m \times n$ matrix with an $n \times
+1$ dense vector. Our sparse matrix is stored in the compressed
+sparse-row format. The program contains parallelism both between dot
+products and within individual dot products. We use a sparse matrix
+of dimension $m =$ 500,000 and $n =$ 448,000, containing 50,400,000
+nonzero values.
+
+The DMM benchmark multiplies two dense, square $n \times n$ matrices
+using the recursive divide-and-conquer algorithm of Frens and
+Wise~\cite{FrensWiseAutoblockingDMM}. We have recursion go down to
+scalar elements. The algorithm runs with $O(n^3)$ raw work and $O(\log
+n)$ raw depth. We selected $n=$ 512.
+
+%-------------------------------------------------------------------
+\paragraph{Implementing complexity functions.}
+
+Our aim is to make complexity functions fast, ideally constant time,
+so that we can keep oracle costs low. But observe that, in order to
+complete in constant time, the complexity function needs access to the
+input size in constant time. For four of our benchmark programs, no
+modifications to the algorithm is necessary, because the relevant data
+structures are already decorated with sufficient size information.
+The only one for which we make special provisions is SMVM. The issue
+concerns a subproblem of SMVM called segmented
+sums~\cite{cray-mvmult}. In segmented sums, our input is an array of
+arrays of scalars, \textit{e.g.},
+\begin{displaymath}
+[[8, 3, 9], [2], [3, 1] [5]]
+\end{displaymath}
+whose underlying representation is in segmented format. The segmented
+format consists of a pair of arrays, where the first array contains
+all the elements of the subarrays and second contains the lengths of
+the subarrays.
+\begin{displaymath}
+([8, 3, 9, 2, 3, 1, 5], [3, 1, 2, 1])
+\end{displaymath}
+The second array is called the segment descriptor. The objective is to
+compute the sum of each subarray,
+\begin{displaymath}
+[20, 2, 4, 5],
+\end{displaymath}
+There are two sources of parallelism in segmented sums: (1) within
+the summation of each subarray and (2) between different subarray
+sums. We use divide-and-conquer algorithms to solve each case. In the
+first case, our algorithm is just an array summation, and
+thus the complexity function is straightforward to
+compute in constant time from the segment descriptor. The second
+case is where we make the special provisions. For this case, we use a
+parallel array-map algorithm to compute all the subarray sums in
+parallel. The issue is that the complexity of performing a group of subarray
+sums is proportional to the sum of the sizes of those subarrays. So,
+to obtain this size information in constant time, we modify our
+segmented-array representation slightly so that we store a cached tree
+of subarray sizes rather than just a flat array of subarray sizes.
+\begin{center}
+$([8, 3, 9, 2, 3, 1, 4, 5],$ \Tree [.7 [ 3 1 ].4 [2 1 ].3 ] $)$
+\end{center}
+To summarize, in order to write a constant-time complexity function,
+we changed the existing SMVM program to use a tree data structure,
+where originally there was an array data structure. Building the tree
+can be done in parallel, and the cost of building can be amortized
+away by reusing the sparse matrix multiple times, as is typically done
+in iterative solvers.
+
+
+\begin{figure}
+\vspace*{-0.5in}
+\centering
+%      \smallfig{pictures/speedup--vs--processors--for--barnes-hut--size=100000--param=0--optim=0--machine=hexi.pdf}
+
+      \smallfig{pictures/speedup--vs--processors--for--barnes-hut--size=100000--param=0--optim=0--machine=srv-53-07.pdf}
+
+%      \smallfig{pictures/speedup--vs--processors--for--quicksort--size=2000000--param=0--optim=0--machine=hexi.pdf}
+
+      \smallfig{pictures/speedup--vs--processors--for--quicksort--size=2000000--param=0--optim=0--machine=srv-53-07.pdf}
+
+%      \smallfig{pictures/speedup--vs--processors--for--quickhull--size=2000000--param=0--optim=0--machine=hexi.pdf}
+
+      \smallfig{pictures/speedup--vs--processors--for--quickhull--size=3000000--param=0--optim=0--machine=srv-53-07.pdf}
+
+%      \smallfig{pictures/speedup--vs--processors--for--dmm--size=9--param=0--optim=0--machine=hexi.pdf}
+
+      \smallfig{pictures/speedup--vs--processors--for--dmm--size=9--param=0--optim=0--machine=srv-53-07.pdf}
+
+%      \smallfig{pictures/speedup--vs--processors--for--smvm--size=50000000--param=0--optim=0--machine=hexi.pdf}
+
+      \smallfig{pictures/speedup--vs--processors--for--smvm--size=50000000--param=0--optim=0--machine=srv-53-07.pdf}
+
+\caption{Comparison between work stealing and oracle.}
+\label{fig:comparison-ws-oracle}
+\end{figure}%
+
+
+%% \begin{figure*}
+%% \begin{center}
+%% \bigfig{pictures/tree-inaccurate-costs.pdf}
+%% \bigfig{pictures/dmm-inaccurate-costs.pdf}
+%% \end{center}
+%% \caption{The effects of having inaccurate cost functions}
+%% \label{fig:inaccurate-costs}
+%% \end{figure*}
+
+%-------------------------------------------------------------------
+\paragraph{Performance.}
+
+For every benchmark, we measure several values.
+$T_\sseq$ denotes
+the time to execute the sequential version of the program.
+We obtain the sequential version of the program by replacing each 
+parallel tuple with an ordinary tuple and erasing complexity functions,
+so that the sequential version includes none of the task-creation overheads.
+$T_\spar^P$ denotes the execution time with work stealing on $P$ processors.
+$T_\sorc^P$ denotes the execution time of our 
+oracle-based work stealing on $P$ processors.
+
+The most important results of our experiments come from comparing
+plain work stealing and our oracle-based work stealing side by
+side. Figure \ref{fig:comparison-oracle-work-stealing} shows the
+speedup on sixteen processors for each of our benchmarks,
+that is, the values $T_\spar^{16}/T_\sseq$ and $T_\sorc^{16}/T_\sseq$.
+The speedups show that, on sixteen cores, our oracle implementation is
+always between 4\% and 76\% faster than work stealing. 
+
+The fact that some benchmarks benefit more from our oracle implementation 
+than others is explained by Figure
+\ref{fig:comparison-sequential-oracle-work-stealing}. This plot shows
+execution time for one processor, normalized with respect to the  
+sequential execution times. In other words, the values plotted
+are 1, $T_\sorc^{1}/T_\sseq$ and $T_\spar^{1}/T_\sseq$.
+The values $T_\sorc^{1}/T_\sseq$ range from 1.03 to 1.13 (with an average
+of $1.07$), indicating that the task-creation overheads in the oracle 
+implementation do not exceed 13\% of the raw work in any benchmark.
+The cases where we observe large improvements in speedup are the same
+cases where there is a large difference bewteen sequential execution
+time and plain work-stealing execution time. When the difference is
+large, there is much room for our implementation to improve on work
+stealing, whereas when the difference is small
+we can only improve the execution time by a limited factor.
+%-> arthur: I don't see the point of this sentence; it's just weakening our results it seems
+%The plots show that, where there is much room for
+%improvement, our oracle implementation does well, and where there is
+%little room, our oracle implementation never does worse.
+
+Figure \ref{fig:comparison-ws-oracle} shows speedup curves for each of
+our experiments, that is, values of $T_\spar^{P}/T_\sseq$ and 
+$T_\sorc^{P}/T_\sseq$ against the number of processors~$P$ on our
+Intel machine; the measurements on the AMD machine show similar trends
+but quantitatively better results for the oracle versions.   
+
+%Observe that on the Intel machine there is super-linear scaling, 
+%but not on the AMD machine. We attribute this behavior to cache effects.
+% ARTHUR: I do not understand what this means:
+%We attribute this behavior to
+%opportunities for prefetching missed by the sequential program.
+The curves show that our oracle implementation generally scales
+well up to sixteen processors.
+
+There is one exception, which is the quickhull benchmark on the AMD
+machine. For this benchmark, the curve tails off after reaching twelve
+processors. We need to conduct further experiments to understand the
+cause, which is probably due to a lack of parallelism in the program.
+Notice, however, that our scheduler does not fall below work stealing.
+
+%Notice, however, that the curve of plain work stealing
+%does not tail off, but approaches the oracle implementation curve from
+%below. The work-stealing scheduler is able to utilize the extra
+%parallelism to mask scheduling costs. This behavior shows that in this
+%case where parallelism is limited, our scheduler does not fall below
+%work stealing.
+
+
+
+
+
+%% \begin{figure*}
+%% \vspace*{-0.5in}
+%% \begin{center}
+%%   \begin{tabular}{p{3.25in}@{\hfil}p{3.25in}}
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--barnes-hut--size=100000--param=0--optim=0--machine=hexi.pdf}
+%%     \end{center}%
+%%     &
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--barnes-hut--size=100000--param=0--optim=0--machine=srv-53-07.pdf}
+%%     \end{center}%
+%%     \\[-3em]
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--quicksort--size=2000000--param=0--optim=0--machine=hexi.pdf}
+%%     \end{center}%
+%%     &
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--quicksort--size=2000000--param=0--optim=0--machine=srv-53-07.pdf}
+%%     \end{center}%
+%%     \\[-3em]
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--quickhull--size=2000000--param=0--optim=0--machine=hexi.pdf}
+%%     \end{center}%
+%%     &
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--quickhull--size=3000000--param=0--optim=0--machine=srv-53-07.pdf}
+%%     \end{center}%
+%%     \\[-3em]
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--dmm--size=9--param=0--optim=0--machine=hexi.pdf}
+%%     \end{center}%
+%%     &
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--dmm--size=9--param=0--optim=0--machine=srv-53-07.pdf}
+%%     \end{center}%
+%%     \\[-3em]
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--smvm--size=50000000--param=0--optim=0--machine=hexi.pdf}
+%%     \end{center}%
+%%     &
+%%     \begin{center}
+%%       \smallfig{pictures/speedup--vs--processors--for--smvm--size=50000000--param=0--optim=0--machine=srv-53-07.pdf}
+%%     \end{center}%
+%%   \end{tabular}%
+%% \end{center}%
+%% \caption{Comparison between work stealing and oracle.}
+%% \label{fig:comparison-ws-oracle}
+%% \end{figure*}%
+
+\begin{comment}
+
+\begin{figure*}
+\begin{center}
+%\smallfig{pictures/speedup--vs--proc--for--param=0--optim=0--machine=hexi.pdf}
+\smallfig{pictures/speedup--vs--proc--for--param=0--optim=0--machine=srv-53-07.pdf}
+\end{center}
+\caption{Speedup curves}
+\label{fig:speedups-all}
+\end{figure*}
+
+~\\
+%
+Some graphs:
+\begin{ul}
+\item completion time against cut-off value
+\item completion time against nb processors, comparing with other approaches
+\item completion time against input size, comparing with sequential and sequential/P
+\end{ul}
+
+\paragraph{Selection of the cut-off constant.}
+\label{sec:}
+
+To ensure scheduling costs smaller than 5\%, we chose $\Ga$ to be 20.
+In this case, we achieve 90\% of the theoretical linear speedup,
+as soon as the parallel slackness $\frac{W}{PD}$ exceeds 20 times the constant $k$.
+For example, if we have an algorithm with $n$ work and $\log n$ depth,
+running on a 32-core machines where task creation costs 100 basic operations,
+then we obtain the 90\% of the best possible speedup when $n$ becomes greater than 1 million. 
+
+\begin{ul}
+
+\item Running a task sequentially is more efficient with respect to cache performance
+and garbage-collection performance. Moreover, it saves the need to compute cost functions.
+\end{ul}
+
+\end{comment}
+
+\begin{comment}
+\item Algorithms with nested parallelism usually feature a very large amount of parallelism,
+so even if we reduce the amount of parallelism it is likely that there remains enough 
+parallelism to keep all the processors busy at all time.
+
+In practice, the forking time $\Gt$ is roughly equivalent to the time of
+computing $500$ basic operations, and we select a value of $\Ga$
+equal to $20$. This leads to a cut-off at $10,000$ basic operations.
+
+[Speculative idea: we could dynamically lower the value of $\Ga$ when we 
+see that many processors are idle. To be tried out.]
+\item Creating a parallel task always induce an immediate cost, whereas
+reducing the number of opportunities for parallelism in a computation is only a potential cost.
+This potential cost only becomes real when
+(1) there is at least one idle processor at the time of running the current computation, and 
+(2) the current computation belongs to a critical path for total completion time.
+\end{comment}
+

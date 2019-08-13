@@ -1,0 +1,74 @@
+
+%\section{Conclusion}
+
+%% \section{Future work}
+%% \label{sec:conclusion}
+
+%% In this work, we have implemented oracle scheduling on top of a
+%% work-stealing scheduler.  It would be interesting to also investigate
+%% the use of other schedulers, \textit{e.g.}, schedulers based on a
+%% shared queue, and scheduler that improve data
+%% locality~\cite{AcarBlBl02}.  We could also try to apply this technique
+%% to a distributed setting, where spawning parallel tasks not only
+%% requires the migration of code but also that of data, which can be
+%% very costly.
+
+%% %\uremark{The depth discussion comes out of the blue. Explain a bit
+%% %  more perhaps.}
+
+%% In our implementation, we have fixed $\coff$
+%% to be a constant value, but we could try to dynamically
+%% adjust it. However, there is a major difficulty: obtaining
+%% accurate estimates for the raw depth is much harder than for
+%% the raw work. Indeed, for raw work it suffices to measure the
+%% time taken by a sequential execution of a task. There is no
+%% such easy way to measure the raw depth of a program.
+
+%% %\uremark{Transition.}
+%% To realize the oracle, we have assumed that the programmer
+%% would provide complexity functions explicitly.
+%% This seems to be a reasonable assumption in general.
+%% However, for particular application domains it is possible to
+%% use static analysis techniques to infer those complexity
+%% bounds. We could also use dynamic analysis, in particular
+%% machine learning techniques, for automatically guessing the 
+%% shape of the complexity function.
+
+%% We have also assumed that the complexity functions could be
+%% implemented in constant time. In the context functional data
+%% structures, this often requires storing size information in data
+%% structures. Fortunately, this can be achieved at a small cost with
+%% compiler support, as done for example in other
+%% work~\cite{Hermenegildo-garcia-95}.  
+
+
+%************************
+\begin{comment}
+We have presented a general solution to a fundamental problem
+arising in parallel computations, namely the granularity problem.
+The key contribution of this paper is the observation that 
+complexity cost functions provided by the programmer are sufficient
+for making good run-time decision about whether to exploit or ignore
+the parallelism available in a program.
+We have argued for the interest of our approach both
+through the presentation of theorems establishing bounds
+on the costs of scheduling and through experiments reporting
+significant speedups compared with other scheduling techniques.
+\end{comment}
+
+\section{Conclusion}
+
+In this paper, we propose a solution to the granularity-control
+problem.  We prove that an oracle that can approximate the sizes of
+parallel tasks in constant time within a constant factor of accuracy
+can be used to reduce the task creation overheads to any desired
+constant fraction for a reasonably broad class of computations.  We
+describe how such an oracle can be integrated with any scheduler to
+support what we call oracle scheduling.  We realize oracle scheduling
+in practice by requiring the programmer to enter asymptotic complexity
+annotations for parallel tasks and by judicious use of run-time
+profiling.  Consistently with our theoretical analysis, our
+experiments show that oracle scheduling can reduce task creation
+overheads to a small fraction of the sequential time without hurting
+parallel scalability.
+

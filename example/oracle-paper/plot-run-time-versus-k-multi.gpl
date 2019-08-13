@@ -1,0 +1,41 @@
+set terminal pdf enhanced fsize 14
+#set terminal postscript
+
+set output "plot-run-time-versus-k-multi.pdf"
+#set size 0.5,0.5
+set pointsize 2.0
+set key top left
+set xlabel "Cutoff"
+set ylabel "Parallel Time"
+set xrange [0:400]
+set yrange [0:20000]
+set ytics 5000
+
+mu = 1
+tau = 5
+gamma = 1
+phi = 2
+p=4
+
+workA = 4096
+depthA = 12
+
+workB = 8192
+depthB = 13
+
+workC = 16384
+depthC = 14
+
+fa(x) = (1 + mu * (tau + gamma * phi) / x) * (workA/p) + x * (mu+1) * depthA
+fb(x) = (1 + mu * (tau + gamma * phi) / x) * (workB/p) + x * (mu+1) * depthB
+fc(x) = (1 + mu * (tau + gamma * phi) / x) * (workC/p) + x * (mu+1) * depthC
+
+set style line 1 linetype 1 lw 4 pt 1 ps 2 pi 4
+set style line 2 linetype 4 lw 4 pt 2 ps 2 pi 4 
+set style line 3 linetype 8 lw 4 pt 3 ps 2 pi 4
+
+set style function linespoints
+
+plot fa(x) ls 1 title "w = 4096, d = 12", \
+     fb(x) ls 2 title "w = 8192, d = 13", \
+     fc(x) ls 3 title "w = 16384, d = 14"

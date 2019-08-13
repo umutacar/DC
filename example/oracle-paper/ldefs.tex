@@ -1,0 +1,57 @@
+
+% the src language
+\newcommand{\src}{\textsf{src}\xspace}
+
+% BNF symbols
+\newcommand{\bnfalt}{{\bf \,\,\mid\,\,}}
+\newcommand{\bnfdef}{{\bf ::=}}
+
+%% Rule Label
+\newcommand{\rlabel}[1]{\mbox{\small{\bf ({#1})}}}
+
+%% Terms
+\newcommand{\termfont}[1]{\mathtt{#1}}
+\newcommand{\kw}[1]{\im{\termfont{{#1}}}}
+\newcommand{\kwmax}[2]{\kw{max}\left(#1,#2\right)}
+\newcommand{\kwmin}[2]{\kw{min}\left(#1,#2\right)}
+\newcommand{\kwn}{\kw{n}}
+\newcommand{\kwunit}{\kw{()}}
+\newcommand{\kwt}[2]{\im{\left({#1},{#2}\right)}}
+\newcommand{\kwfst}[1]{\kw{fst}~{#1}}
+\newcommand{\kwsnd}[1]{\kw{snd}~{#1}}
+\newcommand{\kwpt}[2]{{\left(|{#1},{#2}|\right)}}
+\newcommand{\kwinl}[1]{\kw{inl}~{#1}}
+\newcommand{\kwinr}[1]{\kw{inr}~{#1}}
+\newcommand{\kwcase}[5]{\kw{case}~{#1}~\kw{of}~\{\kwinl{#2}.{#3}, \kwinr{#4}.{#5}\}}
+\newcommand{\kwfun}[3]{\kw{fun}~{#1}.{#2}.{#3}}
+\newcommand{\kwapp}[2]{{#1}~{#2}}
+\newcommand{\kwplus}[2]{{#1}~\kw{+}~{#2}}
+\newcommand{\kwminus}{\kw{-}}
+\newcommand{\kwletin}[3]{\kw{let}~{#1}~=~{#2}~\kw{in}~{#3}} %~\kw{end}
+
+% added
+\newcommand{\kwFun}[3]{(\kwfun{#1}{#2}{#3})}
+\newcommand{\kwfuncost}[4]{\kw{fun}~{#1}.{#2}.{#3}~[{#4}]}
+\newcommand{\kwfuncostced}[5]{\kw{fun}~{#1}.{#2}.{#3}~[{#4}|{#5}]}
+\newcommand{\kproj}[1] {\kw{proj}^{#1}}
+\newcommand{\kprojof}[2] {\kproj{#1}\,#2}
+\newcommand{\kwlet}[2]{\kw{let}~{#1}~=~{#2}}
+\newcommand{\kwApp}[2]{(\kwapp{#1}{#2})}
+\newcommand{\kwif}[3]{\kw{if}~{#1}~\kw{then}~{#2}~\kw{else}~{#3}}
+%\renewcommand{\kwunit}{\kw{t\!\!t}}
+\newcommand{\kwletins}[2]{\kw{let}~{#1}~=~{#2}~\kw{in}} %~\kw{end}
+%\newcommand{\kwfuntt}[1]{\kwfun{\_}{\_}{#1}}
+\newcommand{\kwappunit}[1]{\kwapp{#1}{\kwunit}}
+\newcommand{\kwarrget}[2]{{#1}[{#2}]}
+
+\newcommand{\kwtypeofcost}{\kw{cost}}
+\newcommand{\kwestimatortype}{\kw{estimator}}
+\newcommand{\kwestimatorinit}{\kw{create}}
+\newcommand{\kwestimatorapp}{\kw{predict}}
+\newcommand{\kwestimatordata}{\kw{report}}
+
+\newcommand{\kwestimatorof}[1]{\kw{estimator}(#1)}
+\newcommand{\kwcostfunof}[1]{\kw{cost\_fun}(#1)}
+\newcommand{\kwseqof}[1]{\kw{version\_seq}(#1)}
+\newcommand{\kworcof}[1]{\kw{version\_orc}(#1)}
+

@@ -123,6 +123,9 @@ let map_reduce (f: 'a -> 'b) (g: 'b -> 'b -> 'c) (xs: 'a list) : 'c option =
   let xs = List.map xs f in
     List.reduce xs g
 
+let reduce (f: 'b -> 'b -> 'c) (xs: 'a list) : 'c option = 
+	List.reduce xs f
+
 (* Return a sublist of input consisting of elements of l that are unique in l.
    For example l = [0, 1, 1, 2] returns 0 and 2.
  *)
@@ -345,3 +348,5 @@ let find_in_list  (l: (string * string) list) (key: string) =
 	List.Assoc.find l ~equal:String.equal key
 
 
+let drop_final_char s = 
+  String.slice s 0 (String.length s - 1)

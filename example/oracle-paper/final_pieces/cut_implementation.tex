@@ -1,0 +1,198 @@
+
+%-------------------------------------------------------------------
+\section{Implementation}
+\label{sec:imp}
+
+In this section, we describe the implementation of our scheduling
+technique in an actual language and system. In our approach, source
+programs are written in our own dialect of the 
+Caml language~\cite{objective-caml}, which is 
+a strict functional language. 
+Our Caml dialect corresponds to the core Caml language
+extended with syntax for parallel pairs and complexity annotations. 
+\figref{exampleprog} shows a program implemented in our Caml dialect.
+This recursive program traverse a binary
+tree to compute the sum of the values stored in the leaves.
+ 
+%------------------------------
+\begin{figure}[t]
+\begin{verbatim}
+type tree = 
+  | Leaf of int 
+  | Node of int * tree * tree
+
+let size = function
+  | Leaf _ -> 1
+  | Size (s,_,_) -> s
+
+let rec sum t = Oracle.complexity (size t);
+  match t with
+  | Leaf n -> n  
+  | Node (size,t1,t2) ->
+     let (n1,n2) = (| sum t1, sum t2 |) in
+     n1 + n2
+\end{verbatim}
+\caption{An example parallel program.}
+\label{fig:exampleprog}
+\end{figure}
+%------------------------------
+
+We use the Caml type checker to obtain a typed syntax tree, on which
+we perform the oracle-scheduling translation defined in Figure
+\ref{fig:compilation}. We then produce code in the syntax
+of Parallel~ML (PML)~\cite{FluetRaReSh11}, a parallel 
+language close to Standard~ML. The translation from Caml
+to PML is straightforward because the two languages are 
+relatively similar.
+We compile our source programs to x86-64 binaries using Manticore,
+which is the optimizing PML compiler. The Manticore run-time system
+provides a parallel, generational garbage collector that is crucial
+for scaling to more than four processors, because functional programs,
+such as the ones we consider, often involve heavy garbage-collection
+loads. Further details on Manticore can be found
+elsewhere~\cite{Fluet:2008:SFG:1411204.1411239}.
+In the rest of this section, we explain how we compute
+the constant factors, and we also give a high-level description 
+of the particular work-stealing scheduler on top of which 
+we are building the implementation of our oracle scheduler.
+
+%-------------------------------------------------------------------
+\paragraph{Run-time estimation of constants.}
+
+The goal of the oracle is to make relatively accurate execution 
+time predictions at little cost. Our approach to implementing
+the oracle consists of evaluating a user-provided asymptotic
+complexity function, and then multiplying the result by an
+appropriate constant factor. Every function has its own constant
+factor, and the value for this constant factor is stored in the
+estimator data structure.
+In this section, we discuss the pratical implementation of the 
+evaluation of constant factors.
+
+In order for the measurement of the constant to be lightweight, we
+simply compute average values of the constant.  The constant might
+evolve over time, for example if the current program is sharing the
+machine with another program, a series of memory reads by the other
+program may slow down the current program.  For this reason, we do not
+just compute the average across the entire history, but instead
+maintain a moving average, that is, an average of the values gathered
+across a certain number of runs.
+
+Maintaining averages is not entirely straightforward.
+One the one hand, storing data in a memory cell 
+that is shared by all processors is not satisfying because it would involve 
+some synchronization problems. On the other hand, using a
+different memory cell for every processor is not satisfying either,
+because it leads to slower updates of the constants when they change.
+In particular, in the beginning of the execution of a program
+it is important that all processors quickly share a relatively good
+estimate of the constant factors.
+For these reasons, we have opted for an approach that
+uses not only a shared memory cell but also one data structure
+local to every processor. 
+
+The shared memory cell associated with each estimator contains the
+estimated value for the constant that is read by all the processors
+when they need to predict execution times. The local data structures
+are used to accumulate statistics on the value of the constant. Those
+statistics are reported on a regular basis to the shared memory cell,
+by computing a weighted mean between the value previously stored in
+the shared memory cell and the value obtained out of the local data
+structure. We treat initializations somewhat specially: for the first
+few measures, a processor always begins by reporting its current
+average to the shared memory cell. This ensures a fast propagation of
+the information gathered from the first runs, so as to quickly improve
+the accuracy of the predictions.
+
+When implementing the oracle, we faced three technical difficulties.
+First, we had to pay attention to the fact that the memory cells
+allocated for the different processors are not allocated next to each
+other. Otherwise, those cells would fall in the same cache line, in
+which case writing in one of these cells would make the other cells be
+removed from caches, making subsequent reads more costly.  Second, we
+observed that the time measures typically yield a few outliers.  Those
+are typically due to the activity of the garbage collector or of
+another program being scheduled by the operating system on the same
+processor.  Fortunately, we have found detecting these outliers to be
+relatively easy because the measured times are at least one or two
+orders of magnitude greater than the cutoff value.  Third, the default
+system function that reports the time is only accurate by one
+microsecond. This is good enough when the cutoff is greater than 10
+microseconds.  However, if one were to aim for a smaller cutoff, which
+could be useful for programs exhibiting only a limited amount of
+parallelism, then more accurate techniques would be required, for
+example using the specific processor instructions for counting the
+number of processor cycles.
+
+\paragraph{Work stealing.}
+
+We implement our oracle scheme on top of the work stealing
+scheduler~\cite{BlumofeWorkStealing}. In this section we outline the
+particular implementation of work stealing that we selected from the
+Manticore system. Our purpose is to understand what exactly
+contributes to the scheduling cost $\tau$ in our system.
+% and show that it is reasonable to treat $\tau$ as a constant. 
+% -> could it be something  else than "a constant"?
+
+In Manticore's work-stealing scheduler, all system processors are
+assigned to collaborate on the computation. Each processor owns a
+deque (doubly-ended queue) of tasks represented as thunks. Processors
+treat their own deques like call stacks.  When a processor starts to
+evaluate a parallel-pair expression, it creates a task for the second
+subexpression of the pair and pushes the task onto the bottom of the
+deque. Processors that have no work left try to 
+{\em steal} tasks from others. More precisely, they repeatedly select 
+a random processor and try to pop a task from this processor's deque. 
+
+Manticore's implementation of work stealing~\cite{rainey:phd} adopts a
+code-specialization scheme, called clone translation, taken from Cilk-5's
+implementation~\cite{FrigoLeRa98}.\footnote{In the Cilk-5
+implementation, it is called clone compilation.} With clone
+translation, each parallel-pair expression is compiled into two
+versions: the fast clone and the slow clone. 
+The purpose of a fast clone is to optimize the code that corresponds
+to evaluating on the local processor,
+whereas the slow clone is used when the second branch 
+of a parallel-pair is migrated to another processor.
+% -> i think the next sentence is already said by the above
+%The slow clone executes when
+%the second subexpression of the parallel-pair expression is stolen,
+%and the fast clone executes otherwise. 
+A common aspect of between clone translation and our oracle
+translation (Figure \ref{fig:compilation}) is that both generate
+specialized code for the sequential case. But the clone translation
+differs in that there is no point at which parallelism is cut off
+entirely, as the fast clone may spawns subtasks.
+
+The scheduling cost involved in the fast clone is a (small) constant,
+because it involves just a few local operations, but the scheduling
+cost of the slow clone is variable, because it involves
+inter-processor communication. 
+It is well established, both through analysis and
+experimentation, that (with high probability)
+no more than $O(P\sds)$ steals occur during 
+the evaluation~\cite{BlumofeWorkStealing}.
+So, for programs that exhibit parallel slackness ($\sws \gg P \sds $),
+we do not need to take into account the cost of slow clones
+because there are relatively few of them.
+We focus only on the cost of creating fast clones,
+which correspond to the cost $\tau$.
+A fast clone needs to packages a task, push it onto the deque
+and later pop it from the deque. So, a fast clone is not quite
+as fast as the corresponding sequential code.
+The exact slowdown depend on the implementation, but in our
+case we have observed that a fast clone is 3 to 5 
+times slower than a simple function call.
+
+
+%% Intuitively, the work stealing provides such low scheduling costs
+%% because of two properties. First, each processor is assigned its own
+%% subgraph of the computation. Processors focus exclusively on executing
+%% their own subgraphs before looking for other work.  Idle processors
+%% who run out of local work bear the majority of the scheduling
+%% costs. Second, when a subgraph is divided between processors, it is
+%% usually divided into two large subgraphs of roughly-equal size. This
+%% division of subgraphs is called stealing because the division is
+%% initiated by an idle processor. The second property helps ensure that
+%% few steals happen in total. Processors thus spend most of their time
+%% working independently on local subcomputations.

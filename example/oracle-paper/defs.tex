@@ -1,0 +1,86 @@
+% Text fonts
+\newcommand{\tbf}[1]{\textbf{#1}}
+%\newcommand{\trm}[1]{\textrm{#1}}
+
+\newcommand{\im}[1]{\ensuremath{#1}\xspace}
+
+
+
+% Math fonts
+\newcommand{\mbb}[1]{\mathbb{#1}}
+\newcommand{\mbf}[1]{\mathbf{#1}}
+\renewcommand{\mit}[1]{\mathit{#1}}
+\newcommand{\mrm}[1]{\mathrm{#1}}
+\newcommand{\mtt}[1]{\mathtt{#1}}
+\newcommand{\mcal}[1]{\mathcal{#1}}
+\newcommand{\mfrak}[1]{\mathfrak{#1}}
+\newcommand{\msf}[1]{\mathsf{#1}}
+\newcommand{\mscr}[1]{\mathscr{#1}}
+
+\newcommand{\ra}{\rightarrow}
+
+
+\newcommand{\mkbigo}[1]{\im{O\left({#1}\right)}}
+\newcommand{\mkomega}[1]{\im{\Omega\left({#1}\right)}}
+
+\newcommand{\myr}{r}
+\newcommand{\cerr}{\im{\Gm}} 
+\newcommand{\coff}{\im{\kappa}} 
+\newcommand{\coffe}{\coff'}
+\newcommand{\coffr}{\coff''}
+\newcommand{\creg}{\im{\Gg}} 
+\newcommand{\corc}{\im{\phi}} 
+\newcommand{\cbal}{\im{\gamma}} 
+\newcommand{\csp}{\im{\tau}} 
+\newcommand{\csps}{\im{\csp}}
+\newcommand{\cspo}{\im{\csps_o}}
+%Work and depth
+\newcommand{\sscheduler}{{sch}}
+\newcommand{\sw}{\ensuremath{w}}
+\newcommand{\sd}{\ensuremath{d}}
+\newcommand{\swp}{\ensuremath{\sw'}}
+\newcommand{\sdp}{\ensuremath{\sd'}}
+\newcommand{\swo}{\ensuremath{\sw_1}}
+\newcommand{\sdo}{\ensuremath{\sd_1}}
+\newcommand{\swt}{\ensuremath{\sw_2}}
+\newcommand{\sdt}{\ensuremath{\sd_2}}
+
+%\newcommand{\sws}{\ensuremath{W^\sscheduler}}
+%\newcommand{\sds}{\ensuremath{D^\sscheduler}}
+\newcommand{\sws}{\ensuremath{\mathcal{W}}}
+\newcommand{\sds}{\ensuremath{\mathcal{D}}}
+\newcommand{\swso}{\ensuremath{\sws_1}}
+\newcommand{\sdso}{\ensuremath{\sds_1}}
+\newcommand{\swst}{\ensuremath{\sws_2}}
+\newcommand{\sdst}{\ensuremath{\sds_2}}
+\newcommand{\swsp}{\ensuremath{\sws'}}
+\newcommand{\sdsp}{\ensuremath{\swd'}}
+\newcommand{\wbalanced}{balanced}
+
+%% Proof helpers
+
+\newcommand{\scht}[1]{\im{\lfloor\frac{#1}{\kappa}\rfloor}}
+\newcommand{\schto}[2]{\im{\csp\left(\lfloor\frac{#1}{\kappa}\rfloor}-{#2}\right)}
+\newcommand{\bigfig}[1]{
+  %\begin{figure}
+  \includegraphics[width=12.0cm]{#1}\\
+  #1 \vspace{1cm}\\
+  %\caption{#1}
+  %\end{figure}
+ 
+}
+
+\newcommand{\smallfig}[1]{
+  %\begin{figure}
+%3.15
+  \includegraphics[width=2.5in]{#1}\\
+  %\end{figure}
+ 
+}
+
+\newcommand{\medfig}[1]{
+  %\begin{figure}
+  \includegraphics[width=3.15in]{#1}\\
+  %\end{figure}
+ 
+}

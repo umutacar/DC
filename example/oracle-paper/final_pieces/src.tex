@@ -1,0 +1,313 @@
+
+
+
+
+
+\section{Source Language}
+\label{sec:cost-semantics}
+
+To give an accurate account of the cost of task creation, and to
+specify precisely our compilation strategy, we consider a source
+language in the style of the $\lambda$-calculus and present a dynamic
+cost semantics for it.  The semantics and the costs are parameterized
+by $\csp$ and $\corc$, which represent the cost of creating a parallel
+task and the cost of consulting an external oracle for predicting the
+sizes of its two branches respectively.  By using a known proof
+technique, we generalize Brent's theorem to take task-creation
+overheads into account.
+
+\begin{figure}[t]
+\centering
+\[
+\setlength{\tabcolsep}{0ex}
+\renewcommand{\arraystretch}{1.1}
+\begin{array}{rcl}
+
+v     
+& \bnfdef       
+& x \bnfalt \kwn \bnfalt \kwt{v}{v} \bnfalt \kwinl{v} \bnfalt
+\kwinr{v} \bnfalt \kwfun{f}{x}{e}
+%\kwunit \bnfalt
+\\[2ex]
+e 
+& \bnfdef       
+&   v \bnfalt  \kwletin{x}{e_1}{e_2} \bnfalt (\kwapp{v}{v}) \bnfalt \kwfst{v} \bnfalt \kwsnd{v} \bnfalt  
+\\
+& & \kwcase{v}{x}{e}{x}{e} \bnfalt  \kwt{e}{e} \bnfalt \kwpt{e}{e}    \\
+\end{array}
+\]
+\caption{Abstract syntax of the source language} %The abstract syntax of \src.
+\label{fig:src::syntax}
+\end{figure}
+
+% Note: I don't think we need to add the + operation
+
+\begin{figure*}[t]
+\small
+\centering
+\begin{minipage}{0.9\textwidth}
+\[
+\begin{array}{c}
+\infer[\rlabel{value}]
+{
+\strut
+}
+{
+\Jcostof{\Ga}{v}{v}{1}{1}{1}{1}
+}
+\\[2mm]
+\\
+%\infer[\rlabel{plus}]
+%{
+%\strut
+%}
+%{
+%\Jcostof{\Ga}{ \kwplus{v_1}{v_2} }{ v_1 \oplus v_2 }{1}{1}{1}{1}
+%}
+\infer[\rlabel{let}]
+{
+\Jcostof{\Ga}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\Ga}{ e_2[v_1/x] }{v}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\Ga}{ (\kwletin{x}{e_1}{e_2})  }{v}{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1}{\sds_1+\sds_2+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{app}]
+{
+(v_1 = \kwfun{f}{x}{e})
+\\
+\Jcostof{\Ga}{ e[v_2/x, v_1/f] }{v}{\sw}{\sd}{\sws}{\sds}
+}
+{
+\Jcostof{\Ga}{ (\kwapp{v_1}{v_2}) }{v}{\sw+1}{\sd+1}{\sws+1}{\sds+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{first}]
+{
+}
+{
+\Jcostof{\Ga}{ (\kwfst{\kwt{v_1}{v_2}}) }{v_1}{1}{1}{1}{1}
+}
+\quad
+\infer[\rlabel{second}]
+{
+}
+{
+\Jcostof{\Ga}{ (\kwsnd{\kwt{v_1}{v_2}}) }{v_2}{1}{1}{1}{1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{case-left}]
+{
+\Jcostof{\Ga}{ e_1[v_1/x_1] }{v}{\sw}{\sd}{\sws}{\sds}
+}
+{
+\Jcostof{\Ga}{ \kwcase{(\kwinl{v_1})}{x_1}{e_1}{x_2}{e_2} }{v}{\sw+1}{\sd+1}{\sws+1}{\sds+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{case-right}]
+{
+\Jcostof{\Ga}{ e_2[v_2/x_2] }{v}{\sw}{\sd}{\sws}{\sds}
+}
+{
+\Jcostof{\Ga}{ \kwcase{(\kwinr{v_2})}{x_1}{e_1}{x_2}{e_2} }{v}{\sw+1}{\sd+1}{\sws+1}{\sds+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{tuple}]
+{
+\Jcostof{\Ga}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\Ga}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\Ga}{ \kwt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1}{\sds_1+\sds_2+1}
+}
+\quad
+%\infer[\rlabel{ptuple -- $\sseq$}]
+%{
+%\Jcostof{\sseq}{ \kwt{e_1}{e_2} }{v}{\sw}{\sd}{\sws}{\sds} 
+%}
+%{
+%\Jcostof{\sseq}{ \kwpt{e_1}{e_2} }{v}{\sw}{\sd}{\sws}{\sds} 
+%}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-seq}]
+{
+\Jcostof{\sseq}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\sseq}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\sseq}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1}{\sds_1+\sds_2+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-par}]
+{
+\Jcostof{\spar}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\spar}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\spar}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\kwmax{\sd_1}{\sd_2}+1}{\sws_1+\sws_2+1+\csp}{\kwmax{\sds_1}{\sds_2}+1+\csp}
+}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-orc-parallelize}]
+{
+\sw_1 \geq \coff \Sc\land \sw_2 \geq \coff
+\\
+\Jcostof{\sorc}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\sorc}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\sorc}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\kwmax{\sd_1}{\sd_2}+1}{\sws_1+\sws_2+1+\csp+\corc}{\kwmax{\sds_1}{\sds_2}+1+\csp+\corc}
+}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-orc-sequentialize}]
+{
+\sw_1 < \coff \Sc\lor \sw_2 < \coff 
+\\
+\Jcostof{(\Lifthenelse{\sw_1 < \coff}{\sseq}{\sorc})}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\quad
+\Jcostof{(\Lifthenelse{\sw_2 < \coff}{\sseq}{\sorc})}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\sorc}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1+\corc}{\sds_1+\sds_2+1+\corc}
+}
+%\infer[\rlabel{}]
+%{
+%}
+%{
+%}
+
+\end{array}
+\]
+\caption{Dynamic cost semantics}
+\label{fig:src-dyn}
+\label{fig:src-sem}
+\end{minipage}
+
+\end{figure*}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End: 
+
+\subsection{Cost semantics}
+
+%-------------------------------------------------------------------
+%\paragraph{Source language.}
+
+The source language includes recursive functions, pairs, sum types,
+and parallel tuples.  Parallel tuples enable expressing computations
+that can be performed in parallel, similar to the fork-join or nested
+data parallel computations.  For simplicity of exposition, we consider
+parallel tuples of arity two only.  Parallel tuples of higher arity
+can be easily represented with those of arity two.  
+
+%(We leave to future work the investigation of an optimized treatment
+%of n-ary parallel tuples.)
+
+To streamline the presentation, we assume programs to be in A-normal
+form, with the exception of pairs and parallel pairs, which we treat
+symmetrically because our compilation strategy involves translating
+parallel pairs to sequential pairs.  \figref{src::syntax} illustrates
+the abstract syntax of the source language. We note that, even though
+the presentation is only concerned with a purely-functional language,
+it is easy to include references; for the purposes of this paper,
+however, they add no additional insight and thus are omitted for
+clarity.
+
+%-------------------------------------------------------------------
+%\paragraph{Dynamic cost semantics.}
+
+We define a dynamic semantics where parallel tuples are evaluated
+selectively either in parallel or sequentially, as determined by their
+relative size compared with some constant $\kappa$, called the cutoff
+value and such that $\kappa \geq 1$. To model this behavior, we
+present an evaluation semantics that is parameterized by an identifier
+that determines the {\em mode} of execution, \textit{i.e.}, sequential or
+not. For the purpose of comparison, we also define a {\em (fully)
+  parallel} semantics where parallel tuples are always evaluated in
+parallel regardless of their size.  The {\em mode} of an evaluation is
+sequential (written $\sseq$), parallel (written $\spar$), or oracle
+(written $\sorc$).  We let $\Ga$ range over modes:
+$$\Ga \Sq\bnfdef \sseq \Sc\bnfalt \spar \Sc\bnfalt \sorc.$$
+%So, there are three modes: sequential, parallel, and oracle.
+
+In addition to an evaluating expression, the dynamic semantics also
+returns cost measures including {\em raw work} and {\em raw depth}
+denoted by $\sw$ and $\sd$ (and variants), and {\em total work} and {\em
+  total depth}, denoted by $\sws$ and $\sds$ (and variants).  Dynamic
+semantics is presented in the style of a natural (big-step) semantics
+and consists of evaluation judgments of the form
+$$\Jcostof{\Ga}{ e }{v}{\sw}{\sd}{\sws}{\sds}.$$ 
+This judgment states
+that evaluating expression $e$ in mode $\Ga$ yields value $v$
+resulting in raw work of $\sw$ and raw depth of~$\sd$ and total work
+of $\sws$ and total depth of $\sds$.  
+
+ 
+\figref{src-sem} shows the complete inductive definition of the
+dynamic cost semantics judgment $\Jcostof{\Ga}{ e
+}{v}{\sw}{\sd}{\sws}{\sds}$.  When evaluating any expression that is
+not a parallel tuple, we calculate the (raw or total) work and the
+(raw or total) depth by summing up those of the premises
+(subexpressions) and adding one unit to include the cost of the
+judgment.  For all expressions, including parallel tuples, each
+evaluation step contributes~$1$ to the raw work or raw depth.  When
+calculating total work and total depth, we take into account the cost
+of creating a parallel task~$\csp$ and the cost of making an oracle
+decision~$\corc$.
+
+Evaluation of parallel tuples vary depending on the mode.  
+
+\begin{itemize}
+
+\item \textbf{Sequential mode.} Parallel tuples are treated exactly
+  like sequential tuples: evaluating a parallel tuple simply
+  contributes~$1$ to the raw and the total work (depth), which are
+  computed as the sum of the work (depth) of the two branches
+  plus~$1$.  In the sequential mode, raw and total work (depth) are
+  the same.
+
+\item \textbf{Parallel mode.} The evaluation of parallel tuples induces
+  an additional constant cost~$\csp$. The depth is computed as the
+  maximum of the depths of the two branches of the parallel tuple
+  plus~$1$, and work is computed as the sum of the work of the two
+  branches plus~$\tau$. In the oracle mode, there are two cases.  If
+  the parallel tuple is scheduled sequentially, then its costs $1$
+  unit.  Raw/total work and depth are both calculated as the sum of
+  the depth of the branches plus one.  If the parallel tuple is
+  evaluated in parallel, then an extra cost $\csp$ is included in the
+  total work and depth and the depth is computed as the maximum of the
+  depth of the two branches.
+
+\item \textbf{Oracle mode.} The scheduling of a parallel tuple depends
+  on the amount of raw work involved in the two branches.  If the raw
+  work of each branch is more than~$\kappa$, then the tuple is
+  evaluated in parallel in the oracle mode.  Otherwise, the raw work
+  of at least one branch is less than~$\kappa$, and the tuple is
+  executed sequentially.  When evaluating a parallel tuple
+  sequentially, the mode in which each branch is evaluated depends on
+  the work involved in the branch.  If a branch contains more
+  than~$\coff$ units of raw work, then it is evaluated in  oracle
+  mode, otherwise it is evaluated in  sequential mode.  This
+  switching to sequential mode on small tasks is needed for ensuring
+  that the oracle is not called too often during the evaluation of a
+  program.
+\end{itemize}
+
+
+

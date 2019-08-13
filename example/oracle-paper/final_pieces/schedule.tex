@@ -1,0 +1,61 @@
+
+\aremark{
+UPDATE TO:
+
+
+  \begin{figure}
+  \small
+  %\begin{figure*}
+  %\begin{minipage}{\textwidth}
+  \begin{codeListing}
+  type \kwtypeofcost
+  \\
+  type \kwestimatortype
+  \\
+  val \kwestimatorinit: unit -> \kwestimatortype
+  \\
+  val \kwestimatordata: \kwestimatortype \!\!\!$\times$ \kwtypeofcost \!\!\!$\times$ float -> unit
+  \\
+  val \kwestimatorapp: \kwestimatortype \!\!\!$\times$ \kwtypeofcost -> float
+  \end{codeListing}
+  \caption{The signature of the estimator data structure
+  %for an abstract cost type.
+  }
+  \label{fig:estimator-sig}
+  %\end{minipage}
+  %\end{figure*}
+  \end{figure}
+
+
+
+
+  \paragraph{Run-time estimators.}
+  To realize the oracle semantics, we require the user to provide a {\em
+    cost function} for each function in the program and rely on an {\em
+    estimator} for estimating actual work using the user-provided cost
+  information.  When applied to an argument \ttt{v}, a cost function of
+  \ttt{f} returns the abstract cost of the application of \ttt{f} to
+  \ttt{v}. The cost is passed to the estimator, which uses the cost to
+  compute an estimate of the actual execution time, that is, the raw
+  work, of the application.  \figref{estimator-sig} shows a signature
+  for the estimator. To perform accurate estimates, the estimator
+  utilizes profiling data obtained from actual execution times. The
+  sampling operation 
+  %\begin{center}
+  \ttt{\kwestimatordata(t, c, e)}
+  %\end{center}
+   adds a cost \ttt{c} and an execution time \ttt{e} to the set of
+   samples in an estimator \ttt{t}. An estimate of the actual execution
+   time is obtained by calling \ttt{predict}.  Given an estimator
+   \ttt{t} and cost \ttt{c}, the call
+  %\begin{center}
+  \texttt{\kwestimatorapp(t, c)}
+  %\end{center}
+  returns a predicted execution time.
+
+  %% Note that the exact definition or type of the
+  %% abstract cost and the nature of the estimator vary as long as they
+  %% remain consistent: the estimator must be able to interpret the
+  %% abstract cost in approximating the actual run time.
+
+}

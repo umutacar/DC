@@ -1,0 +1,37 @@
+
+
+1-- (What is it about ?)
+
+We're interested in executing programs efficiently on multicore machines.
+
+2-- (What is the problem)
+
+A typical problem in this setting is that a lot of time can be waisted distributing work load accross processors.
+
+3-- (What do we do about it?)
+
+We have developed a scheduling policy based on the rule that if a task is small then it should be executed only by one processor.
+
+Indeed, there is no point in trying to execute a small task using several processors, that would be just a waste of time.
+
+So, when we apply this policy of sequentializing all the tasks that are small, we are sure that the scheduling costs are well amortized so that they represent no more than a small fraction of the total execution time.
+
+4-- (What's left)
+
+You might wonder why this hasn't been done. The reason probably is that, in general, it's very difficult to predict how long a task is going to take to execute, and this information is essential for applying our scheduling policy.
+
+The key idea of our work is to ask the programmer to provide an asymptotic complexity annotation for each function in the program. 
+
+In combining these annotations with profiling, we are able to predict execution times reasonably accurately.
+
+5-- (What's the result)
+
+We've implemented our approach on top of an existing compiler for a parallel functional language. 
+
+The experiments that we ran showed that our technique improves over the state-of-the-art techniques. 
+
+6-- (Bonus)
+
+We have also provided a formal model in which scheduling costs are explicitly taken into account.
+
+And, in this model, we have proved a theorem stating that: if our predictions of execution times are roughly correct, then the time that is spent on scheduling operations does not exceed a small fraction of the time that is spent on executing the entire program.
