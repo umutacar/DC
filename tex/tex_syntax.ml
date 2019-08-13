@@ -323,8 +323,11 @@ let mk_kw_args l =
     | None -> "FATAL error"
     | Some v -> k ^ " = " ^ v
   in
-	let l = List.map l ~f:mapper in
-  "[" ^ String.concat ~sep:"; " l ^ "]"
+  if List.length l = 0 then
+		""
+	else
+		let l = List.map l ~f:mapper in
+		"[" ^ String.concat ~sep:"; " l ^ "]"
 
 
 let mk_label lopt = 
