@@ -35,7 +35,7 @@ ch:sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:sets::title
+grp:sets::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -44,12 +44,12 @@ grp:sets::title
 <atom name='preamble'>
 <field name='title'>
 <![CDATA[
-Title
+...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-Title
+...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -59,7 +59,7 @@ image
 sound.mpg
 </field> <!-- sound -->
 <field name='label'>
-prmbl:sets::title
+prmbl:sets::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -736,7 +736,7 @@ sec:sets::sets-adt
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:sets::sets
+grp:sets::universe
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
