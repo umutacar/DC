@@ -324,7 +324,7 @@ let mk_kw_args l =
     | Some v -> k ^ " = " ^ v
   in
 	let l = List.map l ~f:mapper in
-  String.concat ~sep:"; " l
+  "[" ^ String.concat ~sep:"; " l ^ "]"
 
 
 let mk_label lopt = 

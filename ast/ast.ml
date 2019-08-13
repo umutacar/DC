@@ -571,12 +571,14 @@ struct
 		let title = Tex.mk_title title in
     let kw_args = ["cover", cover; "sound", sound] in
     let kw_args = Tex.mk_kw_args kw_args in
+    let _ = printf "kw_args = %s\n" kw_args in
 		let problem = 
 			match problem with 
 			| None -> ""
 			| Some problem -> Problem.to_tex problem 
 		in
 		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
+    let _ = printf "h_begin = %s\n" h_begin in
 		let h_end = Tex.mk_end kind in
 		let l = 
 			if label_is_given atom then	""
