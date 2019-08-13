@@ -45,6 +45,17 @@ let normalize_point_val po =
 			if pts = 0.0 then None
       else Some (Float.to_string pts)
 
+(* if points (po) is None or 0.0 then
+   empty string, else the points *)
+let normalize_point_val_int po = 
+	match po with 
+  | None -> None
+  | Some p -> 
+			let pts = float_of_string p in
+			if pts = 0.0 then None
+      else 
+				Some (string_of_int (Float.to_int pts))
+
 (* Tokenize title:
    Given Some "this is a title" it "sort of" returns 
    ["this-is-a-title", "this", "title", "is", "a"]
@@ -160,13 +171,14 @@ struct
 *)
       f Ast_cookie state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
 
-  let to_tex prompt = 
-		let {kind; point_val; title; label; body} = prompt in
-		let point_val = normalize_point_val point_val in
+  let to_tex cookie = 
+		let {kind; point_val; title; label; body} = cookie in
+    (* Use int value for point for idempotence in tex to tex translation *)
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let heading = Tex.mk_command kind point_val in
 		let l = 
-			if label_is_given prompt then	""
+			if label_is_given cookie then	""
 			else Tex.mk_label label 
 
 		in
@@ -277,7 +289,7 @@ struct
 
   let to_tex prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let point_val = normalize_point_val point_val in
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let heading = Tex.mk_command kind point_val in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
@@ -410,7 +422,7 @@ struct
 
   let to_tex problem = 
 		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
-		let point_val = normalize_point_val point_val in
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let heading = Tex.mk_command kind point_val in
@@ -566,7 +578,7 @@ struct
 
   let to_tex atom = 
 		let {kind; point_val; title; cover; sound; label; depend; problem; body} = atom in
-		let point_val = normalize_point_val point_val in
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
     let kw_args = ["cover", cover; "sound", sound] in
@@ -734,7 +746,7 @@ struct
 
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
-		let point_val = normalize_point_val point_val in
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
@@ -998,7 +1010,7 @@ struct
    *)
   let rec to_tex_level level segment = 		
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let point_val = normalize_point_val point_val in
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let level_str = string_of_int level in
 		let h_begin = Tex.mk_segment_header (level_str ^ kind) point_val title in
@@ -1015,7 +1027,7 @@ struct
 
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let point_val = normalize_point_val point_val in
+		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let h_begin = Tex.mk_segment_header kind point_val title in
 		let h_end = Tex.mk_end kind in
