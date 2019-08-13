@@ -80,7 +80,10 @@ let normalize_env (kind, title, kw_args) =
    		let _ = printf "normalize_env_title: title is not significant.\n" in
 			(kind, None, kw_args)
 	else
-    (kind, Some title, ("title", title)::kw_args)
+		if title = "" then
+			(kind, None, kw_args)
+		else
+			(kind, Some title, ("title", title)::kw_args)
 		
 (**********************************************************************
  ** END: latex env machinery 
@@ -483,7 +486,7 @@ and take_arg depth delimiter_open delimiter_close =
 
 and take_atom_args depth = 
   parse 
-  | (p_c_sq p_ws as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws)
+  | ((p_c_sq p_ws as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws) as all)
     {
      let depth = depth - 1 in
        if depth = 0 then
@@ -491,7 +494,7 @@ and take_atom_args depth =
            ("", (kw, a)::l)
        else
          let (arg, l) = take_atom_args depth lexbuf in 
-           (x ^ arg, l)
+           (all ^ arg, l)
      }   
   | p_o_sq as x
     {

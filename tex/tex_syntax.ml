@@ -311,6 +311,13 @@ let mk_arg arg =
 let mk_opt_arg x = 
   "[" ^ x ^ "]"
 
+let mk_opt_arg_normal x = 
+	if x = "" then
+		""
+	else
+		"[" ^ x ^ "]"
+
+
 let mk_point_val popt = 
   match popt with 
   |  None -> ""
@@ -323,8 +330,11 @@ let mk_kw_args l =
     | None -> "FATAL error"
     | Some v -> k ^ " = " ^ v
   in
-	let l = List.map l ~f:mapper in
-  String.concat ~sep:"; " l
+  if List.length l = 0 then
+		""
+	else
+		let l = List.map l ~f:mapper in
+		String.concat ~sep:"; " l
 
 
 let mk_label lopt = 
@@ -371,7 +381,7 @@ let mk_rubric e =
 let mk_title topt = 
   match topt with 
   |  None -> ""
-  |  Some t -> mk_opt_arg t
+  |  Some t -> t
 
 let mk_command kind p = 
   kind ^ p
@@ -382,11 +392,17 @@ let mk_segment_header kind p t =
 
 let mk_begin name p t = 
   let b = "\\begin" ^ (mk_arg name) in
-  b ^  p ^  t ^ "\n"
+	b ^  p ^ (mk_opt_arg_normal t) ^ "\n"
 
 let mk_begin_atom name p t kw_args = 
-  let b = "\\begin" ^ (mk_arg name)  in
-  b ^  p ^  t ^ kw_args ^ "\n"
+  let b = "\\begin" ^ (mk_arg name)  in  
+  if kw_args = "" then
+		b ^  p ^  (mk_opt_arg_normal t) ^ (mk_opt_arg_normal kw_args) ^ "\n"
+	else
+    (* If kw_args is nonempty, title brackets must exist. 
+     * Example \begin{atom}[][sound=voice.mpg] 
+     *)
+		b ^  p ^  (mk_opt_arg t) ^ (mk_opt_arg_normal kw_args) ^ "\n"
 
 let mk_end kind = 
   "\\end" ^ (mk_arg kind) ^ "\n"
