@@ -1,3 +1,7 @@
+%% THis differs from paper-dos.tex in two ways
+%% It has unix-style carriage returns
+%% It atomizes theorems definitions etc.
+
 \chapter{Scheduling with Oracles}
 \label{ch:oracle}
 
@@ -460,6 +464,7 @@ Let $G$ be a computation DAG with $\sw$ raw work and $\sd$ raw depth.
 Any greedy scheduler can execute the computation in $G$ 
 in time $O(\frac{\sw}{P} + d)$ on a $P$-processor parallel machine
 \end{theorem}
+
 \begin{proof}
 We recall Brent's proof since our aim is to generalize it.
 Consider the nodes at depth $i$ in the DAG, and assume there are
@@ -493,6 +498,7 @@ Let $G$ be a computation DAG with $\sws$ total work and $\sd$ raw depth.
 Any greedy scheduler can execute these computations
 in time $O(\frac{\sws}{P} + (1+\csp) \sd)$ on $P$ processors.
 \end{theorem}
+
 \begin{proof}
 Consider layers like in Brent's theorem, with the difference that
 at every layer there might be tasks of weight $1$ and tasks
@@ -534,6 +540,7 @@ Let $G$ be a computation DAG with $W$ total work and $D$ total depth.
 Any greedy scheduler can execute these computations
 in time $O(\frac{W}{P} + D)$ on $P$ processors. 
 \end{theorem}
+
 \begin{proof}
 The problem shares similarities with the classic problem known 
 as $P|prec|C_{max}$ in scheduling theory.
@@ -1097,6 +1104,7 @@ Any greedy scheduler can
 execute this computation DAG in no more than $\frac{W}{P} + D$ 
 steps on $P$ processors. 
 \end{theorem}
+
 \begin{proof}
 At each execution step, each processor places a token in the {\em work bucket}
 if it is busy at this step, otherwise it places a token in the {\em idle bucket}.
@@ -1149,6 +1157,7 @@ to hold for some $v$, $\sw$ and $\sd$.
 Any greedy scheduler can execute the expression $e$
 in no more than $\frac{\sws}{P} + \sds$ computations steps on $P$ processors. 
 \end{theorem}
+
 \begin{proof}
 In order to invoke the version of Brent's theorem that applies 
 to computation DAGs, we build the computation DAG associated 
@@ -1362,6 +1371,7 @@ constant multiplicative factor.
 %Assume an oracle with cost $\corc$ and accurate up to a factor $\cerr$.
 $$\Jcostof{\sorc}{ e }{v}{\sw}{\sd}{\sws}{\sds} \Sq\impl \sds \leq (1+\kwmax{\csp}{\cerr\coff}+\corc)\,\sd$$
 \end{theorem}
+
 \begin{proof}
 
 
@@ -1486,6 +1496,7 @@ subexpressions whose raw work is no less than
 $\frac{\coff}{\cerr\cbal}$.
 \end{definition}
 %
+
 Note that if a program is $\cbal$-balanced and 
 if $\cbal < \cbal'$, then this program is also $\cbal'$-balanced.
 We will later give a sufficient condition for
@@ -1503,6 +1514,7 @@ a $\cbal$-balanced program.
 \]
 
 \end{theorem}
+
 \begin{proof}
 We establish the following slightly tighter inequality.
 $$\sws \Sq\leq \left(1 + \frac{\csp}{\coff/\cerr\Ss{+}1} + \frac{\corc}{\coff/(\cerr\creg)\Ss{+}1} \right)\,\sw.$$
@@ -1674,6 +1686,7 @@ with a greedy scheduler does not exceed the value
 \left( 1+\frac{\cerr(\csp+\cbal\corc)}{\coff} \right)\,\frac{\sw}{P} \Sc{+} \left( \coff\cerr + \corc + 1\right)d.
 \]
 \end{theorem}
+
 \begin{proof}
 The bound follows by the version of Brent's theorem
 adpated to our cost semantics
@@ -1770,6 +1783,7 @@ $(1 + r) \frac{\sw}{P} + \frac{c}{r}\, \sd$.
 %number of inputs the total run-time improves over when $\coff = 0$,
 %where all parallel tasks are executed in parallel.
 \end{theorem}
+
 \begin{proof}
 Consider a particular $\cbal$-balanced program 
 with raw work $\sw$ and raw depth $\sd$,
@@ -1939,6 +1953,7 @@ costs of the oracle, a smaller regularity is better.
 \label{lem:regularity-elim}~\\
 If a program is $\cbal$-regular then it is $\cbal$-balanced.
 \end{lemma}
+
 \begin{proof}
 We have to show that, during the execution of a $\creg$-regular 
 program according to oracle semantics, the oracle is
@@ -2372,6 +2387,7 @@ converge.
 
 The substitution lemma shows that our translation commutes with the
 substitution of value for a variable inside a source expression.
+
 \begin{lemma}[Substitution]
 \label{lem:trans-substitution}
 Let $e$ be an expression, $v$ be a value, $x$ be a 
@@ -2380,9 +2396,11 @@ Then,
 $$\Fcomp{\alpha}{e[v/x]} \Sq\equiv
 \Fcomp{\alpha}{e}[\Fcompval{v}/x]$$
 \end{lemma}
+
 The following two lemmas state the specifications of our metafunctions
 $MeasuredRun$ and $MakeBranch$. The proof of each follows trivially from
 the definitions.
+
 \begin{lemma}[MeasuredRun]
 \label{lem:trans-measured-run}
 If $r$, $m$, and $k$ are \src values,
@@ -2393,6 +2411,7 @@ If $r$, $m$, and $k$ are \src values,
 \end{itemize}
 then $MeasuredRun (r, m, k) \redb v$.
 \end{lemma}
+
 \begin{lemma}[Semantics of the function MeasureRun]
 \label{lem:trans-run}
 Let $r$ be a CED value, $m$ an integer value, $k$ a continuation
@@ -2418,6 +2437,7 @@ Finally, the correctness theorem shows that our translation preserves
 the meaning of the given source expression, if the source expression
 terminates. It is straightforward to extend the argument to cover
 expressions that diverge.
+
 \begin{theorem}[Correctness of the translation]
 If $e$ is an expression and $v$ a value such that \W{\Jsemof{e}{v}}, then,
 for $\alpha$ equal to either $\sseq$ or $\sorc$,
