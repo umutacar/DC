@@ -234,8 +234,7 @@ code~\cite{lazy-binary-splitting}.
 
 %There is some recent work on the area of performance tuning of benchmarks
 %by profiling certain specific
-%parameters~\cite{performance-tuning}.  \uremark{These seems to
-%target specific benchmarks, require recomputations etc.}
+%parameters~\cite{performance-tuning}.
 
 In this paper, we propose theoretical and practical techniques for the
 granularity problem in implicit parallel-programming languages.  Our
@@ -361,8 +360,6 @@ use it to compile generated PML programs.  Our experiments
 (\secref{exp}) show that oracle implementation can reduce the
 overheads of a single processor parallel execution to between 3 and 13
 percent of the sequential time.
-%\uremark{Mike please check that this is
-% accurate, note that i am comparing sequential and one-procesor runs.}  
 When using 16 processors, we achieve 7- to 15-fold speedups
 on an AMD machine and 6- to 10-fold speedups on an Intel machine.
 
@@ -507,7 +504,6 @@ Let $\sws{}_i$ denote the sum of the weights of the nodes at level $i$.
 A greedy scheduler executes this work in a time less 
 than $\myr \ceil{\frac{\sws{}_i}{\myr P}}$.
 Thus, the total time execution is bounded by:
-\aremark{Can you detail where the $\myr \ceil{\frac{\sws{}_i}{\myr P}}$ bound comes from?}
 $$\sum_{i=1}^{\sd}{\myr \ceil{\frac{\sws{}_i}{\myr P}}}
 \Sc\leq \sum_{i=1}^{\sd}{\myr(\frac{\sws{}_i}{\myr P}+1)}
 % \Sc\leq \frac{\sum_{i=1}^{d}{w_i}}{P} + \myr d
@@ -1315,9 +1311,6 @@ parallel processors is small relative to $\csp$, we may observe no
 speedups.  In fact, it is not uncommon to hear anecdotal evidence of
 this kind of slowdown in modern computer systems.
 
-%\mremark{It'd help to recall the definition of parallel slackness
-%  before we use it below, as we have not yet defined the term
-%  precisely.}
 
 Second, the theorem shows that evaluation of a program with an ideal
 oracle can require as much as $\frac{\coff}{2}$ less work than in the
@@ -1756,12 +1749,7 @@ the depth of the computation significantly.
 %The idea is to make sure that $\coff < \coff^*$, \textit{i.e.}, the cutoff
 %remains less than the inflection point.
 
-%\uremark{The constant is not quite universal because it depend on
-%  \cbal.  Let's revisit this issue after arthur does a pass on the
-%  analysis.}
 
-
-%\aremark{This theorem and its proof will be polished.}
 \begin{theorem}[Run time with fixed $\coff$]
 \label{thm:task-creation-overheads}
 Consider an oracle with $\corc$ cost and $\cerr$ error.
@@ -1867,7 +1855,6 @@ we need to formally define what it means for a parallel tuple
 to be dominated by another parallel tuple.
 
 \begin{comment}
-\uremark{Arthur, I am leaving this to you to complete. Old text follows.}
 Fortunately, most programs do not exhibit this pathological behavior.
 However, to prove a better bound we need to make further assumptions
 about the structure of the program. It turns out that a sufficient
@@ -2005,7 +1992,6 @@ time~\cite{BlumofeWorkStealing}.  The class of fully-strict
 computations (\textit{i.e.}, series-parallel computations) include all
 fork-join programs, nested-parallel computations, and specifically
 computations with parallel tuples, our focus here.
-\uremark{Check the claim about fully strictness. }
 
 %\paragraph{Oracle Scheduling.}
 
@@ -2354,8 +2340,6 @@ believe that it suffices because we only have to compute lower bounds
 for our functions; \textit{i.e.}, we only need to determine whether they are
 ``big enough'' for parallel execution.
 
-\aremark{Discuss this last paragraph}
-
 %******************************************************************************
 %******************************************************************************
 
@@ -2502,7 +2486,6 @@ r.shared \leftarrow (r.shared * weight + c) \Ss/ (weight + 1)
 \end{lines}
 \end{lines}$$
 
-\aremark{Fix names and fonts}
 \caption{Auxiliary meta-functions used for compilation}
 \label{fig:ced-implementation}
 \end{figure}
@@ -2736,8 +2719,6 @@ that is shared by all eight cores. The system has 1Tb of RAM and runs
 Debian Linux (kernel version 2.6.32.22.1.amd64-smp).
 For uniformity, we consider results from just sixteen out of the
 thirty-two cores of the Intel machine. 
-
-\uremark{Rose's comments fixes up to here.}
 
 %-------------------------------------------------------------------
 \paragraph{Measuring scheduling costs.}
@@ -3356,8 +3337,6 @@ practice.
 %% requires the migration of code but also that of data, which can be
 %% very costly.
 
-%% %\uremark{The depth discussion comes out of the blue. Explain a bit
-%% %  more perhaps.}
 
 %% In our implementation, we have fixed $\coff$
 %% to be a constant value, but we could try to dynamically
@@ -3367,7 +3346,6 @@ practice.
 %% time taken by a sequential execution of a task. There is no
 %% such easy way to measure the raw depth of a program.
 
-%% %\uremark{Transition.}
 %% To realize the oracle, we have assumed that the programmer
 %% would provide complexity functions explicitly.
 %% This seems to be a reasonable assumption in general.
