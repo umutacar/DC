@@ -1,0 +1,607 @@
+
+*********************************************************
+   Complexity-based scheduling for parallel programs
+              --- Arthur, Mike, Umut ---
+*********************************************************
+
+
+
+*********************************************************
+2011-01-27
+*********************************************************
+
+=========
+Principle
+=========
+
+Each of the branches of a fork/join construction is annotated
+with a term whose runtime evaluation produces an estimate of
+the total amount of sequential work required for executing that
+branch. The scheduler can take advantage of this information
+at runtime in order to make decision on whether a branch is 
+small enough that it can be handled by a single processor in
+a purely-sequential fashion (that is, ignoring all the fork/join
+operations from then on), or whether the branch should be
+executed in a parallel fashion, possibly forking sub-tasks.
+
+========
+Interest
+========
+
+IDEAL CLAIM 1: "The time needed to complete a task using several 
+processors is never significantly greater than the time needed to
+do so using only one processor."
+The primary purpose of complexity annotation is to avoid spawning 
+a large number of tiny tasks. Indeed, for any small-enough task, 
+it is faster to execute that task is a purely-sequential way rather 
+than trying to execute it in parallel. Having some complexity
+annotation in the program makes it possible to make pretty 
+good guesses on whether a task is small enough for sequential
+execution. 
+
+IDEAL CLAIM 2: "For programs that exhibit enough parallelism, the 
+time needed to complete a task is close to the ratio between the time
+that a single processor would require and the number of processors."
+Indeed, executing only big-enough tasks in a parallel way means that
+the scheduling costs should become less significant overall.
+
+FUTURE WORK 1: Executing non-small tasks in a purely-sequential 
+way allows to benefit from a traditional sequential GC during 
+throughout the execution of that task. Indeed, it should be 
+possible to have a local heap for the sequential computations, 
+and promote the live cells allocated in the local heap into the 
+shared heap when the sequential task is over. This approach means 
+that, locally, working in a parallel setting does not necessarily 
+impose overcosts on the GC. 
+
+FUTURE WORK 2: Since scheduling is only required for a small
+number of big tasks, we might be able to spend a more time 
+on the scheduling. This could allow us to do more clever things
+than a naive work-stealing algorithm. For example, we may exploit 
+a DFS-order assignement of the tasks. Note, however, that we have 
+to be careful, because there are a few programs for which there is 
+no way of estimating asymptotic complexity, leading to the scheduling 
+of many small tasks. So, a right way to go might be to exploit
+a combination of DFS-planning and work-stealing.
+
+===========
+Annotations
+===========
+
+The syntactic sugar for function definitions takes the form:
+   let rec f n #[ n^2 ]# = t
+
+The definition gets unfolded to 4 definitions, detailed next.
+- the function:      let rec f n = t
+- the cost constant: let f_cst = ref 1.0
+- the cost weight:   let f_weight = ref 1
+- the cost function: let f_cost n = (!f_cst * n^2) : int
+
+The cost function gives an estimate of the time taken by a
+call to the function f on the input n (for a single processor).
+The constant factor gets updated on calls to the function f
+in sequential mode, in order to get a more precise estimate for 
+the subsequent cost estimations. The cost weight is used for 
+computing the mean of all the values that have been actually
+measured for the constant factor.
+
+==================
+Garbage-Collection
+==================
+
+Understanding what is the best GC to be used in conjunction of
+our approch is not the first priority. For the time being, 
+we may probably de-activate the GC for our first benchmark,
+so as to be sure that it doesn't get accounted for in our figures.
+
+That said, the GC is probably a very central piece that we'll have 
+to study, for two reasons. First, there are applications where the
+GC is going to be the bottleneck if we don't have a good GC.
+Second, by creating big-enough tasks, our approach offers the 
+opportunity for co-existence of local heaps and shared heaps.
+It would be great to demonstrate the interest of this opportunity.
+
+One idea consists in using a have a three-layer heap. First, we
+have one global shared heap, where collection occurs only when
+all the threads are interrupted. Second, for each processor,
+there is an OCaml-style heap, made of a major heap and of a 
+minor heap. Minor heap is optimized for cells with short lifetime.
+A major heap hosts cells that survive a minor heap collection. 
+When a sequential task is completed, the major heap can be 
+promoted as part of the main shared heap. One thing to be careful
+about is the existence of pointers from the shared heap into the 
+local heap of one of the processors. Indeed, those pointers should
+not be followed by other processors. It remains to see how this can 
+be handled properly.
+
+==============
+Implementation
+==============
+
+Manticore appears as a good system in which to implement a proof-
+of-concept of our approach. Manticore suffers from a few drawbacks
+compared with compilers like OCaml or MLton, however there are
+some convincing arguments for using it:
+- it already features support for parallelism,
+- sequential execution of Manticore programs is not outrageously 
+  slow,
+- we'd be able to program the benchmarks that we have in mind
+  without any difficulty,
+- Mike is familiar with the implementation.
+
+=======
+Roadmap
+=======
+
+1) Implement the syntactic sugar for the cost annotations.
+2) Generate the compiler instructions to deal with forking.
+3) Have the compiler produce two versions of the source
+   code, one version for parallel execution and one 
+   version for sequential execution. (This duplication
+   could probably be done directly on the AST).
+4) Re-use an existing work-stealing scheduler, and modify
+   if with an test of the form "if the taks that about to
+   be treated has a small enough cost, then execute it in
+   sequential mode".
+5) Write the code for measuring the time of a sequential
+   execution and updating the cost constants appropriately
+6) Select and implement benchmarks, and run the beast!
+
+Conclusion: there is a relatively small amount of implementation
+work, so we should be able to run some tests pretty soon!
+
+
+*********************************************************
+2011-01-30
+*********************************************************
+
+===========
+Annotations
+===========
+
+The other change to the source language concerns the treatment
+of parallel tuples. A standard parallel tuple is of the form
+   (| f n, ... |)
+Such a standard parallel tuples is viewed as syntactic sugar 
+for a lower-level primitive for parallel results. This lower-
+level primitive is written
+   (|| task, ... ||)
+where "task" is a (sequential) tuple of the form 
+   (computation, cost, report_cst),
+The "computation" component is a suspension (i.e. a function
+of unit argument) describing the term to be evaluated.
+The "cost" component is a function that takes unit as argument
+and returns the estimated cost of executing the "computation".
+If this "cost" is smaller than a given boundry, called the
+"sequential frontier", then the "computation" is run sequentially.
+The "report_cst" component is a function that is intended to
+be called in case the term is evaluated in sequential mode.
+It expects two arguments: the result obtained when evaluating
+the "cost", and the time taken by the evaluation.
+The idea of reporting costs is to use those reports in order
+to compute the average constant that applies to the asymptotic
+complexity bound that was given by the programmer.
+
+A standard parallel tuple (| f n, ... |) is expressed in terms
+of the low-level parallel construction as:
+  (|| (computation, cost, report_cst), ... ||)  
+where
+   let computation () = f n
+   let cost () = f_cost n
+   let report_cst t_predicted t_real =
+      let old_cst = !f_cst in
+      let w = !f_weight in
+      let new_cst = old_cst * (t_real / t_predicted) in
+      f_cst := (old_cst * w + new_cst) / (w + 1);
+      incr f_weight;
+      
+The interest of having a low-level construction for parallelism
+is that it allows the programmer to provide its own strategies
+for guessing the constant factors. For example, there are cases
+where using a average of the N last values would be more appropriate 
+than using a global mean. It could also be used by the programmer 
+to devise specialized task-forking procedures.
+
+==========
+Benchmarks
+==========
+
+To assess the interest of the complexity-based scheduling
+approach, we can measure several things.
+
+1) Consider a program that combines involves both sequential
+and parallel computations, run it on input of various sizes 
+(including small sizes), and plot the completion time against the 
+input size, showing one curve for each possible number of processors. 
+Use logarithmic scale for both axes. Ideally, all the curves should 
+be well below or not too far above the one that corresponds to a 
+single processor, since we expect executions to go faster in 
+parallel.
+
+2) Consider a program that involves a lot of parallelism, run 
+the program using various number of processors, and plot the value
+"time for a single processor" / (N * "time for N processors"),
+agains the number N of processors. Apply this to several programs,
+so as to obtain several curves. In general, the curve starts at
+value 1 and goes downwards, since we cannot get 100% efficiency
+in general. The more the curve sticks to 1, the better it is.
+
+3) Consider a program, run the program using various number 
+N of processors, and plot against that number N the ratio 
+"time for N processors" / "time for a single processor".
+Apply this to several programs, so as to obtain several 
+such curves. This chart will give a picture of how much faster
+we can run our programs if we run them in parallel.
+
+4) Consider a program, run it using our approach and then using
+a naive work-stealing algorithm all the way through. (This is
+equivalent to setting the sequential frontier to the value 0
+and to deactivating the evaluation of cost functions.)
+Plot the relative speed-up of our approach against the number
+of processors used. Apply this to several programs in order
+to obtain several curves. This chart should show that we always
+do at least as well as work-stealing, and often a lot better,
+assuming the cost functions are implemented sufficiently efficiently.
+
+Here is a list of several useful examples to try out.
+Sorted from maximal to minimal parallelism.
+- Brute force search, e.g. like inverting a hash function
+- Pattern-searching in a string
+- Matrix multiplication
+- Sparse matrix-vector multiplication
+- Dynamic programming, iterative version
+- Dynamic programming, recursive version with memoization
+- Exhaustive search, e.g. the knight's tour in a chessboard
+* Mergesort
+* Quicksort 
+* Dijkstra's shortest path algorithm for dense graphs
+- Ford-bellman shortest path 
+* Dijkstra's shortest path algorithm for sparse graphs
+to be completed... 
+
+======
+Biblio
+======
+
+Several questions:
+1) Does any previous work makes uses of complexity or costs
+   annotation for compiling programs? Note that this question 
+   is not restricted to the context of parallel programs.
+2) What previous works exploits the timing of the execution 
+   of some subtasks of a program for modifying at runtime the 
+   behavior of the rest of the program? 
+3) In what previous work has been exploiting the notion of
+   "sequential frontier", a point at which the parallel
+   execution mode gets switched to a sequential execution mode?
+
+*********************************************************
+2011-02-01
+*********************************************************
+
+============
+Benchmarking
+============
+
+1) Find machines with different architectures, for example:
+   2 cores, 4 cores, 8 cores, 16 cores, 32 cores, 48 cores, 64 cores.
+   for various architectures. 
+2) Get an account of each of those machines, so as to be
+   able to distribute benchmarks.
+3) Write a program that, for each test program, for each test case,
+   deterministically generates some input data, and measure the 
+   completion time for the program on that test data (Remark: the GC 
+   should be deactivated for that phase). This program should write
+   in a file a report for the execution times, in raw format.
+4) Write a script that distributes the program accross the various
+   machines available, remotely compile and execute the programs,
+   and retreive their result file. There should be a way to remotely
+   kill the program if it exceeds a certain amount of time.
+5) Use Excel to draw charts for analysing the data.
+
+
+==============
+Implementation
+==============
+
+Parse the source file, and modify the AST so as to have two versions 
+of each top-level function: a parallel version and a sequential version. 
+A function named "f" becomes "f_seq" and "f_par". Calls to the function 
+"f" from a sequential code should be replaced with "f_seq", and calls
+to the function "f" from a parallel code should be replaced with "f_par".
+Calls to "f" from a parallel tuple are treated in a special way, as
+this might induce either a call to "f_seq" or "f_par".
+In the sequential version, parallel tuples should be replaced with
+sequential tuples. In the parallel version, parallel tuples should be
+compiled as fork/join, using work-stealing. A spawned task takes the form
+
+  (| f args, ... |)
+
+is interpreted as :
+
+  (|| (f_par args, f_seq args, cost, report_time, report_result), ... ||)
+
+and the compilation pattern for the first task is:
+
+  let c = cost() in
+  if c < sequential_frontier then begin
+     let t = get_time() in
+     let r = f_seq args in
+     let t' = get_time() in
+     report_time c (t'-t);
+     report_result r
+  end else begin 
+     let r = f_par args in
+     report_result r
+   end
+
+
+*********************************************************
+2011-02-09
+*********************************************************
+
+============
+Contribution
+============
+
+Our contribution is a solution to the granularity problem
+is the scheduling of parallel computations.
+
+===========
+Alternative
+===========
+
+Umut suggested an alternative scheduling technique: 
+- we have enough information to evaluate the work associated
+with the tasks from the current deck of a processor,
+as well as the work associated with the current task;
+- if this work is more than enough for feeding all the
+other processors during the time needed to execute the
+current task, then we can simply execute that current 
+task in sequential mode;
+- indeed, there is no need to create more opportunity for
+parallelism, since there is already plenty.
+
+Arthur pointed out that this is a good idea, but that we
+would not need to exploit that idea if the scheduling cost
+is already neglectable (that is, < 5% of the overall time).
+Mike pointed out that implementing Umut's idea would involve
+a little change in the work-stealing algorithm; even though
+such a change is doable, it's always a little tricky to get
+right.
+
+
+*********************************************************
+2011-02-14
+*********************************************************
+
+============
+Benchmarking
+============
+
+For various algorithms, plot a chart with input size as
+x-axis and time as y-axis, the four following curves:
+- purely-sequential total completion time 
+- the above value divided by the number of processors
+- parallel completion time with only work-stealing
+- parallel completion time with work-stealing + our technique
+
+========
+Measures
+========
+
+It would be interesting to have precise information about:
+- the exact cost of obtaining the current time;
+- the variance of the constant that's computed as the ratio
+  between time and asymptotic complexity;
+- the exact cost of deciding whether to go sequential or
+  parallel, assuming the cost is computed as a simple formula
+  of the arguments of the function.
+
+============
+Related work
+============
+
+Arthur has read the paper "Using the run-time sizes of data 
+structures to guide parallel-thread creation". This paper 
+covers the idea of making fork decisions based on the runtime
+size of lists. The sizes are computed automatically; there is
+no annotation from the user. The technique was applied by forking 
+only for lists of length longer than 10. 
+
+====================
+Functional datatypes
+====================
+
+Problem: sometimes the complexity depends on the length of a list
+and computing this length is a prohibitive cost.
+Solution: maintain size information for algebraic data types.
+Trick 1: use the spare bits next to the tag bits to store size.
+Trick 2: size needs only be stored upto 2^20, after that it's not
+needed since the parallel mode is going to be used anyway
+(in general algorithms on lists are at least of linear complexity).
+Implementation: shouldn't be too much work; one simply needs to
+compute and write the length whenever constructing new nodes.
+Overhead: should be pretty small, since it does not consume more
+memory and that only a basic arithmetic operation is involved.
+Remark: maintaining list sizes is not a novel contribution, just
+a trick that is required for our technique to apply well to functional
+data structures.
+
+==============
+Implementation
+==============
+
+Mike was able to compile and run the "treewalk" example
+programmed by Arthur.
+
+
+
+*********************************************************
+2011-02-15
+*********************************************************
+
+======
+Timing
+======
+
+We use "get_time" for measuring execution times.
+Question: is there a better way to estimate the sequential cutoff 
+than using CPU time. Maybe measure the number of cycles? We'll
+leave this question open to future thoughts.
+
+We wanted to do the following time measurements for get_time:
+- How costly is it to measure time? 
+- How accurate is the time measurement?  
+- How stable are time measures?
+
+We implemented a program that does:
+
+  For various values of K
+     Let N be a value st N*K corresponds to one second of work
+     Do N times
+         Measure the time
+         Do K times
+             Do an atomic operation
+         Measure the time
+
+and then we ran again the same program without measuring the times.
+
+The results were not as expected, because the time required
+to run a given computation can easily vary by about 5% on every run.
+
+When measuring the time every 1,000 atomic operations or more, we did
+not observe a overhead more than 5%, so we can conclude that the
+cost of measuring time for every sequential chunk of work is 
+neglectable (< 0.5%) if our chunk size is 10,000 ops or more.
+
+==================
+Building Manticore
+==================
+
+*) If you want to try to use Mike's version, look in
+     /home/mrainey/Installs/SMLNJ
+
+*) Otherwise, follow the steps
+
+- Install at least ver. 110.72 of SMLNJ.
+    http://smlnj.org/dist/working/110.72/index.html
+
+- Check out the latest Manticore sources.
+    svn checkout --username anonsvn https://smlnj-gforge.cs.uchicago.edu/svn/manticore/branches/swp
+
+- Kook for build instructions in the INSTALL file.
+
+====================================
+Compiling and running with Manticore
+====================================
+
+*) Create an .mlb file, which is a build file that contains the
+list of PML programs (and possibly other MLB files) that we wish to
+compile. (An example can be found in the examples/treewalk.mlb file.)
+
+To compile with support for parallelism:
+  pmlc -o treewalk treewalk.mlb
+
+To compile without support for parallelism:
+  pmlc -sequential -o treewalk treewalk.mlb
+
+To execute on the number of processor that the machine has:
+  ./treewalk
+
+To execute on only 16 processors:
+  ./treewalk -p 16
+
+============
+Input syntax
+============
+
+Arthur's plan is to implement a simple tool that parses Ocaml syntax
+and generates PML syntax. This would have several advantages:
+- avoiding programming in a language that hasn't got primitive for-loops
+  and where references need to be specialized to a given type;
+- allowing to reuse many examples for which Arthur already has code;
+- allowing to reuse the same examples if some day those ideas get
+  ported to OCaml.
+
+
+*********************************************************
+2011-02-16
+*********************************************************
+
+=========================
+Theoretical justification
+=========================
+
+Question: can we find a theoretical justification to the
+scheduling that we are doing? Can we bound the scheduling
+costs? Can we say something about the loss of parallelism?
+
+There is some intuition for the scheduling costs in the
+case of tree-shaped computations, but can we generalize
+this to fork-join DAGs?
+
+This investigation leads to a new algorithm:
+   if both subtasks have a size larger than the cut-off,
+   then go parallel, else run the two subtasks in sequence
+
+
+*********************************************************
+2011-02-21
+*********************************************************
+
+===================
+Theoretical results
+===================
+
+Arthur has found proofs for bounds on the scheduling costs
+and on the increase in total depth. The algorithm is now:
+
+   If both subtasks have a size larger than the cut-off,
+   then execute them in parallel, else run the two subtasks 
+   in sequence. The subtasks that have a size smaller than
+   the cut-off should be ran in sequential mode (that is,
+   using always sequential evaluation and not evaluating 
+   the cost functions).
+
+If the cut-off is (\alpha * \tau), where \tau is the cost of
+creating a parallel task, then 
+-- relative scheduling cost is less than (\alpha ^ -1),
+-- total increase in the depth is less than \alpha.
+
+There is a list of arguments for choosing a big value for \alpha
+(see the paper).
+
+==============
+Implementation
+==============
+
+Arthur has prepared the tool for translating Ocaml syntax
+to PML syntax. For the implementation, there remains:
+- to make sure the PML code can be compiled,
+- to add the scheduling policy,
+- to run the benchmarks.
+
+==============
+Paper
+==============
+
+Files for an ICFP paper have been commited in the SVN.
+They already contain the theoretical results.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

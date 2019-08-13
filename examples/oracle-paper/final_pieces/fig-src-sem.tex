@@ -1,0 +1,154 @@
+\begin{figure*}[t]
+\small
+\centering
+\begin{minipage}{0.9\textwidth}
+\[
+\begin{array}{c}
+\infer[\rlabel{value}]
+{
+\strut
+}
+{
+\Jcostof{\Ga}{v}{v}{1}{1}{1}{1}
+}
+\\[2mm]
+\\
+%\infer[\rlabel{plus}]
+%{
+%\strut
+%}
+%{
+%\Jcostof{\Ga}{ \kwplus{v_1}{v_2} }{ v_1 \oplus v_2 }{1}{1}{1}{1}
+%}
+\infer[\rlabel{let}]
+{
+\Jcostof{\Ga}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\Ga}{ e_2[v_1/x] }{v}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\Ga}{ (\kwletin{x}{e_1}{e_2})  }{v}{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1}{\sds_1+\sds_2+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{app}]
+{
+(v_1 = \kwfun{f}{x}{e})
+\\
+\Jcostof{\Ga}{ e[v_2/x, v_1/f] }{v}{\sw}{\sd}{\sws}{\sds}
+}
+{
+\Jcostof{\Ga}{ (\kwapp{v_1}{v_2}) }{v}{\sw+1}{\sd+1}{\sws+1}{\sds+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{first}]
+{
+}
+{
+\Jcostof{\Ga}{ (\kwfst{\kwt{v_1}{v_2}}) }{v_1}{1}{1}{1}{1}
+}
+\quad
+\infer[\rlabel{second}]
+{
+}
+{
+\Jcostof{\Ga}{ (\kwsnd{\kwt{v_1}{v_2}}) }{v_2}{1}{1}{1}{1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{case-left}]
+{
+\Jcostof{\Ga}{ e_1[v_1/x_1] }{v}{\sw}{\sd}{\sws}{\sds}
+}
+{
+\Jcostof{\Ga}{ \kwcase{(\kwinl{v_1})}{x_1}{e_1}{x_2}{e_2} }{v}{\sw+1}{\sd+1}{\sws+1}{\sds+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{case-right}]
+{
+\Jcostof{\Ga}{ e_2[v_2/x_2] }{v}{\sw}{\sd}{\sws}{\sds}
+}
+{
+\Jcostof{\Ga}{ \kwcase{(\kwinr{v_2})}{x_1}{e_1}{x_2}{e_2} }{v}{\sw+1}{\sd+1}{\sws+1}{\sds+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{tuple}]
+{
+\Jcostof{\Ga}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\Ga}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\Ga}{ \kwt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1}{\sds_1+\sds_2+1}
+}
+\quad
+%\infer[\rlabel{ptuple -- $\sseq$}]
+%{
+%\Jcostof{\sseq}{ \kwt{e_1}{e_2} }{v}{\sw}{\sd}{\sws}{\sds} 
+%}
+%{
+%\Jcostof{\sseq}{ \kwpt{e_1}{e_2} }{v}{\sw}{\sd}{\sws}{\sds} 
+%}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-seq}]
+{
+\Jcostof{\sseq}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\sseq}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\sseq}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1}{\sds_1+\sds_2+1}
+}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-par}]
+{
+\Jcostof{\spar}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\spar}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\spar}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\kwmax{\sd_1}{\sd_2}+1}{\sws_1+\sws_2+1+\csp}{\kwmax{\sds_1}{\sds_2}+1+\csp}
+}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-orc-parallelize}]
+{
+\sw_1 \geq \coff \Sc\land \sw_2 \geq \coff
+\\
+\Jcostof{\sorc}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\\
+\Jcostof{\sorc}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\sorc}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\kwmax{\sd_1}{\sd_2}+1}{\sws_1+\sws_2+1+\csp+\corc}{\kwmax{\sds_1}{\sds_2}+1+\csp+\corc}
+}
+\\[2mm]
+\\
+\infer[\rlabel{ptuple-orc-sequentialize}]
+{
+\sw_1 < \coff \Sc\lor \sw_2 < \coff 
+\\
+\Jcostof{(\Lifthenelse{\sw_1 < \coff}{\sseq}{\sorc})}{ e_1 }{v_1}{\sw_1}{\sd_1}{\sws_1}{\sds_1} 
+\quad
+\Jcostof{(\Lifthenelse{\sw_2 < \coff}{\sseq}{\sorc})}{ e_2 }{v_2}{\sw_2}{\sd_2}{\sws_2}{\sds_2} 
+}
+{
+\Jcostof{\sorc}{ \kwpt{e_1}{e_2} }{ \kwt{v_1}{v_2} }{\sw_1+\sw_2+1}{\sd_1+\sd_2+1}{\sws_1+\sws_2+1+\corc}{\sds_1+\sds_2+1+\corc}
+}
+%\infer[\rlabel{}]
+%{
+%}
+%{
+%}
+
+\end{array}
+\]
+\caption{Dynamic cost semantics}
+\label{fig:src-dyn}
+\label{fig:src-sem}
+\end{minipage}

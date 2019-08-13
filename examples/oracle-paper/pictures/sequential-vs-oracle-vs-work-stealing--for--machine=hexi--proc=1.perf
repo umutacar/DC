@@ -1,0 +1,12 @@
+=cluster;sequential;oracle;work-stealing
+colors=black,yellow,red
+=table
+yformat=%4.2f
+=norotate
+ylabel=execution time (normalized)
+
+barnes-hut 1. 1.03670915652 1.35714842026
+quickhull 1. 1.08585546634 1.50545604282
+quicksort 1. 1.05694551036 1.61458173446
+dmm 1. 1.03492111195 1.2124417731
+smvm 1. 1.11331292627 4.85156543687

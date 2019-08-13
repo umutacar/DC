@@ -1,0 +1,268 @@
+
+\section{Introduction}
+\label{sec:introduction}
+
+%-----------------------
+%\paragraph{Motivation}
+{\em Explicit parallel programming} provides full control over
+parallel resources by offering primitives for creating and managing
+parallel tasks, which are small, independent threads of control.   % ARTHUR: FIX THIS
+As a result, the programmer can, at least in principle, write efficient
+parallel programs by performing a careful cost-benefit analysis to
+determine which tasks should be executed in parallel and under what
+conditions.  This approach, however, often requires reasoning about
+low-level execution details, such as data races or concurrent effects,
+which is known to be notoriously hard; it can also result in code that
+performs well in a particular hardware setting but not in others.
+
+The complexities of parallel programming with explicit languages have
+motivated interest in {\em implicitly parallel languages}, such as
+Cilk~\cite{Blumofe95},
+Manticore~\cite{Fluet:2008:SFG:1411204.1411239,FluetRaReSh11},
+Multilisp~\cite{Halstead85}, and NESL~\cite{nesl-implement}.  These
+languages enable the programmer to express opportunities for
+parallelism via language constructs, \textit{e.g.}, parallel
+sequences, parallel arrays, and parallel tuples.  This implicit
+approach enables a declarative programming style by delegating the
+task of utilizing the parallelism exposed by the program to the
+compiler and the run-time system.  As an implicit parallel program
+executes, it exposes opportunities for parallelism (as indicated by
+the parallel constructs) and the language run-time system creates
+parallel tasks as needed.  To execute parallel tasks efficiently,
+implicit programming languages use a scheduler to load balance,
+\textit{i.e.}, distribute parallel tasks among processors.  Various
+scheduling techniques and practical schedulers have been developed,
+including work-stealing
+schedulers~\cite{BlumofeWorkStealing,AroraBlPl98,AcarBlBl02} and
+depth-first-search schedulers~\cite{BlellochGr96}.
+
+Experience with implicitly parallel programs shows that one of the
+most important decisions that any implicit parallel language must make
+is determining whether or not to exploit an opportunity for
+parallelism by creating a parallel task.  Put another way, the
+question is to determine which tasks to execute in parallel and which
+tasks to execute sequentially.  This problem, often referred to as the
+{\em granularity problem}, is important because creating a parallel
+task requires additional overhead. If the task granularity is not
+handled effectively, task-creation overheads can easily obliterate the
+benefit of parallelism.
+
+%% Because the speedup achievable
+%% via parallel computation is bounded by the number of processors, often
+%% a small constant factor, any increase in the overhead, however small,
+%% matters.
+
+Many parallel programs are characterized by parallel
+slackness~\cite{Valiant90}, a property which indicates that the
+program exposes many more opportunities for parallelism than the
+number of available processors. In such programs, effective
+granularity control is crucial because the program typically creates
+many small tasks, thereby ensuring significant scheduling overhead.
+
+% (a.k.a., parallel slackness~\cite{Valiant90})
+
+No known broadly applicable solution to the granularity problem
+exists. Theoretical analyses often ignore task-creation overheads,
+yielding no significant clues about how these overheads may affect
+efficiency.  Practical implementations often focus on reducing
+task-creation overheads instead of attempting to control granularity.
+As a result, practitioners often deal with this issue by trying to
+estimate the right granularity of work that would be sufficiently
+large to execute in parallel.  
+% umut: this seems redundant. also wrong use of ``to pay off'' 
+% More specifically, programmers try to determine the input sizes at
+% which tasks become too small to pay off the costs of parallel task
+% creation and sequentialize such tasks.
+%
+Since the running time of a task depends on the hardware, such manual
+control of granularity is difficult
+and bound to yield suboptimal results and/or non-portable
+code~\cite{lazy-binary-splitting}.
+
+% umut:reformulated this.
+% the programmer must make the best decision they can by taking into
+% account the specifics of the hardware.  This manual granularity
+% control is bound to yield suboptimal results and/or non-portable
+% code~\cite{lazy-binary-splitting}.
+
+%There is some recent work on the area of performance tuning of benchmarks
+%by profiling certain specific
+%parameters~\cite{performance-tuning}.  \uremark{These seems to
+%target specific benchmarks, require recomputations etc.}
+
+In this paper, we propose theoretical and practical techniques for the
+granularity problem in implicit parallel-programming languages.  Our
+results include theorems that characterize how parallel run time is
+affected by task-creation overheads, which we show to be significant
+(\secref{theorems}).  To reduce these overheads, we consider
+a granularity control technique that relies on an oracle for
+determining the run-time of parallel tasks (\secref{cost-semantics}).  We
+show that if the oracle can be implemented efficiently and accurately,
+it can be used to improve efficiency for a relatively large class of
+computations (\secref{theorems}). 
+Based on this result, we describe how oracles can be
+realized in practice; we call this technique {\em oracle scheduling}
+because it relies on an oracle to estimate task sizes and because it
+can be used in conjunction with practically any other scheduler
+(\secref{schedule}).  Finally, we propose an implementation of oracle
+scheduling that uses complexity functions defined by the user to
+approximate accurately run-time of parallel tasks (\secref{schedule}).
+We present an implementation and evaluation of the proposed approach
+by extending a subset of the Caml language (\secreftwo{imp}{exp}).
+
+Brent's theorem~\cite{Brent74}, commonly called the work-time
+principle, characterizes what is arguably the most important benefit
+of parallel programs, which is that a parallel program can be executed
+on a multiprocessor to obtain near linear speedups.  For a
+computation, let {\em raw work}, written \sw, refer to the total
+number of executed instructions, and let {\em raw depth}, written \sd,
+refer to the length longest dependent chain of executed instructions.
+Brent's theorem shows that we can execute a computation with $\sw$ raw
+work and $\sd$ raw depth in no more than $\sw/P + \sd$ steps on $P$
+processors using any \emph{greedy scheduler}.~\footnote{Note that the
+  bound is tight within a factor of two.}  A greedy scheduler is a
+scheduler that can find available work immediately.  This assumption
+is reasonably realistic, as practical multiprocessor scheduling
+algorithms, such as work-stealing, can match Brent's bound
+asymptotically for certain relatively large classes of computations,
+\textit{e.g.}, fork-join and nested data-parallel computations.
+
+In the execution model with raw work and raw depth, each instruction
+implicitly is assigned unit cost.  Unfortunately, this model does not
+direcly account for task-creation overheads.  To assess the
+significance of these overheads in implicitly parallel programs, we
+consider a lambda calculus with parallel tuples and present a
+cost-semantics for evaluating expression of this language
+(\secref{cost-semantics}).  The cost semantics accounts for
+task-creation overheads by assigning non-unit costs to the operations
+generating such overheads.  In addition to raw work and raw depth, the
+cost semantics yield total work, total depth of each evaluated
+expression.  We define {\em total work}, written \sws, as the total
+cost of the evaluated instructions, and {\em total depth}, written
+\sds, as the total cost of the most expensive dependent chain of
+evaluated instructions---total work and total depth include
+task-creation overheads.
+
+Using this cost semantics, we show that task creation overheads can be
+a significant multiplicative factor of the raw work.  To understand
+the understand the impact of the overheads, we adapt Brent's theorem
+to take them into account (\secref{cost-semantics}).  Specifically, we
+show that parallel computations with total work $\sws$ and total
+depth $\sds$ can be executed in no more than $\sws/P + \sds$ steps.
+Intuitively, this bound shows that task-creation overheads contribute
+directly to the parallel run time just like any other work.  Combined
+with the result that task-creation overheads can increase total work
+by a multiplicative factor, the generalized Brent's theorem implies
+that the overheads slow down parallel run time by a multiplicative
+factor.
+
+To reduce task-creation overheads, we propose an alternative {\em
+  oracle semantics} that capture a well-known principle for avoiding
+the task-creation overheads. We evaluate a task in parallel only if
+its is sufficiently large, \textit{i.e.}, greater than some {\em
+  cutoff} constant $\coff$.  We show that the oracle semantics can
+decrease the overheads of task-creation by any desired constant
+factor $\coff$, but only at the cost of increasing the total depth
+(\secreftwo{cost-semantics}{analysis}).
+%
+These bounds suggest that we can reduce the
+task-creation overheads significantly, if we can realize the semantics
+in practice.  This  unfortunately is impossible because it requires
+determining a priori task-creation overheads.  We show, however, that
+a realistic oracle that can give constant-factor approximations to the
+task run times can still result in similar reductions in the
+overheads. We show that if we have prior knowledge of the
+raw work and the raw depth of a computation, then we can pick the
+optimal cutoff constant \coff that yields the fastest parallel run
+time for a class of computations.  We also show that, under some
+assumptions, there exists a constant \coff that reduces the task
+creation overheads to a small constant ratio of the raw work, without
+increasing the depth of the computation in a way that would 
+significantly affect the run time. %ARTHUR: check this
+
+
+To realize the oracle semantics in practice, we describe a scheduling
+technique that we call {\em oracle scheduling} (\secref{schedule}).
+Oracle scheduling relies on a {\em task-size estimator} that can
+estimate the actual run time of parallel tasks in constant-time within
+a constant factor of accuracy, and a conventional greedy scheduling
+algorithm, \textit{e.g.}, work-stealing, or a parallel depth-first
+scheduler.  Oracle schedulers perform efficient parallel task creation
+by selectively executing in parallel only those tasks that have a
+large parallel run-time. We describe an instance of the oracle
+scheduler that relies on an estimator that uses asymptotic cost
+functions (asymptotic complexity bounds) and judicious use of run-time
+profiling techniques to estimate actual run-times accurately and
+efficiently.  This approach combines an interesting property of
+asymptotic complexity bounds, which are expressed without
+hardware-dependent constants, and profiling techniques, which can be
+used to determine these constants precisely.
+
+We present a prototype implementation of the proposed approach
+(\secref{imp}) by extending the OCAML language to support parallel
+tuples and complexity functions.  The implementation translates
+programs written in this extended language to the PML (Parallel ML)
+language~\cite{FluetRaReSh11}.  Although our implementation requires
+the programmer to enter the complexity information, this information
+could also be inferred in some cases via static analysis
+(\textit{e.g.},~\cite{JostHaLoHo10} and references therein).  In our
+implementation, for simplicity we only consider programs for which the
+execution time is (with high probability) proportional to the value
+obtained by evaluating the asymptotic complexity expression.  We
+extend the Manticore compiler for PML to support oracle scheduling and
+use it to compile generated PML programs.  Our experiments
+(\secref{exp}) show that oracle implementation can reduce the
+overheads of a single processor parallel execution to between 3 and 13
+percent of the sequential time.
+%\uremark{Mike please check that this is
+% accurate, note that i am comparing sequential and one-procesor runs.}  
+When using 16 processors, we achieve 7- to 15-fold speedups
+on an AMD machine and 6- to 10-fold speedups on an Intel machine.
+
+%% %-----------------------
+%% \paragraph{Realizing the oracle}
+%% %
+%% \aremark{The following paragraph is good but a bit too verbose I find}
+%% As a practical realization of the oracle semantics, we propose in this
+%% paper techniques that combine the user-provided portable annotations
+%% with judicious use of run-time profiling during run-time.  The key
+%% insight behind our proposal is the realization that the asymptotic
+%% complexity of parallel tasks offer portable (hardware independent)
+%% information about the run-time of parallel tasks and they can be used
+%% to infer actual run times when combined with careful profiling.  To
+%% see this, suppose that we know the asymptotic complexity of each
+%% parallel task. By definition, asymptotic complexity ignores constant
+%% factors and thus remains unchanged across a range of parallel systems
+%% or computers. The ignored constant factors, however, 
+%% are very hard to predict statically. Since those factors can be large,
+%% complexity bounds themselves do not constitute good estimators
+%% for the purpose of realizing the oracle semantics in practice.  Given
+%% the asymptotic complexity of a task, and the actual value of the input
+%% size or parameter that the complexity depends on, we can determine
+%% relatively easily the constant factors hidden by the asymptotic
+%% notation by taking a few samples.  Specifically, we can measure the
+%% run-time of the task and using relatively straightforward curve
+%% fitting techniques determine the hidden constant factor.  When a
+%% similar task is then executed again (with any other input), we can
+%% then estimate its size by using the determined constants and the
+%% asymptotic formula.
+
+%\paragraph{Compilation}
+
+%\paragraph{Implementation}
+
+%TODO: should say we do work-stealing.
+% here is a short summary
+%The work-stealing scheduler has been successfully used to implement parallel tuples.
+%When evaluating a parallel tuple, the second branch of the tuple is placed on
+%the processor's {\em deck}, rather than on the processor's stack.
+%Processor that do not have work to do look at the deck of other processors
+%to try and steal a task from them.
+%Placing tasks on the deck is more expensive
+%than placing them on the stack, and this is where the overhead is coming from
+
+
+%------------------
+
+%\paragraph{Experiments}
+

@@ -1,0 +1,535 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%******************************************************************************
+\section{Oracle Scheduling}
+%\section{Compilation}
+\label{sec:scheduling}
+\label{sec:schedule}
+
+\begin{comment}
+The original theorem of Brent and our generalization assume a greedy
+scheduler that can find available work (parallel tasks to execute)
+immediately with no overhead.  This is unrealistic of course but many
+schedulers can achieve similar bounds asymptotically for a reasonably
+broad class of computations.  For example, a work-stealing scheduler
+can execute a fully-strict computations with $\sws$ work and $\sds$
+depth on $P$ processors in $O(\sws/P + \sds)$ expected
+time~\cite{BlumofeWorkStealing}.  The class of fully-strict
+computations (\textit{i.e.}, series-parallel computations) include all
+fork-join programs, nested-parallel computations, and specifically
+computations with parallel tuples, our focus here.
+\uremark{Check the claim about fully strictness. }
+
+%\paragraph{Oracle Scheduling.}
+
+Since our oracle semantics makes no assumptions about the specifics of
+a scheduler (the semantics simply determines when to create parallel
+tasks), the created parallel tasks can be scheduled by using any
+suitable scheduler, \textit{e.g.}, a work-stealing scheduler.
+
+%ARTHUR :
+In our experiments (\secreftwo{imp}{exp}), we use an implementation of
+this estimator combined with a work-stealing scheduler
+\end{comment}
+
+
+As we
+describe in this section, we can realize the oracle semantics by using
+a {\em $(\corc,\cerr)$-estimator} that requires $\corc$ time to
+estimate actual run-time of parallel tasks within a factor of no more
+than $\cerr$.  We refer to the combination of an estimator with a
+parallel scheduler as an {\em $(\corc,\cerr)$-oracle-scheduler}. 
+
+\begin{figure}
+\small
+%\begin{figure*}
+%\begin{minipage}{\textwidth}
+\begin{codeListing}
+type \kwtypeofcost
+\\
+type \kwestimatortype
+\\
+val \kwestimatorinit: unit -> \kwestimatortype
+\\
+val \kwestimatordata: \kwestimatortype \!\!\!$\times$ \kwtypeofcost \!\!\!$\times$ float -> unit
+\\
+val \kwestimatorapp: \kwestimatortype \!\!\!$\times$ \kwtypeofcost -> float
+\end{codeListing}
+\caption{The signature of the estimator data structure
+%for an abstract cost type.
+}
+\label{fig:estimator-sig}
+%\end{minipage}
+%\end{figure*}
+\end{figure}
+
+
+
+\paragraph{Run-time estimators.}
+To realize the oracle semantics, we require the user to provide a {\em
+  cost function} for each function in the program and rely on an {\em
+  estimator} for estimating actual work using the user-provided cost
+information.  When applied to an argument \ttt{v}, a cost function of
+\ttt{f} returns the abstract cost of the application of \ttt{f} to
+\ttt{v}. The cost is passed to the estimator, which uses the cost to
+compute an estimate of the actual execution time, that is, the raw
+work, of the application.  \figref{estimator-sig} shows a signature
+for the estimator. To perform accurate estimates, the estimator
+utilizes profiling data obtained from actual execution times. The
+sampling operation 
+%\begin{center}
+\ttt{\kwestimatordata(t, c, e)}
+%\end{center}
+ adds a cost \ttt{c} and an execution time \ttt{e} to the set of
+ samples in an estimator \ttt{t}. An estimate of the actual execution
+ time is obtained by calling \ttt{predict}.  Given an estimator
+ \ttt{t} and cost \ttt{c}, the call
+%\begin{center}
+\texttt{\kwestimatorapp(t, c)}
+%\end{center}
+returns a predicted execution time.
+
+%% Note that the exact definition or type of the
+%% abstract cost and the nature of the estimator vary as long as they
+%% remain consistent: the estimator must be able to interpret the
+%% abstract cost in approximating the actual run time.
+
+
+\paragraph{Compilation.}
+
+To support oracle scheduling with estimators, we need compilation
+support to associate an estimator with each function defined in the
+program code, to derive a sequential and an oracle version for each
+function, and to evaluate tuples sequentially or in parallel depending
+on the approximations performed by the estimator.  
+
+For simplicity, we assume that constituents of parallel tuples are
+function applications, \textit{i.e.}, they are of the form
+$\kwpt{f_1\,v_1}{f_2\,v_2}$.  Note that this assumption does not cause
+loss of expressiveness, because a term $e$ can always be replaced by a
+trivial application of a ``thunk'', a function that ignores its
+argument (typically of type ``unit'') and evaluates $e$ to a dummy
+argument. Throughout, we write \Q{\kwfuncost{f}{x}{e_b}{e_c}} to
+denote a function \Q{\kwfun{f}{x}{e_b}} for which the cost function
+for the body $e_b$ is described by the expression $e_c$.  This
+expression $e_c$, which may refer to the argument $x$, should be an
+expression whose evaluation always terminates and produces an cost of
+type \kwtypeofcost.
+
+To associate an
+estimator with each function, in a simple pass over the source code,
+we allocate and initialize an estimator for each
+syntactic function definition.  For
+example, if the source code contains a function of the form
+\Q{\kwfuncost{f}{x}{e_b}{e_c}}, then our compiler allocates an
+estimator specific to that function definition.  Specifically, if the
+variable~$r$ refers to the allocated estimator, then the translated
+function, written \Q{\kwfuncostced{f}{x}{e_b}{e_c}{r}}, 
+is annotated with $r$.
+
+
+
+
+%----------
+\begin{figure*}
+
+%% \begin{minipage}{\textwidth}
+%% \begin{codeListing}
+%% fun MeasuredRun (est,c,t) =
+%% \\
+%% let 
+%% \\
+%% ~~start = get\_time ()
+%% \\
+%% ~~v = t ()
+%% \\
+%% ~~finish = get\_time ()
+%% \\
+%% ~~() = \kwestimatordata(est,c,finish-start)
+%% \\
+%% in
+%% \\
+%% ~~v
+%% \\[4mm]
+%% %
+%% fun Oracle(f,v) = 
+%% \\
+%% let 
+%% \\
+%% ~~est = \kwestimatorof{f}
+%% \\
+%% ~~c = est ((\kwcostfunof{f}) v)
+%% \\
+%% in
+%% \\
+%% ~~if c < \coff then
+%% \\
+%% ~~~~(false, fn () => MeasuredRun (est,c,\kwseqof{f}))
+%% \\
+%% ~~else
+%% \\
+%% ~~~~(true, fn () => \kworcof{f})
+%% \end{codeListing}
+
+%MeasuredRun\,(r,m,k) \Sc\equiv \\
+%\quad\begin{lines}
+%\kwletins{t}{\kwappunit{get\_time}} \\
+%\kwletins{v}{\kwappunit{k}} \\
+%\kwletins{t'}{\kwappunit{get\_time}} \\
+%\kwapp{ced\_measured}{(r,m,(t'-t))}; \\
+%v
+%\end{lines}
+
+%% \caption{Pseudo code for an oracle.}
+%% \label{fig:oracle-code}
+
+%% \end{minipage}
+
+%\medskip
+
+\begin{minipage}{\textwidth}
+\newcommand{\kwApphere}[2]{\kwapp{#1}{#2}}
+\newcommand{\compilskip}{\vspace{2pt}\\}
+\[
+\begin{array}{l@{\quad\equiv\quad}l}
+\Fcompval{x} & x 
+\compilskip
+\Fcompval{\kwt{v_1}{v_2}} & \kwt{\Fcompval{v_1}}{\Fcompval{v_2}} 
+\compilskip
+\Fcompval{\kwinl{v}} & \kwinl{\Fcompval{v}} 
+\compilskip
+\Fcompval{\kwinr{v}} & \kwinr{\Fcompval{v}} 
+\compilskip
+\Fcompval{\kwfuncostced{f}{x}{e_b}{e_c}{r}} & 
+\Lquadruple{r}
+{\kwFun{\_}{x}{\Fcomp{\sseq}{e_c}}}
+{\kwFun{f}{x}{\Fcomp{\sseq}{e_b}}}
+{\kwFun{f}{x}{\Fcomp{\sorc}{e_b}}} 
+\compilskip
+\Fcomp{\Ga}{v} & \Fcompval{v} 
+\compilskip
+\Fcomp{\sseq}{\kwApphere{v_1}{v_2}} & \kwApphere{\kprojof{3}{\Fcompval{v_1}}}{\Fcompval{v_2}} 
+\compilskip
+\Fcomp{\sorc}{\kwApphere{v_1}{v_2}} & \kwApphere{\kprojof{4}{\Fcompval{v_1}}}{\Fcompval{v_2}} 
+\compilskip
+\Fcompga{\kwt{e_1}{e_2}} & \kwt{\Fcompga{e_1}}{\Fcompga{e_2}} 
+\compilskip
+\Fcompga{\kwletin{x}{e_1}{e_2}} & \kwletin{x}{\Fcompga{e_1}}{\Fcompga{e_2}} 
+\compilskip
+\Fcompga{\kwfst{v}} & \kwfst{\Fcompval{v}} 
+\compilskip
+\Fcompga{\kwsnd{v}} & \kwsnd{\Fcompval{v}} 
+\compilskip
+\Fcompga{\kwcase{v}{x}{e_1}{x}{e_2}} & \kwcase{\Fcompval{v}}{x}{\Fcompga{e_1}}{x}{\Fcompga{e_2}} 
+\compilskip
+%\Fcomp{\sseq}{\kwpt{e_1}{e_2}} & \kwt{\Fcomp{\sseq}{e_1}}{\Fcomp{\sseq}{e_2}} \vspace{3pt}\\
+\Fcomp{\sseq}{ \kwpt{ \kwApphere{f_1}{v_1} }{ \kwApphere{f_2}{v_2} } } & \kwt{\kwApphere{\kprojof{3}{\Fcompval{f_1}}}{\Fcompval{v_1}}}{\kwApphere{\kprojof{3}{\Fcompval{f_2}}}{\Fcompval{v_2}}} 
+\compilskip
+\Fcomp{\sorc}{ \kwpt{ \kwApphere{f_1}{v_1} }{ \kwApphere{f_2}{v_2} } } & 
+\left\{ \begin{array}{@{}l}
+\kwletins{(b_1,k_1)}{\ttt{MakeBranch}(\Fcompval{f_1},\Fcompval{v_1})} \\
+\kwletins{(b_2,k_2)}{\ttt{MakeBranch}(\Fcompval{f_2},\Fcompval{v_2})} \\
+\kwif{(b_1~\kw{\&\&}~b_2)}{ \kwpt{\kwApphere{k_1}{\kwunit}}{\kwApphere{k_2}{\kwunit}} }{ \kwt{\kwApphere{k_1}{\kwunit}}{\kwApphere{k_2}{\kwunit}}  }
+\end{array} \right.
+\end{array}
+\]
+
+\caption{Translation for oracle scheduling.}
+\label{fig:compilation}
+\end{minipage}
+
+\end{figure*}
+%----------
+
+The second pass of our compilation scheme uses the allocated
+estimators to approximate the actual raw work of function applications
+and relies on an \ttt{MakeBranch} function to determine whether an
+application should be run in the oracle or in the sequential mode.
+\figref{compilation} defines more precisely the second pass.  We write
+$\Fcompval{v}$  for
+ the translation of a value $v$, and we write
+$\Fcomp{\Ga}{e}$ for the translation of the expression $e$ according to
+the semantics $\Ga$, which can be either $\sseq$ or $\sorc$.  When
+specifying the translation, we use triples, quadruples, projections,
+sequence, if-then-else statements, and unit value; these constructions
+can all be easily defined in our core programming language.
+
+
+Translation of values other than functions does not depend on the mode
+and is relatively straightforward.  We translate functions, which are
+of the form \Q{\kwfuncostced{f}{x}{e_b}{e_c}{r}}, into a quadruple
+consisting of the estimator \ttt{r}, a sequential cost function, the
+sequential version of the function, and the oracle versions of the
+function.  Translation of a function application depends on the
+mode. In the sequential mode, the sequential version of the function
+is selected (by projecting the third component of the function) and
+used in the application.  Similarly, in the oracle mode, the oracle
+version of the function is selected and used in the application.  To
+translate a tuple, we recursively translate the subexpression, while
+preserving the mode.  Similarly, translation of the \ttt{let},
+projections, and \ttt{case} constructs are entirely structural.
+
+In the sequential mode, a parallel tuple is turned into a simple tuple.
+In the oracle mode, the translation applies the oracle-based scheduling
+policy with the aid of the meta-function \ttt{MakeBranch}.  This
+meta-function, shown in \figref{metafunctions}, describes
+the template of the code generated for preparing the execution of a
+parallel tuple.  \ttt{MakeBranch} expects a (translated) function $f$ and
+its (translated) argument $v$, and it returns a boolean $b$ indicating
+whether the application of $f$ to $v$ is expected to take more or less
+time than the cutoff $\coff$, and a thunk $t$ to execute this application.  On
+the one hand, if the application is predicted to take more time than
+the cutoff (in which case $b$ is true), then the thunk $t$ corresponds
+to the application of the 
+oracle-semantics version of the function $f$.  On the other
+hand, if the application is predicted to take less time than the
+cutoff (in which case $b$ is false), then the thunk $t$ corresponds to
+the application of the 
+sequential-semantics version of the function $f$. Moreover, in the
+latter case, the time taken to execute the application sequentially is
+measured. This time measure is reported to the estimator by the auxiliary meta-function
+\ttt{MeasuredRun} (\figref{metafunctions}), so as to enable
+ its approximations.
+
+Observe that the translation introduces many quadruples and
+applications of projection functions. However, in practice, the
+quadruples typically get inlined so most of the projections can be
+computed at compile time.  Observe also that the compilation scheme
+involves some code duplication, because every function is translated
+once for the sequential mode and once for the oracle mode. In theory,
+the code could grow exponentially when the code involves functions
+defined inside the body of other functions. In practice, the code the
+growth is limited because functions are rarely deeply nested.  If code
+duplication was a problem, then we can use flattening to eliminate
+deep nesting of local functions, or pass the mode $\Ga$ as an extra
+argument to functions.
+
+
+%----------
+\begin{figure}[t]
+
+$$\begin{lines}
+\ttt{MakeBranch}\,(f,v) \Sc\equiv \\
+\quad\begin{lines}
+\kwletins{r}{\kprojof{1}{f}} \\
+\kwletins{m}{\kwapp{\kprojof{2}{f}}{v}} \\
+\kwletins{b}{\kwestimatorapp(r,m) > \coff} \\
+\kwletins{\kw{fun}~k_{\sseq}\,\kwunit}{\kwapp{\kprojof{3}{f}}{v} } \\
+\kwletins{\kw{fun}~ k_{\sseq}'\,\kwunit}{\ttt{MeasuredRun}(r,m,k_{\sseq})} \\
+\kwletins{\kw{fun}~ k_{\sorc}\,\kwunit}{\kwapp{\kprojof{4}{f}}{v} } \\
+\kwletins{k}{\kwif{b}{k_{\sorc}}{k_{\sseq}'}} \\
+\kwt{b}{k}
+\end{lines}
+\vspace{4pt}\\
+
+\ttt{MeasuredRun}\,(r,m,k) \Sc\equiv \\
+\quad\begin{lines}
+\kwletins{t}{\kwappunit{\ttt{get\_time}}} \\
+\kwletins{v}{\kwappunit{k}} \\
+\kwletins{t'}{\kwappunit{\ttt{get\_time}}} \\
+\kwapp{\kwestimatordata}{(r,m,(t'-t))}; \\
+v
+\end{lines}
+\end{lines}$$
+
+\vspace*{-4mm}
+
+\caption{Auxiliary meta-functions used for compilation.}
+\label{fig:metafunctions}
+\end{figure}
+%----------
+
+\paragraph{Cost as complexity functions.} 
+
+The techniques described in this section require the programmer to
+annotate each function defined in the program with a cost function
+that, when applied to the argument, returns an abstract cost value.
+This abstract cost value is then used by an estimator, which is also
+left abstract, to approximate the actual raw work of a task. 
+For our bounds to apply, complexity expressions
+should require constant time to evaluate.
+
+Predicting the raw work is only needed for sequential tasks,
+so the estimator actually needs to return an approximation of the actual run
+time of a sequential task.  A crucial property of the abstract cost is
+that it should be abstract enough that the programmer can write the
+cost functions without necessarily knowing the details of the hardware
+that the programs will be executed on.  Yet, abstract costs should
+provide sufficient information to estimate the actual run times.   
+
+Asymptotic complexity specifications serve as a natural cost function
+by satisfying both of these properties.  Since they eliminate hardware
+specific constants, they can be specified easily.  Using complexity
+functions, we can approximate the actual run time of sequentially
+executed functions by simply determining the constants hidden by the
+asymptotic complexity notation.  Such an approximation can be
+performed by using the least squares method or similar techniques for
+data fitting from known samples.
+
+In our implementation described in \secref{imp}, we implement an
+approach based on complexity functions.  We define \kwtypeofcost as an
+integer, which represents the application of the complexity function
+applied to the input size.  We approximate the actual run time by
+calculating a single constant, assuming that the constants in all
+terms of the asymptotic complexity are the same.  Although assuming a
+single constant can decrease the precision of the approximations, we
+believe that it suffices because we only have to compute lower bounds
+for our functions; \textit{i.e.}, we only need to determine whether they are
+``big enough'' for parallel execution.
+
+\aremark{Discuss this last paragraph}
+
+%******************************************************************************
+%******************************************************************************
+
+\begin{comment}
+[TODO: define substitution on language with cost expressions]
+[TODO: define the semantics judgment on that language]
+[TODO: theorems concern termination but could be extended to divergence]
+
+
+
+
+%-------------------------------------------------------------------
+\subsection{Correctness of the translation}
+
+In this section, we outline the proof of correctness for our
+translation. For this proof, we introduce a reference semantics whose
+judgement takes the form
+$$e \redb v$$ where $e$ is a term that evaluates to a value $v$. The
+references semantics is similar to the dynamic cost semantics, except
+for two cases: For simplicity, the reference semantics does not
+measure costs and, as such, does not include oracle derivation rules.
+For correctness, the reference semantics has a modified version of the
+function-application rule where the cost function is applied to the
+same argument as the function and the application is forced to
+evaluate to a value. The correctness theorem below, as stated, would
+be incorrect otherwise, because without the modification,
+nonterminating cost functions could cause translated expressions to
+diverge even though their untranslated counterpart expressions
+converge.
+
+The substitution lemma shows that our translation commutes with the
+substitution of value for a variable inside a source expression.
+\begin{lemma}[Substitution]
+\label{lem:trans-substitution}
+Let $e$ be an expression, $v$ be a value, $x$ be a 
+variable and $\alpha$ be either $\sseq$ or $\sorc$.
+Then,
+$$\Fcomp{\alpha}{e[v/x]} \Sq\equiv
+\Fcomp{\alpha}{e}[\Fcompval{v}/x]$$
+\end{lemma}
+The following two lemmas state the specifications of our metafunctions
+$MeasuredRun$ and $MakeBranch$. The proof of each follows trivially from
+the definitions.
+\begin{lemma}[MeasuredRun]
+\label{lem:trans-measured-run}
+If $r$, $m$, and $k$ are \src values,
+\begin{itemize}
+\item $r$ is of type $\Tced$
+\item $m$ is of type $\F{int}$
+\item $k() \redb v$
+\end{itemize}
+then $MeasuredRun (r, m, k) \redb v$.
+\end{lemma}
+\begin{lemma}[Semantics of the function MeasureRun]
+\label{lem:trans-run}
+Let $r$ be a CED value, $m$ an integer value, $k$ a continuation
+and $v$ a value.
+If \W{\Jsemof{\kwapp{k}{\kwunit}}{v}}
+then \W{\Jsemof{MeasureRun (r,m,k)}{v}}.
+\end{lemma}
+
+\begin{lemma}[Semantics of the function MakeBranch]
+\label{lem:trans-oracle}
+If $r$, $f_c$, $f_s$, $f_p$ are \src expressions, $v_a$ is a \src value,
+and
+\begin{itemize}
+\item $r$ is of type $\Tced$
+\item $f_c v_a \redb v_c$
+\item $f_p v_a \redb v_r$
+\item $f_s v_a \redb v_r$
+\end{itemize}
+and $(b, k)$ $=$ $Oracle ((r, f_c, f_s, f_p), v_a)$, then $k() \redb
+v_r$.
+\end{lemma}
+Finally, the correctness theorem shows that our translation preserves
+the meaning of the given source expression, if the source expression
+terminates. It is straightforward to extend the argument to cover
+expressions that diverge.
+\begin{theorem}[Correctness of the translation]
+If $e$ is an expression and $v$ a value such that \W{\Jsemof{e}{v}}, then,
+for $\alpha$ equal to either $\sseq$ or $\sorc$,
+we have \W{\Jsemof{\Fcomp{\Ga}{e}}{\Fcompval{v}}}.
+\end{theorem}
+
+\begin{proof}
+By induction on the evaluation derivation $\redb$.
+\end{proof}
+
+
+
+
+
+%----------
+\begin{figure}[t]
+
+$$\begin{lines}
+\kw{val}\;default\_constant = 1.0
+\vspace{4pt}\\
+\kw{val}\;nb\_begin = 4
+\vspace{4pt}\\
+\kw{val}\;nb\_grouped = 20 * nb\_proc 
+\vspace{4pt}\\
+\kw{val}\;weight = 3
+\vspace{4pt}\\
+
+\kw{type}\;\Tced\Sc{=} 
+\begin{array}[t]{@{}l@{\;}l@{}l} 
+\{ & global & \Sc{:} \kw{float}; \\
+& local & \Sc{:} \kw{(bool * int * float)\,array} \,\}  %\Tarray{(\Tbool\Tprod\Tint\Tprod\Tfloat)}
+\end{array}
+\vspace{4pt}\\
+
+\kw{val}\;ced\_initialize\,() =\\
+\quad
+\begin{array}[t]{@{}l@{\;}l@{}l} 
+\{ & global & \Sc{=} default\_constant; \\
+& local & \Sc{=} \kw{make\_array}\,(nb\_proc,\,(\kw{true},\, 0,\, 0.0)) \,\} 
+\end{array}
+\vspace{4pt}\\
+
+\kw{val}\;ced\_estimate\,(r,m) = m * r.global
+\vspace{4pt}\\
+
+\kw{val}\;ced\_report\,(r,c) =\\
+\quad \begin{lines}
+r.shared \leftarrow (r.shared * weight + c) \Ss/ (weight + 1)
+\end{lines}
+\vspace{4pt}\\
+
+\kw{val}\;ced\_measured\,(r,m,t) =\\
+\quad \begin{lines}
+\kwletins{p}{\kwappunit{get\_proc\_id}} \\
+\kwletins{(g,n,s)}{ r.\kwarrget{local}{p}} \\
+\kwletins{g'}{g~\kw{\&\&}~(n<nb\_begin)} \\
+\kwletins{n'}{n+1} \\
+\kwletins{s'}{s+(t / m)} \\
+\kwletins{c}{s' \Sc/ n'} \\
+\kw{if}~g'~\kw{then}~ced\_report\,(r,c); \\
+\kw{if}~n' = nb\_grouped~\kw{then}~\kw{begin}\\
+\qquad ced\_report\,(r,c); \\
+\qquad r.\kwarrget{local}{p} \leftarrow (\kw{false},\, 0,\, 0.0); \\
+\kw{end}~\kw{else} \\
+\qquad r.\kwarrget{local}{p} \leftarrow (g',\,n',\,s'); \\
+\end{lines}
+\end{lines}$$
+
+\aremark{Fix names and fonts}
+\caption{Auxiliary meta-functions used for compilation}
+\label{fig:ced-implementation}
+\end{figure}
+%----------
+
+\end{comment}
+

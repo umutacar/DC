@@ -2,6 +2,7 @@ open Core
 open Lexing
 
 module Ast = Ast
+module Comment_lexer = Tex_comment_lexer
 module Tex_Lexer = Tex_lexer
 module Md_Lexer = Md_lexer
 module Tex_parser = Tex_parser
@@ -69,7 +70,9 @@ let prep_input is_md verbose tmp_dir meta_dir default_pl infile (preamble_file: 
     let translator = mk_tex_translator verbose tmp_dir meta_dir default_pl preamble_file in
 		(contents, translator)
 	in
-  let contents = In_channel.read_all infile in
+	let ic = In_channel.create infile in
+  let lexbuf = Lexing.from_channel ic in
+  let contents = Comment_lexer.lexer lexbuf in
 	if is_md then
 		prep_md contents
 	else

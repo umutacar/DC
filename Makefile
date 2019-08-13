@@ -13,20 +13,23 @@ DEPEND = \
   english/english_words.ml \
   md/md_lexer.mll md/md_parser.mly md/md_syntax.ml md/md2html.ml  md/md2md.ml \
   pervasives/utils.ml pervasives/error_code.ml \
-  tex/tex_atom_lexer.mll tex/tex_atom_parser.mly tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
+  tex/tex_atom_lexer.mll tex/tex_atom_parser.mly tex/tex_comment_lexer.mll tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native texml.native
+default: dc.native cc.native texml.native texel.native tex2tex.native
 
 all: dc.native md2md.native \
-  tex2tex.native texel.native texmlt.native texml.native
+  tex2tex.native texel.native texml.native
 
 clean:
 	$(OCB) -clean
 	rm -f *.native
 	rm -f *.dbg
 	rm -f *.profile
+
+cc.native: $(DEPEND) top/cc.ml
+	$(OCB) cc.native
 
 dc.native: $(DEPEND) top/dc.ml
 	$(OCB) dc.native
@@ -69,18 +72,6 @@ texml.profile: $(DEPEND) tex/texml.ml
 
 texml.debug: $(DEPEND) tex/texml.ml
 	$(OCB) -tag debug texml.byte
-
-
-# texmlt
-texmlt.native: $(DEPEND) tex/texmlt.ml
-	$(OCB) texmlt.native
-
-texmlt.profile: $(DEPEND) tex/texmlt.ml
-	$(OCB) -tag profile texmlt.native
-
-texmlt.debug: $(DEPEND) tex/texmlt.ml
-	$(OCB) -tag debug texmlt.byte
-
 
 
 # traverse

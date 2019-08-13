@@ -1,19 +1,3 @@
-# Executables
-
-## tex2tex
-
-This reads the tex file and elobarates it such that 
-* Each atom has a group (no orphan atoms)
-* Each node of the document tree has point scores
-* Each node of the document tree has a unique label.
-
-It then prints out the resulting tex file.
-
-## tex2xml
-
-This reads the tex file and elobarates as in tex2tex translation and translates it to xml using pandoc.
-
-
 # DEVELOPMENT
 ## USAGE
   To compile run the parser 
@@ -55,7 +39,24 @@ $ ocamllex lexer.mll
 $ ocamlbuild -use-ocamlfind  lexer.ml -quiet lexer.native
 $ lexer.native
 
+# Structure
 
+LaTeX sources are translated into as AST in three passes.
+
+1. Pass I: `tex_comment_lexer.mll` removes all comments from the file. It does no by descending into text and skipping over verbatim/lstlisting/lstinline/verb environments and commands.  The reason for removing comments first is because otherwise, they complicate further passes, which otherwise have to worry about them everywhere.
+
+2. Pass II: `tex_lexer.mll' and `tex_parser.mly` splits  the latex source into paragraphs and does some basic rewriting, such as
+    - rewriting of `\infer` into an LaTeX/MathJax friendly code.      
+    - rewriting of `\caption[Title]{Caption itself}` into `\caption{Caption itself}`
+
+3. Pass III: `tex_atom_lexer.mll` and `tex_atom_parser.mly` checks whether paragraphs are atoms and creates the AST based.
+
+After AST is created, we traverse it and 
+1) normalize by creating groups for all atoms that lack one
+2) label all segments, groups, and atoms.
+
+4. Pass IV: This pass translates the AST into desired output language, incuding LaTeX or XML. 
+ 
 # Grammar
 
 ## Overview

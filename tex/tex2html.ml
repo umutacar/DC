@@ -224,6 +224,7 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 	let error_out languages = 
 		let _ = printf "Parse Error: MTL allows one programming language per atom.\n" in
 		let _ = printf "This atom has multiple, i.e., %s" (str_of_str_list languages) in
+    let _ = printf "contents = \n%s" contents in
 		exit 1
 	in
   (* prep for translation *)
