@@ -10,8 +10,7 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    printf args
-(*    ifprintf stdout args *)
+    ifprintf stdout args
 (*
 let d_printf args = printf args
 *)
@@ -383,7 +382,7 @@ parse
 		{
      let text = take_arg_force lexbuf in
      let arg = take_arg_force lexbuf in
-		 let _ = printf "diderot_com: %s %s %s" kind text arg in
+		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
      let command = diderot_com_create (kind, text, arg) in
 		 CHUNK(command, None)
     }
@@ -510,7 +509,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
      let text = take_arg_force lexbuf in
      let arg = take_arg_force lexbuf in
 		 let (rest, h_e) = take_env depth lexbuf in
-		 let _ = printf "diderot_com: %s %s %s" kind text arg in
+		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
      let command = diderot_com_create (kind, text, arg) in
       (command ^ rest, h_e)
     }
