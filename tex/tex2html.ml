@@ -64,6 +64,7 @@ let get_single_paragraph_status kind =
 (* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 
+let latex_diderot_commands = "\\\def\\targethtml{}"
 let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}"
 let latex_end_document = "\\end{document}"
 
@@ -148,6 +149,7 @@ let text_prep s =
 let mk_tex_document latex_file_name preamble contents =
 	let latex_file = Out_channel.create latex_file_name in
 	let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
+	let () = Out_channel.output_string latex_file (latex_diderot_commands ^ "\n") in
 	let () = Out_channel.output_string latex_file (preamble ^ "\n") in
 	let () = Out_channel.output_string latex_file (latex_begin_document ^ "\n") in
 	let () = Out_channel.output_string latex_file (contents ^ "\n") in

@@ -15,7 +15,7 @@
 % This is purely for pandoc to insert delegate
 % handling of alignat to mathjax. Otherwise
 % pandoc tries to handle it and breaks it.
-\def\targethtml{}
+%% Diderot automatically defines \targethtml
 \newcommand{\htmlmath}[1]
 {
 \ifdefined\targethtml
@@ -30,9 +30,30 @@
 \newcommand{\fillin}[1]
 {\underline{#1}}
 
-\newcommand{\download}[1]{
-\lstinline|%%%%diderot-html<a href = #1 download = #1> Download File </a>|
+(* Diderot command: download *)
+\newcommand{\download}[2]
+{
+\ifdefined\targethtml
+\[
+\download{#1}{#2}
+\]
+\else
+\href{#1}{#2}
+\fi
 }
+
+(* Diderot command: attach *)
+\newcommand{\attach}[2]
+{
+\ifdefined\targethtml
+\[
+\attach{#1}{#2}
+\]
+\else
+\href{#1}{#2}
+\fi
+}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% PAGE LAYOUT
