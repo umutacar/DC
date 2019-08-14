@@ -509,6 +509,23 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
               (x ^ rest, h_e)  
         }      
 
+
+  | (p_com_diderot as x)  (p_o_curly as o_c)
+		{
+     let (arg, c_sq) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+		 let _ = printf "diderot_com: %s %s" kind arg in
+     let all = x ^ o_c ^ arg ^ c_sq in
+     (* Now rewrite *)
+     let body = diderot_com_create (kind, arg) in
+     let command = 
+			 match body with 
+			 | None -> all
+       | Some body -> body
+     in
+		 let (rest, h_e) = take_env depth lexbuf in
+      (command ^ rest, h_e)
+    }
+
 	| (p_com_caption p_ws p_o_sq) as x
 		{
      let (title, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
