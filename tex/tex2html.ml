@@ -105,9 +105,12 @@ let set_pandoc be_verbose meta_dir language =
     | None -> ""
     | Some l -> " --syntax-definition=" ^ meta_dir ^ "/" ^ l ^ ".xml"
   in
-	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" 
+	let filter = " --lua-filter " ^ meta_dir ^ "/diderot.lua" 
+(*
+                " --lua-filter " ^ meta_dir ^ "/codeblock.lua" 
                ^ " --lua-filter " ^ meta_dir ^ "/diderotcommands.lua" 
                ^ " --lua-filter " ^ meta_dir ^ "/span.lua" 
+*)
                ^ lang in
 (*                ^ " --lua-filter " ^ meta_dir ^ "/includevideo.lua" *)
 
