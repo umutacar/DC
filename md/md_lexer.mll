@@ -176,7 +176,7 @@ rule initial = parse
      let title = take_line lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
      let kind = il_kind_of_segment kind in
-     let _ = printf "!lexer matched segment kind = %s title =  %s\n" kind title in 
+     let _ = d_printf "!lexer matched segment kind = %s title =  %s\n" kind title in 
 
        KW_HEADING(kind, title, None)
     }		
@@ -206,8 +206,8 @@ rule initial = parse
 
 | p_newline as x
 		{
-	   printf "!lexer found: newline: %s." x; 
-       NEWLINE(x)
+	   d_printf "!lexer found: newline: %s." x; 
+     NEWLINE(x)
     }
 
 | p_hspace as x
