@@ -10,7 +10,8 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    ifprintf stdout args
+    printf args
+(*    ifprintf stdout args *)
 (*
 let d_printf args = printf args
 *)
@@ -132,6 +133,28 @@ let mk_infer (h, opt, a, b) =
   | Some opt -> 
     let box = "\\mbox" ^ "{" ^ opt ^ "}" in
     h ^ a ^ b ^ "\\quad" ^ box 
+
+
+let fmt_attach = 
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s'> Open File </a>\\end{verbatim}"
+
+let fmt_download = 
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s'> Download File </a>\\end{verbatim}"
+
+(* Command rewriter *)
+let diderot_com_create (kind, arg) = 
+  if kind = "download" then
+    let body = fmt_download arg arg in
+		let _ = d_printf "diderot_com_create: kind = %s \nbody = %s\n" kind body in
+      Some body
+  else if kind = "attach" then
+    let body = fmt_attach arg in
+		let _ = d_printf "diderot_com_create: kind = %s \nbody = %s\n" kind body in
+      Some body
+  else
+		let _ = d_printf "diderot_com_create: kind = %s, skipping\n" kind in
+		None
+
 }
 (** END: HEADER **)
 
@@ -184,6 +207,11 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_verb = '\\' ("verb" as kind) p_ws
 let p_com_skip = p_com_lstinline | p_com_verb
 let p_com_caption = "\\caption"
+
+(* Diderot commands *)
+let p_com_attach = "\\" ("attach" as kind) p_ws
+let p_com_download = "\\" ("download" as kind) p_ws
+let p_com_diderot = p_com_attach | p_com_download
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -353,6 +381,18 @@ parse
 		   CHUNK(all, None)
     }
 
+| (p_com_diderot as x)  (p_o_curly as o_c)
+		{
+     let (arg, c_sq) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+		 let _ = printf "diderot_com: %s %s" kind arg in
+     let all = x ^ o_c ^ arg ^ c_sq in
+     (* Now rewrite *)
+     let body = diderot_com_create (kind, arg) in
+		 match body with 
+		 | None -> CHUNK(all, None)
+		 | Some body -> CHUNK(body, None)
+    }
+
 | p_special_char as x 
 		{
 (*     d_printf "!lexer found: espaced char: %s." x; *)
@@ -380,7 +420,7 @@ parse
 (** END: TODO **)
 | p_sigchar as x
 		{
-(*     d_printf "!%s" (str_of_char x); *)
+     d_printf "!%s" (str_of_char x); 
      CHUNK(str_of_char x, None)
     }
 
