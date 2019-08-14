@@ -136,25 +136,23 @@ let mk_infer (h, opt, a, b) =
 
 
 let fmt_attach = 
-	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s'> Open File </a>\\end{verbatim}"
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s'> %s </a>\\end{verbatim}"
 
 let fmt_download = 
-	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s'> Download File </a>\\end{verbatim}"
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s'> %s </a>\\end{verbatim}"
 
 (* Command rewriter *)
-let diderot_com_create (kind, arg) = 
+let diderot_com_create (kind, text, arg) = 
+	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
   if kind = "download" then
-    let body = fmt_download arg arg in
-		let _ = d_printf "diderot_com_create: kind = %s \nbody = %s\n" kind body in
-      Some body
+    let body = fmt_download arg arg text in
+    body
   else if kind = "attach" then
-    let body = fmt_attach arg in
-		let _ = d_printf "diderot_com_create: kind = %s \nbody = %s\n" kind body in
-      Some body
+    let body = fmt_attach arg text in
+    body
   else
-		let _ = d_printf "diderot_com_create: kind = %s, skipping\n" kind in
-		None
-
+		(printf "Fatal Error. Lexer: Diderot Command could not be %s. Exiting! \n" kind ;
+     exit(1))
 }
 (** END: HEADER **)
 
@@ -381,16 +379,13 @@ parse
 		   CHUNK(all, None)
     }
 
-| (p_com_diderot as x)  (p_o_curly as o_c)
+| (p_com_diderot as x)
 		{
-     let (arg, c_sq) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
-		 let _ = printf "diderot_com: %s %s" kind arg in
-     let all = x ^ o_c ^ arg ^ c_sq in
-     (* Now rewrite *)
-     let body = diderot_com_create (kind, arg) in
-		 match body with 
-		 | None -> CHUNK(all, None)
-		 | Some body -> CHUNK(body, None)
+     let text = take_arg_force lexbuf in
+     let arg = take_arg_force lexbuf in
+		 let _ = printf "diderot_com: %s %s %s" kind text arg in
+     let command = diderot_com_create (kind, text, arg) in
+		 CHUNK(command, None)
     }
 
 | p_special_char as x 
@@ -512,17 +507,11 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
 
   | (p_com_diderot as x)  (p_o_curly as o_c)
 		{
-     let (arg, c_sq) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
-		 let _ = printf "diderot_com: %s %s" kind arg in
-     let all = x ^ o_c ^ arg ^ c_sq in
-     (* Now rewrite *)
-     let body = diderot_com_create (kind, arg) in
-     let command = 
-			 match body with 
-			 | None -> all
-       | Some body -> body
-     in
+     let text = take_arg_force lexbuf in
+     let arg = take_arg_force lexbuf in
 		 let (rest, h_e) = take_env depth lexbuf in
+		 let _ = printf "diderot_com: %s %s %s" kind text arg in
+     let command = diderot_com_create (kind, text, arg) in
       (command ^ rest, h_e)
     }
 
