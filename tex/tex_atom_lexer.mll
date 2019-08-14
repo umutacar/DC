@@ -64,7 +64,7 @@ let get_current_atom () =
   !current_atom
 
 let normalize_env (kind, title, kw_args) =
-	let _ = printf "normalize_env_title: kind = %s, title = %s\n" kind title in
+	let _ = d_printf "normalize_env_title: kind = %s, title = %s\n" kind title in
 
   (* Drop final star if env name has one. *)
   let kind = 

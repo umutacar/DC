@@ -64,6 +64,13 @@ let get_single_paragraph_status kind =
 (* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 
+let latex_diderot_commands = 
+"
+(* Diderot command: download *)
+\\renewcommand{\\download}[2]{\\download{#1}{#2}}
+(* Diderot command: attach *)
+\\renewcommand{\\attach}[2]{\\attach{#1}{#2}}
+"
 let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}"
 let latex_end_document = "\\end{document}"
 
@@ -98,8 +105,12 @@ let set_pandoc be_verbose meta_dir language =
     | None -> ""
     | Some l -> " --syntax-definition=" ^ meta_dir ^ "/" ^ l ^ ".xml"
   in
-	let filter = " --lua-filter " ^ meta_dir ^ "/codeblock.lua" 
+	let filter = " --lua-filter " ^ meta_dir ^ "/diderot.lua" 
+(*
+                " --lua-filter " ^ meta_dir ^ "/codeblock.lua" 
+               ^ " --lua-filter " ^ meta_dir ^ "/diderotcommands.lua" 
                ^ " --lua-filter " ^ meta_dir ^ "/span.lua" 
+*)
                ^ lang in
 (*                ^ " --lua-filter " ^ meta_dir ^ "/includevideo.lua" *)
 
@@ -147,6 +158,7 @@ let text_prep s =
 let mk_tex_document latex_file_name preamble contents =
 	let latex_file = Out_channel.create latex_file_name in
 	let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
+	let () = Out_channel.output_string latex_file (latex_diderot_commands ^ "\n") in
 	let () = Out_channel.output_string latex_file (preamble ^ "\n") in
 	let () = Out_channel.output_string latex_file (latex_begin_document ^ "\n") in
 	let () = Out_channel.output_string latex_file (contents ^ "\n") in

@@ -132,6 +132,26 @@ let mk_infer (h, opt, a, b) =
   | Some opt -> 
     let box = "\\mbox" ^ "{" ^ opt ^ "}" in
     h ^ a ^ b ^ "\\quad" ^ box 
+
+
+let fmt_attach = 
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s'> %s </a>\n\\end{verbatim}"
+
+let fmt_download = 
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s'> %s </a>\n\\end{verbatim}"
+
+(* Command rewriter *)
+let diderot_com_create (kind, text, arg) = 
+	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
+  if kind = "download" then
+    let body = fmt_download arg arg text in
+    body
+  else if kind = "attach" then
+    let body = fmt_attach arg text in
+    body
+  else
+		(printf "Fatal Error. Lexer: Diderot Command could not be %s. Exiting! \n" kind ;
+     exit(1))
 }
 (** END: HEADER **)
 
@@ -184,6 +204,11 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_verb = '\\' ("verb" as kind) p_ws
 let p_com_skip = p_com_lstinline | p_com_verb
 let p_com_caption = "\\caption"
+
+(* Diderot commands *)
+let p_com_attach = "\\" ("attach" as kind) p_ws
+let p_com_download = "\\" ("download" as kind) p_ws
+let p_com_diderot = p_com_attach | p_com_download
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -353,6 +378,15 @@ parse
 		   CHUNK(all, None)
     }
 
+| (p_com_diderot as x)
+		{
+     let text = take_arg_force lexbuf in
+     let arg = take_arg_force lexbuf in
+		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
+     let command = diderot_com_create (kind, text, arg) in
+		 CHUNK(command, None)
+    }
+
 | p_special_char as x 
 		{
 (*     d_printf "!lexer found: espaced char: %s." x; *)
@@ -380,7 +414,7 @@ parse
 (** END: TODO **)
 | p_sigchar as x
 		{
-(*     d_printf "!%s" (str_of_char x); *)
+     d_printf "!%s" (str_of_char x); 
      CHUNK(str_of_char x, None)
     }
 
@@ -468,6 +502,17 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
               let (rest, h_e) = take_env depth lexbuf in
               (x ^ rest, h_e)  
         }      
+
+
+  | (p_com_diderot as x) 
+		{
+     let text = take_arg_force lexbuf in
+     let arg = take_arg_force lexbuf in
+		 let (rest, h_e) = take_env depth lexbuf in
+		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
+     let command = diderot_com_create (kind, text, arg) in
+      (command ^ rest, h_e)
+    }
 
 	| (p_com_caption p_ws p_o_sq) as x
 		{
