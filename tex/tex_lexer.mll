@@ -505,7 +505,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
         }      
 
 
-  | (p_com_diderot as x)  (p_o_curly as o_c)
+  | (p_com_diderot as x) 
 		{
      let text = take_arg_force lexbuf in
      let arg = take_arg_force lexbuf in

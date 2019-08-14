@@ -35,7 +35,7 @@ ch:sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:sets::download
+grp:sets::diderot
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -59,7 +59,7 @@ grp:sets::download
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:sets::download
+grm:sets::diderot
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -69,19 +69,21 @@ grm:sets::download
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Here is a download:</p>
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> Download File </a>
-<a href = '/Users/umut/Desktop/paper.xml'> Open File </a>
+<p>Here you can</p>
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> download an xml file </a>
+<p>. Here you can</p>
+<a href = '/Users/umut/Desktop/paper.xml'> find attached the xml file </a>
 <p>And post downlead.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-Here is a download: \begin{verbatim}
+Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> Download File </a>\end{verbatim} \begin{verbatim}
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> download an xml file </a>\end{verbatim}.  
+Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml'> Open File </a>\end{verbatim}
+<a href = '/Users/umut/Desktop/paper.xml'> find attached the xml file </a>\end{verbatim}
 And post downlead.
 ]]>
 </field> <!-- body_src -->
@@ -140,7 +142,6 @@ prmbl:sets::sets
 <field name='body'>
 <![CDATA[
 <p>Sets are both a mathematical structure and an abstract datatype supported by many programming languages. This chapter presents an ADT for finite sets of elements taken from a fixed domain and several cost models, including one based on <a href="ch:bst::adt">balanced binary search trees</a>.</p>
-<p>Here is a download: <code>%%%%diderot-html&lt;a href = #1 download = #1&gt; Download File &lt;/a&gt;</code> And post downlead.</p>
 <ul>
 <li><p><code>xyz</code></p></li>
 <li><p><code>xyz</code></p></li>
@@ -154,8 +155,6 @@ Sets are both a mathematical structure and an abstract datatype
   supported by many programming languages.  This chapter presents an ADT for
   finite sets of elements taken from a fixed domain and several cost models, including one based on \href{ch:bst::adt}{balanced binary search trees}.
 
-Here is a download: \download{paper.xml} \attach{diderot-attach.jpg}
-And post downlead.
  
 \begin{itemize}
 \item
