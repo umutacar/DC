@@ -77,6 +77,7 @@ let kw_preamble = "preamble"
 let kw_problem = "problem"
 let kw_proof = "proof"
 let kw_proposition = "proposition"
+let kw_question = "question"
 let kw_remark = "remark"
 let kw_reminder = "reminder"
 let kw_slide = "slide"
@@ -156,6 +157,7 @@ let label_prefix_preamble = "prmbl"
 let label_prefix_problem = "prb"
 let label_prefix_proof = "prf"
 let label_prefix_proposition = "prop"
+let label_prefix_question = "que"
 let label_prefix_remark = "rmrk"
 let label_prefix_reminder = "rmdr"
 let label_prefix_slide = "slide"
@@ -210,6 +212,7 @@ let label_prefix_of_kind =
    kw_problem, label_prefix_problem;
    kw_proof, label_prefix_proof;
    kw_proposition, label_prefix_proposition;
+   kw_question, label_prefix_question;
    kw_remark, label_prefix_remark;
    kw_reminder, label_prefix_reminder;
    kw_slide, label_prefix_slide;
@@ -249,6 +252,7 @@ let atom_kinds =
    kw_problem, ();
    kw_proof, ();
    kw_proposition, ();
+   kw_question, ();
    kw_remark, ();
    kw_reminder, ();
    kw_slide, ();
