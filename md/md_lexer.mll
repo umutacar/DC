@@ -183,7 +183,7 @@ rule initial = parse
 
 | (p_begin_env as x)
     {
-     let _ = printf "!lexer matched begin env %s." kind in 
+     let _ = d_printf "!lexer matched begin env %s." kind in 
      let (body, y) = skip_env kind lexbuf in
      let env = x ^ body ^ y in
      let _ = d_printf "!lexer matched env %s." env in 
@@ -192,7 +192,7 @@ rule initial = parse
 
 | (p_skip as delimiter) 
 		{
-(*     let _ = d_printnf "!lexer found: skip %s." (str_of_char x) in *)
+     let _ = d_printf "!lexer found: skip %s.\n" delimiter in 
      let (body, _) = take_arg 1 delimeter delimeter lexbuf in
      let all = delimeter ^ body ^ delimeter in
 		   CHUNK(all, None)
@@ -267,6 +267,7 @@ and take_arg depth delimiter_open delimiter_close =
         a single delimeter used for both open and close,
         as in lstinline.
       *)
+     let _ = d_printf "!" in
 		 if x = delimiter_close then
 			 let depth = depth - 1 in
        if depth = 0 then
@@ -287,6 +288,7 @@ and take_arg depth delimiter_open delimiter_close =
   | _ as x
     {
      let x = str_of_char x in
+     let _ = d_printf "!" in
 (*     let _ = d_printf "take_arg x =  %s arg depth = %d\n" x (arg_depth ()) in  *)
      (* Tricky: check close first so that you can handle 
         a single delimeter used for both open and close,

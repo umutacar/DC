@@ -45,38 +45,35 @@ let mk_tex_translator verbose tmp_dir meta_dir default_pl (preamble_file: string
 		preamble 
 
 
+let prep_input_md verbose tmp_dir meta_dir default_pl infile (preamble_file: string option) =
+  let contents = In_channel.read_all infile in
+  (* Remove frontmatter if markdown *) 
+	let contents = 
+		let tripledash = Str.regexp "---" in
+		if Str.string_match tripledash contents 0 then
+			try 
+				let pos = Str.search_forward tripledash contents 3 in
+				String.slice contents (pos + 3) (String.length contents)
+			with Not_found -> contents
+		else
+			contents					
+	in
+  (* Add newline to allow for an immediate header, e.g.,
+   * \n# Chapter
+   *)  
+  let contents = "\n" ^ contents in
+	let translator = mk_md_translator verbose tmp_dir meta_dir default_pl in
+	(contents, translator)
 
-let prep_input is_md verbose tmp_dir meta_dir default_pl infile (preamble_file: string option) =
-  let prep_md contents = 
-    (* Remove frontmatter if markdown *) 
-		let contents = 
-			let tripledash = Str.regexp "---" in
-			if Str.string_match tripledash contents 0 then
-				try 
-					let pos = Str.search_forward tripledash contents 3 in
-					String.slice contents (pos + 3) (String.length contents)
-				with Not_found -> contents
-			else
-				contents					
-		in
-    (* Add newline to allow for an immediate header, e.g.,
-     * \n# Chapter
-     *)  
-    let contents = "\n" ^ contents in
-		let translator = mk_md_translator verbose tmp_dir meta_dir default_pl in
-		(contents, translator)
-	in
-	let prep_tex contents = 
-    let translator = mk_tex_translator verbose tmp_dir meta_dir default_pl preamble_file in
-		(contents, translator)
-	in
+
+let prep_input_tex verbose tmp_dir meta_dir default_pl infile (preamble_file: string option) =
 	let ic = In_channel.create infile in
   let lexbuf = Lexing.from_channel ic in
+  (* Remove comments *)
   let contents = Comment_lexer.lexer lexbuf in
-	if is_md then
-		prep_md contents
-	else
-		prep_tex contents
+  let translator = mk_tex_translator verbose tmp_dir meta_dir default_pl preamble_file in
+	(contents, translator)
+
 
 let ast_from_string (lex, parse) contents = 
 (*
@@ -99,7 +96,12 @@ let ast_from_string (lex, parse) contents =
 		ast
 
 let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile  outfile preamble_file = 
-  let (contents, translator) = prep_input is_md verbose tmp_dir meta_dir default_pl infile preamble_file in
+  let (contents, translator) = 
+		if is_md then
+			prep_input_md verbose tmp_dir meta_dir default_pl infile preamble_file 
+		else
+			prep_input_tex verbose tmp_dir meta_dir default_pl infile preamble_file 
+	in
   let ast = 
 		if is_md then
 			ast_from_string (Md_lexer.lexer, Md_parser.top) contents 
