@@ -1,17 +1,27 @@
--- This function promotes the language attribute of a pandoc
--- codeBlock to a class.  
--- This should allows using custom languages with 
+-- This function has two parts
+-- Part I promotes the language attribute of a pandoc
+-- codeBlock to a class. This allows using custom languages with 
 -- Kate (XML) specifications.
+-- Part II promotes certain html code blocks to raw html.
+-- It is used to implement diderot commands.
 
 function CodeBlock(block)
   
+  -- Part I
+  -- This function promotes the language attribute of a pandoc
+  -- codeBlock to a class.  
+  -- This should allows using custom languages with 
+  -- Kate (XML) specifications.
+
   l = block.attributes['language']
   -- if no language is defined 
   -- then no change necessary.
-  -- else make the language a class.
+  -- else make the language a class.  
   if l == nil then
-    return block
-  else  
+    -- pass
+    do
+    end
+  else
     -- delete language atttribute
     block.attributes['language'] = nil
 
@@ -20,14 +30,13 @@ function CodeBlock(block)
 
     return block
   end
-end
 
 
--- This function includes the contents of a code block as raw html
--- if it starts with %%% diderot_html tag
--- It is used to implement diderot command such as 
--- \download and \attach
-function CodeBlock(block)
+  -- Part II
+  -- This function includes the contents of a code block as raw html
+  -- if it starts with %%% diderot_html tag
+  -- It is used to implement diderot command such as 
+  -- \download and \attach
   -- print ('block.text =', block.text) 
 
   -- Regex explanation
@@ -42,6 +51,7 @@ function CodeBlock(block)
     return pandoc.RawBlock('html', html_body)
   end
 end
+
 
 -- This function deletes spans consisting of just a label.
 -- To do this, we check that it has no valid class
