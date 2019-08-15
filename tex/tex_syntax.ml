@@ -59,6 +59,7 @@ let kw_flex = "flex"
 
 let kw_code = "code"
 let kw_algorithm = "algorithm"
+let kw_answer = "answer"
 let kw_assumption = "assumption"
 let kw_corollary = "corollary"
 let kw_costspec = "costspec"
@@ -138,6 +139,7 @@ let label_prefix_auto_pre = "_"
 let label_prefix_auto_post = "_"
 
 let label_prefix_algorithm = "alg"
+let label_prefix_answer = "ans"
 let label_prefix_assumption = "asm"
 let label_prefix_code = "cd"
 let label_prefix_corollary = "crl"
@@ -193,6 +195,7 @@ let label_prefix_of_kind =
   @
   (* atoms *)
   [kw_algorithm, label_prefix_algorithm;
+   kw_answer, label_prefix_answer;
    kw_assumption, label_prefix_assumption;
    kw_code, label_prefix_code;
    kw_corollary, label_prefix_corollary;
@@ -233,6 +236,7 @@ let label_prefix_of_kind =
 
 let atom_kinds = 
   [kw_algorithm, ();
+   kw_answer, ();
    kw_assumption, ();
    kw_code, ();
    kw_corollary, ();
