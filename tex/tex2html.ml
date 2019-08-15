@@ -66,10 +66,14 @@ let get_single_paragraph_status kind =
 let latex_document_header = "\\documentclass{article}" 
 let latex_diderot_commands = 
 "
-(* Diderot command: download *)
+%% Diderot command: download 
 \\renewcommand{\\download}[2]{\\download{#1}{#2}}
-(* Diderot command: attach *)
+%% Diderot command: attach 
 \\renewcommand{\\attach}[2]{\\attach{#1}{#2}}
+%% Diderot command: infer
+\\renewcommand{\infer}[2]{
+\\cfrac{#2}{#1}
+}
 "
 let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}"
 let latex_end_document = "\\end{document}"

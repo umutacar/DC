@@ -59,6 +59,7 @@ let kw_flex = "flex"
 
 let kw_code = "code"
 let kw_algorithm = "algorithm"
+let kw_answer = "answer"
 let kw_assumption = "assumption"
 let kw_corollary = "corollary"
 let kw_costspec = "costspec"
@@ -77,6 +78,7 @@ let kw_preamble = "preamble"
 let kw_problem = "problem"
 let kw_proof = "proof"
 let kw_proposition = "proposition"
+let kw_question = "question"
 let kw_remark = "remark"
 let kw_reminder = "reminder"
 let kw_slide = "slide"
@@ -137,6 +139,7 @@ let label_prefix_auto_pre = "_"
 let label_prefix_auto_post = "_"
 
 let label_prefix_algorithm = "alg"
+let label_prefix_answer = "ans"
 let label_prefix_assumption = "asm"
 let label_prefix_code = "cd"
 let label_prefix_corollary = "crl"
@@ -156,6 +159,7 @@ let label_prefix_preamble = "prmbl"
 let label_prefix_problem = "prb"
 let label_prefix_proof = "prf"
 let label_prefix_proposition = "prop"
+let label_prefix_question = "que"
 let label_prefix_remark = "rmrk"
 let label_prefix_reminder = "rmdr"
 let label_prefix_slide = "slide"
@@ -191,6 +195,7 @@ let label_prefix_of_kind =
   @
   (* atoms *)
   [kw_algorithm, label_prefix_algorithm;
+   kw_answer, label_prefix_answer;
    kw_assumption, label_prefix_assumption;
    kw_code, label_prefix_code;
    kw_corollary, label_prefix_corollary;
@@ -210,6 +215,7 @@ let label_prefix_of_kind =
    kw_problem, label_prefix_problem;
    kw_proof, label_prefix_proof;
    kw_proposition, label_prefix_proposition;
+   kw_question, label_prefix_question;
    kw_remark, label_prefix_remark;
    kw_reminder, label_prefix_reminder;
    kw_slide, label_prefix_slide;
@@ -230,6 +236,7 @@ let label_prefix_of_kind =
 
 let atom_kinds = 
   [kw_algorithm, ();
+   kw_answer, ();
    kw_assumption, ();
    kw_code, ();
    kw_corollary, ();
@@ -249,6 +256,7 @@ let atom_kinds =
    kw_problem, ();
    kw_proof, ();
    kw_proposition, ();
+   kw_question, ();
    kw_remark, ();
    kw_reminder, ();
    kw_slide, ();

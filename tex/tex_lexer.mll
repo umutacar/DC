@@ -10,7 +10,7 @@ open Tex_parser
 
 (* Turn off prints *)
 let d_printf args = 
-    ifprintf stdout args
+    ifprintf stdout args 
 (*
 let d_printf args = printf args
 *)
