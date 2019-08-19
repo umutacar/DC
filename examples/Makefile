@@ -1,5 +1,7 @@
 PDFLATEX = pdflatex
 LATEX = latex
+FLAG_VERBOSE = -v 
+FLAG_DEBUG = -d
 
 PREAMBLE = ./preamble.tex
 PANDOC = pandoc --verbose --mathjax -f latex
@@ -9,7 +11,6 @@ DC_HOME = ~/DC
 
 LABELTEX = $(DC_HOME)/texel
 DC = $(DC_HOME)/dc -meta ./meta
-DC_DBG = $(DC_HOME)/dc.dbg
 
 FORCE: 
 
@@ -32,9 +33,9 @@ html: FORCE
 %.xml : %.tex FORCE
 ifdef debug
 ifdef verbose
-	$(DC_DBG) $(FLAG_VERBOSE)  -meta ./meta -preamble $(PREAMBLE) $< -o $@
+	$(DC) $(FLAG_DEBUG) $(FLAG_VERBOSE)  -meta ./meta -preamble $(PREAMBLE) $< -o $@
  else
-	$(DC_DBG)  -meta ./meta -preamble $(PREAMBLE)  $< -o $@
+	$(DC) $(FLAG_DEBUG) -meta ./meta -preamble $(PREAMBLE)  $< -o $@
 endif
 else
 ifdef verbose
@@ -47,9 +48,9 @@ endif
 %.xml : %.md FORCE
 ifdef debug
 ifdef verbose
-	$(DC_DBG) $(FLAG_VERBOSE) $< -o $@
+	$(DC) $(FLAG_DEBUG) $(FLAG_VERBOSE) $< -o $@
  else
-	$(DC_DBG) $< -o $@
+	$(DC) $(FLAG_DEBUG) $< -o $@
 endif
 else
 ifdef verbose
