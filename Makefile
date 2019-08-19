@@ -91,21 +91,10 @@ bin_macos:
 	cp texel.native bin/macos/texel
 	cp texml.native bin/macos/texml
 
-bin_macos_dbg:
-	cp tex2tex.native bin/macos/tex2tex.dbg
-	cp texel.native bin/macos/texel.dbg
-	cp texml.native bin/macos/texml.dbg
-
 bin_ubuntu:
 	cp tex2tex.native bin/ubuntu/tex2tex
 	cp texel.native bin/ubuntu/texel
 	cp texml.native bin/ubuntu/texml
-
-bin_ubuntu_dbg:
-	cp tex2tex.native bin/ubuntu/tex2tex.dbg
-	cp texel.native bin/ubuntu/texel.dbg
-	cp texml.native bin/ubuntu/texml.dbg
-
 
 readme: ./README.md
 	pandoc README.md -o README.pdf
@@ -119,22 +108,9 @@ guide_macos: all
 #	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex
 	cp texml.native $(GUIDE_DIR)/bin/macos/texml
 
-
-guide_macos_dbg: all
-	cp dc.native $(GUIDE_DIR)/bin/macos/dc.dbg
-#	cp texel.native $(GUIDE_DIR)/bin/macos/texel.dbg
-#	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex.dbg
-	cp texml.native $(GUIDE_DIR)/bin/macos/texml.dbg
-
-
 guide_ubuntu: 
 	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc
 #	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
 #	cp  _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
 	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 
-guide_ubuntu_dbg: 
-	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc.dbg
-#	cp _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel.dbg
-#	cp _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex.dbg
-	cp _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml.dbg

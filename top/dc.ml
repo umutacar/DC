@@ -122,6 +122,7 @@ let main () =
 	let arg_outfile = ref None in
 
   let spec = [
+              ("-d", Arg.Set Utils.debug, "Enables debug mode; default is false.");
               ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
               ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
               ("-meta", Arg.Set_string arg_meta_dir, "(Latex Only) Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");

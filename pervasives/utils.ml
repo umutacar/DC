@@ -1,7 +1,7 @@
 open Core
 open Printf
 
-let debug = false
+let debug = ref false
 
 let str_of_char x = String.make 1 x
 
@@ -60,7 +60,7 @@ let str_of_items (xs: (string * string option * string) list): string =
 
 
 let d_printf args = 
-  if debug then
+  if !debug then
     fprintf stdout args
   else 
     ifprintf stdout args
