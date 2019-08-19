@@ -24,11 +24,46 @@ html: FORCE
 %_led.tex : %.tex FORCE
 	$(LABELTEX) $<  -o $@
 
-%.xml : %.tex FORCE
-	$(DC) -preamble $(PREAMBLE)  $< -o $@
 
-%.xmldbg : %.tex
-	$(DC_DBG) -preamble $(PREAMBLE)  $< -o $@
+######################################################################
+## BEGIN: XML
+######################################################################
+
+%.xml : %.tex FORCE
+ifdef debug
+ifdef verbose
+	$(DC_DBG) $(FLAG_VERBOSE)  -meta ./meta -preamble $(PREAMBLE) $< -o $@
+ else
+	$(DC_DBG)  -meta ./meta -preamble $(PREAMBLE)  $< -o $@
+endif
+else
+ifdef verbose
+	$(DC) $(FLAG_VERBOSE)  -meta ./meta -preamble $(PREAMBLE) $< -o $@
+ else
+	$(DC)  -meta ./meta -preamble $(PREAMBLE)  $< -o $@
+endif
+endif
+
+%.xml : %.md FORCE
+ifdef debug
+ifdef verbose
+	$(DC_DBG) $(FLAG_VERBOSE) $< -o $@
+ else
+	$(DC_DBG) $< -o $@
+endif
+else
+ifdef verbose
+	$(DC) $(FLAG_VERBOSE) $< -o $@
+ else
+	$(DC) $< -o $@
+endif
+endif
+
+
+
+######################################################################
+## END: XML
+######################################################################
 
 clean: 
 	rm *.aux *.idx *.log *.out *.toc */*.aux */*.idx */*.log */*.out 
