@@ -78,7 +78,7 @@ let latex_diderot_commands =
 \\renewcommand{\infer}[2]{
 \\cfrac{#2}{#1}
 }
-%% Diderom command: diderotcaption
+%% Diderot command: diderotcaption
 %% Space followed  the caption itself.
 \\newcommand{\\diderotcaption}[1]{~\\\\{#1}}
 "

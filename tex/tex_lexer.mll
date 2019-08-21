@@ -135,10 +135,10 @@ let mk_infer (h, opt, a, b) =
 
 
 let fmt_attach = 
-	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' data-diderot='attach'> %s </a>\n\\end{verbatim}"
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' data-diderot='__diderot_attachment__'> %s </a>\n\\end{verbatim}"
 
 let fmt_download = 
-	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s' data-diderot='download'> %s </a>\n\\end{verbatim}"
+	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s' data-diderot='__diderot_download__'> %s </a>\n\\end{verbatim}"
 
 (* Command rewriter *)
 let diderot_com_create (kind, text, arg) = 

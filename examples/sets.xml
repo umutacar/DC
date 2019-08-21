@@ -70,9 +70,9 @@ que:sets::diderot
 <field name='body'>
 <![CDATA[
 <p>Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> download an xml file </a>  
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
 <p>. Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml'> find attached the xml file </a>  
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
 <p>And post downlead.</p>
 ]]>
 </field> <!-- body -->
@@ -80,11 +80,11 @@ que:sets::diderot
 <![CDATA[
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> download an xml file </a>
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
 \end{verbatim}.  
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml'> find attached the xml file </a>
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
 \end{verbatim}
 And post downlead.
 ]]>
@@ -144,9 +144,9 @@ ans:sets::diderot
 <field name='body'>
 <![CDATA[
 <p>Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> download an xml file </a>  
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
 <p>. Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml'> find attached the xml file </a>  
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
 <p>And post downlead.</p>
 ]]>
 </field> <!-- body -->
@@ -154,11 +154,11 @@ ans:sets::diderot
 <![CDATA[
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml'> download an xml file </a>
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
 \end{verbatim}.  
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml'> find attached the xml file </a>
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
 \end{verbatim}
 And post downlead.
 ]]>
