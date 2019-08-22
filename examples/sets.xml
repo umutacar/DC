@@ -74,6 +74,19 @@ que:sets::diderot
 <p>. Here you can</p>
 <a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
 <p>And post downlead.</p>
+<p>Here are some cross-book references:</p>
+<ul>
+<li><p><a href="#TB/sec:bg::graphs::basics" data-reference-type="ref" data-reference="TB/sec:bg::graphs::basics">[TB/sec:bg::graphs::basics]</a></p></li>
+<li><p><a href="#TB/ex:bg::graphs::basics::examples" data-reference-type="ref" data-reference="TB/ex:bg::graphs::basics::examples">[TB/ex:bg::graphs::basics::examples]</a></p></li>
+<li><p><a href="#TB/def:bg::graphs::basics::enumerable" data-reference-type="ref" data-reference="TB/def:bg::graphs::basics::enumerable">[TB/def:bg::graphs::basics::enumerable]</a></p></li>
+<li><p><a href="#TB/sec:bg::graphs::weighted" data-reference-type="ref" data-reference="TB/sec:bg::graphs::weighted">[TB/sec:bg::graphs::weighted]</a></p></li>
+</ul>
+<p>Here are some local references:</p>
+<ul>
+<li><p><a href="#sec:sets::math" data-reference-type="ref" data-reference="sec:sets::math">[sec:sets::math]</a></p></li>
+<li><p><a href="#adt:sets" data-reference-type="ref" data-reference="adt:sets">[adt:sets]</a></p></li>
+<li><p><a href="#syn:sets" data-reference-type="ref" data-reference="syn:sets">[syn:sets]</a></p></li>
+</ul>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -87,6 +100,21 @@ Here you can \begin{verbatim}
 <a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
 \end{verbatim}
 And post downlead.
+
+Here are some cross-book references: 
+\begin{itemize}
+\item  \ref{TB/sec:bg::graphs::basics}
+\item \ref{TB/ex:bg::graphs::basics::examples}
+\item \ref{TB/def:bg::graphs::basics::enumerable}
+\item \ref{TB/sec:bg::graphs::weighted}
+\end{itemize}
+
+Here are some local references: 
+\begin{itemize}
+\item \ref{sec:sets::math}
+\item \ref{adt:sets} 
+\item \ref{syn:sets}
+\end{itemize}
 ]]>
 </field> <!-- body_src -->
 
