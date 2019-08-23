@@ -581,7 +581,7 @@ struct
 		let h_end = Tex.mk_end kind in
 		let l = 
 			if label_is_given atom then	""
-			else (Tex.mk_label label) ^ "\n" 
+			else Tex.mk_label label
 
 		in
 		let d = Tex.mk_depend depend in		
