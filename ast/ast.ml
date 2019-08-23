@@ -139,7 +139,7 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
-				mutable body: string;
+				body: string;
 				label_is_given: bool
 			} 
   let kind cookie = cookie.kind
@@ -251,7 +251,7 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
-				mutable body: string;
+				body: string;
 				cookies: cookie list;
 				label_is_given: bool
 			} 
@@ -514,7 +514,7 @@ struct
 				mutable sound: string option;
 				mutable label: string option; 
 				depend: string list option;
-				mutable body: string;
+				body: string;
         problem: problem option; 
 				label_is_given: bool
 			} 
@@ -695,8 +695,6 @@ struct
         ~rubric_opt:None
    in
      r
-
-
 end
 
 type atom = Atom.t
