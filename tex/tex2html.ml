@@ -37,7 +37,8 @@ let mk_unique () =
  * <p> </p> annotations must be removed.
  *) 
 let body_is_single_par =  false
-let caption_is_single_par =  true
+(* caption can be multiple paragraphs but usually is one *)
+let caption_is_single_par =  false 
 let explain_is_single_par =  false
 let hint_is_single_par =  false
 let refsol_is_single_par =  false
