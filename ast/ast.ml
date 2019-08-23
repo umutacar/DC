@@ -657,15 +657,16 @@ struct
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
     let _ = d_printf "body sanitized:\n %s" body in
 		translator Xml.body body
-			
+
   let to_xml translator atom = 
 		(* Translate body to xml *)
-    let body_xml = body_to_xml translator atom in
+		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; title; cover; sound; label; depend; problem; body} = atom in
+		let {kind; point_val; title; cover; sound; label; depend; problem; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
+    let captions = str_opt_to_xml translator Xml.caption caption in
 		let problem_xml:string = 
 			match problem with 
 			| None -> ""
@@ -682,6 +683,7 @@ struct
 				~dopt:depend 
         ~body_src:body
         ~body_xml:body_xml
+        ~capopt:captions
         ~problem_xml
         ~ilist_opt:None
         ~hints_opt:None
