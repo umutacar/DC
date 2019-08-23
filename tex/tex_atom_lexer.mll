@@ -357,7 +357,6 @@ and take_env =
        (lopt, s ^ rest, capopt, items, h_e)
     }
 
-
 	| p_begin_list as x
 			{
 		   (* This should be at the top level, not nested within other env's.         
@@ -390,13 +389,15 @@ and take_env =
                   let (lopt, y, capopt, items, h_e) = take_env lexbuf in
                   (lopt, x ^ y, capopt, items, h_e)  
         }      
+
   | p_label_and_name as x
   		{ 
 (*		    let _ = d_printf "!atom lexer: matched label %s." x in *)
 				let all = label_pre ^ label_name ^ label_post in
         let (lopt, y, capopt, items, h_e) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
-          (Some label_name, all ^ y, capopt, items, h_e)  
+          (* Important: Drop label from body *)
+          (Some label_name, y, capopt, items, h_e)  
 			}		
 
 	| (p_caption p_ws p_o_curly) as x
@@ -407,7 +408,8 @@ and take_env =
      let _ = d_printf "!atom lexer matched caption %s." all  in
 		 let (lopt, y, capopt_, items, h_e) = take_env lexbuf in
      (* Drop capopt_, it would be another caption. *)
-      (lopt,  all ^ y, capopt, items, h_e)
+     (* Do not include caption in the body. *)
+      (lopt, y, capopt, items, h_e)
     }
 
   | _  as x

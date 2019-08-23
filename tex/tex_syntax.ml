@@ -344,6 +344,13 @@ let mk_kw_args l =
 		let l = List.map l ~f:mapper in
 		String.concat ~sep:"; " l
 
+let mk_caption capopt = 
+  match capopt with 
+	| None -> ""
+	| Some body -> 
+			let result = "\\caption{" ^ body ^ "}" in
+			let _ = printf "caption = %s" result in
+			result
 
 let mk_label lopt = 
   match lopt with 

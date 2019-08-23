@@ -17,10 +17,10 @@ DEPEND = \
   top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native 
+default: dc.native tex2tex.native
 # cc.native 
 # texml.native 
-# texel.native tex2tex.native
+# texel.native 
 
 all: dc.native md2md.native \
   tex2tex.native texel.native texml.native

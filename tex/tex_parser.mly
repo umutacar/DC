@@ -340,7 +340,7 @@ atom:
          ~cover:copt
          ~sound:sopt 
 				 ~label:lopt  
-				 ~capopt:capopt  
+				 ~caption:capopt  
 				 ~problem:problem_opt
 				 kind  
 				 body
