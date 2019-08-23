@@ -66,6 +66,10 @@ let get_single_paragraph_status kind =
 let latex_document_header = "\\documentclass{article}" 
 let latex_diderot_commands = 
 "
+%% These are set for pandoc compilation.
+%% Redefine the commands to make sure that they are what we want.
+%% (Override existing definitions)
+%%
 %% Diderot command: download 
 \\renewcommand{\\download}[2]{\\download{#1}{#2}}
 %% Diderot command: attach 
@@ -74,8 +78,12 @@ let latex_diderot_commands =
 \\renewcommand{\infer}[2]{
 \\cfrac{#2}{#1}
 }
+%% Diderot command: diderotcaption
+%% Space followed  the caption itself.
+\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}
 "
-let latex_begin_document = "\\begin{document}\n\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}"
+
+let latex_begin_document = "\\begin{document}"
 let latex_end_document = "\\end{document}"
 
 (** generate standalone html files
@@ -162,8 +170,8 @@ let text_prep s =
 let mk_tex_document latex_file_name preamble contents =
 	let latex_file = Out_channel.create latex_file_name in
 	let () = Out_channel.output_string latex_file (latex_document_header ^ "\n") in
-	let () = Out_channel.output_string latex_file (latex_diderot_commands ^ "\n") in
 	let () = Out_channel.output_string latex_file (preamble ^ "\n") in
+	let () = Out_channel.output_string latex_file (latex_diderot_commands ^ "\n") in
 	let () = Out_channel.output_string latex_file (latex_begin_document ^ "\n") in
 	let () = Out_channel.output_string latex_file (contents ^ "\n") in
 	let () = Out_channel.output_string latex_file (latex_end_document ^ "\n") in

@@ -1,13 +1,40 @@
 \chapter{Sets}
 \label{ch:sets}
 
+\begin{figure}[h!]
+\begin{center}
+  \includegraphics[width=0.9\textwidth]{img/memory.png}
+\end{center}
+\caption{A More Concrete Memory Model}
+\label{fig:C0-memory}
+\end{figure}
+
 \begin{question}
 Here you can \download{download an xml file}{/Users/umut/Desktop/paper.xml}.  
 Here you can \attach{find attached the xml file}{/Users/umut/Desktop/paper.xml}
 And post downlead.
+
+Here are some cross-book references: 
+\begin{itemize}
+\item  Ref \ref{TB/sec:bg::graphs::basics}
+\item Ref \ref{TB/ex:bg::graphs::basics::examples}
+\item Ref \ref{TB/def:bg::graphs::basics::enumerable}
+\item Ref \ref{TB/sec:bg::graphs::weighted}
+\end{itemize}
+
+Here are some local references: 
+\begin{itemize}
+\item Ref \ref{xy}
+\item Ref \ref{ans:sets:::downloads}
+\item Ref \ref{sec:sets::math}
+\item Ref \ref{adt:sets} 
+\item Ref \ref{syn:sets}
+\end{itemize}
+
 \end{question}
 
 \begin{answer}
+\label{ans:sets:::downloads}
 Here you can \download{download an xml file}{/Users/umut/Desktop/paper.xml}.  
 Here you can \attach{find attached the xml file}{/Users/umut/Desktop/paper.xml}
 And post downlead.
@@ -54,7 +81,7 @@ where & there & here?
 \end{table}
 
 \begin{figure}
-\includegraphics{Something}
+\includegraphics{star-find0.jpg}
 \caption{Some image above.}
 \end{figure}
 
@@ -107,7 +134,7 @@ Select any one of the following.
 \end{anychoice}
 \end{gram}
 
-\begin{gram}[ 20  ] [ x]
+\begin{gram}
 \label{xy}
 Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
 %
@@ -143,7 +170,6 @@ We note that \href{ch:sequences::adt}{sequences} are a particular type of table-
 \section{Sets ADT}
 
 \begin{datatype}[Sets]
-
 \label{adt:sets} 
 
 For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
