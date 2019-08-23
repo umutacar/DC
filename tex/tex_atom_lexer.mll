@@ -396,8 +396,7 @@ and take_env =
 				let all = label_pre ^ label_name ^ label_post in
         let (lopt, y, capopt, items, h_e) = take_env lexbuf in
           (* Important: Drop inner label lopt *)
-          (* Important: Drop label from body *)
-          (Some label_name, y, capopt, items, h_e)  
+          (Some label_name, all ^ y, capopt, items, h_e)  
 			}		
 
 	| (p_caption p_ws p_o_curly) as x
