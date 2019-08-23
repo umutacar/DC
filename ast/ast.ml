@@ -579,16 +579,18 @@ struct
 		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
     let _ = printf "h_begin = %s\n" h_begin in
 		let h_end = Tex.mk_end kind in
-		let l = 
-			if label_is_given atom then	""
-			else Tex.mk_label label
+		let (l, l_figure) = 
+			let label = Tex.mk_label label in
+			if label_is_given atom then	("", label)
+			else (label, label)
 
 		in
 		let d = Tex.mk_depend depend in		
       if kind = "figure" then
+        (* Always include label in the figure *)
 				h_begin ^
 				d ^ 
-				body ^ newline ^ caption ^ newline ^ l ^ newline ^
+				body ^ newline ^ caption ^ l_figure ^ newline ^
 				h_end		
 			else 
 				h_begin ^

@@ -348,7 +348,7 @@ let mk_caption capopt =
   match capopt with 
 	| None -> ""
 	| Some body -> 
-			let result = "\\caption{" ^ body ^ "}" in
+			let result = "\\caption{" ^ body ^ "}\n" in
 			let _ = printf "caption = %s" result in
 			result
 
