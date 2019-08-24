@@ -51,9 +51,11 @@ let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
 (* Skips *)
+(* href: the first argument, the url, could have % *)
+let p_com_href = '\\' ("href" as kind) 
 let p_com_lstinline = '\\' ("lstinline" as kind) 
 let p_com_verb = '\\' ("verb" as kind)
-let p_com_skip = p_com_lstinline | p_com_verb
+let p_com_skip = p_com_href | p_com_lstinline | p_com_verb
 
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws ("comment" as kind) p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws ("comment") p_ws p_c_curly
@@ -95,6 +97,18 @@ parse
      let all = h ^ body ^ rest in
      let _ = d_printf "skip_sq: %s\n" all in
      all
+    }
+
+  
+| (p_com_skip p_ws p_o_curly) as x 
+		{
+     (* This is somewhat abusive. 
+      * We are allowing all skip's to use {} arg's.
+      *)
+     let arg = skip_arg '}' lexbuf in
+		 let rest = initial false lexbuf in
+     let all = x ^ arg ^ rest in
+      all
     }
 
 | p_com_skip as x 

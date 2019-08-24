@@ -111,7 +111,7 @@ A More Concrete Memory Model
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::diderot
+grp:new_sets::part
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -135,7 +135,7 @@ grp:new_sets::diderot
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-que:new_sets::diderot
+que:new_sets::part
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -145,6 +145,7 @@ que:new_sets::diderot
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
+<p>This is Part 3 of Sipser’s textbook <a href="https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation">Introduction to the Theory of Computation</a>.</p>
 <p>Here you can</p>
 <ul>
 <li><a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
@@ -170,6 +171,8 @@ que:new_sets::diderot
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+This is Part~3 of Sipser's textbook \href{https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation}{Introduction to the Theory of Computation}.
+
 Here you can
 \begin{itemize}
 \item \begin{verbatim}
@@ -230,7 +233,7 @@ Here are some local references:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::html
+grp:new_sets::diderot
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
