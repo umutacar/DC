@@ -146,10 +146,11 @@ que:new_sets::diderot
 <field name='body'>
 <![CDATA[
 <p>Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
-<p>. Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
-<p>And post downlead.</p>
+<ul>
+<li><a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
+<p>.</p></li>
+<li><a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  </li>
+</ul>
 <p>Here are some cross-book references:</p>
 <ul>
 <li><p>Ref <a href="#TB/sec:bg::graphs::basics" data-reference-type="ref" data-reference="TB/sec:bg::graphs::basics">[TB/sec:bg::graphs::basics]</a></p></li>
@@ -169,15 +170,17 @@ que:new_sets::diderot
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-Here you can \begin{verbatim}
+Here you can
+\begin{itemize}
+\item \begin{verbatim}
 %%%% diderot_html
 <a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
 \end{verbatim}.  
-Here you can \begin{verbatim}
+\item \begin{verbatim}
 %%%% diderot_html
 <a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
 \end{verbatim}
-And post downlead.
+\end{itemize}
 
 Here are some cross-book references: 
 \begin{itemize}
