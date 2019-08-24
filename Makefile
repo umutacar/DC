@@ -17,8 +17,10 @@ DEPEND = \
   top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native cc.native texml.native 
-# texel.native tex2tex.native
+default: dc.native tex2tex.native
+# cc.native 
+# texml.native 
+# texel.native 
 
 all: dc.native md2md.native \
   tex2tex.native texel.native texml.native
@@ -74,7 +76,6 @@ texml.profile: $(DEPEND) tex/texml.ml
 texml.debug: $(DEPEND) tex/texml.ml
 	$(OCB) -tag debug texml.byte
 
-
 # traverse
 traverse.native: $(DEPEND) tex/traverse.ml
 	$(OCB) traverse.native
@@ -85,16 +86,13 @@ traverse.profile: $(DEPEND) tex/traverse.ml
 traverse.debug: $(DEPEND) tex/traverse.ml
 	$(OCB) -tag debug traverse.byte
 
-
 bin_macos:
 	cp tex2tex.native bin/macos/tex2tex
 	cp texel.native bin/macos/texel
-	cp texml.native bin/macos/texml
 
 bin_ubuntu:
 	cp tex2tex.native bin/ubuntu/tex2tex
 	cp texel.native bin/ubuntu/texel
-	cp texml.native bin/ubuntu/texml
 
 readme: ./README.md
 	pandoc README.md -o README.pdf
@@ -106,11 +104,11 @@ guide_macos: all
 	cp dc.native $(GUIDE_DIR)/bin/macos/dc
 #	cp texel.native $(GUIDE_DIR)/bin/macos/texel
 #	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex
-	cp texml.native $(GUIDE_DIR)/bin/macos/texml
+#	cp texml.native $(GUIDE_DIR)/bin/macos/texml
 
 guide_ubuntu: 
 	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc
 #	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
 #	cp  _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
-	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
+#	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 

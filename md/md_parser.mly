@@ -285,7 +285,7 @@ atom:
 			 ~point_val:None
 			 ~title:None
 			 ~label:None  
-			 ~capopt:None
+			 ~caption:None
 			 ~problem:None
 			 Tex.kw_gram
 			 body

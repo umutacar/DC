@@ -37,6 +37,8 @@ let mk_unique () =
  * <p> </p> annotations must be removed.
  *) 
 let body_is_single_par =  false
+(* caption can be multiple paragraphs but usually is one *)
+let caption_is_single_par =  false 
 let explain_is_single_par =  false
 let hint_is_single_par =  false
 let refsol_is_single_par =  false
@@ -45,6 +47,7 @@ let title_is_single_par =  true
 
 let single_paragraph_status_of_kind = 
   [ Xml.body, body_is_single_par;
+    Xml.caption, body_is_single_par;
 		Xml.explain, explain_is_single_par;
 		Xml.hint, hint_is_single_par;
 		Xml.refsol, refsol_is_single_par;

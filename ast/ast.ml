@@ -36,7 +36,7 @@ let points_incorrect = 0.0
  **********************************************************************)
 
 (* if points (po) is None or 0.0 then
-   empty string, else the points *)
+   empty string else the points *)
 let normalize_point_val po = 
 	match po with 
   | None -> None
@@ -139,7 +139,7 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
-				mutable body: string;
+				body: string;
 				label_is_given: bool
 			} 
   let kind cookie = cookie.kind
@@ -251,7 +251,7 @@ struct
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
-				mutable body: string;
+				body: string;
 				cookies: cookie list;
 				label_is_given: bool
 			} 
@@ -514,7 +514,8 @@ struct
 				mutable sound: string option;
 				mutable label: string option; 
 				depend: string list option;
-				mutable body: string;
+				body: string;
+				caption: string option;
         problem: problem option; 
 				label_is_given: bool
 			} 
@@ -534,33 +535,17 @@ struct
 			?sound: (sound = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
-      ?capopt: (capopt = None)
+      ?caption: (caption = None)
 			?problem: (problem = None)
 			kind
 			body = 
 
-    (* Set title to caption if captionable. *)
-    (* Don't do this.
-       Some captions are long.
-
-    let title = 
- 		 if Tex.is_atom_captionable kind then
-(*     let _ = d_printf "atom %s is captionable, caption = %s\n" kind (str_of_str_opt capopt) in *)
-        match title with 
-        | None ->  capopt
-				| Some _ -> title
-		 else
-(*       let _ = printf "atom %s is not captionable\n" kind in *)
-			 title
-    
-		in
-    *)
 		match label with 
 		| None -> 
-				{kind; point_val; title; cover; sound; label; depend; problem; body=body; 
+				{kind; point_val; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; cover; sound; label; depend; problem; body=body; 
+				{kind; point_val; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 
@@ -577,32 +562,42 @@ struct
 		| Some p -> Problem.traverse p s f 
 
   let to_tex atom = 
-		let {kind; point_val; title; cover; sound; label; depend; problem; body} = atom in
+		let {kind; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
     let kw_args = ["cover", cover; "sound", sound] in
     let kw_args = Tex.mk_kw_args kw_args in
     let _ = printf "title = %s kw_args = %s\n" title kw_args in
+    let caption = Tex.mk_caption caption in
 		let problem = 
 			match problem with 
 			| None -> ""
 			| Some problem -> Problem.to_tex problem 
 		in
+
 		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
     let _ = printf "h_begin = %s\n" h_begin in
 		let h_end = Tex.mk_end kind in
-		let l = 
-			if label_is_given atom then	""
-			else Tex.mk_label label 
+		let (l, l_figure) = 
+			let label = Tex.mk_label label in
+			if label_is_given atom then	("", label)
+			else (label, label)
 
 		in
 		let d = Tex.mk_depend depend in		
-		  h_begin ^
-		  l ^ 
-		  d ^ 
-		  body ^ newline ^ problem ^ newline ^
-      h_end		
+      if kind = "figure" then
+        (* Always include label in the figure *)
+				h_begin ^
+				d ^ 
+				body ^ newline ^ caption ^ l_figure ^ newline ^
+				h_end		
+			else 
+				h_begin ^
+				l ^ 
+				d ^ 
+				body ^ newline ^ problem ^ newline ^
+				h_end		
 
   let to_md atom = 
 		let {kind; point_val; title; label; depend; problem; body} = atom in
@@ -662,15 +657,16 @@ struct
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
     let _ = d_printf "body sanitized:\n %s" body in
 		translator Xml.body body
-			
+
   let to_xml translator atom = 
 		(* Translate body to xml *)
-    let body_xml = body_to_xml translator atom in
+		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; title; cover; sound; label; depend; problem; body} = atom in
+		let {kind; point_val; title; cover; sound; label; depend; problem; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
+    let captions = str_opt_to_xml translator Xml.caption caption in
 		let problem_xml:string = 
 			match problem with 
 			| None -> ""
@@ -687,6 +683,7 @@ struct
 				~dopt:depend 
         ~body_src:body
         ~body_xml:body_xml
+        ~capopt:captions
         ~problem_xml
         ~ilist_opt:None
         ~hints_opt:None
@@ -695,8 +692,6 @@ struct
         ~rubric_opt:None
    in
      r
-
-
 end
 
 type atom = Atom.t
