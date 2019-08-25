@@ -111,7 +111,7 @@ A More Concrete Memory Model
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::part
+grp:new_sets::book
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -135,7 +135,7 @@ grp:new_sets::part
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-que:new_sets::part
+que:new_sets::book
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -145,7 +145,8 @@ que:new_sets::part
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>This is Part 3 of Sipser’s textbook <a href="https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation">Introduction to the Theory of Computation</a>.</p>
+<p>Here as a ref to a book <a href="#TB/" data-reference-type="ref" data-reference="TB/">[TB/]</a>.</p>
+<p>Here is a nicer ref to abook <a href="TB/">ref to a book</a>. This is Part 3 of Sipser’s textbook <a href="https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation">Introduction to the Theory of Computation</a>.</p>
 <p>Here you can</p>
 <ul>
 <li><a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
@@ -171,6 +172,9 @@ que:new_sets::part
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+Here as a ref to a book \ref{TB/}.
+
+Here is a nicer ref to  abook \href{TB/}{ref to a book}.
 This is Part~3 of Sipser's textbook \href{https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation}{Introduction to the Theory of Computation}.
 
 Here you can
