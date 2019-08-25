@@ -250,6 +250,7 @@ heading:
 
 top:
 	fs = emptylines;
+  hspaces;
   ss = segments;
   EOF
   {match Ast.Segment.nest_segments ss with
