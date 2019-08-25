@@ -250,6 +250,7 @@ heading:
 
 top:
 	fs = emptylines;
+  hspaces;
   ss = segments;
   EOF
   {match Ast.Segment.nest_segments ss with
@@ -289,7 +290,8 @@ segments:
 
 block: 
 | es = elements; 
-  tt = emptylines
+  tt = emptylines;
+  hs = hspaces  
   {
 	 let (es, ell_es) = es in
 	 let label = take_label ell_es in
@@ -371,9 +373,9 @@ atoms_and_tailspace:
 	ts = emptylines
 		{ aa }
 
-
 group: 
 | fs = emptylines;
+  hs = hspaces;
 	b = KW_BEGIN_GROUP
   aa = atoms_and_tailspace;  
   e = KW_END_GROUP
