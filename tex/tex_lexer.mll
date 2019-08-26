@@ -150,7 +150,6 @@ let encode_url url =
 let diderot_com_create (kind, arg, text) = 
 	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
   (* Encode url *)
-  let arg = encode_url arg in
   if kind = "attach" then
     let body = fmt_attach arg text in
     body
@@ -158,6 +157,8 @@ let diderot_com_create (kind, arg, text) =
     let body = fmt_download arg arg text in
     body
   else if kind = "video" then
+    (* encode url into proper ascii*)
+    let arg = encode_url arg in
     let body = fmt_video arg text in
     body
   else
