@@ -143,8 +143,6 @@ let fmt_download =
 let fmt_video = 
   Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'>%s</iframe></div>\n\\end{verbatim}"
 
-let encode_url url = 
-  Netencoding.Url.encode url
 
 (* This is a minimal html escaping function that only espaces
  * & --> &amp;
