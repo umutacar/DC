@@ -140,6 +140,9 @@ let fmt_attach =
 let fmt_download = 
 	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s' data-diderot='__diderot_download__'> %s </a>\n\\end{verbatim}"
 
+let fmt_video = 
+  Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'></iframe></div>\n\\end{verbatim}"
+
 (* Command rewriter *)
 let diderot_com_create (kind, text, arg) = 
 	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
