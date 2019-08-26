@@ -35,13 +35,13 @@ ch:new_sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::width
+grp:new_sets::file
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 
-<atom name='figure'>
+<atom name='gram'>
 <field name='title'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
@@ -50,6 +50,184 @@ grp:new_sets::width
 <field name='title_src'>
 <![CDATA[
 ...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:new_sets::file
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>. Here is a</p>
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Here are the \href{file:///Users/umut/Desktop/slides.pdf}{lecture slides}.
+Here is a the \href{file://paper.xml}{xml file}.
+Here is a \begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>
+\end{verbatim}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:new_sets::video
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='table'>
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tab:potent
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Here</td>
+<td style="text-align: left;">there</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">There</td>
+<td style="text-align: left;">here</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">What I put a video inside a tabular</td>
+<td style="text-align: left;"><div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>  </td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{tabular}{ll}
+Here & there
+\\
+There & here
+\\
+What I put a video inside a tabular & 
+\begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>
+\end{verbatim}
+\\
+\end{tabular}
+
+\label{tab:potent}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+<p>Potent stuff.</p>
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+Potent stuff.
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- table -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:new_sets::tango-is-beautiful
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='figure'>
+<field name='title'>
+<![CDATA[
+Tango is beautiful
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Tango is beautiful
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -69,12 +247,19 @@ fig:C0-memory
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>  
 <p><img src="img/memory.png" alt="image" style="width:90.0%" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 \begin{center}
+
+\begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>
+\end{verbatim}
+
   \includegraphics[width=0.9\textwidth]{img/memory.png}
 \end{center}
 
@@ -146,12 +331,13 @@ que:new_sets::book
 <field name='body'>
 <![CDATA[
 <p>Here as a ref to a book <a href="#TB/" data-reference-type="ref" data-reference="TB/">[TB/]</a>.</p>
-<p>Here is a nicer ref to abook <a href="TB/">ref to a book</a>. This is Part 3 of Sipser’s textbook <a href="https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation">Introduction to the Theory of Computation</a>.</p>
+<p>Here is a nicer ref to abook <a href="TB/">ref to a book</a>. This is Part 3 of Sipser’s textbook</p>
+<p><a href="https://www.google.com/search?q=Sipser">Introduction to the Theory of Computation</a>.</p>
 <p>Here you can</p>
 <ul>
-<li><a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
-<p>.</p></li>
-<li><a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  </li>
+<li><a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  </li>
+<li><a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file. </a>  </li>
+<li><p><a href="file:///Users/umut/Desktop/paper.xml">download an xml file via href</a></p></li>
 </ul>
 <p>Here are some cross-book references:</p>
 <ul>
@@ -175,18 +361,21 @@ que:new_sets::book
 Here as a ref to a book \ref{TB/}.
 
 Here is a nicer ref to  abook \href{TB/}{ref to a book}.
-This is Part~3 of Sipser's textbook \href{https://www.google.com/search?q=Sipser%20Introduction%20to%20the%20Theory%20of%20Computation}{Introduction to the Theory of Computation}.
+This is Part~3 of Sipser's textbook 
+
+\href{https://www.google.com/search?q=Sipser}{Introduction to the Theory of Computation}.
 
 Here you can
 \begin{itemize}
 \item \begin{verbatim}
 %%%% diderot_html
 <a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
-\end{verbatim}.  
+\end{verbatim}
 \item \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file. </a>
 \end{verbatim}
+\item \href{file:///Users/umut/Desktop/paper.xml}{download an xml file via href}
 \end{itemize}
 
 Here are some cross-book references: 
@@ -273,7 +462,7 @@ ans:new_sets:::downloads
 <![CDATA[
 <p> Here you can</p>
 <a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
-<p>. Here you can</p>
+<p>Here you can</p>
 <a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
 <p>And post downlead.</p>
 ]]>
@@ -284,7 +473,7 @@ ans:new_sets:::downloads
 Here you can \begin{verbatim}
 %%%% diderot_html
 <a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
-\end{verbatim}.  
+\end{verbatim}
 Here you can \begin{verbatim}
 %%%% diderot_html
 <a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
@@ -417,7 +606,7 @@ grp:new_sets::table-title
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 
-<atom name='table'>
+<atom name='gram'>
 <field name='title'>
 <![CDATA[
 Table title
@@ -435,7 +624,7 @@ coverimage.pdf
 playthis.mp3
 </field> <!-- sound -->
 <field name='label'>
-tbl:new_sets::table-title
+grm:new_sets::table-title
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -484,7 +673,7 @@ where & there & here?
 ...NOT.PROVIDED.CAPTION...
 ]]>
 </field> <!-- caption_src -->
-</atom> <!-- table -->
+</atom> <!-- gram -->
 
 </segment> <!-- cluster -->
 

@@ -140,14 +140,42 @@ let fmt_attach =
 let fmt_download = 
 	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s' data-diderot='__diderot_download__'> %s </a>\n\\end{verbatim}"
 
+let fmt_video = 
+  Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'>%s</iframe></div>\n\\end{verbatim}"
+
+
+(* This is a minimal html escaping function that only espaces
+ * & --> &amp;
+ * < --> &lt;
+ * > --> &gt;
+ * I am not sure that it is enough.
+ *)
+let escape_html url = 
+  let r_amp = Str.regexp "&" in
+  let html_amp = "&amp;" in
+  let r_angle_open = Str.regexp "<" in 
+  let html_angle_open = "&lt;" in
+  let r_angle_close = Str.regexp ">" in 
+  let html_angle_close = "&gt;" in
+  let url = Str.global_replace r_amp html_amp url in
+  let url = Str.global_replace r_angle_open html_angle_open url in
+  let url = Str.global_replace r_angle_close html_angle_close url in
+    url
+
 (* Command rewriter *)
-let diderot_com_create (kind, text, arg) = 
+let diderot_com_create (kind, arg, text) = 
 	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
-  if kind = "download" then
+  (* HTML encode arg *)
+  let arg = escape_html arg in
+  if kind = "attach" then
+    let body = fmt_attach arg text in
+    body
+  else if kind = "download" then
     let body = fmt_download arg arg text in
     body
-  else if kind = "attach" then
-    let body = fmt_attach arg text in
+  else if kind = "video" then
+    (* encode url into proper ascii*)
+    let body = fmt_video arg text in
     body
   else
 		(printf "Fatal Error. Lexer: Diderot Command could not be %s. Exiting! \n" kind ;
@@ -208,7 +236,8 @@ let p_com_caption = "\\caption"
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
 let p_com_download = "\\" ("download" as kind) p_ws
-let p_com_diderot = p_com_attach | p_com_download
+let p_com_video = "\\" ("video" as kind) p_ws
+let p_com_diderot = p_com_attach | p_com_download | p_com_video
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -380,10 +409,10 @@ parse
 
 | (p_com_diderot as x)
 		{
-     let text = take_arg_force lexbuf in
      let arg = take_arg_force lexbuf in
-		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
-     let command = diderot_com_create (kind, text, arg) in
+     let text = take_arg_force lexbuf in
+		 let _ = d_printf "diderot_com: %s %s %s" kind arg text in
+     let command = diderot_com_create (kind, arg, text) in
 		 CHUNK(command, None)
     }
 

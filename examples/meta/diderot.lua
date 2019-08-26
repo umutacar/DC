@@ -36,7 +36,7 @@ function CodeBlock(block)
   -- This function includes the contents of a code block as raw html
   -- if it starts with %%% diderot_html tag
   -- It is used to implement diderot command such as 
-  -- \download and \attach
+  -- \attach, \download, and \video
   -- print ('block.text =', block.text) 
 
   -- Regex explanation
