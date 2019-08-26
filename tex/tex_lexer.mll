@@ -141,16 +141,19 @@ let fmt_download =
 	Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<a href = '%s' download = '%s' data-diderot='__diderot_download__'> %s </a>\n\\end{verbatim}"
 
 let fmt_video = 
-  Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'></iframe></div>\n\\end{verbatim}"
+  Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'>%s</iframe></div>\n\\end{verbatim}"
 
 (* Command rewriter *)
-let diderot_com_create (kind, text, arg) = 
+let diderot_com_create (kind, arg, text) = 
 	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
-  if kind = "download" then
+  if kind = "attach" then
+    let body = fmt_attach arg text in
+    body
+  else if kind = "download" then
     let body = fmt_download arg arg text in
     body
-  else if kind = "attach" then
-    let body = fmt_attach arg text in
+  else if kind = "video" then
+    let body = fmt_video arg text in
     body
   else
 		(printf "Fatal Error. Lexer: Diderot Command could not be %s. Exiting! \n" kind ;
@@ -383,10 +386,10 @@ parse
 
 | (p_com_diderot as x)
 		{
-     let text = take_arg_force lexbuf in
      let arg = take_arg_force lexbuf in
+     let text = take_arg_force lexbuf in
 		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
-     let command = diderot_com_create (kind, text, arg) in
+     let command = diderot_com_create (kind, arg, text) in
 		 CHUNK(command, None)
     }
 
