@@ -143,9 +143,14 @@ let fmt_download =
 let fmt_video = 
   Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'>%s</iframe></div>\n\\end{verbatim}"
 
+let encode_url url = 
+  Netencoding.Url.encode url
+
 (* Command rewriter *)
 let diderot_com_create (kind, arg, text) = 
 	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
+  (* Encode url *)
+  let arg = encode_url arg in
   if kind = "attach" then
     let body = fmt_attach arg text in
     body
@@ -214,7 +219,8 @@ let p_com_caption = "\\caption"
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
 let p_com_download = "\\" ("download" as kind) p_ws
-let p_com_diderot = p_com_attach | p_com_download
+let p_com_video = "\\" ("video" as kind) p_ws
+let p_com_diderot = p_com_attach | p_com_download | p_com_video
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							

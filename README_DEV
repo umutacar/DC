@@ -1,3 +1,6 @@
+# TODO: 
+https://opam.ocaml.org/packages/ocamlnet/
+
 # Ascii unicode tool
 https://onlineasciitools.com/convert-utf8-to-ascii
 Not sure how reliable this thing is.  It didn't give me the right ascii file it seemed.
@@ -26,6 +29,8 @@ Assuming you got OPAM as described above:
 - `opam install core getopt menhir re2`
 and add  -package ppx_fields_conv
 to the Makefile
+
+- `opam install ocamlnet`
 
 ## Ocaml interpreter
 Place the following in your root directory file .ocamlinit

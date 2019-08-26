@@ -69,13 +69,18 @@ grm:new_sets::file
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>.</p>
+<p>Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>. Here is a</p>
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8QyE9D_3ezQ%26list%3DWL%26index%3D2%26t%3D0s'>tango video.</iframe></div>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 Here are the \href{file:///Users/umut/Desktop/slides.pdf}{lecture slides}.
 Here is a the \href{file://paper.xml}{xml file}.
+Here is a \begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8QyE9D_3ezQ%26list%3DWL%26index%3D2%26t%3D0s'>tango video.</iframe></div>
+\end{verbatim}
 ]]>
 </field> <!-- body_src -->
 
@@ -312,8 +317,8 @@ que:new_sets::book
 <p><a href="https://www.google.com/search?q=Sipser">Introduction to the Theory of Computation</a>.</p>
 <p>Here you can</p>
 <ul>
-<li><a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  </li>
-<li><a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file. </a>  </li>
+<li><a href = '%2FUsers%2Fumut%2FDesktop%2Fpaper.xml' download = '%2FUsers%2Fumut%2FDesktop%2Fpaper.xml' data-diderot='__diderot_download__'> download an xml file </a>  </li>
+<li><a href = '%2FUsers%2Fumut%2FDesktop%2Fpaper.xml' data-diderot='__diderot_attachment__'> find attached the xml file. </a>  </li>
 <li><p><a href="file:///Users/umut/Desktop/paper.xml">download an xml file via href</a></p></li>
 </ul>
 <p>Here are some cross-book references:</p>
@@ -346,11 +351,11 @@ Here you can
 \begin{itemize}
 \item \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
+<a href = '%2FUsers%2Fumut%2FDesktop%2Fpaper.xml' download = '%2FUsers%2Fumut%2FDesktop%2Fpaper.xml' data-diderot='__diderot_download__'> download an xml file </a>
 \end{verbatim}
 \item \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file. </a>
+<a href = '%2FUsers%2Fumut%2FDesktop%2Fpaper.xml' data-diderot='__diderot_attachment__'> find attached the xml file. </a>
 \end{verbatim}
 \item \href{file:///Users/umut/Desktop/paper.xml}{download an xml file via href}
 \end{itemize}
@@ -438,9 +443,9 @@ ans:new_sets:::downloads
 <field name='body'>
 <![CDATA[
 <p> Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
+<a href = 'download+an+xml+file' download = 'download+an+xml+file' data-diderot='__diderot_download__'> /Users/umut/Desktop/paper.xml </a>  
 <p>. Here you can</p>
-<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
+<a href = 'find+attached+the+xml+file' data-diderot='__diderot_attachment__'> /Users/umut/Desktop/paper.xml </a>  
 <p>And post downlead.</p>
 ]]>
 </field> <!-- body -->
@@ -449,11 +454,11 @@ ans:new_sets:::downloads
 \label{ans:new_sets:::downloads}
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
+<a href = 'download+an+xml+file' download = 'download+an+xml+file' data-diderot='__diderot_download__'> /Users/umut/Desktop/paper.xml </a>
 \end{verbatim}.  
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
+<a href = 'find+attached+the+xml+file' data-diderot='__diderot_attachment__'> /Users/umut/Desktop/paper.xml </a>
 \end{verbatim}
 And post downlead.
 ]]>
