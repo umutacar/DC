@@ -1,5 +1,11 @@
+
 # TODO: 
 https://opam.ocaml.org/packages/ocamlnet/
+
+browser address interpretation.
+// --> absolute.
+/ --> relative to domain.
+no slash --> relative to current page.
 
 # Ascii unicode tool
 https://onlineasciitools.com/convert-utf8-to-ascii

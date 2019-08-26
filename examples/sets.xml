@@ -70,7 +70,7 @@ grm:new_sets::file
 <field name='body'>
 <![CDATA[
 <p>Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>. Here is a</p>
-<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8QyE9D_3ezQ%26list%3DWL%26index%3D2%26t%3D0s'>tango video.</iframe></div>
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -79,7 +79,7 @@ Here are the \href{file:///Users/umut/Desktop/slides.pdf}{lecture slides}.
 Here is a the \href{file://paper.xml}{xml file}.
 Here is a \begin{verbatim}
 %%%% diderot_html
-<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D8QyE9D_3ezQ%26list%3DWL%26index%3D2%26t%3D0s'>tango video.</iframe></div>
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>
 \end{verbatim}
 ]]>
 </field> <!-- body_src -->
@@ -113,7 +113,7 @@ Here is a \begin{verbatim}
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::ll
+grp:new_sets::video
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -154,8 +154,12 @@ tab:potent
 <td style="text-align: left;">there</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">There * here</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">There</td>
+<td style="text-align: left;">here</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">What I put a video inside a tabular</td>
+<td style="text-align: left;"><div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>  </td>
 </tr>
 </tbody>
 </table>
@@ -166,7 +170,14 @@ tab:potent
 \begin{tabular}{ll}
 Here & there
 \\
-There * here
+There & here
+\\
+What I put a video inside a tabular & 
+\begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>
+\end{verbatim}
+\\
 \end{tabular}
 
 \label{tab:potent}
@@ -202,7 +213,7 @@ Potent stuff.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::width
+grp:new_sets::tango-is-beautiful
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -211,12 +222,12 @@ grp:new_sets::width
 <atom name='figure'>
 <field name='title'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Tango is beautiful
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+Tango is beautiful
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -236,12 +247,19 @@ fig:C0-memory
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>  
 <p><img src="img/memory.png" alt="image" style="width:90.0%" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 \begin{center}
+
+\begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/itxvqwcJdeo'>tango is beautiful</iframe></div>
+\end{verbatim}
+
   \includegraphics[width=0.9\textwidth]{img/memory.png}
 \end{center}
 
@@ -443,9 +461,9 @@ ans:new_sets:::downloads
 <field name='body'>
 <![CDATA[
 <p> Here you can</p>
-<a href = 'download an xml file' download = 'download an xml file' data-diderot='__diderot_download__'> /Users/umut/Desktop/paper.xml </a>  
-<p>. Here you can</p>
-<a href = 'find attached the xml file' data-diderot='__diderot_attachment__'> /Users/umut/Desktop/paper.xml </a>  
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
+<p>Here you can</p>
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
 <p>And post downlead.</p>
 ]]>
 </field> <!-- body -->
@@ -454,11 +472,11 @@ ans:new_sets:::downloads
 \label{ans:new_sets:::downloads}
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = 'download an xml file' download = 'download an xml file' data-diderot='__diderot_download__'> /Users/umut/Desktop/paper.xml </a>
-\end{verbatim}.  
+<a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
+\end{verbatim}
 Here you can \begin{verbatim}
 %%%% diderot_html
-<a href = 'find attached the xml file' data-diderot='__diderot_attachment__'> /Users/umut/Desktop/paper.xml </a>
+<a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>
 \end{verbatim}
 And post downlead.
 ]]>

@@ -146,10 +146,29 @@ let fmt_video =
 let encode_url url = 
   Netencoding.Url.encode url
 
+(* This is a minimal html escaping function that only espaces
+ * & --> &amp;
+ * < --> &lt;
+ * > --> &gt;
+ * I am not sure that it is enough.
+ *)
+let escape_html url = 
+  let r_amp = Str.regexp "&" in
+  let html_amp = "&amp;" in
+  let r_angle_open = Str.regexp "<" in 
+  let html_angle_open = "&lt;" in
+  let r_angle_close = Str.regexp ">" in 
+  let html_angle_close = "&gt;" in
+  let url = Str.global_replace r_amp html_amp url in
+  let url = Str.global_replace r_angle_open html_angle_open url in
+  let url = Str.global_replace r_angle_close html_angle_close url in
+    url
+
 (* Command rewriter *)
 let diderot_com_create (kind, arg, text) = 
 	let _ = d_printf "diderot_com_create: kind = %s text = %s arg = %s\n" kind text arg in
-  (* Encode url *)
+  (* HTML encode arg *)
+  let arg = escape_html arg in
   if kind = "attach" then
     let body = fmt_attach arg text in
     body
@@ -158,7 +177,6 @@ let diderot_com_create (kind, arg, text) =
     body
   else if kind = "video" then
     (* encode url into proper ascii*)
-    let arg = encode_url arg in
     let body = fmt_video arg text in
     body
   else
