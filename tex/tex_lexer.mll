@@ -395,7 +395,7 @@ parse
 		{
      let arg = take_arg_force lexbuf in
      let text = take_arg_force lexbuf in
-		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
+		 let _ = d_printf "diderot_com: %s %s %s" kind arg text in
      let command = diderot_com_create (kind, arg, text) in
 		 CHUNK(command, None)
     }
