@@ -27,8 +27,6 @@ Assuming you got OPAM as described above:
 and add  -package ppx_fields_conv
 to the Makefile
 
-- `opam install ocamlnet`
-
 ## Ocaml interpreter
 Place the following in your root directory file .ocamlinit
 
