@@ -1,12 +1,3 @@
-
-# TODO: 
-https://opam.ocaml.org/packages/ocamlnet/
-
-browser address interpretation.
-// --> absolute.
-/ --> relative to domain.
-no slash --> relative to current page.
-
 # Ascii unicode tool
 https://onlineasciitools.com/convert-utf8-to-ascii
 Not sure how reliable this thing is.  It didn't give me the right ascii file it seemed.
