@@ -73,12 +73,12 @@ let normalize_env (kind, title, kw_args) =
 		else
 			kind
 	in
-	let _ = printf "kind = %s title = %s\n" kind title in
+	let _ = d_printf "kind = %s title = %s\n" kind title in
   if kind = "table" or kind = "figure" then
     if Tex.title_is_significant title then
       (kind, Some title, ("title", title)::kw_args)
 		else
-   		let _ = printf "normalize_env_title: title is not significant.\n" in
+   		let _ = d_printf "normalize_env_title: title is not significant.\n" in
 			(kind, None, kw_args)
 	else
 		if title = "" then
