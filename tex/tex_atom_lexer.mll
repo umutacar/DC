@@ -73,6 +73,7 @@ let normalize_env (kind, title, kw_args) =
 		else
 			kind
 	in
+	let _ = printf "kind = %s title = %s\n" kind title in
   if kind = "table" or kind = "figure" then
     if Tex.title_is_significant title then
       (kind, Some title, ("title", title)::kw_args)
@@ -176,7 +177,8 @@ let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let points = 'p' | "pts"
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points) p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
