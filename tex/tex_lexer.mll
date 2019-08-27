@@ -485,6 +485,16 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
 		 (lst ^ rest, h_e)
     }
 
+  | (p_com_diderot as x)
+		{
+     let arg = take_arg_force lexbuf in
+     let text = take_arg_force lexbuf in
+		 let _ = d_printf "diderot_com: %s %s %s" kind arg text in
+     let (rest, h_e) = take_env depth lexbuf in
+     let command = diderot_com_create (kind, arg, text) in
+		 (command ^ rest, h_e)
+    }
+
   | p_com_lstinline as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
