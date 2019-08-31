@@ -144,7 +144,8 @@ let fmt_video =
   Printf.sprintf "\\begin{verbatim}\n%%%%%%%% diderot_html\n<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='%s'>%s</iframe></div>\n\\end{verbatim}"
 
 
-(* This is a minimal html escaping function that only espaces
+(* DEPRACATED.  See below!
+ * This is a minimal html escaping function that only espaces
  * & --> &amp;
  * < --> &lt;
  * > --> &gt;
@@ -161,6 +162,12 @@ let escape_html url =
   let url = Str.global_replace r_angle_open html_angle_open url in
   let url = Str.global_replace r_angle_close html_angle_close url in
     url
+
+let escape_html url = 
+  let encode = Netencoding.Html.encode ~in_enc:`Enc_utf8 ~prefer_name:true () in
+  let r = encode url in
+  let _ = d_printf "escape_html: input url = %s \n encoded url = %s\n" url r in
+    r 
 
 (* Command rewriter *)
 let diderot_com_create (kind, arg, text) = 

@@ -7,6 +7,7 @@ default:
 
 guide_ubuntu: default
 	cp $(DC_HOME)/_build/top/dc.native $(GUIDE_DIR)/bin/ubuntu/dc
+	cp $(DC_HOME)/_build/top/texl.native $(GUIDE_DIR)/bin/ubuntu/texel
 
 concorde: default
 	cp $(DC_HOME)/_build/top/dc.native $(CONCORDE_DIR)/bin/
