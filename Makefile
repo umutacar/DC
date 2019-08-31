@@ -102,13 +102,13 @@ guide: ./$(GUIDE_DIR)README.md
 
 guide_macos: all
 	cp dc.native $(GUIDE_DIR)/bin/macos/dc
-#	cp texel.native $(GUIDE_DIR)/bin/macos/texel
+	cp texel.native $(GUIDE_DIR)/bin/macos/texel
 #	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex
 #	cp texml.native $(GUIDE_DIR)/bin/macos/texml
 
 guide_ubuntu: 
 	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc
-#	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
+	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
 #	cp  _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
 #	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 
