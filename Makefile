@@ -2,7 +2,7 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core -I atom -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
+OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I atom -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
 OCB = ocamlbuild $(OCB_FLAGS)
 GUIDE_DIR = ~/diderot/guide
 
@@ -17,10 +17,10 @@ DEPEND = \
   top/dc.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native tex2tex.native
+default: dc.native tex2tex.native texel.native 
 # cc.native 
 # texml.native 
-# texel.native 
+
 
 all: dc.native md2md.native \
   tex2tex.native texel.native texml.native

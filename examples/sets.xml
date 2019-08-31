@@ -70,7 +70,9 @@ grm:new_sets::file
 <field name='body'>
 <![CDATA[
 <p>Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>. Here is a</p>
-<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>  
+<p>Here is a</p>
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/?&lt;8QyE9D&amp;&gt;&lt;_3ezQ'>tango video.</iframe></div>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -80,6 +82,10 @@ Here is a the \href{file://paper.xml}{xml file}.
 Here is a \begin{verbatim}
 %%%% diderot_html
 <div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>
+\end{verbatim}
+Here is a \begin{verbatim}
+%%%% diderot_html
+<div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/?&lt;8QyE9D&amp;&gt;&lt;_3ezQ'>tango video.</iframe></div>
 \end{verbatim}
 ]]>
 </field> <!-- body_src -->
