@@ -1,6 +1,6 @@
 #!/bin/bash
-echo "Changing to /mtl."
-cd /mtl
+echo "Changing to /dc."
+cd /dc
 echo "Cleaning up."
 make clean 
 echo "Making now."
