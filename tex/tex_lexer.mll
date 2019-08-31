@@ -166,7 +166,7 @@ let escape_html url =
 let escape_html url = 
   let encode = Netencoding.Html.encode ~in_enc:`Enc_utf8 ~prefer_name:true () in
   let r = encode url in
-  let _ = printf "escape_html: input url = %s \n encoded url = %s\n" url r in
+  let _ = d_printf "escape_html: input url = %s \n encoded url = %s\n" url r in
     r 
 
 (* Command rewriter *)
