@@ -74,6 +74,7 @@ let kw_important = "important"
 let kw_lemma = "lemma"
 let kw_note = "note"
 let kw_gram = "gram"
+let kw_observe = "observation"
 let kw_observation = "observation"
 let kw_preamble = "preamble"
 let kw_problem = "problem"
@@ -157,6 +158,7 @@ let label_prefix_important = "imp"
 let label_prefix_lemma = "lem"
 let label_prefix_note = "nt"
 let label_prefix_gram = "grm"
+let label_prefix_observe = "obs"
 let label_prefix_observation = "obs"
 let label_prefix_preamble = "prmbl"
 let label_prefix_problem = "prb"
@@ -215,6 +217,7 @@ let label_prefix_of_kind =
    kw_lemma, label_prefix_lemma;
    kw_note, label_prefix_note;
    kw_gram, label_prefix_gram;
+   kw_observe, label_prefix_observe;
    kw_observation, label_prefix_observation;
    kw_preamble, label_prefix_preamble;
    kw_problem, label_prefix_problem;
@@ -258,6 +261,7 @@ let atom_kinds =
    kw_lemma, ();
    kw_note, ();
    kw_gram, ();
+   kw_observe, ();
    kw_observation, ();
    kw_preamble, ();
    kw_problem, ();
