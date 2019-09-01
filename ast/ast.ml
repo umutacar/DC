@@ -798,7 +798,8 @@ struct
   (* If group doesn't have a label, then
 	 * assign fresh label to each atom (unique wrt label_set).
    * Return the updated label set.
-	 * To assign label use words from title and body.  
+	 * To assign label first use the atom labels nested within.
+   * If that doesn't work then use words from title and body.  
 	*)
 	let assign_label prefix label_set group = 		
 		let t_a = List.map group.atoms ~f:(Atom.assign_label prefix label_set) in
