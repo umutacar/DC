@@ -94,15 +94,19 @@ let drop_label_prefix label =
 (* Take kind, e.g., sec, gr, and prefix and a string list candidates make
    kind:prefix::s, for some s in candidates
  *)
-let mk_label table kind prefix candidates = 
+let mk_label table kind prefix_opt candidates = 
 	let rec find candidates = 
 		let _ = d_printf_strlist "Label_set.mk_label: candidates = %s\n" candidates in
     match candidates with 
     | [] -> 
-        let _ = d_printf "Label_set.mk_label: failed to find a unique word.  Using unique.\n" in
+        let _ = d_printf "Label_set.mk_label: failed to find a unique label.\n" in
         None
-    | ls::rest ->
-        let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ ls in
+    | h::rest ->
+        let ls = 
+					match prefix_opt with 
+					| None ->  kind ^ Tex.label_nestor ^ h
+					| Some prefix -> kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ h 
+				in
         let _ = d_printf "Label_set.mk_label: trying label = %s\n" ls in
         if add table ls then 
           let _ = d_printf "Label_set.add: Label = %s added to  the table.\n" ls in
@@ -122,7 +126,7 @@ let mk_label_force table kind prefix candidates =
     let _ = d_printf "Label_set.mk_label_force label = %s\n" ls in
       ls
   | _ ->
-    match mk_label table kind prefix candidates with 
+    match mk_label table kind (Some prefix) candidates with 
     | None ->
       let ls = mk_label_from_number table in 
       let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ ls in
