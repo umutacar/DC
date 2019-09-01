@@ -14,7 +14,7 @@ DEPEND = \
   md/md_lexer.mll md/md_parser.mly md/md_syntax.ml md/md2html.ml  md/md2md.ml \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_atom_lexer.mll tex/tex_atom_parser.mly tex/tex_comment_lexer.mll tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
-  top/dc.ml \
+  top/dc.ml top/texel.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
 default: dc.native tex2tex.native texel.native 
@@ -57,13 +57,13 @@ tex2tex.debug: $(DEPEND) tex/tex2tex.ml
 
 
 # texel
-texel.native: $(DEPEND) tex/texel.ml
+texel.native: $(DEPEND) top/texel.ml
 	$(OCB) texel.native
 
-texel.profile: $(DEPEND) tex/texel.ml
+texel.profile: $(DEPEND) top/texel.ml
 	$(OCB) -tag profile texel.native
 
-texel.debug: $(DEPEND) tex/texel.ml
+texel.debug: $(DEPEND) top/texel.ml
 	$(OCB) -tag debug texel.byte
 
 # texml
@@ -108,7 +108,7 @@ guide_macos: all
 
 guide_ubuntu: 
 	cp _build/top/dc.native $(GUIDE_DIR)/bin/macos/dc
-	cp  _build/tex/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
+	cp  _build/top/texel.native $(GUIDE_DIR)/bin/ubuntu/texel
 #	cp  _build/tex/tex2tex.native $(GUIDE_DIR)/bin/ubuntu/tex2tex
 #	cp  _build/tex/texml.native $(GUIDE_DIR)/bin/ubuntu/texml
 
