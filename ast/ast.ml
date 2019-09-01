@@ -563,6 +563,7 @@ struct
 
   let to_tex atom = 
 		let {kind; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
+		let _ = printf "Atom.to_tex kind = %s \n" kind in
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
@@ -586,8 +587,8 @@ struct
 
 		in
 		let d = Tex.mk_depend depend in		
-      if kind = "figure" then
-        (* Always include label in the figure *)
+      if kind = "figure" || kind = "table" then
+        (* Always include label in figure or table *)
 				h_begin ^
 				d ^ 
 				body ^ newline ^ caption ^ l_figure ^ newline ^

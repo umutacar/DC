@@ -466,7 +466,7 @@ ans:new_sets:::downloads
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p> Here you can</p>
+<p>Here you can</p>
 <a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>  
 <p>Here you can</p>
 <a href = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_attachment__'> find attached the xml file </a>  
@@ -1086,7 +1086,7 @@ xy
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p> Our goals in this book are much more modest than trying to understand set theory and its many interesting implications. Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs. Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. We discuss tables <a href="TB/ch:tables">in the next chapter.</a></p>
+<p>Our goals in this book are much more modest than trying to understand set theory and its many interesting implications. Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs. Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. We discuss tables <a href="TB/ch:tables">in the next chapter.</a></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1389,7 +1389,7 @@ syn:new_sets
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p> In SPARC we use the standard set notation <span class="math inline">\(\left\{ e_o,e_1,\cdots,e_n \right\}\)</span> to indicate a set. The notation <span class="math inline">\(\emptyset\)</span> or <span class="math inline">\(\left\{  \right\}\)</span> refers to an empty set. We also use the conventional mathematical syntax for set functions such as <span class="math inline">\(|S|\)</span> (size), <span class="math inline">\(\cup\)</span> (union), <span class="math inline">\(\cap\)</span> (intersection), and <span class="math inline">\(\setminus\)</span> (difference). In addition, we use set comprehensions for <span class="math inline">\(\mathit{filter}\)</span> and for constructing sets from other sets.</p>
+<p>In SPARC we use the standard set notation <span class="math inline">\(\left\{ e_o,e_1,\cdots,e_n \right\}\)</span> to indicate a set. The notation <span class="math inline">\(\emptyset\)</span> or <span class="math inline">\(\left\{  \right\}\)</span> refers to an empty set. We also use the conventional mathematical syntax for set functions such as <span class="math inline">\(|S|\)</span> (size), <span class="math inline">\(\cup\)</span> (union), <span class="math inline">\(\cap\)</span> (intersection), and <span class="math inline">\(\setminus\)</span> (difference). In addition, we use set comprehensions for <span class="math inline">\(\mathit{filter}\)</span> and for constructing sets from other sets.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2757,7 +2757,7 @@ cost:new_sets::trees
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p> The cost specification for tree-based implementation of sets follow.</p>
+<p>The cost specification for tree-based implementation of sets follow.</p>
 <p><span class="math display">\[\begin{array}{lcc}
   \mbox{Operation} &amp; \mbox{Work} &amp; \mbox{Span}
   \\
@@ -3140,7 +3140,7 @@ ex:new_sets::fromseq-imp
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p> We can convert a sequence to a set by inserting the elements one by one as follows <span class="math display">\[\mathit{fromseq}~a = \mathit{Seq.iterate}~\mathit{Set.insert}~~\emptyset~a.\]</span></p>
+<p>We can convert a sequence to a set by inserting the elements one by one as follows <span class="math display">\[\mathit{fromseq}~a = \mathit{Seq.iterate}~\mathit{Set.insert}~~\emptyset~a.\]</span></p>
 <p>This implementation is sequential and work inefficient. We can write a parallel and work-efficient function as follows <span class="math display">\[\mathit{fromSeq}~a = \mathit{Seq.reduce}~\mathit{Set.union}~~\emptyset~~\left\langle\, \left\{ x \right\} : x \in a \,\right\rangle.\]</span></p>
 ]]>
 </field> <!-- body -->
