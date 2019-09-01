@@ -104,7 +104,7 @@ let mk_label table kind prefix_opt candidates =
     | h::rest ->
         let ls = 
 					match prefix_opt with 
-					| None ->  kind ^ Tex.label_nestor ^ h
+					| None ->  kind ^ Tex.label_seperator ^ h
 					| Some prefix -> kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ h 
 				in
         let _ = d_printf "Label_set.mk_label: trying label = %s\n" ls in
