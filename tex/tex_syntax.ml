@@ -74,11 +74,14 @@ let kw_important = "important"
 let kw_lemma = "lemma"
 let kw_note = "note"
 let kw_gram = "gram"
+let kw_observe = "observe"
+let kw_observation = "observation"
 let kw_preamble = "preamble"
 let kw_problem = "problem"
 let kw_proof = "proof"
 let kw_proposition = "proposition"
 let kw_question = "question"
+let kw_quote = "quote"
 let kw_remark = "remark"
 let kw_reminder = "reminder"
 let kw_slide = "slide"
@@ -155,11 +158,14 @@ let label_prefix_important = "imp"
 let label_prefix_lemma = "lem"
 let label_prefix_note = "nt"
 let label_prefix_gram = "grm"
+let label_prefix_observe = "obs"
+let label_prefix_observation = "obs"
 let label_prefix_preamble = "prmbl"
 let label_prefix_problem = "prb"
 let label_prefix_proof = "prf"
 let label_prefix_proposition = "prop"
 let label_prefix_question = "que"
+let label_prefix_quote = "qut"
 let label_prefix_remark = "rmrk"
 let label_prefix_reminder = "rmdr"
 let label_prefix_slide = "slide"
@@ -211,10 +217,13 @@ let label_prefix_of_kind =
    kw_lemma, label_prefix_lemma;
    kw_note, label_prefix_note;
    kw_gram, label_prefix_gram;
+   kw_observe, label_prefix_observe;
+   kw_observation, label_prefix_observation;
    kw_preamble, label_prefix_preamble;
    kw_problem, label_prefix_problem;
    kw_proof, label_prefix_proof;
    kw_proposition, label_prefix_proposition;
+   kw_quote, label_prefix_quote;
    kw_question, label_prefix_question;
    kw_remark, label_prefix_remark;
    kw_reminder, label_prefix_reminder;
@@ -252,11 +261,14 @@ let atom_kinds =
    kw_lemma, ();
    kw_note, ();
    kw_gram, ();
+   kw_observe, ();
+   kw_observation, ();
    kw_preamble, ();
    kw_problem, ();
    kw_proof, ();
    kw_proposition, ();
    kw_question, ();
+   kw_quote, ();
    kw_remark, ();
    kw_reminder, ();
    kw_slide, ();
