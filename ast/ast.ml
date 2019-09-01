@@ -649,7 +649,9 @@ struct
 					atom.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt_all, tb_all)
+    let Some atom_label = label atom in 
+      (* Add atom label so that it can be used by the group. *)
+    	(atom_label::tt_all, tb_all)
 
 
   let body_to_xml translator atom =
