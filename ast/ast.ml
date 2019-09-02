@@ -117,6 +117,22 @@ let collect_labels (labels: (string list * string list) list): string list * str
 	in
 	(tt_merged, tb_merged)
 
+let collect_labels_from_atoms (labels: (string * string list * string list) list): string list * string list * string list = 
+	let ls = List.map labels ~f:(fun (x, y, z) -> x) in
+	let tt = List.map labels ~f:(fun (x, y, z) -> y) in
+	let tb = List.map labels ~f:(fun (x, y, z) -> z) in
+	let tt_merged = 
+		match List.reduce tt (fun x y -> x @ y) with
+		| None -> [ ]
+		| Some ttm -> ttm
+	in			
+	let tb_merged =
+		match List.reduce tb (fun x y -> x @ y) with
+		| None -> [ ] 
+		| Some tbm -> tbm
+	in
+	(ls, tt_merged, tb_merged)
+
 
 (**********************************************************************
  ** END: Utilities
@@ -649,7 +665,15 @@ struct
 					atom.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt_all, tb_all)
+    let atom_label = 
+			match label atom with 
+			| None -> 
+					let _ = printf "Fatal Error: ast.ml: expecting atom label to exist.\n" in
+					exit 0;
+			| Some l -> l
+		in 
+      (* Add atom label so that it can be used by the group. *)
+    	(atom_label, tt_all, tb_all)
 
 
   let body_to_xml translator atom =
@@ -774,19 +798,32 @@ struct
   (* If group doesn't have a label, then
 	 * assign fresh label to each atom (unique wrt label_set).
    * Return the updated label set.
-	 * To assign label use words from title and body.  
-	*)
+	 * To assign label first use the atom labels nested within.
+   * If that doesn't work then use words from title and body.  
+   * Example: if atom has label grm:chapter_label::atom_label
+   *          then group could have label grp:grm:chapter_label::atom_label.
+   *          This will be priority to ensure stability.
+   *)
 	let assign_label prefix label_set group = 		
 		let t_a = List.map group.atoms ~f:(Atom.assign_label prefix label_set) in
-    let (tt_a, tb_a) = collect_labels t_a in
+    let (atom_labels, tt_a, tb_a) = collect_labels_from_atoms t_a in
 		let tt_g = tokenize_title (title group) in
     let (tt_all, tb_all) = (tt_g @ tt_a, tb_a) in
 		let _ = 
 			match (label group) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind group) in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
-					group.label <- Some l
+          let lopt = 
+						match atom_labels with 
+						| [ ] -> None
+						| _ -> Labels.mk_label label_set lk None atom_labels
+					in
+					let l = 
+						match lopt with 
+						| None -> Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) 
+						| Some l -> l
+					in
+	  				group.label <- Some l
 		| Some _ -> ()
 		in
 		(tt_all, tb_all)
@@ -856,7 +893,8 @@ struct
 	let assign_label prefix label_set e =
  		match e with
 		| Element_atom a ->
-				Atom.assign_label prefix label_set a
+				let (ls, lt, lb) = Atom.assign_label prefix label_set a in
+				(lt, lb)
 		| Element_group g ->
 				Group.assign_label prefix label_set g
 
@@ -1112,7 +1150,7 @@ struct
 		| None ->
   	  let lk = Tex_syntax.mk_label_prefix_from_kind (kind segment) in
 			let tt_s = tokenize_title (Some (title segment)) in
-			match Labels.mk_label label_set lk prefix tt_s with
+			match Labels.mk_label label_set lk (Some prefix) tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
         let l = Labels.mk_label_force label_set lk prefix tokens in

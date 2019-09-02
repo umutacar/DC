@@ -35,7 +35,7 @@ ch:new_sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::quote
+grp:qut:new_sets::quote
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -107,7 +107,7 @@ This is a quote atom
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::observe
+grp:obs:new_sets::observe
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -179,7 +179,7 @@ This is an observe atom
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::observation
+grp:obs:new_sets::observation
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -251,7 +251,7 @@ This is an observation atom
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::file
+grp:grm:new_sets::file
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -335,7 +335,7 @@ Here is a \begin{verbatim}
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::video
+grp:tab:potent
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -435,7 +435,7 @@ Potent stuff.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::tango-is-beautiful
+grp:fig:C0-memory
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -518,7 +518,7 @@ A More Concrete Memory Model
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::book
+grp:que:new_sets::book
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -648,7 +648,7 @@ Here are some local references:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::diderot
+grp:ans:new_sets:::downloads
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -733,7 +733,7 @@ And post downlead.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::sets
+grp:prmbl:new_sets::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -822,7 +822,7 @@ Sets are both a mathematical structure and an abstract datatype
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::table-title
+grp:grm:new_sets::table-title
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -914,7 +914,7 @@ where & there & here?
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::lll
+grp:tbl:new_sets::lll
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -998,7 +998,7 @@ tbl:new_sets::lll
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::star-find0
+grp:fig:new_sets::star-find0
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1070,7 +1070,7 @@ Some image above.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::something
+grp:tbl:new_sets::something
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1164,7 +1164,7 @@ sec:new_sets::math
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::gathering
+grp:grm:new_sets::gathering
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1268,7 +1268,7 @@ x
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::goals
+grp:xy
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1342,7 +1342,7 @@ We discuss tables \href{TB/ch:tables}{in the next chapter.}
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::cover
+grp:grm:new_sets::cover
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1442,7 +1442,7 @@ sec:new_sets::sets-adt
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::universe
+grp:adt:new_sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1571,7 +1571,7 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::standard
+grp:syn:new_sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1650,7 +1650,7 @@ In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::objects
+grp:grm:new_sets::objects
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1729,7 +1729,7 @@ The objects that are contained in a set are called~\defn{members}~or the~\defn{e
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::consists
+grp:grm:new_sets::consists
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1814,7 +1814,7 @@ where the $x_i$ are an arbitrary ordering.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::functions
+grp:grm:new_sets::functions
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1903,7 +1903,7 @@ to elements of the sequence).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::operate
+grp:grm:new_sets::operate
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1996,7 +1996,7 @@ of elements ``in bulk.''
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::find
+grp:grm:new_sets::find
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2101,7 +2101,7 @@ respectively:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::iteration
+grp:grm:new_sets::iteration
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2185,7 +2185,7 @@ them to sequences, as in
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::notice
+grp:grm:new_sets::notice
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2266,7 +2266,7 @@ is infinite).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::convince
+grp:xrcs:new_sets::convince
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2339,7 +2339,7 @@ using the interface and with finite work.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::toseq
+grp:xmpl:new_sets::functions
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2432,7 +2432,7 @@ Some functions on sets:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::interface
+grp:rmrk:new_sets::notice
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2511,7 +2511,7 @@ arbitrary size to a singleton.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::programming
+grp:rmrk:new_sets::programming
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2613,7 +2613,7 @@ sec:new_sets::cost-of-sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::implemented
+grp:grm:new_sets::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2864,7 +2864,7 @@ $\cseq{ 1, 0, 1, 0, 1, 0, 1, 0 }.$
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::tree-representation-for-sets
+grp:grm:new_sets::tree-representation-for-sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2939,7 +2939,7 @@ For the specification \href{cost:new_sets::trees}{specified below}, we assume th
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::tree-sets
+grp:cost:new_sets::trees
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3055,7 +3055,7 @@ cost:new_sets::trees
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::consider
+grp:grm:new_sets::consider
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3135,7 +3135,7 @@ such an implementation in \chref{bst::parametric}.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::work
+grp:grm:new_sets::work
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3230,7 +3230,7 @@ W(n) \in O\left(n \cdot \lg \left(1+\frac{n}{n}\right)\right) = O(n).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::implement
+grp:grm:new_sets::implement
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3322,7 +3322,7 @@ of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:new_sets::convert
+grp:ex:new_sets::fromseq-imp
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
