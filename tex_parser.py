@@ -82,7 +82,7 @@ def parser(tex_str):
 		def_list, defn_list = re.findall(r'\\def{[ \w-]*}', atom), re.findall(r'\\defn{[ \w-]*}', atom)
 		definitions = [defn[6:-1] for defn in defn_list] + [defn[5:-1] for defn in def_list]
 		label = re.findall(r'\\label{.*}', atom)
-		print(atom, definitions, label)
+		# print(atom, definitions, label)
 		tex_str = tex_str[end_definition.end():]
 		begin_definition = re.search(r'\\begin{definition*}', tex_str)
 		if (len(label) != 1):
@@ -177,12 +177,26 @@ def insert_label(string, def_to_Label):
 		str_iref += string[prev_end:]
 	return str_iref
 
+def testcase_mathexpr():
+	def_string = "\\begin{definition}\\label{definition:keyphrase}\n\defn{keyphrase} is a phrase that's important.\n\\end{definition}\n"
+	math_string = "\\begin{math}\n I'm looking for a keyphrase. \n\\end{math}"
+	test_string = def_string + math_string
+	phrase_to_label = parser(test_string)
+	assert(phrase_to_label == {"keyphrase" : "\\label{definition:keyphrase}"})
+	assert(is_math_expression(test_string, len(def_string) + 20))
+	result = insert_label(test_string, phrase_to_label)
+	assert(result == test_string)
+
 if __name__=='__main__':
+	testcase_mathexpr()
 	if (len(sys.argv) > 1):
 		tex_file = sys.argv[1]
 		f = open(tex_file, "r")
 		tex_str = f.read()
 		result = parser(tex_str)
 		new_latex = insert_label(tex_str, result)
+	elif (len(sys.argv) > 2):
+		pass
 	else:
 		print("no argument was provided. Please provide a latex file you'd like to parse")
+
