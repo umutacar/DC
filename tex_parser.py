@@ -149,8 +149,6 @@ def is_math_expression(string, index):
 		return True
 	elif (string.count("\[", 0, index) - string.count("\]", 0, index) == 1):
 		return True
-	for arg in MATH_ARGS:
-		begin_arg = re.search(string)
 	return False
 
 # given string and map of keyphrases to labels, identify the key pheases
