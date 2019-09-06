@@ -13,7 +13,7 @@ MATH_ARGS = ['math', 'equation', 'align', 'array', 'table', 'tabular']
 
 # given a dictionary of key phrases mapped to their labels, write them to file_name
 def write_to_file(dictionary, file_name):
-	output = open(file_name, "w+")
+	output = open(file_name, "a+")
 	result_str = ""
 	for keyphrase, label in dictionary.items():
 		result_str += keyphrase + "\t"
@@ -21,53 +21,6 @@ def write_to_file(dictionary, file_name):
 	print result_str
 	output.write(result_str)
 	output.close()
-
-# find an atom word with stirng
-# def find_atom_word(string):
-# 	index = string.find(BEGIN)
-# 	begin_str = string[index + BEGIN_LEN:]
-# 	atom_word = begin_str[:begin_str.find("}")]
-# 	return atom_word
-
-# return a list of key phrases from string
-# def find_keyphrases(string):
-# 	defn_index = string.find("\\defn{")
-# 	if (defn_index == -1):
-# 		return list()
-# 	end_index = string.find("}", defn_index)
-# 	new_string = string[end_index+1:]
-# 	subarray = find_keyphrases(new_string)
-# 	subarray.append(string[defn_index+len("\\defn{"):end_index])
-# 	return subarray
-
-# Returns true if latex string contains an atom and false otws
-# def contains_atom(tex_str):
-# 	begin_start_index = tex_str.find(BEGIN)
-# 	if (begin_start_index == -1):
-# 		return False
-# 	prefix_length = begin_start_index + BEGIN_LEN
-# 	begin_finish_index = tex_str.find('}', prefix_length)
-# 	command = tex_str[prefix_length:begin_finish_index]
-
-# 	end_start_index = tex_str.find("\\end{" + command + "}")
-# 	if (end_start_index == -1):
-# 		return False
-# 	return True
-
-# Returns (start_index_of_atom, end_index_of_atom) of tex_str if 
-# atom exists and false otws
-# def find_atom(tex_str):
-# 	begin_start_index = tex_str.find(BEGIN)
-# 	if (begin_start_index == -1):
-# 		return (-1, -1)
-# 	prefix_length = begin_start_index + BEGIN_LEN
-# 	begin_finish_index = tex_str.find('}', prefix_length)
-# 	command = tex_str[prefix_length:begin_finish_index]
-# 	end_start_index = tex_str.find("\\end{" + command + "}")
-# 	if (end_start_index == -1):
-# 		return (-1, -1)
-# 	end_finish_index = end_start_index + len("\\end{" + command + "}")
-# 	return (begin_start_index, end_finish_index)
 
 def parser(tex_str):
 	label_to_atom = {}
@@ -199,8 +152,9 @@ if __name__=='__main__':
 		tex_str = f.read()
 		result = parser(tex_str)
 		new_latex = insert_label(tex_str, result)
-	elif (len(sys.argv) > 2):
-		pass
+		if (len(sys.argv) > 2):
+			write_output = sys.argv[2]
+			write_to_file(result, write_output)
 	else:
 		print("no argument was provided. Please provide a latex file you'd like to parse")
 
