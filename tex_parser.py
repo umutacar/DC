@@ -22,6 +22,14 @@ def write_to_file(dictionary, file_name):
 	output.write(result_str)
 	output.close()
 
+def file_to_dictionary(dict_str):
+	lines = [d.split("\\label{") for d in dict_str.strip().split("\n")]
+	print(lines)
+	# last element of dict_list is an empty list
+	dict_tuples = list(map(lambda x: (x[0].strip(), (x[1][:-1]).strip()), lines))
+	dictionary = dict(dict_tuples)
+	return dictionary
+
 def parser(tex_str):
 	label_to_atom = {}
 	defn_list = re.findall(r'\\defn{[ \w-]*}', tex_str)
@@ -108,13 +116,13 @@ def is_math_expression(string, index):
 
 # given string and map of keyphrases to labels, identify the key pheases
 # and insert the labels as necessary
-def insert_label(string, def_to_Label):
-	lowercase_copy = string.lower()
+def insert_label(string, def_to_label):
+	lowercase_string = string.lower()
 	str_iref = ""
-	for definition, label in def_to_Label.items():
+	for definition, label in def_to_label.items():
 		prev_end = 0
-		# only use lowercase_copy for finding occurrence case-insensitive
-		index = lowercase_copy.find(definition.lower())
+		# only use lowercase_string for finding occurrence case-insensitive
+		index = lowercase_string.find(definition.lower())
 		str_iref = ""
 		while (index != -1):
 			# if string[index: index+len(definition)] is valid key phrase
@@ -126,8 +134,10 @@ def insert_label(string, def_to_Label):
 				str_iref += iref
 				# if keyphrase is replaced by label, update prev_start to be last updated index
 				prev_end = index + len(definition)
-			index = lowercase_copy.find(definition, index+len(definition))
+			index = lowercase_string.find(definition, index+len(definition))
 		str_iref += string[prev_end:]
+		string = str_iref
+		lowercase_string = string.lower()
 	return str_iref
 
 def testcase_mathexpr():
@@ -141,16 +151,30 @@ def testcase_mathexpr():
 	assert(result == test_string)
 
 if __name__=='__main__':
+	# test cases
 	testcase_mathexpr()
-	if (len(sys.argv) > 1):
-		tex_file = sys.argv[1]
-		f = open(tex_file, "r")
-		tex_str = f.read()
-		result = parser(tex_str)
-		new_latex = insert_label(tex_str, result)
-		if (len(sys.argv) > 2):
-			write_output = sys.argv[2]
-			write_to_file(result, write_output)
+
+	if (len(sys.argv) > 3):
+		if (sys.argv[1] == 'extract_label'):
+			tex_file = sys.argv[2]
+			f = open(tex_file, "r")
+			tex_str = f.read()
+			dictionary = parser(tex_str)
+			write_output = sys.argv[3]
+			write_to_file(dictionary, write_output)
+		elif (sys.argv[1] == 'insert_label'):
+			tex_file = sys.argv[3]
+			f = open(tex_file, "r")
+			tex_str = f.read()
+			d = open(sys.argv[2], "r")
+			dictionary_str = d.read()
+			dictionary = file_to_dictionary(dictionary_str)
+			new_latex = insert_label(tex_str, dictionary)
+			output = open("output.txt", "w+")
+			output.write(new_latex)
+			output.close()
+		else:
+			print("wrong mode. Mode should either be `extract_label` or `insert_label`")
 	else:
-		print("no argument was provided. Please provide a latex file you'd like to parse")
+		print("input must be of form `[extract_label/insert_label] <file_name>`. See README.md for more details")
 
