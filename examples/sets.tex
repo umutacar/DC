@@ -1,5 +1,5 @@
 \chapter{Sets}
-\label{ch:new_sets}
+\label{ch:sets_2}
 
 \begin{quote}
 This is a quote atom
@@ -34,7 +34,7 @@ What I put a video inside a tabular &
 \\
 \end{tabular}
 \caption{Potent stuff.}
-\label{tab:potent}
+\label{tab:sets2::potent}
 \end{table}
 
 \begin{figure}[Tango is beautiful]
@@ -45,7 +45,7 @@ What I put a video inside a tabular &
   \includegraphics[width=0.9\textwidth]{img/memory.png}
 \end{center}
 \caption{A More Concrete Memory Model}
-\label{fig:C0-memory}
+\label{fig:sets2::C0-memory}
 \end{figure}
 
 \begin{question}
@@ -75,8 +75,8 @@ Here are some cross-book references:
 Here are some local references: 
 \begin{itemize}
 \item Ref \ref{xy}
-\item Ref \ref{ans:new_sets:::downloads}
-\item Ref \ref{sec:new_sets::math}
+\item Ref \ref{ans:sets_2::downloads}
+\item Ref \ref{sec:sets_2::math}
 \item Ref \ref{adt:sets} 
 \item Ref \ref{syn:sets}
 \end{itemize}
@@ -84,7 +84,7 @@ Here are some local references:
 \end{question}
 
 \begin{answer}
-\label{ans:new_sets:::downloads}
+\label{ans:sets_2::downloads}
 Here you can \download{/Users/umut/Desktop/paper.xml}{download an xml file}
 Here you can \attach{/Users/umut/Desktop/paper.xml}{find attached the xml file}
 And post downlead.
@@ -139,7 +139,7 @@ where & there & here?
 \end{table}
 
   \section{Motivation}
-\label{sec:new_sets::math}
+\label{sec:sets_2::math}
 
 
 \begin{gram}
@@ -182,7 +182,7 @@ x
 %% \end{gram}
 
 \begin{gram}
-\label{xy}
+\label{grm:sets2::xy}
 Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
 %
 We discuss tables \href{TB/ch:tables}{in the next chapter.}
@@ -219,7 +219,7 @@ We note that \href{TB/ch:sequences::adt}{sequences} are a particular type of tab
        \section{Sets ADT}
 
 \begin{datatype}[Sets]
-\label{adt:new_sets} 
+\label{adt:sets_2} 
 
 For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
 \adt{SET} abstract data type is a type $\sss$ representing the power 
@@ -236,7 +236,7 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 \end{datatype}
 
 \begin{syntax}[Sets] 
-\label{syn:new_sets}
+\label{syn:sets_2}
 In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
   indicate a set.  The notation $\emptyset$ or $\cset{}$ refers to an
   empty set. We also use the conventional mathematical syntax for set
@@ -556,10 +556,10 @@ All of these approaches assume an equality function on the elements (with natura
 \end{gram}
 
 \begin{flex}
-\label{sets:cluster:arraysets}
+\label{cluster:sets2::arraysets}
 
 \begin{costspec}[Array Sets for Enumerable Sets]
-\label{cost:new_sets::arrayseqs}
+\label{cost:sets_2::arrayseqs}
 
 Let the universe $U$ be defined as the set 
 %
@@ -594,12 +594,12 @@ that defines a total order over $\uuu$, then we can use a balanced binary search
 %
 This representation allows us to implement the Sets ADT reasonably efficiently.
 %
-For the specification \href{cost:new_sets::trees}{specified below}, we assume that the comparison function requires constant work and span.  
+For the specification \href{cost:sets_2::trees}{specified below}, we assume that the comparison function requires constant work and span.  
 %
 \end{gram}
 
 \begin{costspec}[Tree Sets]
-\label{cost:new_sets::trees}
+\label{cost:sets_2::trees}
 \input{./sets-and-tables/cost-sets-tree}
 \end{costspec}
 
@@ -704,7 +704,7 @@ of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 % \end{notesonly}
 
 \begin{example}
-\label{ex:new_sets::fromseq-imp}
+\label{ex:sets_2::fromseq-imp}
 We can  convert a sequence to a set by inserting the elements
 one by one as follows
 \[
