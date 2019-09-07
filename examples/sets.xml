@@ -14,7 +14,7 @@ Sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-ch:new_sets
+ch:sets_2
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -35,7 +35,7 @@ ch:new_sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:qut:new_sets::quote
+grp:qut:sets_2::quote
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -59,7 +59,7 @@ grp:qut:new_sets::quote
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-qut:new_sets::quote
+qut:sets_2::quote
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -107,7 +107,7 @@ This is a quote atom
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:obs:new_sets::observe
+grp:obs:sets_2::observe
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -131,7 +131,7 @@ grp:obs:new_sets::observe
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-obs:new_sets::observe
+obs:sets_2::observe
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -179,7 +179,7 @@ This is an observe atom
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:obs:new_sets::observation
+grp:obs:sets_2::observation
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -203,7 +203,7 @@ grp:obs:new_sets::observation
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-obs:new_sets::observation
+obs:sets_2::observation
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -251,7 +251,7 @@ This is an observation atom
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::file
+grp:grm:sets_2::file
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -275,7 +275,7 @@ grp:grm:new_sets::file
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::file
+grm:sets_2::file
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -335,7 +335,7 @@ Here is a \begin{verbatim}
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:tab:potent
+grp:tab:sets2::potent
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -359,7 +359,7 @@ grp:tab:potent
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-tab:potent
+tab:sets2::potent
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -402,7 +402,7 @@ What I put a video inside a tabular &
 \\
 \end{tabular}
 
-\label{tab:potent}
+\label{tab:sets2::potent}
 ]]>
 </field> <!-- body_src -->
 
@@ -435,7 +435,7 @@ Potent stuff.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:fig:C0-memory
+grp:fig:sets2::C0-memory
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -459,7 +459,7 @@ Tango is beautiful
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-fig:C0-memory
+fig:sets2::C0-memory
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -485,7 +485,7 @@ fig:C0-memory
   \includegraphics[width=0.9\textwidth]{img/memory.png}
 \end{center}
 
-\label{fig:C0-memory}
+\label{fig:sets2::C0-memory}
 ]]>
 </field> <!-- body_src -->
 
@@ -518,7 +518,7 @@ A More Concrete Memory Model
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:que:new_sets::book
+grp:que:sets_2::book
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -542,7 +542,7 @@ grp:que:new_sets::book
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-que:new_sets::book
+que:sets_2::book
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -571,8 +571,8 @@ que:new_sets::book
 <p>Here are some local references:</p>
 <ul>
 <li><p>Ref <a href="#xy" data-reference-type="ref" data-reference="xy">[xy]</a></p></li>
-<li><p>Ref <a href="#ans:new_sets:::downloads" data-reference-type="ref" data-reference="ans:new_sets:::downloads">[ans:new_sets:::downloads]</a></p></li>
-<li><p>Ref <a href="#sec:new_sets::math" data-reference-type="ref" data-reference="sec:new_sets::math">[sec:new_sets::math]</a></p></li>
+<li><p>Ref <a href="#ans:sets_2::downloads" data-reference-type="ref" data-reference="ans:sets_2::downloads">[ans:sets_2::downloads]</a></p></li>
+<li><p>Ref <a href="#sec:sets_2::math" data-reference-type="ref" data-reference="sec:sets_2::math">[sec:sets_2::math]</a></p></li>
 <li><p>Ref <a href="#adt:sets" data-reference-type="ref" data-reference="adt:sets">[adt:sets]</a></p></li>
 <li><p>Ref <a href="#syn:sets" data-reference-type="ref" data-reference="syn:sets">[syn:sets]</a></p></li>
 </ul>
@@ -611,8 +611,8 @@ Here are some cross-book references:
 Here are some local references: 
 \begin{itemize}
 \item Ref \ref{xy}
-\item Ref \ref{ans:new_sets:::downloads}
-\item Ref \ref{sec:new_sets::math}
+\item Ref \ref{ans:sets_2::downloads}
+\item Ref \ref{sec:sets_2::math}
 \item Ref \ref{adt:sets} 
 \item Ref \ref{syn:sets}
 \end{itemize}
@@ -648,7 +648,7 @@ Here are some local references:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:ans:new_sets:::downloads
+grp:ans:sets_2::downloads
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -672,7 +672,7 @@ grp:ans:new_sets:::downloads
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-ans:new_sets:::downloads
+ans:sets_2::downloads
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -691,7 +691,7 @@ ans:new_sets:::downloads
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{ans:new_sets:::downloads}
+\label{ans:sets_2::downloads}
 Here you can \begin{verbatim}
 %%%% diderot_html
 <a href = '/Users/umut/Desktop/paper.xml' download = '/Users/umut/Desktop/paper.xml' data-diderot='__diderot_download__'> download an xml file </a>
@@ -733,7 +733,7 @@ And post downlead.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prmbl:new_sets::sets
+grp:prmbl:sets_2::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -757,7 +757,7 @@ image
 sound.mpg
 </field> <!-- sound -->
 <field name='label'>
-prmbl:new_sets::sets
+prmbl:sets_2::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -822,7 +822,7 @@ Sets are both a mathematical structure and an abstract datatype
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::table-title
+grp:grm:sets_2::table-title
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -846,7 +846,7 @@ coverimage.pdf
 playthis.mp3
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::table-title
+grm:sets_2::table-title
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -914,7 +914,7 @@ where & there & here?
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:tbl:new_sets::lll
+grp:tbl:sets_2::lll
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -938,7 +938,7 @@ grp:tbl:new_sets::lll
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-tbl:new_sets::lll
+tbl:sets_2::lll
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -998,7 +998,7 @@ tbl:new_sets::lll
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:fig:new_sets::star-find0
+grp:fig:sets_2::star-find0
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1022,7 +1022,7 @@ grp:fig:new_sets::star-find0
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-fig:new_sets::star-find0
+fig:sets_2::star-find0
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1070,7 +1070,7 @@ Some image above.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:tbl:new_sets::something
+grp:tbl:sets_2::something
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1094,7 +1094,7 @@ grp:tbl:new_sets::something
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-tbl:new_sets::something
+tbl:sets_2::something
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1143,7 +1143,7 @@ Motivation
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-sec:new_sets::math
+sec:sets_2::math
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1164,7 +1164,7 @@ sec:new_sets::math
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::gathering
+grp:grm:sets_2::gathering
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1188,7 +1188,7 @@ grp:grm:new_sets::gathering
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::gathering
+grm:sets_2::gathering
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1268,7 +1268,7 @@ x
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:xy
+grp:grm:sets2::xy
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1292,7 +1292,7 @@ grp:xy
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-xy
+grm:sets2::xy
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1307,7 +1307,7 @@ xy
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{xy}
+\label{grm:sets2::xy}
 Our goals in this book are much more modest than trying to understand set theory and its many interesting implications.  Here we simply recognize that in algorithm design sets are a very useful data type in their own right, but also in building up more complicated data types, such as graphs.  Furthermore particular classes of sets, such as mappings (or tables), are themselves very useful, and hence deserve their own interface. 
 We discuss tables \href{TB/ch:tables}{in the next chapter.}
 ]]>
@@ -1342,7 +1342,7 @@ We discuss tables \href{TB/ch:tables}{in the next chapter.}
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::cover
+grp:grm:sets_2::cover
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1366,7 +1366,7 @@ grp:grm:new_sets::cover
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::cover
+grm:sets_2::cover
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1421,7 +1421,7 @@ Sets ADT
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-sec:new_sets::sets-adt
+sec:sets_2::sets-adt
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1442,7 +1442,7 @@ sec:new_sets::sets-adt
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:adt:new_sets
+grp:adt:sets_2
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1466,7 +1466,7 @@ Sets
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-adt:new_sets
+adt:sets_2
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1527,7 +1527,7 @@ adt:new_sets
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{adt:new_sets} 
+\label{adt:sets_2} 
 
 For a universe of elements $\uuu$ that support equality (e.g. the integers or strings), the 
 \adt{SET} abstract data type is a type $\sss$ representing the power 
@@ -1571,7 +1571,7 @@ the natural numbers (non-negative integers) and $\bbb = \{\texttt{true},
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:syn:new_sets
+grp:syn:sets_2
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1595,7 +1595,7 @@ Sets
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-syn:new_sets
+syn:sets_2
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1610,7 +1610,7 @@ syn:new_sets
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{syn:new_sets}
+\label{syn:sets_2}
 In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
   indicate a set.  The notation $\emptyset$ or $\cset{}$ refers to an
   empty set. We also use the conventional mathematical syntax for set
@@ -1650,7 +1650,7 @@ In \pml{}  we use the standard set notation $\cset{e_o,e_1,\cdots,e_n}$ to
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::objects
+grp:grm:sets_2::objects
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1674,7 +1674,7 @@ grp:grm:new_sets::objects
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::objects
+grm:sets_2::objects
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1729,7 +1729,7 @@ The objects that are contained in a set are called~\defn{members}~or the~\defn{e
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::consists
+grp:grm:sets_2::consists
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1753,7 +1753,7 @@ grp:grm:new_sets::consists
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::consists
+grm:sets_2::consists
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1814,7 +1814,7 @@ where the $x_i$ are an arbitrary ordering.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::functions
+grp:grm:sets_2::functions
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1838,7 +1838,7 @@ grp:grm:new_sets::functions
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::functions
+grm:sets_2::functions
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1903,7 +1903,7 @@ to elements of the sequence).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::operate
+grp:grm:sets_2::operate
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1927,7 +1927,7 @@ grp:grm:new_sets::operate
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::operate
+grm:sets_2::operate
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1996,7 +1996,7 @@ of elements ``in bulk.''
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::find
+grp:grm:sets_2::find
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2020,7 +2020,7 @@ grp:grm:new_sets::find
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::find
+grm:sets_2::find
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2101,7 +2101,7 @@ respectively:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::iteration
+grp:grm:sets_2::iteration
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2125,7 +2125,7 @@ grp:grm:new_sets::iteration
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::iteration
+grm:sets_2::iteration
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2185,7 +2185,7 @@ them to sequences, as in
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::notice
+grp:grm:sets_2::notice
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2209,7 +2209,7 @@ grp:grm:new_sets::notice
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::notice
+grm:sets_2::notice
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2266,7 +2266,7 @@ is infinite).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:xrcs:new_sets::convince
+grp:xrcs:sets_2::convince
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2290,7 +2290,7 @@ grp:xrcs:new_sets::convince
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-xrcs:new_sets::convince
+xrcs:sets_2::convince
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2339,7 +2339,7 @@ using the interface and with finite work.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:xmpl:new_sets::functions
+grp:xmpl:sets_2::functions
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2363,7 +2363,7 @@ grp:xmpl:new_sets::functions
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-xmpl:new_sets::functions
+xmpl:sets_2::functions
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2432,7 +2432,7 @@ Some functions on sets:
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:rmrk:new_sets::notice
+grp:rmrk:sets_2::notice
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2456,7 +2456,7 @@ grp:rmrk:new_sets::notice
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-rmrk:new_sets::notice
+rmrk:sets_2::notice
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2511,7 +2511,7 @@ arbitrary size to a singleton.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:rmrk:new_sets::programming
+grp:rmrk:sets_2::programming
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2535,7 +2535,7 @@ grp:rmrk:new_sets::programming
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-rmrk:new_sets::programming
+rmrk:sets_2::programming
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2592,7 +2592,7 @@ Cost of Sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-sec:new_sets::cost-of-sets
+sec:sets_2::cost-of-sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2613,7 +2613,7 @@ sec:new_sets::cost-of-sets
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::sets
+grp:grm:sets_2::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2637,7 +2637,7 @@ grp:grm:new_sets::sets
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::sets
+grm:sets_2::sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2689,7 +2689,7 @@ All of these approaches assume an equality function on the elements (with natura
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-sets:cluster:arraysets
+cluster:sets2::arraysets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2713,7 +2713,7 @@ Array Sets for Enumerable Sets
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-cost:new_sets::arrayseqs
+cost:sets_2::arrayseqs
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2771,7 +2771,7 @@ cost:new_sets::arrayseqs
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{cost:new_sets::arrayseqs}
+\label{cost:sets_2::arrayseqs}
 
 Let the universe $U$ be defined as the set 
 $\{ 0, 1, \ldots, u-1 \}$
@@ -2813,7 +2813,7 @@ Using array sequences, operations on enumerable sets can be implemented accordin
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-xmpl:new_sets::consider
+xmpl:sets_2::consider
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2864,7 +2864,7 @@ $\cseq{ 1, 0, 1, 0, 1, 0, 1, 0 }.$
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::tree-representation-for-sets
+grp:grm:sets_2::tree-representation-for-sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2888,7 +2888,7 @@ Tree Representation for Sets
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::tree-representation-for-sets
+grm:sets_2::tree-representation-for-sets
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2898,7 +2898,7 @@ grm:new_sets::tree-representation-for-sets
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>If the elements in the universe <span class="math inline">\({\mathbb{U}}\)</span> accept a comparison function that defines a total order over <span class="math inline">\({\mathbb{U}}\)</span>, then we can use a balanced binary search tree to represent sets. This representation allows us to implement the Sets ADT reasonably efficiently. For the specification <a href="cost:new_sets::trees">specified below</a>, we assume that the comparison function requires constant work and span.</p>
+<p>If the elements in the universe <span class="math inline">\({\mathbb{U}}\)</span> accept a comparison function that defines a total order over <span class="math inline">\({\mathbb{U}}\)</span>, then we can use a balanced binary search tree to represent sets. This representation allows us to implement the Sets ADT reasonably efficiently. For the specification <a href="cost:sets_2::trees">specified below</a>, we assume that the comparison function requires constant work and span.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2906,7 +2906,7 @@ grm:new_sets::tree-representation-for-sets
 If the elements in the universe $\uuu$ accept a comparison function 
 that defines a total order over $\uuu$, then we can use a balanced binary search tree to represent sets.
 This representation allows us to implement the Sets ADT reasonably efficiently.
-For the specification \href{cost:new_sets::trees}{specified below}, we assume that the comparison function requires constant work and span.
+For the specification \href{cost:sets_2::trees}{specified below}, we assume that the comparison function requires constant work and span.
 ]]>
 </field> <!-- body_src -->
 
@@ -2939,7 +2939,7 @@ For the specification \href{cost:new_sets::trees}{specified below}, we assume th
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:cost:new_sets::trees
+grp:cost:sets_2::trees
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2963,7 +2963,7 @@ Tree Sets
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-cost:new_sets::trees
+cost:sets_2::trees
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3021,7 +3021,7 @@ cost:new_sets::trees
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{cost:new_sets::trees}
+\label{cost:sets_2::trees}
 \input{./sets-and-tables/cost-sets-tree}
 ]]>
 </field> <!-- body_src -->
@@ -3055,7 +3055,7 @@ cost:new_sets::trees
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::consider
+grp:grm:sets_2::consider
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3079,7 +3079,7 @@ grp:grm:new_sets::consider
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::consider
+grm:sets_2::consider
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3135,7 +3135,7 @@ such an implementation in \chref{bst::parametric}.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::work
+grp:grm:sets_2::work
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3159,7 +3159,7 @@ grp:grm:new_sets::work
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::work
+grm:sets_2::work
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3230,7 +3230,7 @@ W(n) \in O\left(n \cdot \lg \left(1+\frac{n}{n}\right)\right) = O(n).
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:grm:new_sets::implement
+grp:grm:sets_2::implement
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3254,7 +3254,7 @@ grp:grm:new_sets::implement
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-grm:new_sets::implement
+grm:sets_2::implement
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3322,7 +3322,7 @@ of $\cdvar{find}$, $\cdvar{delete}$, and $\cdvar{insert}$ when possible.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:ex:new_sets::fromseq-imp
+grp:ex:sets_2::fromseq-imp
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3346,7 +3346,7 @@ grp:ex:new_sets::fromseq-imp
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-ex:new_sets::fromseq-imp
+ex:sets_2::fromseq-imp
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3362,7 +3362,7 @@ ex:new_sets::fromseq-imp
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\label{ex:new_sets::fromseq-imp}
+\label{ex:sets_2::fromseq-imp}
 We can  convert a sequence to a set by inserting the elements
 one by one as follows
 \[
