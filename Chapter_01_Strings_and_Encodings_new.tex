@@ -1,4 +1,4 @@
-%./texmlt -meta ./meta -preamble latex_preamble/preamble.tex ./01_\iref{definition:String-word-empty-string}{string}s_and_\iref{definition:Encoding-of-a-set}{encoding}s/Chapter_01_Strings_and_\iref{definition:Encoding-of-a-set}{encoding}s.tex
+%./texmlt -meta ./meta -preamble latex_preamble/preamble.tex ./01_\iref{definition:String-word-empty-string}{string}s_and_Encodings/Chapter_01_\iref{definition:String-word-empty-string}{string}s_and_Encodings.tex
 
 \chapter{Languages, Encodings and Problems}
 \label{chapter:Languages-Encodings-and-Problems}
@@ -117,7 +117,7 @@ So
 
 
 \begin{note}[Finite vs infinite strings] \label{note:Finite-vs-infinite-strings}
-We often use the \iref{definition:String-word-empty-string}{word}s ``\iref{definition:String-word-empty-string}{string}'' and ``\iref{definition:String-word-empty-string}{word}'' to refer to a finite-length \iref{definition:String-word-empty-string}{string}/word. 
+We often use the \iref{definition:String-word-empty-string}{word}s ``\iref{definition:String-word-empty-string}{string}'' and ``\iref{definition:String-word-empty-string}{word}'' to refer to a finite-length \iref{definition:String-word-empty-string}{string}/\iref{definition:String-word-empty-string}{word}. 
 When we want to talk about infinite-length \iref{definition:String-word-empty-string}{string}s, we explicitly use the \iref{definition:String-word-empty-string}{word} ``infinite''.
 \end{note}
 
@@ -187,8 +187,8 @@ We say that a \iref{definition:String-word-empty-string}{string} $u$ is a \defn{
 \end{definition}
 
 \begin{example}[$101$ as a substring] \label{example:101-as-a-substring}
-The \iref{definition:String-word-empty-string}{string} $\s{101}$ is a \iref{definition:Substring}{substring} of $\s{11011}$ and also a \iref{definition:Substring}{substring} of $\s{0101}$. 
-On the other hand, it is not a \iref{definition:Substring}{substring} of $\s{1001}$.
+The \iref{definition:String-word-empty-string}{string} $\s{101}$ is a sub\iref{definition:String-word-empty-string}{string} of $\s{11011}$ and also a sub\iref{definition:String-word-empty-string}{string} of $\s{0101}$. 
+On the other hand, it is not a sub\iref{definition:String-word-empty-string}{string} of $\s{1001}$.
 \end{example}
 \end{flex}
 
@@ -301,7 +301,7 @@ The \defn{concatenation of languages} $L_1, L_2 \subseteq \Sigma^*$, denoted $L_
 \end{definition}
 
 \begin{example}[Concatenation of $\{\epsilon, 1\}$ and $\{0, 01\}$] \label{example:Concatenation-of-epsilon-1-and-0-01}
-The \iref{definition:Concatenation-of-languages}{concatenation of languages} $\{\epsilon, \s{1}\}$ and $\{\s{0}, \s{01}\}$ is the \iref{definition:Language}{language}
+The concatenation of \iref{definition:Language}{language}s $\{\epsilon, \s{1}\}$ and $\{\s{0}, \s{01}\}$ is the \iref{definition:Language}{language}
 \[
     \{\s{0}, \s{01}, \s{10}, \s{101}\}.
 \] 
@@ -521,8 +521,8 @@ For convenience, we take $\Sigma = \{\s{0},\s{1},\s{\$}\}$. Let $\text{Enc}$ be 
 Let $\text{Enc}'$ be the \iref{definition:Encoding-of-a-set}{encoding} of $\N$ as described in Example~\ref{example:Binary-encoding-of-naturals}. 
 Note that $\text{Enc}'$ leaves the symbol $\s{\$}$ unused in the \iref{definition:Encoding-of-a-set}{encoding}. 
 We now define the \iref{definition:Computational-problem}{computational problem} $f$ corresponding to $g$. 
-If $w \in \Sigma^*$ is a \iref{definition:String-word-empty-string}{word} that corresponds to a \iref{definition:Encoding-of-a-set}{valid encoding} of a pair of numbers $(x, y)$ (i.e., $\text{Enc}(x,y) = w$), then define $f(w)$ to be $\text{Enc}'(x+y)$. 
-If $w \in \Sigma^*$ is \emph{not} a \iref{definition:String-word-empty-string}{word} that corresponds to a \iref{definition:Encoding-of-a-set}{valid encoding} of a pair of numbers (i.e., $w$ is not in the image of $\text{Enc}$), then define $f(w)$ to be $\s{\$}$. 
+If $w \in \Sigma^*$ is a \iref{definition:String-word-empty-string}{word} that corresponds to a valid \iref{definition:Encoding-of-a-set}{encoding} of a pair of numbers $(x, y)$ (i.e., $\text{Enc}(x,y) = w$), then define $f(w)$ to be $\text{Enc}'(x+y)$. 
+If $w \in \Sigma^*$ is \emph{not} a \iref{definition:String-word-empty-string}{word} that corresponds to a valid \iref{definition:Encoding-of-a-set}{encoding} of a pair of numbers (i.e., $w$ is not in the image of $\text{Enc}$), then define $f(w)$ to be $\s{\$}$. 
 In the codomain, the $\s{\$}$ symbol serves as an ``error'' indicator.
 \end{example}
 \end{flex}
@@ -560,7 +560,7 @@ We can view $g$ as a \iref{definition:Decision-problem}{decision problem} over a
 Take $\Sigma = \{\s{0},\s{1}\}$. 
 Let $\text{Enc}$ be the \iref{definition:Encoding-of-a-set}{encoding} of $\N$ as described in Example~\ref{example:Binary-encoding-of-naturals}. 
 We now define the \iref{definition:Decision-problem}{decision problem} $f$ corresponding to $g$. 
-If $w \in \Sigma^*$ is a \iref{definition:String-word-empty-string}{word} that corresponds to an \iref{definition:Encoding-of-a-set}{encoding} of a prime number, then define $f(w)$ to be $\text{True}$. Otherwise, define $f(w)$ to be $\text{False}$. (Note that in the case of $f(w) = \text{False}$, either $w$ is the \iref{definition:Encoding-of-a-set}{encoding} of a composite number, or $w$ is not a \iref{definition:Encoding-of-a-set}{valid encoding} of a natural number.
+If $w \in \Sigma^*$ is a \iref{definition:String-word-empty-string}{word} that corresponds to an \iref{definition:Encoding-of-a-set}{encoding} of a prime number, then define $f(w)$ to be $\text{True}$. Otherwise, define $f(w)$ to be $\text{False}$. (Note that in the case of $f(w) = \text{False}$, either $w$ is the \iref{definition:Encoding-of-a-set}{encoding} of a composite number, or $w$ is not a valid \iref{definition:Encoding-of-a-set}{encoding} of a natural number.
 \end{example}
 \end{flex}
 
