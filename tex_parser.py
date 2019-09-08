@@ -2,6 +2,7 @@ from parse import *
 import Queue
 import sys
 import re
+import os
 
 # constants
 BEGIN = "\\begin{"
@@ -13,61 +14,35 @@ MATH_ARGS = ['math', 'equation', 'align', 'array', 'table', 'tabular']
 
 # given a dictionary of key phrases mapped to their labels, write them to file_name
 def write_to_file(dictionary, file_name):
-	output = open(file_name, "w+")
+	new_list = dictionary.items()
+	# if file_name we are writing to already exists, then we want to extract the existing labels
+	if (os.path.exists(file_name)):
+		read_file = open(file_name, "r")
+		read_str = read_file.read()
+		read_file.close()
+		stored_lines = list(filter(lambda x: x, read_str.split("\n")))
+		stored_list = list(map(lambda x: x.split('\\label{'), stored_lines))
+		stored_list = [(keyphrase, "\\label{" + label) for (keyphrase, label) in stored_list]
+		stored_list += new_list
+	# if file_name doesn't exist, then we just want to create and write to file_name
+	else:
+		stored_list = new_list
+
+	stored_list.sort(key=lambda x: len(x[0]))
 	result_str = ""
-	for keyphrase, label in dictionary.items():
+	file_obj = open(file_name, "w+")
+	for keyphrase, label in stored_list:
 		result_str += keyphrase + "\t"
 		result_str += label + "\n"
-	print result_str
-	output.write(result_str)
-	output.close()
+	file_obj.write(result_str)
+	file_obj.close()
 
-# find an atom word with stirng
-# def find_atom_word(string):
-# 	index = string.find(BEGIN)
-# 	begin_str = string[index + BEGIN_LEN:]
-# 	atom_word = begin_str[:begin_str.find("}")]
-# 	return atom_word
-
-# return a list of key phrases from string
-# def find_keyphrases(string):
-# 	defn_index = string.find("\\defn{")
-# 	if (defn_index == -1):
-# 		return list()
-# 	end_index = string.find("}", defn_index)
-# 	new_string = string[end_index+1:]
-# 	subarray = find_keyphrases(new_string)
-# 	subarray.append(string[defn_index+len("\\defn{"):end_index])
-# 	return subarray
-
-# Returns true if latex string contains an atom and false otws
-# def contains_atom(tex_str):
-# 	begin_start_index = tex_str.find(BEGIN)
-# 	if (begin_start_index == -1):
-# 		return False
-# 	prefix_length = begin_start_index + BEGIN_LEN
-# 	begin_finish_index = tex_str.find('}', prefix_length)
-# 	command = tex_str[prefix_length:begin_finish_index]
-
-# 	end_start_index = tex_str.find("\\end{" + command + "}")
-# 	if (end_start_index == -1):
-# 		return False
-# 	return True
-
-# Returns (start_index_of_atom, end_index_of_atom) of tex_str if 
-# atom exists and false otws
-# def find_atom(tex_str):
-# 	begin_start_index = tex_str.find(BEGIN)
-# 	if (begin_start_index == -1):
-# 		return (-1, -1)
-# 	prefix_length = begin_start_index + BEGIN_LEN
-# 	begin_finish_index = tex_str.find('}', prefix_length)
-# 	command = tex_str[prefix_length:begin_finish_index]
-# 	end_start_index = tex_str.find("\\end{" + command + "}")
-# 	if (end_start_index == -1):
-# 		return (-1, -1)
-# 	end_finish_index = end_start_index + len("\\end{" + command + "}")
-# 	return (begin_start_index, end_finish_index)
+def file_to_dictionary_list(dict_str):
+	lines = [d.split("\\label{") for d in dict_str.strip().split("\n")]
+	lines = list(filter(lambda x: x, lines))
+	# last element of dict_list is an empty list
+	list_tuples = list(map(lambda x: (x[0].strip(), x[1].strip()[:-1]), lines))
+	return list_tuples
 
 def parser(tex_str):
 	label_to_atom = {}
@@ -143,12 +118,14 @@ def is_command(string, index):
 def is_math_expression(string, index):
 	num_literal_dollar_signs = string.count("\$", 0, index)
 	if (string.count("$$", 0, index) % 2):
+		print("1")
 		return True
 	elif ((string.count("$", 0, index) - num_literal_dollar_signs) % 2):
+		print('2')
 		return True
 	elif (string.count("\[", 0, index) - string.count("\]", 0, index) == 1):
+		print('3')
 		return True
-	for arg in MATH_ARGS:
 		begin_arg = re.search(string)
 	return False
 
@@ -164,21 +141,25 @@ def insert_label(string, def_to_Label):
 		str_iref = ""
 		while (index != -1):
 			# if string[index: index+len(definition)] is valid key phrase
-			if (not is_math_expression(string, index) 
-				and not is_argument(string, index)
-				and not is_command(string, index)):
-				print("valid expr: ", definition, index)
+			if (is_math_expression(string, index)):
+				print 'math expression' + '\t' + string[index - 10: index + 10]
+			elif (is_argument(string, index)):
+				print "argument" + '\t' + string[index - 10: index + 10]
+			elif (is_command(string, index)):
+				print "command" + '\t' + string[index - 10: index + 10]
+			else:
+				print "instance2" + '\t' + string[index - 10: index + 10]
 				iref = "\\iref{" + label + "}{" + definition + "}"
 
 				str_iref += string[prev_start:start]
 				str_iref += iref
 				# if keyphrase is replaced by label, update prev_start to be last updated index
-				prev_start = start + len(definition)
-
-			start = index + len(definition)
-			index = string.find(definition, start)
-		str_iref += string[prev_start:]
-	return str_iref
+				prev_end = index + len(definition)
+			index = lowercase_string.find(definition.lower(), index+len(definition))
+		str_iref += string[prev_end:]
+		string = str_iref
+		lowercase_string = string.lower()
+	return string
 
 def testcase_mathexpr():
 	def_string = "\\begin{definition}\\label{definition:keyphrase}\n\defn{keyphrase} is a phrase that's important.\n\\end{definition}\n"
@@ -191,14 +172,32 @@ def testcase_mathexpr():
 	assert(result == test_string)
 
 if __name__=='__main__':
-	testcase_mathexpr()
-	if (len(sys.argv) > 1):
-		tex_file = sys.argv[1]
-		f = open(tex_file, "r")
-		tex_str = f.read()
-		result = parser(tex_str)
-		new_latex = insert_label(tex_str, result)
-	elif (len(sys.argv) > 2):
-		pass
+	# test cases
+	# testcase_mathexpr()
+
+	if (len(sys.argv) > 3):
+		if (sys.argv[1] == 'extract_label'):
+			tex_file = sys.argv[2]
+			f = open(tex_file, "r")
+			tex_str = f.read()
+			dictionary = parser(tex_str)
+			write_output = sys.argv[3]
+			write_to_file(dictionary, write_output)
+		elif (sys.argv[1] == 'insert_label'):
+			tex_file = sys.argv[3]
+			f = open(tex_file, "r")
+			tex_str = f.read()
+
+			dictionary_file = sys.argv[2]
+			d = open(dictionary_file, "r")
+			dictionary_str = d.read()
+			def_list = file_to_dictionary_list(dictionary_str)
+			output_file = sys.argv[4]
+			new_latex = insert_label(tex_str, def_list)
+			output = open(output_file, "w+")
+			output.write(new_latex)
+			output.close()
+		else:
+			print("wrong mode. Mode should either be `extract_label` or `insert_label`")
 	else:
 		print("no argument was provided. Please provide a latex file you'd like to parse")

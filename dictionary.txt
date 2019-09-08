@@ -1,0 +1,37 @@
+DFA	\label{definition:Deterministic-Finite-Automaton-DFA}
+word		\label{definition:String-word-empty-string}
+string		\label{definition:String-word-empty-string}
+decided	\label{definition:Language-recognized-accepted-by-a-DFA}
+symbols		\label{definition:Alphabet-symbol-character}
+accepted	\label{definition:Language-recognized-accepted-by-a-DFA}
+language		\label{definition:Language}
+encoding		\label{definition:Encoding-of-a-set}
+alphabet		\label{definition:Alphabet-symbol-character}
+substring		\label{definition:Substring}
+encodable		\label{definition:Encoding-of-a-set}
+recognized	\label{definition:Language-recognized-accepted-by-a-DFA}
+characters		\label{definition:Alphabet-symbol-character}
+empty string		\label{definition:String-word-empty-string}
+valid encoding		\label{definition:Encoding-of-a-set}
+accepts a string	\label{definition:A-DFA-accepting-a-string}
+computation path	\label{definition:Computation-path-for-a-DFA}
+regular language	\label{definition:Regular-language}
+decision problem		\label{definition:Decision-problem}
+power of a string		\label{definition:Powers-of-a-string}
+rejects the string	\label{definition:A-DFA-accepting-a-string}
+star of a language		\label{definition:Star-operation-on-a-language}
+length of a string		\label{definition:Length-of-a-string}
+alphabet of the DFA	\label{definition:Deterministic-Finite-Automaton-DFA}
+power of a language		\label{definition:Powers-of-a-language}
+reversal of a string		\label{definition:Reversal-of-a-string}
+computational problem		\label{definition:Computational-problem}
+start state of the DFA	\label{definition:Deterministic-Finite-Automaton-DFA}
+reversal of a language		\label{definition:Reversal-of-a-language}
+set of states of the DFA	\label{definition:Deterministic-Finite-Automaton-DFA}
+concatenation of strings		\label{definition:Concatenation-of-strings}
+rejecting computation path	\label{definition:Computation-path-for-a-DFA}
+accepting computation path	\label{definition:Computation-path-for-a-DFA}
+concatenation of languages		\label{definition:Concatenation-of-languages}
+deterministic finite automaton	\label{definition:Deterministic-Finite-Automaton-DFA}
+transition function of the DFA	\label{definition:Deterministic-Finite-Automaton-DFA}
+set of accepting states of the DFA	\label{definition:Deterministic-Finite-Automaton-DFA}
