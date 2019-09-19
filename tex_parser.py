@@ -13,7 +13,7 @@ MATH_ARGS = ['math', 'equation', 'align', 'array', 'table', 'tabular']
 
 # given a dictionary of key phrases mapped to their labels, write them to file_name
 def write_to_file(dictionary, file_name):
-	output = open(file_name, "a+")
+    output = open(file_name, "a+")
 	result_str = ""
 	for keyphrase, label in dictionary.items():
 		result_str += keyphrase + "\t"
