@@ -62,4 +62,4 @@ Place the following in your root directory file .ocamlinit
 ```
 
 ### latex parser for identifying implicit references
-To use the latex parser, run 'python tex_parser.py <path_to_latex_file>'. This will identify the key phrases in the given latex file and write the key phrase, label pairs to a text file with the same name as the latex file.
+To use the latex parser, run 'python tex_parser <path_to_latex_file>'. This will identify the key phrases in the given latex file and write the key phrase, label pairs to a text file with the same name as the latex file.
