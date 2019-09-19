@@ -74,6 +74,7 @@ def parser(tex_str):
 	# 	else:
 	# 		tmp = tex_str.strip().split('\n')
 	# 		tex_str = "\n".join(tmp[1:])
+	# return label_to_atom
 
 # return true if end of string[:index] contains an argument to a command
 def is_argument(string, index):
@@ -165,15 +166,11 @@ if __name__=='__main__':
 			tex_file = sys.argv[3]
 			f = open(tex_file, "r")
 			tex_str = f.read()
-
-			dictionary_file = sys.argv[2]
-			d = open(dictionary_file, "r")
+			d = open(sys.argv[2], "r")
 			dictionary_str = d.read()
 			dictionary = file_to_dictionary(dictionary_str)
-
-			output_file = sys.argv[4]
 			new_latex = insert_label(tex_str, dictionary)
-			output = open(output_file, "w+")
+			output = open("output.txt", "w+")
 			output.write(new_latex)
 			output.close()
 		else:
