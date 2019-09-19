@@ -98,7 +98,6 @@ def is_argument(string, index):
 	last_literal_brace = string.rfind("\\{", 0, index)
 	# if most recent open brace is after the most recent close brace, 
 	# the index is probably an argument
-	# print(string[index:index+30])
 	if (last_open_brace > last_close_brace):
 		if (last_literal_brace == -1 or last_literal_brace + 1 != last_open_brace):
 			return True
@@ -130,24 +129,27 @@ def is_math_expression(string, index):
 # given string and map of keyphrases to labels, identify the key pheases
 # and insert the labels as necessary
 def insert_label(string, def_to_Label):
-	lowercase_copy = string.lower()
 	for definition, label in def_to_Label.items()[0:1]:
-		prev_end = 0
-		# only use lowercase_copy for finding occurrence case-insensitive
-		index = lowercase_copy.find(definition.lower())
+		prev_start = 0
+		start = 0
+		index = string.find(definition, start)
 		str_iref = ""
 		while (index != -1):
 			# if string[index: index+len(definition)] is valid key phrase
 			if (not is_math_expression(string, index) 
 				and not is_argument(string, index)
 				and not is_command(string, index)):
+				print("valid expr: ", definition, index)
 				iref = "\\iref{" + label + "}{" + definition + "}"
-				str_iref += string[prev_end:index]
+
+				str_iref += string[prev_start:start]
 				str_iref += iref
 				# if keyphrase is replaced by label, update prev_start to be last updated index
-				prev_end = index + len(definition)
-			index = lowercase_copy.find(definition, index+len(definition))
-		str_iref += string[prev_end:]
+				prev_start = start + len(definition)
+
+			start = index + len(definition)
+			index = string.find(definition, start)
+		str_iref += string[prev_start:]
 	return str_iref
 
 if __name__=='__main__':
@@ -155,3 +157,4 @@ if __name__=='__main__':
 	tex_str = f.read()
 	result = parser(tex_str)
 	new_latex = insert_label(tex_str, result)
+	print(new_latex)
