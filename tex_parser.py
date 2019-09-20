@@ -29,6 +29,7 @@ def write_to_file(dictionary, file_name):
 		stored_list = new_list
 
 	stored_list.sort(key=lambda x: len(x[0]))
+	stored_list.reverse()
 	result_str = ""
 	file_obj = open(file_name, "w+")
 	for keyphrase, label in stored_list:
