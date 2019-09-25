@@ -96,7 +96,7 @@ let ast_from_string (lex, parse) contents =
   let _ = Ast.assign_labels ast in
 		ast
 
-let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile  outfile preamble_file = 
+let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile preamble_file = 
   let (contents, translator) = 
 		if is_md then
 			prep_input_md verbose tmp_dir meta_dir default_pl infile preamble_file 
@@ -109,8 +109,9 @@ let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile  outfile prea
 		else
 			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents 
 	in
+  let tex = Ast.to_tex ast in
   let xml = Ast.to_xml translator ast in
-    xml
+    (tex, xml)
 
 let main () = 
 	let arg_default_pl = ref None in
@@ -161,9 +162,11 @@ let main () =
   let atomic_file_name = Utils.mk_atomic_filename infile_name in
 
   let _ = printf "Executing command: dc %s\n" infile_name in
+  let _ = printf "Atomic input file is in %s\n" atomic_file_name in
   let is_md = Utils.file_is_markdown infile_name in
-  let xml = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
-                         infile_name outfile_name !arg_preamble_file in       
+  let (tex, xml) = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
+                         infile_name !arg_preamble_file in       
+  let _ = Out_channel.write_all atomic_file_name ~data:tex in
   let _ = Out_channel.write_all outfile_name ~data:xml in
 	let _ = 
 		if is_md then

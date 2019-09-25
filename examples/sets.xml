@@ -1476,52 +1476,7 @@ adt:sets_2
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>For a universe of elements <span class="math inline">\({\mathbb{U}}\)</span> that support equality (e.g. the integers or strings), the <span><span class="sans-serif">SET</span></span> abstract data type is a type <span class="math inline">\({\mathbb{S}}\)</span> representing the power set of <span class="math inline">\({\mathbb{U}}\)</span> (i.e., all subsets of <span class="math inline">\({\mathbb{U}}\)</span>) limited to sets of finite size, along with the functions below.</p>
-<p><span class="math display">\[\begin{array}{lll}
-\mathit{size}
-&amp; : &amp;{\mathbb{S}}\rightarrow\mathbb{N}
-\\
-\mathit{toSeq}~A
-&amp; : &amp; u{\mathbb{S}}\rightarrow\mathit{Seq}
-\\[2mm]
-%
-\mathit{empty}
-&amp; : &amp; {\mathbb{S}}
-\\
-%
-\mathit{singleton}
-&amp; : &amp;{\mathbb{U}}\rightarrow{\mathbb{S}}
-\\
-\mathit{fromSeq}
-&amp; : &amp; \mathit{Seq} \rightarrow{\mathbb{S}}
-\\[2mm]
-%
-\mathit{filter}
-&amp; : &amp; (({\mathbb{U}}\rightarrow{\mathbb{B}}) \rightarrow{\mathbb{S}}) \rightarrow{\mathbb{S}}
-\\
-%
-\mathit{intersection}
-&amp; : &amp; {\mathbb{S}}\rightarrow{\mathbb{S}}\rightarrow{\mathbb{S}}
-\\
-%
-\mathit{difference}
-&amp; : &amp; {\mathbb{S}}\rightarrow{\mathbb{S}}\rightarrow{\mathbb{S}}
-\\
-\mathit{union}
-&amp; : &amp; {\mathbb{S}}\rightarrow{\mathbb{S}}\rightarrow{\mathbb{S}}
-\\[2mm]
-%
-\mathit{find}
-&amp; : &amp; {\mathbb{S}}\rightarrow{\mathbb{U}}\rightarrow{\mathbb{B}}
-\\
-\mathit{delete}
-&amp; : &amp; {\mathbb{S}}\rightarrow{\mathbb{U}}\rightarrow{\mathbb{S}}
-\\
-%
-\mathit{insert}
-&amp; : &amp; {\mathbb{S}}\rightarrow{\mathbb{U}}\rightarrow{\mathbb{S}}
-\end{array}\]</span></p>
-<p>Where <span class="math inline">\(\mathbb{N}\)</span> is the natural numbers (non-negative integers) and <span class="math inline">\({\mathbb{B}}= \{\texttt{true},  
+<p>For a universe of elements <span class="math inline">\({\mathbb{U}}\)</span> that support equality (e.g. the integers or strings), the <span><span class="sans-serif">SET</span></span> abstract data type is a type <span class="math inline">\({\mathbb{S}}\)</span> representing the power set of <span class="math inline">\({\mathbb{U}}\)</span> (i.e., all subsets of <span class="math inline">\({\mathbb{U}}\)</span>) limited to sets of finite size, along with the functions below. <span> </span> Where <span class="math inline">\(\mathbb{N}\)</span> is the natural numbers (non-negative integers) and <span class="math inline">\({\mathbb{B}}= \{\texttt{true},  
 \texttt{false}\}\)</span>.</p>
 ]]>
 </field> <!-- body -->
@@ -2724,49 +2679,6 @@ cost:sets_2::arrayseqs
 <field name='body'>
 <![CDATA[
 <p>Let the universe <span class="math inline">\(U\)</span> be defined as the set <span class="math inline">\(\{ 0, 1, \ldots, u-1 \}\)</span> for some <span class="math inline">\(u \in \mathbb{N}\)</span>. We can represent <strong><em>enumerable sets</em></strong> of the form <span class="math inline">\(S \subseteq U\)</span> by using a sequence that indicates for each <span class="math inline">\(i \in U\)</span> whether <span class="math inline">\(i \in S\)</span> or not. Using array sequences, operations on enumerable sets can be implemented according to the following cost specification.</p>
-<p><span class="math display">\[\begin{array}{lcc}
-  \mbox{Operation} &amp; \mbox{Work} &amp; \mbox{Span}
-  \\
-\mathit{size}~a
-&amp; 1
-&amp; 1
-\\
-\mathit{singleton}~x
-&amp; 1
-&amp; 1
-\\
-\mathit{toSeq}~a
-&amp; 1
-&amp; 1
-\\
-\mathit{filter}~f~a
-&amp; u + \displaystyle\sum_{x \in a} W(f(x))
-&amp; 1 + \displaystyle\max_{x \in a} S(f(x)) \\ 
-\\
-\mathit{intersection}~a_1~a_2
-&amp; u
-&amp; 1
-\\
-\mathit{union}~a_1~a_2
-&amp; u
-&amp; 1
-\\
-\mathit{difference}~a_1~a_2
-&amp; u
-&amp; 1
-\\[.1in]
-\mathit{find}~a~e
-&amp; 1
-&amp; 1
-\\
-\mathit{insert}~a~x
-&amp; u
-&amp; 1
-\\
-\mathit{delete}~a~x
-&amp; u
-&amp; 1
-\end{array}\]</span></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2973,50 +2885,7 @@ cost:sets_2::trees
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p> The cost specification for tree-based implementation of sets follow.</p>
-<p><span class="math display">\[\begin{array}{lcc}
-  \mbox{Operation} &amp; \mbox{Work} &amp; \mbox{Span}
-  \\
-\mathit{size}~a
-&amp; 1
-&amp; 1
-\\
-\mathit{singleton}~x
-&amp; 1
-&amp; 1
-\\
-\mathit{toSeq}~a
-&amp; |{a}|
-&amp; \lg{|a|}
-\\
-\mathit{filter}~f~a
-&amp; \displaystyle\sum_{x \in a} W(f(x))
-&amp; \lg |a| + \displaystyle\max_{x \in a} S(f(x)) \\ 
-\\
-\mathit{intersection}~a~b
-&amp; m \cdot \lg (1 + \frac{n}{m})
-&amp; \lg (n)
-\\
-\mathit{union}~a~b
-&amp; &#39;&#39;
-&amp; &#39;&#39;
-\\
-\mathit{difference}~a~b
-&amp; &#39;&#39;
-&amp; &#39;&#39;
-\\[.1in]
-\mathit{find}~a~e
-&amp; \lg |a|
-&amp; \lg |a|
-\\
-\mathit{insert}~a~x
-&amp; &#39;&#39;
-&amp; &#39;&#39;
-\\
-\mathit{delete}~a~x
-&amp; &#39;&#39;
-&amp; &#39;&#39;
-\end{array}\]</span> where <span class="math inline">\(n = \max(|a|,|b|)\)</span> and <span class="math inline">\(m = \min(|a|,|b|)\)</span>, and assuming comparison of elements takes constant work.</p>
+
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
