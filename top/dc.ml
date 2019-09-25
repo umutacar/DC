@@ -11,6 +11,7 @@ module Md_translator = Md2html
 module Tex_translator = Tex2html
 
 let file_extension_xml = ".xml"
+let arg_na = ref false   (* Non-atomic mode: don't dump atomized input. *)
 let arg_verbose = ref false
 
 (* Set string argument *)
@@ -124,6 +125,7 @@ let main () =
   let spec = [
               ("-d", Arg.Set Utils.debug, "Enables debug mode; default is false.");
               ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
+		          ("-na", Arg.Set arg_na, "Turn off atomic mode; default is false.");
               ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
               ("-meta", Arg.Set_string arg_meta_dir, "(Latex Only) Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");
 (*  Don't support default language.
@@ -156,6 +158,8 @@ let main () =
         (arg_outfile := Some x; x)
     | Some x -> x
   in
+  let atomic_file_name = Utils.mk_atomic_filename infile_name in
+
   let _ = printf "Executing command: dc %s\n" infile_name in
   let is_md = Utils.file_is_markdown infile_name in
   let xml = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
