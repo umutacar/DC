@@ -176,9 +176,10 @@ let main () =
 		if !arg_na then
 			()
 		else
-			let atomic_file_name = Utils.mk_atomic_filename infile_name in
+			let (atomic_file_name, atomic_file_name_uuid) = Utils.mk_atomic_filename !arg_tmp_dir infile_name in
 			let _ = Out_channel.write_all atomic_file_name ~data:tex in
-			printf "Atomized input is in %s\n" atomic_file_name
+			let _ = Out_channel.write_all atomic_file_name_uuid ~data:tex in
+			printf "Atomized input is in %s.\nUUID's version is in %s\n" atomic_file_name atomic_file_name_uuid
 	in
   (* Write out xml output. *)
   let _ = Out_channel.write_all outfile_name ~data:xml in
