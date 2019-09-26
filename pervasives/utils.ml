@@ -88,11 +88,13 @@ let file_derivative filename deriv =
     | None -> filename_ ^ deriv
     | Some x -> filename_ ^ deriv ^ "." ^ x 
 
+(* Given path/basename.ext 
+ * Return path/diderot_basename.ext
+ *)
 let mk_atomic_filename filename = 
-  let (filename_first, ext) = Filename.split_extension filename in
-	match ext with 
-  | None ->  Constants.diderot_atomic ^ filename_first
-  | Some x -> Constants.diderot_atomic ^ filename_first ^ "." ^ x
+  let basename = Filename.basename filename in
+  let dirname = Filename.dirname filename in  
+    dirname ^ "/" ^ Constants.diderot_atomic ^ basename
 
 													 
 let mk_xml_filename filename = 
