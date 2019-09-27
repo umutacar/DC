@@ -30,6 +30,8 @@ END_LEN = len("\\end{")
 GROUPING_ARGS = ['cluster', 'flex']
 MATH_ARGS = ['math', 'equation', 'align', 'array', 'table', 'tabular']
 
+GLOBAL_INDEX = {}
+
 def lemmatize(text):
 	# Extracts roots of words
 	lemma = " "
@@ -71,7 +73,7 @@ def strip_after(textList):
 # removes stopwords before the first non-stopword and after the last non-stopword 
 # input: string
 # returns string
-def strip(text):
+def strip_stopwords(text):
     stripped_b = strip_before(text)
     stripped_a = strip_after(stripped_b)
     return " ".join(stripped_a)
@@ -138,49 +140,26 @@ def file_to_keyphrase_indices(filename):
 	txt_str = g.read()
 	g.close()
 	keyphrase_to_indices = {}
-	keyphrase_lines = txt_str.decode().strip().split("\n")
-	for i in range(0, len(keyphrase_lines), 2):
+	keyphrase_lines = txt_str.decode().split("\n")
+	for i in range(1, len(keyphrase_lines), 2):
 		keyphrase = keyphrase_lines[i].decode()
 		indices = keyphrase_lines[i+1].decode()
 		if (indices):
 			indices_list_of_strs = indices.split("\t")
-			indices_list = list(map(lambda lst: (lst.split()[0], lst.split()[1], lst.split()[2]), indices_list_of_strs))
-			indices_list_nums = list(map(lambda (x, y, z): (int(x), int(y), int(z)), indices_list))
+			indices_list = list(map(lambda lst: (lst.split()[0], lst.split()[1]), indices_list_of_strs))
+			indices_list_nums = list(map(lambda (x, y): (int(x), int(y)), indices_list))
 			keyphrase_to_indices[keyphrase] = indices_list_nums
-	print(keyphrase_to_indices)
 	return keyphrase_to_indices
 
 def keyphrase_indices_to_file(filename, keyphrase_indices):
 	g = open(filename, "w+")
 	txt_str = ""
-	for (keyphrase, index_list) in keyphrase_indices.items():
+	for (keyphrase, index_list) in keyphrase_indices:
 		txt_str += "\n" + keyphrase + "\n"
-		index_list_str = list(map(lambda x: str(x[0]) + " " + str(x[1]) + " " + str(x[2]), index_list))
+		index_list_str = list(map(lambda x: str(x[0]) + " " + str(x[1]), index_list))
 		txt_str += "\t".join(index_list_str)
 	g.write(txt_str)
 	g.close()
-
-def parser(tex_str):
-	label_to_atom = {}
-	defn_list = re.findall(r'\\defn{[ \w-]*}', tex_str)
-	def_list = re.findall(r'\\def{[ \w-]*}', tex_str)
-	defn_keyphrase = list(set([defn[6:-1] for defn in defn_list] + [defn[5:-1] for defn in defn_list]))
-	begin_index = 0
-	begin_definition = re.search(r'\\begin{definition*}', tex_str)
-	while (tex_str and begin_definition):
-		end_definition = re.search(r'\\end{definition*}', tex_str)
-		atom = tex_str[begin_definition.start(): end_definition.end()]
-		def_list, defn_list = re.findall(r'\\def{[ \w-]*}', atom), re.findall(r'\\defn{[ \w-]*}', atom)
-		definitions = [defn[6:-1] for defn in defn_list] + [defn[5:-1] for defn in def_list]
-		label = re.findall(r'\\label{.*}', atom)
-		tex_str = tex_str[end_definition.end():]
-		begin_definition = re.search(r'\\begin{definition*}', tex_str)
-		if (len(label) != 1):
-			print("Error: there exists multiple or no labels for an atom")
-			break
-		for defn in definitions:
-			label_to_atom[defn] = label[0]
-	return label_to_atom
 
 # return true if end of string[:index] contains an argument to a command
 def is_argument(string, index):
@@ -227,7 +206,7 @@ def is_math_expression(string, index):
 def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
 	sentences = string.split(".")
 	sentences_length = list(map(lambda x: len(x) + 1, sentences)) # +1 for the '.'
-	cumulative_sentence_length_list = sentence_indices(sentences)
+	cumulative_slen_list = sentence_indices(sentences)
 
 	str_iref = ""
 	iref = "\\iref{" + label + "}{" + keyphrase + "}"
@@ -237,7 +216,7 @@ def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
 	for (sentence_id, sentence_index, phrase_len) in sentences_indices:
 		sentence = sentences[sentence_id]
 		# find sentence index from word_id
-		index = cumulative_sentence_length_list[sentence_id] + sentence_index
+		index = cumulative_slen_list[sentence_id] + sentence_index
 
 		# check if the keyphrase is in the right environment
 		if (is_math_expression(string, index)):
@@ -249,43 +228,38 @@ def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
 		else:
 			print("is_valid" + '\t' + string[index - 10: index + 10])
 
-			# str_iref += string[prev_end:index]
-			# str_iref += iref
-			# prev_end = index + phrase_len
+			str_iref += string[prev_end:index]
+			str_iref += iref
+			prev_end = index + phrase_len
 
-			# # update other indices list in keyphrases_to_indices
-			# for (new_keyphrase, indices_list) in keyphrases_to_indices.items():
-			# 	if (len(new_keyphrase) > len(keyphrase)):
-			# 		continue
-			# 	# for (new_string_id, new_string_index, phrase_len) in indices_list:
-			# 	for i in range(len(indices_list)):
-			# 		(new_string_id, new_string_index, phrase_len) = indices_list[i]
+			# update other indices list in keyphrases_to_indices
+			for (new_keyphrase, indices_list) in keyphrases_to_indices.items():
+				if (len(new_keyphrase) > len(keyphrase)):
+					continue
+				for i in range(len(indices_list)):
+					# new_string_id, new_string_index,
+					(new_index, new_phrase_len) = indices_list[i]
+					# new_index = cumulative_slen_list[new_string_id] + new_string_index
+					increment = len(iref) - phrase_len
 
-			# 		increment = len(iref) - phrase_len
-			# 		# only look at indices after current index
-			# 		if (new_string_id >= string_id and new_string_index >= string_index):
-			# 			updated_string_index = new_string_index + increment
-			# 			indices_list[i] = (new_string_id, updated_string_index, phrase_len)
+					# only look at indices after current index
+					if (new_index > index):
+						new_index += increment
+						indices_list[i] = (new_index, new_phrase_len)
+				keyphrase_to_indices[new_keyphrase] = indices_list
 
-	# str_iref += string[prev_end:]
-	# return str_iref, keyphrase_to_indices
+	str_iref += string[prev_end:]
+	return str_iref, keyphrase_to_indices
 
 # given string, map of keyphrases to labels, and map of keyphrases to indices, insert the labels as necessary
 def insert_label(string, def_to_label, keyphrase_to_indices):
 	sentences = string.split(".")
 	str_iref = string
 
-	sentences_length = list(map(lambda x: len(x) + 1, sentences)) # +1 for the '.'
-	cumulative_sentence_length_list = []
-	cumulative_length = 0
-	for length in sentences_length:
-		cumulative_sentence_length_list.append(length)
-		cumulative_length += length
-
-	for definition, label in def_to_label[:1]:
+	for definition, label in def_to_label[:12]:
 		if (definition in keyphrase_to_indices):
-			insert_label_for_keyphrase(str_iref, definition, label, keyphrase_to_indices)
-	# return str_iref, keyphtase_to_indices
+			str_iref, keyphrases_to_indices = insert_label_for_keyphrase(str_iref, definition, label, keyphrase_to_indices)
+	return str_iref, keyphrase_to_indices
 
 def identify_implicit_refs(tex_str, keyphrase_to_label):
 	og_tex_str = tex_str
@@ -296,7 +270,7 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 		phrases_numbered = []
 		phrases = []
 		sentences = docs.text.split('.')
-
+		assert(tex_str == docs.text)
 		# testing sentences 
 		cumulative_slen_list = sentence_indices(sentences)
 
@@ -308,31 +282,27 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 			for start, end in combinations(range(len(lst)+1), 2):
 				curr_phrase = " ".join(lst[start:end])
 				
-				curr_phrase = strip(curr_phrase)
-				id_phrases[curr_phrase] = word_index_list[start]
+				stripped_phrase = strip_stopwords(curr_phrase)
+				# id_phrases[curr_phrase] = word_index_list[start]
 				if(len(curr_phrase)>0):
-					phrases.append(curr_phrase)
-					
-					# if (i == len(sentences) - 1):
-					# 	test_sentence = tex_str[cumulative_slen_list[i]:]
-					# else:
-					# 	test_sentence = tex_str[cumulative_slen_list[i]:cumulative_slen_list[i+1]]
-					# if (test_sentence != sentence + "."):
-					# 	print "test: " + test_sentence
-					# 	print "og: " + sentence + "."
-					# assert(test_sentence == sentence + ".")
-
-		# for phrase in phrases:
-					phrases_numbered.append((i, id_phrases[curr_phrase], curr_phrase, lemmatize(nlpL(curr_phrase.decode()))))
+					index = cumulative_slen_list[i] + word_index_list[start]
+					# GLOBAL_INDEX[curr_phrase] = index
+					# print "curr_phrase: " + curr_phrase + ", test phase: " + tex_str[index:index+len(curr_phrase)]
+					# print(curr_phrase[:2], tex_str[index:index+2], index, start, end, lst)
+					phrases_numbered.append((index, curr_phrase, lemmatize(nlpL(stripped_phrase.decode()))))
 		return phrases_numbered
 
 	# text =  re.sub(r"\\def{[^\}].*?}|\{|\}|\\\[[^\\\]].*?\\\]|\(|\)|\\|\"|\'|\`|,|\\\w+\b|\$[^\$].*?\$", " ", tex_str)
 	text = tex_str
+
+	sentences = text.split(".")
+	cumulative_slen = sentence_indices(sentences)
+	
 	doc = nlp(text.decode())
-	src_textL = getPhrases(doc)
-	print(src_textL[:20])
 	print "Finished creating doc."
-	implicit_ref_to_index = {}
+	src_textL = getPhrases(doc)
+	print "Finished collecting all phrases."
+	implicit_ref_to_index = []
 	for keyphrase, label in keyphrase_to_label:
 		print "looking at " + keyphrase + " with label " + label
 		implicit_ref_keyphrase = []
@@ -341,50 +311,54 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 		max_sim = 0
 		phrases_seen = set([])
 
-		for (sentence_id, string_index, phrase, token_s) in src_textL:
+	
+		for (index, phrase, token_s) in src_textL:
+
+			# index = cumulative_slen[sentence_id] + string_index
 			if (abs(len(nlp_keyphrase_lemma.text) - len(token_s)) >= 3):
 				continue
 			curr_sim = check_similarity(nlp(token_s.decode()), nlp_keyphrase_lemma)
 			if (curr_sim == 1):
 				print("New Match. Matched phrase '%s' to keyphrase '%s'" % (phrase, keyphrase))
-				implicit_ref_keyphrase.append( (sentence_id, string_index, len(phrase)) )
+				print phrase + " " + tex_str[index: index + len(phrase)]
+				assert(phrase == tex_str[index: index + len(phrase)])
+				implicit_ref_keyphrase.append( (index, len(phrase)) )
 
-		implicit_ref_to_index[keyphrase] = list(set(implicit_ref_keyphrase))
+		no_dup_keyphrases = list(set(implicit_ref_keyphrase))
+		no_dup_keyphrases.sort(key=lambda x: x[0])
+		implicit_ref_to_index.append( (keyphrase, no_dup_keyphrases) )
 	return implicit_ref_to_index
-
-def testcase_mathexpr():
-	def_string = "\\begin{definition}\\label{definition:keyphrase}\n\defn{keyphrase} is a phrase that's important.\n\\end{definition}\n"
-	math_string = "\\begin{math}\n I'm looking for a keyphrase. \n\\end{math}"
-	test_string = def_string + math_string
-	phrase_to_label = parser(test_string)
-	assert(phrase_to_label == {"keyphrase" : "\\label{definition:keyphrase}"})
-	assert(is_math_expression(test_string, len(def_string) + 20))
-	result = insert_label(test_string, phrase_to_label)
-	assert(result == test_string)
 
 if __name__=='__main__':
 	# test cases
 	# testcase_mathexpr()
+	
 	tex_file = sys.argv[1]
 	f = open(tex_file, 'r')
 	tex_str = f.read()
 	def_to_label = file_to_dictionary_list("dictionary.txt")
 
-	print "Finding implicit references..."
-	result = identify_implicit_refs(tex_str, def_to_label)
-	print "Writing implicit references to file..."
-	g = keyphrase_indices_to_file("chapter1_implicit_references.txt", result)
+	# print "Finding implicit references..."
+	# result = identify_implicit_refs(tex_str, def_to_label)
+	# print "Writing implicit references to file..."
+	# g = keyphrase_indices_to_file("chapter1_implicit_references.txt", result)
 
-	# keyphrase_to_indices = file_to_keyphrase_indices("chapter1_implicit_references.txt")
+	print "Getting keyphrases and irefs from file..."
+	keyphrase_to_indices = file_to_keyphrase_indices("chapter1_implicit_references.txt")
+	print(keyphrase_to_indices)
+	print "building scanned list of index for sentences..."
+	sentences = tex_str.split(".")
 
-	# # building scanned list of index for sentences
-	# sentences = tex_str.split(".")
-	# sentences_length = sentence_indices(sentences)
+	for (keyphrase, indices_list) in keyphrase_to_indices.items():
+		print "KEYPHRASE: " + keyphrase
+		for (index, phrase_len) in indices_list:
+			if (not is_math_expression(tex_str.decode(), index) and not is_argument(tex_str.decode(), index) \
+				and not is_command(tex_str.decode(), index)):
+				print("\ti: " + str(index) + ", " + str(phrase_len) + " str: " + tex_str[index - 10: index + phrase_len])
 
-	# for (keyphrase, indices_list) in keyphrase_to_indices.items():
-	# 	print "keyphrase: " + keyphrase
-	# 	for (s_id, s_index, phrase_len) in indices_list:
-	# 		index = cumulative_sentence_length_list[s_id] + s_index
-	# 		print("str: " + tex_str[index - 10: index + phrase_len])
-
-	# new_str = insert_label(tex_str,def_to_label, keyphrase_to_indices)
+	# print "inserting labels..."
+	# new_str, keyphrases_to_indices = insert_label(tex_str, def_to_label, keyphrase_to_indices)
+	# # print(new_str)
+	# f = open('19_09_26_results.txt', 'w+')
+	# f.write(new_str)
+	# f.close()
