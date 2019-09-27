@@ -88,6 +88,20 @@ let file_derivative filename deriv =
     | None -> filename_ ^ deriv
     | Some x -> filename_ ^ deriv ^ "." ^ x 
 
+(* Given path/basename.ext 
+ * Return path/diderot_basename.ext
+ *)
+let mk_atomic_filename tmp_dir filename = 
+  let uuid = Uuid.to_string (Uuid.create ()) in
+  let basename = Filename.basename filename in
+  let dirname = Filename.dirname filename in  
+
+  let atomic_basename = Constants.diderot_atomic ^ basename in 
+  let atomic_basename_uuid = file_derivative atomic_basename ("-" ^ uuid) in
+  let atomic_name =  Filename.concat dirname atomic_basename in
+  let atomic_name_uuid = Filename.concat tmp_dir atomic_basename_uuid in
+    (atomic_name, atomic_name_uuid)
+													 
 let mk_xml_filename filename = 
   let (filename_first, ext) = Filename.split_extension filename in
     filename_first ^ "." ^ Constants.ext_xml

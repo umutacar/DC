@@ -11,6 +11,7 @@ module Md_translator = Md2html
 module Tex_translator = Tex2html
 
 let file_extension_xml = ".xml"
+let arg_na = ref false   (* Non-atomic mode: don't dump atomized input. *)
 let arg_verbose = ref false
 
 (* Set string argument *)
@@ -95,7 +96,7 @@ let ast_from_string (lex, parse) contents =
   let _ = Ast.assign_labels ast in
 		ast
 
-let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile  outfile preamble_file = 
+let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile preamble_file = 
   let (contents, translator) = 
 		if is_md then
 			prep_input_md verbose tmp_dir meta_dir default_pl infile preamble_file 
@@ -108,8 +109,9 @@ let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile  outfile prea
 		else
 			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents 
 	in
+  let tex = Ast.to_tex ast in
   let xml = Ast.to_xml translator ast in
-    xml
+    (tex, xml)
 
 let main () = 
 	let arg_default_pl = ref None in
@@ -124,6 +126,7 @@ let main () =
   let spec = [
               ("-d", Arg.Set Utils.debug, "Enables debug mode; default is false.");
               ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
+		          ("-na", Arg.Set arg_na, "Turn off atomic mode; default is false.");
               ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
               ("-meta", Arg.Set_string arg_meta_dir, "(Latex Only) Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");
 (*  Don't support default language.
@@ -158,9 +161,8 @@ let main () =
   in
   let _ = printf "Executing command: dc %s\n" infile_name in
   let is_md = Utils.file_is_markdown infile_name in
-  let xml = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
-                         infile_name outfile_name !arg_preamble_file in       
-  let _ = Out_channel.write_all outfile_name ~data:xml in
+  let (tex, xml) = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
+                         infile_name !arg_preamble_file in       
 	let _ = 
 		if is_md then
 			()
@@ -169,9 +171,19 @@ let main () =
 			| None -> printf "Warning: no LaTeX preamble was specified.\n"
 			| _ -> ()
 	in
+  (* Write out atomic input file. *)
+  let _ = 
+		if !arg_na then
+			()
+		else
+			let (atomic_file_name, atomic_file_name_uuid) = Utils.mk_atomic_filename !arg_tmp_dir infile_name in
+			let _ = Out_channel.write_all atomic_file_name ~data:tex in
+			let _ = Out_channel.write_all atomic_file_name_uuid ~data:tex in
+			printf "Atomized input is in %s.\nUUID's version is in %s\n" atomic_file_name atomic_file_name_uuid
+	in
+  (* Write out xml output. *)
+  let _ = Out_channel.write_all outfile_name ~data:xml in
   printf "Output written in %s\n" outfile_name 
-		
-  
 
 let _ = main ()
 
