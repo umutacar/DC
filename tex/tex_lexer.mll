@@ -114,7 +114,10 @@ let token_to_dbg_str tk =
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
-
+let wrap_with_math s = 
+  "\[" ^ "\n" 
+       ^ (String.strip s) ^ "\n" ^ 
+   "\]"      
 }
 (** END: HEADER **)
 
@@ -218,6 +221,9 @@ let p_env_math =
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
+
+let p_begin_env_math = (p_com_begin p_ws) (p_o_curly) (p_env_math) p_ws (p_c_curly) 
+let p_end_env_math = (p_com_end p_ws) (p_o_curly) (p_env_math) p_ws (p_c_curly) 
 
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws p_comment p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws p_comment p_ws p_c_curly
