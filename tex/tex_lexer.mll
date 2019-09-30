@@ -201,6 +201,19 @@ let p_env_comment = "comment"
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
 
+(* These environments will be rewritten so that they are inside math environment * \[ .. \] so that they can be passed to mathjax.
+ *)
+let p_env_align = "align"
+let p_env_align_star = "align*"
+let p_env_alignat = "alignat"
+let p_env_alignat_star = "alignat*"
+let p_env_equation = "equation"
+let p_env_equation_star = "equation*"
+let p_env_math = 
+	p_env_align | p_env_align_star |
+ 	p_env_alignat | p_env_alignat_star |
+ 	p_env_equation | p_env_equation_star 
+
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
