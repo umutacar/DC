@@ -187,6 +187,11 @@ let diderot_com_create (kind, arg, text) =
   else
 		(printf "Fatal Error. Lexer: Diderot Command could not be %s. Exiting! \n" kind ;
      exit(1))
+
+let wrap_with_math s = 
+  "\[" ^ "\n" 
+       ^ (String.strip s) ^ "\n" ^ 
+   "\]"      
 }
 (** END: HEADER **)
 
