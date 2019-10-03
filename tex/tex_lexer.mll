@@ -190,7 +190,7 @@ let diderot_com_create (kind, arg, text) =
 
 let wrap_with_math s = 
   "\[" ^ "\n" 
-       ^ (String.strip s) ^ "\n" ^ 
+       ^ (String.trim s) ^ "\n" ^ 
    "\]"      
 }
 (** END: HEADER **)
@@ -403,6 +403,15 @@ parse
 		 CHUNK(all, None)
 }
 
+(* TODO: Wrap with math *)
+| (p_begin_env_math as x)
+    {
+     let (rest, h_e) = take_env 1 lexbuf in
+   	 let all = x ^ rest ^ h_e in
+     let _ = d_printf "!lexer matched env %s.\n" all in 
+     CHUNK(all, None)
+}
+
 | (p_begin_env as x)
     {
      let (rest, h_e) = take_env 1 lexbuf in
@@ -553,6 +562,14 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      (x ^ a ^ b ^ rest, h_e)          
     }
 
+  (* TODO: Wrap with math *)
+  | p_begin_env_math as x
+        {
+(*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
+            let (rest, h_e) = take_env (depth+1) lexbuf in
+                (x ^ rest, h_e)              
+        }
+
   | p_begin_env as x
         {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
@@ -571,8 +588,6 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
               let (rest, h_e) = take_env depth lexbuf in
               (x ^ rest, h_e)  
         }      
-
-
 
 	| (p_com_caption p_ws p_o_sq) as x
 		{
