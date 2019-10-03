@@ -1,5 +1,5 @@
 (********************************************************************** 
- ** tex/tex_lexel.mll
+ ** tex/tex_lexer.mll
  **********************************************************************)
 
 (** BEGIN: HEADER **)
@@ -493,7 +493,7 @@ parse
 | _
     {initial lexbuf}		
 
-and take_env depth =  (* not a skip environment, because we have to ignore comments *)
+and take_env depth =  (* not a skip environment, because we have to ignore nested skip environments/commands *)
   parse
   | p_begin_env_skip as x
       { 
@@ -515,6 +515,14 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
 		 (lst ^ rest, h_e)
     }
 
+  | p_com_lstinline as x 
+		{
+(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
+     let body = skip_inline lexbuf in
+     let (rest, h_e) = take_env depth lexbuf in
+     (x ^ body ^ rest, h_e)          
+    }
+
   | (p_com_diderot as x)
 		{
      let arg = take_arg_force lexbuf in
@@ -523,14 +531,6 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
      let (rest, h_e) = take_env depth lexbuf in
      let command = diderot_com_create (kind, arg, text) in
 		 (command ^ rest, h_e)
-    }
-
-  | p_com_lstinline as x 
-		{
-(*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
-     let body = skip_inline lexbuf in
-     let (rest, h_e) = take_env depth lexbuf in
-     (x ^ body ^ rest, h_e)          
     }
 
   | (p_com_infer as h) (p_o_sq as x) 
@@ -573,15 +573,6 @@ and take_env depth =  (* not a skip environment, because we have to ignore comme
         }      
 
 
-  | (p_com_diderot as x) 
-		{
-     let text = take_arg_force lexbuf in
-     let arg = take_arg_force lexbuf in
-		 let (rest, h_e) = take_env depth lexbuf in
-		 let _ = d_printf "diderot_com: %s %s %s" kind text arg in
-     let command = diderot_com_create (kind, text, arg) in
-      (command ^ rest, h_e)
-    }
 
 	| (p_com_caption p_ws p_o_sq) as x
 		{
