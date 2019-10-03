@@ -406,16 +406,17 @@ parse
 (* TODO: Wrap with math *)
 | (p_begin_env_math as x)
     {
-     let (rest, h_e) = take_env 1 lexbuf in
-   	 let all = x ^ rest ^ h_e in
+     let rest = take_env 1 lexbuf in
+   	 let all = x ^ rest in
+     let all = wrap_with_math all in
      let _ = d_printf "!lexer matched env %s.\n" all in 
      CHUNK(all, None)
 }
 
 | (p_begin_env as x)
     {
-     let (rest, h_e) = take_env 1 lexbuf in
-   	 let all = x ^ rest ^ h_e in
+     let rest = take_env 1 lexbuf in
+   	 let all = x ^ rest in
      let _ = d_printf "!lexer matched env %s.\n" all in 
      CHUNK(all, None)
 }
@@ -510,8 +511,8 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
        let (v_body, v_e) = skip_env kind lexbuf in
        let v = x ^ v_body ^ v_e in
 (*       let _ = d_printf "!lexer: env skip matched = %s" v in *)
-       let (rest, h_e) = take_env depth lexbuf in
-       (v ^ rest, h_e)          
+       let rest = take_env depth lexbuf in
+       (v ^ rest)
       }   
 
   | p_com_lstinline  p_ws p_o_sq  as x 
@@ -520,16 +521,16 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let (arg, c_sq) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
      let body = skip_inline lexbuf in
      let lst = x ^ arg ^ c_sq ^ body in
-     let (rest, h_e) = take_env depth lexbuf in
-		 (lst ^ rest, h_e)
+     let rest = take_env depth lexbuf in
+		 lst ^ rest
     }
 
   | p_com_lstinline as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
      let body = skip_inline lexbuf in
-     let (rest, h_e) = take_env depth lexbuf in
-     (x ^ body ^ rest, h_e)          
+     let rest = take_env depth lexbuf in
+     x ^ body ^ rest
     }
 
   | (p_com_diderot as x)
@@ -537,9 +538,9 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let arg = take_arg_force lexbuf in
      let text = take_arg_force lexbuf in
 		 let _ = d_printf "diderot_com: %s %s %s" kind arg text in
-     let (rest, h_e) = take_env depth lexbuf in
+     let rest = take_env depth lexbuf in
      let command = diderot_com_create (kind, arg, text) in
-		 (command ^ rest, h_e)
+		 command ^ rest
     }
 
   | (p_com_infer as h) (p_o_sq as x) 
@@ -549,8 +550,8 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
      let i = mk_infer (h, Some opt, a, b) in 
-     let (rest, h_e) = take_env depth lexbuf in
-     (i ^ rest, h_e)          
+     let rest = take_env depth lexbuf in
+     i ^ rest
     }
 
   | p_com_infer as x 
@@ -558,36 +559,49 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let _ = d_printf "!lexer found: infer %s." x in 
      let a = take_arg_infer lexbuf in
      let b = take_arg_infer lexbuf in
-     let (rest, h_e) = take_env depth lexbuf in
-     (x ^ a ^ b ^ rest, h_e)          
+     let rest = take_env depth lexbuf in
+     x ^ a ^ b ^ rest
     }
 
   (* TODO: Wrap with math *)
   | p_begin_env_math as x
-        {
+    {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-            let (rest, h_e) = take_env (depth+1) lexbuf in
-                (x ^ rest, h_e)              
-        }
+     let rest = take_env (depth+1) lexbuf in            
+     x ^ rest
+    }
 
   | p_begin_env as x
-        {
+    {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
-            let (rest, h_e) = take_env (depth+1) lexbuf in
-                (x ^ rest, h_e)              
-        }
+     let rest = take_env (depth+1) lexbuf in
+     x ^ rest
+    }
+
+  (* TODO *)
+  | p_end_env_math as x
+    { 
+(*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
+     let depth = depth - 1 in
+     if depth = 0 then
+(*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
+       x
+     else
+       let rest = take_env depth lexbuf in
+       x ^ rest
+    }      
 
   | p_end_env as x
-        { 
+    { 
 (*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
-            let depth = depth - 1 in
-            if depth = 0 then
-(*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-              ( "", x)
-            else
-              let (rest, h_e) = take_env depth lexbuf in
-              (x ^ rest, h_e)  
-        }      
+     let depth = depth - 1 in
+       if depth = 0 then
+(*                   let _ = d_printf "!lexer: exiting latex env\n" in *)
+         x
+       else
+         let rest = take_env depth lexbuf in
+         x ^ rest
+    }      
 
 	| (p_com_caption p_ws p_o_sq) as x
 		{
@@ -597,15 +611,15 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let caption = "\\caption" ^ kw_curly_open ^ body ^ kw_curly_close in
      let _ = d_printf "!tex_lexer matched caption: title = %s \n %s." title caption  in
      
-		 let (rest, h_e) = take_env depth lexbuf in
+		 let rest = take_env depth lexbuf in
      (* Drop capopt_, it would be another caption. *)
-      (caption ^ rest, h_e)
+     caption ^ rest
     }
 
   | _  as x
-        { let (rest, h_e) = take_env depth lexbuf in
-            ((str_of_char x) ^ rest, h_e)
-        }
+    {let rest = take_env depth lexbuf in
+     (str_of_char x) ^ rest
+    }
 
 and skip_inline = 		
   (* Skip inline command, e.g. \lstinline<delimiter> ... <delimeter> *)
