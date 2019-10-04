@@ -81,9 +81,6 @@ let latex_diderot_commands =
 \\renewcommand{\infer}[2]{
 \\cfrac{#2}{#1}
 }
-%% Diderot command: diderotcaption
-%% Space followed  the caption itself.
-\\newcommand{\\diderotcaption}[1]{~\\\\{#1}}
 "
 
 let latex_begin_document = "\\begin{document}"
@@ -157,8 +154,6 @@ let text_prep s =
   (* Don't: labels may appear in verbatim env's.
   let s = Str.global_replace regexp_label " " s in
   *)
-  (* Delete \caption with \diderotcaption. *)
-  let s = Str.global_replace regexp_caption "\\diderotcaption" s in
 
 	s
 
