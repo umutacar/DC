@@ -18,6 +18,8 @@ let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
 let kw_sq_close = "]"
+let kw_math_open = "\\["
+let kw_math_close = "\\]"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
 
@@ -188,10 +190,6 @@ let diderot_com_create (kind, arg, text) =
 		(printf "Fatal Error. Lexer: Diderot Command could not be %s. Exiting! \n" kind ;
      exit(1))
 
-let wrap_with_math s = 
-  "\[" ^ "\n" 
-       ^ (String.trim s) ^ "\n" ^ 
-   "\]"      
 }
 (** END: HEADER **)
 
@@ -408,7 +406,7 @@ parse
     {
      let rest = take_env 1 lexbuf in
    	 let all = x ^ rest in
-     let all = wrap_with_math all in
+     let all = kw_math_open ^ all ^ kw_math_close in
      let _ = d_printf "!lexer matched env %s.\n" all in 
      CHUNK(all, None)
 }
@@ -563,12 +561,12 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      x ^ a ^ b ^ rest
     }
 
-  (* TODO: Wrap with math *)
   | p_begin_env_math as x
     {
 (*            let _ = d_printf "!lexer: begin latex env: %s\n" x in *)
      let rest = take_env (depth+1) lexbuf in            
-     x ^ rest
+     (* Wrap with math.  This is ok, because these are never nested. *)
+     kw_math_open ^ x ^ rest
     }
 
   | p_begin_env as x
@@ -585,10 +583,10 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let depth = depth - 1 in
      if depth = 0 then
 (*                    let _ = d_printf "!lexer: exiting latex env\n" in *)
-       x
+       x ^ kw_math_close
      else
        let rest = take_env depth lexbuf in
-       x ^ rest
+       x ^ kw_math_close ^ rest
     }      
 
   | p_end_env as x
