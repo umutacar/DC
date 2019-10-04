@@ -1,4 +1,4 @@
-(********************************************************************** 
+********************************************************************** 
  ** tex/tex_lexer.mll
  **********************************************************************)
 
@@ -18,8 +18,8 @@ let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
 let kw_sq_close = "]"
-let kw_math_open = "\\["
-let kw_math_close = "\\]"
+let kw_math_open = "\\[ "
+let kw_math_close = " \\]"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
 
@@ -401,7 +401,6 @@ parse
 		 CHUNK(all, None)
 }
 
-(* TODO: Wrap with math *)
 | (p_begin_env_math as x)
     {
      let rest = take_env 1 lexbuf in
@@ -460,7 +459,6 @@ parse
      CHUNK(x, None)
     }
 
-(* BEGIN: TODO: Testing complete this *)
 | p_o_sq as x
   {
      let (arg, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
@@ -469,16 +467,14 @@ parse
        CHUNK(all, None)
 
   }
-
 | p_o_curly as x
   {
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let all = x ^ arg ^ c_c in
-     let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
+     let _ = d_printf "!lexer matched curly-bracket chunk:\n%s.\n" all in 
        CHUNK(all, None)
 
   }
-(** END: TODO **)
 | p_sigchar as x
 		{
      d_printf "!%s" (str_of_char x); 
@@ -576,7 +572,6 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      x ^ rest
     }
 
-  (* TODO *)
   | p_end_env_math as x
     { 
 (*            let _ = d_printf "!lexer: end latex env: %s\n" x in *)
