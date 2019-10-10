@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 %./texmlt -meta ./meta -preamble latex_preamble/preamble.tex ./01_Strings_and_Encodings/Chapter_01_Strings_and_Encodings.tex
 
 % \chapter{Languages, Encodings and Problems}
@@ -21,37 +22,65 @@
 \label{section:Alphabets-and-Strings}
 
 
+=======
+\chapter{Languages, Encodings and Problems}
+\label{chapter:Languages-Encodings-and-Problems}
+\begin{preamble}
+In the beginning, our goal is to build up, completely formally/mathematically, the important notions related to computation and algorithms. Our starting point is this chapter, which deals with how to formally represent data and how to formally define the concept of a computational problem.
+
+In theoretical computer science, every kind of data is represented/encoded using finite-length strings. In this chapter, we introduce you to the formal definitions related to strings and encodings of objects with strings. We also present the definitions of ``computational problem'' and ``decision problem''. 
+
+All the definitions in this chapter are at the foundation of the formal study of computation.
+\end{preamble}
+\section{Alphabets and Strings}
+\label{section:Alphabets-and-Strings}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Alphabet, symbol/character] \label{definition:Alphabet-symbol-character}
 An \defn{alphabet} is a non-empty, finite set, and is usually denoted by $\Sigma$. 
 The elements of $\Sigma$ are called \defn{symbols} or \defn{characters}.
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Unary alphabet] \label{example:Unary-alphabet}
 A unary alphabet consists of one symbol. A common choice for that symbol is $\s{1}$. 
 So an example of a unary alphabet is $\Sigma = \{\s{1}\}$.
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Binary alphabet] \label{example:Binary-alphabet}
 A binary alphabet consists of two symbols. 
 Often we represent those symbols using $\s{0}$ and $\s{1}$. 
 So an example of a binary alphabet is $\Sigma = \{\s{0},\s{1}\}$.
 Another example of a binary alphabet is $\Sigma=\{\s{a},\s{b}\}$ where $\s{a}$ and $\s{b}$ are the symbols.
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Ternary alphabet] \label{example:Ternary-alphabet}
 A ternary alphabet consists of three symbols. 
 So $\Sigma=\{\s{0},\s{1},\s{2}\}$ and $\Sigma=\{\s{a},\s{b},\s{c}\}$ are examples of ternary alphabets. 
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[String/word, empty string] \label{definition:String-word-empty-string}
 Given an alphabet $\Sigma$, a \defn{string} (or \defn{word}) over $\Sigma$ is a (possibly infinite) sequence of symbols, written as $a_1a_2a_3\ldots$, where each $a_i \in \Sigma$. 
 The string with no symbols is called the \defn{empty string} and is denoted by $\epsilon$.
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Strings over the unary alphabet] \label{example:Strings-over-the-unary-alphabet}
 For $\Sigma = \{\s{1}\}$, the following is a list of 6 strings over $\Sigma$: 
 \[
@@ -59,7 +88,10 @@ For $\Sigma = \{\s{1}\}$, the following is a list of 6 strings over $\Sigma$:
 \]
 Furthermore, the infinite sequence $\s{111111}\ldots$ is also a string over $\Sigma$.
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Strings over the binary alphabet] \label{example:Strings-over-the-binary-alphabet}
 For $\Sigma = \{\s{0},\s{1}\}$, the following is a list of 8 strings over $\Sigma$: 
 \[
@@ -68,6 +100,7 @@ For $\Sigma = \{\s{0},\s{1}\}$, the following is a list of 8 strings over $\Sigm
 The infinite strings $\s{000000}\ldots$, $\s{111111}\ldots$ and $\s{010101}\ldots$ are also examples of strings over $\Sigma$.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
 \begin{note}[Strings and quotation marks] \label{note:Strings-and-quotation-marks}
@@ -75,20 +108,31 @@ In our notation of a string, we do not use quotation marks. For instance, we use
 \end{note}
 
 
+=======
+\begin{note}[Strings and quotation marks] \label{note:Strings-and-quotation-marks}
+In our notation of a string, we do not use quotation marks. For instance, we use the notation $\s{1010}$ rather than ``$\s{1010}$'', even though the latter notation using the quotation marks is the standard one in many programming languages. Occasionally, however, we may use quotation marks to distinguish a string like ``$\s{1010}$'' from another type of object with the representation $1010$ (e.g. the binary \emph{number} $1010$).
+\end{note}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Length of a string] \label{definition:Length-of-a-string}
 The \defn{length of a string} $w$, denoted $|w|$, is the the number of symbols in $w$. 
 If $w$ has an infinite number of symbols, then the length is undefined.
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Lengths of $01001$ and $\epsilon$] \label{example:Lengths-of-01001-and-epsilon}
 Let $\Sigma=\{\s{0},\s{1}\}$. 
 The length of the word $\s{01001}$, denoted by $|\s{01001}|$, is equal to $5$. 
 The length of $\epsilon$ is 0.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Star operation on alphabets] \label{definition:Star-operation-on-alphabets}
 Let $\Sigma$ be an alphabet. 
@@ -98,7 +142,10 @@ Equivalently, using set notation,
     \Sigma^* = \{a_1a_2\ldots a_n : \text{ $n \in \mathbb{N}$, and $a_i \in \Sigma$ for all $i$}\}.
 \]
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[$\{a\}^*$] \label{example:a}
 For $\Sigma = \{\s{a}\}$, $\Sigma^*$ denotes the set of all finite-length words consisting of $\s{a}$'s. 
 So
@@ -106,7 +153,10 @@ So
     \{\s{a}\}^* = \{\epsilon, \s{a}, \s{aa}, \s{aaa}, \s{aaaa}, \s{aaaaa}, \ldots \}.
 \]
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[$\{0,1\}^*$] \label{example:01}
 For $\Sigma = \{\s{0},\s{1}\}$, $\Sigma^*$ denotes the set of all finite-length words consisting of $\s{0}$'s and $\s{1}$'s. 
 So
@@ -115,24 +165,34 @@ So
 \]
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{note}[Finite vs infinite strings] \label{note:Finite-vs-infinite-strings}
 We often use the words ``string'' and ``word'' to refer to a finite-length string/word. 
 When we want to talk about infinite-length strings, we explicitly use the word ``infinite''.
 \end{note}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{note}[Size of $\Sigma^*$] \label{note:Size-of-Sigma}
 By Definition~\ref{definition:Alphabet-symbol-character}, an alphabet $\Sigma$ cannot be the empty set. 
 This implies that $\Sigma^*$ is an infinite set since there are infinitely many strings of finite length over a non-empty $\Sigma$. We will later see that $\Sigma^*$ is always \emph{countably} infinite.
 \end{note}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Reversal of a string] \label{definition:Reversal-of-a-string}
 The \defn{reversal of a string} $w = a_1a_2\ldots a_n$, denoted $w^R$, is the string $w^R = a_na_{n-1}\ldots a_1$.
 \end{definition}
+<<<<<<< HEAD
 
 \begin{example}[Reversal of $01001$] \label{example:Reversal-of-01001}
 The reversal of $\s{01001}$ is $\s{10010}$.
@@ -142,16 +202,28 @@ The reversal of $\s{01001}$ is $\s{10010}$.
 The reversal of $\s{1}$ is $\s{1}$.
 \end{example}
 
+=======
+\begin{example}[Reversal of $01001$] \label{example:Reversal-of-01001}
+The reversal of $\s{01001}$ is $\s{10010}$.
+\end{example}
+\begin{example}[Reversal of $1$] \label{example:Reversal-of-1}
+The reversal of $\s{1}$ is $\s{1}$.
+\end{example}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Reversal of $\epsilon$] \label{example:Reversal-of-epsilon}
 The reversal of $\epsilon$ is $\epsilon$.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Concatenation of strings] \label{definition:Concatenation-of-strings}
 The \defn{concatenation of strings} $u$ and $v$ in $\Sigma^*$, denoted by $uv$ or $u \cdot v$, is the string obtained by joining together $u$ and $v$. 
 \end{definition}
+<<<<<<< HEAD
 
 \begin{example}[Concatenation of $101$ and $001$] \label{example:Concatenation-of-101-and-001}
 If $u = \s{101}$ and $v = \s{001}$, then $uv = \s{101001}$.
@@ -161,37 +233,61 @@ If $u = \s{101}$ and $v = \s{001}$, then $uv = \s{101001}$.
 If $u = \s{101}$ and $v = \epsilon$, then $uv = \s{101}$.
 \end{example}
 
+=======
+\begin{example}[Concatenation of $101$ and $001$] \label{example:Concatenation-of-101-and-001}
+If $u = \s{101}$ and $v = \s{001}$, then $uv = \s{101001}$.
+\end{example}
+\begin{example}[Concatenation of $101$ and $\epsilon$] \label{example:Concatenation-of-101-and-epsilon}
+If $u = \s{101}$ and $v = \epsilon$, then $uv = \s{101}$.
+\end{example}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Concatenation of $\epsilon$ and $\epsilon$] \label{example:Concatenation-of-epsilon-and-epsilon}
 If $u = \epsilon$ and $v = \epsilon$, then $uv = \epsilon$.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Powers of a string] \label{definition:Powers-of-a-string}
 For $n \in \mathbb{N}$, the $n$'th \defn{power of a string} $u$, denoted by $u^n$, is the word obtained by concatenating $u$ with itself $n$ times.
 \end{definition}
+<<<<<<< HEAD
 
 \begin{example}[Third power of $101$] \label{example:Third-power-of-101}
 If $u = \s{101}$ then $u^3 = \s{101101101}$.
 \end{example}
 
+=======
+\begin{example}[Third power of $101$] \label{example:Third-power-of-101}
+If $u = \s{101}$ then $u^3 = \s{101101101}$.
+\end{example}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Zeroth power of a string] \label{example:Zeroth-power-of-a-string}
 For any string $u$, $u^0 = \epsilon$.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Substring] \label{definition:Substring}
 We say that a string $u$ is a \defn{substring} of string $w$ if $w = xuy$ for some strings $x$ and $y$.
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[$101$ as a substring] \label{example:101-as-a-substring}
 The string $\s{101}$ is a substring of $\s{11011}$ and also a substring of $\s{0101}$. 
 On the other hand, it is not a substring of $\s{1001}$.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -203,46 +299,71 @@ On the other hand, it is not a substring of $\s{1001}$.
 \label{section:Languages}
 
 
+=======
+\section{Languages}
+\label{section:Languages}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Language] \label{definition:Language}
 Any (possibly infinite) subset $L \subseteq \Sigma^*$ is called a \defn{language} over the alphabet $\Sigma$.
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Language of even length strings] \label{example:Language-of-even-length-strings}
 Let $\Sigma$ be an alphabet.
 Then $L = \{w \in \Sigma^* : \text{ $|w|$ is even}\}$ is a language.
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[A language with one word] \label{example:A-language-with-one-word}
 Let $\Sigma = \{\s{0},\s{1}\}$.
 Then $L = \{\s{101}\}$ is a language.
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[$\Sigma^*$ as a language] \label{example:Sigma-as-a-language}
 Let $\Sigma$ be an alphabet.
 Then $L = \Sigma^*$ is a language.
 \end{example}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Empty set as a language] \label{example:Empty-set-as-a-language}
 Let $\Sigma$ be an alphabet.
 Then $L = \varnothing$ is a language.
 \end{example}
 \end{flex}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{note}[Size of a language] \label{note:Size-of-a-language}
 Since a language is a set, the \emph{size of a language} refers to the size of that set. 
 A language can have finite or infinite size. 
 This is not in conflict with the fact that every language consists of finite-length strings. 
 \end{note}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{note}[$\{\epsilon\}$ vs $\varnothing$] \label{note:varnothing-vs-epsilon}
 The language $\{\epsilon\}$ is not the same language as $\varnothing$. 
 The former has size $1$ whereas the latter has size $0$. 
 \end{note}
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{exercise}[Structural induction on words] \label{exercise:Structural-induction-on-words}
 Let language $L \subseteq \{\s{0},\s{1}\}^*$ be recursively defined as follows:
@@ -253,12 +374,18 @@ Let language $L \subseteq \{\s{0},\s{1}\}^*$ be recursively defined as follows:
 This means that every word in the language is derived starting from the base case, and applying the recursive rule a finite number of times. 
 Show, using (structural) induction, that for any word $w \in L$, the number of $\s{0}$'s in $w$ is exactly twice the number of $\s{1}$'s in $w$.
 \end{exercise}
+<<<<<<< HEAD
 
 \begin{solution}
 Let $\mathbf{0}(w)$ denote the number of $\s{0}$'s in $w$ and let $\mathbf{1}(w)$ denote the number of $\s{1}$'s in $w$. Given $L$ as defined above, the question asks us to show that for any $w \in L$, $\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)$. We will do so by structural induction.\footn{This means that implicitly, the parameter being inducted on is the minimum number of applications of the recursive rule needed to create an object. And in this case, explicitly stating the parameter being inducted on or the induction hypothesis is not needed.}
 
 The base case corresponds to $w = \epsilon$, and in this case, $\mathbf{0}(w) = \mathbf{1}(w) = 0$, and therefore $\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)$ holds.
 
+=======
+\begin{solution}
+Let $\mathbf{0}(w)$ denote the number of $\s{0}$'s in $w$ and let $\mathbf{1}(w)$ denote the number of $\s{1}$'s in $w$. Given $L$ as defined above, the question asks us to show that for any $w \in L$, $\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)$. We will do so by structural induction.\footn{This means that implicitly, the parameter being inducted on is the minimum number of applications of the recursive rule needed to create an object. And in this case, explicitly stating the parameter being inducted on or the induction hypothesis is not needed.}
+The base case corresponds to $w = \epsilon$, and in this case, $\mathbf{0}(w) = \mathbf{1}(w) = 0$, and therefore $\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)$ holds.
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 To carry out the induction step, consider an arbitrary word $w \neq \epsilon$ in $L$. Then by the definition of $L$, we know that there exists $x$ and $y$ in $L$ such that $w = \s{0}x\s{1}y\s{0}$. Furthermore, by induction hypothesis, 
 \begin{equation*} %\label{eq:structural-induction-1}
     \mathbf{0}(x) = 2 \cdot \mathbf{1}(x) \quad \quad (*)
@@ -274,11 +401,16 @@ We are done once we show $\mathbf{0}(w) = 2 \cdot \mathbf{1}(w)$. We establish t
     & = 2 \cdot (1 + \mathbf{1}(x) + \mathbf{1}(y)) \\
     & = 2 \cdot \mathbf{1}(w).
 \end{align*}
+<<<<<<< HEAD
 
 \end{solution}
 \end{flex}
 
 
+=======
+\end{solution}
+\end{flex}
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{flex}
 \begin{definition}[Reversal of a language] \label{definition:Reversal-of-a-language}
 The \defn{reversal of a language} $L \subseteq \Sigma^*$, denoted $L^R$, is the language
@@ -286,7 +418,10 @@ The \defn{reversal of a language} $L \subseteq \Sigma^*$, denoted $L^R$, is the 
     L^R = \{w^R \in \Sigma^* : w \in L\}. 
 \]
 \end{definition}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{example}[Reversal of $\{\epsilon, 1, 1010\}$] \label{example:Reversal-of-epsilon-1-1010}
 The reversal of the language $\{\epsilon, \s{1}, \s{1010}\}$ is $\{\epsilon, \s{1}, \s{0101}\}$.
 \end{example}

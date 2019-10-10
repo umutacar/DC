@@ -47,36 +47,36 @@ def check_similarity(phrase1, phrase2):
 # input: string
 # returns a list of the words starting at the first non-stopword in text
 def strip_before(text):
-	i = 0
-	textList = text.split()
-	for w in textList:
-	   
-		if(w.lower() not in stopwords):
-			break
-		i+=1
-	return textList[i:]
+    i = 0
+    textList = text.split()
+    for w in textList:
+       
+        if(w.lower() not in stopwords):
+            break
+        i+=1
+    return textList[i:]
 
 # removes stopwords after the last non-stopword 
 # input: list of the strings
 # returns a list of the words ending at the last non-stopword
 def strip_after(textList):
-	i = 0
-	last_not_stop = -1
-	
-	for w in textList:
-		if(w.lower() not in stopwords):
-			last_not_stop = i
-		i+=1
-	
-	return textList[:last_not_stop+1]
+    i = 0
+    last_not_stop = -1
+    
+    for w in textList:
+        if(w.lower() not in stopwords):
+            last_not_stop = i
+        i+=1
+    
+    return textList[:last_not_stop+1]
 
 # removes stopwords before the first non-stopword and after the last non-stopword 
 # input: string
 # returns string
 def strip_stopwords(text):
-	stripped_b = strip_before(text)
-	stripped_a = strip_after(stripped_b)
-	return " ".join(stripped_a)
+    stripped_b = strip_before(text)
+    stripped_a = strip_after(stripped_b)
+    return " ".join(stripped_a)
 
 # given a string, create a list that maps each word to its index
 def word_indices(string):
@@ -241,8 +241,6 @@ def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
 					(new_index, new_phrase_len) = indices_list[i]
 					# new_index = cumulative_slen_list[new_string_id] + new_string_index
 					increment = len(iref) - phrase_len
-
-
 
 					# only look at indices after current index
 					if (new_index > index):

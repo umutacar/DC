@@ -127,18 +127,24 @@ def is_math_expression(string, index):
 	elif (string.count("\[", 0, index) - string.count("\]", 0, index) == 1):
 		print('3')
 		return True
-		begin_arg = re.search(string)
+	for arg in MATH_ARGS:
+		begin_arg = string.rfind('\\begin{' + arg + '}', 0, index)
+		if (begin_arg != -1):
+			end_arg = string.rfind('\\end{' + arg + '}', begin_arg, index)
+			if (end_arg == -1):
+				print(arg)
+				return True
 	return False
 
 # given string and map of keyphrases to labels, identify the key pheases
 # and insert the labels as necessary
-def insert_label(string, def_to_Label):
-	lowercase_copy = string.lower()
+def insert_label(string, def_to_label):
+	lowercase_string = string.lower()
 	str_iref = ""
-	for definition, label in def_to_Label.items():
+	for definition, label in def_to_label:
 		prev_end = 0
-		# only use lowercase_copy for finding occurrence case-insensitive
-		index = lowercase_copy.find(definition.lower())
+		# only use lowercase_string for finding occurrence case-insensitive
+		index = lowercase_string.find(definition.lower())
 		str_iref = ""
 		while (index != -1):
 			# if string[index: index+len(definition)] is valid key phrase
@@ -151,8 +157,7 @@ def insert_label(string, def_to_Label):
 			else:
 				print "instance2" + '\t' + string[index - 10: index + 10]
 				iref = "\\iref{" + label + "}{" + definition + "}"
-
-				str_iref += string[prev_start:start]
+				str_iref += string[prev_end:index]
 				str_iref += iref
 				# if keyphrase is replaced by label, update prev_start to be last updated index
 				prev_end = index + len(definition)
@@ -201,4 +206,5 @@ if __name__=='__main__':
 		else:
 			print("wrong mode. Mode should either be `extract_label` or `insert_label`")
 	else:
-		print("no argument was provided. Please provide a latex file you'd like to parse")
+		print("input must be of form `[extract_label/insert_label] <file_name>`. See README.md for more details")
+

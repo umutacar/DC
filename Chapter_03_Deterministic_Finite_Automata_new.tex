@@ -50,11 +50,7 @@ A \def{deterministic finite automaton} (\def{DFA}) $M$ is a $5$-tuple $$M = (Q, 
 \end{definition}
 
 \begin{example}[A 4-state DFA] \label{example:A-4-state-DFA}
-<<<<<<< HEAD
 Below is an example of how we draw a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA}:
-=======
-Below is an example of how we draw a DFA:
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 
 \begin{center}
     \includegraphics[width=10cm]{dfa.png}
@@ -82,11 +78,7 @@ In this example, $\Sigma = \{\s{0},\s{1}\}$, $Q = \{q_0,q_1,q_2,q_3\}$, $F = \{q
 
 \begin{flex}
 \begin{definition}[Computation path for a DFA] \label{definition:Computation-path-for-a-DFA}
-<<<<<<< HEAD
 Let $M = (Q, \Sigma, \delta, q_0, F)$ be a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} and let $w = w_1w_2 \cdots w_n$ be a \iref{definition:String-word-empty-string}{string} over an \iref{definition:Alphabet-symbol-character}{alphabet} $\Sigma$ (so $w_i \in \Sigma$ for each $i \in \{1,2,\ldots,n\}$). Then the \def{computation path} of $M$ with respect to $w$ is a sequence of states 
-=======
-Let $M = (Q, \Sigma, \delta, q_0, F)$ be a DFA and let $w = w_1w_2 \cdots w_n$ be a string over an alphabet $\Sigma$ (so $w_i \in \Sigma$ for each $i \in \{1,2,\ldots,n\}$). Then the \def{computation path} of $M$ with respect to $w$ is a sequence of states 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \[
     r_0, r_1, r_2, \ldots , r_n,
 \]
@@ -99,26 +91,17 @@ An \def{accepting computation path} is such that $r_n \in F$, and a \def{rejecti
 \end{definition}
 
 \begin{example}[An example of a computation path] \label{example:An-example-of-a-computation-path}
-<<<<<<< HEAD
 Let $M = (Q, \Sigma, \delta, q_0, F)$ be the \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} in Example~\ref{example:A-4-state-DFA} and let $w = \s{110110}$. Then the \iref{definition:Computation-path-for-a-DFA}{computation path} of $M$ with respect to $w$ is 
 \[
 q_0, q_1, q_2, q_3, q_2, q_2, q_3.
 \]
 Since $q_3$ is not in $F$, this is a rejecting \iref{definition:Computation-path-for-a-DFA}{computation path}.
-=======
-Let $M = (Q, \Sigma, \delta, q_0, F)$ be the DFA in Example~\ref{example:A-4-state-DFA} and let $w = \s{110110}$. Then the computation path of $M$ with respect to $w$ is 
-\[
-q_0, q_1, q_2, q_3, q_2, q_2, q_3.
-\]
-Since $q_3$ is not in $F$, this is a rejecting computation path.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{example}
 \end{flex}
 
 
 \begin{flex}
 \begin{definition}[A DFA accepting a string] \label{definition:A-DFA-accepting-a-string}
-<<<<<<< HEAD
 We say that \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M = (Q, \Sigma, \delta, q_0, F)$ \def{accepts a string} $w \in \Sigma^*$ if the \iref{definition:Computation-path-for-a-DFA}{computation path} of $M$ with respect to $w$ is an accepting \iref{definition:Computation-path-for-a-DFA}{computation path}. Otherwise, we say that $M$ \def{rejects the string} $w$.
 \end{definition}
 
@@ -128,53 +111,26 @@ Let $M = (Q, \Sigma, \delta, q_0, F)$ be the \iref{definition:Deterministic-Fini
 q_0, q_0, q_1, q_2, q_3, q_2.
 \]
 This is an accepting \iref{definition:Computation-path-for-a-DFA}{computation path} because the sequence ends with $q_2$, which is in $F$. Therefore $M$ accepts $w$.
-=======
-We say that DFA $M = (Q, \Sigma, \delta, q_0, F)$ \def{accepts a string} $w \in \Sigma^*$ if the computation path of $M$ with respect to $w$ is an accepting computation path. Otherwise, we say that $M$ \def{rejects the string} $w$.
-\end{definition}
-
-\begin{example}[An example of a DFA accepting a string] \label{example:An-example-of-a-DFA-accepting-a-string}
-Let $M = (Q, \Sigma, \delta, q_0, F)$ be the DFA in Example~\ref{example:A-4-state-DFA} and let $w = \s{01101}$. Then the computation path of $M$ with respect to $w$ is 
-\[
-q_0, q_0, q_1, q_2, q_3, q_2.
-\]
-This is an accepting computation path because the sequence ends with $q_2$, which is in $F$. Therefore $M$ accepts $w$.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{example}
 \end{flex}
 
 
 \begin{definition}[Extended transition function] \label{definition:Extended-transition-function}
-<<<<<<< HEAD
 Let $M = (Q, \Sigma, \delta, q_0, F)$ be a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA}. The transition function $\delta : Q \times \Sigma \to Q$ can be extended to $\delta^* : Q \times \Sigma^* \to Q$, where $\delta^*(q, w)$ is defined as the state we end up in if we start at $q$ and read the \iref{definition:String-word-empty-string}{string} $w$. In fact, often the star in the notation is dropped and $\delta$ is overloaded to represent both a function $\delta : Q \times \Sigma \to Q$ and a function $\delta : Q \times \Sigma^* \to Q$. 
 \end{definition}
 
 \begin{note}[Alternative definition of a DFA accepting a string] \label{note:Alternative-definition-of-a-DFA-accepting-a-string}
 Let $M = (Q, \Sigma, \delta, q_0, F)$ be a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA}. Using the notation above, we can say that a \iref{definition:String-word-empty-string}{word} $w$ is \emph{accepted} by the \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M$ if $\delta(q_0, w) \in F$.
-=======
-Let $M = (Q, \Sigma, \delta, q_0, F)$ be a DFA. The transition function $\delta : Q \times \Sigma \to Q$ can be extended to $\delta^* : Q \times \Sigma^* \to Q$, where $\delta^*(q, w)$ is defined as the state we end up in if we start at $q$ and read the string $w$. In fact, often the star in the notation is dropped and $\delta$ is overloaded to represent both a function $\delta : Q \times \Sigma \to Q$ and a function $\delta : Q \times \Sigma^* \to Q$. 
-\end{definition}
-
-\begin{note}[Alternative definition of a DFA accepting a string] \label{note:Alternative-definition-of-a-DFA-accepting-a-string}
-Let $M = (Q, \Sigma, \delta, q_0, F)$ be a DFA. Using the notation above, we can say that a word $w$ is \emph{accepted} by the DFA $M$ if $\delta(q_0, w) \in F$.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{note}
 
 
 \begin{flex}
 \begin{definition}[Language recognized/accepted by a DFA] \label{definition:Language-recognized-accepted-by-a-DFA}
-<<<<<<< HEAD
 For a \iref{definition:Deterministic-Finite-Automaton-DFA}{deterministic finite automaton} $M$, we let $L(M)$ denote the set of all \iref{definition:String-word-empty-string}{string}s that $M$ accepts, i.e. $L(M) = \{w \in \Sigma^* : M \text{ accepts } w\}$. We refer to $L(M)$ as the \iref{definition:Language}{language} \def{recognized} by $M$ (or as the \iref{definition:Language}{language} \def{accepted} by $M$, or as the \iref{definition:Language}{language} \def{decided} by $M$).\footn{Here the word ``accept'' is overloaded since we also use it in the context of a DFA accepting a string. However, this usually does not create any ambiguity. Note that the letter $L$ is also overloaded since we often use it to denote a language $L \subseteq \Sigma^*$. In this definition, you see that it can also denote a function that maps a DFA to a language. Again, this overloading should not create any ambiguity.}
 \end{definition}
 
 \begin{example}[Even number of 1's] \label{example:Even-number-of-1s}
 The following \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} recognizes the \iref{definition:Language}{language} consisting of all binary \iref{definition:String-word-empty-string}{string}s that contain an even number of $\s{1}$'s.
-=======
-For a deterministic finite automaton $M$, we let $L(M)$ denote the set of all strings that $M$ accepts, i.e. $L(M) = \{w \in \Sigma^* : M \text{ accepts } w\}$. We refer to $L(M)$ as the language \def{recognized} by $M$ (or as the language \def{accepted} by $M$, or as the language \def{decided} by $M$).\footn{Here the word ``accept'' is overloaded since we also use it in the context of a DFA accepting a string. However, this usually does not create any ambiguity. Note that the letter $L$ is also overloaded since we often use it to denote a language $L \subseteq \Sigma^*$. In this definition, you see that it can also denote a function that maps a DFA to a language. Again, this overloading should not create any ambiguity.}
-\end{definition}
-
-\begin{example}[Even number of 1's] \label{example:Even-number-of-1s}
-The following DFA recognizes the language consisting of all binary strings that contain an even number of $\s{1}$'s.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \\\\
 \begin{center}
     \includegraphics[width=7cm]{dfa_even_1.png}
@@ -182,11 +138,7 @@ The following DFA recognizes the language consisting of all binary strings that 
 \end{example}
 
 \begin{example}[Ends with 00] \label{example:Ends-with-00}
-<<<<<<< HEAD
 The following \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} recognizes the \iref{definition:Language}{language} consisting of all binary \iref{definition:String-word-empty-string}{string}s that end with $\s{00}$.
-=======
-The following DFA recognizes the language consisting of all binary strings that end with $\s{00}$.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \\\\
 \begin{center}
     \includegraphics[width=10cm]{dfa_ends_00.png}
@@ -197,11 +149,7 @@ The following DFA recognizes the language consisting of all binary strings that 
 
 \begin{flex}
 \begin{exercise} [Draw DFAs] \label{exercise:Draw-DFAs}
-<<<<<<< HEAD
 For each \iref{definition:Language}{language} below (over the \iref{definition:Alphabet-symbol-character}{alphabet} $\Sigma = \{\s{0},\s{1}\}$), draw a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} recognizing it.
-=======
-For each language below (over the alphabet $\Sigma = \{\s{0},\s{1}\}$), draw a DFA recognizing it.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{enumerate}
     \item[(a)] $\{\s{110}, \s{101}\}$ 
     \item[(b)] $\{\s{0},\s{1}\}^* \backslash \{\s{110}, \s{101}\}$
@@ -216,11 +164,7 @@ For each language below (over the alphabet $\Sigma = \{\s{0},\s{1}\}$), draw a D
     \begin{center}
         \includegraphics[width=10cm]{dfa1.png}
     \end{center}
-<<<<<<< HEAD
     \item Take the \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} above and flip the accepting and rejecting states.
-=======
-    \item Take the DFA above and flip the accepting and rejecting states.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
     \item \
     \begin{center}
         \includegraphics[width=10cm]{dfa2.png}
@@ -241,11 +185,7 @@ For each language below (over the alphabet $\Sigma = \{\s{0},\s{1}\}$), draw a D
 
 \begin{flex}
 \begin{exercise} [Finite languages are regular] \label{exercise:Finite-languages-are-regular}
-<<<<<<< HEAD
 Let $L$ be a finite \iref{definition:Language}{language}, i.e., it contains a finite number of \iref{definition:String-word-empty-string}{word}s . Show that there is a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} recognizing $L$.
-=======
-Let $L$ be a finite language, i.e., it contains a finite number of words . Show that there is a DFA recognizing $L$.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{exercise}
 
 
@@ -257,30 +197,18 @@ Sorry, we currently do not have a solution for this exercise. But we are more th
 
 \begin{flex}
 \begin{definition}[Regular language] \label{definition:Regular-language}
-<<<<<<< HEAD
 A \iref{definition:Language}{language} $L \subseteq \Sigma^*$ is called a \def{regular language} if there is a \iref{definition:Deterministic-Finite-Automaton-DFA}{deterministic finite automaton} $M$ such that $L = L(M)$.
 \end{definition}
 
 \begin{example}[Some examples of regular languages] \label{example:Some-examples-of-regular-languages}
 All the \iref{definition:Language}{language}s in Exercise~\ref{exercise:Draw-DFAs} are regular \iref{definition:Language}{language}s.
-=======
-A language $L \subseteq \Sigma^*$ is called a \def{regular language} if there is a deterministic finite automaton $M$ such that $L = L(M)$.
-\end{definition}
-
-\begin{example}[Some examples of regular languages] \label{example:Some-examples-of-regular-languages}
-All the languages in Exercise~\ref{exercise:Draw-DFAs} are regular languages.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{example}
 \end{flex}
 
 
 \begin{flex}
 \begin{exercise}[Equal number of 01's and 10's] \label{exercise:Equal-number-of-01s-and-10s}
-<<<<<<< HEAD
 Is the \iref{definition:Language}{language}
-=======
-Is the language
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \[
     \{w \in \{\s{0},\s{1}\}^* : w \text{ has an equal number of occurrences of $\s{01}$ and $\s{10}$ as substrings}\}
 \]
@@ -289,11 +217,7 @@ regular?
 
 
 \begin{solution}
-<<<<<<< HEAD
 The answer is yes because the \iref{definition:Language}{language} is exactly same as the \iref{definition:Language}{language} in Exercise~\ref{exercise:Draw-DFAs}, part (c).
-=======
-The answer is yes because the language is exactly same as the language in Exercise~\ref{exercise:Draw-DFAs}, part (c).
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
@@ -311,49 +235,29 @@ The answer is yes because the language is exactly same as the language in Exerci
 
 \begin{flex}
 \begin{theorem}[0n1n is not regular] \label{theorem:0n1n-is-not-regular}
-<<<<<<< HEAD
 Let $\Sigma = \{\s{0},\s{1}\}$. The \iref{definition:Language}{language} $L = \{\s{0}^n \s{1}^n: n \in \mathbb{N}\}$ is \textbf{not} regular.
-=======
-Let $\Sigma = \{\s{0},\s{1}\}$. The language $L = \{\s{0}^n \s{1}^n: n \in \mathbb{N}\}$ is \textbf{not} regular.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{theorem}
 
 \begin{proof}
 Our goal is to show that $L = \{\s{0}^n \s{1}^n: n \in \mathbb{N}\}$ is not regular. The proof is by contradiction. So let's assume that $L$ is regular. 
 
-<<<<<<< HEAD
 Since $L$ is regular, by definition, there is some \iref{definition:Deterministic-Finite-Automaton-DFA}{deterministic finite automaton} $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{0}^n$ (i.e., $r_n = \delta(q_0, \s{0}^n)$). By the pigeonhole principle,\footn{The \emph{pigeonhole principle} states that if $n$ items are put inside $m$ containers, and $n > m$, then there must be at least one container with more than one item. The name \emph{pigeonhole principle} comes from thinking of the items as pigeons, and the containers as holes. The pigeonhole principle is often abbreviated as PHP.} we know that there must be a repeat among $r_0, r_1,\ldots, r_k$ (a sequence of $k+1$ states). In other \iref{definition:String-word-empty-string}{word}s, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i \neq j$ such that $r_i = r_j$. This means that the \iref{definition:String-word-empty-string}{string} $\s{0}^i$ and the \iref{definition:String-word-empty-string}{string} $\s{0}^j$ end up in the same state in $M$. Therefore $\s{0}^iw$ and $\s{0}^jw$, \emph{for any} \iref{definition:String-word-empty-string}{string} $w \in \{\s{0},\s{1}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{0}^iw$ and $\s{0}^jw$ end up in different states. 
 
 Consider the \iref{definition:String-word-empty-string}{string} $w = \s{1}^i$. Then since $M$ recognizes $L$, we know $\s{0}^iw = \s{0}^i\s{1}^i$ must end up in an accepting state. On the other hand, since $i \neq j$, $\s{0}^jw = \s{0}^j\s{1}^i$ is not in the \iref{definition:Language}{language}, and therefore cannot end up in an accepting state. This is the desired contradiction.
-=======
-Since $L$ is regular, by definition, there is some deterministic finite automaton $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{0}^n$ (i.e., $r_n = \delta(q_0, \s{0}^n)$). By the pigeonhole principle,\footn{The \emph{pigeonhole principle} states that if $n$ items are put inside $m$ containers, and $n > m$, then there must be at least one container with more than one item. The name \emph{pigeonhole principle} comes from thinking of the items as pigeons, and the containers as holes. The pigeonhole principle is often abbreviated as PHP.} we know that there must be a repeat among $r_0, r_1,\ldots, r_k$ (a sequence of $k+1$ states). In other words, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i \neq j$ such that $r_i = r_j$. This means that the string $\s{0}^i$ and the string $\s{0}^j$ end up in the same state in $M$. Therefore $\s{0}^iw$ and $\s{0}^jw$, \emph{for any} string $w \in \{\s{0},\s{1}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{0}^iw$ and $\s{0}^jw$ end up in different states. 
-
-Consider the string $w = \s{1}^i$. Then since $M$ recognizes $L$, we know $\s{0}^iw = \s{0}^i\s{1}^i$ must end up in an accepting state. On the other hand, since $i \neq j$, $\s{0}^jw = \s{0}^j\s{1}^i$ is not in the language, and therefore cannot end up in an accepting state. This is the desired contradiction.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{proof}
 \end{flex}
 
 
 \begin{flex}
 \begin{theorem}[A unary non-regular language] \label{theorem:A-unary-non-regular-language}
-<<<<<<< HEAD
 Let $\Sigma = \{\s{a}\}$. The \iref{definition:Language}{language} $L = \{\s{a}^{2^n}: n \in \mathbb{N}\}$ is \textbf{not} regular.
-=======
-Let $\Sigma = \{\s{a}\}$. The language $L = \{\s{a}^{2^n}: n \in \mathbb{N}\}$ is \textbf{not} regular.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{theorem}
 \begin{proof}
 Our goal is to show that $L = \{\s{a}^{2^n}: n \in \mathbb{N}\}$ is not regular. The proof is by contradiction. So let's assume that $L$ is regular. 
 
-<<<<<<< HEAD
 Since $L$ is regular, by definition, there is some \iref{definition:Deterministic-Finite-Automaton-DFA}{deterministic finite automaton} $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{a}^{2^n}$ (i.e. $r_n = \delta(q_0, \s{a}^{2^n})$). By the pigeonhole principle, we know that there must be a repeat among $r_0, r_1,\ldots, r_k$ (a sequence of $k+1$ states). In other \iref{definition:String-word-empty-string}{word}s, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i < j$ such that $r_i = r_j$. This means that the \iref{definition:String-word-empty-string}{string} $\s{a}^{2^i}$ and the \iref{definition:String-word-empty-string}{string} $\s{a}^{2^j}$ end up in the same state in $M$. Therefore $\s{a}^{2^i}w$ and $\s{a}^{2^j}w$, \emph{for any} \iref{definition:String-word-empty-string}{string} $w \in \{\s{a}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{a}^{2^i}w$ ends up in an accepting state but $\s{a}^{2^j}w$ ends up in a rejecting state (i.e. they end up in different states). 
 
 Consider the \iref{definition:String-word-empty-string}{string} $w = \s{a}^{2^i}$. Then $\s{a}^{2^i}w = \s{a}^{2^i}\s{a}^{2^i} = \s{a}^{2^{i+1}}$, and therefore must end up in an accepting state. On the other hand, $\s{a}^{2^j}w = \s{a}^{2^j}\s{a}^{2^i} = \s{a}^{2^j + 2^i}$. We claim that this \iref{definition:String-word-empty-string}{word} must end up in a rejecting state because $2^j + 2^i$ cannot be written as a power of $2$ (i.e., cannot be written as $2^t$ for some $t \in \mathbb{N}$). To see this, note that since $i < j$, we have
-=======
-Since $L$ is regular, by definition, there is some deterministic finite automaton $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{a}^{2^n}$ (i.e. $r_n = \delta(q_0, \s{a}^{2^n})$). By the pigeonhole principle, we know that there must be a repeat among $r_0, r_1,\ldots, r_k$ (a sequence of $k+1$ states). In other words, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i < j$ such that $r_i = r_j$. This means that the string $\s{a}^{2^i}$ and the string $\s{a}^{2^j}$ end up in the same state in $M$. Therefore $\s{a}^{2^i}w$ and $\s{a}^{2^j}w$, \emph{for any} string $w \in \{\s{a}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{a}^{2^i}w$ ends up in an accepting state but $\s{a}^{2^j}w$ ends up in a rejecting state (i.e. they end up in different states). 
-
-Consider the string $w = \s{a}^{2^i}$. Then $\s{a}^{2^i}w = \s{a}^{2^i}\s{a}^{2^i} = \s{a}^{2^{i+1}}$, and therefore must end up in an accepting state. On the other hand, $\s{a}^{2^j}w = \s{a}^{2^j}\s{a}^{2^i} = \s{a}^{2^j + 2^i}$. We claim that this word must end up in a rejecting state because $2^j + 2^i$ cannot be written as a power of $2$ (i.e., cannot be written as $2^t$ for some $t \in \mathbb{N}$). To see this, note that since $i < j$, we have
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \[
 2^j < 2^j + 2^i < 2^j + 2^j = 2^{j+1},
 \]
@@ -370,15 +274,9 @@ Let $\Sigma = \{\s{a},\s{b},\s{c}\}$. Prove that $L = \{\s{a}^n\s{b}^n\s{c}^n: n
 \begin{solution}
 Our goal is to show that $L = \{\s{a}^n\s{b}^n\s{c}^n: n \in \mathbb{N}\}$ is not regular. The proof is by contradiction. So let's assume that $L$ is regular. 
 
-<<<<<<< HEAD
 Since $L$ is regular, by definition, there is some \iref{definition:Deterministic-Finite-Automaton-DFA}{deterministic finite automaton} $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{a}^n$ (i.e., $r_n = \delta(q_0, \s{a}^n)$). By the pigeonhole principle, we know that there must be a repeat among $r_0, r_1,\ldots, r_k$. In other \iref{definition:String-word-empty-string}{word}s, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i \neq j$ such that $r_i = r_j$. This means that the \iref{definition:String-word-empty-string}{string} $\s{a}^i$ and the \iref{definition:String-word-empty-string}{string} $\s{a}^j$ end up in the same state in $M$. Therefore $\s{a}^iw$ and $\s{a}^jw$, \emph{for any} \iref{definition:String-word-empty-string}{string} $w \in \{\s{a},\s{b},\s{c}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{a}^iw$ and $\s{a}^jw$ end up in different states. 
 
 Consider the \iref{definition:String-word-empty-string}{string} $w = \s{b}^i\s{c}^i$. Then since $M$ recognizes $L$, we know $\s{a}^iw = \s{a}^i\s{b}^i\s{c}^i$ must end up in an accepting state. On the other hand, since $i \neq j$, $\s{a}^jw = \s{a}^j\s{b}^i\s{c}^i$ is not in the \iref{definition:Language}{language}, and therefore cannot end up in an accepting state. This is the desired contradiction.
-=======
-Since $L$ is regular, by definition, there is some deterministic finite automaton $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{a}^n$ (i.e., $r_n = \delta(q_0, \s{a}^n)$). By the pigeonhole principle, we know that there must be a repeat among $r_0, r_1,\ldots, r_k$. In other words, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i \neq j$ such that $r_i = r_j$. This means that the string $\s{a}^i$ and the string $\s{a}^j$ end up in the same state in $M$. Therefore $\s{a}^iw$ and $\s{a}^jw$, \emph{for any} string $w \in \{\s{a},\s{b},\s{c}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{a}^iw$ and $\s{a}^jw$ end up in different states. 
-
-Consider the string $w = \s{b}^i\s{c}^i$. Then since $M$ recognizes $L$, we know $\s{a}^iw = \s{a}^i\s{b}^i\s{c}^i$ must end up in an accepting state. On the other hand, since $i \neq j$, $\s{a}^jw = \s{a}^j\s{b}^i\s{c}^i$ is not in the language, and therefore cannot end up in an accepting state. This is the desired contradiction.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
@@ -390,15 +288,9 @@ Let $\Sigma = \{\s{a},\s{b},\s{c}\}$. Prove that $L = \{\s{c}^{251} \s{a}^n \s{b
 \begin{solution}
 Our goal is to show that $L = \{\s{c}^{251} \s{a}^n \s{b}^{2n}: n \in \mathbb{N}\}$ is not regular. The proof is by contradiction. So let's assume that $L$ is regular. 
 
-<<<<<<< HEAD
 Since $L$ is regular, by definition, there is some \iref{definition:Deterministic-Finite-Automaton-DFA}{deterministic finite automaton} $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{c}^{251}\s{a}^n$. By the pigeonhole principle, we know that there must be a repeat among $r_0, r_1,\ldots, r_k$. In other \iref{definition:String-word-empty-string}{word}s, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i \neq j$ such that $r_i = r_j$. This means that the \iref{definition:String-word-empty-string}{string} $\s{c}^{251}\s{a}^i$ and the \iref{definition:String-word-empty-string}{string} $\s{c}^{251}\s{a}^j$ end up in the same state in $M$. Therefore $\s{c}^{251}\s{a}^iw$ and $\s{c}^{251}\s{a}^jw$, \emph{for any} \iref{definition:String-word-empty-string}{string} $w \in \{\s{a},\s{b},\s{c}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{c}^{251}\s{a}^iw$ and $\s{c}^{251}\s{a}^jw$ end up in different states. 
 
 Consider the \iref{definition:String-word-empty-string}{string} $w = \s{b}^{2i}$. Then since $M$ recognizes $L$, we know $\s{c}^{251}\s{a}^iw = \s{c}^{251}\s{a}^i\s{b}^{2i}$ must end up in an accepting state. On the other hand, since $i \neq j$, $\s{c}^{251}\s{a}^jw = \s{c}^{251}\s{a}^j\s{b}^{2i}$ is not in the \iref{definition:Language}{language}, and therefore cannot end up in an accepting state. This is the desired contradiction.
-=======
-Since $L$ is regular, by definition, there is some deterministic finite automaton $M$ that recognizes $L$. Let $k$ denote the number of states of $M$. For $n \in \mathbb{N}$, let $r_n$ denote the state that $M$ reaches after reading $\s{c}^{251}\s{a}^n$. By the pigeonhole principle, we know that there must be a repeat among $r_0, r_1,\ldots, r_k$. In other words, there are indices $i, j \in \{0,1,\ldots,k\}$ with $i \neq j$ such that $r_i = r_j$. This means that the string $\s{c}^{251}\s{a}^i$ and the string $\s{c}^{251}\s{a}^j$ end up in the same state in $M$. Therefore $\s{c}^{251}\s{a}^iw$ and $\s{c}^{251}\s{a}^jw$, \emph{for any} string $w \in \{\s{a},\s{b},\s{c}\}^*$, end up in the same state in $M$. We'll now reach a contradiction, and conclude the proof, by considering a particular $w$ such that $\s{c}^{251}\s{a}^iw$ and $\s{c}^{251}\s{a}^jw$ end up in different states. 
-
-Consider the string $w = \s{b}^{2i}$. Then since $M$ recognizes $L$, we know $\s{c}^{251}\s{a}^iw = \s{c}^{251}\s{a}^i\s{b}^{2i}$ must end up in an accepting state. On the other hand, since $i \neq j$, $\s{c}^{251}\s{a}^jw = \s{c}^{251}\s{a}^j\s{b}^{2i}$ is not in the language, and therefore cannot end up in an accepting state. This is the desired contradiction.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
@@ -417,46 +309,27 @@ Consider the string $w = \s{b}^{2i}$. Then since $M$ recognizes $L$, we know $\s
 \begin{flex}
 \begin{exercise}[Are regular languages closed under complementation?] \label{exercise:Are-regular-languages-closed-under-complementation}
 Is it true that if $L$ is regular, than its complement $\Sigma^* \backslash L$ is also regular? 
-<<<<<<< HEAD
 In other \iref{definition:String-word-empty-string}{word}s, are regular \iref{definition:Language}{language}s \emph{closed} under the complementation operation?
-=======
-In other words, are regular languages \emph{closed} under the complementation operation?
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{exercise}
 
 \begin{solution}
 Yes.
-<<<<<<< HEAD
 If $L$ is regular, then there is a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M = (Q, \Sigma, \delta, q_0, F)$ recognizing $L$. 
 The complement of $L$ is \iref{definition:Language-recognized-accepted-by-a-DFA}{recognized} by the \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M = (Q, \Sigma, \delta, q_0, Q\backslash F)$.
 Take a moment to observe that this exercise allows us to say that a \iref{definition:Language}{language} is regular \emph{if and only if} its complement is regular.
 Equivalently, a \iref{definition:Language}{language} is not regular if and only if its complement is not regular.
-=======
-If $L$ is regular, then there is a DFA $M = (Q, \Sigma, \delta, q_0, F)$ recognizing $L$. 
-The complement of $L$ is recognized by the DFA $M = (Q, \Sigma, \delta, q_0, Q\backslash F)$.
-Take a moment to observe that this exercise allows us to say that a language is regular \emph{if and only if} its complement is regular.
-Equivalently, a language is not regular if and only if its complement is not regular.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
 
 \begin{flex}
 \begin{exercise}[Are regular languages closed under subsets?] \label{exercise:Are-regular-languages-closed-under-subsets}
-<<<<<<< HEAD
 Is it true that if $L \subseteq \Sigma^*$ is a regular \iref{definition:Language}{language}, then any $L' \subseteq L$ is also a regular \iref{definition:Language}{language}?
-=======
-Is it true that if $L \subseteq \Sigma^*$ is a regular language, then any $L' \subseteq L$ is also a regular language?
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{exercise}
 
 \begin{solution}
 No. 
-<<<<<<< HEAD
 For example, $L = \Sigma^*$ is a regular \iref{definition:Language}{language} (construct a single state \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} in which the state is accepting). 
-=======
-For example, $L = \Sigma^*$ is a regular language (construct a single state DFA in which the state is accepting). 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 On the other hand, by Theorem~\ref{theorem:0n1n-is-not-regular}, $\{\s{0}^n\s{1}^n : n \in \mathbb{N} \} \subseteq \Sigma^*$ is not regular.
 \end{solution}
 \end{flex}
@@ -464,7 +337,6 @@ On the other hand, by Theorem~\ref{theorem:0n1n-is-not-regular}, $\{\s{0}^n\s{1}
 
 \begin{flex}
 \begin{theorem}[Regular languages are closed under union] \label{theorem:Regular-languages-are-closed-under-union}
-<<<<<<< HEAD
 Let $\Sigma$ be some finite \iref{definition:Alphabet-symbol-character}{alphabet}. 
 If $L_1 \subseteq \Sigma^*$ and $L_2 \subseteq \Sigma^*$ are regular \iref{definition:Language}{language}s, then the \iref{definition:Language}{language} $L_1 \cup L_2$ is also regular.
 \end{theorem}
@@ -472,15 +344,6 @@ If $L_1 \subseteq \Sigma^*$ and $L_2 \subseteq \Sigma^*$ are regular \iref{defin
 \begin{proof}
 Given regular \iref{definition:Language}{language}s $L_1$ and $L_2$, we want to show that $L_1 \cup L_2$ is regular. Since $L_1$ and $L_2$ are regular \iref{definition:Language}{language}s, by definition, there are \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA}s $M = (Q, \Sigma, \delta, q_0, F)$ and $M' = (Q', \Sigma, \delta', q'_0, F')$ that recognize $L_1$ and $L_2$ respectively (i.e. $L(M) = L_1$ and $L(M') = L_2$). 
 To show $L_1 \cup L_2$ is regular, we'll construct a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M'' = (Q'', \Sigma, \delta'', q''_0, F'')$ that recognizes $L_1 \cup L_2$. 
-=======
-Let $\Sigma$ be some finite alphabet. 
-If $L_1 \subseteq \Sigma^*$ and $L_2 \subseteq \Sigma^*$ are regular languages, then the language $L_1 \cup L_2$ is also regular.
-\end{theorem}
-
-\begin{proof}
-Given regular languages $L_1$ and $L_2$, we want to show that $L_1 \cup L_2$ is regular. Since $L_1$ and $L_2$ are regular languages, by definition, there are DFAs $M = (Q, \Sigma, \delta, q_0, F)$ and $M' = (Q', \Sigma, \delta', q'_0, F')$ that recognize $L_1$ and $L_2$ respectively (i.e. $L(M) = L_1$ and $L(M') = L_2$). 
-To show $L_1 \cup L_2$ is regular, we'll construct a DFA $M'' = (Q'', \Sigma, \delta'', q''_0, F'')$ that recognizes $L_1 \cup L_2$. 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 The definition of $M''$ will make use of $M$ and $M'$. 
 In particular:
 \begin{itemize}
@@ -491,7 +354,6 @@ In particular:
     \item the set of accepting states is $F'' = \{(q, q') : q \in F \text{ or } q' \in F'\}$.
 \end{itemize}
 This completes the definition of $M''$. 
-<<<<<<< HEAD
 It remains to show that $M''$ indeed recognizes the \iref{definition:Language}{language} $L_1 \cup L_2$, i.e. $L(M'') = L_1 \cup L_2$. 
 We will first argue that $L_1 \cup L_2 \subseteq L(M'')$ and then argue that $L(M'') \subseteq L_1 \cup L_2$. 
 Both inclusions will follow easily from the definition of $M''$ and the definition of a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} accepting a \iref{definition:String-word-empty-string}{string}.
@@ -503,30 +365,12 @@ So we know that $\delta(q_0, w) \in F$.
 By the definition of $\delta''$, $\delta''((q_0, q'_0), w) = (\delta(q_0,w), \delta'(q'_0, w))$. 
 And since $\delta(q_0, w) \in F$, $(\delta(q_0,w), \delta'(q'_0, w)) \in F''$ (by the definition of $F''$). 
 So $w$ is \iref{definition:Language-recognized-accepted-by-a-DFA}{accepted} by $M''$ as desired.
-=======
-It remains to show that $M''$ indeed recognizes the language $L_1 \cup L_2$, i.e. $L(M'') = L_1 \cup L_2$. 
-We will first argue that $L_1 \cup L_2 \subseteq L(M'')$ and then argue that $L(M'') \subseteq L_1 \cup L_2$. 
-Both inclusions will follow easily from the definition of $M''$ and the definition of a DFA accepting a string.
-
-$L_1 \cup L_2 \subseteq L(M'')$: 
-Suppose $w \in L_1 \cup L_2$, which means $w$ either belongs to $L_1$ or it belongs to $L_2$. Our goal is to show that $w \in L(M'')$. 
-Without loss of generality, assume $w$ belongs to $L_1$, or in other words, $M$ accepts $w$ (the argument is essentially identical when $w$ belongs to $L_2$). 
-So we know that $\delta(q_0, w) \in F$. 
-By the definition of $\delta''$, $\delta''((q_0, q'_0), w) = (\delta(q_0,w), \delta'(q'_0, w))$. 
-And since $\delta(q_0, w) \in F$, $(\delta(q_0,w), \delta'(q'_0, w)) \in F''$ (by the definition of $F''$). 
-So $w$ is accepted by $M''$ as desired.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 
 $L(M'') \subseteq L_1 \cup L_2$: 
 Suppose that $w \in L(M'')$. 
 Our goal is to show that $w \in L_1$ or  $w \in L_2$. 
-<<<<<<< HEAD
 Since $w$ is \iref{definition:Language-recognized-accepted-by-a-DFA}{accepted} by $M''$, we know that $\delta''((q_0, q'_0), w) = (\delta(q_0,w), \delta'(q'_0, w)) \in F''$. 
 By the definition of $F''$, this means that either $\delta(q_0, w) \in F$ or $\delta'(q'_0, w) \in F'$, i.e., $w$ is \iref{definition:Language-recognized-accepted-by-a-DFA}{accepted} by $M$ or $M'$. 
-=======
-Since $w$ is accepted by $M''$, we know that $\delta''((q_0, q'_0), w) = (\delta(q_0,w), \delta'(q'_0, w)) \in F''$. 
-By the definition of $F''$, this means that either $\delta(q_0, w) \in F$ or $\delta'(q'_0, w) \in F'$, i.e., $w$ is accepted by $M$ or $M'$. 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 This implies that either $w \in L(M) = L_1$ or $w \in L(M') = L_2$, as desired.  
 \end{proof}
 \end{flex}
@@ -543,21 +387,12 @@ However, we do encourage you to include a ``proof idea'' component in your write
 
 \begin{flex}
 \begin{corollary}[Regular languages are closed under intersection] \label{corollary:Regular-languages-are-closed-under-intersection}
-<<<<<<< HEAD
 Let $\Sigma$ be some finite \iref{definition:Alphabet-symbol-character}{alphabet}. 
 If $L_1 \subseteq \Sigma^*$ and $L_2 \subseteq \Sigma^*$ are regular \iref{definition:Language}{language}s, then the \iref{definition:Language}{language} $L_1 \cap L_2$ is also regular.
 \end{corollary}
 
 \begin{proof}
 We want to show that regular \iref{definition:Language}{language}s are closed under the intersection operation. We know that regular \iref{definition:Language}{language}s are closed under union (Theorem~\ref{theorem:Regular-languages-are-closed-under-union}) and closed under complementation (Exercise~\ref{exercise:Are-regular-languages-closed-under-complementation}). 
-=======
-Let $\Sigma$ be some finite alphabet. 
-If $L_1 \subseteq \Sigma^*$ and $L_2 \subseteq \Sigma^*$ are regular languages, then the language $L_1 \cap L_2$ is also regular.
-\end{corollary}
-
-\begin{proof}
-We want to show that regular languages are closed under the intersection operation. We know that regular languages are closed under union (Theorem~\ref{theorem:Regular-languages-are-closed-under-union}) and closed under complementation (Exercise~\ref{exercise:Are-regular-languages-closed-under-complementation}). 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 The result then follows since $A \cap B = \overline{\overline{A} \cup \overline{B}}$. 
 \end{proof}
 \end{flex}
@@ -565,11 +400,7 @@ The result then follows since $A \cap B = \overline{\overline{A} \cup \overline{
 
 \begin{flex}
 \begin{exercise}[Direct proof that regular languages are closed under difference] \label{exercise:Direct-proof-that-regular-languages-are-closed-under-difference}
-<<<<<<< HEAD
 Give a direct proof (without using the fact that regular \iref{definition:Language}{language}s are closed under complementation, union and intersection) that if $L_1$ and $L_2$ are regular \iref{definition:Language}{language}s, then $L_1 \backslash L_2$ is also regular.
-=======
-Give a direct proof (without using the fact that regular languages are closed under complementation, union and intersection) that if $L_1$ and $L_2$ are regular languages, then $L_1 \backslash L_2$ is also regular.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{exercise}
 
 \begin{solution}
@@ -583,11 +414,7 @@ The argument that $L(M'') = L(M) \backslash L(M')$ needs to be slightly adjusted
 
 
 % \begin{exercise}[Union with different alphabets] \label{exercise:Union-with-different-alphabets}
-<<<<<<< HEAD
 % Suppose that $L_1 \subseteq \Sigma_1^*$ and $L_2 \subseteq \Sigma_2^*$ are regular \iref{definition:Language}{language}s, where $\Sigma_1$ and $\Sigma_2$ are not necessarily the same set. 
-=======
-% Suppose that $L_1 \subseteq \Sigma_1^*$ and $L_2 \subseteq \Sigma_2^*$ are regular languages, where $\Sigma_1$ and $\Sigma_2$ are not necessarily the same set. 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 % Is it still true that $L_1 \cup L_2$ is regular? 
 % Justify your answer.
 % \end{exercise}
@@ -597,27 +424,16 @@ The argument that $L(M'') = L(M) \backslash L(M')$ needs to be slightly adjusted
 \begin{flex}
 \begin{exercise}[Finite vs infinite union] \label{exercise:Finite-vs-infinite-union}
 \begin{enumerate}
-<<<<<<< HEAD
     \item[(a)] Suppose $L_1, \ldots, L_k$ are all regular \iref{definition:Language}{language}s. 
     Is it true that their union $\bigcup_{i=0}^k L_i$ must be a regular \iref{definition:Language}{language}?      
     \item[(b)] Suppose $L_0, L_1, L_2, \ldots$ is an infinite sequence of regular \iref{definition:Language}{language}s. 
     Is it true that their union $\bigcup_{i\geq 0} L_i$ must be a regular \iref{definition:Language}{language}?
-=======
-    \item[(a)] Suppose $L_1, \ldots, L_k$ are all regular languages. 
-    Is it true that their union $\bigcup_{i=0}^k L_i$ must be a regular language?      
-    \item[(b)] Suppose $L_0, L_1, L_2, \ldots$ is an infinite sequence of regular languages. 
-    Is it true that their union $\bigcup_{i\geq 0} L_i$ must be a regular language?
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{enumerate}
 \end{exercise}
 
 
 \begin{solution}
-<<<<<<< HEAD
 In part 1, we are asking whether a finite union of regular \iref{definition:Language}{language}s is regular. The answer is yes, and this can be proved using induction, with the base case corresponding to Theorem~\ref{theorem:Regular-languages-are-closed-under-union}. In part 2, we are asking whether a countably infinite union of regular \iref{definition:Language}{language}s is regular. The answer is no. First note that any \iref{definition:Language}{language} of cardinality 1 is regular, i.e., $\{w\}$ for any $w \in \Sigma^*$ is a regular \iref{definition:Language}{language}. In particular, for any $n \in \N$, the \iref{definition:Language}{language} $L_n = \{\s{0}^n\s{1}^n\}$ of cardinality 1 is regular. But
-=======
-In part 1, we are asking whether a finite union of regular languages is regular. The answer is yes, and this can be proved using induction, with the base case corresponding to Theorem~\ref{theorem:Regular-languages-are-closed-under-union}. In part 2, we are asking whether a countably infinite union of regular languages is regular. The answer is no. First note that any language of cardinality 1 is regular, i.e., $\{w\}$ for any $w \in \Sigma^*$ is a regular language. In particular, for any $n \in \N$, the language $L_n = \{\s{0}^n\s{1}^n\}$ of cardinality 1 is regular. But
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \[
 \bigcup_{n\geq 0} L_n = \{\s{0}^n\s{1}^n : n \in \N\}
 \]
@@ -628,35 +444,21 @@ is not regular.
 
 \begin{flex}
 \begin{exercise}[Union of irregular languages] \label{exercise:Union-of-irregular-languages}
-<<<<<<< HEAD
 Suppose $L_1$ and $L_2$ are not regular \iref{definition:Language}{language}s. 
 Is it always true that $L_1 \cup L_2$ is not a regular \iref{definition:Language}{language}?
-=======
-Suppose $L_1$ and $L_2$ are not regular languages. 
-Is it always true that $L_1 \cup L_2$ is not a regular language?
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{exercise}
 
 
 \begin{solution}
-<<<<<<< HEAD
 The answer is no. Consider $L = \{\s{0}^n\s{1}^n : n \in \N\}$, which is a non-regular \iref{definition:Language}{language}. Furthermore, the complement of $L$, which is $\overline{L} = \Sigma^* \backslash L$, is non-regular. This is because regular \iref{definition:Language}{language}s are closed under complementation (Exercise~\ref{exercise:Are-regular-languages-closed-under-complementation}), so if $\overline{L}$ was regular, then $\overline{\overline{L}} = L$ would also have to be regular. The union of $L$ and $\overline{L}$ is $\Sigma^*$, which is a regular \iref{definition:Language}{language}.
-=======
-The answer is no. Consider $L = \{\s{0}^n\s{1}^n : n \in \N\}$, which is a non-regular language. Furthermore, the complement of $L$, which is $\overline{L} = \Sigma^* \backslash L$, is non-regular. This is because regular languages are closed under complementation (Exercise~\ref{exercise:Are-regular-languages-closed-under-complementation}), so if $\overline{L}$ was regular, then $\overline{\overline{L}} = L$ would also have to be regular. The union of $L$ and $\overline{L}$ is $\Sigma^*$, which is a regular language.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
 
 \begin{flex}
 \begin{exercise}[Regularity of suffixes and prefixes] \label{exercise:Regularity-of-suffixes-and-prefixes}
-<<<<<<< HEAD
 Suppose $L \subseteq \Sigma^*$ is a regular \iref{definition:Language}{language}. 
 Show that the following \iref{definition:Language}{language}s are also regular:
-=======
-Suppose $L \subseteq \Sigma^*$ is a regular language. 
-Show that the following languages are also regular:
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \begin{align*}
 \text{SUFFIXES}(L) & = \{x \in \Sigma^* : \text{$yx \in L$ for some $y \in \Sigma^*$}\},  \\
 \text{PREFIXES}(L) & = \{y \in \Sigma^* : \text{$yx \in L$ for some $x \in  \Sigma^*$}\}.
@@ -664,19 +466,11 @@ Show that the following languages are also regular:
 \end{exercise}
 
 \begin{solution}
-<<<<<<< HEAD
 Let $M = (Q, \Sigma, \delta, q_0, F)$ be a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} recognizing $L$. Define the set 
 \[
     S = \{s \in Q: \exists y \in \Sigma^* \text{ such that } \delta(q_0,y) = s\}.
 \]
 Now we define a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} for each $s \in S$ as follows: $M_s = (Q, \Sigma, \delta, s, F)$. We claim that 
-=======
-Let $M = (Q, \Sigma, \delta, q_0, F)$ be a DFA recognizing $L$. Define the set 
-\[
-    S = \{s \in Q: \exists y \in \Sigma^* \text{ such that } \delta(q_0,y) = s\}.
-\]
-Now we define a DFA for each $s \in S$ as follows: $M_s = (Q, \Sigma, \delta, s, F)$. We claim that 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \[
 \text{SUFFIXES}(L) = \bigcup_{s \in S} L(M_s).
 \]
@@ -684,11 +478,7 @@ We now prove this equality by a double containment argument.
 
 First, if $x \in \text{SUFFIXES}(L)$ then you know that there is some $y \in \Sigma^*$ such that $yx \in L$. So $M(yx)$ accepts. Note that this $y$, when fed into $M$, ends up in some state. Let's call that state $s$. Then $M_s$ accepts $x$, i.e. $x \in L(M_s)$. And therefore $x \in \bigcup_{s \in S} L(M_s)$.
 
-<<<<<<< HEAD
 On the other hand suppose  $x \in \bigcup_{s \in S} L(M_s)$. Then there is some state $s \in S$ such that $x \in L(M_s)$. By the definition of $S$, there is some \iref{definition:String-word-empty-string}{string} $y$ such that $M(y)$ ends up in state $s$. Since $x$ is \iref{definition:Language-recognized-accepted-by-a-DFA}{accepted} by $M_s$, we have that $yx$ is \iref{definition:Language-recognized-accepted-by-a-DFA}{accepted} by $M$, i.e. $yx \in L$. By the definition of $\text{SUFFIXES}(L)$, this implies $x \in \text{SUFFIXES}(L)$. This concludes the proof of the claim.
-=======
-On the other hand suppose  $x \in \bigcup_{s \in S} L(M_s)$. Then there is some state $s \in S$ such that $x \in L(M_s)$. By the definition of $S$, there is some string $y$ such that $M(y)$ ends up in state $s$. Since $x$ is accepted by $M_s$, we have that $yx$ is accepted by $M$, i.e. $yx \in L$. By the definition of $\text{SUFFIXES}(L)$, this implies $x \in \text{SUFFIXES}(L)$. This concludes the proof of the claim.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 
 Since $L(M_s)$ is regular for all $s \in S$ and $S$ is a finite set, using Exercise~\ref{exercise:Finite-vs-infinite-union} part (a), we can conclude that $\text{SUFFIXES}(L)$ is regular.
 
@@ -696,11 +486,7 @@ For the second part, define the set
 \[
     R = \{r \in Q : \exists x \in \Sigma^* \text{ such that } \delta(r, x) \in F\}.
 \]
-<<<<<<< HEAD
 Now we can define the \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M_R = (Q, \Sigma, \delta, q_0, R)$. Observe that this \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} recognizes $\text{PREFIXES}(L)$, which shows that $\text{PREFIXES}(L)$ is regular.
-=======
-Now we can define the DFA $M_R = (Q, \Sigma, \delta, q_0, R)$. Observe that this DFA recognizes $\text{PREFIXES}(L)$, which shows that $\text{PREFIXES}(L)$ is regular.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
@@ -712,28 +498,18 @@ Now we can define the DFA $M_R = (Q, \Sigma, \delta, q_0, R)$. Observe that this
 
 \begin{flex}
 \begin{theorem}[Regular languages are closed under concatenation] \label{theorem:Regular-languages-are-closed-under-concatenation}
-<<<<<<< HEAD
 If $L_1, L_2 \subseteq \Sigma^*$ are regular \iref{definition:Language}{language}s, then the \iref{definition:Language}{language} $L_1L_2$ is also regular.
 \end{theorem}
 
 \begin{proof}
 Given regular \iref{definition:Language}{language}s $L_1$ and $L_2$, we want to show that $L_1L_2$ is regular. Since $L_1$ and $L_2$ are regular \iref{definition:Language}{language}s, by definition, there are \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA}s $M = (Q, \Sigma, \delta, q_0, F)$ and $M' = (Q', \Sigma, \delta', q'_0, F')$ that recognize $L_1$ and $L_2$ respectively. 
 To show $L_1 L_2$ is regular, we'll construct a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M'' = (Q'', \Sigma, \delta'', q''_0, F'')$ that recognizes $L_1 L_2$. 
-=======
-If $L_1, L_2 \subseteq \Sigma^*$ are regular languages, then the language $L_1L_2$ is also regular.
-\end{theorem}
-
-\begin{proof}
-Given regular languages $L_1$ and $L_2$, we want to show that $L_1L_2$ is regular. Since $L_1$ and $L_2$ are regular languages, by definition, there are DFAs $M = (Q, \Sigma, \delta, q_0, F)$ and $M' = (Q', \Sigma, \delta', q'_0, F')$ that recognize $L_1$ and $L_2$ respectively. 
-To show $L_1 L_2$ is regular, we'll construct a DFA $M'' = (Q'', \Sigma, \delta'', q''_0, F'')$ that recognizes $L_1 L_2$. 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 The definition of $M''$ will make use of $M$ and $M'$. 
 
 Before we formally define $M''$, we will introduce a few key concepts and explain the intuition behind the construction. 
 
 We know that $w \in L_1L_2$ if and only if there is a way to write $w$ as $uv$ where $u \in L_1$ and $v \in L_2$. 
 With this in mind, we first introduce the notion of a \emph{thread}. 
-<<<<<<< HEAD
 Given a \iref{definition:String-word-empty-string}{word} $w = w_1w_2 \ldots w_n \in \Sigma^*$, a \def{thread} with respect to $w$ is a sequence of states
 \[
 r_0, r_1, r_2, \ldots, r_i, s_{i+1}, s_{i+2}, \ldots, s_n,
@@ -745,19 +521,6 @@ A thread like this corresponds to simulating $M$ on $w_1w_2 \ldots w_i$ (at whic
 For each way of writing $w$ as $uv$ where $u \in L_1$, there is a corresponding thread for it. 
 Note that $w \in L_1L_2$ if and only if there is a thread in which $s_n \in F'$. 
 Our goal is to construct the \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M''$ such that it keeps track of all possible threads, and if one of the threads ends with a state in $F'$, then $M''$ accepts. 
-=======
-Given a word $w = w_1w_2 \ldots w_n \in \Sigma^*$, a \def{thread} with respect to $w$ is a sequence of states
-\[
-r_0, r_1, r_2, \ldots, r_i, s_{i+1}, s_{i+2}, \ldots, s_n,
-\]
-where $r_0, r_1, \ldots, r_i$ is an accepting computation path of $M$ with respect to $w_1w_2 \ldots w_i$,
-\footn{This means $r_0 = q_0$, $r_i \in F$, and when the symbol $w_j$ is read, $M$ transitions from state $r_{j-1}$ to state $r_j$. See Definition~\ref{definition:Computation-path-for-a-DFA}.} 
-and $q_0', s_{i+1}, s_{i+2}, \ldots, s_n$ is a computation path (not necessarily accepting) of $M'$ with respect to $w_{i+1}w_{i+2}\ldots w_{n}$. 
-A thread like this corresponds to simulating $M$ on $w_1w_2 \ldots w_i$ (at which point we require that an accepting state of $M$ is reached), and then simulating $M'$ on $w_{i+1}w_{i+2}\ldots w_n$. 
-For each way of writing $w$ as $uv$ where $u \in L_1$, there is a corresponding thread for it. 
-Note that $w \in L_1L_2$ if and only if there is a thread in which $s_n \in F'$. 
-Our goal is to construct the DFA $M''$ such that it keeps track of all possible threads, and if one of the threads ends with a state in $F'$, then $M''$ accepts. 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 
 At first, it might seem like one cannot keep track of all possible threads using only \emph{constant} number of states. 
 However this is not the case. 
@@ -784,11 +547,7 @@ Before we present the formal definition of $M''$, we introduce one more definiti
 Recall that the transition function of $M'$ is $\delta' : Q' \times \Sigma \to Q'$. 
 Using $\delta'$ we define a new function $\delta_{\mathcal{P}}' : \mathcal{P}(Q') \times \Sigma \to \mathcal{P}(Q')$ as follows. 
 For $S \subseteq Q'$ and $a \in \Sigma$, $\delta_{\mathcal{P}}'(S, a)$ is defined to be the set of all possible states that we can end up at if we start in a state in $S$ and read the symbol $a$. 
-<<<<<<< HEAD
 In other \iref{definition:String-word-empty-string}{word}s,
-=======
-In other words,
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \[
    \delta_{\mathcal{P}}'(S, a) = \{\delta'(q', a) : q' \in S\}.
 \]
@@ -818,29 +577,17 @@ Here is the formal definition of $M''$:
                 \end{cases}
         \]
 
-<<<<<<< HEAD
         (Initially, if $q_0 \not \in F$, then there are no threads to keep track of, so the second coordinate is the empty set. On the other hand, if $q_0 \in F$, then there is already a thread that we need to keep track of -- the one corresponding to running the whole input \iref{definition:String-word-empty-string}{word} $w$ on the second machine -- so we add $q_0'$ to the second coordinate to keep track of this thread.)
 
     \item The set of accepting states is $F'' = \{(q, S) : q \in Q, S \subseteq Q', S \cap F' \neq \emptyset \}$.
 
     (In other \iref{definition:String-word-empty-string}{word}s, $M''$ accepts if and only if there is a state in the second coordinate that is an accepting state of the second machine $M'$. So $M''$ accepts if and only if one of the possible threads ends in an accepting state of $M'$.)
-=======
-        (Initially, if $q_0 \not \in F$, then there are no threads to keep track of, so the second coordinate is the empty set. On the other hand, if $q_0 \in F$, then there is already a thread that we need to keep track of -- the one corresponding to running the whole input word $w$ on the second machine -- so we add $q_0'$ to the second coordinate to keep track of this thread.)
-
-    \item The set of accepting states is $F'' = \{(q, S) : q \in Q, S \subseteq Q', S \cap F' \neq \emptyset \}$.
-
-    (In other words, $M''$ accepts if and only if there is a state in the second coordinate that is an accepting state of the second machine $M'$. So $M''$ accepts if and only if one of the possible threads ends in an accepting state of $M'$.)
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 
 \end{itemize}
 
 This completes the definition of $M''$. 
 
-<<<<<<< HEAD
 To see that $M''$ indeed recognizes the \iref{definition:Language}{language} $L_1 L_2$, i.e.~$L(M'') = L_1 L_2$, note that by construction, $M''$ with input $w$, does indeed keep track of all the possible threads. 
-=======
-To see that $M''$ indeed recognizes the language $L_1 L_2$, i.e.~$L(M'') = L_1 L_2$, note that by construction, $M''$ with input $w$, does indeed keep track of all the possible threads. 
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 And it accepts $w$ if and only if one of those threads ends in an accepting state of $M'$. 
 The result follows since $w \in L_1 L_2$ if and only if there is a thread with respect to $w$ that ends in an accepting state of $M'$.
 \end{proof}
@@ -848,7 +595,6 @@ The result follows since $w \in L_1 L_2$ if and only if there is a thread with r
 
 \begin{flex}
 \begin{exercise}[Regular languages are closed under star] \label{exercise:Regular-languages-are-closed-under-star}
-<<<<<<< HEAD
 Critique the following argument that claims to establish that regular \iref{definition:Language}{language}s are closed under the concatenation operation, that is, if $L$ is a regular \iref{definition:Language}{language}, then so is $L^*$.
 \begin{quote}
 Let $L$ be a regular \iref{definition:Language}{language}. We know that by definition $L^* = \bigcup_{n \in \mathbb{N}} L^n$, where $L^n = \{u_1 u_2 \ldots u_n : u_i \in L \text{ for all $i$} \}$. We know that for all $n$, $L^n$ must be regular using Theorem~\ref{theorem:Regular-languages-are-closed-under-concatenation}. And since $L^n$ is regular for all $n$, we know $L^*$ must be regular using Theorem~\ref{theorem:Regular-languages-are-closed-under-union}.
@@ -860,19 +606,6 @@ Let $L$ be a regular \iref{definition:Language}{language}. We know that by defin
 It is true that using induction, we can show that $L^n$ is regular for all $n$. However, from there, we cannot conclude that $L^* = \bigcup_{n \in \mathbb{N}} L^n$ is regular. Even though regular \iref{definition:Language}{language}s are closed under finite unions, they are not closed under infinite unions. See Exercise~\ref{exercise:Finite-vs-infinite-union}.
 
 %Now we construct a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M' = (Q', \Sigma, \delta', q_0', F')$ recognizing $L^*$ using a \iref{definition:Deterministic-Finite-Automaton-DFA}{DFA} $M = (Q, \Sigma, \delta, q_0, F)$ that recognizes $L$. The construction is as follows.
-=======
-Critique the following argument that claims to establish that regular languages are closed under the concatenation operation, that is, if $L$ is a regular language, then so is $L^*$.
-\begin{quote}
-Let $L$ be a regular language. We know that by definition $L^* = \bigcup_{n \in \mathbb{N}} L^n$, where $L^n = \{u_1 u_2 \ldots u_n : u_i \in L \text{ for all $i$} \}$. We know that for all $n$, $L^n$ must be regular using Theorem~\ref{theorem:Regular-languages-are-closed-under-concatenation}. And since $L^n$ is regular for all $n$, we know $L^*$ must be regular using Theorem~\ref{theorem:Regular-languages-are-closed-under-union}.
-\end{quote}
-%Then show that regular languages are indeed closed under the star operation by describing a DFA that recognizes $L^*$, using a DFA recognizing $L$. Proof of correctness is not required.
-\end{exercise}
-
-\begin{solution}
-It is true that using induction, we can show that $L^n$ is regular for all $n$. However, from there, we cannot conclude that $L^* = \bigcup_{n \in \mathbb{N}} L^n$ is regular. Even though regular languages are closed under finite unions, they are not closed under infinite unions. See Exercise~\ref{exercise:Finite-vs-infinite-union}.
-
-%Now we construct a DFA $M' = (Q', \Sigma, \delta', q_0', F')$ recognizing $L^*$ using a DFA $M = (Q, \Sigma, \delta, q_0, F)$ that recognizes $L$. The construction is as follows.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 %\[
 %Q' = \mathcal{P}(Q).
 %\]
@@ -888,11 +621,7 @@ It is true that using induction, we can show that $L^n$ is regular for all $n$. 
 %\[
 %F' = \{S \subseteq Q : S \cap F \neq \emptyset\}.
 %\]
-<<<<<<< HEAD
 % (Need to handle empty \iref{definition:String-word-empty-string}{string}.)
-=======
-% (Need to handle empty string.)
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
 \end{solution}
 \end{flex}
 
