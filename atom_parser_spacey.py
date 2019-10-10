@@ -78,29 +78,6 @@ def strip_stopwords(text):
 	stripped_a = strip_after(stripped_b)
 	return " ".join(stripped_a)
 
-# given a string, create a list that maps each word to its index
-def word_indices(string):
-	result = []
-	index = 0
-	if not string[0].isspace():
-		result.append(index)
-	index += 1
-	while (index < len(string)):
-		if (not string[index].isspace() and string[index-1].isspace()):
-			result.append(index)
-		index += 1
-	return result
-
-# given a list of sentences, create a list that maps each sentence to its index
-def sentence_indices(sentences):
-	sentences_length = list(map(lambda x: len(x) + 1, sentences)) # +1 for the '.'
-	cumulative_sentence_length_list = []
-	cumulative_length = 0
-	for length in sentences_length:
-		cumulative_sentence_length_list.append(cumulative_length)
-		cumulative_length += length
-	return cumulative_sentence_length_list
-
 # given a dictionary of key phrases mapped to their labels, write them to file_name
 def write_to_file(dictionary, file_name):
 	new_list = dictionary.items()
