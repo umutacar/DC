@@ -285,7 +285,7 @@ grm:sets_2::file
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>. Here is a</p>
+<p>This is $ 40. This is # 60. Here are the <a href="file:///Users/umut/Desktop/slides.pdf">lecture slides</a>. Here is a the <a href="file://paper.xml">xml file</a>. Here is a</p>
 <div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/8QyE9D_3ezQ'>tango video.</iframe></div>  
 <p>Here is a</p>
 <div class='video-container' style='margin-bottom:15px'><iframe class='ql-video' frameborder='0' allowfullscreen='true' src='https://www.youtube.com/embed/?&lt;8QyE9D&amp;&gt;&lt;_3ezQ'>tango video.</iframe></div>
@@ -293,6 +293,8 @@ grm:sets_2::file
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+This is \$ 40.
+This is \# 60.
 Here are the \href{file:///Users/umut/Desktop/slides.pdf}{lecture slides}.
 Here is a the \href{file://paper.xml}{xml file}.
 Here is a \begin{verbatim}
