@@ -529,6 +529,9 @@ let is_label_only contents =
   let contents = String.strip contents in
   str_match_full pattern_label contents 
   
+let is_code kind = 
+  kind = kw_code
+
 let is_atom kind = 
    let _ = d_printf "is_atom: kind = %s\n" kind in 
      if String.is_prefix kind ~prefix:"run" then

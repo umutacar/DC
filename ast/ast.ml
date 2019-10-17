@@ -27,6 +27,14 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 let points_correct = 1.0
 let points_incorrect = 0.0
 
+let fmt_lstlisting_pl = 
+	Printf.sprintf "\\begin{lstlisting}[language=%s,numbers=left]\n%s\\end{lstlisting}"
+
+let fmt_lstlisting_nopl = 
+	Printf.sprintf "\\begin{lstlisting}[numbers=left]\n%s\\end{lstlisting}"
+
+
+
 (**********************************************************************
  ** END: Constants
  **********************************************************************)
@@ -681,6 +689,14 @@ struct
 
   let body_to_xml translator atom =
 		let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
+    let body = 
+      if Tex.is_code atom.kind then
+        match atom.pl with 
+        | None -> fmt_lstlisting_nopl atom.body
+        | Some pl -> fmt_lstlisting_pl (Option.value atom.pl  ~default:"c") atom.body  
+      else
+        atom.body
+    in
 		let (body, languages) = sanitize_lst_language atom.body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
     let _ = d_printf "body sanitized:\n %s" body in
