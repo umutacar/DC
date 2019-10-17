@@ -690,7 +690,7 @@ struct
 		(* Translate body to xml *)
 		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; title; cover; sound; label; depend; problem; body; caption} = atom in
+		let {kind; point_val; pl; title; cover; sound; label; depend; problem; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
@@ -703,6 +703,7 @@ struct
 		let r = 
 			Xml.mk_atom 
 				~kind:kind 
+        ~pl:pl
         ~pval:point_val
         ~topt:titles
         ~copt:cover

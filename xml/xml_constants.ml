@@ -27,6 +27,7 @@ let no_info = not_provided ^ "INFO..."
 let no_label = not_provided ^ "LABEL..." 
 let no_no = "0"  (* has to be a number still *) 
 let no_parents = not_provided ^ "PARENTS..." 
+let no_pl = not_provided ^ "PL..." 
 let no_points = "0"  (* Still has to be a number *)
 let no_point_value = "0.0"  (* Still has to be a number *)
 let no_prompt = not_provided ^ "PROMPT..." 
