@@ -525,6 +525,7 @@ struct
 	type t = 
 			{	mutable kind: string;
 				mutable point_val: string option;
+				mutable pl: string option;         (* programming language *)
 				mutable title: string option;
 				mutable cover: string option;
 				mutable sound: string option;
@@ -537,6 +538,7 @@ struct
 			} 
   let kind a = a.kind
   let point_val a = a.point_val
+  let pl a = a.pl
   let title a = a.title
 	let label a = a.label
 	let depend a = a.depend
@@ -545,6 +547,7 @@ struct
 	let label_is_given a = a.label_is_given
 
   let make   
+			?pl: (pl = None) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?cover: (cover = None) 
@@ -558,10 +561,10 @@ struct
 
 		match label with 
 		| None -> 
-				{kind; point_val; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 

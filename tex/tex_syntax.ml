@@ -532,14 +532,14 @@ let is_label_only contents =
 let is_atom kind = 
    let _ = d_printf "is_atom: kind = %s\n" kind in 
      if String.is_prefix kind ~prefix:"run" then
-       let code_atom_kind = String.chop_prefix_exn kind ~prefix:"run" in
-       let _ = printf "Found code atom: %s\n" code_atom_kind in
-         Some code_atom_kind
+       let pl = String.chop_prefix_exn kind ~prefix:"run" in
+       let _ = printf "Found code atom: %s\n" pl in
+         Some (kw_code, Some pl)
      else   
        match List.Assoc.find atom_kinds ~equal: String.equal kind with 
        | Some _ -> 
 					 let _ = printf "Found regular atom: %s\n" kind in
-					 Some kind
+					 Some (kind, None)
        | None ->
 					 let _ = printf "Not an atom: %s\n" kind in
 					 None
