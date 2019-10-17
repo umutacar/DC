@@ -319,10 +319,11 @@ atom:
 	   match a with 
 		 | None -> (Tex.kw_gram, None, [], None, all, None, None)
 		 | Some (kind, popt, kw_args, lopt, body, capopt, items) -> 
-         if Tex.is_atom kind then
-					 let problem_opt = Ast.problem_of_items items in
-					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
-				 else
+         match Tex.is_atom kind with
+				 | Some kind -> 
+             let problem_opt = Ast.problem_of_items items in
+    					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
+         | None ->
            (* Promote all non-atom, but single standing environments to gram atom. *)
 					 (Tex.kw_gram, None, [], None, all, None, None)
 					 
