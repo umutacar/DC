@@ -28,7 +28,7 @@ let points_correct = 1.0
 let points_incorrect = 0.0
 
 let fmt_lstlisting_pl = 
-	Printf.sprintf "\\begin{lstlisting}[language=%s,numbers=left]\n%s\\end{lstlisting}"
+	Printf.sprintf "\\begin{lstlisting}[language=%s,numbers=left]\n%s\n\\end{lstlisting}"
 
 let fmt_lstlisting_nopl = 
 	Printf.sprintf "\\begin{lstlisting}[numbers=left]\n%s\\end{lstlisting}"
@@ -697,7 +697,8 @@ struct
       else
         atom.body
     in
-		let (body, languages) = sanitize_lst_language atom.body in
+		let _ = printf "atom body = %s\n" body in
+		let (body, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
     let _ = d_printf "body sanitized:\n %s" body in
 		translator Xml.body body
