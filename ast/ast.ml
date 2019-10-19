@@ -596,7 +596,7 @@ struct
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
-    let kw_args = ["cover", cover; "sound", sound] in
+    let kw_args = ["version", pl_version; "cover", cover; "sound", sound] in
     let kw_args = Tex.mk_kw_args kw_args in
     let _ = d_printf "title = %s kw_args = %s\n" title kw_args in
     let caption = Tex.mk_caption caption in
