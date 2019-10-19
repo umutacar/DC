@@ -85,6 +85,7 @@ let parents = "parents"
 let chooseany = "anychoice"
 let chooseone = "xchoice"
 let pl = "pl"
+let pl_version = "pl_version"
 let points = "points"
 let point_value = "point_value"
 let preamble = "preamble"
@@ -231,6 +232,11 @@ let mk_pl_opt(x) =
   match x with
   | None -> mk_field_generic(pl, C.no_pl)
   | Some y -> mk_field_generic(pl, y)
+
+let mk_pl_version_opt(x) = 
+  match x with
+  | None -> mk_field_generic(pl_version, C.no_pl_version)
+  | Some y -> mk_field_generic(pl_version, y)
 
 let mk_explain (x) = 
   mk_field_generic(explain, mk_cdata x)
@@ -442,9 +448,10 @@ let mk_problem ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~cookies ~promp
   let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_src; body_xml; cookies; prompts] in
     mk_segment_generic kind fields
 
-let mk_atom ~kind ~pval ~pl ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_xml ~capopt ~problem_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
+let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_xml ~capopt ~problem_xml ~ilist_opt ~hints_opt ~refsols_opt ~explains_opt ~rubric_opt = 
   let pval_xml = mk_point_value_opt pval in
   let pl_xml = mk_pl_opt pl in
+  let pl_version_xml = mk_pl_version_opt pl_version in
   let titles = mk_title_opt topt in
   let cover_xml = mk_cover_opt copt in
   let sound_xml = mk_sound_opt sopt in
@@ -453,7 +460,7 @@ let mk_atom ~kind ~pval ~pl ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_xml ~c
   let captions = mk_caption_opt capopt in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
-  let fields_base = [pl_xml] @ titles @ [cover_xml; sound_xml; label_xml; depend_xml; pval_xml; body_xml; body_src; problem_xml] @ captions in
+  let fields_base = [pl_xml; pl_version_xml] @ titles @ [cover_xml; sound_xml; label_xml; depend_xml; pval_xml; body_xml; body_src; problem_xml] @ captions in
   (* Now add in optional fields *)
   let hints = mk_hints_opt hints_opt in
   let refsols = mk_refsols_opt refsols_opt in

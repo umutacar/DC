@@ -348,6 +348,7 @@ atom:
 		 let a = Ast.Atom.make 
 				 ~point_val:popt 
 				 ~pl:plopt 
+				 ~pl_version:pl_version_opt
 				 ~title:topt
          ~cover:copt
          ~sound:sopt 

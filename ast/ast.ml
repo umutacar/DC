@@ -534,6 +534,7 @@ struct
 			{	mutable kind: string;
 				mutable point_val: string option;
 				mutable pl: string option;         (* programming language *)
+				mutable pl_version: string option; (* programming language version *)
 				mutable title: string option;
 				mutable cover: string option;
 				mutable sound: string option;
@@ -556,6 +557,7 @@ struct
 
   let make   
 			?pl: (pl = None) 
+			?pl_version: (pl_version = None) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?cover: (cover = None) 
@@ -569,10 +571,10 @@ struct
 
 		match label with 
 		| None -> 
-				{kind; point_val; pl; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; pl; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 
@@ -589,7 +591,7 @@ struct
 		| Some p -> Problem.traverse p s f 
 
   let to_tex atom = 
-		let {kind; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
+		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
 		let _ = printf "Atom.to_tex kind = %s \n" kind in
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
@@ -707,7 +709,7 @@ struct
 		(* Translate body to xml *)
 		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; pl; title; cover; sound; label; depend; problem; body; caption} = atom in
+		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; problem; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
@@ -721,6 +723,7 @@ struct
 			Xml.mk_atom 
 				~kind:kind 
         ~pl:pl
+        ~pl_version:pl_version
         ~pval:point_val
         ~topt:titles
         ~copt:cover
