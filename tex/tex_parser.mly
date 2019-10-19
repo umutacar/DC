@@ -330,9 +330,17 @@ atom:
 	 in			 
 (*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
 	 let body = String.strip ~drop:is_vert_space body in
+   let version_opt = find_in_list kw_args "version" in
    let topt = find_in_list kw_args "title" in
    let copt = find_in_list kw_args "cover" in
    let sopt = find_in_list kw_args "sound" in
+   let pl_version_opt = 
+     if Tex.is_code kind then   
+			 let _ = printf "code atom: version = %s\n" (str_of_str_opt version_opt) in
+			 version_opt
+		 else
+			 None
+	 in
 
 	 if Tex.is_label_only body then
 		 ([ ], ell)
