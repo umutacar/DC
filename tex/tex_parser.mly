@@ -336,7 +336,7 @@ atom:
    let sopt = find_in_list kw_args "sound" in
    let pl_version_opt = 
      if Tex.is_code kind then   
-			 let _ = printf "code atom: version = %s\n" (str_of_str_opt version_opt) in
+			 let _ = d_printf "code atom: version = %s\n" (str_of_str_opt version_opt) in
 			 version_opt
 		 else
 			 None

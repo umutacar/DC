@@ -699,7 +699,7 @@ struct
       else
         atom.body
     in
-		let _ = printf "atom body = %s\n" body in
+		let _ = d_printf "atom body = %s\n" body in
 		let (body, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
     let _ = d_printf "body sanitized:\n %s" body in
