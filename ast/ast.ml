@@ -592,7 +592,7 @@ struct
 
   let to_tex atom = 
 		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
-		let _ = printf "Atom.to_tex kind = %s \n" kind in
+		let _ = d_printf "Atom.to_tex kind = %s \n" kind in
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
