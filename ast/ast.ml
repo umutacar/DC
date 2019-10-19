@@ -27,6 +27,14 @@ let correct_choice_indicator = Tex.correct_choice_indicator
 let points_correct = 1.0
 let points_incorrect = 0.0
 
+let fmt_lstlisting_pl = 
+	Printf.sprintf "\\begin{lstlisting}[language=%s,numbers=left]\n%s\n\\end{lstlisting}"
+
+let fmt_lstlisting_nopl = 
+	Printf.sprintf "\\begin{lstlisting}[numbers=left]\n%s\\end{lstlisting}"
+
+
+
 (**********************************************************************
  ** END: Constants
  **********************************************************************)
@@ -525,6 +533,8 @@ struct
 	type t = 
 			{	mutable kind: string;
 				mutable point_val: string option;
+				mutable pl: string option;         (* programming language *)
+				mutable pl_version: string option; (* programming language version *)
 				mutable title: string option;
 				mutable cover: string option;
 				mutable sound: string option;
@@ -537,6 +547,7 @@ struct
 			} 
   let kind a = a.kind
   let point_val a = a.point_val
+  let pl a = a.pl
   let title a = a.title
 	let label a = a.label
 	let depend a = a.depend
@@ -545,6 +556,8 @@ struct
 	let label_is_given a = a.label_is_given
 
   let make   
+			?pl: (pl = None) 
+			?pl_version: (pl_version = None) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?cover: (cover = None) 
@@ -558,10 +571,10 @@ struct
 
 		match label with 
 		| None -> 
-				{kind; point_val; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; problem; body=body; 
 					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 
@@ -578,12 +591,12 @@ struct
 		| Some p -> Problem.traverse p s f 
 
   let to_tex atom = 
-		let {kind; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
-		let _ = printf "Atom.to_tex kind = %s \n" kind in
+		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
+		let _ = d_printf "Atom.to_tex kind = %s \n" kind in
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
-    let kw_args = ["cover", cover; "sound", sound] in
+    let kw_args = ["version", pl_version; "cover", cover; "sound", sound] in
     let kw_args = Tex.mk_kw_args kw_args in
     let _ = d_printf "title = %s kw_args = %s\n" title kw_args in
     let caption = Tex.mk_caption caption in
@@ -678,7 +691,16 @@ struct
 
   let body_to_xml translator atom =
 		let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
-		let (body, languages) = sanitize_lst_language atom.body in
+    let body = 
+      if Tex.is_code atom.kind then
+        match atom.pl with 
+        | None -> fmt_lstlisting_nopl atom.body
+        | Some pl -> fmt_lstlisting_pl (Option.value atom.pl  ~default:"c") atom.body  
+      else
+        atom.body
+    in
+		let _ = d_printf "atom body = %s\n" body in
+		let (body, languages) = sanitize_lst_language body in
 (*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
     let _ = d_printf "body sanitized:\n %s" body in
 		translator Xml.body body
@@ -687,7 +709,7 @@ struct
 		(* Translate body to xml *)
 		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; title; cover; sound; label; depend; problem; body; caption} = atom in
+		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; problem; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
@@ -700,6 +722,8 @@ struct
 		let r = 
 			Xml.mk_atom 
 				~kind:kind 
+        ~pl:pl
+        ~pl_version:pl_version
         ~pval:point_val
         ~topt:titles
         ~copt:cover
