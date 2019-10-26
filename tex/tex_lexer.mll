@@ -279,6 +279,7 @@ let p_problem_cluster = "mproblem"
 let p_env = (p_alpha)+('*')?
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
+let p_env_run_star = "run" p_alpha*
 
 (* These environments will be rewritten so that they are inside math environment * \[ .. \] so that they can be passed to mathjax.
  *)
@@ -304,10 +305,13 @@ let p_end_env_math = (p_com_end p_ws) (p_o_curly) (p_env_math) p_ws (p_c_curly)
 
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
+let p_begin_env_run_star = (p_com_begin p_ws) (p_o_curly) (p_env_run_star as kind) p_ws (p_c_curly) 
+let p_end_env_run_star = (p_com_end p_ws) (p_o_curly) (p_env_run_star) (p_c_curly)
+
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
 
-let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_run_star | p_begin_env_verbatim
 
 (* end: environments *)
 
