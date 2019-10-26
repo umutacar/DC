@@ -39,6 +39,9 @@ let p_alpha = ['a'-'z' 'A'-'Z']
 let p_percent = "%"	
 let p_esc_percent = "\\%"	
 
+
+let p_run_star = "run" p_alpha*
+
 (* begin end *)
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
@@ -61,10 +64,12 @@ let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws ("comment" as kind) p_
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws ("comment") p_ws p_c_curly
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) ("lstlisting" as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) ("lstlisting") (p_c_curly)
+let p_begin_env_runlang = p_com_begin p_ws p_o_curly p_ws (p_run_star as kind) p_ws p_c_curly
+let p_end_env_runlang = p_com_end p_ws p_o_curly p_ws (p_run_star as kind) p_ws p_c_curly
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws ("verbatim" as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws "verbatim" p_ws p_c_curly
 
-let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim | p_begin_env_comment
+let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim | p_begin_env_comment | p_begin_env_runlang
 
 let p_env = (p_alpha)+('*')? p_ws
 let p_end_env = p_com_end p_o_curly (p_env as kind) p_c_curly 
