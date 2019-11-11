@@ -533,11 +533,10 @@ let is_code kind =
   kind = kw_code
 
 let is_atom kind = 
-   let _ = printf "is_atom: kind = %s\n" kind in 
+   let _ = d_printf "is_atom: kind = %s\n" kind in 
      if String.is_prefix kind ~prefix:"run" then
        let pl = String.chop_prefix_exn kind ~prefix:"run" in
        let _ = d_printf "Found code atom: %s\n" pl in
-       let _ = printf "Found code atom: %s\n" pl in
          Some (kw_code, Some pl)
      else   
        match List.Assoc.find atom_kinds ~equal: String.equal kind with 
