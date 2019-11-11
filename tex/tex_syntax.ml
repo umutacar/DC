@@ -537,6 +537,7 @@ let is_atom kind =
      if String.is_prefix kind ~prefix:"run" then
        let pl = String.chop_prefix_exn kind ~prefix:"run" in
        let _ = d_printf "Found code atom: %s\n" pl in
+       let _ = printf "Found code atom: %s\n" pl in
          Some (kw_code, Some pl)
      else   
        match List.Assoc.find atom_kinds ~equal: String.equal kind with 
