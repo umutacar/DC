@@ -533,7 +533,7 @@ let is_code kind =
   kind = kw_code
 
 let is_atom kind = 
-   let _ = d_printf "is_atom: kind = %s\n" kind in 
+   let _ = printf "is_atom: kind = %s\n" kind in 
      if String.is_prefix kind ~prefix:"run" then
        let pl = String.chop_prefix_exn kind ~prefix:"run" in
        let _ = d_printf "Found code atom: %s\n" pl in

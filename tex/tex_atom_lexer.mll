@@ -146,6 +146,7 @@ let p_exp = ['e' 'E'] ['-' '+']? p_digit+
 let p_float = p_digit* p_frac? p_exp?
 
 let p_alpha = ['a'-'z' 'A'-'Z']
+let p_alpha_num = ['a'-'z' 'A'-'Z' '0'-'9']
 let p_separator = [':' '.' '-' '_' '/']
 let p_keyword = p_alpha+
 
@@ -209,10 +210,11 @@ let p_word = [^ '%' '\\' '{' '}' '[' ']']+
 
 (* Latex environment: alphabethical chars plus an optional star *)
 (* Latex environment: alphabethical chars plus an optional star *)
-let p_env = (p_alpha)+('*')?
+let p_env = (p_alpha_num)+('*')?
 let p_env_comment = "comment"
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
+let p_env_run_star = "run" p_alpha_num+
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
@@ -220,9 +222,11 @@ let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly)
 
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
+let p_begin_env_run_star = (p_com_begin p_ws) (p_o_curly) (p_env_run_star as kind) p_ws (p_c_curly) 
+let p_end_env_run_star = (p_com_end p_ws) (p_o_curly) (p_env_run_star) (p_c_curly)
 let p_begin_env_verbatim = p_com_begin p_ws p_o_curly p_ws (p_env_verbatim as kind) p_ws p_c_curly
 let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws p_env_verbatim p_ws p_c_curly
-let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
+let p_begin_env_skip = p_begin_env_lstlisting  | p_begin_env_run_star | p_begin_env_verbatim
 (* end: environments *)
 
 let p_caption = "\\caption"
@@ -489,6 +493,7 @@ and take_arg depth delimiter_open delimiter_close =
 
 and take_atom_args depth = 
   parse 
+    (* match "]  [ keyword =   " *)
   | ((p_c_sq p_ws as x) (p_o_sq p_ws (p_keyword as kw) p_ws '=' p_ws) as all)
     {
      let depth = depth - 1 in
@@ -499,12 +504,14 @@ and take_atom_args depth =
          let (arg, l) = take_atom_args depth lexbuf in 
            (all ^ arg, l)
      }   
+    (* match "[ " *)
   | p_o_sq as x
     {
      let (arg, l) = take_atom_args (depth + 1) lexbuf in 
        (x ^ arg, l)
     }
 
+    (* match "] " *)
   | (p_c_sq p_hs) as x
     {
      let depth = depth - 1 in
@@ -522,6 +529,7 @@ and take_atom_args depth =
 
 and take_kw_args depth = 
   parse 
+    (* match "]  " *) 
   | (p_c_sq p_ws as x)
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
@@ -532,12 +540,14 @@ and take_kw_args depth =
          let (arg, l) = take_kw_args depth lexbuf in 
            (x ^ arg, l)
     }
+    (* match "; keyword =   " *) 
   | ';' p_ws (p_keyword as kw) p_ws '=' p_ws 
  	  {
 (*     let _ = d_printf "atom_lexer: take_kw_args: keyword = %s\n" kw in *)
       let (arg, l) = take_kw_args depth lexbuf in 
         ("", (kw, arg)::l)
     }
+    (* match "[   " *) 
   | p_o_sq as x
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" x in *)
