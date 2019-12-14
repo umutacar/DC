@@ -1,0 +1,1443 @@
+[
+  {
+    "computational problem": [
+      [
+        268,
+        21,
+        "computational problem"
+      ],
+      [
+        551,
+        21,
+        "computational problem"
+      ]
+    ],
+    "encoding": [
+      [
+        359,
+        7,
+        "encoded"
+      ],
+      [
+        479,
+        9,
+        "encodings"
+      ]
+    ],
+    "length of a string": [
+      [
+        380,
+        14,
+        "length strings"
+      ]
+    ],
+    "string": [
+      [
+        467,
+        7,
+        "strings"
+      ],
+      [
+        505,
+        7,
+        "strings"
+      ]
+    ],
+    "decision problem": [
+      [
+        581,
+        16,
+        "decision problem"
+      ]
+    ]
+  },
+  {},
+  {
+    "alphabet": [
+      [
+        8,
+        8,
+        "alphabet"
+      ],
+      [
+        111,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        66,
+        6,
+        "symbol"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        9,
+        8,
+        "alphabet"
+      ],
+      [
+        131,
+        8,
+        "alphabet"
+      ],
+      [
+        199,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        34,
+        7,
+        "symbols"
+      ],
+      [
+        69,
+        7,
+        "symbols"
+      ],
+      [
+        270,
+        7,
+        "symbols"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        10,
+        8,
+        "alphabet"
+      ],
+      [
+        140,
+        9,
+        "alphabets"
+      ]
+    ],
+    "symbols": [
+      [
+        37,
+        7,
+        "symbols"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        9,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        112,
+        7,
+        "symbols"
+      ],
+      [
+        200,
+        7,
+        "symbols"
+      ]
+    ],
+    "string": [
+      [
+        185,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "string": [
+      [
+        55,
+        7,
+        "strings"
+      ],
+      [
+        218,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "string": [
+      [
+        61,
+        7,
+        "strings"
+      ],
+      [
+        184,
+        7,
+        "strings"
+      ],
+      [
+        275,
+        7,
+        "strings"
+      ]
+    ]
+  },
+  {
+    "string": [
+      [
+        21,
+        6,
+        "string"
+      ],
+      [
+        309,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "symbols": [
+      [
+        71,
+        7,
+        "symbols"
+      ],
+      [
+        121,
+        7,
+        "symbols"
+      ]
+    ]
+  },
+  {
+    "word": [
+      [
+        49,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        284,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        19,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        126,
+        7,
+        "symbols"
+      ]
+    ],
+    "string": [
+      [
+        76,
+        7,
+        "strings"
+      ]
+    ]
+  },
+  {},
+  {},
+  {
+    "length of a string": [
+      [
+        68,
+        13,
+        "length string"
+      ],
+      [
+        125,
+        14,
+        "length strings"
+      ]
+    ],
+    "string": [
+      [
+        25,
+        6,
+        "string"
+      ]
+    ],
+    "word": [
+      [
+        40,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        61,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        39,
+        6,
+        "symbol"
+      ]
+    ],
+    "string": [
+      [
+        185,
+        7,
+        "strings"
+      ]
+    ]
+  },
+  {
+    "string": [
+      [
+        78,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {},
+  {},
+  {},
+  {
+    "string": [
+      [
+        102,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {},
+  {},
+  {},
+  {
+    "word": [
+      [
+        90,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {},
+  {
+    "string": [
+      [
+        8,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "string": [
+      [
+        14,
+        6,
+        "string"
+      ],
+      [
+        50,
+        6,
+        "string"
+      ],
+      [
+        83,
+        7,
+        "strings"
+      ]
+    ]
+  },
+  {
+    "substring": [
+      [
+        26,
+        9,
+        "substring"
+      ],
+      [
+        62,
+        9,
+        "substring"
+      ],
+      [
+        119,
+        9,
+        "substring"
+      ]
+    ],
+    "string": [
+      [
+        4,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        91,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        19,
+        8,
+        "alphabet"
+      ]
+    ],
+    "language": [
+      [
+        88,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        60,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        19,
+        8,
+        "alphabet"
+      ]
+    ],
+    "language": [
+      [
+        54,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        19,
+        8,
+        "alphabet"
+      ]
+    ],
+    "language": [
+      [
+        57,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "length of a string": [
+      [
+        213,
+        14,
+        "length strings"
+      ]
+    ],
+    "language": [
+      [
+        8,
+        8,
+        "language"
+      ],
+      [
+        92,
+        8,
+        "language"
+      ],
+      [
+        185,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        4,
+        8,
+        "language"
+      ],
+      [
+        44,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "word": [
+      [
+        248,
+        4,
+        "word"
+      ],
+      [
+        417,
+        4,
+        "word"
+      ]
+    ],
+    "language": [
+      [
+        4,
+        8,
+        "language"
+      ],
+      [
+        260,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "word": [
+      [
+        766,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        80,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "reversal of a language": [
+      [
+        4,
+        24,
+        "reversal of the language"
+      ]
+    ],
+    "language": [
+      [
+        20,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        113,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "concatenation of languages": [
+      [
+        4,
+        26,
+        "concatenation of languages"
+      ]
+    ],
+    "language": [
+      [
+        21,
+        9,
+        "languages"
+      ],
+      [
+        84,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        100,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        36,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        46,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "power of a language": [
+      [
+        8,
+        21,
+        "power of any language"
+      ]
+    ],
+    "language": [
+      [
+        21,
+        8,
+        "language"
+      ],
+      [
+        41,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        76,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        9,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        149,
+        7,
+        "symbols"
+      ],
+      [
+        251,
+        7,
+        "symbols"
+      ]
+    ],
+    "string": [
+      [
+        116,
+        7,
+        "strings"
+      ],
+      [
+        285,
+        7,
+        "strings"
+      ]
+    ],
+    "language": [
+      [
+        41,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "symbols": [
+      [
+        124,
+        6,
+        "symbol"
+      ]
+    ],
+    "word": [
+      [
+        66,
+        5,
+        "words"
+      ]
+    ],
+    "language": [
+      [
+        39,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "symbols": [
+      [
+        100,
+        6,
+        "symbol"
+      ]
+    ],
+    "word": [
+      [
+        42,
+        5,
+        "words"
+      ]
+    ],
+    "language": [
+      [
+        15,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        65,
+        9,
+        "languages"
+      ]
+    ]
+  },
+  {},
+  {
+    "language": [
+      [
+        24,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": [
+      [
+        27,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        326,
+        8,
+        "encoding"
+      ],
+      [
+        448,
+        8,
+        "encoding"
+      ],
+      [
+        494,
+        8,
+        "encoding"
+      ],
+      [
+        709,
+        7,
+        "encoded"
+      ]
+    ],
+    "alphabet": [
+      [
+        186,
+        8,
+        "alphabet"
+      ]
+    ],
+    "encodable": [
+      [
+        768,
+        9,
+        "encodable"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        121,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        148,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        146,
+        8,
+        "encoding"
+      ],
+      [
+        231,
+        7,
+        "encoded"
+      ],
+      [
+        266,
+        7,
+        "encoded"
+      ]
+    ],
+    "alphabet": [
+      [
+        173,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        149,
+        8,
+        "encoding"
+      ],
+      [
+        191,
+        8,
+        "encoding"
+      ],
+      [
+        206,
+        8,
+        "encoding"
+      ],
+      [
+        443,
+        8,
+        "encoding"
+      ],
+      [
+        474,
+        8,
+        "encoding"
+      ]
+    ]
+  },
+  {
+    "encoding": [],
+    "alphabet": [
+      [
+        77,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        160,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        63,
+        8,
+        "alphabet"
+      ],
+      [
+        627,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        437,
+        6,
+        "symbol"
+      ],
+      [
+        570,
+        6,
+        "symbol"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        180,
+        8,
+        "encoding"
+      ],
+      [
+        215,
+        8,
+        "encoding"
+      ],
+      [
+        398,
+        6,
+        "encode"
+      ],
+      [
+        510,
+        7,
+        "encoded"
+      ]
+    ],
+    "alphabet": [
+      [
+        17,
+        8,
+        "alphabet"
+      ],
+      [
+        273,
+        8,
+        "alphabet"
+      ],
+      [
+        337,
+        8,
+        "alphabet"
+      ],
+      [
+        542,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        98,
+        6,
+        "symbol"
+      ]
+    ],
+    "string": [
+      [
+        518,
+        6,
+        "string"
+      ],
+      [
+        590,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        624,
+        7,
+        "encoded"
+      ],
+      [
+        820,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        648,
+        8,
+        "alphabet"
+      ]
+    ],
+    "string": [
+      [
+        735,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        509,
+        7,
+        "encoded"
+      ]
+    ],
+    "alphabet": [
+      [
+        204,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        232,
+        7,
+        "symbols"
+      ]
+    ],
+    "string": [
+      [
+        146,
+        6,
+        "string"
+      ],
+      [
+        581,
+        6,
+        "string"
+      ],
+      [
+        814,
+        6,
+        "string"
+      ],
+      [
+        886,
+        6,
+        "string"
+      ]
+    ]
+  },
+  {
+    "encoding": [
+      [
+        12,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        39,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {},
+  {
+    "alphabet": [
+      [
+        19,
+        8,
+        "alphabet"
+      ],
+      [
+        119,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {
+    "computational problem": [
+      [
+        167,
+        21,
+        "computational problem"
+      ],
+      [
+        730,
+        21,
+        "computational problem"
+      ]
+    ],
+    "valid encoding": [
+      [
+        831,
+        14,
+        "valid encoding"
+      ],
+      [
+        1016,
+        14,
+        "valid encoding"
+      ]
+    ],
+    "encoding": [
+      [
+        230,
+        8,
+        "encoding"
+      ],
+      [
+        290,
+        8,
+        "encoding"
+      ],
+      [
+        421,
+        8,
+        "encoding"
+      ],
+      [
+        493,
+        8,
+        "encoding"
+      ],
+      [
+        551,
+        8,
+        "encoding"
+      ],
+      [
+        612,
+        8,
+        "encoding"
+      ],
+      [
+        701,
+        8,
+        "encoding"
+      ],
+      [
+        837,
+        8,
+        "encoding"
+      ],
+      [
+        1022,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        197,
+        8,
+        "alphabet"
+      ]
+    ],
+    "symbols": [
+      [
+        671,
+        6,
+        "symbol"
+      ],
+      [
+        1167,
+        6,
+        "symbol"
+      ]
+    ],
+    "word": [
+      [
+        804,
+        4,
+        "word"
+      ],
+      [
+        989,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "computational problem": [
+      [
+        2,
+        21,
+        "computational problem"
+      ],
+      [
+        325,
+        21,
+        "computational problem"
+      ]
+    ],
+    "encoding": [
+      [
+        210,
+        9,
+        "encodings"
+      ],
+      [
+        296,
+        9,
+        "encodings"
+      ],
+      [
+        720,
+        8,
+        "encoding"
+      ]
+    ],
+    "string": [
+      [
+        872,
+        7,
+        "strings"
+      ],
+      [
+        913,
+        6,
+        "string"
+      ],
+      [
+        949,
+        6,
+        "string"
+      ]
+    ],
+    "word": [
+      [
+        667,
+        4,
+        "word"
+      ],
+      [
+        757,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "alphabet": [
+      [
+        19,
+        8,
+        "alphabet"
+      ],
+      [
+        113,
+        8,
+        "alphabet"
+      ]
+    ]
+  },
+  {
+    "valid encoding": [
+      [
+        744,
+        14,
+        "valid encoding"
+      ]
+    ],
+    "encoding": [
+      [
+        211,
+        8,
+        "encoding"
+      ],
+      [
+        314,
+        8,
+        "encoding"
+      ],
+      [
+        375,
+        8,
+        "encoding"
+      ],
+      [
+        514,
+        8,
+        "encoding"
+      ],
+      [
+        696,
+        8,
+        "encoding"
+      ],
+      [
+        750,
+        8,
+        "encoding"
+      ]
+    ],
+    "alphabet": [
+      [
+        178,
+        8,
+        "alphabet"
+      ]
+    ],
+    "decision problem": [
+      [
+        153,
+        16,
+        "decision problem"
+      ],
+      [
+        417,
+        16,
+        "decision problem"
+      ]
+    ],
+    "word": [
+      [
+        486,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "computational problem": [
+      [
+        10,
+        21,
+        "computational problem"
+      ]
+    ],
+    "encoding": [
+      [
+        173,
+        8,
+        "encoding"
+      ],
+      [
+        343,
+        8,
+        "encoding"
+      ]
+    ],
+    "decision problem": [
+      [
+        24,
+        19,
+        "problem , a decision"
+      ],
+      [
+        35,
+        16,
+        "decision problem"
+      ],
+      [
+        242,
+        16,
+        "decision problem"
+      ]
+    ],
+    "word": [
+      [
+        290,
+        4,
+        "word"
+      ]
+    ]
+  },
+  {
+    "decision problem": [
+      [
+        45,
+        17,
+        "decision problems"
+      ],
+      [
+        115,
+        16,
+        "decision problem"
+      ],
+      [
+        274,
+        16,
+        "decision problem"
+      ],
+      [
+        388,
+        16,
+        "decision problem"
+      ],
+      [
+        518,
+        17,
+        "decision problems"
+      ],
+      [
+        646,
+        16,
+        "decision problem"
+      ]
+    ],
+    "word": [
+      [
+        188,
+        5,
+        "words"
+      ]
+    ],
+    "language": [
+      [
+        67,
+        9,
+        "languages"
+      ],
+      [
+        244,
+        8,
+        "language"
+      ],
+      [
+        323,
+        8,
+        "language"
+      ],
+      [
+        493,
+        9,
+        "languages"
+      ]
+    ]
+  }
+]

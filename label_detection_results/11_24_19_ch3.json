@@ -1,0 +1,1623 @@
+[
+  {
+    "deterministic finite automaton": [
+      [
+        402, 
+        29, 
+        "deterministic finite automata"
+      ]
+    ]
+  }, 
+  {
+    "accepted": [
+      [
+        723, 
+        9, 
+        "accepting"
+      ]
+    ]
+  }, 
+  {
+    "encoding": [
+      [
+        243, 
+        6, 
+        "encode"
+      ]
+    ]
+  }, 
+  {
+    "alphabet": [
+      [
+        99, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "string": [
+      [
+        84, 
+        6, 
+        "string"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        45, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "rejecting computation path": [
+      [
+        249, 
+        26, 
+        "rejecting computation path"
+      ]
+    ], 
+    "computation path": [
+      [
+        123, 
+        16, 
+        "computation path"
+      ], 
+      [
+        259, 
+        16, 
+        "computation path"
+      ]
+    ]
+  }, 
+  {
+    "accepting computation path": [
+      [
+        147, 
+        26, 
+        "accepting computation path"
+      ]
+    ], 
+    "accepted": [
+      [
+        147, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "DFA": [
+      [
+        12, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "computation path": [
+      [
+        97, 
+        16, 
+        "computation path"
+      ], 
+      [
+        157, 
+        16, 
+        "computation path"
+      ]
+    ]
+  }, 
+  {
+    "accepting computation path": [
+      [
+        217, 
+        26, 
+        "accepting computation path"
+      ]
+    ], 
+    "accepted": [
+      [
+        217, 
+        9, 
+        "accepting"
+      ], 
+      [
+        313, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "DFA": [
+      [
+        45, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "computation path": [
+      [
+        122, 
+        16, 
+        "computation path"
+      ], 
+      [
+        227, 
+        16, 
+        "computation path"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        254, 
+        6, 
+        "string"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ]
+    ]
+  }, 
+  {
+    "word": [
+      [
+        92, 
+        4, 
+        "word"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ], 
+      [
+        127, 
+        3, 
+        "DFA"
+      ]
+    ]
+  }, 
+  {
+    "deterministic finite automaton": [
+      [
+        6, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "string": [
+      [
+        78, 
+        7, 
+        "strings"
+      ], 
+      [
+        407, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepts a string": [
+      [
+        395, 
+        18, 
+        "accepting a string"
+      ]
+    ], 
+    "word": [
+      [
+        320, 
+        4, 
+        "word"
+      ]
+    ], 
+    "accepted": [
+      [
+        95, 
+        7, 
+        "accepts"
+      ], 
+      [
+        145, 
+        7, 
+        "accepts"
+      ], 
+      [
+        327, 
+        6, 
+        "accept"
+      ], 
+      [
+        395, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "DFA": [
+      [
+        391, 
+        3, 
+        "DFA"
+      ], 
+      [
+        654, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        187, 
+        8, 
+        "language"
+      ], 
+      [
+        231, 
+        8, 
+        "language"
+      ], 
+      [
+        273, 
+        8, 
+        "language"
+      ], 
+      [
+        546, 
+        8, 
+        "language"
+      ], 
+      [
+        663, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        67, 
+        7, 
+        "strings"
+      ]
+    ], 
+    "DFA": [
+      [
+        14, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        33, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        18, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        67, 
+        7, 
+        "strings"
+      ]
+    ], 
+    "DFA": [
+      [
+        14, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        33, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        18, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "alphabet": [
+      [
+        34, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "DFA": [
+      [
+        79, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        9, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        83, 
+        11, 
+        "recognizing"
+      ]
+    ]
+  }, 
+  {
+    "accepted": [
+      [
+        231, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "DFA": [
+      [
+        208, 
+        3, 
+        "DFA"
+      ]
+    ]
+  }, 
+  {
+    "word": [
+      [
+        67, 
+        5, 
+        "words"
+      ]
+    ], 
+    "DFA": [
+      [
+        96, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        20, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        100, 
+        11, 
+        "recognizing"
+      ]
+    ]
+  }, 
+  {}, 
+  {
+    "deterministic finite automaton": [
+      [
+        83, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "language": [
+      [
+        2, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        8, 
+        9, 
+        "languages"
+      ], 
+      [
+        67, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        59, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        7, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        30, 
+        8, 
+        "language"
+      ], 
+      [
+        62, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        36, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "deterministic finite automaton": [
+      [
+        206, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "string": [
+      [
+        1021, 
+        6, 
+        "string"
+      ], 
+      [
+        1046, 
+        6, 
+        "string"
+      ], 
+      [
+        1148, 
+        6, 
+        "string"
+      ], 
+      [
+        1383, 
+        6, 
+        "string"
+      ]
+    ], 
+    "word": [
+      [
+        909, 
+        5, 
+        "words"
+      ]
+    ], 
+    "accepted": [
+      [
+        1490, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1630, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "language": [
+      [
+        1586, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        246, 
+        10, 
+        "recognizes"
+      ], 
+      [
+        1420, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        30, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "deterministic finite automaton": [
+      [
+        202, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "string": [
+      [
+        681, 
+        6, 
+        "string"
+      ], 
+      [
+        710, 
+        6, 
+        "string"
+      ], 
+      [
+        824, 
+        6, 
+        "string"
+      ], 
+      [
+        1132, 
+        6, 
+        "string"
+      ]
+    ], 
+    "word": [
+      [
+        572, 
+        5, 
+        "words"
+      ], 
+      [
+        1370, 
+        4, 
+        "word"
+      ]
+    ], 
+    "accepted": [
+      [
+        1013, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1254, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "recognized": [
+      [
+        242, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {}, 
+  {
+    "deterministic finite automaton": [
+      [
+        212, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "string": [
+      [
+        658, 
+        6, 
+        "string"
+      ], 
+      [
+        683, 
+        6, 
+        "string"
+      ], 
+      [
+        785, 
+        6, 
+        "string"
+      ], 
+      [
+        1026, 
+        6, 
+        "string"
+      ]
+    ], 
+    "word": [
+      [
+        546, 
+        5, 
+        "words"
+      ]
+    ], 
+    "accepted": [
+      [
+        1147, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1294, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "language": [
+      [
+        1250, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        252, 
+        10, 
+        "recognizes"
+      ], 
+      [
+        1070, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {}, 
+  {
+    "deterministic finite automaton": [
+      [
+        221, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "string": [
+      [
+        641, 
+        6, 
+        "string"
+      ], 
+      [
+        677, 
+        6, 
+        "string"
+      ], 
+      [
+        812, 
+        6, 
+        "string"
+      ], 
+      [
+        1075, 
+        6, 
+        "string"
+      ]
+    ], 
+    "word": [
+      [
+        529, 
+        5, 
+        "words"
+      ]
+    ], 
+    "accepted": [
+      [
+        1210, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1375, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "language": [
+      [
+        1331, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        261, 
+        10, 
+        "recognizes"
+      ], 
+      [
+        1115, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "word": [
+      [
+        106, 
+        5, 
+        "words"
+      ]
+    ], 
+    "language": [
+      [
+        125, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        117, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        40, 
+        3, 
+        "DFA"
+      ], 
+      [
+        139, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        258, 
+        8, 
+        "language"
+      ], 
+      [
+        343, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        78, 
+        11, 
+        "recognizing"
+      ], 
+      [
+        121, 
+        10, 
+        "recognized"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        55, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        47, 
+        16, 
+        "regular language"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        81, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        46, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        38, 
+        16, 
+        "regular language"
+      ]
+    ]
+  }, 
+  {
+    "alphabet": [
+      [
+        28, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "language": [
+      [
+        108, 
+        9, 
+        "languages"
+      ], 
+      [
+        128, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        100, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        1415, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepts a string": [
+      [
+        1403, 
+        18, 
+        "accepting a string"
+      ]
+    ], 
+    "word": [
+      [
+        1663, 
+        5, 
+        "words"
+      ]
+    ], 
+    "accepted": [
+      [
+        964, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1403, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1674, 
+        7, 
+        "accepts"
+      ], 
+      [
+        2012, 
+        8, 
+        "accepted"
+      ], 
+      [
+        2175, 
+        8, 
+        "accepted"
+      ], 
+      [
+        2397, 
+        8, 
+        "accepted"
+      ]
+    ], 
+    "DFA": [
+      [
+        378, 
+        3, 
+        "DFA"
+      ], 
+      [
+        1399, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        14, 
+        9, 
+        "languages"
+      ], 
+      [
+        123, 
+        9, 
+        "languages"
+      ], 
+      [
+        1144, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        246, 
+        9, 
+        "recognize"
+      ], 
+      [
+        431, 
+        10, 
+        "recognizes"
+      ], 
+      [
+        1129, 
+        10, 
+        "recognizes"
+      ]
+    ], 
+    "regular language": [
+      [
+        6, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        115, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        55, 
+        9, 
+        "languages"
+      ]
+    ]
+  }, 
+  {
+    "alphabet": [
+      [
+        28, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "language": [
+      [
+        108, 
+        9, 
+        "languages"
+      ], 
+      [
+        128, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        100, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        29, 
+        9, 
+        "languages"
+      ], 
+      [
+        105, 
+        9, 
+        "languages"
+      ], 
+      [
+        168, 
+        9, 
+        "languages"
+      ], 
+      [
+        272, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        21, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        97, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        264, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        57, 
+        9, 
+        "languages"
+      ], 
+      [
+        161, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        49, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        153, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        71, 
+        9, 
+        "languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        76, 
+        9, 
+        "languages"
+      ], 
+      [
+        258, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        68, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        250, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        59, 
+        9, 
+        "languages"
+      ], 
+      [
+        205, 
+        9, 
+        "languages"
+      ], 
+      [
+        311, 
+        9, 
+        "languages"
+      ], 
+      [
+        371, 
+        8, 
+        "language"
+      ], 
+      [
+        461, 
+        8, 
+        "language"
+      ], 
+      [
+        510, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        51, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        303, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        453, 
+        16, 
+        "regular language"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        40, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        32, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        87, 
+        8, 
+        "language"
+      ], 
+      [
+        222, 
+        9, 
+        "languages"
+      ], 
+      [
+        301, 
+        9, 
+        "languages"
+      ], 
+      [
+        513, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        79, 
+        16, 
+        "regular language"
+      ], 
+      [
+        214, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        293, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        505, 
+        16, 
+        "regular language"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        44, 
+        8, 
+        "language"
+      ], 
+      [
+        79, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        36, 
+        16, 
+        "regular language"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        858, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepted": [
+      [
+        504, 
+        7, 
+        "accepts"
+      ], 
+      [
+        613, 
+        7, 
+        "accepts"
+      ], 
+      [
+        921, 
+        8, 
+        "accepted"
+      ], 
+      [
+        961, 
+        8, 
+        "accepted"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ], 
+      [
+        184, 
+        3, 
+        "DFA"
+      ], 
+      [
+        1456, 
+        3, 
+        "DFA"
+      ], 
+      [
+        1515, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "recognized": [
+      [
+        47, 
+        11, 
+        "recognizing"
+      ], 
+      [
+        1519, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        45, 
+        9, 
+        "languages"
+      ], 
+      [
+        65, 
+        8, 
+        "language"
+      ]
+    ], 
+    "regular language": [
+      [
+        37, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "accepting computation path": [
+      [
+        981, 
+        26, 
+        "accepting computation path"
+      ]
+    ], 
+    "symbols": [
+      [
+        1109, 
+        6, 
+        "symbol"
+      ], 
+      [
+        4137, 
+        6, 
+        "symbol"
+      ]
+    ], 
+    "characters": [
+      [
+        5567, 
+        9, 
+        "character"
+      ]
+    ], 
+    "word": [
+      [
+        778, 
+        4, 
+        "word"
+      ], 
+      [
+        4159, 
+        5, 
+        "words"
+      ], 
+      [
+        6340, 
+        4, 
+        "word"
+      ], 
+      [
+        6577, 
+        5, 
+        "words"
+      ]
+    ], 
+    "accepted": [
+      [
+        981, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1500, 
+        9, 
+        "accepting"
+      ], 
+      [
+        1924, 
+        7, 
+        "accepts"
+      ], 
+      [
+        2601, 
+        9, 
+        "accepting"
+      ], 
+      [
+        5670, 
+        9, 
+        "accepting"
+      ], 
+      [
+        6469, 
+        9, 
+        "accepting"
+      ], 
+      [
+        6590, 
+        7, 
+        "accepts"
+      ], 
+      [
+        6666, 
+        9, 
+        "accepting"
+      ], 
+      [
+        6719, 
+        7, 
+        "accepts"
+      ], 
+      [
+        6781, 
+        9, 
+        "accepting"
+      ], 
+      [
+        7059, 
+        7, 
+        "accepts"
+      ], 
+      [
+        7118, 
+        9, 
+        "accepting"
+      ], 
+      [
+        7254, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "DFA": [
+      [
+        329, 
+        3, 
+        "DFA"
+      ], 
+      [
+        1800, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        14, 
+        9, 
+        "languages"
+      ], 
+      [
+        117, 
+        9, 
+        "languages"
+      ], 
+      [
+        6905, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        240, 
+        9, 
+        "recognize"
+      ], 
+      [
+        382, 
+        10, 
+        "recognizes"
+      ], 
+      [
+        6890, 
+        10, 
+        "recognizes"
+      ]
+    ], 
+    "computation path": [
+      [
+        991, 
+        16, 
+        "computation path"
+      ], 
+      [
+        1293, 
+        16, 
+        "computation path"
+      ]
+    ], 
+    "regular language": [
+      [
+        6, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        109, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        70, 
+        9, 
+        "languages"
+      ], 
+      [
+        155, 
+        8, 
+        "language"
+      ], 
+      [
+        218, 
+        8, 
+        "language"
+      ], 
+      [
+        449, 
+        9, 
+        "languages"
+      ], 
+      [
+        597, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        62, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        147, 
+        16, 
+        "regular language"
+      ], 
+      [
+        210, 
+        16, 
+        "regular language"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        196, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "regular language": [
+      [
+        188, 
+        17, 
+        "regular languages"
+      ]
+    ]
+  }
+]

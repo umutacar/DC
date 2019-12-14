@@ -1,0 +1,455 @@
+[
+  {
+    "alphabet": [
+      [
+        99, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "string": [
+      [
+        84, 
+        6, 
+        "string"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "alphabet of the DFA": [
+      [
+        99, 
+        8, 
+        "alphabet"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        45, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "rejecting computation path": [
+      [
+        249, 
+        26, 
+        "rejecting computation path"
+      ]
+    ], 
+    "rejects": [
+      [
+        249, 
+        9, 
+        "rejecting"
+      ]
+    ], 
+    "computation path": [
+      [
+        123, 
+        16, 
+        "computation path"
+      ], 
+      [
+        259, 
+        16, 
+        "computation path"
+      ]
+    ]
+  }, 
+  {
+    "accepted": [
+      [
+        147, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "accepting computation path": [
+      [
+        147, 
+        26, 
+        "accepting computation path"
+      ]
+    ], 
+    "DFA": [
+      [
+        12, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "accepts": [
+      [
+        147, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "computation path": [
+      [
+        97, 
+        16, 
+        "computation path"
+      ], 
+      [
+        157, 
+        16, 
+        "computation path"
+      ]
+    ]
+  }, 
+  {
+    "accepted": [
+      [
+        217, 
+        9, 
+        "accepting"
+      ], 
+      [
+        313, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "accepting computation path": [
+      [
+        217, 
+        26, 
+        "accepting computation path"
+      ]
+    ], 
+    "DFA": [
+      [
+        45, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "accepts": [
+      [
+        217, 
+        9, 
+        "accepting"
+      ], 
+      [
+        313, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "computation path": [
+      [
+        122, 
+        16, 
+        "computation path"
+      ], 
+      [
+        227, 
+        16, 
+        "computation path"
+      ]
+    ]
+  }, 
+  {
+    "transition function of the TM": [
+      [
+        52, 
+        19, 
+        "transition function"
+      ]
+    ], 
+    "star of a language": [
+      [
+        285, 
+        4, 
+        "star"
+      ]
+    ], 
+    "string": [
+      [
+        254, 
+        6, 
+        "string"
+      ]
+    ], 
+    "transition function of the DFA": [
+      [
+        52, 
+        19, 
+        "transition function"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ]
+    ]
+  }, 
+  {
+    "word": [
+      [
+        92, 
+        4, 
+        "word"
+      ]
+    ], 
+    "DFA": [
+      [
+        43, 
+        3, 
+        "DFA"
+      ], 
+      [
+        127, 
+        3, 
+        "DFA"
+      ]
+    ]
+  }, 
+  {
+    "deterministic finite automaton": [
+      [
+        6, 
+        30, 
+        "deterministic finite automaton"
+      ]
+    ], 
+    "accepted": [
+      [
+        95, 
+        7, 
+        "accepts"
+      ], 
+      [
+        145, 
+        7, 
+        "accepts"
+      ], 
+      [
+        327, 
+        6, 
+        "accept"
+      ], 
+      [
+        395, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "set of accepting states of the DFA": [
+      [
+        67, 
+        3, 
+        "set"
+      ]
+    ], 
+    "string": [
+      [
+        78, 
+        7, 
+        "strings"
+      ], 
+      [
+        407, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepts a string": [
+      [
+        395, 
+        18, 
+        "accepting a string"
+      ]
+    ], 
+    "set of states of the TM": [
+      [
+        67, 
+        3, 
+        "set"
+      ]
+    ], 
+    "word": [
+      [
+        320, 
+        4, 
+        "word"
+      ]
+    ], 
+    "DFA": [
+      [
+        391, 
+        3, 
+        "DFA"
+      ], 
+      [
+        654, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "set of states of the DFA": [
+      [
+        67, 
+        3, 
+        "set"
+      ]
+    ], 
+    "language": [
+      [
+        187, 
+        8, 
+        "language"
+      ], 
+      [
+        231, 
+        8, 
+        "language"
+      ], 
+      [
+        273, 
+        8, 
+        "language"
+      ], 
+      [
+        546, 
+        8, 
+        "language"
+      ], 
+      [
+        663, 
+        8, 
+        "language"
+      ]
+    ], 
+    "accepts": [
+      [
+        95, 
+        7, 
+        "accepts"
+      ], 
+      [
+        145, 
+        7, 
+        "accepts"
+      ], 
+      [
+        327, 
+        6, 
+        "accept"
+      ], 
+      [
+        395, 
+        9, 
+        "accepting"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        67, 
+        7, 
+        "strings"
+      ]
+    ], 
+    "DFA": [
+      [
+        14, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        33, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        18, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        67, 
+        7, 
+        "strings"
+      ]
+    ], 
+    "DFA": [
+      [
+        14, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "language": [
+      [
+        33, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        18, 
+        10, 
+        "recognizes"
+      ]
+    ]
+  }, 
+  {
+    "alphabet": [
+      [
+        34, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "DFA": [
+      [
+        79, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "alphabet of the DFA": [
+      [
+        34, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "language": [
+      [
+        9, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        83, 
+        11, 
+        "recognizing"
+      ]
+    ]
+  }
+]

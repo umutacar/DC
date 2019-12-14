@@ -1,0 +1,445 @@
+\chapter{Turing Machines}
+\label{chapter:Turing-Machines}
+
+\begin{preamble}
+\label{prmbl:Turing-Machines::main}
+In this chapter, our main goal is to introduce the definition of a Turing machine, which is the standard mathematical model for any kind of computational device. As such, this definition is very foundational. As we discuss in lecture, the physical Church-Turing thesis asserts that any kind of physical device or phenomenon, when viewed as a computational process mapping input data to output data, can be simulated by some Turing machine. Thus, rigorously studying Turing machines does not just give us insights about what our laptops can or cannot do, but also tells us what the universe can and cannot do computationally. 
+
+This chapter kicks things off with examples of decidable languages (i.e. decision problems that we can compute). Next chapter, we will start exploring the limitations of computation. Some of the examples we cover in this chapter will serve as a warm up to other examples we will discuss in the next chapter in the context of uncomputability.
+
+\end{preamble}
+
+\begin{definition}[Turing machine]
+\label{definition:Turing-machine} 
+A \defn{Turing machine} (\defn{TM}) $M$ is a 7-tuple 
+\[
+M = (Q, \Sigma, \Gamma, \delta, q_0, q_\text{accept}, q_\text{reject}),
+\]
+where
+\begin{itemize}
+    \item $Q$ is a non-empty finite set \\(which we refer to as the \defn{set of states of the TM});
+    \item $\Sigma$ is a non-empty finite set that does not contain the \defn{blank symbol} $\sqcup$ \\(which we refer to as the \defn{input alphabet of the TM});
+    \item $\Gamma$ is a finite set such that $\sqcup \in \Gamma$ and $\Sigma \subset \Gamma$ \\(which we refer to as the \defn{tape alphabet of the TM});
+    \item $\delta$ is a function of the form $\delta: Q \times \Gamma \to Q \times \Gamma \times \{\text{L}, \text{R}\}$ \\(which we refer to as the \defn{transition function of the TM});
+    \item $q_0 \in Q$ is an element of $Q$ \\ (which we refer to as the \defn{initial state of the TM} or \defn{the starting state of the TM});
+    \item $q_\text{acc} \in Q$ is an element of $Q$ \\ (which we refer to as the \defn{accepting state of the TM});
+    \item $q_\text{rej} \in Q$ is an element of $Q$ such that $q_\text{rej} \neq q_\text{acc}$ \\ (which we refer to as the \defn{rejecting state of the TM}).
+\end{itemize}
+
+\end{definition}
+
+\begin{example}[A $5$-state TM]
+\label{example:A-5-state-TM}
+Below is an example of how we draw a TM:
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{04_Turing_Machines/media_upload/tm.png}
+\end{center}
+In this example, $\Sigma = \{\s{a},\s{b}\}$, $\Gamma = \{\s{a},\s{b},\sqcup\}$, $Q = \{q_0,q_a,q_b,q_\text{acc},q_\text{rej}\}$. The labeled arrows between the states encode the transition function $\delta$. As an example, the arrow from state $q_0$ to $q_a$ represents $\delta(q_0, \s{a}) = (q_a, \sqcup, \text{R})$. The above picture is called the \emph{state diagram} of the Turing machine.
+
+\end{example}
+
+\begin{note}[Equivalence of Turing machines]
+\label{note:Equivalence-of-Turing-machines}
+We'll consider two Turing machines to be equivalent/same if they are the same machine up to renaming the elements of the sets $Q$, $\Sigma$ and $\Gamma$.
+
+\end{note}
+
+\begin{note}[No transition out of accepting and rejecting states]
+\label{note:No-transition-out-of-accepting-and-rejecting-states}
+In the transition function $\delta$ of a TM, we don't really care about how we define the output of $\delta$ when the input state is $q_\text{acc}$ or $q_\text{rej}$ because once the computation reaches one of these states, it stops. We explain this below in Definition~\ref{definition:A-TM-accepting-or-rejecting-a-string}.
+
+\end{note}
+
+\begin{important}[A Turing machine uses a tape]
+\label{important:A-Turing-machine-uses-a-tape}
+A Turing Machine is always accompanied by a \emph{tape} that is used as memory. The tape is just a sequence of \emph{cells} that can hold any symbol from the tape alphabet. The tape can be defined so that it is infinite in two directions (so we could imagine indexing the cells using the integers $\Z$), or it could be infinite in one direction, to the right (so we could imagine indexing the cells using the natural numbers $\N$). Initially, an input $w_1\ldots w_n \in \Sigma^*$ is put on the tape so that symbol $w_i$ is placed on the cell with index $i-1$. We imagine that there is a \emph{tape head} that initially points to index 0. The symbol that the tape head points to at a particular time is the symbol that the Turing machine reads. The tape head moves left or right according to the transition function of the Turing machine. These details are explained in lecture.
+
+In these notes, we assume our tape is infinite in two directions. 
+
+\end{important}
+
+\begin{definition}[A TM accepting or rejecting a string]
+\label{definition:A-TM-accepting-or-rejecting-a-string} 
+Let $M$ be a Turing machine where $Q$ is the set of states, $\blank$ is the blank symbol, and $\Gamma$ is the tape alphabet.\footn{Supernerd note: we will always assume $Q$ and $\Gamma$ are disjoint sets.} To understand how $M$'s computation proceeds we generally need to keep track of three things: (i)~the state $M$ is in; (ii)~the contents of the tape; (iii)~where the tape head is.  These three things are collectively known as the ``configuration'' of the TM.  More formally: a \defn{configuration} for~$M$ is defined to be a string $uqv \in (\Gamma \cup Q)^*$, where $u, v \in \Gamma^*$ and $q \in Q$. This represents that the tape has contents $\cdots \blank \blank \blank uv \blank \blank \blank \cdots$, the head is pointing at the leftmost symbol of~$v$, and the state is~$q$. A configuration is an \defn{accepting configuration} if $q$ is $M$'s accept state and it is a \defn{rejecting configuration} if $q$ is $M$'s reject state.\footn{There are some technicalities: The string $u$ cannot start with $\blank$ and the string $v$ cannot end with $\blank$.  This is so that the configuration is always unique.  Also, if~$v = \epsilon$ it means the head is pointing at the $\blank$ immediately to the right of~$u$.}
+
+Suppose that $M$ reaches a certain configuration~$\alpha$ (which is not accepting or rejecting). Knowing just this configuration and $M$'s transition function~$\delta$, one can determine the configuration $\beta$ that $M$ will reach at the next step of the computation. (As an exercise, make this statement precise.)  We write
+\[
+    \alpha \vdash_M \beta
+\]
+and say that ``$\alpha$ yields $\beta$ (in~$M$)''.  If it's obvious what $M$ we're talking about, we drop the subscript $M$ and just write $\alpha \vdash \beta$. 
+
+Given an input $x \in \Sigma^*$ we say that $M(x)$ \defn{halts} if there exists a sequence of configurations (called the \defn{computation trace}) $\alpha_0, \alpha_1, \dots, \alpha_{T}$ such that:
+
+\begin{enumerate}
+    \item[(i)] $\alpha_0 = q_0x$, where $q_0$ is $M$'s initial state;
+    \item[(ii)] $\alpha_t \vdash_M \alpha_{t+1}$ for all $t = 0, 1, 2, \dots, T-1$;
+    \item[(iii)] $\alpha_T$ is either an accepting configuration (in which case we say $M(x)$ \defn{accepts}) or a rejecting configuration (in which case we say $M(x)$ \defn{rejects}).
+\end{enumerate}
+Otherwise, we say $M(x)$ \defn{loops}.
+
+\end{definition}
+
+\begin{important}[Turing machines can loop forever]
+\label{important:Turing-machines-can-loop-forever}
+Given any DFA and any input string, the DFA always halts and makes a decision to either reject or accept the string. The same is not true for Turing machines. It is possible that a Turing machine does not make a decision when given an input string, and instead, loops forever. So given a TM $M$ and an input string $x$, there are 3 options when we run $M$ on $x$: 
+\begin{itemize}
+    \item $M$ accepts $x$;
+    \item $M$ rejects $x$;
+    \item $M$ loops forever.
+\end{itemize}
+This is an important distinction between DFAs and TMs.
+
+\end{important}
+
+\begin{exercise}[Practice with configurations]
+\label{exercise:Practice-with-configurations} 
+\begin{enumerate}
+    \item Suppose $M = (Q,\Sigma, \Gamma, \delta, q_0, q_{\text{accept}}, q_{\text{reject}})$ is a Turing machine. We want you to formally define $\alpha \vdash_M \beta$. More precisely, suppose $\alpha = uqv$, where $q  \in Q \setminus \{q_{\text{accept}}, q_{\text{reject}}\}$. Precisely describe~$\beta$. 
+    \item Let $M$ denote the Turing machine shown below, which has input alphabet $\Sigma = \{\s{0}\}$ and tape alphabet $\Gamma = \{\s{0},x, \blank\}$. (Note on notation: A transition label usually has two symbols, one corresponding to the symbol being read, and the other corresponding to the symbol being written. If a transition label has one symbol, the interpretation is that the symbol being read and written is exactly the same.)
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{04_Turing_Machines/media_upload/tm-state-diagram.png}   
+    \end{center}
+    We want you to prove that $M$ accepts the input $\s{0000}$ using the definition on the previous page.  More precisely, we want you to write out the  computation trace 
+    \[
+        \alpha_0 \vdash_M \alpha_1 \vdash_M \cdots \vdash_M \alpha_T
+    \]
+    for $M(\s{0000})$. You do not have to justify it; just make sure to get $T$ and $\alpha_0, \dots, \alpha_T$ correct!
+\end{enumerate}
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:Turing-Machines::part}
+Part 1: Let $\alpha = uqv$, where $u = u_1\cdots u_m$ and $v =v_1\cdots v_n$ ($u$ and $v$ possibly empty). Let $v_1'$ be $v_1$ if it exists or $\blank$ otherwise. Let $\delta(q, v_1') =  (q', x, D)$ (where $D$ is either $L$ or $R$). We write $\alpha \vdash_M \beta$, where $\beta$ is defined as follows: 
+\begin{itemize}
+    \item if $D = L, m > 0$, then $\beta  = u_1 \ldots u_{m-1} q' u_m x v_2 \ldots v_n$;
+    \item if $D = L, m = 0$, then $\beta  =  q' \blank x v_2 \ldots v_n$;
+    \item if $D = R$, then $\beta = u_1 \ldots u_m x q' v_2 \ldots v_n$.
+\end{itemize}
+
+\noindent
+Part 2: Below is the trace for the execution of the Turing Machine. Read down first and then to the right. 
+\[ \begin{align*}
+     q_00000  \qquad   q_4x0x        \qquad  & x q_4 xx  \\
+     q_1000  \quad   q_4\blank x0x \qquad  & q_4 x x x  \\
+     x q_200 \qquad   q_1 x0x       \qquad  &q_4 \blank  xxx  \\
+     x 0q_30 \qquad   x q_1 0x      \qquad  & q_1 xxx  \\
+     x 0xq_2 \qquad   xxq_2 x       \qquad  & x q_1 xx  \\
+     x 0q_4x \qquad   xxxq_2        \qquad  &  xxq_1 x  \\
+     x q_40x \qquad   xxq_4 x       \qquad  & xxx q_1 \\
+    &  xxx \blank q_{acc} 
+\end{align*} \]
+
+\end{solution}
+
+\begin{definition}[Decider Turing machine]
+\label{definition:Decider-Turing-machine}
+A Turing machine is called a \defn{decider} if it halts on all inputs.
+
+\end{definition}
+
+\begin{definition}[Language accepted and decided by a TM]
+\label{definition:Language-accepted-and-decided-by-a-TM}
+Let $M$ be a Turing machine (not necessarily a decider). We denote by $L(M)$ the set of all strings that $M$ accepts, and we call $L(M)$ the language \emph{accepted} by $M$. When $M$ is a decider, we say that $M$ \defn{decides} the language $L(M)$.
+
+\end{definition}
+
+\begin{definition}[Decidable language]
+\label{definition:Decidable-language}
+A language $L$ is called \defn{decidable} (or \defn{computable}) if $L = L(M)$ for some decider Turing machine $M$.
+
+\end{definition}
+
+\begin{exercise}[A simple decidable language]
+\label{exercise:A-simple-decidable-language}
+Give a description of the language decided by the TM shown in the example corresponding to Definition~\ref{definition:Turing-machine}.
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:Turing-Machines::language}
+The language decided by the TM is 
+\[
+    L = \{w \in \{a,b\}^* : |w| \geq 2 \text{ and } w_1 = w_2\}.
+\]
+
+\end{solution}
+
+\begin{exercise}[Drawing TM state diagrams]
+\label{exercise:Drawing-TM-state-diagrams} 
+For each language below, draw the state diagram of a TM that decides the language.  You can use any finite tape alphabet $\Gamma$ containing the elements of $\Sigma$ and the symbol $\blank$. 
+\begin{enumerate}
+    \item $L = \{\s{0}^n\s{1}^n : n \in \N\}$, where $\Sigma = \{\s{0},\s{1}\}$.
+    \item $L = \{\s{0}^n : \text{$n$ is a nonnegative integer power of $2$}\}$, where $\Sigma = \{\s{0}\}$.
+\end{enumerate}
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:Turing-Machines::width}
+Part 1:
+\begin{center}
+    \includegraphics[width=0.6\textwidth]{04_Turing_Machines/media_upload/tm1.png}
+\end{center} 
+\noindent
+Part 2: See the figure in Exercise~\ref{exercise:Practice-with-configurations}, part (b).
+
+\end{solution}
+
+\begin{important}[The Church-Turing Thesis]
+\label{important:The-Church-Turing-Thesis}
+The Church-Turing Thesis (CTT)\footn{The statement we are using here is often called the Physical Church-Turing Thesis and is more general than the original Church-Turing Thesis. In the original Church-Turing Thesis, computation is considered to correspond to a human following step-by-step instructions.} states that any computation that can be conducted in this universe (constrained by the laws of physics of course), can be carried out by a TM. There are a couple of important things to highlight. First, CTT says nothing about the efficiency of the simulation.\footn{As an example, quantum computers can be simulated by TMs, but in certain cases, we believe that the simulation can be exponentially slower.} Second, CTT is not a mathematical statement, but a physical claim about the universe we live in (similar to claiming that the speed of light is constant). The implications of CTT is far-reaching. For example, CTT claims that any computation that can be carried out by a human can be carried out by a TM. Other implications are discussed in lecture.
+
+\end{important}
+
+\begin{note}[Low-level, medium-level, high-level descriptions of TMs]
+\label{note:Low-level-medium-level-high-level-descriptions-of-TMs}
+A low-level description of a TM is given by specifying the 7-tuple in its definition. This information is often presented using a picture of its state diagram. A medium-level description includes an English description of the movement and behavior of the tape head, as well as how the contents of the tape is changing, as the computation is being carried out. A high-level description is pseudocode or an algorithm written in English. Usually, an algorithm is written in a way so that a human could read it, understand it, and carry out its steps. By CTT, there is a TM that can carry out the same computation. Unless explicitly stated otherwise, you can present a TM using a high-level description.
+
+\end{note}
+
+\begin{note}[Encodings of machines]
+\label{note:Encodings-of-machines}
+In Chapter 1 we saw that we can use the notation $\langle \cdot \rangle$ to denote an encoding of objects belonging to any countable set. For example, if $D$ is a DFA, we can write $\langle D \rangle$ to denote the encoding of $D$ as a string. If $M$ is a TM, we can write $\langle M \rangle$ to denote the encoding of $M$. There are many ways one can encode DFAs and TMs. We will not be describing a specific encoding scheme as this detail will not be important for us.\footn{As an example, if $P$ is some Python program, we can take $\langle P \rangle$ to be the string that represents the source code of the program. A DFA or a TM can also be viewed as a piece of code (as discussed in lecture). So we could define an encoded DFA or TM to be the string that represents that code.}
+
+Recall that when we want to encode a tuple of objects, we use the comma sign. For example, if $M_1$ and $M_2$ are two Turing machines, we write $\langle M_1,M_2 \rangle$ to denote the encoding of the tuple $(M_1,M_2)$. As another example, if $M$ is a TM and $x \in \Sigma^*$, we can write $\langle M,x \rangle$ to denote the encoding of the tuple $(M,x)$. 
+
+\end{note}
+
+\begin{important}[Code is data]
+\label{important:Code-is-data}
+The fact that we can encode different types of objects with strings has the corollary that a Turing machine, or any piece of code, can be viewed as a string, and therefore as data. This means code can take as input other code (in fact, code can take itself as the input). This point of view has several important implications, one of which is the fact that we can come up with a Turing machine, which given as input the description of any Turing machine, can simulate it. This simulator Turing machine is called a universal Turing machine.
+
+\end{important}
+
+\begin{definition}[Universal Turing machine]
+\label{definition:Universal-Turing-machine}
+Let $\Sigma$ be some finite alphabet. A \defn{universal Turing machine} $U$ is a Turing machine that takes $\langle M,x \rangle$ as input, where $M$ is a TM and $x$ is a word in $\Sigma^*$, and has the following high-level description:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/universal-tm.png}
+\end{center}
+Note that if $M(x)$ loops forever, then $U$ loops forever as well. To make sure $M$ always halts, we can add a third input, an integer $k$, and have the universal machine simulate the input TM for at most $k$ steps.
+
+\end{definition}
+
+\begin{important}[Checking the input type]
+\label{important:Checking-the-input-type}
+When we give a high-level description of a TM, we often assume that the input given is of the correct form/type. For example, with the Universal TM above, we assumed that the input was the encoding $\langle M,x \rangle$ where $M$ is a TM and $x$ is an input string for $M$. But technically, the input to the universal TM could be any finite-length string. What do we do if the input string does not correspond to a valid encoding of an expected type of input object?
+
+Even though this is not explicitly written, we will implicitly assume that the first thing our machine does is check whether the input is a valid encoding of an object with the expected type. If it is not, the machine rejects. If it is, then it will carry on with the specified instructions.
+
+The important thing to keep in mind is that in our descriptions of Turing machines, this step of checking whether the input string has the correct form (i.e. that it is a valid encoding) will never be explicitly written, and we don't expect you to explicitly write it either. That being said, be aware that this check is implicitly there.
+
+\end{important}
+
+\begin{exercise}[Decidability is closed under intersection and union]
+\label{exercise:Decidability-is-closed-under-intersection-and-union}
+Let $L$ and $K$ be decidable languages. Show that $L \cap K$ and $L \cup K$ are also decidable by presenting high-level descriptions of TMs deciding them.
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:Turing-Machines::decidable}
+Since $L_1$ and $L_2$ are decidable, there are decider TMs $M_1$ and $M_2$ such that $L(M_1) = L_1$ and $L(M_2) = L_2$. To show $L_1 \cup L_2$ is decidable, we present a high-level description of a TM $M$ deciding it:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/union-decider.png}
+\end{center}
+It is pretty clear that this decider works correctly. However, in case you are wondering how in general (with more complicated examples) we would prove that a decider works as desired, here is an example argument.
+
+We want to show that $x \in L_1 \cup L_2$ if and only if it is accepted by the above TM $M$. If $x \in L_1 \cup L_2$, then it is either in $L_1$ or in $L_2$. If it is in $L_1$, then $M_1(x)$ accepts (since $M_1$ correctly decides $L_1$) and therefore $M$ accepts on line 1. If, on the other hand, $x \in L_2$, then $M_2(x)$ accepts. This means that if $M$ does not accept on line 1, then it has to accept on line 2. Either way $x$ is accepted by $M$. For the converse, assume $x$ is accepted by $M$. Then it must be accepted on line 1 or line 2. If it is accepted on line 1, then this implies that $M_1(x)$ accepted, i.e., $x \in L_1$. If it is accepted on line 2, then $M_2(x)$ accepted, i.e., $x \in L_2$. So $x \in L_1 \cup L_2$, as desired.
+
+To show $L_1 \cap L_2$ is decidable, we present a high-level description of a TM $M$ deciding it:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/intersection-decider.png}
+\end{center}
+Once again, it is clear that this decider works correctly.
+
+\end{solution}
+
+\begin{exercise}[Decidable language based on pi]
+\label{exercise:Decidable-language-based-on-pi}
+                                    Let $L \subseteq \{\s{3}\}^*$ be defined as follows:  $x \in L$ if and only if $x$ appears somewhere in the decimal expansion of~$\pi$.  For example, the strings $\epsilon$, $\s{3}$, and $\s{33}$ are all definitely in~$L$, because
+    \[
+         \pi = 3.1415926535897932384626433\dots
+    \]
+    Prove that $L$ is decidable. No knowledge in number theory is required to solve this question.
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:Turing-Machines::observation}
+The important observation is the following. If, for some $m \in \N$, $\s{3}^m$ is not in $L$, then neither is $\s{3}^{k}$ for any $k > m$. Additionally, if $\s{3}^m \in L$, then so is $\s{3}^{\ell}$ for every $\ell < m$. For each $n \in \N$, define 
+\[
+L_n = \{\s{3}^m : m \leq n\}.
+\]
+Then either $L = L_n$ for some $n$, or $L = \{\s{3}\}^*$.
+
+If $L = L_n$ for some $n$, then the following TM decides it.
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/strings-of-length-at-most-n-decider.png}
+\end{center}
+
+If $L = \{\s{3}\}^*$, then it is decided by:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/sigma-star-decider.png}
+\end{center}
+So in all cases, $L$ is decidable.
+
+\end{solution}
+
+\begin{definition}[Languages related to encodings of DFAs]
+\label{definition:Languages-related-to-encodings-of-DFAs}
+Fix some alphabet $\Sigma$. We define the following languages:
+\[ \begin{align*}
+    \text{ACCEPTS}_\text{DFA} & = \{\langle D,x \rangle : \text{$D$ is a DFA that accepts the string $x$}\}, \\
+    \text{SELF-ACCEPTS}_\text{DFA} & = \{\langle D \rangle : \text{$D$ is a DFA that accepts the string $\langle D \rangle$}\}, \\
+    \text{EMPTY}_\text{DFA} & = \{\langle D \rangle : \text{$D$ is a DFA with $L(D) = \emptyset$} \}, \\
+    \text{EQ}_\text{DFA} & = \{ \langle D_1,D_2 \rangle : \text{$D_1$ and $D_2$ are DFAs with $L(D_1) = L(D_2)$} \}.
+\end{align*} \]
+
+\end{definition}
+
+\begin{theorem}[$\text{ACCEPTS-DFA}$ and $\text{SELF-ACCEPTS-DFA}$ are decidable]
+\label{theorem:textACCEPTS-textDFA-and-textSELF-ACCEPTS_textDFA-are-decidable}
+The languages $\mathrm{ACCEPTS}_\mathrm{DFA}$ and $\mathrm{SELF}$-$\mathrm{ACCEPTS}_\mathrm{DFA}$ are decidable.
+
+\end{theorem}
+
+\begin{proof}
+\label{prf:Turing-Machines::goal}
+Our goal is to show that $\mathrm{ACCEPTS}_\mathrm{DFA}$ and $\mathrm{SELF}$-$\mathrm{ACCEPTS}_\mathrm{DFA}$ are decidable languages. To show that these languages are decidable, we will give high-level descriptions of TMs deciding them. 
+
+For $\text{ACCEPTS}_\text{DFA}$, the decider is essentially the same as a universal TM:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/accepts-dfa-decider.png}
+\end{center}
+It is clear that this correctly decides $\text{ACCEPTS}_\text{DFA}$. 
+
+For $\text{SELF-ACCEPTS}_\text{DFA}$, we just need to slightly modify the above machine:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/self-accepts-decider.png}
+\end{center}
+Again, it is clear that this correctly decides $\text{SELF-ACCEPTS}_\text{DFA}$.
+
+\end{proof}
+
+\begin{theorem}[$\text{EMPTY-DFA}$ is decidable]
+\label{theorem:textEMPTY-textDFA-is-decidable}
+The language $\mathrm{EMPTY}_\mathrm{DFA}$ is decidable.
+
+\end{theorem}
+
+\begin{proof}
+\label{prf:Turing-Machines::show}
+Our goal is to show $\mathrm{EMPTY}_\mathrm{DFA}$ is decidable and we will do so by constructing a decider for $\mathrm{EMPTY}_\mathrm{DFA}$. 
+
+A decider for $\mathrm{EMPTY}_\mathrm{DFA}$ takes as input $\langle D \rangle$ for some DFA $D = (Q, \Sigma, \delta, q_0, F)$, and needs to determine if $L(D) = \emptyset$. In other words, it needs to determine if there is any string that $D$ accepts. If we view the DFA as a directed graph,\footn{Even though we have not formally defined the notion of a graph yet, we do assume you are familiar with the concept from a prerequisite course and that you have seen some simple graph search algorithms like Breadth-First Search or Depth-First Search.} where the states of the DFA correspond to the nodes in the graph and transitions correspond to edges, notice that the DFA accepts some string if and only if there is a directed path from $q_0$ to some state in $F$. Therefore, the following decider decides $\mathrm{EMPTY}_\mathrm{DFA}$ correctly.
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/empty-dfa-decider.png}
+\end{center}
+
+\end{proof}
+
+\begin{theorem}[$\text{EQ-DFA}$ is decidable]
+\label{theorem:textEQ-textDFA-is-decidable}
+The language $\mathrm{EQ}_\mathrm{DFA}$ is decidable.
+
+\end{theorem}
+
+\begin{proof}
+\label{prf:Turing-Machines::empty}
+Our goal is to show that $\mathrm{EQ}_\mathrm{DFA}$ is decidable. We will do so by constructing a decider for $\mathrm{EQ}_\mathrm{DFA}$. 
+
+Our argument is going to use the fact that $\mathrm{EMPTY}_\mathrm{DFA}$ is decidable (Theorem~\ref{theorem:textEMPTY-textDFA-is-decidable}). In particular, the decider we present for $\mathrm{EQ}_\mathrm{DFA}$ will use the decider for $\mathrm{EMPTY}_\mathrm{DFA}$ as a subroutine. Let $M$ denote a decider TM for $\mathrm{EMPTY}_\mathrm{DFA}$.
+
+A decider for $\mathrm{EQ}_\mathrm{DFA}$ takes as input $\bkt{D_1,D_2}$, where $D_1$ and $D_2$ are DFAs. It needs to determine if $L(D_1) = L(D_2)$ (i.e. accept if $L(D_1) = L(D_2)$ and reject otherwise). We can determine if $L(D_1) = L(D_2)$ by looking at their \emph{symmetric difference}\footn{The symmetric difference of sets $A$ and $B$ is the set of all elements that belong to either $A$ or $B$, but not both. In set notation, it corresponds to $(A \cap \overline{B}) \cup (\overline{A} \cap B)$.}
+\[
+(L(D_1) \cap \overline{L(D_2)}) \cup (\overline{L(D_1)} \cap L(D_2)).
+\]
+Note that $L(D_1) = L(D_2)$ if and only if the symmetric difference is empty. Our decider for $\mathrm{EQ}_\mathrm{DFA}$ will construct a DFA $D$ such that $L(D) = (L(D_1) \cap \overline{L(D_2)}) \cup (\overline{L(D_1)} \cap L(D_2))$, and then run $M(\bkt{D})$ to determine if $L(D) = \emptyset$. This then tells us if $L(D_1) = L(D_2)$. 
+
+To give a bit more detail, observe that given $D_1$ and $D_2$, we can 
+\begin{itemize}
+    \item construct DFAs $\overline{D_1}$ and $\overline{D_2}$ that accept $\overline{L(D_1)}$ and $\overline{L(D_2)}$ respectively (see Exercise~\ref{exercise:Are-regular-languages-closed-under-complementation});
+    \item construct a DFA that accepts $L(D_1) \cap \overline{L(D_2)}$ by using the (constructive) proof that regular languages are closed under the intersection operation;\footn{The constructive proof gives us a way to construct the DFA accepting $L(D_1) \cap \overline{L(D_2)}$ given $D_1$ and $\overline{D_2}$.}
+    \item construct a DFA that accepts $\overline{L(D_1)} \cap L(D_2)$ by using the proof that regular languages are closed under the intersection operation;
+    \item construct a DFA, call it $D$, that accepts $(L(D_1) \cap \overline{L(D_2)}) \cup (\overline{L(D_1)} \cap L(D_2))$ by using the constructive proof that regular languages are closed under the union operation.
+\end{itemize} 
+
+The decider for $\mathrm{EQ}_\mathrm{DFA}$ is as follows.
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/eq-dfa-decider.png}
+\end{center}
+
+By our discussion above, the decider works correctly.
+
+\end{proof}
+
+\begin{important}[Decidability through reductions]
+\label{important:Decidability-through-reductions}
+Suppose $L$ and $K$ are two languages and $K$ is decidable. We say that solving $L$ \emph{reduces} to solving $K$ if given a decider $M_K$ for $K$, we can construct a decider for $L$ that uses $M_K$ as a subroutine, thereby establishing $L$ is also decidable. For example, the proof of Theorem~\ref{theorem:textEQ-textDFA-is-decidable} shows that solving $\mathrm{EQ}_\mathrm{DFA}$ reduces to solving $\mathrm{EMPTY}_\mathrm{DFA}$. Reduction is a powerful tool to expand the landscape of decidable languages.
+
+\end{important}
+
+\begin{exercise}[Practice with decidability through reductions]
+\label{exercise:Practice-with-decidability-through-reductions} 
+\begin{enumerate}
+    \item Let $L = \{\langle D_1, D_2 \rangle: \text{$D_1$ and $D_2$ are DFAs with $L(D_1) \subsetneq L(D_2)$}\}$.\footn{Note on notation: for sets $A$ and $B$, we write $A \subsetneq B$ if $A \subseteq B$ and $A \neq B$.} Show that $L$ is decidable.
+    \item Let $K = \{\langle D \rangle: \text{$D$ is a DFA that accepts $w^R$ whenever it accepts $w$}\}$, where $w^R$ denotes the \emph{reversal} of $w$. Show that $K$ is decidable. For this question, you can use the fact given a DFA $D$, there is an algorithm to construct a DFA $D'$ such that $L(D') = L(D)^R = \{w^R : w \in L(D)\}$.
+\end{enumerate}
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:Turing-Machines::show}
+Part 1: To show $L$ is decidable, we are going to use the fact that $\mathrm{EMPTY}_\mathrm{DFA}$ is decidable (Theorem~\ref{theorem:textEMPTY-textDFA-is-decidable}) and $\mathrm{EQ}_\mathrm{DFA}$ is decidable (Theorem~\ref{theorem:textEQ-textDFA-is-decidable}). Let $M_\text{EMPTY}$ denote a decider TM for $\mathrm{EMPTY}_\mathrm{DFA}$ and let $M_\text{EQ}$ denote a decider TM for $\mathrm{EQ}_\mathrm{DFA}$.
+
+A decider for $L$ takes as input $\bkt{D_1,D_2}$, where $D_1$ and $D_2$ are DFAs. It needs to determine if $L(D_1) \subsetneq L(D_2)$ (i.e. accept if $L(D_1) \subsetneq L(D_2)$ and reject otherwise). To determine this we do two checks:
+\begin{enumerate}
+    \item[(i)] Check whether $L(D_1) = L(D_2)$.
+    \item[(ii)] Check whether $L(D_1) \subseteq L(D_2)$. Observe that this can be done by checking whether $L(D_1) \cap \overline{L(D_2)} = \emptyset$.
+\end{enumerate}
+Note that $L(D_1) \subseteq L(D_2)$ if and only if $L(D_1) \neq L(D_2)$ and $L(D_1) \cap \overline{L(D_2)} = \emptyset$. Using the closure properties of regular languages, we can construct a DFA $D$ such that $L(D) = L(D_1) \cap \overline{L(D_2)}$. Now the decider for $L$ can be described as follows:
+\begin{center}
+    \includegraphics[width=0.7\textwidth]{04_Turing_Machines/media_upload/decider-exercise.png}
+\end{center}
+Observe that this machine accepts $\bkt{D_1,D_2}$ if and only if  $M_\text{EQ}(\bkt{D_1,D_2})$ rejects and $M_\text{EMPTY}(\bkt{D})$ accepts. In other words, it accepts $\bkt{D_1,D_2}$ if and only if $L(D_1) \neq L(D_2)$ and $L(D_1) \cap \overline{L(D_2)} = \emptyset$, which is the desired behavior for the machine.
+\\\\
+\noindent
+Part 2: We sketch the proof. To show $L$ is decidable, we are going to use the fact that $\mathrm{EQ}_\mathrm{DFA}$ is decidable (Theorem~\ref{theorem:textEQ-textDFA-is-decidable}). Let $M_\text{EQ}$ denote a decider TM for $\mathrm{EQ}_\mathrm{DFA}$. Observe that $\bkt{D}$ is in $K$ if and only if $L(D) = L(D)^R$ (prove this part). Using the fact given to us in the problem description, we know that there is a way to construct $\bkt{D'}$ such that $L(D') = L(D)^R$. Then all we need to do is run $M_\text{EQ}(\bkt{D, D'})$ to determine whether $\bkt{D} \in K$ or not.
+
+\end{solution}
+
+\begin{enumerate}
+    \item True or false: A TM can have an infinite number of states.
+    \item True or false: It is possible that in the definition of a TM, $\Sigma = \Gamma$, where $\Sigma$ is the input alphabet, and $\Gamma$ is the tape alphabet.
+    \item True or false: On every valid input, any TM either accepts or rejects.
+    \item True or false: Consider a TM such that the starting state $q_0$ is also the accepting state $q_{\text{accept}}$. It is possible that this TM does not halt on some inputs.
+    \item True or false: We say that a language $K$ is a decidable language if there exists a Turing machine $M$ such that $K = L(M)$.
+    \item True or false: $L \subseteq \Sigma^*$ is undecidable if and only if $\Sigma^* \backslash L$ is undecidable. 
+    \item Is the following statement true, false, or hard to determine with the knowledge we have so far? $\emptyset$ is decidable.
+    \item Is the following statement true, false, or hard to determine with the knowledge we have so far? $\Sigma^*$ is decidable.
+    \item Is the following statement true, false, or hard to determine with the knowledge we have so far? The language $\{\langle M \rangle : \text{$M$ is a TM with $L(M) = \emptyset$}\}$ is decidable.
+    \item True or false: Let $L \subseteq \{\s{0},\s{1}\}^*$ be defined as follows:
+    \[
+        L = \begin{cases}
+        \{\s{0}^n\s{1}^n : n \in \mathbb{N}\} & \text{if we live in a simulation created by advanced aliens;} \\
+        \{\s{1}^{2^n} : n \in \mathbb{N}\} & \text{otherwise.}
+        \end{cases}
+    \]
+    $L$ is decidable. 
+\end{enumerate}
+
+\begin{enumerate}
+    \item You should know the $7$-tuple definition of a TM and understand what each component corresponds to in your intuitive understanding of the machine. 
+    \item Make sure that you know exactly what the differences and similarities between DFAs and TMs are.
+    \item Given a TM, you should be able to describe in English the language that it recognizes.
+    \item Given the description of a decidable language, you should be able to come up with a TM that decides it. Note that there are various ways we can describe a TM (what we refer to as the low level, medium level, and the high level representations). You may be asked to present a TM in any of these levels.
+    \item You should be comfortable with the definition of a configuration and understand why this definition is important.
+    \item You should be comfortable with the idea that the TM computational model describes a very simple programming language.
+    \item Even though the definition of a TM is far simpler than any other programming language that you use, you should be able to convince yourself that it is powerful enough to capture any computation that can be expressed in your favorite programming language. This is a fact that can be proved formally, but we do not do so since it would be extremely long and tedious.
+    \item You should be comfortable with the Church-Turing thesis and what it implies. Note that we do not need to invoke the Church-Turing thesis for the previous point. The Church-Turing thesis is a much stronger claim. It captures our belief that any kind of algorithm that can be carried out by any kind of a natural process can be simulated on a Turing machine. This is not a mathematical statement that can be proved but rather a statement about our universe and the laws of physics. 
+    \item Make sure you understand that the set of Turing machines is encodable (i.e. every TM can be represented using a finite-length string). This implies that an algorithm (or Turing machine) can take as input (the encoding of) another Turing machine. This idea is the basis for the universal Turing machine. It allows us to have one (universal) machine/algorithm that can simulate any other machine/algorithm that is given as input.
+    \item This chapter contains several algorithms that take encodings of DFAs as input. So these are algorithms that take as input the text representations of other algorithms. There are several interesting questions that one might want to answer given the code of an algorithm (i.e. does it accept a certain input, do two algorithms with different representations solve exactly the same computational problem, etc.) We explore some of these questions in the context of DFAs. It is important that you get used to the idea of treating code (which may represent a DFA or a TM) as data/input.
+    \item This chapter also introduces the idea of a reduction (the idea of solving a computational problem by using, as a helper function, an algorithm that solves a different problem). Make sure you are perfectly comfortable with what it means for one language to reduce to another language. Reductions will come up again in future chapters, and it is absolutely crucial that you have a solid understanding of what it means.
+\end{enumerate}

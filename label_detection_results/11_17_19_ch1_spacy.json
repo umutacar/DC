@@ -1,0 +1,3785 @@
+[
+  {
+    "computational problem": [
+      [
+        268, 
+        21
+      ], 
+      [
+        551, 
+        21
+      ]
+    ], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        359, 
+        7
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [
+      [
+        380, 
+        14
+      ]
+    ], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        467, 
+        7
+      ], 
+      [
+        505, 
+        7
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [
+      [
+        581, 
+        16
+      ]
+    ], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        8, 
+        8
+      ], 
+      [
+        111, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        33, 
+        6
+      ], 
+      [
+        66, 
+        6
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        9, 
+        8
+      ], 
+      [
+        131, 
+        8
+      ], 
+      [
+        199, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        34, 
+        7
+      ], 
+      [
+        69, 
+        7
+      ], 
+      [
+        270, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        10, 
+        8
+      ], 
+      [
+        140, 
+        9
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        37, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        9, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        112, 
+        7
+      ], 
+      [
+        200, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        185, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        55, 
+        7
+      ], 
+      [
+        218, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        61, 
+        7
+      ], 
+      [
+        184, 
+        7
+      ], 
+      [
+        275, 
+        7
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        21, 
+        6
+      ], 
+      [
+        309, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        71, 
+        7
+      ], 
+      [
+        121, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        49, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        284, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        19, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        126, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        76, 
+        7
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [
+      [
+        68, 
+        13
+      ], 
+      [
+        125, 
+        14
+      ]
+    ], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        17, 
+        5
+      ], 
+      [
+        163, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        61, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        185, 
+        7
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        78, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        102, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        90, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        8, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        14, 
+        6
+      ], 
+      [
+        50, 
+        6
+      ], 
+      [
+        83, 
+        7
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [
+      [
+        26, 
+        9
+      ], 
+      [
+        119, 
+        9
+      ]
+    ], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        4, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        91, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        19, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        88, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        60, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        19, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        54, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        19, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        57, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [
+      [
+        213, 
+        14
+      ]
+    ], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        8, 
+        8
+      ], 
+      [
+        92, 
+        8
+      ], 
+      [
+        185, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        4, 
+        8
+      ], 
+      [
+        44, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        248, 
+        4
+      ], 
+      [
+        417, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        4, 
+        8
+      ], 
+      [
+        260, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        766, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        80, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [
+      [
+        0, 
+        28
+      ], 
+      [
+        4, 
+        24
+      ]
+    ], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        20, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        113, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [
+      [
+        0, 
+        30
+      ], 
+      [
+        4, 
+        26
+      ]
+    ], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        21, 
+        9
+      ], 
+      [
+        84, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        100, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        36, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        46, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [
+      [
+        8, 
+        21
+      ]
+    ], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        21, 
+        8
+      ], 
+      [
+        41, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        76, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        9, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        149, 
+        7
+      ], 
+      [
+        251, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        116, 
+        7
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        41, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        124, 
+        6
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        66, 
+        5
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        39, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        100, 
+        6
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        42, 
+        5
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        15, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        65, 
+        9
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        24, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        27, 
+        8
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        326, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        186, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [
+      [
+        768, 
+        9
+      ]
+    ], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        121, 
+        8
+      ], 
+      [
+        221, 
+        6
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        148, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        146, 
+        8
+      ], 
+      [
+        231, 
+        7
+      ], 
+      [
+        266, 
+        7
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        173, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        149, 
+        8
+      ], 
+      [
+        191, 
+        8
+      ], 
+      [
+        206, 
+        8
+      ], 
+      [
+        443, 
+        8
+      ], 
+      [
+        474, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        40, 
+        6
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        77, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        19, 
+        6
+      ], 
+      [
+        160, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        63, 
+        8
+      ], 
+      [
+        627, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        437, 
+        6
+      ], 
+      [
+        570, 
+        6
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        29, 
+        6
+      ], 
+      [
+        180, 
+        8
+      ], 
+      [
+        215, 
+        8
+      ], 
+      [
+        237, 
+        6
+      ], 
+      [
+        398, 
+        6
+      ], 
+      [
+        565, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        17, 
+        8
+      ], 
+      [
+        273, 
+        8
+      ], 
+      [
+        337, 
+        8
+      ], 
+      [
+        542, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        98, 
+        6
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        518, 
+        6
+      ], 
+      [
+        590, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        624, 
+        7
+      ], 
+      [
+        820, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        648, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        735, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        509, 
+        7
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        204, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        232, 
+        7
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        581, 
+        6
+      ], 
+      [
+        814, 
+        6
+      ], 
+      [
+        886, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        12, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        39, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        19, 
+        8
+      ], 
+      [
+        119, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [
+      [
+        167, 
+        21
+      ], 
+      [
+        730, 
+        21
+      ]
+    ], 
+    "valid encoding": [
+      [
+        831, 
+        14
+      ], 
+      [
+        1016, 
+        14
+      ]
+    ], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        230, 
+        8
+      ], 
+      [
+        290, 
+        8
+      ], 
+      [
+        421, 
+        8
+      ], 
+      [
+        493, 
+        8
+      ], 
+      [
+        551, 
+        8
+      ], 
+      [
+        612, 
+        8
+      ], 
+      [
+        701, 
+        8
+      ], 
+      [
+        837, 
+        8
+      ], 
+      [
+        1022, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        197, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [
+      [
+        671, 
+        6
+      ], 
+      [
+        1167, 
+        6
+      ]
+    ], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        804, 
+        4
+      ], 
+      [
+        989, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [
+      [
+        0, 
+        23
+      ], 
+      [
+        2, 
+        21
+      ], 
+      [
+        325, 
+        21
+      ]
+    ], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        210, 
+        9
+      ], 
+      [
+        296, 
+        9
+      ], 
+      [
+        720, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [
+      [
+        872, 
+        7
+      ], 
+      [
+        913, 
+        6
+      ], 
+      [
+        949, 
+        6
+      ]
+    ], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [
+      [
+        667, 
+        4
+      ], 
+      [
+        757, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        19, 
+        8
+      ], 
+      [
+        113, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [], 
+    "characters": [], 
+    "word": [], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [
+      [
+        744, 
+        14
+      ]
+    ], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        211, 
+        8
+      ], 
+      [
+        314, 
+        8
+      ], 
+      [
+        375, 
+        8
+      ], 
+      [
+        514, 
+        8
+      ], 
+      [
+        696, 
+        8
+      ], 
+      [
+        750, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [
+      [
+        178, 
+        8
+      ]
+    ], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [
+      [
+        153, 
+        16
+      ], 
+      [
+        417, 
+        16
+      ]
+    ], 
+    "characters": [], 
+    "word": [
+      [
+        486, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [
+      [
+        0, 
+        31
+      ], 
+      [
+        10, 
+        21
+      ]
+    ], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [
+      [
+        173, 
+        8
+      ], 
+      [
+        343, 
+        8
+      ]
+    ], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [
+      [
+        24, 
+        19
+      ], 
+      [
+        35, 
+        16
+      ], 
+      [
+        242, 
+        16
+      ]
+    ], 
+    "characters": [], 
+    "word": [
+      [
+        290, 
+        4
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }, 
+  {
+    "computational problem": [], 
+    "valid encoding": [], 
+    "reversal of a language": [], 
+    "encoding": [], 
+    "deterministic finite automaton": [], 
+    "substring": [], 
+    "decided": [], 
+    "length of a string": [], 
+    "rejects the string": [], 
+    "accepting computation path": [], 
+    "alphabet": [], 
+    "star of a language": [], 
+    "power of a string": [], 
+    "power of a language": [], 
+    "symbols": [], 
+    "reversal of a string": [], 
+    "concatenation of languages": [], 
+    "set of accepting states of the DFA": [], 
+    "string": [], 
+    "accepts a string": [], 
+    "decision problem": [
+      [
+        45, 
+        17
+      ], 
+      [
+        115, 
+        16
+      ], 
+      [
+        274, 
+        16
+      ], 
+      [
+        388, 
+        16
+      ], 
+      [
+        518, 
+        17
+      ], 
+      [
+        646, 
+        16
+      ]
+    ], 
+    "characters": [], 
+    "word": [
+      [
+        188, 
+        5
+      ]
+    ], 
+    "transition function of the DFA": [], 
+    "accepted": [], 
+    "DFA": [], 
+    "alphabet of the DFA": [], 
+    "rejecting computation path": [], 
+    "set of states of the DFA": [], 
+    "start state of the DFA": [], 
+    "language": [
+      [
+        244, 
+        8
+      ], 
+      [
+        323, 
+        8
+      ], 
+      [
+        493, 
+        9
+      ]
+    ], 
+    "concatenation of strings": [], 
+    "recognized": [], 
+    "computation path": [], 
+    "encodable": [], 
+    "regular language": [], 
+    "empty string": []
+  }
+]

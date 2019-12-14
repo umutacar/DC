@@ -1,0 +1,82 @@
+[
+  {
+    "rejects": [],
+    "accepting state of the TM": [],
+    "accepts": [],
+    "accepted": [],
+    "DFA": [
+      [
+        208,
+        3,
+        "DFA"
+      ]
+    ],
+    "rejecting state of the TM": []
+  },
+  {
+    "DFA": [],
+    "word": [],
+    "recognized": [],
+    "language": [
+      [
+        20,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {},
+  {
+    "deterministic finite automaton": [
+      [
+        83,
+        30,
+        "deterministic finite automaton"
+      ]
+    ],
+    "language": [
+      [
+        2,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "regular language": [],
+    "language": []
+  },
+  {
+    "language": [
+      [
+        7,
+        8,
+        "language"
+      ]
+    ]
+  },
+  {
+    "language": []
+  },
+  {
+    "language": []
+  },
+  {
+    "word": [],
+    "string": [],
+    "language": [],
+    "accepting state of the TM": [],
+    "deterministic finite automaton": [
+      [
+        206,
+        30,
+        "deterministic finite automaton"
+      ]
+    ],
+    "accepts": [],
+    "recognized": [],
+    "set of accepting states of the DFA": [],
+    "accepted": [],
+    "rejecting state of the TM": []
+  }
+]

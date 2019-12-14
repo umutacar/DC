@@ -1,0 +1,41 @@
+[
+  {
+    "DFA": {
+      "": [
+        [
+          45, 
+          3, 
+          "DFA"
+        ]
+      ]
+    }, 
+    "computation path": {
+      "": [
+        [
+          122, 
+          16, 
+          "computation path"
+        ], 
+        [
+          227, 
+          16, 
+          "computation path"
+        ]
+      ]
+    }, 
+    "accepts": {
+      "": [
+        [
+          217, 
+          9, 
+          "accepting"
+        ], 
+        [
+          313, 
+          7, 
+          "accepts"
+        ]
+      ]
+    }
+  }
+]

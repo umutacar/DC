@@ -1,0 +1,398 @@
+atom 0
+
+computational problem
+263 26	266 23	268 21	546 24	551 21
+length of a string
+380 14
+decision problem
+575 20	581 16
+encoding
+475 13	479 9
+string
+387 7	464 10	467 7	500 12	505 7
+atom 1
+
+atom 2
+
+alphabet
+8 8	111 8
+symbols
+33 6	57 15	61 11	66 6
+atom 3
+
+alphabet
+9 8	131 8	199 8
+symbols
+34 7	63 13	69 7	262 15	266 11	270 7
+atom 4
+
+alphabet
+10 8	140 9
+symbols
+37 7
+atom 5
+
+alphabet
+6 11	9 8
+symbols
+192 15	197 10	200 7
+string
+181 10	185 6
+atom 6
+
+string
+55 7	216 8	218 6
+atom 7
+
+string
+61 7	184 7	272 10	275 7
+atom 8
+
+language
+231 9
+string
+307 8	309 6
+atom 9
+
+symbols
+68 10	71 7
+atom 10
+
+word
+42 11	45 8	49 4
+atom 11
+
+encoding
+284 8
+alphabet
+13 14	16 11	19 8
+symbols
+126 7
+string
+76 7
+atom 12
+
+word
+74 5
+atom 13
+
+word
+80 5
+atom 14
+
+length of a string
+68 13
+string
+25 6	75 6
+word
+13 9	17 5	34 8	40 4	82 4	159 8	163 4
+atom 15
+
+alphabet
+58 11	61 8
+symbols
+39 6
+string
+185 7
+atom 16
+
+string
+71 13	74 10	78 6
+atom 17
+
+atom 18
+
+atom 19
+
+atom 20
+
+string
+95 13	98 10	102 6
+atom 21
+
+atom 22
+
+atom 23
+
+atom 24
+
+word
+83 11	86 8	90 4
+atom 25
+
+atom 26
+
+string
+0 14	4 10	8 6
+atom 27
+
+string
+7 13	12 8	14 6	47 9	50 6	74 16	78 12	83 7
+atom 28
+
+substring
+21 14	24 11	26 9	60 11	62 9	107 21	110 18	113 15	117 11	119 9
+string
+0 10	4 6
+atom 29
+
+alphabet
+82 17	87 12	91 8
+atom 30
+
+language
+83 13	86 10	88 8
+alphabet
+13 14	16 11	19 8
+atom 31
+
+language
+55 13	58 10	60 8
+atom 32
+
+language
+49 13	52 10	54 8
+alphabet
+13 14	16 11	19 8
+atom 33
+
+language
+52 13	55 10	57 8
+alphabet
+13 14	16 11	19 8
+atom 34
+
+length of a string
+213 14
+language
+6 10	8 8	90 10	92 8	185 8
+string
+220 7
+atom 35
+
+language
+0 12	4 8	28 24	31 21	35 17	39 13	44 8
+atom 36
+
+language
+4 8	253 15	256 12	260 8
+word
+248 4	404 17	409 12	413 8	417 4
+atom 37
+
+word
+766 4
+atom 38
+
+language
+73 15	76 12	80 8
+atom 39
+
+reversal of a language
+0 28	4 24
+language
+13 15	16 12	20 8
+atom 40
+
+language
+106 15	109 12	113 8
+atom 41
+
+concatenation of languages
+0 30	4 26
+language
+18 12	21 9	77 15	80 12	84 8
+atom 42
+
+language
+93 15	96 12	100 8
+atom 43
+
+language
+29 15	32 12	36 8
+atom 44
+
+language
+39 15	42 12	46 8
+atom 45
+
+power of a language
+8 21
+language
+14 15	17 12	21 8	34 15	37 12	41 8
+atom 46
+
+language
+69 15	72 12	76 8
+atom 47
+
+language
+37 12	41 8
+alphabet
+6 11	9 8
+symbols
+251 7
+string
+113 10	116 7	285 7
+atom 48
+
+language
+32 15	35 12	39 8
+symbols
+111 19	115 15	118 12	124 6
+word
+59 12	62 9	66 5
+atom 49
+
+language
+8 15	11 12	15 8
+symbols
+87 19	91 15	94 12	100 6
+word
+35 12	38 9	42 5
+atom 50
+
+atom 51
+
+atom 52
+
+language
+11 21	16 16	20 12	24 8
+atom 53
+
+language
+14 21	19 16	23 12	27 8
+atom 54
+
+encodable
+765 12	768 9
+encoding
+322 12	326 8	448 8	491 11	494 8
+alphabet
+180 14	183 11	186 8
+atom 55
+
+encoding
+115 14	118 11	121 8
+alphabet
+144 12	148 8
+atom 56
+
+encoding
+140 14	143 11	146 8
+alphabet
+169 12	173 8
+atom 57
+
+encoding
+149 8	186 13	191 8	200 14	203 11	206 8	438 13	443 8	470 12	474 8
+atom 58
+
+alphabet
+73 12	77 8
+atom 59
+
+encoding
+160 8
+alphabet
+59 12	63 8	627 8
+symbols
+428 15	433 10	437 6	519 6	568 8	570 6
+atom 60
+
+encoding
+180 8	565 8
+alphabet
+17 8	273 8	337 8	542 8
+symbols
+98 6
+string
+518 6	588 8	590 6
+atom 61
+
+encoding
+816 12	820 8
+alphabet
+648 8
+symbols
+795 6
+atom 62
+
+language
+55 8
+encoding
+168 8
+alphabet
+194 18	200 12	204 8
+symbols
+232 7
+string
+144 8	146 6	574 13	577 10	581 6	810 10	814 6	879 13	882 10	886 6
+atom 63
+
+encoding
+9 11	12 8
+alphabet
+35 12	39 8
+atom 64
+
+atom 65
+
+alphabet
+13 14	16 11	19 8	110 17	115 12	119 8
+atom 66
+
+computational problem
+162 26	165 23	167 21	726 25	730 21
+valid encoding
+826 19	829 16	831 14	1011 19	1014 16	1016 14
+encoding
+227 11	230 8	283 15	287 11	290 8	414 15	417 12	421 8	493 8	544 15	547 12	551 8	612 8	694 15	697 12	701 8	837 8	1022 8
+alphabet
+189 16	194 11	197 8
+symbols
+667 10	671 6	1167 6
+word
+799 9	802 6	804 4	987 6	989 4
+atom 67
+
+computational problem
+0 23	2 21	321 25	325 21
+encoding
+194 25	197 22	202 17	210 9	563 8	714 14	717 11	720 8
+string
+865 14	868 11	872 7	913 6	938 17	941 14	944 11	949 6
+word
+661 10	665 6	667 4	755 6	757 4
+atom 68
+
+alphabet
+13 14	16 11	19 8	104 17	109 12	113 8
+atom 69
+
+decision problem
+148 21	151 18	153 16	413 20	417 16
+valid encoding
+735 23	738 20	742 16	744 14
+encoding
+208 11	211 8	307 15	310 12	314 8	375 8	508 14	511 11	514 8	689 15	692 12	696 8	750 8
+alphabet
+170 16	175 11	178 8
+word
+481 9	484 6	486 4
+atom 70
+
+decision problem
+33 18	35 16	238 20	242 16
+encoding
+154 27	157 24	162 19	170 11	173 8	337 14	340 11	343 8
+word
+286 8	290 4
+atom 71
+
+decision problem
+37 25	45 17	107 24	110 21	115 16	267 23	270 20	274 16	388 16	515 20	518 17	646 16
+language
+63 13	67 9	237 15	240 12	244 8	319 12	323 8	490 12	493 9	663 8
+word
+181 12	184 9	188 5
