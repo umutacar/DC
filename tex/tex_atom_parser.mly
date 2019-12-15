@@ -3,7 +3,15 @@
  ** This parser does not parse the whole input but just 
  ** checks that the input is a (single standing) atom.
  ** If not, it basically aborts and returns None.
+ ** 
+ ** This is implemented as follows. 
+ ** The lexer returns ATOM tokens for the environments it matches.
+ ** The parser requires there to be one atom followed by EOF.
+ ** If such a things is found, then the atom is returned.
+ ** Otherwise, there are multiple atoms, and if there are other characters
+ ** following the atom, the parser returns "None".
  **********************************************************************)
+
 %{
 open Core
 open Printf

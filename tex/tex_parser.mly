@@ -315,29 +315,40 @@ atom:
   {	 
 	 let (all, ell) = tp_all in
    let a = parse_atom all in
-	 let (kind, popt, kw_args, lopt, body, capopt, problem_opt) = 
+	 let (kind, popt, plopt, kw_args, lopt, body, capopt, problem_opt) = 
 	   match a with 
-		 | None -> (Tex.kw_gram, None, [], None, all, None, None)
+		 | None -> (Tex.kw_gram, None, None, [], None, all, None, None)
 		 | Some (kind, popt, kw_args, lopt, body, capopt, items) -> 
-         if Tex.is_atom kind then
-					 let problem_opt = Ast.problem_of_items items in
-					 (kind, popt, kw_args, lopt, body, capopt, problem_opt)
-				 else
+         match Tex.is_atom kind with
+				 | Some (kind, plopt) -> 
+             let problem_opt = Ast.problem_of_items items in
+    					 (kind, popt, plopt, kw_args, lopt, body, capopt, problem_opt)
+         | None ->
            (* Promote all non-atom, but single standing environments to gram atom. *)
-					 (Tex.kw_gram, None, [], None, all, None, None)
+					 (Tex.kw_gram, None, None, [], None, all, None, None)
 					 
 	 in			 
 (*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
 	 let body = String.strip ~drop:is_vert_space body in
+   let version_opt = find_in_list kw_args "version" in
    let topt = find_in_list kw_args "title" in
    let copt = find_in_list kw_args "cover" in
    let sopt = find_in_list kw_args "sound" in
+   let pl_version_opt = 
+     if Tex.is_code kind then   
+			 let _ = d_printf "code atom: version = %s\n" (str_of_str_opt version_opt) in
+			 version_opt
+		 else
+			 None
+	 in
 
 	 if Tex.is_label_only body then
 		 ([ ], ell)
 	 else
 		 let a = Ast.Atom.make 
 				 ~point_val:popt 
+				 ~pl:plopt 
+				 ~pl_version:pl_version_opt
 				 ~title:topt
          ~cover:copt
          ~sound:sopt 

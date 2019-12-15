@@ -8,6 +8,22 @@ Binaries are available for `MacOS` and `Ubuntu` (Linux) under the directory `bin
 
 # Building DC
 
+## Building Binaries for the gude
+
+For MacOS
+
+```
+$ make guide_macos
+```
+
+For 
+
+```
+$ cd docker
+$ make guide_ubuntu
+```
+
+
 
 ## Compiling DC Binaries.
 

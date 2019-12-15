@@ -49,7 +49,9 @@ LaTeX sources are translated into as AST in three passes.
     - rewriting of `\infer` into an LaTeX/MathJax friendly code.      
     - rewriting of `\caption[Title]{Caption itself}` into `\caption{Caption itself}`
 
-3. Pass III: `tex_atom_lexer.mll` and `tex_atom_parser.mly` checks whether paragraphs are atoms and creates the AST based.
+3. Pass III: `tex_atom_lexer.mll` and `tex_atom_parser.mly` checks whether paragraphs are atoms and creates the AST based on this.
+   
+   For uniformity, all atom arguments are treated as "labeled arguments" and passed as a labeled list of the form [(title, my_title), (cover, my_cover), ...] 
 
 After AST is created, we traverse it and 
 1) normalize by creating groups for all atoms that lack one
