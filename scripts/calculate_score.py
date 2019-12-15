@@ -24,8 +24,6 @@ TRUE_POS = 0
 FALSE_NEG = 0
 FALSE_POS = 0
 
-stopwords = constants.POSTGRES_STOP_WORDS
-
 def open_json_file(filename):
 	with open(filename, "r") as read_file:
 		print(read_file)
@@ -205,19 +203,20 @@ if __name__=='__main__':
 	atoms = parse_atoms(tex_str)
 	answer_key = open_json_file(args.answer_file)
 	experiment_results = open_json_file(args.prediction_file)
-
 	doc = Document()
 	doc.add_heading(args.prediction_file)
-	for i in range(len(atoms)):
+	for i in range(20):# len(atoms)):
 		print("ATOM ", i)
-		results = find_matches_per_atom(answer_key[i], experiment_results[i])
+		print(answer_key[i+10])
+		print(len(experiment_results))
+		results = find_matches_per_atom(answer_key[i+10], experiment_results[i])
 		all_results = [] 
 		for (keyterm, match_list) in results.items():
 			all_results += match_list
 		all_results.sort(key = lambda x: x[1]) # 0 -> keyphrase, 1 -> index, length, 2 -> color
 		print(all_results)
 		doc.add_heading('atom ' + str(i))
-		(true_pos, false_pos, false_neg) = generate_labelled_atom(doc, atoms[i], all_results)
+		(true_pos, false_pos, false_neg) = generate_labelled_atom(doc, atoms[i+10], all_results)
 		all_true_pos += true_pos
 		all_false_pos += false_pos
 		all_false_neg += false_neg

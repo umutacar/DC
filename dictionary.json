@@ -1,0 +1,414 @@
+[
+  [
+    "is big-O of", 
+    "\\label{definition:Big-O}"
+  ], 
+  [
+    "is big-Omega of", 
+    "\\label{definition:Big-Omega}"
+  ], 
+  [
+    "is Theta of", 
+    "\\label{definition:Theta}"
+  ], 
+  [
+    "worst-case running time", 
+    "\\label{definition:Worst-case-running-time-of-an-algorithm}"
+  ], 
+  [
+    "integer addition problem", 
+    "\\label{definition:Integer-addition-and-integer-multiplication-problems}"
+  ], 
+  [
+    "integer multiplication problem", 
+    "\\label{definition:Integer-addition-and-integer-multiplication-problems}"
+  ], 
+  [
+    "deterministic finite automaton", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "DFA", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "set of states of the DFA", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "alphabet of the DFA", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "transition function of the DFA", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "start state of the DFA", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "set of accepting states of the DFA", 
+    "\\label{definition:Deterministic-Finite-Automaton-DFA}"
+  ], 
+  [
+    "computation path", 
+    "\\label{definition:Computation-path-for-a-DFA}"
+  ], 
+  [
+    "accepting computation path", 
+    "\\label{definition:Computation-path-for-a-DFA}"
+  ], 
+  [
+    "rejecting computation path", 
+    "\\label{definition:Computation-path-for-a-DFA}"
+  ], 
+  [
+    "accepts a string", 
+    "\\label{definition:A-DFA-accepting-a-string}"
+  ], 
+  [
+    "rejects the string", 
+    "\\label{definition:A-DFA-accepting-a-string}"
+  ], 
+  [
+    "recognized", 
+    "\\label{definition:Language-recognized-accepted-by-a-DFA}"
+  ], 
+  [
+    "accepted", 
+    "\\label{definition:Language-recognized-accepted-by-a-DFA}"
+  ], 
+  [
+    "decided", 
+    "\\label{definition:Language-recognized-accepted-by-a-DFA}"
+  ], 
+  [
+    "regular language", 
+    "\\label{definition:Regular-language}"
+  ], 
+  [
+    "matching", 
+    "\\label{definition:Matching----maximum-maximal-perfect}"
+  ], 
+  [
+    "maximum matching", 
+    "\\label{definition:Matching----maximum-maximal-perfect}"
+  ], 
+  [
+    "maximal matching", 
+    "\\label{definition:Matching----maximum-maximal-perfect}"
+  ], 
+  [
+    "perfect matching", 
+    "\\label{definition:Matching----maximum-maximal-perfect}"
+  ], 
+  [
+    "maximum matching problem", 
+    "\\label{definition:Maximum-matching-problem}"
+  ], 
+  [
+    "augmenting path", 
+    "\\label{definition:Augmenting-path}"
+  ], 
+  [
+    "alternating path", 
+    "\\label{definition:Augmenting-path}"
+  ], 
+  [
+    "bipartite", 
+    "\\label{definition:Bipartite-graph}"
+  ], 
+  [
+    "alphabet", 
+    "\\label{definition:Alphabet-symbol-character}"
+  ], 
+  [
+    "symbols", 
+    "\\label{definition:Alphabet-symbol-character}"
+  ], 
+  [
+    "characters", 
+    "\\label{definition:Alphabet-symbol-character}"
+  ], 
+  [
+    "string", 
+    "\\label{definition:String-word-empty-string}"
+  ], 
+  [
+    "word", 
+    "\\label{definition:String-word-empty-string}"
+  ], 
+  [
+    "empty string", 
+    "\\label{definition:String-word-empty-string}"
+  ], 
+  [
+    "length of a string", 
+    "\\label{definition:Length-of-a-string}"
+  ], 
+  [
+    "reversal of a string", 
+    "\\label{definition:Reversal-of-a-string}"
+  ], 
+  [
+    "concatenation of strings", 
+    "\\label{definition:Concatenation-of-strings}"
+  ], 
+  [
+    "power of a string", 
+    "\\label{definition:Powers-of-a-string}"
+  ], 
+  [
+    "substring", 
+    "\\label{definition:Substring}"
+  ], 
+  [
+    "language", 
+    "\\label{definition:Language}"
+  ], 
+  [
+    "reversal of a language", 
+    "\\label{definition:Reversal-of-a-language}"
+  ], 
+  [
+    "concatenation of languages", 
+    "\\label{definition:Concatenation-of-languages}"
+  ], 
+  [
+    "power of a language", 
+    "\\label{definition:Powers-of-a-language}"
+  ], 
+  [
+    "star of a language", 
+    "\\label{definition:Star-operation-on-a-language}"
+  ], 
+  [
+    "encoding", 
+    "\\label{definition:Encoding-of-a-set}"
+  ], 
+  [
+    "valid encoding", 
+    "\\label{definition:Encoding-of-a-set}"
+  ], 
+  [
+    "encodable", 
+    "\\label{definition:Encoding-of-a-set}"
+  ], 
+  [
+    "computational problem", 
+    "\\label{definition:Computational-problem}"
+  ], 
+  [
+    "decision problem", 
+    "\\label{definition:Decision-problem}"
+  ], 
+  [
+    "Turing machine", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "set of states of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "blank symbol", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "input alphabet of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "tape alphabet of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "transition function of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "initial state of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "the starting state of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "accepting state of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "rejecting state of the TM", 
+    "\\label{definition:Turing-machine}"
+  ], 
+  [
+    "configuration", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "accepting configuration", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "rejecting configuration", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "halts", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "computation trace", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "accepts", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "rejects", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "loops", 
+    "\\label{definition:A-TM-accepting-or-rejecting-a-string}"
+  ], 
+  [
+    "decider", 
+    "\\label{definition:Decider-Turing-machine}"
+  ], 
+  [
+    "decides", 
+    "\\label{definition:Language-accepted-and-decided-by-a-TM}"
+  ], 
+  [
+    "decidable", 
+    "\\label{definition:Decidable-language}"
+  ], 
+  [
+    "computable", 
+    "\\label{definition:Decidable-language}"
+  ], 
+  [
+    "universal Turing machine", 
+    "\\label{definition:Universal-Turing-machine}"
+  ], 
+  [
+    "halting problem", 
+    "\\label{definition:Halting-problem}"
+  ], 
+  [
+    "undirected graph", 
+    "\\label{definition:Undirected-graph}"
+  ], 
+  [
+    "vertices", 
+    "\\label{definition:Undirected-graph}"
+  ], 
+  [
+    "nodes", 
+    "\\label{definition:Undirected-graph}"
+  ], 
+  [
+    "edges", 
+    "\\label{definition:Undirected-graph}"
+  ], 
+  [
+    "neighbors", 
+    "\\label{definition:Neighborhood-of-a-vertex}"
+  ], 
+  [
+    "adjacent", 
+    "\\label{definition:Neighborhood-of-a-vertex}"
+  ], 
+  [
+    "incident", 
+    "\\label{definition:Neighborhood-of-a-vertex}"
+  ], 
+  [
+    "neighborhood", 
+    "\\label{definition:Neighborhood-of-a-vertex}"
+  ], 
+  [
+    "degree", 
+    "\\label{definition:Neighborhood-of-a-vertex}"
+  ], 
+  [
+    "path", 
+    "\\label{definition:Paths-and-cycles}"
+  ], 
+  [
+    "cycle", 
+    "\\label{definition:Paths-and-cycles}"
+  ], 
+  [
+    "acyclic", 
+    "\\label{definition:Paths-and-cycles}"
+  ], 
+  [
+    "connected", 
+    "\\label{definition:Connected-graph-connected-component}"
+  ], 
+  [
+    "connected graph", 
+    "\\label{definition:Connected-graph-connected-component}"
+  ], 
+  [
+    "connected component", 
+    "\\label{definition:Connected-graph-connected-component}"
+  ], 
+  [
+    "tree", 
+    "\\label{definition:Tree-leaf-internal-node}"
+  ], 
+  [
+    "leaf", 
+    "\\label{definition:Tree-leaf-internal-node}"
+  ], 
+  [
+    "internal node", 
+    "\\label{definition:Tree-leaf-internal-node}"
+  ], 
+  [
+    "directed graph", 
+    "\\label{definition:Directed-graph}"
+  ], 
+  [
+    "out-degree", 
+    "\\label{definition:Neighborhood-out-degree-in-degree-sink-source}"
+  ], 
+  [
+    "in-degree", 
+    "\\label{definition:Neighborhood-out-degree-in-degree-sink-source}"
+  ], 
+  [
+    "sink", 
+    "\\label{definition:Neighborhood-out-degree-in-degree-sink-source}"
+  ], 
+  [
+    "source", 
+    "\\label{definition:Neighborhood-out-degree-in-degree-sink-source}"
+  ], 
+  [
+    "arbitrary-first search", 
+    "\\label{definition:Arbitrary-first-search-AFS-algorithm}"
+  ], 
+  [
+    "breadth-first search", 
+    "\\label{definition:Breadth-first-search-BFS-algorithm}"
+  ], 
+  [
+    "depth-first search", 
+    "\\label{definition:Depth-first-search-DFS-algorithm}"
+  ], 
+  [
+    "minimum spanning tree problem", 
+    "\\label{definition:Minimum-spanning-tree-MST-problem}"
+  ]
+]

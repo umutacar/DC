@@ -1,14 +1,15 @@
 from __future__ import unicode_literals
 
-import datetime
-import en_core_web_sm
 import en_core_web_md
 
 import sys
 import re
 import os
 import spacy
+import json
+import argparse
 from itertools import combinations
+
 reload(sys)
 sys.setdefaultencoding('utf8')
 
@@ -16,11 +17,12 @@ sys.setdefaultencoding('utf8')
 import constants
 
 
-nlp = spacy.load('en_core_web_md')
+nlp = spacy.load('en_core_web_md', disable=['ner'])
 nlpL = spacy.load('en_core_web_md', disable=['ner', 'parser'])
 nlpL.add_pipe(nlpL.create_pipe('sentencizer'))
 
-
+print(os.getcwd())
+sys.path.append(os.getcwd())
 stopwords = constants.POSTGRES_STOP_WORDS
 
 # constants
@@ -31,8 +33,6 @@ END_LEN = len("\\end{")
 GROUPING_ARGS = ['cluster', 'flex']
 MATH_ARGS = ['math', 'equation', 'align', 'array', 'table', 'tabular']
 GRAPHIC_ARGS = ['center', 'image']
-
-GLOBAL_INDEX = {}
 
 def lemmatize(text):
 	# Extracts roots of words
@@ -81,10 +81,11 @@ def strip_stopwords(text):
 	return " ".join(stripped_a)
 
 # return true if curr_phrase is a super string of any strings in phrases_seen
-def superString(phrases_seen, curr_phrase):
+def overlapping_substring(phrases_seen, curr_phrase):
 	index, length = curr_phrase
-	overlapping_phrases = list(filter(lambda x: index <= x[0] and index+length >= x[0]+x[1], phrases_seen))
-	return (overlapping_phrases != [])
+	non_overlapping_phrases = list(filter(lambda x: index + length < x[0] or x[0] + x[1] < index, phrases_seen))
+	# overlapping_phrases = list(filter(lambda x: index <= x[0] and index+length >= x[0]+x[1], phrases_seen))
+	return (len(phrases_seen) != len(non_overlapping_phrases))
 
 # given a string, create a list that maps each word to its index
 def word_indices(string):
@@ -99,6 +100,23 @@ def word_indices(string):
 		index += 1
 	return result
 
+
+# given a string, create a list of (start, end) indices that correspond to non-stopwords
+def nonstopword_indices(string):
+	indices = word_indices(string) + [len(string)]
+	result = []
+	for i in range(len(indices)):
+		index = indices[i]
+		if (i < len(indices) - 1):
+			next_index = indices[i+1]
+			word = string[index:next_index].strip()
+		else:
+			word = string[index:].strip()
+
+		if (word.lower() not in stopwords):
+			result.append( (index, len(word)) )
+	return result
+
 # given a list of sentences, create a list that maps each sentence to its index
 def sentence_indices(sentences):
 	sentences_length = list(map(lambda x: len(x) + 1, sentences)) # +1 for the '.'
@@ -109,78 +127,69 @@ def sentence_indices(sentences):
 		cumulative_length += length
 	return cumulative_sentence_length_list
 
-# given a dictionary of key phrases mapped to their labels, write them to file_name
-def write_to_file(dictionary, file_name):
-	new_list = dictionary.items()
-	# if file_name we are writing to already exists, then we want to extract the existing labels
-	if (os.path.exists(file_name)):
-		read_file = open(file_name, "r")
-		read_str = read_file.read()
-		read_file.close()
-		stored_lines = list(filter(lambda x: x, read_str.split("\n")))
-		stored_list = list(map(lambda x: x.split('\\label{'), stored_lines))
-		stored_list = [(keyphrase, "\\label{" + label) for (keyphrase, label) in stored_list]
-		stored_list += new_list
-	# if file_name doesn't exist, then we just want to create and write to file_name
-	else:
-		stored_list = new_list
+def find_sentence_index(atom, index):
+	sentence_length = sentence_indices(atom.decode().strip().split('.'))
+	if (index == 0):
+		return 0
+	elif (index >= sentence_length[-1]):
+		return len(sentence_length) - 1
+	i = 0
+	while (sentence_length[i] <= index):
+		i+=1
+	return i - 1
 
-	stored_list.sort(key=lambda x: len(x[0]))
-	result_str = ""
-	file_obj = open(file_name, "w+")
-	for keyphrase, label in stored_list:
-		result_str += keyphrase + "\t"
-		result_str += label + "\n"
-	file_obj.write(result_str)
-	file_obj.close()
+def extract_definitions_from_chapter(chapter_file):
+	def_to_labels = []
+	with open(chapter_file, "r") as read_file:
+		chapter = read_file.read()
+		# defn_list = re.findall(r'\\defn{[ \w-]*}', chapter)
+		# def_list = re.findall(r'\\def{[ \w-]*}', chapter)
+		# defn_keyphrase = list(set([defn[6:-1] for defn in defn_list] + [defn[5:-1] for defn in defn_list]))
+		
+		begin_index = 0
+		begin_definition = re.search(r'\\begin{definition*}', chapter)
+		while (chapter and begin_definition):
+			end_definition = re.search(r'\\end{definition*}', chapter)
+			# finds \\defn{} per atom
+			atom = chapter[begin_definition.start(): end_definition.end()]
 
-def file_to_dictionary_list(dict_filename):
-	f = open(dict_filename, 'r')
-	dict_str = f.read()
-	lines = [d.split("\\label{") for d in dict_str.strip().split("\n")]
-	lines = list(filter(lambda x: x, lines))
-	# last element of dict_list is an empty list
-	list_tuples = list(map(lambda x: (x[0].strip(), x[1].strip()[:-1]), lines))
-	return list_tuples
+			def_list, defn_list = re.findall(r'\\def{[ \w-]*}', atom), re.findall(r'\\defn{[ \w-]*}', atom)
+			definitions = [defn[6:-1] for defn in defn_list] + [defn[5:-1] for defn in def_list]
+	
+			label = re.findall(r'\\label{.*}', atom)
+			if (len(label) != 1):
+				print(atom)
+				print "Error: there exists multiple or no labels for definition " + definitions
+			else:
+				for defn in definitions:
+					def_to_labels.append( [defn, label[0]] )
 
-def file_to_atom_keyphrase_indices(filename):
-	g = open(filename, "r")
-	txt_str = g.read()
-	g.close()
-	atoms = []
-	atom_lines = txt_str.split("atom ")
-	for atom_line in atom_lines:
-		atom_line = atom_line[2:].strip()
-		keyphrase_to_indices = {}
-		keyphrase_lines = atom_line.decode().split("\n")
-		if (len(keyphrase_lines) < 2):
-			continue
-		for i in range(0, len(keyphrase_lines), 2):
-			keyphrase = keyphrase_lines[i].decode()
-			indices = keyphrase_lines[i+1].decode()
-			if (indices):
-				print(keyphrase, indices)
-				indices_list_of_strs = indices.split("\t")
-				indices_list = list(map(lambda lst: (lst.split()[0], lst.split()[1]), indices_list_of_strs))
-				indices_list_nums = list(map(lambda (x, y): (int(x), int(y)), indices_list))
-				keyphrase_to_indices[keyphrase] = indices_list_nums
-		atoms.append(keyphrase_to_indices)
-	return atoms
+			chapter = chapter[end_definition.end():]
+			begin_definition = re.search(r'\\begin{definition*}', chapter)
+	return def_to_labels
 
-def atoms_keyphrase_indices_to_file(filename, atom_indices):
-	g = open(filename, "w+")
-	txt_str = ""
-	for atom in range(len(atom_indices)):
-		txt_str += "atom " + str(atom) + "\n"
-		for (keyphrase, index_list) in atom_indices[atom]:
-			if (index_list == []):
-				continue
-			txt_str += "\n" + keyphrase + "\n"
-			index_list_str = list(map(lambda x: str(x[0]) + " " + str(x[1]), index_list))
-			txt_str += "\t".join(index_list_str)
-		txt_str += "\n"
-	g.write(txt_str)
-	g.close()
+# given: no dictionar.txt is declared
+# return: list of [keyphrase, label] pairs
+def create_dictionary(chapter_files):
+	dictionary = []
+	for file in chapter_files:
+		chapter_keyphrases = extract_definitions_from_chapter(file)
+		print(file, chapter_keyphrases)
+		dictionary += chapter_keyphrases
+	return dictionary
+
+def read_from_json(filename):
+	with open(filename, "r") as read_file:
+		print(read_file)
+		data = json.load(read_file)
+		return data
+
+def write_to_json(filename, atom_indices):
+	# filter out results that are empty
+	with open(filename, "w+") as write_file:
+		json_str = json.dumps(atom_indices, indent=2)
+		write_file.write(json_str)
+		write_file.close()
 
 # return true if end of string[:index] contains an argument to a command
 def is_argument(string, index):
@@ -222,6 +231,11 @@ def is_math_expression(string, index):
 			if (end_arg == -1):
 				return True
 	return False
+
+def is_valid_expression(string, index):
+	return not (is_math_expression(string, index) \
+				or is_command(string, index) \
+				or is_argument(string, index))
 
 # given string, label, and map of keyphrases to indices, insert the labels as necessary
 def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
@@ -286,14 +300,6 @@ def insert_label(string, def_to_label, atom_keyphrase_to_indices):
 	atoms.append( (str_iref, keyphrase_to_indices) )	
 	return atoms
 
-def checkPOSMatch(doc1, doc2):
-	assert(len(doc1) == len(doc2))
-	for i in range(len(doc1)):
-		if doc1[i].pos_ != doc2[i].pos_:
-			return False
-	return True
-	
-
 def identify_implicit_refs(tex_str, keyphrase_to_label):
 	def parseAtoms(tex):
 		atoms = []
@@ -307,7 +313,6 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 			flex_end_index = tex.find("\\end{flex}")
 			tex = tex[:flex_end_index] + tex[flex_end_index + len("\\end{flex}"):]
 			flex_instance = tex.find("\\begin{flex}")
-
 		# remove gram
 		gram_instance = tex.find("\\begin{gram}")
 		while (gram_instance != -1):
@@ -317,7 +322,6 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 			gram_end_index = tex.find("\\end{gram}")
 			tex = tex[:gram_end_index] + tex[gram_end_index + len("\\end{gram}"):]
 			gram_instance = tex.find("\\begin{gram}")
-
 		while (tex):
 			tex = tex.strip()
 			begin_index = tex.find("\\begin{")
@@ -326,132 +330,182 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 			end_len = len("\\end{" + arg + "}")
 			atom = tex[begin_index:end+end_len]
 			atom = atom.split('\n')[1:-1] # remove begin and end
+			if ("\\label{" in atom[0]):
+				atom = atom[1:]
 			atom = "\n".join(atom)
 			atoms.append(atom)
 			tex = tex[end+end_len:]
 		return atoms
 
-	# input: nlp output, docs
-	def getPhrases(docs):
+	# input: atom text
+	def getPhrases(text):
 		phrases_numbered = []
 		phrases = []
-		parsed_string = re.sub(r"``", "  ", docs.text)
+		parsed_string = re.sub(r"``", "  ", text)
 		parsed_string = re.sub(r"''", "  ", parsed_string)
-		# parsed_string = re.sub(r"/", " ", parsed_string)
 		parsed_string = re.sub(r",", " ", parsed_string)
 		cleaned_sentences = parsed_string.split('.')
-
-		sentences = docs.text.split('.')
+		sentences = text.split('.')
 		cumulative_slen_list = sentence_indices(sentences)
-
+		# print("getPhrases, cumulative slen list: ", cumulative_slen_list)
 		# testing sentences 
 		for i in range(len(cleaned_sentences)):
 			clean_sentence = cleaned_sentences[i]
+			# clean_sentence_doc = nlpL(clean_sentence)
 			if clean_sentence == '':
 				continue
-			# have the word_index_list be for the non parsed sentences because otherwise the indexing is off
-			word_index_list = word_indices(sentences[i])
-			lst = clean_sentence.split()
+			nonstopword_index_list = nonstopword_indices(clean_sentence)
+			# print(clean_sentence, nonstopword_index_list)
+			for (s, length) in nonstopword_index_list:
+				curr_phrase = clean_sentence[s:s+length]
+				# print(curr_phrase)
+				stripped_phrase = curr_phrase.strip()
+				try:
+					index = cumulative_slen_list[i] + s
+				except:
+					print("Indexing error in sentence, " + sentences[i], " for word index " + str(s))
+				if (is_valid_expression(text, index)):
+					index = cumulative_slen_list[i] + s
+					phrases_numbered.append( (index, curr_phrase.strip(), lemmatize(nlpL(stripped_phrase.decode()))) )
 
-			# next step: change for loop to use word_indices
-			for start, end in combinations(word_index_list + [len(clean_sentence)], 2):
-				curr_phrase = clean_sentence[start:end]
-				
-				stripped_phrase = strip_stopwords(curr_phrase)
-				if(len(stripped_phrase)>0):
-					try:
-						index = cumulative_slen_list[i] + start
-					except:
-						print("Indexing error in sentence, " + sentences[i], lst, " for word index " + str(start))
-					phrases_numbered.append((index, curr_phrase, stripped_phrase, lemmatize(nlpL(stripped_phrase.decode()))))
+			for ((s1, len1), (s2, len2)) in combinations(nonstopword_index_list, 2):
+				curr_phrase = clean_sentence[s1:s2 + len2]
+				stripped_phrase = curr_phrase.strip()
+				try:
+					index = cumulative_slen_list[i] + s1
+				except:
+					print("Indexing error in sentence, " + sentences[i], " for word index " + str(s1))
+				phrases_numbered.append( (cumulative_slen_list[i] + s1, curr_phrase.strip(), lemmatize(nlpL(stripped_phrase.decode()))) )
+			# # have the word_index_list be for the non parsed sentences because otherwise the indexing is off
+			# word_index_list = word_indices(clean_sentence) + [len(clean_sentence)]
+			# for start, end in combinations(word_index_list, 2):
+			# 	# if(len(stripped_phrase)>0):
+			# 	# 	index = cumulative_slen_list[i] + start
+			# 	# 	phrases_numbered.append((index, curr_phrase, stripped_phrase.text, stripped_phrase))
+			# 	curr_phrase = clean_sentence[start:end]
+			# 	stripped_phrase = strip_stopwords(curr_phrase)
+			# 	if(len(stripped_phrase)>0):
+			# 		try:
+			# 			index = cumulative_slen_list[i] + start
+			# 		except:
+			# 			print("Indexing error in sentence, " + sentences[i], " for word index " + str(start))
+			# 		phrases_numbered.append((cumulative_slen_list[i], start, curr_phrase, lemmatize(nlpL(stripped_phrase.decode()))))
 		return phrases_numbered
 
 	# text =  re.sub(r"\\def{[^\}].*?}|\{|\}|\\\[[^\\\]].*?\\\]|\(|\)|\\|\"|\'|\`|,|\\\w+\b|\$[^\$].*?\$", " ", tex_str)
 	# text =  re.sub(r"\\\[[^\\\]].*?\\\]|\"|\'|\`|,|\\\w+\b|\$[^\$].*?\$", " ", tex_str)
 	tex_str = re.sub(r"-", " ", tex_str)
 	tex_str = re.sub(r"/", " ", tex_str)
+	tex_str = re.sub(r"~", " ", tex_str)
+	tex_str = re.sub(r";", " ", tex_str)
+	tex_str = re.sub(r":", " ", tex_str)
+	# tex_str = re.sub("?", " ", tex_str)
+
+	# input: 
+	# return true if keyphrase is not being used as an adjective and false otherwise
+	def checkMatch(atom, index, curr_phrase):
+		print(curr_phrase, index)
+		# check that the phrase is 1 word
+		if (len(curr_phrase.strip().split()) > 1):
+			return True
+		# determine which sentence index belongs to
+		sentences = atom.decode().strip().split('.')
+		cumulative_slen = sentence_indices(sentences)
+
+		sentence_index = find_sentence_index(atom, index)
+		
+		sentence = sentences[sentence_index]
+		sentence_doc = nlp(sentence)
+		# finding corresponding nlp token
+		token_index = 0
+		while (len(sentence_doc[:token_index].text) <= index - cumulative_slen[sentence_index]):
+			token_index += 1
+		token = sentence_doc[token_index - 1]
+		if (token.text.strip() != curr_phrase.strip()):
+			return True
+		assert(token.text.strip() == curr_phrase.strip())
+		if (token.pos_ == 'NOUN' or token.pos_ == 'VERB'):
+			# make sure a phrase that is supposedly a noun or a verb is NOT an adjective
+			# if (token.head.pos_ == 'NOUN' and token.dep_ != 'ROOT'): # valid match if head is a verb or if phrase is the root
+			# 	return False
+			# make sure the word is not part of a noun chunk that represents something else.
+			# ex: programming language, bipartite graph, etc
+			if (token.pos_ == 'NOUN' and token_index > 1):
+				prev_token = sentence_doc[token_index - 2]
+				# print(token.text, token.pos_, prev_token.text, prev_token.pos_)
+				return not (prev_token.head.text.strip() == token.text.strip() and prev_token.pos_ == 'NOUN')
+		return True
+
 	atoms = parseAtoms(tex_str)
-
-	# text = tex_str.decode()
-	# sentences = text.split(".")
-	# cumulative_slen = sentence_indices(sentences)
 	atom_to_iref_list = []
-	for i in range(1):
-		atom = atoms[54]
-		doc = nlp(atom.decode())
-		print "Finished creating doc for atom " + str(i)
+	for i in range(len(atoms)):
+		atom = atoms[i]
+		sentences = atom.decode().strip().split('.')
 		# src_textL: [(index, str, str, lemmatize phrase)]
-		src_textL = getPhrases(doc)
-
-		implicit_ref_to_index = []
+		src_textL = getPhrases(atom.decode())
+		print "Finished extracting phrases for atom " + str(i)
+		implicit_ref_to_index = {}
+		phrases_seen = set([])
 		for keyphrase, label in keyphrase_to_label:
 			implicit_ref_keyphrase = []
 			keyphrase_lemma = lemmatize(nlpL(keyphrase.decode()))
 			nlp_keyphrase_lemma = nlp(keyphrase_lemma.decode())
-			max_sim = 0
-			phrases_seen = []
 
-			for (index, curr_phrase, stripped_phrase, token_s) in src_textL:
+			for (index, curr_phrase, token_s) in src_textL:
 				nlp_token_s = nlp(token_s.decode())
+				# print(token_s, len(token_s), nlp_keyphrase_lemma.text, len(nlp_keyphrase_lemma.text))
 				if (abs(len(nlp_keyphrase_lemma.text) - len(token_s)) >= 3):
 					continue
 				# print "keyphrase: " + nlp_keyphrase_lemma.text + ", phrase: " + token_s.decode()
 				curr_sim = check_similarity(nlp_token_s, nlp_keyphrase_lemma)
-				if (curr_sim >= 1 and not superString(phrases_seen, (index, len(curr_phrase)))):
-					
-					# checking for POS
-					if (nlp_token_s.text == nlp_keyphrase_lemma.text and not checkPOSMatch(nlp_token_s, nlp_keyphrase_lemma)):
-						print("Whoops! Bad Match", nlp_token_s.text)
-						continue
-					print("New Match. Matched phrase '%s', or stripped, '%s' to keyphrase '%s'" % (curr_phrase, stripped_phrase, keyphrase))
-					
-					implicit_ref_keyphrase.append( (index, len(curr_phrase)) )
-					phrases_seen.append( (index, len(curr_phrase)) )
+				if (curr_sim >= 1.0 and not overlapping_substring(phrases_seen, (index, len(curr_phrase)) )):
+					# sentence_index = find_sentence_index(atom, index)
+					# sentence = sentences[sentence_index]
+					# if (checkMatch(atom, index, curr_phrase)):
+						# print("Sentence index: '%s' and word index: '%s'" % (index))
+					print("New Match. Matched phrase '%s' to keyphrase '%s'" % (curr_phrase, keyphrase))
+					implicit_ref_keyphrase.append( (index, len(curr_phrase), curr_phrase) )
+					phrases_seen.add( (index, len(curr_phrase)) )
 
 			no_dup_keyphrases = list(set(implicit_ref_keyphrase))
 			no_dup_keyphrases.sort(key=lambda x: x[0])
-			implicit_ref_to_index.append( (keyphrase, no_dup_keyphrases) )
+			implicit_ref_to_index[keyphrase] = no_dup_keyphrases
 		atom_to_iref_list.append(implicit_ref_to_index)
 	return atom_to_iref_list
 
 if __name__=='__main__':
-	# test cases
-	# testcase_mathexpr()
-	
-	tex_file = sys.argv[1]
-	f = open(tex_file, 'r')
-	tex_str = f.read()
-	def_to_label = file_to_dictionary_list("dictionary.txt")
 
+	parser = argparse.ArgumentParser()
+	parser.add_argument('--tex_file', type=str)
+	parser.add_argument('--output_file', type=str)
+	args = parser.parse_args()
+
+	f = open(args.tex_file, 'r')
+	tex_str = f.read()
+	files = [f for f in os.listdir('.') if os.path.isfile(f)]
+	print("files: ", files)
+	if ("dictionary.json" not in files):
+		tex_sources = [f for f in os.listdir('./tex_sources/') if 'Chapter' in f]
+		print("hello", tex_sources)
+		dictionary = create_dictionary(list(map(lambda x: "./tex_sources/" + x, tex_sources)))
+		write_to_json("dictionary.json", dictionary)
+	# TODO: if a new file is being labeled, need to add keyphrases to dictionary
+
+	def_to_label = read_from_json("dictionary.json")
+	print("def to labels: ", def_to_label)
+	# keyphrase_dict = nested_dictionary_list(list(map(lambda x: x[0], def_to_label)))
+	# print(keyphrase_dict)
 	print "Finding implicit references..."
 	# result is a list of lists of (keyphrase, implicit reference substitutes)
 	result = identify_implicit_refs(tex_str, def_to_label)
 	print(result)
-	print "Writing implicit references to file..."
-	g = atoms_keyphrase_indices_to_file("dummy.txt", result)
+	# print "Writing implicit references to file..."
+	for i in range(len(result)):
+		atom = result[i]
+		for (keyphrase, indices) in atom.items():
+			if indices == []:
+				del atom[keyphrase]
+		result[i] = atom
+	g = write_to_json(args.output_file, result)
 
 	# print "Getting keyphrases and irefs from file..."
-	# result = file_to_atom_keyphrase_indices("chapter1_atom_implicit_references.txt")
-	# print(result)
-	# print "building scanned list of index for sentences..."
-	# sentences = tex_str.split(".")
-
-	# index = 0
-	# for atom in result:
-	# 	print "ATOM " + str(index)
-	# 	index += 1
-	# 	for (keyphrase, indices_list) in atom.items():
-	# 		print "KEYPHRASE: " + keyphrase
-	# 		for (index, phrase_len) in indices_list:
-	# 			if (not is_math_expression(tex_str.decode(), index) and not is_argument(tex_str.decode(), index) \
-	# 				and not is_command(tex_str.decode(), index)):
-	# 		 		print("\ti: " + str(index) + ", " + str(phrase_len) + " str: " + tex_str[index - 10: index + phrase_len])
-
-	# print "inserting labels..."
-	# atoms = insert_label(tex_str, def_to_label, result)
-	# print(atoms)
-	# f = open('19_10_11_results.txt', 'w+')
-	# iref_str = "\n".join(list(map(lambda (x, y): x, atoms)))
-	# print(iref_str)
-	# f.write(iref_str)
-	# f.close()
