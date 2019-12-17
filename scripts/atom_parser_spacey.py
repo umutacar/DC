@@ -158,8 +158,7 @@ def extract_definitions_from_chapter(chapter_file):
 	
 			label = re.findall(r'\\label{.*}', atom)
 			if (len(label) != 1):
-				print(atom)
-				print "Error: there exists multiple or no labels for definition " + definitions
+				print("Error: there exists multiple or no labels for definition ", definitions)
 			else:
 				for defn in definitions:
 					def_to_labels.append( [defn, label[0]] )
@@ -174,13 +173,12 @@ def create_dictionary(chapter_files):
 	dictionary = []
 	for file in chapter_files:
 		chapter_keyphrases = extract_definitions_from_chapter(file)
-		print(file, chapter_keyphrases)
 		dictionary += chapter_keyphrases
+	dictionary.sort(key=lambda x: len(x[0]), reverse=True)
 	return dictionary
 
 def read_from_json(filename):
 	with open(filename, "r") as read_file:
-		print(read_file)
 		data = json.load(read_file)
 		return data
 
@@ -238,67 +236,67 @@ def is_valid_expression(string, index):
 				or is_argument(string, index))
 
 # given string, label, and map of keyphrases to indices, insert the labels as necessary
-def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
-	sentences = string.split(".")
-	sentences_length = list(map(lambda x: len(x) + 1, sentences)) # +1 for the '.'
-	cumulative_slen_list = sentence_indices(sentences)
+# def insert_label_for_keyphrase(string, keyphrase, label, keyphrases_to_indices):
+# 	sentences = string.split(".")
+# 	sentences_length = list(map(lambda x: len(x) + 1, sentences)) # +1 for the '.'
+# 	cumulative_slen_list = sentence_indices(sentences)
 
-	str_iref = ""
-	iref = "\\iref{" + label + "}{" + keyphrase + "}"
+# 	str_iref = ""
+# 	iref = "\\iref{" + label + "}{" + keyphrase + "}"
 
-	sentences_indices = keyphrases_to_indices[keyphrase]
-	prev_end = 0
-	for (index, phrase_len) in sentences_indices:
-		# sentence = sentences[sentence_id]
-		# find sentence index from word_id
-		# index = cumulative_slen_list[sentence_id] + sentence_index
+# 	sentences_indices = keyphrases_to_indices[keyphrase]
+# 	prev_end = 0
+# 	for (index, phrase_len) in sentences_indices:
+# 		# sentence = sentences[sentence_id]
+# 		# find sentence index from word_id
+# 		# index = cumulative_slen_list[sentence_id] + sentence_index
 
-		# check if the keyphrase is in the right environment
-		if (is_math_expression(string, index)):
-			print('math expression' + '\t' + string[index - 10: index + 10])
-		elif (is_argument(string, index)):
-			print("argument" + '\t' + string[index - 10: index + 10])
-		elif (is_command(string, index)):
-			print("command" + '\t' + string[index - 10: index + 10])
-		else:
-			print("is_valid" + '\t' + string[index - 10: index + 10])
+# 		# check if the keyphrase is in the right environment
+# 		if (is_math_expression(string, index)):
+# 			print('math expression' + '\t' + string[index - 10: index + 10])
+# 		elif (is_argument(string, index)):
+# 			print("argument" + '\t' + string[index - 10: index + 10])
+# 		elif (is_command(string, index)):
+# 			print("command" + '\t' + string[index - 10: index + 10])
+# 		else:
+# 			print("is_valid" + '\t' + string[index - 10: index + 10])
 
-			str_iref += string[prev_end:index]
-			str_iref += iref
-			prev_end = index + phrase_len
+# 			str_iref += string[prev_end:index]
+# 			str_iref += iref
+# 			prev_end = index + phrase_len
 
-			# update other indices list in keyphrases_to_indices
-			for (new_keyphrase, indices_list) in keyphrases_to_indices.items():
-				if (len(new_keyphrase) > len(keyphrase)):
-					continue
-				for i in range(len(indices_list)):
-					# new_string_id, new_string_index,
-					(new_index, new_phrase_len) = indices_list[i]
-					# new_index = cumulative_slen_list[new_string_id] + new_string_index
-					increment = len(iref) - phrase_len
+# 			# update other indices list in keyphrases_to_indices
+# 			for (new_keyphrase, indices_list) in keyphrases_to_indices.items():
+# 				if (len(new_keyphrase) > len(keyphrase)):
+# 					continue
+# 				for i in range(len(indices_list)):
+# 					# new_string_id, new_string_index,
+# 					(new_index, new_phrase_len) = indices_list[i]
+# 					# new_index = cumulative_slen_list[new_string_id] + new_string_index
+# 					increment = len(iref) - phrase_len
 
 
 
-					# only look at indices after current index
-					if (new_index > index):
-						new_index += increment
-						indices_list[i] = (new_index, new_phrase_len)
-				keyphrases_to_indices[new_keyphrase] = indices_list
+# 					# only look at indices after current index
+# 					if (new_index > index):
+# 						new_index += increment
+# 						indices_list[i] = (new_index, new_phrase_len)
+# 				keyphrases_to_indices[new_keyphrase] = indices_list
 
-	str_iref += string[prev_end:]
-	return str_iref, keyphrases_to_indices
+# 	str_iref += string[prev_end:]
+# 	return str_iref, keyphrases_to_indices
 
 # given string, map of keyphrases to labels, and map of keyphrases to indices, insert the labels as necessary
-def insert_label(string, def_to_label, atom_keyphrase_to_indices):
-	atoms = []
-	for i in range(len(atom_keyphrase_to_indices)):
-		str_iref = string[i]
-		keyphrase_to_indices = atom_keyphrase_to_indices[i]
-		for definition, label in def_to_label:
-			if (definition in keyphrase_to_indices):
-				str_iref, keyphrase_to_indices = insert_label_for_keyphrase(str_iref, definition, label, keyphrase_to_indices)
-	atoms.append( (str_iref, keyphrase_to_indices) )	
-	return atoms
+# def insert_label(string, def_to_label, atom_keyphrase_to_indices):
+# 	atoms = []
+# 	for i in range(len(atom_keyphrase_to_indices)):
+# 		str_iref = string[i]
+# 		keyphrase_to_indices = atom_keyphrase_to_indices[i]
+# 		for definition, label in def_to_label:
+# 			if (definition in keyphrase_to_indices):
+# 				str_iref, keyphrase_to_indices = insert_label_for_keyphrase(str_iref, definition, label, keyphrase_to_indices)
+# 	atoms.append( (str_iref, keyphrase_to_indices) )	
+# 	return atoms
 
 def identify_implicit_refs(tex_str, keyphrase_to_label):
 	def parseAtoms(tex):
@@ -347,7 +345,6 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 		cleaned_sentences = parsed_string.split('.')
 		sentences = text.split('.')
 		cumulative_slen_list = sentence_indices(sentences)
-		# print("getPhrases, cumulative slen list: ", cumulative_slen_list)
 		# testing sentences 
 		for i in range(len(cleaned_sentences)):
 			clean_sentence = cleaned_sentences[i]
@@ -355,41 +352,25 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 			if clean_sentence == '':
 				continue
 			nonstopword_index_list = nonstopword_indices(clean_sentence)
-			# print(clean_sentence, nonstopword_index_list)
 			for (s, length) in nonstopword_index_list:
 				curr_phrase = clean_sentence[s:s+length]
-				# print(curr_phrase)
 				stripped_phrase = curr_phrase.strip()
 				try:
 					index = cumulative_slen_list[i] + s
+					if (is_valid_expression(text, index)):
+						phrases_numbered.append( (index, curr_phrase.strip(), lemmatize(nlpL(stripped_phrase.decode()))) )
 				except:
 					print("Indexing error in sentence, " + sentences[i], " for word index " + str(s))
-				if (is_valid_expression(text, index)):
-					index = cumulative_slen_list[i] + s
-					phrases_numbered.append( (index, curr_phrase.strip(), lemmatize(nlpL(stripped_phrase.decode()))) )
 
 			for ((s1, len1), (s2, len2)) in combinations(nonstopword_index_list, 2):
 				curr_phrase = clean_sentence[s1:s2 + len2]
 				stripped_phrase = curr_phrase.strip()
 				try:
 					index = cumulative_slen_list[i] + s1
+					if (is_valid_expression(text, index)):
+						phrases_numbered.append( (index, curr_phrase.strip(), lemmatize(nlpL(stripped_phrase.decode()))) )
 				except:
 					print("Indexing error in sentence, " + sentences[i], " for word index " + str(s1))
-				phrases_numbered.append( (cumulative_slen_list[i] + s1, curr_phrase.strip(), lemmatize(nlpL(stripped_phrase.decode()))) )
-			# # have the word_index_list be for the non parsed sentences because otherwise the indexing is off
-			# word_index_list = word_indices(clean_sentence) + [len(clean_sentence)]
-			# for start, end in combinations(word_index_list, 2):
-			# 	# if(len(stripped_phrase)>0):
-			# 	# 	index = cumulative_slen_list[i] + start
-			# 	# 	phrases_numbered.append((index, curr_phrase, stripped_phrase.text, stripped_phrase))
-			# 	curr_phrase = clean_sentence[start:end]
-			# 	stripped_phrase = strip_stopwords(curr_phrase)
-			# 	if(len(stripped_phrase)>0):
-			# 		try:
-			# 			index = cumulative_slen_list[i] + start
-			# 		except:
-			# 			print("Indexing error in sentence, " + sentences[i], " for word index " + str(start))
-			# 		phrases_numbered.append((cumulative_slen_list[i], start, curr_phrase, lemmatize(nlpL(stripped_phrase.decode()))))
 		return phrases_numbered
 
 	# text =  re.sub(r"\\def{[^\}].*?}|\{|\}|\\\[[^\\\]].*?\\\]|\(|\)|\\|\"|\'|\`|,|\\\w+\b|\$[^\$].*?\$", " ", tex_str)
@@ -404,7 +385,6 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 	# input: 
 	# return true if keyphrase is not being used as an adjective and false otherwise
 	def checkMatch(atom, index, curr_phrase):
-		print(curr_phrase, index)
 		# check that the phrase is 1 word
 		if (len(curr_phrase.strip().split()) > 1):
 			return True
@@ -438,8 +418,8 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 
 	atoms = parseAtoms(tex_str)
 	atom_to_iref_list = []
-	for i in range(len(atoms)):
-		atom = atoms[i]
+	for i in range(1):# len(atoms)):
+		atom = atoms[6]
 		sentences = atom.decode().strip().split('.')
 		# src_textL: [(index, str, str, lemmatize phrase)]
 		src_textL = getPhrases(atom.decode())
@@ -453,20 +433,16 @@ def identify_implicit_refs(tex_str, keyphrase_to_label):
 
 			for (index, curr_phrase, token_s) in src_textL:
 				nlp_token_s = nlp(token_s.decode())
-				# print(token_s, len(token_s), nlp_keyphrase_lemma.text, len(nlp_keyphrase_lemma.text))
-				if (abs(len(nlp_keyphrase_lemma.text) - len(token_s)) >= 3):
+				if (abs(len(nlp_keyphrase_lemma.text) - len(token_s)) >= 5):
 					continue
-				# print "keyphrase: " + nlp_keyphrase_lemma.text + ", phrase: " + token_s.decode()
 				curr_sim = check_similarity(nlp_token_s, nlp_keyphrase_lemma)
 				if (curr_sim >= 1.0 and not overlapping_substring(phrases_seen, (index, len(curr_phrase)) )):
 					# sentence_index = find_sentence_index(atom, index)
 					# sentence = sentences[sentence_index]
 					# if (checkMatch(atom, index, curr_phrase)):
-						# print("Sentence index: '%s' and word index: '%s'" % (index))
 					print("New Match. Matched phrase '%s' to keyphrase '%s'" % (curr_phrase, keyphrase))
 					implicit_ref_keyphrase.append( (index, len(curr_phrase), curr_phrase) )
 					phrases_seen.add( (index, len(curr_phrase)) )
-
 			no_dup_keyphrases = list(set(implicit_ref_keyphrase))
 			no_dup_keyphrases.sort(key=lambda x: x[0])
 			implicit_ref_to_index[keyphrase] = no_dup_keyphrases
@@ -483,23 +459,20 @@ if __name__=='__main__':
 	f = open(args.tex_file, 'r')
 	tex_str = f.read()
 	files = [f for f in os.listdir('.') if os.path.isfile(f)]
-	print("files: ", files)
+
 	if ("dictionary.json" not in files):
 		tex_sources = [f for f in os.listdir('./tex_sources/') if 'Chapter' in f]
-		print("hello", tex_sources)
 		dictionary = create_dictionary(list(map(lambda x: "./tex_sources/" + x, tex_sources)))
 		write_to_json("dictionary.json", dictionary)
 	# TODO: if a new file is being labeled, need to add keyphrases to dictionary
 
 	def_to_label = read_from_json("dictionary.json")
 	print("def to labels: ", def_to_label)
-	# keyphrase_dict = nested_dictionary_list(list(map(lambda x: x[0], def_to_label)))
-	# print(keyphrase_dict)
 	print "Finding implicit references..."
 	# result is a list of lists of (keyphrase, implicit reference substitutes)
 	result = identify_implicit_refs(tex_str, def_to_label)
 	print(result)
-	# print "Writing implicit references to file..."
+	print "Writing implicit references to file..."
 	for i in range(len(result)):
 		atom = result[i]
 		for (keyphrase, indices) in atom.items():

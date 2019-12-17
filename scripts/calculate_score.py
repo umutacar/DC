@@ -205,18 +205,16 @@ if __name__=='__main__':
 	experiment_results = open_json_file(args.prediction_file)
 	doc = Document()
 	doc.add_heading(args.prediction_file)
-	for i in range(20):# len(atoms)):
+	for i in range(1): # len(atoms)):
 		print("ATOM ", i)
-		print(answer_key[i+10])
-		print(len(experiment_results))
-		results = find_matches_per_atom(answer_key[i+10], experiment_results[i])
+		results = find_matches_per_atom(answer_key[6], experiment_results[0])
 		all_results = [] 
 		for (keyterm, match_list) in results.items():
 			all_results += match_list
 		all_results.sort(key = lambda x: x[1]) # 0 -> keyphrase, 1 -> index, length, 2 -> color
 		print(all_results)
-		doc.add_heading('atom ' + str(i))
-		(true_pos, false_pos, false_neg) = generate_labelled_atom(doc, atoms[i+10], all_results)
+		doc.add_heading('atom ' + str(6))
+		(true_pos, false_pos, false_neg) = generate_labelled_atom(doc, atoms[6], all_results)
 		all_true_pos += true_pos
 		all_false_pos += false_pos
 		all_false_neg += false_neg

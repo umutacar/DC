@@ -1,0 +1,111 @@
+[
+  {
+    "rejecting configuration": [
+      [
+        2234, 
+        23, 
+        "rejecting configuration"
+      ]
+    ], 
+    "symbols": [
+      [
+        750, 
+        6, 
+        "symbol"
+      ]
+    ], 
+    "blank symbol": [
+      [
+        76, 
+        12, 
+        "blank symbol"
+      ]
+    ], 
+    "TM": [
+      [
+        461, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "string": [
+      [
+        531, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepted": [
+      [
+        856, 
+        6, 
+        "accept"
+      ], 
+      [
+        1297, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "configuration": [
+      [
+        438, 
+        13, 
+        "configuration"
+      ], 
+      [
+        789, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1260, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1340, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1416, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1842, 
+        14, 
+        "configurations"
+      ]
+    ], 
+    "rejects": [
+      [
+        928, 
+        6, 
+        "reject"
+      ]
+    ], 
+    "accepting configuration": [
+      [
+        2160, 
+        23, 
+        "accepting configuration"
+      ]
+    ], 
+    "alphabet": [
+      [
+        115, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        13, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }
+]

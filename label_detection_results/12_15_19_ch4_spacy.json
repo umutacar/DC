@@ -1,0 +1,1923 @@
+[
+  {
+    "decidable": [
+      [
+        674, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "language": [
+      [
+        684, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "decision problem": [
+      [
+        700, 
+        17, 
+        "decision problems"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        67, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        424, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        466, 
+        15, 
+        "Turing machines"
+      ]
+    ]
+  }, 
+  {},
+  {
+    "TM": [
+      [
+        37, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "encoding": [
+      [
+        318, 
+        6, 
+        "encode"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        529, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "Turing machine": [
+      [
+        19, 
+        15, 
+        "Turing machines"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        41, 
+        2, 
+        "TM"
+      ]
+    ]
+  }, 
+  {
+    "symbols": [
+      [
+        142, 
+        6, 
+        "symbol"
+      ], 
+      [
+        508, 
+        6, 
+        "symbol"
+      ], 
+      [
+        643, 
+        6, 
+        "symbol"
+      ], 
+      [
+        707, 
+        6, 
+        "symbol"
+      ]
+    ], 
+    "alphabet": [
+      [
+        163, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        723, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        823, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "symbols": [
+      [
+        82, 
+        6, 
+        "symbol"
+      ], 
+      [
+        750, 
+        6, 
+        "symbol"
+      ]
+    ], 
+    "TM": [
+      [
+        461, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "string": [
+      [
+        531, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepted": [
+      [
+        856, 
+        6, 
+        "accept"
+      ], 
+      [
+        1297, 
+        9, 
+        "accepting"
+      ], 
+      [
+        2160, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "configuration": [
+      [
+        438, 
+        13, 
+        "configuration"
+      ], 
+      [
+        789, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1260, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1340, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1416, 
+        13, 
+        "configuration"
+      ], 
+      [
+        1842, 
+        14, 
+        "configurations"
+      ], 
+      [
+        2170, 
+        13, 
+        "configuration"
+      ], 
+      [
+        2244, 
+        13, 
+        "configuration"
+      ]
+    ], 
+    "rejects": [
+      [
+        928, 
+        6, 
+        "reject"
+      ], 
+      [
+        2234, 
+        9, 
+        "rejecting"
+      ]
+    ], 
+    "alphabet": [
+      [
+        115, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        13, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        10, 
+        3, 
+        "DFA"
+      ], 
+      [
+        40, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "TM": [
+      [
+        288, 
+        2, 
+        "TM"
+      ], 
+      [
+        528, 
+        3, 
+        "TMs"
+      ]
+    ], 
+    "string": [
+      [
+        28, 
+        6, 
+        "string"
+      ], 
+      [
+        241, 
+        6, 
+        "string"
+      ], 
+      [
+        308, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepts a string": [
+      [
+        98, 
+        17, 
+        "accept the string"
+      ]
+    ], 
+    "accepted": [
+      [
+        395, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "loops": [
+      [
+        262, 
+        5, 
+        "loops"
+      ], 
+      [
+        449, 
+        5, 
+        "loops"
+      ]
+    ], 
+    "rejects": [
+      [
+        88, 
+        6, 
+        "reject"
+      ], 
+      [
+        422, 
+        7, 
+        "rejects"
+      ]
+    ], 
+    "halts": [
+      [
+        51, 
+        5, 
+        "halts"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        142, 
+        15, 
+        "Turing machines"
+      ], 
+      [
+        181, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "symbols": [
+      [
+        534, 
+        7, 
+        "symbols"
+      ], 
+      [
+        568, 
+        6, 
+        "symbol"
+      ], 
+      [
+        622, 
+        6, 
+        "symbol"
+      ], 
+      [
+        674, 
+        6, 
+        "symbol"
+      ], 
+      [
+        713, 
+        6, 
+        "symbol"
+      ]
+    ], 
+    "accepted": [
+      [
+        938, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "computation trace": [
+      [
+        1057, 
+        17, 
+        "computation trace"
+      ]
+    ], 
+    "alphabet": [
+      [
+        400, 
+        8, 
+        "alphabet"
+      ], 
+      [
+        439, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        117, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        356, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "Turing machine": [
+      [
+        634, 
+        14, 
+        "Turing Machine"
+      ]
+    ]
+  }, 
+  {
+    "halts": [
+      [
+        50, 
+        5, 
+        "halts"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        92, 
+        7, 
+        "strings"
+      ]
+    ], 
+    "accepted": [
+      [
+        109, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "decider": [
+      [
+        188, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "language": [
+      [
+        141, 
+        8, 
+        "language"
+      ], 
+      [
+        232, 
+        8, 
+        "language"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        13, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "decider": [
+      [
+        88, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        96, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        50, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decided": [
+      [
+        35, 
+        7, 
+        "decided"
+      ]
+    ], 
+    "language": [
+      [
+        26, 
+        8, 
+        "language"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        28, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decided": [
+      [
+        13, 
+        7, 
+        "decided"
+      ]
+    ]
+  }, 
+  {
+    "symbols": [
+      [
+        174, 
+        6, 
+        "symbol"
+      ]
+    ], 
+    "TM": [
+      [
+        53, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decided": [
+      [
+        61, 
+        7, 
+        "decides"
+      ]
+    ], 
+    "language": [
+      [
+        9, 
+        8, 
+        "language"
+      ], 
+      [
+        73, 
+        8, 
+        "language"
+      ]
+    ], 
+    "alphabet": [
+      [
+        112, 
+        8, 
+        "alphabet"
+      ]
+    ]
+  }, 
+  {}, 
+  {
+    "TM": [
+      [
+        445, 
+        2, 
+        "TM"
+      ], 
+      [
+        1013, 
+        2, 
+        "TM"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        29, 
+        2, 
+        "TM"
+      ], 
+      [
+        567, 
+        2, 
+        "TM"
+      ], 
+      [
+        665, 
+        2, 
+        "TM"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        163, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "TM": [
+      [
+        256, 
+        2, 
+        "TM"
+      ], 
+      [
+        368, 
+        3, 
+        "TMs"
+      ], 
+      [
+        1036, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "string": [
+      [
+        236, 
+        6, 
+        "string"
+      ]
+    ], 
+    "encoding": [
+      [
+        86, 
+        8, 
+        "encoding"
+      ], 
+      [
+        215, 
+        8, 
+        "encoding"
+      ], 
+      [
+        307, 
+        8, 
+        "encoding"
+      ], 
+      [
+        352, 
+        6, 
+        "encode"
+      ], 
+      [
+        410, 
+        8, 
+        "encoding"
+      ], 
+      [
+        813, 
+        6, 
+        "encode"
+      ], 
+      [
+        969, 
+        8, 
+        "encoding"
+      ], 
+      [
+        1110, 
+        8, 
+        "encoding"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        903, 
+        15, 
+        "Turing machines"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        60, 
+        7, 
+        "strings"
+      ], 
+      [
+        150, 
+        6, 
+        "string"
+      ]
+    ], 
+    "encoding": [
+      [
+        21, 
+        6, 
+        "encode"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        93, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        379, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        439, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        487, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        524, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        154, 
+        2, 
+        "TM"
+      ], 
+      [
+        546, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "loops": [
+      [
+        376, 
+        5, 
+        "loops"
+      ], 
+      [
+        400, 
+        5, 
+        "loops"
+      ]
+    ], 
+    "word": [
+      [
+        170, 
+        4, 
+        "word"
+      ]
+    ], 
+    "halts": [
+      [
+        447, 
+        5, 
+        "halts"
+      ]
+    ], 
+    "alphabet": [
+      [
+        28, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        81, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        43, 
+        2, 
+        "TM"
+      ], 
+      [
+        145, 
+        2, 
+        "TM"
+      ], 
+      [
+        235, 
+        2, 
+        "TM"
+      ], 
+      [
+        318, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "string": [
+      [
+        258, 
+        6, 
+        "string"
+      ], 
+      [
+        348, 
+        6, 
+        "string"
+      ], 
+      [
+        383, 
+        6, 
+        "string"
+      ], 
+      [
+        885, 
+        6, 
+        "string"
+      ]
+    ], 
+    "encoding": [
+      [
+        189, 
+        8, 
+        "encoding"
+      ], 
+      [
+        421, 
+        8, 
+        "encoding"
+      ], 
+      [
+        614, 
+        8, 
+        "encoding"
+      ]
+    ], 
+    "rejects": [
+      [
+        686, 
+        7, 
+        "rejects"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        828, 
+        15, 
+        "Turing machines"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        136, 
+        3, 
+        "TMs"
+      ]
+    ], 
+    "decidable": [
+      [
+        19, 
+        9, 
+        "decidable"
+      ], 
+      [
+        85, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "decided": [
+      [
+        140, 
+        8, 
+        "deciding"
+      ]
+    ], 
+    "language": [
+      [
+        29, 
+        9, 
+        "languages"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        55, 
+        3, 
+        "TMs"
+      ], 
+      [
+        198, 
+        2, 
+        "TM"
+      ], 
+      [
+        639, 
+        2, 
+        "TM"
+      ], 
+      [
+        1378, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        26, 
+        9, 
+        "decidable"
+      ], 
+      [
+        146, 
+        9, 
+        "decidable"
+      ], 
+      [
+        1326, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "accepted": [
+      [
+        617, 
+        8, 
+        "accepted"
+      ], 
+      [
+        745, 
+        7, 
+        "accepts"
+      ], 
+      [
+        809, 
+        7, 
+        "accepts"
+      ], 
+      [
+        878, 
+        7, 
+        "accepts"
+      ], 
+      [
+        919, 
+        6, 
+        "accept"
+      ], 
+      [
+        952, 
+        6, 
+        "accept"
+      ], 
+      [
+        988, 
+        8, 
+        "accepted"
+      ], 
+      [
+        1037, 
+        8, 
+        "accepted"
+      ], 
+      [
+        1070, 
+        8, 
+        "accepted"
+      ], 
+      [
+        1109, 
+        8, 
+        "accepted"
+      ], 
+      [
+        1161, 
+        8, 
+        "accepted"
+      ], 
+      [
+        1199, 
+        8, 
+        "accepted"
+      ], 
+      [
+        1233, 
+        8, 
+        "accepted"
+      ]
+    ], 
+    "decider": [
+      [
+        47, 
+        7, 
+        "decider"
+      ], 
+      [
+        368, 
+        7, 
+        "decider"
+      ], 
+      [
+        498, 
+        7, 
+        "decider"
+      ], 
+      [
+        1560, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "decided": [
+      [
+        205, 
+        8, 
+        "deciding"
+      ], 
+      [
+        776, 
+        7, 
+        "decides"
+      ], 
+      [
+        1385, 
+        8, 
+        "deciding"
+      ]
+    ]
+  }, 
+  {
+    "string": [
+      [
+        190, 
+        7, 
+        "strings"
+      ]
+    ], 
+    "decidable": [
+      [
+        351, 
+        9, 
+        "decidable"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        391, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        745, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "decided": [
+      [
+        394, 
+        7, 
+        "decides"
+      ], 
+      [
+        583, 
+        7, 
+        "decided"
+      ]
+    ]
+  }, 
+  {
+    "language": [
+      [
+        52, 
+        9, 
+        "languages"
+      ]
+    ], 
+    "alphabet": [
+      [
+        9, 
+        8, 
+        "alphabet"
+      ]
+    ]
+  }, 
+  {
+    "decidable": [
+      [
+        102, 
+        9, 
+        "decidable"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        218, 
+        3, 
+        "TMs"
+      ], 
+      [
+        323, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        113, 
+        9, 
+        "decidable"
+      ], 
+      [
+        167, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "decider": [
+      [
+        276, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "decided": [
+      [
+        222, 
+        8, 
+        "deciding"
+      ], 
+      [
+        486, 
+        7, 
+        "decides"
+      ], 
+      [
+        781, 
+        7, 
+        "decides"
+      ]
+    ], 
+    "language": [
+      [
+        123, 
+        9, 
+        "languages"
+      ], 
+      [
+        153, 
+        9, 
+        "languages"
+      ]
+    ]
+  }, 
+  {
+    "decidable": [
+      [
+        46, 
+        9, 
+        "decidable"
+      ]
+    ]
+  }, 
+  {
+    "directed graph": [
+      [
+        420, 
+        14, 
+        "directed graph"
+      ]
+    ], 
+    "DFA": [
+      [
+        232, 
+        3, 
+        "DFA"
+      ], 
+      [
+        411, 
+        3, 
+        "DFA"
+      ], 
+      [
+        717, 
+        3, 
+        "DFA"
+      ], 
+      [
+        811, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "nodes": [
+      [
+        739, 
+        5, 
+        "nodes"
+      ]
+    ], 
+    "string": [
+      [
+        371, 
+        6, 
+        "string"
+      ]
+    ], 
+    "accepts a string": [
+      [
+        815, 
+        19, 
+        "accepts some string"
+      ]
+    ], 
+    "decidable": [
+      [
+        53, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "accepted": [
+      [
+        387, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "decider": [
+      [
+        99, 
+        7, 
+        "decider"
+      ], 
+      [
+        146, 
+        7, 
+        "decider"
+      ], 
+      [
+        933, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "decided": [
+      [
+        941, 
+        7, 
+        "decides"
+      ]
+    ], 
+    "path": [
+      [
+        870, 
+        4, 
+        "path"
+      ]
+    ], 
+    "word": [
+      [
+        326, 
+        5, 
+        "words"
+      ]
+    ], 
+    "edges": [
+      [
+        788, 
+        5, 
+        "edges"
+      ]
+    ]
+  }, 
+  {
+    "decidable": [
+      [
+        43, 
+        9, 
+        "decidable"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        1206, 
+        3, 
+        "DFA"
+      ], 
+      [
+        1731, 
+        3, 
+        "DFA"
+      ], 
+      [
+        2046, 
+        3, 
+        "DFA"
+      ], 
+      [
+        2204, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "TM": [
+      [
+        448, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        55, 
+        9, 
+        "decidable"
+      ], 
+      [
+        216, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "accepted": [
+      [
+        641, 
+        6, 
+        "accept"
+      ], 
+      [
+        1563, 
+        6, 
+        "accept"
+      ], 
+      [
+        1740, 
+        7, 
+        "accepts"
+      ], 
+      [
+        2055, 
+        7, 
+        "accepts"
+      ], 
+      [
+        2227, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "regular language": [
+      [
+        1819, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        2119, 
+        17, 
+        "regular languages"
+      ], 
+      [
+        2343, 
+        17, 
+        "regular languages"
+      ]
+    ], 
+    "decider": [
+      [
+        98, 
+        7, 
+        "decider"
+      ], 
+      [
+        301, 
+        7, 
+        "decider"
+      ], 
+      [
+        364, 
+        7, 
+        "decider"
+      ], 
+      [
+        440, 
+        7, 
+        "decider"
+      ], 
+      [
+        489, 
+        7, 
+        "decider"
+      ], 
+      [
+        1150, 
+        7, 
+        "decider"
+      ], 
+      [
+        2419, 
+        7, 
+        "decider"
+      ], 
+      [
+        2625, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "rejects": [
+      [
+        673, 
+        6, 
+        "reject"
+      ]
+    ]
+  }, 
+  {
+    "decidable": [
+      [
+        49, 
+        9, 
+        "decidable"
+      ], 
+      [
+        249, 
+        9, 
+        "decidable"
+      ], 
+      [
+        488, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "decider": [
+      [
+        125, 
+        7, 
+        "decider"
+      ], 
+      [
+        167, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "language": [
+      [
+        28, 
+        9, 
+        "languages"
+      ], 
+      [
+        498, 
+        9, 
+        "languages"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        500, 
+        3, 
+        "DFA"
+      ], 
+      [
+        546, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "decidable": [
+      [
+        258, 
+        9, 
+        "decidable"
+      ], 
+      [
+        441, 
+        9, 
+        "decidable"
+      ]
+    ]
+  }, 
+  {
+    "DFA": [
+      [
+        1074, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "TM": [
+      [
+        301, 
+        2, 
+        "TM"
+      ], 
+      [
+        377, 
+        2, 
+        "TM"
+      ], 
+      [
+        1858, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        23, 
+        9, 
+        "decidable"
+      ], 
+      [
+        101, 
+        9, 
+        "decidable"
+      ], 
+      [
+        200, 
+        9, 
+        "decidable"
+      ], 
+      [
+        1685, 
+        9, 
+        "decidable"
+      ], 
+      [
+        1760, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "accepted": [
+      [
+        553, 
+        6, 
+        "accept"
+      ], 
+      [
+        1335, 
+        7, 
+        "accepts"
+      ], 
+      [
+        1470, 
+        7, 
+        "accepts"
+      ]
+    ], 
+    "regular language": [
+      [
+        1036, 
+        17, 
+        "regular languages"
+      ]
+    ], 
+    "decider": [
+      [
+        293, 
+        7, 
+        "decider"
+      ], 
+      [
+        369, 
+        7, 
+        "decider"
+      ], 
+      [
+        415, 
+        7, 
+        "decider"
+      ], 
+      [
+        1140, 
+        7, 
+        "decider"
+      ], 
+      [
+        1850, 
+        7, 
+        "decider"
+      ]
+    ], 
+    "rejects": [
+      [
+        594, 
+        6, 
+        "reject"
+      ]
+    ], 
+    "word": [
+      [
+        1460, 
+        5, 
+        "words"
+      ]
+    ]
+  }, 
+  {
+    "TM": [
+      [
+        27, 
+        2, 
+        "TM"
+      ], 
+      [
+        137, 
+        2, 
+        "TM"
+      ], 
+      [
+        284, 
+        2, 
+        "TM"
+      ], 
+      [
+        350, 
+        2, 
+        "TM"
+      ], 
+      [
+        462, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        552, 
+        9, 
+        "decidable"
+      ], 
+      [
+        870, 
+        9, 
+        "decidable"
+      ], 
+      [
+        1001, 
+        9, 
+        "decidable"
+      ], 
+      [
+        1203, 
+        9, 
+        "decidable"
+      ], 
+      [
+        1545, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "accepted": [
+      [
+        294, 
+        7, 
+        "accepts"
+      ], 
+      [
+        400, 
+        9, 
+        "accepting"
+      ]
+    ], 
+    "language": [
+      [
+        534, 
+        8, 
+        "language"
+      ], 
+      [
+        562, 
+        8, 
+        "language"
+      ], 
+      [
+        1122, 
+        8, 
+        "language"
+      ]
+    ], 
+    "rejects": [
+      [
+        305, 
+        7, 
+        "rejects"
+      ]
+    ], 
+    "halts": [
+      [
+        474, 
+        4, 
+        "halt"
+      ]
+    ], 
+    "alphabet": [
+      [
+        188, 
+        8, 
+        "alphabet"
+      ], 
+      [
+        223, 
+        8, 
+        "alphabet"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        589, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }, 
+  {
+    "computational problem": [
+      [
+        2618, 
+        21, 
+        "computational problem"
+      ], 
+      [
+        2906, 
+        21, 
+        "computational problem"
+      ]
+    ], 
+    "DFA": [
+      [
+        2792, 
+        3, 
+        "DFA"
+      ]
+    ], 
+    "TM": [
+      [
+        56, 
+        2, 
+        "TM"
+      ], 
+      [
+        255, 
+        3, 
+        "TMs"
+      ], 
+      [
+        282, 
+        2, 
+        "TM"
+      ], 
+      [
+        455, 
+        2, 
+        "TM"
+      ], 
+      [
+        526, 
+        2, 
+        "TM"
+      ], 
+      [
+        646, 
+        2, 
+        "TM"
+      ], 
+      [
+        856, 
+        2, 
+        "TM"
+      ], 
+      [
+        967, 
+        2, 
+        "TM"
+      ], 
+      [
+        1883, 
+        2, 
+        "TM"
+      ]
+    ], 
+    "decidable": [
+      [
+        398, 
+        9, 
+        "decidable"
+      ]
+    ], 
+    "accepted": [
+      [
+        2522, 
+        6, 
+        "accept"
+      ]
+    ], 
+    "decided": [
+      [
+        463, 
+        7, 
+        "decides"
+      ]
+    ], 
+    "configuration": [
+      [
+        734, 
+        13, 
+        "configuration"
+      ]
+    ], 
+    "language": [
+      [
+        332, 
+        8, 
+        "language"
+      ], 
+      [
+        408, 
+        8, 
+        "language"
+      ], 
+      [
+        915, 
+        8, 
+        "language"
+      ], 
+      [
+        1012, 
+        8, 
+        "language"
+      ], 
+      [
+        1180, 
+        8, 
+        "language"
+      ], 
+      [
+        3074, 
+        8, 
+        "language"
+      ], 
+      [
+        3104, 
+        8, 
+        "language"
+      ]
+    ], 
+    "recognized": [
+      [
+        349, 
+        10, 
+        "recognizes"
+      ]
+    ], 
+    "encodable": [
+      [
+        1861, 
+        9, 
+        "encodable"
+      ]
+    ], 
+    "encoding": [
+      [
+        2010, 
+        8, 
+        "encoding"
+      ], 
+      [
+        2290, 
+        9, 
+        "encodings"
+      ]
+    ], 
+    "Turing machine": [
+      [
+        1651, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        1842, 
+        15, 
+        "Turing machines"
+      ], 
+      [
+        2031, 
+        14, 
+        "Turing machine"
+      ], 
+      [
+        2088, 
+        14, 
+        "Turing machine"
+      ]
+    ]
+  }
+]

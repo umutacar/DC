@@ -60,6 +60,33 @@ def parse_atoms(tex):
 		tex = tex[end+end_len:]
 	return atoms
 
+
+def iref_atoms_to_tex(original_atoms, inserted_atoms, tex_string):
+	assert(len(original_atoms) == len(inserted_atoms))
+
+	tex = tex_string.decode().strip()
+	new_string = ""
+	og_atom_last_index = 0
+	length = 0
+	while (inserted_atoms):
+		# popping off first elt from inserted_atoms
+		curr_atom = inserted_atoms.pop(0)
+		og_atom = original_atoms.pop(0)
+		
+		# find corresponding index of curr_atom in tex_string
+		curr_index = tex.find(og_atom)
+		wrapper = tex[og_atom_last_index + length :curr_index]
+		og_atom_last_index = curr_index
+		length = len(og_atom)
+		
+		new_string += wrapper
+		new_string += curr_atom
+
+	# add last wrapper command
+	print(tex[og_atom_last_index+len(og_atom):])
+	new_string += tex[og_atom_last_index + length:]
+	return new_string
+
 # given string, map of keyphrases to labels, and map of keyphrases to indices, insert the labels as necessary
 def insert_iref_per_atom(atom_string, definition_to_labels, keyphrase_to_indices):
 
@@ -95,7 +122,7 @@ if __name__=='__main__':
 	def_to_labels = {}
 	for (keyphrase, label) in dictionary:
 		def_to_labels[keyphrase] = label
-	inserted_string = ""
+	inserted_atoms = []
 	for i in range(len(atoms)):
 		print("ATOM ", i)
 
@@ -109,9 +136,9 @@ if __name__=='__main__':
 		print("post", keyphrases_indices)
 
 		inserted_iref_atom = insert_iref_per_atom(atoms[i], def_to_labels, keyphrases_indices)
-		inserted_string += "\n"
-		inserted_string += inserted_iref_atom
+		inserted_atoms.append(inserted_iref_atom)
 
+	inserted_string = iref_atoms_to_tex(atoms, inserted_atoms, tex_str)
 	f = open(args.output_tex_file, "w+")
 	f.write(inserted_string)
 	f.close()

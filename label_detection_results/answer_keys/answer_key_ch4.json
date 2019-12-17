@@ -38,7 +38,7 @@
 		"accepting configuration": [[2160, 23]],
 		"rejecting configuration": [[2234, 23]],
 		"Turing machine": [[13, 14]],
-		"configuration": [[436, 13], [789, 13], [1087, 13], [1260, 13], [1340, 13], [1416, 13], [1842, 14]],
+		"configuration": [[438, 13], [789, 13], [1087, 13], [1260, 13], [1340, 13], [1416, 13], [1842, 14]],
 		"blank symbol": [[76, 12]],
 		"accepts": [[1297, 9]],
 		"rejects": [[1310, 9]],
