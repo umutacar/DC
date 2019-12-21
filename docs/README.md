@@ -78,18 +78,27 @@ Place the following in your root directory file .ocamlinit
 ```
 
 ### latex parser for identifying implicit references
-<<<<<<< HEAD
-To use the latex parser, run 'python tex_parser.py <path_to_latex_file>'. This will identify the key phrases in the given latex file and write the key phrase, label pairs to a text file with the same name as the latex file.
-=======
-The latex parser has two functionalities. 
+0. make sure to have two virtual environments set up, one in python2 and the other in python3. Spacy is used Python2 while BERT is only available in Python3.
+1. Make sure to atomize all the tex chapters. To maintain consistency, store all atomized files in ./tex_sources
+#### Set up
+TODO: fill this in
 
-#### extract key phrases from input file
-python tex\_parser.py extract\_label \<input latex file\> \<dictionary file name\> 
+#### PASS0: SPACY
+1. activate your python2 virtualenv. 
+2. run: python scripts/atom\_parser\_spacey.py --tex_file \<path to ATOMIZED latex file\> --output_file \<output file name\>
+  Make sure that the output file is JSON format. NOTE: this phase of the algorithm may take several hours
+3. deactivate virtualenv.
+This command will iterate over each atom of the atomized LaTeX file, iterate over the keyphrases extracted from dictionary.json, and will check the similarity of phrases from the atom with the keyphrase. The results will be stored in your JSON output file. The keyphrases are iterated over in decreasing length size because longer keyphrases have higher priority over shorter keyphrases. 
 
-This will identify the key phrases in the given latex file and write the key phrase, label pairs to a text file with the given dictionary file name.
+#### PASS1: BERT
+1. activate your python3 virtualenv. 
+2. run: python scripts/atom\_parser\_bert.py --json_file \<input json file\> --tex_file \<path to ATOMIZED latex file\> --output_file \<output file name\>
+  Make sure that the input and output file is JSON format. NOTE: this phase of the algorithm should take several minutes.
+3. deactivate virtualenv.
+  
+This phase filters out the false positives from the input JSON file using BERT word embeddings and stores the remaining results in the output JSON file name. 
 
 #### insert key phrases into file
-python tex\_parser.py insert\_label \<dictionary file name\> \<latex file name\>
+python scripts/insert\_implicit\_references.py --label_file \<JSON input file\> --input_tex_file \<input atomized tex file/> --output_tex_file \<implicit reference tex filename\>
 
-This will identify the key phrases in the given latex file and replace the key phrases from \<dictionary file name\> with  their corresponding iref labels.
->>>>>>> 7703c0c05ad9469cc72e4d2e06dff37aad34204d
+This will insert the labels in the input JSON file and insert them into the input tex file.
