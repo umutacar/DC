@@ -80,25 +80,26 @@ Place the following in your root directory file .ocamlinit
 ### LaTeX parser for identifying implicit references
 0. make sure to have two virtual environments set up, one in python2 and the other in python3. Spacy is used Python2 while BERT is only available in Python3.
 1. Make sure to atomize all the tex chapters. To maintain consistency, store all atomized files in ./tex_sources.
+
 #### Set up
-TODO: fill this in
+1. Download [Spacy](https://spacy.io/usage). Check out "Quick Start" in the spacy link for the set of commands for set up. Make sure to use Python 2.x for the python version, English as the model, and virtualenv for configuration. Package manager shouldn't matter, but I would recommend pip or conda. Also note that this set up includes the virtual environment.
+2. Set up a different virtualenv using either pip or conda. I would recommend conda. Within the virtual environment, download [BERT](https://pypi.org/project/bert-embedding/): `pip install bert_embedding`
 
 #### PASS0: SPACY
-1. activate your python2 virtualenv. 
-2. `python scripts/atom\_parser\_spacey.py --tex_file \<path to ATOMIZED latex file\> --output_file \<output file name\>`
+1. activate your python2 virtualenv `. <virtual environment name>/bin/activate` 
+2. `python scripts/atom_parser_spacey.py --tex_file <path to ATOMIZED latex file> --output_file <output file name>`
   Make sure that the output file is JSON format. NOTE: this phase of the algorithm may take several hours
 3. deactivate virtualenv.
 This command will iterate over each atom of the atomized LaTeX file, iterate over the keyphrases extracted from dictionary.json, and will check the similarity of phrases from the atom with the keyphrase. The results will be stored in your JSON output file. The keyphrases are iterated over in decreasing length size because longer keyphrases have higher priority over shorter keyphrases. 
 
 #### PASS1: BERT
-1. activate your python3 virtualenv. 
-2. `python scripts/atom\_parser\_bert.py --json_file \<input json file\> --tex_file \<path to ATOMIZED latex file\> --output_file \<output file name\>`
+1. activate your python3 virtualenv `conda activate <virtual environment name>`
+2. `python scripts/atom_parser_bert.py --json_file <input json file> --tex_file <path to ATOMIZED latex file> --output_file <output file name>`
   Make sure that the input and output file is JSON format. NOTE: this phase of the algorithm should take several minutes.
 3. deactivate virtualenv.
   
 This phase filters out the false positives from the input JSON file using BERT word embeddings and stores the remaining results in the output JSON file name. 
 
 #### insert key phrases into file
-```python scripts/insert\_implicit\_references.py --label_file \<JSON input file\> --input_tex_file \<input atomized tex file/> --output_tex_file \<implicit reference tex filename\>
-```
+`python scripts/insert_implicit_references.py --label_file <JSON input file> --input_tex_file <input atomized tex file> --output_tex_file <implicit reference tex filename>`
 This will insert the labels in the input JSON file and insert them into the input tex file.
