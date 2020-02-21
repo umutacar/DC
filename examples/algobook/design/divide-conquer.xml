@@ -1,0 +1,3295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Divide and Conquer
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Divide and Conquer
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:design::dc
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:design::dc::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:design::dc::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter describes the divide-and-conquer technique, an important algorithm-design technique, and applies it to several problems. Divide and conquer is an effective technique for solving a variety of problems, and usually leads to efficient and parallel algorithms.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter describes the divide-and-conquer technique, an important algorithm-design technique, and applies it to several problems.
+Divide and conquer is an effective technique for solving a variety of problems, and usually leads to efficient and parallel algorithms.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Divide and Conquer
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Divide and Conquer
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::dc
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::divide-and-conquer
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::divide-and-conquer
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A divide-and-conquer algorithm has a distinctive anatomy: it has a base case to handle small instances and an inductive step with three distinct phases: “divide”, “recur”, and “combine.” The <strong><em>divide</em></strong>  phase divides the problem instance into smaller instances; the <strong><em>recur</em></strong>  phase solves the smaller instances; and the <strong><em>combine</em></strong> phase combines the results for the smaller instance to construct the result to the larger instance.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A divide-and-conquer algorithm has a distinctive anatomy: it has a base case to handle small instances and an inductive step with three
+distinct phases: ``divide'', ``recur'', and ``combine.''
+The \defn{divide}~phase divides the problem instance into smaller instances;
+the \defn{recur}~phase solves the smaller instances;
+and the \defn{combine} phase combines the results for the smaller
+instance to construct the result to the larger instance.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:design::dc::divide-and-conquer-algorithm
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Divide-And-Conquer Algorithm
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Divide-And-Conquer Algorithm
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:design::dc::divide-and-conquer-algorithm
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A divide-and-conquer algorithm has the following structure.</p>
+<dl>
+<dt>Base Case:</dt>
+<dd><p>When the instance <span class="math inline">\(I\)</span> of the problem <span class="math inline">\(P\)</span> is sufficiently small, compute the solution <span class="math inline">\(P(I)\)</span> perhaps by using a different algorithm.</p>
+</dd>
+<dt>Inductive Step:</dt>
+<dd><ol>
+<li><p><span><strong>Divide</strong></span> instance <span class="math inline">\(I\)</span> into some number of smaller instances of the same problem <span class="math inline">\(P\)</span>.</p></li>
+<li><p><span><strong>Recur</strong></span> on each of the smaller instances and compute their solutions.</p></li>
+<li><p><span><strong>Combine</strong></span> the solutions to obtain the solution to the original instance <span class="math inline">\(I\)</span>.</p></li>
+</ol>
+</dd>
+</dl>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A divide-and-conquer algorithm has the following structure.
+\begin{description}
+\item[Base Case:] When the instance $I$ of the problem $P$ is
+  sufficiently small, compute the solution $P(I)$ perhaps by using a
+  different algorithm.
+
+\item[Inductive Step:]\mbox{}
+\begin{enumerate}
+\item {\bf Divide} instance $I$ into some number of 
+smaller instances of the same problem $P$.
+\item {\bf Recur} on each of the smaller instances and compute
+  their solutions.
+\item {\bf Combine} the solutions to obtain the solution to the
+  original instance $I$.
+\end{enumerate}
+\end{description}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:design::dc::drawing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The drawing below illustrates the structure of a divide-and-conquer algorithm that divides the problem instance into three independent subinstances.</p>
+<p><img src="./design/media-dc/divide-and-conquer.jpg" alt="image" style="width:5in" /></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The drawing below illustrates the structure of a divide-and-conquer
+algorithm that divides the problem instance into three independent
+subinstances.
+
+\begin{center}
+\includegraphics[width=5in]{./design/media-dc/divide-and-conquer.jpg}
+\end{center}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::properties-of-divide-and-conquer-algorithms
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Properties of Divide-and-Conquer Algorithms
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Properties of Divide-and-Conquer Algorithms
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::properties-of-divide-and-conquer-algorithms
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Divide-and-Conquer has several important properties.</p>
+<ul>
+<li><p>It follows the structure of an inductive proof, and therefore usually leads to relatively simple proofs of correctness. To prove a divide-and-conquer algorithm correct, we first prove that the base case is correct. Then, we assume by strong (or structural) induction that the recursive solutions are correct, and show that, given correct solutions to smaller instances, the combined solution is correct.</p></li>
+<li><p>Divide-and-conquer algorithms can be work efficient. To ensure efficiency, we need to make sure that the divide and combine steps are efficient, and that they do not create too many sub-instances.</p></li>
+<li><p>The work and span for a divide-and-conquer algorithm can be expressed as a mathematical equation called <a href="ch:analysis::recurrences">recurrence</a>, which can be usually be solved without too much difficulty.</p></li>
+<li><p>Divide-and-conquer algorithms are naturally parallel, because the sub-instances can be solved in parallel. This can lead to significant amount of parallelism, because each inductive step can create more independent instances. For example, even if the algorithm divides the problem instance into two subinstances, each of those subinstances could themselves generate two more subinstances, leading to a geometric progression, which can quickly produce abundant parallelism.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Divide-and-Conquer has several important properties.  
+
+\begin{itemize}
+\item  It follows the structure of an inductive proof, and therefore
+usually leads to relatively simple proofs of correctness. 
+To prove a divide-and-conquer algorithm correct, we first prove that the
+base case is correct.  Then, we assume by strong (or structural)
+induction that the recursive solutions are correct, and show that,
+given correct solutions to smaller instances, the combined solution is
+correct.
+
+\item Divide-and-conquer algorithms can be work efficient.
+To ensure efficiency, we need to make sure that the divide and combine
+steps are efficient, and that they do not create too many
+sub-instances.
+
+\item The work and span for a divide-and-conquer algorithm can be
+  expressed as a mathematical equation called \href{ch:analysis::recurrences}{recurrence},
+which can be usually be solved without too much difficulty.
+
+\item Divide-and-conquer algorithms are naturally parallel, because
+  the sub-instances can be solved in parallel.  This can lead to
+  significant amount of parallelism, because each inductive step can
+  create more independent instances. For example, even if the
+  algorithm divides the problem instance into two subinstances, each
+  of those subinstances could themselves generate two more
+  subinstances, leading to a geometric progression, which can quickly
+  produce abundant parallelism.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::analysis-of-divide-and-conquer-algorithms
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Analysis of Divide-and-Conquer Algorithms
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Analysis of Divide-and-Conquer Algorithms
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::analysis-of-divide-and-conquer-algorithms
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider an algorithm that divides a problem instance of size <span class="math inline">\(n\)</span> into <span class="math inline">\(k &gt; 1\)</span> independent subinstances of sizes <span class="math inline">\(n_1, n_2, \ldots n_k\)</span>, recursively solves the instances, and combine the solutions to construct the solution to the original instance.</p>
+<p>We can write the work of such an algorithm using the recurrence then <span class="math display">\[\begin{align*}  
+  W(n) \;&amp;=\; W_{\textrm{divide}}(n) \;+\; \sum_{i=1}^k W(n_i) \;+\; W_{\textrm{combine}}(n) + 1.  
+\end{align*}\]</span> The work recurrence simply adds up the work across all phases of the algorithm (divide, recur, and combine).</p>
+<p>To analyze the span, note that after the instance is divided into subinstance, the subinstances can be solved in parallel (because they are independent), and the results can be combined. The span can thus be written as the recurrence: <span class="math display">\[\begin{align*}  
+S(n) &amp;= S_{\textrm{divide}}(n) \;+\; \max_{i=1}^k S(n_i) \;+\; S_{\textrm{combine}}(n) + 1.\\  
+\end{align*}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider an algorithm that divides a problem instance of size $n$ into
+$k > 1$ independent subinstances of sizes $n_1, n_2, \ldots n_k$,
+recursively solves the instances, and combine the solutions to
+construct the solution to the original instance.
+
+We can write the work of such an algorithm using the recurrence then
+\[ \begin{align*}
+  W(n) \;&=\; W_{\textrm{divide}}(n) \;+\; \sum_{i=1}^k W(n_i) \;+\; W_{\textrm{combine}}(n) + 1.
+\end{align*} \]
+The work recurrence simply adds up the work across all phases of the
+algorithm (divide, recur, and combine).
+
+To analyze the span, note that after the instance is divided into
+subinstance, the subinstances can be solved in parallel (because they
+are independent), and the results can be combined.  The span can thus
+be written as the recurrence:
+\[ \begin{align*}
+S(n) &= S_{\textrm{divide}}(n) \;+\; \max_{i=1}^k S(n_i) \;+\; S_{\textrm{combine}}(n) + 1.\\
+\end{align*} \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:design::dc::work
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:design::dc::work
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The work and span recurrences for a divide-and-conquer algorithm usually follow the recursive structure of the algorithm, but is a function of size of the arguments instead of the actual values.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The work and span recurrences for a divide-and-conquer algorithm
+usually follow the recursive structure of the algorithm, but is a
+function of size of the arguments instead of the actual values.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:design::dc::maximal-element
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Maximal Element
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Maximal Element
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:design::dc::maximal-element
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We can find the maximal element in a sequence using divide and conquer as follows. If the sequence has only one element, we return that element, otherwise, we divide the sequence into two equal halves and recursively and in parallel compute the maximal element in each half. We then return the maximal of the results from the two recursive calls. For a sequence of length <span class="math inline">\(n\)</span>, we can write the work and span for this algorithm as recurrences as follows: <span class="math display">\[W(n) = \left\{  
+\begin{array}{lll}  
+\Theta(1) &amp; \mbox{if} &amp; n \le 1  
+\\  
+2W(n/2) + \Theta(1) &amp;  \mbox{otherwise}  
+\end{array}  
+\right.\]</span> <span class="math display">\[S(n) = \left\{  
+\begin{array}{lll}  
+\Theta(1) &amp; \mbox{if} &amp; n \le 1  
+\\  
+S(n/2) + \Theta(1) &amp;  \mbox{otherwise}.  
+\end{array}  
+\right.\]</span> This recurrences yield <span class="math display">\[\begin{align*}  
+W(n) &amp; = \Theta(n)~\mbox{and}  
+\\  
+S(n) &amp; = \Theta(\lg{n}).  
+\end{align*}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can find the maximal element in a sequence using divide and conquer
+as follows.
+If the sequence has only one element, we return that element,
+otherwise, we divide the sequence into two equal halves and
+recursively and in parallel compute the maximal element in each half.
+We then return the maximal of the results from the two recursive
+calls.
+For a sequence of length $n$, we can write the work and span for this
+algorithm as recurrences as follows:
+\[
+W(n) = \left\{
+\begin{array}{lll}
+\Theta(1) & \mbox{if} & n \le 1
+\\
+2W(n/2) + \Theta(1) &  \mbox{otherwise}
+\end{array}
+\right.
+\]
+\[
+S(n) = \left\{
+\begin{array}{lll}
+\Theta(1) & \mbox{if} & n \le 1
+\\
+S(n/2) + \Theta(1) &  \mbox{otherwise}.
+\end{array}
+\right.
+\]
+This recurrences yield 
+\[ \begin{align*}
+W(n) & = \Theta(n)~\mbox{and}
+\\
+S(n) & = \Theta(\lg{n}).
+\end{align*} \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:alg:design::dc::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='algorithm'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Reduce with Divide and Conquer
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Reduce with Divide and Conquer
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+alg:design::dc::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> The  <strong><em>reduce</em></strong> primitive performs a computation that involves applying an associative binary operation <span class="math inline">\(op\)</span> to the elements of a sequence to obtain (reduce the sequence to) a final value. For example, reducing the sequence <span class="math inline">\(\left\langle\, 0,1,2,3,4 \,\right\rangle\)</span> with the <span class="math inline">\(+\)</span> operation gives us <span class="math inline">\(0 + 1 + 2 + 3 + 4 = 10\)</span>. If the operation requires constant work (and thus span), then the work and span of a reduction is <span class="math inline">\(\Theta(n)\)</span> and <span class="math inline">\(\Theta(\lg{n})\)</span> respectively.</p>
+<p>We can write the code for the reduce primitive on sequences as follows.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\mathit{reduceDC}~f~\mathit{id}~a =  
+\\  
+~~~~\texttt{if}~\mathit{isEmpty}~ a~\texttt{then}  
+\\  
+~~~~~~~~\mathit{id}  
+\\  
+~~~~\texttt{else}~\texttt{if}~\mathit{isSingleton}~a~\texttt{then}  
+\\  
+~~~~~~~~a[0]  
+\\  
+~~~~\texttt{else}  
+\\   
+~~~~~~~~\texttt{let}  
+\\   
+~~~~~~~~~~~~(l, r) = \mathit{splitMid}~a  
+\\  
+~~~~~~~~~~~~(a, b) = (\mathit{reduceDC}~f~\mathit{id}~l~\mid\mid{}~\mathit{reduceDC}~f~\mathit{id}~r)  
+\\  
+~~~~~~~~\texttt{in}   
+\\  
+~~~~~~~~~~~~f(a,b)  
+\\   
+\texttt{end}          
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{alg:design::dc::reduce}
+The~\defn{reduce} primitive performs a computation that involves
+applying an associative binary operation $op$ to the elements of a
+sequence to obtain (reduce the sequence to) a final value.
+For example, reducing the sequence $\cseq{0,1,2,3,4}$ with the $+$
+operation gives us $0 + 1 + 2 + 3 + 4 = 10$.
+If the operation requires constant work (and thus span), then the work
+and span of a reduction is $\Theta(n)$ and $\Theta(\lg{n})$ respectively.
+
+We can write the code for the reduce primitive on sequences as
+follows.
+
+\[
+\begin{array}{l}
+\cdvar{reduceDC}~f~\cdvar{id}~a =
+\\
+~~~~\cd{if}~\cdvar{isEmpty}~ a~\cd{then}
+\\
+~~~~~~~~\cdvar{id}
+\\
+~~~~\cd{else}~\cd{if}~\cdvar{isSingleton}~a~\cd{then}
+\\
+~~~~~~~~a[0]
+\\
+~~~~\cd{else}
+\\ 
+~~~~~~~~\cd{let}
+\\ 
+~~~~~~~~~~~~(l, r) = \cdvar{splitMid}~a
+\\
+~~~~~~~~~~~~(a, b) = (\cdvar{reduceDC}~f~\cdvar{id}~l~\cpar{}~\cdvar{reduceDC}~f~\cdvar{id}~r)
+\\
+~~~~~~~~\cd{in} 
+\\
+~~~~~~~~~~~~f(a,b)
+\\ 
+\cd{end}        
+\end{array} 
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- algorithm -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Merge Sort
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Merge Sort
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::dc::msort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In this section, we consider the comparison sorting problem and the merge-sort algorithm, which offers a divide-and-conquer algorithm for it.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In this section, we consider the comparison sorting problem and the
+merge-sort algorithm, which offers a divide-and-conquer algorithm for
+it.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:problem::comparison-sorting
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+The Comparison-Sorting Problem
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The Comparison-Sorting Problem
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:problem::comparison-sorting
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Given a sequence <span class="math inline">\(a\)</span> of elements from a universe <span class="math inline">\(U\)</span>, with a total ordering given by <span class="math inline">\(&lt;\)</span>, return the same elements in a sequence <span class="math inline">\(r\)</span> in sorted order, i.e. <span class="math inline">\(r[i] \leq r[i+1], 0 &lt; i \leq |a|-1\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:problem::comparison-sorting}
+  Given a sequence $a$ of elements from a universe $U$, with a total
+  ordering given by $<$, return the same elements in a sequence $r$
+  in sorted order, i.e. $r[i] \leq r[i+1], 0 < i \leq |a|-1$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:alg:design::dc::mergesort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='algorithm'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Merge Sort
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Merge Sort
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+alg:design::dc::mergesort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Given an input sequence, merge sort divides it into two sequences that are approximately half the length, sorts them recursively, and merges the sorted sequences. Mergesort can be written as follows.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\mathit{mergeSort}~a =  
+\\   
+~~~~\texttt{if}~|a| \leq 1~\texttt{then}  
+\\   
+~~~~~~~~a  
+\\  
+~~~~\texttt{else}  
+\\   
+~~~~~~~~\texttt{let}  
+\\  
+~~~~~~~~~~~~(l,r) = \mathit{splitMid}~a  
+\\   
+~~~~~~~~~~~~(l&#39;,r&#39;) = (\mathit{mergeSort}~l \mid\mid{} \mathit{mergeSort}~r)  
+\\  
+~~~~~~~~\texttt{in}  
+\\   
+~~~~~~~~~~~~\mathit{merge} (l&#39;,r&#39;)  
+\\  
+~~~~~~~~\texttt{end}  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{alg:design::dc::mergesort}
+
+Given an input sequence, merge sort divides it into two sequences that
+are approximately half the length, sorts them recursively, and merges
+the sorted sequences.
+Mergesort can be written as follows.
+
+\[
+\begin{array}{l}
+\cdvar{mergeSort}~a =
+\\ 
+~~~~\cd{if}~|a| \leq 1~\cd{then}
+\\ 
+~~~~~~~~a
+\\
+~~~~\cd{else}
+\\ 
+~~~~~~~~\cd{let}
+\\
+~~~~~~~~~~~~(l,r) = \cdvar{splitMid}~a
+\\ 
+~~~~~~~~~~~~(l',r') = (\cdvar{mergeSort}~l \cpar{} \cdvar{mergeSort}~r)
+\\
+~~~~~~~~\cd{in}
+\\ 
+~~~~~~~~~~~~\cdvar{merge} (l',r')
+\\
+~~~~~~~~\cd{end}
+\end{array} 
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- algorithm -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:design::dc::merge
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:design::dc::merge
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In the merge sort algorithm given above the base case is when the sequence is empty or contains a single element. In practice, however, instead of using a single element or empty sequence as the base case, some implementations use a larger base case consisting of perhaps ten to twenty keys.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In the merge sort algorithm given above the base case is when the
+sequence is empty or contains a single element.  In practice, however,
+instead of using a single element or empty sequence as the base case,
+some implementations use a larger base case consisting of perhaps ten
+to twenty keys.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::correctness-and-cost
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Correctness and Cost
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Correctness and Cost
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::correctness-and-cost
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>To prove correctness we first note that the base case is correct. Then by induction we note that <span class="math inline">\(l&#39;\)</span> and <span class="math inline">\(r&#39;\)</span> are sorted versions of <span class="math inline">\(l\)</span> and <span class="math inline">\(r\)</span>. Because <span class="math inline">\(l\)</span> and <span class="math inline">\(r\)</span> together contain exactly the same elements as <span class="math inline">\(a\)</span>, we conclude that <span class="math inline">\(\texttt{merge}~(l&#39;,r&#39;)\)</span> returns a sorted version of <span class="math inline">\(a\)</span>.</p>
+<p>For the work and span analysis, we assume that merging can be done in <span class="math inline">\(\Theta(n)\)</span> work and <span class="math inline">\(\Theta(\lg{n})\)</span> span, where <span class="math inline">\(n\)</span> is the sum of the lengths of the two sequences. We can thus write the work and span for this sorting algorithm as <span class="math display">\[W(n) = \left\{  
+\begin{array}{lll}  
+\Theta(1) &amp; \mbox{if} &amp; n \le 1  
+\\  
+2W(n/2) + \Theta(n) &amp;  \mbox{otherwise}  
+\end{array}  
+\right.\]</span> <span class="math display">\[S(n) = \left\{  
+\begin{array}{lll}  
+\Theta(1) &amp; \mbox{if} &amp; n \le 1  
+\\  
+S(n/2) + \Theta(\lg{n}) &amp;  \mbox{otherwise}.  
+\end{array}  
+\right.\]</span></p>
+<p>The recurrences solve to <span class="math display">\[\begin{align*}  
+W(n) &amp; = \Theta(n\lg{n})  
+\\  
+S(n) &amp; = \Theta(\lg^2{n}).  
+\end{align*}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+To prove correctness we first note that the base case is correct.
+Then by induction we note that $l'$ and $r'$ are sorted
+versions of $l$ and $r$.
+Because $l$ and $r$ together contain exactly the same elements as $a$,
+we conclude that $\cd{merge}~(l',r')$ returns a sorted version of $a$.
+
+
+For the work and span analysis, we assume that merging can be done in $\Theta(n)$ work and $\Theta(\lg{n})$ span, where $n$ is the sum of the lengths of the two sequences.
+We can thus write the work and span for this sorting algorithm
+as
+\[
+W(n) = \left\{
+\begin{array}{lll}
+\Theta(1) & \mbox{if} & n \le 1
+\\
+2W(n/2) + \Theta(n) &  \mbox{otherwise}
+\end{array}
+\right.
+\]
+\[
+S(n) = \left\{
+\begin{array}{lll}
+\Theta(1) & \mbox{if} & n \le 1
+\\
+S(n/2) + \Theta(\lg{n}) &  \mbox{otherwise}.
+\end{array}
+\right.
+\]
+
+The recurrences solve to
+\[ \begin{align*}
+W(n) & = \Theta(n\lg{n})
+\\
+S(n) & = \Theta(\lg^2{n}).
+\end{align*} \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:design::dc::quick-sort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Quick Sort
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Quick  Sort
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:design::dc::quick-sort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Another divide-and-conquer algorithm for sorting is the quick-sort algorithm. Like merge sort, quick sort requires <span class="math inline">\(\Theta(n \log n)\)</span> work, which is optimal for the comparison sorting problem, but only “in expectation” over random decisions that it makes during its execution. While merge sort has a trivial divide step and interesting combine step, quick sort has an interesting divide step but trivial combine step. We will study quick sort in greater detail.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Another divide-and-conquer algorithm for sorting is the quick-sort
+algorithm.
+Like merge sort, quick sort requires $\Theta(n \log n)$ work, which
+is optimal for the comparison sorting problem, but only ``in expectation'' over random decisions that it makes during its execution.
+While merge sort has a trivial divide step and interesting combine
+step, quick sort has an interesting divide step but trivial combine
+step.
+We will study quick sort in greater detail.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Sequence Scan
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Sequence Scan
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::dc::scan
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::intuition-for-scan-with-divide-and-conquer
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Intuition for Scan with Divide and Conquer
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Intuition for Scan with Divide and Conquer
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::intuition-for-scan-with-divide-and-conquer
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>To develop some intuition on how to design a divide-and-conquer algorithm for the sequence scan problem, let’s start by dividing the sequence in two halves, solving each half, and then putting the results together.</p>
+<p>For example, consider the sequence <span class="math inline">\(\left\langle\, 2,1,3,2,2,5,4,1 \,\right\rangle\)</span>. If we divide in the middle and scan over the two resulting sequences we obtain <span class="math inline">\((b,b&#39;)\)</span> and <span class="math inline">\((c,c&#39;)\)</span>, such that <span class="math display">\[\begin{align*}  
+(b, b&#39;) &amp; = \left(\left\langle\, 0, 2, 3, 6 \,\right\rangle, 8 \right),~\mbox{and}  
+\\  
+(c, c&#39;) &amp; = \left(\left\langle\, 0, 2, 7, 11 \,\right\rangle, 12\right).  
+\end{align*}\]</span></p>
+<p>Note now that <span class="math inline">\(b\)</span> already gives us the first half of the solution. To compute the second half, observe that in calculating <span class="math inline">\(c\)</span> in the second half, we started with the identity instead of the sum of the first half, <span class="math inline">\(b&#39;\)</span>. Therefore, if we add the sum of the first half, <span class="math inline">\(b&#39;\)</span>, to each element of <span class="math inline">\(c\)</span>, we would obtain the desired result.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+To develop some intuition on how to design a divide-and-conquer
+algorithm for the sequence scan problem, let's start by
+dividing the sequence in two halves, solving each half, and then
+putting the results together. 
+
+For example,  consider the sequence $\cseq{2,1,3,2,2,5,4,1}$.
+If we divide in the middle and scan over the two resulting sequences
+we obtain $(b,b')$ and $(c,c')$, such that 
+\[ \begin{align*}
+(b, b') & = \left(\cseq{0, 2, 3, 6}, 8 \right),~\mbox{and}
+\\
+(c, c') & = \left(\cseq{0, 2, 7, 11}, 12\right).
+\end{align*} \]
+
+Note now that $b$ already gives us the first half of the solution.
+To compute the second half, observe that in calculating $c$ in the
+second half, we started with the identity instead of the sum of the
+first half, $b'$.  
+Therefore, if we add the sum of the first half, $b'$, to each element
+of $c$, we would obtain the desired result.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:alg:design::dc::scan-with-divide-and-conquer
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='algorithm'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Scan with Divide and Conquer
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Scan with Divide and Conquer
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+alg:design::dc::scan-with-divide-and-conquer
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>By refining the intuitive description above, we can obtain a divide-and-conquer algorithm for sequences scan, which is given below.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\mathit{scanDC}~f~\mathit{id}~a =  
+\\  
+~~~~\texttt{if}~|a| = 0~\texttt{then}  
+\\  
+~~~~~~~~(\left\langle\,  \,\right\rangle, \mathit{id})  
+\\  
+~~~~\texttt{else if}~|a| = 1~\texttt{then}  
+\\   
+~~~~~~~~(\left\langle\, \mathit{id} \,\right\rangle,a[0])  
+\\  
+~~~~\texttt{else}  
+\\   
+~~~~~~~~\texttt{let}  
+\\   
+~~~~~~~~~~~~(b, c) = \mathit{splitMid}~a  
+\\  
+~~~~~~~~~~~~((l,b&#39;),(r,c&#39;)) = (\mathit{scanDC}~f~\mathit{id}~b \mid\mid{}~\mathit{scanDC}~f~\mathit{id}~c)  
+\\  
+~~~~~~~~~~~~r&#39; = \left\langle\, f (b&#39;,x) : x \in r \,\right\rangle  
+\\  
+~~~~~~~~\texttt{in}  
+\\  
+~~~~~~~~~~~~(\mathit{append}~(l,r&#39;), f(b&#39;,c&#39;))  
+\\  
+~~~~~~~~\texttt{end}  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+By refining the intuitive description above, we can obtain a
+divide-and-conquer algorithm for sequences scan, which is given below.
+
+\[
+\begin{array}{l}
+\cdvar{scanDC}~f~\cdvar{id}~a =
+\\
+~~~~\cd{if}~|a| = 0~\cd{then}
+\\
+~~~~~~~~(\cseq{}, \cdvar{id})
+\\
+~~~~\cd{else if}~|a| = 1~\cd{then}
+\\ 
+~~~~~~~~(\cseq{\cdvar{id}},a[0])
+\\
+~~~~\cd{else}
+\\ 
+~~~~~~~~\cd{let}
+\\ 
+~~~~~~~~~~~~(b, c) = \cdvar{splitMid}~a
+\\
+~~~~~~~~~~~~((l,b'),(r,c')) = (\cdvar{scanDC}~f~\cdvar{id}~b \cpar{}~\cdvar{scanDC}~f~\cdvar{id}~c)
+\\
+~~~~~~~~~~~~r' = \cseq{f (b',x) : x \in r}
+\\
+~~~~~~~~\cd{in}
+\\
+~~~~~~~~~~~~(\cdvar{append}~(l,r'), f(b',c'))
+\\
+~~~~~~~~\cd{end}
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- algorithm -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:design::dc::observe
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:design::dc::observe
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Observe that this algorithm takes advantage of the fact that <span class="math inline">\(\mathit{id}\)</span> is really the identity for <span class="math inline">\(f\)</span>, i.e. <span class="math inline">\(f(id,x) = x\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Observe that this algorithm takes advantage of the fact that $\cdvar{id}$ is
+really the identity for $f$, i.e. $f(id,x) = x$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::cost-analysis
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Cost Analysis
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Cost Analysis
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::cost-analysis
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We consider the work and span for the algorithm. Note that the combine step requires a map to add <span class="math inline">\(b&#39;\)</span> to each element of <span class="math inline">\(c\)</span>, and then an append. Both these take <span class="math inline">\(O(n)\)</span> work and <span class="math inline">\(O(1)\)</span> span, where <span class="math inline">\(n  
+= |a|\)</span>. This leads to the following recurrences for the whole algorithm: <span class="math display">\[\begin{array}{lllll}  
+W(n) &amp; = &amp; 2W(n/2) + O(n) &amp; \in &amp;  O(n \log n)  
+\\  
+S(n) &amp; = &amp; S(n/2) + O(1) &amp; \in &amp; O(\log n).  
+\end{array}\]</span> Although this is much better than <span class="math inline">\(O(n^2)\)</span> work, we can do better by using another design technique called contraction.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We consider the work and span for the algorithm.  Note that the
+combine step requires a map to add $b'$ to each element of $c$, and
+then an append.  Both these take $O(n)$ work and $O(1)$ span, where $n
+= |a|$.
+This leads to the following recurrences for the whole
+algorithm:
+\[
+\begin{array}{lllll}
+W(n) & = & 2W(n/2) + O(n) & \in &  O(n \log n)
+\\
+S(n) & = & S(n/2) + O(1) & \in & O(\log n).
+\end{array}
+\]
+Although this is much better than $O(n^2)$ work, we can do better by
+using another design technique called contraction.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Euclidean Traveling Salesperson Problem
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Euclidean Traveling Salesperson Problem
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::dc::etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::variant
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::variant
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We consider a variant of the well-known Traveling Salesperson Problem (TSP) and design a divide-and-conquer heuristic for it. This variant, known as the Euclidean Traveling Salesperson Problem (eTSP), is <span class="math inline">\(\textbf{NP}\)</span> hard. It requires solving the TSP problem in graphs where the vertices (e.g., cities) lie in a Euclidean space and the edge weights (e.g., distance measure between cities) is the Euclidean distance. More specifically, we’re interested in the planar version of the eTSP problem, defined as follows:</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We consider a variant of the  well-known Traveling Salesperson Problem (TSP) and design a divide-and-conquer heuristic for it.
+This variant, known as the Euclidean Traveling Salesperson Problem
+(eTSP), is $\textbf{NP}$ hard.
+It requires solving the TSP problem in graphs where the vertices
+(e.g., cities) lie in a Euclidean space and the edge weights (e.g.,
+distance measure between cities) is the Euclidean distance.  More
+specifically, we're interested in the planar version of the eTSP
+problem, defined as follows:
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:design::dc::the-planar-euclidean-traveling-salesperson-problem
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+The Planar Euclidean Traveling Salesperson Problem
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The Planar Euclidean Traveling Salesperson Problem
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:design::dc::the-planar-euclidean-traveling-salesperson-problem
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Given a set of points <span class="math inline">\(P\)</span> in the <span class="math inline">\(2\)</span>-d plane, the  <strong><em>planar Euclidean traveling salesperson</em></strong> (eTSP) problem is to find a tour of minimum total distance that visits all points in <span class="math inline">\(P\)</span> exactly once, where the distance between points is the Euclidean (i.e. <span class="math inline">\(\ell_2\)</span>) distance.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a set of points $P$ in the $2$-d plane, the~\defn{planar Euclidean
+    traveling salesperson} (eTSP) problem is to find a tour of minimum total
+  distance that visits all points in $P$ exactly once, where the distance
+  between points is the Euclidean (i.e. $\ell_2$) distance.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:design::dc::assuming
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:design::dc::assuming
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Assuming that we could go from one place to another using your personal airplane, this is the problem we would want to solve to find a minimum length route visiting your favorite places in Pittsburgh.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Assuming that we could go from one place to another using your
+personal airplane, this is the problem we would want to solve to find
+a minimum length route visiting your favorite places in Pittsburgh.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>As with the TSP, eTSP is <strong>NP</strong>-hard, but it is easier to approximate. Unlike the TSP problem, which only has constant approximations, it is known how to approximate this problem to an arbitrary but fixed constant accuracy <span class="math inline">\(\varepsilon\)</span> in polynomial time (the exponent of <span class="math inline">\(n\)</span> has <span class="math inline">\(1/\varepsilon\)</span> dependency). That is, such an algorithm is capable of producing a solution that has length at most <span class="math inline">\((1+\varepsilon)\)</span> times the length of the best tour.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+As with the TSP, eTSP is \textbf{NP}-hard, but it is easier to
+approximate.
+Unlike the TSP problem, which only has constant approximations, it is
+known how to approximate this problem to an arbitrary but fixed
+constant accuracy $\varepsilon$ in polynomial time (the exponent of
+$n$ has $1/\varepsilon$ dependency).
+That is, such an algorithm is capable of producing a solution that has
+length at most $(1+\varepsilon)$ times the length of the best tour.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:design::dc::genome
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:design::dc::genome
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In Section <a href="#sec:genome::alg" data-reference-type="ref" data-reference="sec:genome::alg">[sec:genome::alg]</a>, we cover another approximation algorithm for a metric variant of TSP that is based on Minimum Spanning Trees (MST). That approximation algorithm gives a constant-approximation guarantee.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In \secref{genome::alg}, we cover another approximation algorithm for a
+metric variant of TSP that is based on Minimum Spanning Trees (MST).
+That approximation algorithm gives a constant-approximation guarantee.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::intuition-for-a-divide-and-conquer-algorithm-for-etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Intuition for a Divide and Conquer Algorithm for eTSP
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Intuition for a Divide and Conquer Algorithm for eTSP
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::intuition-for-a-divide-and-conquer-algorithm-for-etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We can solve an instance of the eTPS problem by splitting the points by a cut in the plane, solving the eTSP instances on the two parts, and then merging the solutions in some way to construct a solution for the original problem.</p>
+<p>For the cut, we can pick a cut that is orthogonal to the coordinate lines. We could for example find the dimension along which the points have a larger spread, and then cut just below the median point along that dimension.</p>
+<p>This division operation gives us two smaller instances of eTSP, which can then be solved independently in parallel, yielding two cycles. To construct the solution for the original problem, we can merge the solutions. To merge the solution in the best possible way, we can take an edge from each of the two smaller instances, remove them, and then bridge the end points across the cut with two new edges. For each such pair of edges, there are two possible ways that we can bridge them, because when we are on the one side, we can jump to any one of the endpoints of the two bridges. To construct, the best solution, we can try out which one of these yields the best solution and take that one.</p>
+<p><img src="./design/media-dc/etsp-merge.jpg" alt="image" style="width:6in" /></p>
+<p>To choose which swap to make, we consider all pairs of edges of the recursive solutions consisting of one edge <span class="math inline">\(e_\ell = (u_\ell,v_\ell)\)</span> from the left and one edge <span class="math inline">\(e_r = (u_r,v_r)\)</span> from the right and determine which pair minimizes the increase in the following cost: <span class="math display">\[\mathit{swapCost}((u_\ell,v_\ell), (u_r,v_r)) =  
+\left\Vert u_\ell-v_r \right\Vert + \left\Vert u_r-v_\ell \right\Vert - \left\Vert u_\ell-v_\ell \right\Vert -  
+\left\Vert u_r-v_r \right\Vert\]</span> where <span class="math inline">\(\left\Vert u-v \right\Vert\)</span> is the Euclidean distance between points <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can solve an instance of the eTPS problem by splitting the points
+by a cut in the plane, solving the eTSP instances on the two parts,
+and then merging the solutions in some way to construct a solution for
+the original problem.  
+
+For the cut, we can pick a cut that is orthogonal to the coordinate
+lines. We could for example find the dimension along which the points
+have a larger spread, and then cut just below the median point along
+that dimension.  
+
+
+This division operation gives us two smaller instances of eTSP, which
+can then be solved independently in parallel, yielding two cycles.
+To construct the solution for the original problem, we can merge the
+solutions.
+To merge the solution in the best possible way, we can take an edge
+from each of the two smaller instances, remove them, and then bridge
+the end points across the cut with two new edges.
+For each such pair of edges, there are two possible ways that we can bridge
+them, because when we are on the one side, we can jump to any one of
+the endpoints of the two bridges. 
+To construct, the best solution, we can try out which one of these
+yields the best solution and take that one. 
+
+\begin{center}
+  \includegraphics[width=6in]{./design/media-dc/etsp-merge.jpg}
+\end{center}
+To choose which swap to make, we consider all pairs of edges of
+the recursive solutions consisting of one edge $e_\ell = (u_\ell,v_\ell)$ from
+the left and one edge $e_r = (u_r,v_r)$ from the right and determine which
+pair minimizes the increase in the following
+cost: 
+\[
+\cdvar{swapCost}((u_\ell,v_\ell), (u_r,v_r)) =
+\norm{u_\ell-v_r} + \norm{u_r-v_\ell} - \norm{u_\ell-v_\ell} -
+\norm{u_r-v_r}
+\] where $\norm{u-v}$ is the Euclidean distance between
+points $u$ and $v$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:alg:design::dc::divide-and-conquer-etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='algorithm'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Divide-and-Conquer eTSP
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Divide-and-Conquer eTSP
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+alg:design::dc::divide-and-conquer-etsp
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>By refining the intuition describe above, we arrive at a divide-and-conquer algorithm for solving eTPS, whose pseudo-code is shown below.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\mathit{eTSP}~(P) =  
+\\  
+~~~~\texttt{if}~|P| &lt; 2~\texttt{then}  
+\\  
+~~~~~~~~\texttt{raise}~\mathit{TooSmall}  
+\\  
+~~~~\texttt{else if}~|P| = 2~\texttt{then}  
+\\  
+~~~~~~~~\left\langle\, (P[0],P[1]),(P[1],P[0]) \,\right\rangle  
+\\  
+~~~~\texttt{else}  
+\\  
+~~~~~~~~\texttt{let}  
+\\  
+~~~~~~~~~~~~(P_\ell, P_r) = \mathit{split}~P~\texttt{along the longest dimension}  
+\\  
+~~~~~~~~~~~~(L, R) = (\mathit{eTSP}~P_\ell) \mid\mid{} (\mathit{eTSP}~P_r)  
+\\  
+~~~~~~~~~~~~(c,(e,e&#39;)) = \mathit{minVal}_{\mathit{first}} \left\{ (\mathit{swapCost}(e,e&#39;),(e,e&#39;)) : e \in L, e&#39; \in R \right\}  
+\\  
+~~~~~~~~\texttt{in}  
+\\  
+~~~~~~~~~~~~~~~~\mathit{swapEdges}~(\mathit{append}~(L,R),e,e&#39;)  
+\\  
+~~~~~~~~\texttt{end}  
+\end{array}\]</span></p>
+<p>The function <span class="math inline">\(\mathit{minVal}_{\mathit{first}}\)</span> uses the first value of the pairs to find the minimum, and returns the (first) pair with that minimum. The function <span class="math inline">\(\mathit{swapEdges}(E,e,e&#39;)\)</span> finds the edges <span class="math inline">\(e\)</span> and <span class="math inline">\(e&#39;\)</span> in <span class="math inline">\(E\)</span> and swaps the endpoints. As there are two ways to swap, it picks the cheaper one.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+By refining the intuition describe above, we arrive at a
+divide-and-conquer algorithm for solving eTPS, whose pseudo-code is
+shown below.
+
+\[
+\begin{array}{l}
+\cdvar{eTSP}~(P) =
+\\
+~~~~\cd{if}~|P| < 2~\cd{then}
+\\
+~~~~~~~~\cd{raise}~\cdvar{TooSmall}
+\\
+~~~~\cd{else if}~|P| = 2~\cd{then}
+\\
+~~~~~~~~\cseq{(P[0],P[1]),(P[1],P[0])}
+\\
+~~~~\cd{else}
+\\
+~~~~~~~~\cd{let}
+\\
+~~~~~~~~~~~~(P_\ell, P_r) = \cdvar{split}~P~\cd{along the longest dimension}
+\\
+~~~~~~~~~~~~(L, R) = (\cdvar{eTSP}~P_\ell) \cpar{} (\cdvar{eTSP}~P_r)
+\\
+~~~~~~~~~~~~(c,(e,e')) = \cdvar{minVal}_{\cdvar{first}} \cset{(\cdvar{swapCost}(e,e'),(e,e')) : e \in L, e' \in R}
+\\
+~~~~~~~~\cd{in}
+\\
+~~~~~~~~~~~~~~~~\cdvar{swapEdges}~(\cdvar{append}~(L,R),e,e')
+\\
+~~~~~~~~\cd{end}
+\end{array}
+\]
+
+The function $\cdvar{minVal}_{\cdvar{first}}$ uses the first value of
+the pairs to find the minimum, and returns the (first) pair with that minimum. The function
+$\cdvar{swapEdges}(E,e,e')$ finds the edges $e$ and $e'$ in $E$ and
+swaps the endpoints. As there are two ways to swap, it picks the
+cheaper one.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- algorithm -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:design::dc::heuristic
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:design::dc::heuristic
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This heuristic divide-and-conquer algorithm is known to work well in practice.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This heuristic divide-and-conquer algorithm is known to work well in
+practice.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::cost
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Cost Analysis
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Cost Analysis
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::cost
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Let’s analyze the cost of this algorithm in terms of work and span. We have <span class="math display">\[\begin{align*}  
+  W(n) &amp; = 2W(n/2) + O(n^2)\\  
+  S(n) &amp; =  S(n/2) + O(\log n)  
+\end{align*}\]</span></p>
+<p>We have already seen the recurrence <span class="math inline">\(S(n) = S(n/2) + O(\log n)\)</span>, which solves to <span class="math inline">\(O(\log^2 n).\)</span> Here we’ll focus on solving the work recurrence.</p>
+<p>To solve the recurrence, we apply a <a href="thm:analysis::recurrences::linear-plus">theorem proven earlier</a>, and obtain <span class="math display">\[W(n) = O(n^2).\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Let's analyze the cost of this algorithm in terms of work and
+span.  
+We have
+\[ \begin{align*}
+  W(n) & = 2W(n/2) + O(n^2)\\
+  S(n) & =  S(n/2) + O(\log n)
+\end{align*} \]
+
+We have already seen the recurrence $S(n) = S(n/2) + O(\log n)$, which solves
+to $O(\log^2 n).$  Here we'll focus on solving the work recurrence.  
+
+
+To solve the recurrence, we apply a 
+\href{thm:analysis::recurrences::linear-plus}{theorem  proven earlier},
+and obtain 
+\[
+W(n) = O(n^2).
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::strengthening
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Strengthening
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Strengthening
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::strengthening
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In applications of divide-and-conquer technique that we have consider so far in this chapter, we divide a problem instance into instances of the same problem. For example, in sorting, we divide the original instance into smaller instances of the sorting problem. Sometimes, it is not possible to apply this approach to solve a given problem, because solving the same problem on smaller instances does not provide enough information to solve the original problem. Instead, we will need to gather more information when solving the smaller instances to solve the original problem. In this case, we can <strong><em>strengthen</em></strong> the original problem by requiring information in addition to the information required by the original problem. For example, we might strengthen the sorting problem to return to us not just the sorted sequence but also a histogram of all the elements that count the number of occurrences for each element.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In applications of divide-and-conquer technique that we have consider so far in this chapter, we divide a problem instance into instances of the same problem.
+For example, in sorting, we divide the original instance into  smaller instances of the sorting problem.
+Sometimes, it is not possible to apply this approach to solve a given problem, because solving the same problem on smaller instances does not provide enough information to solve the original problem.
+Instead, we will need to gather more information
+when solving the smaller instances to solve the original problem. 
+In this case, we can \defn{strengthen} the original problem by requiring information in addition to the information required by the original problem.
+For example, we might strengthen the sorting problem to return to us not just the sorted sequence but also a histogram of all the elements that count the number of occurrences for each element.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:tch:design::dc::question
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='teachnote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tch:design::dc::question
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Question: You have recently seen an instance of strengthening when solving a problem with divide and conquer. Can you think of the problem and how you used strengthening?</p>
+<p>In the recitation you looked at how to solve the Parenthesis Matching problem by defining a version of the problem that returns the number of unmatched parentheses on the right and left. This is a stronger problem than the original, since the original is the special case when both these values are zero (no unmatched right or left parentheses). This modification was necessary to make divide-and-conquer work—if the problem is not strengthened, it is not possible to combine the results from the two recursive calls (which tell you only whether the two halves are matched or not) to conclude that the full string is matched. This is because there can be an unmatched open parenthesis on one side that matches a close parenthesis on the other.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Question:
+You have recently seen an instance of strengthening when solving
+a problem with divide and conquer. Can you think of the problem and
+how you used strengthening?
+
+In the recitation you looked at how to solve the Parenthesis Matching
+problem by defining a version of the problem that returns the number
+of unmatched parentheses on the right and left.  This is a stronger
+problem than the original, since the original is the special case when
+both these values are zero (no unmatched right or left parentheses).
+This modification was necessary to make divide-and-conquer work---if
+the problem is not strengthened, it is not possible to combine the
+results from the two recursive calls (which tell you only whether the
+two halves are matched or not) to conclude that the full string is
+matched.  This is because there can be an unmatched open parenthesis
+on one side that matches a close parenthesis on the other.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- teachnote -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Divide and Conquer with Reduce
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Divide and Conquer with Reduce
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::dc::with-reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::dc::structure
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::dc::structure
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Many divide-and-conquer algorithms have the following structure, where <span class="math inline">\(\mathit{emptyVal}\)</span>, <span class="math inline">\(\mathit{base}\)</span>, and <span class="math inline">\(\mathit{myCombine}\)</span> span for algorithm specific values.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\mathit{myDC}~a =  
+\\   
+~~~~\texttt{if}~|a| = 0 ~\texttt{then}  
+\\  
+~~~~~~~~\mathit{emptyVal}  
+\\  
+~~~~~~~~\texttt{else if}~|a| = 1 ~\texttt{then}  
+\\  
+~~~~~~~~~~~~\mathit{base}(a[0])  
+\\  
+~~~~~~~~\texttt{else}  
+\\  
+~~~~~~~~~~~~\texttt{let}~(l,r) = \mathit{splitMid}~a~\texttt{in}  
+\\  
+~~~~~~~~~~~~~~~~(l&#39;,r&#39;) = (\mathit{myDC}~l~\mid\mid{}~\mathit{myDC}~r)  
+\\  
+~~~~~~~~~~~~\texttt{in}  
+\\  
+~~~~~~~~~~~~~~~~\mathit{myCombine}~(l&#39;, r&#39;)  
+\\  
+~~~~~~~~~~~~\texttt{end}  
+\end{array}\]</span></p>
+<p>Algorithms that fit this pattern can be implemented in one line using the sequence <span class="math inline">\(\mathit{reduce}\)</span> function. Turning a divide-and-conquer algorithm into a reduce-based solution is as simple as invoking <span class="math inline">\(\mathit{reduce}\)</span> with the following parameters <span class="math display">\[\mathit{reduce}~\mathit{myCombine}~\mathit{emptyVal}~(\mathit{map}~\mathit{base}~a).\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Many divide-and-conquer algorithms have the following structure, where
+$\cdvar{emptyVal}$, $\cdvar{base}$, and $\cdvar{myCombine}$ span for algorithm
+specific values.
+
+\[
+\begin{array}{l}
+\cdvar{myDC}~a =
+\\ 
+~~~~\cd{if}~|a| = 0 ~\cd{then}
+\\
+~~~~~~~~\cdvar{emptyVal}
+\\
+~~~~~~~~\cd{else if}~|a| = 1 ~\cd{then}
+\\
+~~~~~~~~~~~~\cdvar{base}(a[0])
+\\
+~~~~~~~~\cd{else}
+\\
+~~~~~~~~~~~~\cd{let}~(l,r) = \cdvar{splitMid}~a~\cd{in}
+\\
+~~~~~~~~~~~~~~~~(l',r') = (\cdvar{myDC}~l~\cpar{}~\cdvar{myDC}~r)
+\\
+~~~~~~~~~~~~\cd{in}
+\\
+~~~~~~~~~~~~~~~~\cdvar{myCombine}~(l', r')
+\\
+~~~~~~~~~~~~\cd{end}
+\end{array}
+\]
+
+Algorithms that fit this pattern can be implemented in one line using
+the sequence $\cdvar{reduce}$ function.
+Turning a divide-and-conquer algorithm into a reduce-based solution is
+as simple as invoking $\cdvar{reduce}$ with the following parameters
+\[
+\cdvar{reduce}~\cdvar{myCombine}~\cdvar{emptyVal}~(\cdvar{map}~\cdvar{base}~a).
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:imp:design::dc::pattern
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='important'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+imp:design::dc::pattern
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This pattern does not work in general for divide-and-conquer algorithms. In particular, it does not work for algorithms that do more than an simple split that partitions their input in two parts in the middle. For example, it cannot be used for implementing the quick-sort algorithm, because the divide step partitions the data with respect to a pivot. This step requires picking a pivot, and then filtering the data into elements less than, equal, and greater than the pivot. It also does not work for divide-and-conquer algorithms that split more than two ways, or make more than two recursive calls.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This pattern does not work in general for divide-and-conquer
+algorithms.  In particular, it does not work for algorithms that do
+more than an simple split that partitions their input in two parts in
+the middle.  
+For example, it cannot be used for implementing the quick-sort
+algorithm, because the divide step partitions the data with respect to
+a pivot.  
+This step requires picking a pivot, and then filtering the
+data into elements less than, equal, and greater than the pivot.  
+It also does not work for divide-and-conquer algorithms that split
+more than two ways, or make more than two recursive calls.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- important -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

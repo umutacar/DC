@@ -1,0 +1,497 @@
+\chapter{Functional Algorithms}
+\label{ch:language::functional-algorithms}
+
+\begin{cluster}
+\label{grp:prmbl:language::functional-algorithms::describes}
+
+\begin{preamble}
+\label{prmbl:language::functional-algorithms::describes}
+This chapter describes the idea of functional algorithms as used in
+this book along with some justification for the approach.
+
+\end{preamble}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::aspects}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::aspects}
+There are two aspects of functional languages that are important for
+our purposes.   The first is that program functions are ``pure'',
+which is to say they act like mathematical functions and have no
+effects beyond mapping an input to an output.    The second is that
+functions can be treated as values, and as such can be passed as
+arguments to other functions, returned as results, and stored in data
+structures.  We describe each of these two aspects in turn.
+
+\end{gram}
+\end{cluster}
+
+
+\section{Pure Functions}
+\label{sec:language::functional-algorithms::pure-functions}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::function}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::function}
+A function in mathematics is mapping that associates each
+possible input $x$ of a set $X$, the domain of the function, to a
+single output $y$ of a set $Y$, the codomain of the function.
+When a function is applied to an element $x \in X$, the associated
+element $y$ is returned.     The application has no effect other than
+returning $y$.
+
+Functions in programming languages can act like mathematical functions.   For
+example the C ``function'':
+\begin{verbatim}
+  int double(int x) { 
+    return 2 * x;}
+\end{verbatim}
+acts like the mathematical function defined by the mapping \[\{(0,0), (-1, -2), (1,2), (2, 4),
+  \ldots\}~.\]    However, in most programming languages, including C, it is also 
+possible to modify state that is not part of the result.    This leads
+to the notion of side effects, or simply effects.
+
+\end{gram}
+\end{cluster}
+
+\begin{flex}
+\label{grp:def:language::functional-algorithms::side-effects}
+
+\begin{definition}[Side Effects]
+\label{def:language::functional-algorithms::side-effects}
+We say that a computation has a~\defn{side effect}, if in addition to
+returning a value, it also performs an effect such as writing to an
+existing memory location (possibly part of the input), printing on the screen, or writing to a
+file.
+
+\end{definition}
+
+\begin{example}
+\label{xmpl:language::functional-algorithms::function}
+The C ``function''  
+\begin{verbatim} 
+int double(int x) { 
+  y = 32; 
+  return 2 * x;}
+\end{verbatim}
+returns twice the input $x$, as would a function, but also writes to
+the location $y$.  It therefore has a side effect.
+
+\end{example}
+\end{flex}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::process}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::process}
+The process of writing over a value in a location is often called \defn{mutation},
+since it changes, or mutates, the value.
+
+\end{gram}
+\end{cluster}
+
+\begin{flex}
+\label{grp:def:language::functional-algorithms::pure-computation}
+
+\begin{definition}[Pure Computation]
+\label{def:language::functional-algorithms::pure-computation}
+We say that a function in a program is ~\defn{pure} if it doesn't perform any side
+  effects, and a computation is pure if all its functions are pure.
+Pure computations return a value without performing any side effects.
+In contrast an~\defn{impure} or~\defn{imperative} computation can
+perform side effects.  
+
+\end{definition}
+
+\begin{example}
+\label{xmpl:language::functional-algorithms::return}
+The C function 
+\begin{verbatim}
+int fib(int i) {
+   if (i <= 0) return i; 
+   else return f(i-1) + f(i-2);}
+\end{verbatim}
+is pure since it does not have any side effects.    When applied it 
+simply acts as the mathematical function defined by the mapping 
+~\[\{(0,0),(1,1),(2,1),(3,2),(4,3),(5,5), \ldots\}~. \]
+
+\end{example}
+\end{flex}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::pure}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::pure}
+In pure computation no data can ever be overwritten, only new data can 
+be created.   Data is therefore always \defn{persistent}---if you keep a 
+reference to a data structure, it will always be there and in the same 
+state as it started. 
+
+\end{gram}
+\end{cluster}
+
+
+\subsection{Safe for Parallelism}
+\label{sec:language::functional-algorithms::safe-for-parallelism}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::computation}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::computation}
+Pure computation is safe for parallelism.
+In particular, when running different components of the computation in parallel they
+cannot affect each other.  For any two function calls $f(a)$ and
+$g(b)$, if we run $f(a)$ first, or $g(b)$ first, or interleave the
+instructions of both, the two results will always be the same.  This
+is because $f$ and $g$ are (pure) functions.  It means that when we
+specify that two components of a program can run in parallel, the
+run-time system is free to run them in either order on one processor, or
+interleave their instructions in any way on two processors, without
+worry.
+
+In contrast, in imperative computation separate components, or
+separate function calls, can effect each other under the hood.   
+When running such components in parallel, they can then give different
+results depending or the relative ordering of individual instructions
+of
+the two computations.     
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:def:language::functional-algorithms::race-conditions}
+
+\begin{definition}[Race Conditions]
+\label{def:language::functional-algorithms::race-conditions}
+Side effects that alter the result of the computation based on the
+evaluation order (timing) are called~\defn{race conditions}.
+
+\end{definition}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::race}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::race}
+Race conditions most often involve two components that are running
+in parallel, one which is writing to a location, and the other is
+either reading or writing the same location.     Since the exact timing on
+real processors is highly unpredictable due to all sorts of features
+in the processors (caches, pipelining, interruptions, sharing of
+functional units, ...),   it is near impossible to guarantee how
+instructions are interleaved between processors.     Furthermore it
+can change every time the program is run.   Hence a program with race
+conditions can return different results on different days.  Even
+worse, it can return the same result for 20 years, before returning
+something different, and perhaps catastrophic.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:xmpl:language::functional-algorithms::spectacular}
+
+\begin{example}
+\label{xmpl:language::functional-algorithms::spectacular}
+There are several spectacular examples of correctness problems caused
+by race-conditions, including for example the Northeast blackout of
+2003, which affected over 50 Million people in North America.
+
+Here are some quotes from the spokesmen of the companies involved in
+this event.
+
+The first quote below describes the problem, which is a race
+condition (multiple computations writing to the same piece of data).
+"There was a couple of processes that were in contention for a common
+data structure, and through a software coding error in one of the
+application processes, they were both able to get write access to a
+data structure at the same time [...] And that corruption led to the
+alarm event application getting into an infinite loop and spinning."
+
+The second  quote describes the difficulty of finding the bug.
+"This fault was so deeply embedded, it took them [the team of
+  engineers] weeks of poring through millions of lines of code and
+data to find it."
+
+\end{example}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::approach}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::approach}
+One approach to reason about programs with race conditions is to
+consider all possible interleavings of instructions on separate
+processors.  In general, this can be very difficult since the number
+of interleavings is exponential in the number of instructions.
+However, there are structured techniques for programming with race
+conditions.  This falls in the domain of ``concurrent programs''.
+Data structures and algorithms that reason about race conditions are
+typically called concurrent data structures and algorithms.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:rmrk:language::functional-algorithms::heisenbug}
+
+\begin{remark}[Heisenbug]
+\label{rmrk:language::functional-algorithms::heisenbug}
+Race conditions make it difficult to reason about the correctness and
+the efficiency of parallel algorithms.  They also make debugging
+difficult, because each time the code is run, it might give a
+different answer.
+For example, each time we evaluate a piece of code, we may obtain a
+different answer or we may obtain a correct answer 99.99\% of the time
+but not always.
+
+The term~\defn{Heisenbug} was coined in the early 80s to refer to a
+type of bug that ``disappears'' when you try to pinpoint or study it
+and ``appears'' when you stop studying it.  They are named after the
+famous Heisenberg uncertainty principle which roughly says that if you
+localize one property, you will lose information about another
+complementary property.  Often the most difficult Heisenbugs to find
+have to do with race conditions in parallel or concurrent code.  These
+are sometimes also called concurrency bugs.
+
+\end{remark}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::conditions}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::conditions}
+Race conditions cannot occur in pure computation, but not all
+impure programs have race conditions.  For example, an imperative
+program with no parallelism has no race conditions.
+
+\end{gram}
+\end{cluster}
+
+
+\subsection{Persistence}
+\label{sec:language::functional-algorithms::persistence}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::benefit}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::benefit}
+Another important benefit of pure functions is that all data is
+``persistent''.   Since a function does not modify its input, it means
+that for pure functions, the input remains the same after applying the
+function.   In other words, the input persists.     This can be very
+useful in some applications.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:rmrk:language::functional-algorithms::astute}
+
+\begin{remark}
+\label{rmrk:language::functional-algorithms::astute}
+  The astute reader might ask the question: if the inputs persist then won't that
+  be a waste of memory?  Indeed if a programmer keeps the input for later use, this
+  could be a waste of memory.  However, many languages
+  have what is called a garbage collector, which will collect any data
+  that is no longer needed.  Therefore, if a function makes a call to
+  $f(x)$, but no longer needs $x$, then $x$
+  can be collected and its memory reclaimed.   In fact, a smart
+  compiler might recognize that
+  $x$ is no longer needed and not referenced by anyone else and allow it to be updated ``in place''
+  overwriting the old value.    We will make use of this optimization
+  in a later chapter that optimizes a pure implementation of sequences (Chapter~\ref{ch:sequences::ephemeral}).
+
+\end{remark}
+\end{cluster}
+
+
+\subsection{Benign Effects}
+\label{sec:language::functional-algorithms::benign-effects}
+
+\begin{flex}
+\label{grp:grm:language::functional-algorithms::benign-effects}
+
+\begin{gram}[Benign Effects]
+\label{grm:language::functional-algorithms::benign-effects}
+The notion of purity can be further extended to allow for effects
+that are not~\defn{observable}.  
+For example, the Fibonacci function
+described above may be implemented by using a mutable reference that
+holds some intermediate value that may be used to compute
+the result.
+If this reference is not observable (e.g., not visible to the caller
+of the function or any other functions), the function has no observable
+effect, and can thus be considered pure.  Such effects are sometimes
+called~\defn{benign effects}.
+This more general notion of purity is important because it allows for
+example using side effects in a ``responsible'' fashion to improve
+efficiency.
+
+\end{gram}
+
+\begin{example}
+\label{xmpl:language::functional-algorithms::factorial}
+The C function 
+\begin{verbatim}
+int factorial(int i) {
+   int r = 1;
+   for (int j = 1; j <= i; j++) r = r * i;
+   return r;}
+\end{verbatim}
+is not pure since it side effects (mutates) the value of \texttt{r}, but the
+side effect is not visible outside of the function.   It is therefore
+a benign effect from the point of view of anyone calling factorial.
+
+\end{example}
+\end{flex}
+
+\begin{cluster}
+\label{grp:imp:language::functional-algorithms::strictly}
+
+\begin{important}
+\label{imp:language::functional-algorithms::strictly}
+Strictly speaking there is probably no non-trivial computation that is
+pure all the way to the ``metal'' (hardware) because almost any computation performs memory effects at the
+hardware level.  Encapsulation of effects by observation is therefore
+essential for meaningful discussions of purity.
+
+\end{important}
+\end{cluster}
+
+
+\section{Functions as Values}
+\label{sec:language::functional-algorithms::functions-as-values}
+
+\begin{flex}
+\label{grp:grm:language::functional-algorithms::almost}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::almost}
+Almost all programming languages allow applying a function to a
+value.  Not all, however, allow passing functions as arguments, returning
+them from other functions, storing them in data structures and
+generating new functions.
+This ability to use functions in this way is sometimes referred to as
+``functions as first-class values''---i.e., functions can be treated
+as values.
+
+\end{gram}
+
+\begin{example}[Examples of Functions as Values]
+\label{xmpl:language::functional-algorithms::examples-of-functions-as-values}
+In the following definition (using \pml{})
+\[
+\begin{array}{l}
+f(x) =
+\\
+~~~~\cd{let}~g(y) = x + y 
+\\
+~~~~\cd{in}~g~\cd{end}
+\\
+\\
+z = f(3)
+\end{array}
+\]
+the variable $z$ is bound to a function that adds three to its argument, i.e., the function $\{(0,3),(1,4),\ldots\}$.   We
+can apply $z(7)$ and it would return $10$.   We can also create
+another function $f(5)$ that adds $5$ to its argument.
+And we can pass $z$, or any other function, as an argument.   For
+example consider the definition
+\[
+\begin{array}{l}
+g(y) = y(6) 
+\end{array}
+\]
+Now $g(z)$ returns $9$ since in the body of $f$ we apply the
+function $z$, which adds $3$, to $6$.   And $g(f(5))$ returns $11$.
+Finally we can store functions in data structures, as in 
+\[
+\begin{array}{l}
+\cseq{f(3), f(1), f(6)}
+\end{array}
+\]
+which is a sequence containing three functions, one that adds $3$ one
+that adds $1$ and one that adds $6$.
+
+\end{example}
+\end{flex}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::treating}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::treating}
+Treating functions as values leads to a powerful way to code.  
+Functions that take other functions as arguments are often
+called~\defn{higher-order functions}.
+Higher-order functions (even in a language that is not pure)
+help with the design and implementation of parallel algorithm by
+encouraging the designer to think at a higher level of abstraction.
+
+For example, instead of thinking about a loop that iterates over the
+elements of an array to generate the sum, which is completely
+sequential, we can define a higher-order ``reduce'' function. 
+In addition to taking the array as an argument, the reduce function
+takes a binary associative function as another argument.  It then sums
+the array based on that binary associative function.
+The advantage is that the higher-order reduce allows for any
+binary associative function (e.g. maximum, minimum, multiplication).
+By implementing the reduce function as a tree sum, which is highly
+parallel, we can thus perform a variety of computations in parallel
+rather than sequentially as a loop.
+In general, thinking in higher order functions encourages working at a
+higher level of abstraction, moving us away from the one-at-a-time
+(loop) way of thinking that is detrimental to code quality and
+to parallelism.
+
+\end{gram}
+\end{cluster}
+
+
+\section{Functional Algorithms}
+\label{sec:language::functional-algorithms::functional-algorithms}
+
+\begin{cluster}
+\label{grp:grm:language::functional-algorithms::book}
+
+\begin{gram}
+\label{grm:language::functional-algorithms::book}
+In this book we use algorithms that use pure functions and support functions as
+first-class values.
+We refer to these as~\defn{functional algorithms}.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:rmrk:language::functional-algorithms::coding}
+
+\begin{remark}
+\label{rmrk:language::functional-algorithms::coding}
+Coding a functional algorithm does not require a purely
+functional programming language.
+In fact, a functional algorithm can be coded in essentially any
+programming language---one just needs to be very careful when
+coding imperatively in order to avoid errors caused by sharing of
+state and side effects.  
+Some imperative parallel languages such as extension to the C
+language, in fact, encourage programming functional algorithms.
+The techniques that we describe thus are applicable to  imperative
+programming languages as  well.
+
+\end{remark}
+\end{cluster}
+

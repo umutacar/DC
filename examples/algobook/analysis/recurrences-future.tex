@@ -1,0 +1,1564 @@
+\chapter{Recurrences}
+\label{ch:analysis::recurrences}
+
+
+\begin{preamble}
+This chapter covers recurrences  and presents
+three methods for solving recurrences: 
+%
+the \href{sec:analysis::recurrences::tree-method}{``Tree Method''}
+%
+the \href{sec:analysis::recurrences::brick-method}{``Brick Method''}, and
+%
+the \href{sec:analysis::recurrences::master-method}{``Substitution Method''}.
+\end{preamble}
+
+\section{The Basics}
+
+\begin{gram}
+  Recurrences are simply recursive functions for which the argument(s) and
+  result are numbers. % , typically the natural numbers.  
+%
+  As is normal with recursive functions, recurrences have a recursive
+  case along with one or more base cases.
+%
+  Although recurrences have many applications, in this book we mostly use
+  them to represent the cost of algorithms, and in particular their
+  work and span.
+%
+  They are typically derived directly from recursive algorithms by
+  abstracting the arguments of the algorithm based on their sizes, and
+  using the cost model described in \chref{analysis::models}.
+%
+  Although the recurrence is itself a function similar to the
+  algorithm it abstracts, the goal is not to run it, but instead the
+  goal is to determine a closed form solution to it using other
+  methods.
+%
+  Often we satisfy ourselves with finding a closed form that specifies an
+  upper or lower bound on the function, or even just an asymptotic
+  bound.
+\end{gram}
+
+\begin{example}[Fibonacci]
+Here is a recurrence written in \PML{} that you should recognize:
+\[
+\begin{array}{ll}
+F(n) =&\cd{case}~n~\cd{of}
+\\ 
+& ~~~~0~~\cdra~0
+\\
+& ~~|~1~~\cdra~1
+\\
+& ~~|~\_~~\cdra~F(n-1) + F(n-2)~~.
+\end{array}
+\]
+%
+It has an exact closed form solution:
+%
+ \[F(n) = \frac{\varphi^n - (1 - \varphi)^n}{\sqrt{5}}~,\]
+%
+where $\varphi = \frac{1 + \sqrt{5}}{2}$ is the golden ratio.
+We can write this in asymptotic notation as \[F(n) =
+\Theta(\varphi^n) \]
+since the first term dominates asymptotically.
+\end{example}
+
+\begin{example}[Mergesort Recurrence]
+\label{ex:analysis::recurrences::mergesort} 
+Assuming that the input length is a power of $2$, we can write the code for parallel mergesort algorithm as follows.
+\[
+\begin{array}{l}
+\cdvar{msort}(A) = 
+\\
+~~~~\cd{if}~|A| \leq 1~\cd{then}~A 
+\\
+~~~~\cd{else}
+\\
+~~~~~~~\cd{let}~(L,R) 
+  =~\cdvar{msort}(A[0 \dots |A|/2])~||~\cdvar{msort}(A[|A|/2 \dots|A|]) 
+\\
+~~~~~~~\cd{in}~\cdvar{merge}(L,R)~\cd{end}
+\end{array}
+\]
+By abstracting based on the length of $A$, and using the cost model
+described in \chref{analysis::models}, we can write a recurrence for the work of mergesort as:
+\[
+\begin{array}{l}
+W_{\cdvar{msort}}(n) = 
+\\
+~~~~\cd{if}~n \leq 1~\cd{then}~c_1
+\\
+~~~~\cd{else}
+\\
+~~~~~~~\cd{let}~(L,R) 
+  =~(W_{\cdvar{msort}}(n/2), W_{\cdvar{msort}}(n/2)) 
+\\
+~~~~~~~\cd{in}~L + R + W_{\cdvar{merge}}(n)+ c_2~\cd{end}
+\end{array}
+\]
+where the $c_i$ are constants.    Assuming 
+$W_{\cdvar{merge}}(n) = c_3 n + c_4$ this can be simplified to
+\[
+\begin{array}{ll}
+W_{\cdvar{msort}}(n) = &\cd{if}~n \leq 1~\cd{then}~c_1
+\\
+&\cd{else}~2 W_{\cdvar{msort}}(n/2) + c_3 n + c_5
+\end{array}
+\]
+where $c_5 = c_2 + c_4$.    We will show in this chapter that this
+recurrence solves to
+\[W_{\cdvar{msort}}(n) = O(n \lg n) \]
+using all three of our methods.
+\end{example}
+
+\section{Some conventions}
+\begin{gram}
+To reduce notation we use several conventions when writing recurrences.
+\end{gram}
+
+\begin{gram}[Syntax]
+We typically write recurrences as mathematical relations of the form
+\[
+W_f(n) = \left\{
+\begin{array}{lll}
+c_1 & \mbox{base case 1} 
+\\
+c_2 & \mbox{base case 2} 
+\\
+\cdots& \cdots
+\\
+\mbox{recursive definition}  &  \mbox{otherwise}.
+\end{array}
+\right. 
+\]
+%
+\end{gram}
+%
+
+\begin{gram}[Dropping the subscript]
+We often drop the subscript on the cost $W$ or $S$ (span) when obvious from the context.
+\end{gram}
+%
+
+\begin{gram}[Base case]
+Often  base cases are trivial---i.e., some constant if $n
+\leq 1$.  In such cases, we usually leave them out.
+\end{gram}
+%
+
+\begin{gram}[Big-O inside a recurrence]
+Technically using big-O notation in a recurrence as in:
+\[ 
+W(n) = 2 W(n/2) + O(n) 
+\]
+%
+is not well defined.   
+%
+This is because $2 W(n/2) + O(n)$ indicates a
+set of functions, not a single function.    
+%
+In this book when we use
+$O(f(n))$ in a recurrences it is meant as shorthand for $c_1 f(n) +
+c_2$, for some constants $c_1$ and $c_2$. 
+% 
+Furthermore, when solving the recurrence the $O(f(n))$ should
+always be replaced by $c_1 f(n) + c_2$.
+\end{gram}
+%
+
+\begin{gram}[Inequality]
+Because we are mostly concerned with upper bounds,  we can be  sloppy and 
+add (positive) constants on the right-hand side of an equation.
+%
+In such cases, we typically use an inequality, as in
+\[ 
+W(n) \leq 2 W(n/2) + n.
+\]
+\end{gram}
+%
+\begin{gram}[Input size inprecision]
+A technical issue concerns rounding of input sizes.
+%
+Going back to the \href{ex:analysis::recurrences::mergesort}{mergesort example}, note that we assumed that the size
+of the input to merge sort, $n$, is a power of $2$.
+%
+If we did not make this assumption, i.e., for general $n$, 
+we would partition the input into two parts, whose sizes may differ by up to one element.
+%
+In such a case, we could write the work recurrence as 
+\[
+W(n) = \left\{
+\begin{array}{ll}
+O(1) & \mbox{if} ~ n \le 1
+\\
+W(\lceil n/2 \rceil) + W(\lfloor n/2 \rfloor) + O(n) &  \mbox{otherwise}.
+\end{array}
+\right.
+\]
+%
+
+When working with recurrences, we typically ignore floors and ceiling
+because they change the size of the input by at most one, which
+does not usually affect the closed form by more than a constant
+factor.
+\end{gram}
+
+\begin{example}[Mergesort recurrence revisited]
+Using our conventions we can write our recurrence for the work of
+mergesort as:
+\[W(n) \leq 2W(n/2) + O(n)~.\]
+However, when solving it is best to write it as:
+\[
+W(n) \leq \left\{
+\begin{array}{lll}
+c_b & \mbox{if}~n \leq 1
+\\
+2W(n/2) + c_1 n + c_2 & \mbox{otherwise} ~.
+\end{array}
+\right. 
+\]
+Assuming $\cdvar{merge}$ has logarithmic span, we can similarly write
+a recurrence for the span of the parallel mergesort as:
+\[S(n) \leq S(n/2) + O(\lg n)~.\]
+\end{example}
+
+%% \begin{section}[Old]
+%% \begin{gram}
+%% Recurrences are equalities or inequalities that specify a quantity by
+%% reference to itself.
+%% %
+%% They commonly arise when analyzing the cost of recursive algorithms and
+%% reflect the recursive structure of the algorithm.
+%% %, but are a function of size of the arguments instead of the
+%% %actual values.
+%% %
+%% While recurrence relations are informative to the trained eye, they
+%% are not as useful as closed form solutions, which can be interpreted
+%% more readily.  
+%% %
+%% \end{gram}
+
+%% \begin{example}[Mergesort Recurrence]
+%% \label{ex:recurrences::mergesortold}
+%% We can write the work of the merge-sort algorithm with a recurrence of
+%% the form 
+%% %
+%% $$
+%% W(n) = 2W(n/2) + O(n).
+%% $$
+%% %
+%% This corresponds to the fact that for an input of size $n$, merge sort
+%% makes two recursive calls of size $n/2$, and also performs $O(n)$
+%% other work.  
+%% %
+%% In particular the merge itself requires $O(n)$ work.
+
+%% Similarly for span we can write a recurrence of the form
+%% %
+%% \[
+%% \begin{array}{lcl}
+%% S(n) & = & \max(S(n/2),S(n/2)) + O(\lg n)
+%% \\
+%% & = & S(n/2) + O(\lg n).
+%% \\
+%% \end{array}
+%% \]
+%% %
+%% Because the two recursive calls are parallel, we take their maximum,
+%% and because the merge function has to take place after the recursive
+%% calls we add $O(\lg n)$, the span for merging.
+%% \end{example}
+
+
+%% \begin{gram}[Base Cases]
+%% When working with recurrences, we usually ignore several technical
+%% details.  
+%% %
+%% One such detail that is the base cases of the recurrence, which
+%% usually specify the behavior of the algorithm on constant size inputs.
+%% %
+%% When the input size for a base case is constant, it usually adds an
+%% asymptotically constant amount to the total cost.
+%% %
+%% Because we don't care to account for constant additive costs in
+%% asymptotic notation, we usually omit such base cases.
+ 
+%% %
+%% For example, when stating the recurrence for merge sort, we ignored
+%% the base cases and stated only the recursive case.  A more precise
+%% statement of the recurrence would be
+%% \[
+%% W(n) = \left\{
+%% \begin{array}{lll}
+%% O(1) & \mbox{if} & n \le 1
+%% \\
+%% 2W(n/2) + O(n) &  \mbox{otherwise}~.
+%% \end{array}
+%% \right.
+%% \]
+%% Because the base case only applies when $n \le 1$, it only adds a
+%% constant to the $W(n)$ and  is thus omitted.
+
+%% \end{gram}
+
+%% \begin{teachnote}
+%% TODO: develop example for the note.
+%% \end{teachnote}
+
+%% \begin{note}
+%% An algorithm might have multiple cases some of which might apply to
+%% inputs of non-constant size.  When writing the recurrence, it can
+%% therefore be important to differentiate constants from non-constants.
+%% \end{note}
+
+%% %\begin{question}
+%% %There is still an imprecision in the recursion stated above for merge
+%% %sort.  Can you see what it is?
+%% %\end{question}
+%% %
+%% \begin{gram}[Input Size]
+%% The second technical issue concerns rounding of input sizes.
+%% %
+%% Going back to the \exref{recurrences::mergesortold}, note that the size
+%% of the input to merge sort, $n$, is a natural numbers, but the
+%% recurrence is stated for arguments such as $n/2$, which are not always
+%% natural numbers.
+%% %
+%% In fact, the recursion that we stated for merge sort applies only to
+%% input sizes that are powers of~$2$.  A more precise statement of the
+%% recursion would have been:
+%% \[
+%% W(n) = \left\{
+%% \begin{array}{lll}
+%% O(1) & \mbox{if} & n \le 1
+%% \\
+%% W(\lceil n/2 \rceil) + W(\lfloor n/2 \rfloor) + O(n) &  \mbox{otherwise.}
+%% \end{array}
+%% \right.
+%% \]
+%% %
+
+%% When working with recurrences, we typically ignore floors and ceiling
+%% because they change the size of the input by at most one, which again
+%% does not usually affect the closed form by more than a constant
+%% factor.
+%% \end{gram}
+
+%% \begin{gram}[Asymptotic Terms]
+%% When stating recurrences, we may use asymptotic notation to express
+%% certain terms, e.g.  $O(n)$ in \exref{recurrences::mergesort}.  
+%% %
+%% Some care is needed when calculating the closed for a recurrence that
+%% involves asymptotic terms, because we might accidentally add up
+%% non-constant number of asymptotic terms. 
+%% %
+%% The trouble is that the sum of two $O(n)$ terms yield $O(n)$, but we
+%% cannot repeat such a sum a non-constant number of times and still have
+%% the result be $O(n)$.
+%% %
+
+%% To prevent mistakes in calculations, we therefore substitute such
+%% terms with a non-asymptotic term.  For example, we may substitute
+%% $O(n)$ with $n$, $2n$, $2n + \lg{n} + 3$, $3n + 5$, or with something
+%% parametric such as $c_1n + c_2$ where $c_1$ and $c_2$ are constants.
+%% %
+%% These sorts of substitutions may introduce imprecision to our
+%% calculations, because of the constant factors chosen.
+%% %
+%% This usually don't matter, however, because they change the closed-form
+%% solution by a constant factor.
+%% \end{gram}
+
+%% \end{section}
+
+
+
+
+\section{The Tree Method}
+\label{sec:analysis::recurrences::tree-method}
+
+\begin{definition}[Tree Method]
+The~\defn{tree method} is a technique for solving recurrences.
+%
+Given a recurrence, the idea is to derive a closed form solution of
+the recurrence by first unfolding the recurrence as a tree and then
+deriving a bound by considering the cost at each level of the tree.
+%
+To apply the technique, we start by replacing the asymptotic notations
+in the recurrence, if any.
+%
+We then draw a tree where each recurrence instance is represented by a
+subtree and the root is annotated with the cost that occurs at this
+level, that is beside the recurring costs. 
+
+After we determine the tree, we ask several questions.
+%
+\begin{itemize}
+\item How many levels are there in the tree?
+\item What is the problem size on level $i$?
+\item What is the cost of each node on level $i$?
+\item How many nodes are there on level $i$?
+\item What is the total cost across the level $i$?
+\end{itemize}
+
+Based on the answers to these questions, we can write the cost as a
+sum and calculate it.
+\end{definition}
+
+
+\begin{teachnote}
+TODO: we can place a ref to a cross chapter atom in the atom below
+\end{teachnote}
+
+\begin{example}
+Consider the recurrence
+$$
+W(n) = 2W(n/2) + O(n).
+$$
+%
+%
+By the definition of asymptotic complexity, we
+can establish that
+\begin{eqnarray*}
+  W(n) &\leq& 2W(n/2) + c_1\cdot n + c_2,
+\end{eqnarray*}
+where $c_1$ and $c_2$ are constants.  
+%
+
+We now draw a tree to represent the recursion. Since there are two
+recursive calls, the tree is a binary tree, whose input is half the
+size of the size of the parent node.
+%
+We then annotate each node in the tree with its cost noting that if
+the problem has size~$m$, then the cost, excluding that of the
+recursive calls, is at most~$c_1 \cdot m + c_2$.  
+%
+
+The drawing below illustrates the resulting tree; each level is
+annotated with the problem size (left) and the cost at that level
+(right).
+
+\begin{center}
+\includegraphics[width=4.5in]{./analysis/media-recurrences/recurtree1.jpg}
+\end{center}
+
+We observe that:
+\begin{itemize}
+\item  level $i$ (the root is level $i=0$) contains $2^i$
+nodes, 
+\item a node at level $i$ costs at most $c_1 (n/2^i) + c_2$.
+\end{itemize}
+%
+Thus, the total cost on level $i$ is at most
+\begin{eqnarray*}
+2^i \cdot \left(c_1 \frac{n}{2^i} + c_2\right) &=& c_1 \cdot n + 2^i \cdot c_2.
+\end{eqnarray*}
+
+Because we keep halving the input size, the number of levels $i \le
+\lg n$.  Hence, we have
+\begin{eqnarray*}
+  W(n) &\leq& \sum_{i=0}^{\lg n} \left(c_1 \cdot n + 2^i \cdot c_2\right) \\
+  &=& c_1 n (1+\lg n)+ c_2(n +\tfrac{n}{2} + \tfrac{n}{4} + \dots + 1)\\
+  &=& c_1 n (1+\lg n)+ c_2(2n - 1)\\
+  &\in& O(n\lg n),
+\end{eqnarray*}
+where in the second to last step, we apply the fact that for $a > 1$,
+\begin{equation*}
+1 + a + \dots + a^{n} = \frac{a^{n+1} - 1}{a-1} \leq a^{n+1}.
+\end{equation*}
+
+\end{example}
+
+%% \begin{checkpoint}
+
+%% \begin{questionma}
+%% \points 10
+
+%% \prompt
+%% Pick all that apply. 
+
+%% \begin{select}[1]
+%% $W(n) = n^2 + n + \lg{n} = O(n^2)$
+%% \end{select}
+
+%% \begin{select}[0]
+%% $W(n) = n^2 + n + \lg{n} = O(n)$
+%% \end{select}
+
+%% \begin{select}[1]
+%% $W(n) = n\lg{n} + n + \lg{n} = O(n^2)$
+%% \end{select}
+
+%% \begin{select}[1]
+%% $W(n) = n\lg{n} + n + \lg{n} = O(n\lg^2{n})$
+%% \end{select}
+
+%% \end{questionma}
+
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = W(n/2) + n$ using the tree method by
+%% carefully following the described steps and answering the $5$
+%% questions described above.
+%% \answer
+%% \end{questionfr}
+
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 3(n/2) + n$ using the tree method by
+%% carefully following the described steps and answering the $5$
+%% questions described above.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = 2S(n/4) + n$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 2W(n/4) + n^2$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 2W(n/2) + n\lg{n}$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = 2S(\sqrt{n}) +\lg{n}$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = W(n/3) + W(n/4) + n$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = \max{S(n/3), S(n/4)} + \lg{n}$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ nm$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ n^2m$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ \lg{nm}$ using the tree method.
+%% \answer
+%% \end{questionfr}
+
+
+%% \end{checkpoint}
+
+
+\section{The Brick Method}
+\label{sec:analysis::recurrences::brick-method}
+
+\begin{gram}
+  The~\defn{brick method} is a special case of the tree method, aimed
+  at recurrences that grow or decay geometrically across levels of the
+  recursion tree.
+%
+  A sequence of numbers has \defn{geometric growth} if it grows by at
+  least a constant factor ($> 1$) from element to element, and has \defn{geometric decay} if it decreases by at least a constant
+  factor.  
+%
+  The beauty of a geometric sequence is that its sum is
+  bounded by a constant times the last element (for geometric growth), or
+  the first element (for geometric decay).
+\end{gram}
+\begin{flex}
+\begin{exercise}[Sums of geometric series.]
+  Consider the sum of the sequence $S = \langle 1, \alpha, \alpha^2,
+  \ldots, \alpha^n \rangle$.   Show that
+\begin{enumerate}
+\item
+ for $\alpha > 1$ (geometric growth), the sum of $S$ is at most
+  $\left(\frac{\alpha}{\alpha -1}\right) \cdot \alpha^n$, and 
+\item
+for $\alpha < 1$ (geometric decay), the
+  sum of $S$ is at most  $\left(\frac{1}{1 - \alpha}\right) \cdot 1$.
+\end{enumerate}
+Hint: for the first let $s$ be the sum, and consider $\alpha s - s$, cancelling
+terms as needed.
+\end{exercise}
+\begin{solution}
+Let
+\[s = \sum_{i=0}^n \alpha^i~.\]
+To solve the first case we use
+\[ 
+\begin{array}{lcl}
+\alpha s - s & = & \left(\alpha \sum_{i=0}^n \alpha^i\right) -
+                   \sum_{i=0}^n \alpha^i\\
+                  & = & \left(\sum_{i=0}^n \alpha^{i+1}\right) -
+                        \sum_{i=0}^n \alpha^i\\
+                  & = & \alpha^{n+1} - 1\\
+                  & < & \alpha^{n+1} ~.
+\end{array}
+\]
+Now by dividing through by $\alpha - 1$ we get
+\[ s < \frac{\alpha^{n+1}}{\alpha-1} = \left(\frac{\alpha}{\alpha-1}\right)
+  \cdot \alpha^n~, \]
+which is we wanted to show.
+
+The second case is similar but using $s - \alpha s$.
+\end{solution}
+\end{flex}
+\begin{gram}
+  In the tree method, if the costs grow or decay geometrically across
+  levels (often the case), then for analyzing asymptotic costs we need only consider the
+  cost of the root (decay) , or the total cost of the leaves (growth).
+%
+  If there is no geometric growth or decay then it often suffices to
+  calculate the cost of the worst level (often either the root or
+  leaves) and multiply it by the number of levels.
+%
+  This leads to three cases which we refer to as root dominated, leaf 
+  dominated and balanced.   
+%  
+  Conveniently, to distinguish these three cases 
+  we need only consider the cost of each node in the 
+  tree and how it relates to the cost of its children.
+\end{gram}
+
+\begin{flex}
+\begin{definition}[Brick Method]
+\label{def:analysis::brick-method}
+Consider each node $v$ of the recursion tree, and let $N(v)$ denote  
+its input size, $C(v)$ denote its cost, and $D(v)$ denote the set of
+its children.   There exists constants $a \geq 1$ (base size), $\alpha
+> 1$ (grown/decay rate) such that:
+
+\begin{description}
+
+\item[Root Dominated]
+For all nodes $v$ such that $N(v) > a$,
+\[C(v) \geq \alpha \sum_{u \in D(v)} C(u),\]
+i.e., the cost of the parent is at least a
+constant factor greater than the sum of the 
+costs of the children.  In this case, the total cost is dominated by
+the root, and is upper bounded 
+by $\frac{\alpha}{\alpha - 1}$ times the cost of the root. 
+
+\item[Leaves Dominated]
+For all $v$ such that $N(v) > a$, 
+\[C(v) \leq \frac{1}{\alpha} \sum_{u \in D(v)} C(u),\]
+i.e., the cost of the parent is at least a
+constant factor less than the sum of the costs of the 
+children.   In this case,
+the total cost is dominated by the cost of the leaves, and is upper bounded by $\frac{\alpha}{\alpha - 1}$ times the
+sum of the cost of the leaves.
+Most often all leaves have constant cost so we just have to count the
+number of leaves.
+
+\item[Balanced]
+When neither of the two above cases is true.     In this case the cost
+is upper bounded by the number of levels times the maximum cost of a
+level.
+\end{description}
+\end{definition}
+\begin{proof}
+  We first consider the root dominated case.  For this case if the
+  root has cost $C(r)$, level $i$ (the root is level $0$) will have
+  total cost at most $(1/\alpha)^i C(r)$.  
+%
+  This is because the cost of the children of every node on a level
+  decrease by at least a factor of $\alpha$ to the next level.  
+%
+  The total cost is therefore upper bounded by
+  \[ \sum_{i=0}^{\infty} \left(\frac{1}{\alpha}\right)^i C(r).   \]
+%
+  This is a decaying geometric sequence and therefore is upper bounded
+  by $\frac{\alpha}{1 - \alpha} C(r)$, as claimed.
+
+  For the leaf dominated case, if all leaves are on the same level and
+  have the same cost, we can make a
+  similar argument as above but in the other direction---i.e. the
+  levels increase geometrically down to the leaves.    The cost is
+  therefore dominated by the leaf level.
+%
+  In general, however, not all leaves are at the same level.
+
+  For the general leaf-dominated case, let
+  $L$ be the set of leaves.
+%
+  Consider the cost $C(l)$ for $l \in L$, and account a charge of
+  $(1/\alpha)^i C(l)$ to its $i$-th ancestor in the tree (its parent
+  is its first ancestor).
+%
+  Adding up the contributions from every leaf to the internal nodes of
+  the tree gives the maximum possible cost for all internal nodes.
+%
+  This is because for this charging every internal node will have a
+  cost that is exactly $(1/\alpha)$ the sum of the cost of the
+  children, and this is the most each node can have by our assumption of
+  leaf-dominated recurrences.
+%
+  Now summing the contributions across leaves, including the cost of
+  the leaves themselves ($i = 0$), we have as an upper bound on the
+  total cost across the tree:
+  \[\sum_{l \in L} \sum_{i=0}^{\infty}  \left(\frac{1}{\alpha}\right)^i C(l)~. \]
+%
+  This is a sum of sums of decaying geometric sequences, giving an
+  upper bound on the total cost
+  across all nodes of 
+  $\frac{\alpha}{\alpha -1} \sum_{l \in L} C(l)$, as claimed.
+
+%
+  The balanced case follows directly from the fact that the total cost
+  is the sum of the cost of the levels, and hence at most the number
+  of levels times the level with maximum cost.
+\end{proof}
+\end{flex}
+
+\begin{remark}
+  The term ``brick'' comes from thinking of each node of the tree as a 
+  brick and the width of a brick being its cost.  The bricks can be
+  thought of as being stacked up  by level.    A recurrence is leaf dominated if the pile of bricks 
+  gets narrower as you go up to the root.  It is root dominated if it 
+  gets wider going up to the root.  It is balanced 
+  if it stays about the same width. 
+\end{remark}
+
+\begin{example}[Root dominated]
+Lets consider the recurrence 
+\[W(n) = 2 W(n/2) + n^2.\]
+For a node in the recursion tree of size $n$ we have that the cost of
+the node is $n^2$ and the sum of the cost of its children is
+$(n/2)^2 + (n/2)^2 = n^2/2$.  In this case the cost has
+\textbf{decreased} by a factor of two going down the tree, and hence
+the recurrence is root dominated.  Therefore for asymptotic analysis
+we need only consider the cost of the root, and we have that
+$W(n) = O(n^2)$.
+\end{example}
+
+\begin{gram}
+  In the leaf dominated case the cost is proportional to the number of
+  leaves, but we have to calculate how many leaves there are.  In the common case that all leaves are at the 
+  same level (i.e. all recursive calls are the same size), then it is 
+  relatively easy.  In particular, one can calculate the number of 
+  recursive calls at each level, and take it to the power of the 
+  depth of the tree, i.e., $(\mbox{branching factor})^{\mbox{depth}}$.
+\end{gram}
+
+\begin{example}[Leaf dominated]
+Lets consider the recurrence 
+\[
+W(n) = 2W(n/2) + \sqrt{n}~.
+\]
+%
+For a node of size $n$ we have that the cost of the node is $\sqrt{n}$ and 
+the sum of the cost of its two children is $\sqrt{n/2} + \sqrt{n/2} =
+\sqrt{2} \sqrt{n}$. 
+%
+In this case the cost has \textbf{increased} by a factor of $\sqrt{2}$ going down the 
+tree, and hence the recurrence is leaf dominated.     
+%
+Each leaf corresponds to the base case, which has cost $1$.
+
+Now we need to determine how many leaves there are. 
+Since each recursive call halves the input size, the depth of
+recursion is going to be $\lg n$ (the number of times one needs to
+half $n$ before getting to size $1$).   Now on each level the recursion is
+making two recursive calls, so the number of leaves will be $2^{\lg n}
+= n$.    We therefore have that $W(n) = O(n)$.
+\end{example}
+
+\begin{example}[Balanced]
+Lets consider the same recurrence we considered for the tree method, i.e.,
+\[W(n) = 2 W(n/2) + c_1 n + c_2.\]
+For all nodes we have that the cost of the node is $c_1 n + c_2$ and
+the sum of the cost of the two children is $(c_1 n/2 + c_2) + (c_1 n/2
++ c_2) = c_1 n + 2 c_2$.    In this case
+the cost is about the same for the parent and children, and certainly not growing or decaying
+geometrically.   It is therefore a balanced recurrence.    The maximum
+cost of any level is upper bounded by $(c_1 + c_2) n$, since there are
+at most $n$ total elements across any level (for the $c_1 n$ term) and
+at most $n$ nodes (for the $c_2 n$ term).
+There are $1 + \lg n$ levels, so the total cost is upper bounded
+by $(c_1 + c_2) n (1 + \lg n)$.   This is slightly larger than our
+earlier bound of $c_1  n \lg n + c_2 (2n - 1)$, but it makes no
+difference asymptotically---they are both $O(n \lg n)$.
+\end{example}
+
+\begin{remark}
+  Once you are used to using the brick method, solving recurrences can 
+  often be done very quickly.   Furthermore the brick method can give a 
+  strong intuition of what part of the program dominates the
+  cost---either the root or the leaves (or both if balanced).    This
+  can help a programmer decide how to best optimize the performance of
+  recursive code.    If it is leaf
+  dominated then it is important to optimize the base case, while if
+  it is root dominated it is important to optimize the calls to other
+  functions used in conjunction with the recursive calls.   If it is
+  balanced, then, unfortunately, both need to be optimized.
+\end{remark}
+
+\begin{flex}
+\begin{exercise}
+For each of the following recurrences state whether it is leaf
+dominated, root dominated or balanced, and then solve the recurrence
+\[
+\begin{array}{lcl}
+W(n) & = & 3 W(n/2) + n \\
+W(n) & = & 2 W(n/3) + n \\
+W(n) & = & 3 W(n/3) + n \\
+W(n) & = & W(n - 1) + n \\
+W(n) & = & \sqrt{n} W(\sqrt{n}) + n^2 \\
+W(n) & = & W(\sqrt{n}) + W(n/2) + n \\
+\end{array}
+\]
+\end{exercise}
+\begin{solution}
+The recurrence $W(n) = 3 W(n/2) + n$  is leaf dominated since $n \leq
+3(n/2) = \frac{3}{2}n$.  It has $3^{\lg n} = n^{\lg 3}$ leaves so $W(n) = O(n^{\lg 
+  3})$.
+
+The recurrence $W(n) = 2 W(n/3) + n$  is root dominated since $n \geq 
+2(n/3) = \frac{2}{3} n.$ 
+%
+Therefore $W(n) = O(n)$, i.e., the cost of 
+the root.
+
+The recurrence $W(n) = 3 W(n/3) + n$  is balanced since $n = 3(n/3)$.
+The depth of recursion is $\log_3 n$, so the overall cost is
+$n$ per level for $\log_3 n$ levels, which gives $W(n) = O(n \log n)$.
+
+The recurrence $W(n) = W(n - 1) + n$  is balanced since each level
+only decreases by $1$ instead of by a constant fraction.    The
+largest level is $n$ (at the root) and there are $n$ levels, which
+gives $W(n) = O(n \cdot n) = O(n^2)$.
+
+The recurrence $W(n) = \sqrt{n} W(\sqrt{n}) + n^2$  is root dominated
+since $n^2 \geq \sqrt{n} \cdot \left(\sqrt{n}\right)^2 = n^{3/2}$.   In
+  this case the decay is even faster than geometric.    Certainly for
+  any $n \geq 2$, it satisfies our root dominated condition for
+  $\alpha = \sqrt{2}$.
+%
+Therefore $W(n) = O(n^2)$.
+
+  The recurrence $W(n) = W(\sqrt{n}) + W(n/2) + n$ is root dominated
+  since for $n > 16$, $n \geq \frac{4}{3} (\sqrt{n} + n/2)$.  Note
+  that here we are using the property that a leaf can be any problem
+  size greater than some constant $a$.  Therefore $W(n) = O(n)$, i.e.,
+  the cost of the root.
+\end{solution}
+\end{flex}
+
+\begin{gram}[Advanced]
+  In some leaf-dominated recurrences 
+ not all leaves are at the same level.    An example is
+  $W(n) = W(n/2) + W(n/3) + 1$.
+  Let $L(n)$ be the number of leaves as a function of $n$.  We can
+  solve for $L(n)$ using yet another recurrence.  In particular the
+  number of leaves for an internal node is simply the sum of the
+  number of leaves of each of its children.  In the example this will
+  give the recurrence $L(n) = L(n/2) + L(n/3)$.  Hence, we need to
+  find a function $L(n)$ that satisfies this equation.  If we guess
+  that it has the form $L(n) = n^{\beta}$ for some $\beta$, we can
+  plug it into the equation and try to solve for $\beta$:
+\[
+\begin{array}{lcl}
+n^{\beta} & =  &\left(\frac{n}{2}\right)^{\beta} +
+                         \left(\frac{n}{3}\right)^{\beta}\\
+             & =  &n^{\beta}\left(\left(\frac{1}{2}\right)^{\beta} +
+                    \left(\frac{1}{3}\right)^{\beta}\right)
+\end{array}
+\]
+Now dividing through by $n^{\beta}$ gives 
+\[ \left(\frac{1}{2}\right)^{\beta} + \left(\frac{1}{3}\right)^{\beta}
+= 1~.\]
+This gives $\beta \approx .788$ (actually a tiny bit less).   Hence $L(n) < n^{.788}$, and
+because the original recurrence is leaf dominated:
+$W(n) \in O(n^{.788})$.
+
+This idea of guessing a form of a solution and solving for it is key
+in our next method for solving recurrences, the substitution method.
+\end{gram}
+
+%% \begin{checkpoint}
+
+%% \begin{questionfr}
+%% \points 10
+
+%% \prompt Derive the brick method from the tree method.
+
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = W(n/2) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 3(n/2) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = 2S(n/4) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 2W(n/4) + n^2$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = 2W(n/2) + n\lg{n}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = 2S(\sqrt{n}) +\lg{n}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n) = W(n/3) + W(n/4) + n$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $S(n) = \max{S(n/3), S(n/4)} + \lg{n}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ nm$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ n^2m$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt
+%% Solve the recurrence $W(n,m) = 2W(n/2,m/4)+ \lg{nm}$ using the brick method.
+%% \answer
+%% \end{questionfr}
+
+
+%% \end{checkpoint}
+
+
+
+
+\section{Substitution Method}
+\label{sec:analysis::recurrences::substitution-method}
+
+\begin{gram}
+The tree method can be used to find the closed form solution to many
+recurrences but in some cases, we need a more powerful techniques that
+allows us to make a guess and then verify our guess via mathematical induction.
+%
+The substitution method allows us to do that exactly.
+%
+\end{gram}
+
+\begin{gram}
+More formally, say we have some recurrence $f(n)$. We will prove by strong induction
+that some closed-form $g(n)$ is an upper bound on our recurrence $f(n)$.
+Specifically, we want to show that $\forall n \geq 1, f(n) \leq g(n)$.
+This suffices to prove a big-O complexity because if $g(n) = O(h(n))$ for some
+$h(n)$, it is clear that $f(n) = O(h(n))$ as well.
+\end{gram}
+
+\begin{example}
+If we had a recurrence $f(n) = 2 f(n/2) + k \lg n$, we can show that
+$f(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$ for all $n \geq 1$, with
+$\kappa_1 = 3k, \kappa_2 = -k, \kappa_3 = -2k$ (which we prove in the next
+section!). Since $\kappa_1 n + \kappa_2 \lg n + \kappa_3 = O(n)$, we can
+conclude that $f(n) = 2 f(n/2) + k \lg n = O(n)$.
+\end{example}
+
+\begin{note}
+Since we usually use recurrences to describe algorithmic complexity,
+we usually only need to consider any $n \in \mathbb{N}^+$ because we are only
+considering input data of some integral size. However, it's usually ok
+to gloss over some of the subtle details, such as why we can divide a sequence
+of odd length in half.
+\end{note}
+
+\begin{gram}
+Let's actually prove this claim inductively.
+We begin with a formal proof of the claim, where we simply
+pull the upper bound $\kappa_1 n + \kappa_2 \lg n + \kappa_3$ and the values
+for these constants out of a hat. Subsequently, we discuss how we came up with
+this upper bound and the values of these constants.
+\end{gram}
+
+\subsection{A Formal Inductive Proof}
+
+\begin{example}
+Consider the recurrence
+  $$W(n) = 2 W(n/2) + O(\log(n)).$$
+
+We will prove the following theorem using strong induction on $n$.
+
+\textbf{Theorem.}
+Let a constant $k > 0$ be given.  If $W(n) = 2 W(n/2) + k \lg n$ for $n >
+1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$,
+$\kappa_2$, and $\kappa_3$ such that \[ W(n) \;\leq\; \kappa_1 n + \kappa_2 \lg n + \kappa_3.\]
+
+\textbf{Proof.} Let $\kappa_1 = 3k$, $\kappa_2 = -k$, and $\kappa_3 = -2k$.
+We proceed by strong induction on $n$.
+
+\textbf{Base case.} We know by our assumption that $W(1) \leq k$.
+We want to show that $W(1) \leq \kappa_1 (1) + \kappa_2 \lg (1) + \kappa_3$.
+
+\begin{align*}
+W(1) \;& \leq \; k\\
+      \;& = \; 3k + 0 - 2k\\
+      \;& = \; \kappa_1 (1) + \kappa_2 \lg (1) + \kappa_3\\
+\end{align*}
+
+\textbf{Inductive Hypothesis.}
+Assume $\forall n' < n, W(n') \leq \kappa_1 n' + \kappa_2 \lg n' + \kappa_3$.
+
+\textbf{Inductive Step.} We want to show that $W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$.
+
+We substitute an upper bound for $W(n/2)$ from our Inductive Hypothesis, yielding
+\begin{align*}
+W(n) \;& \leq \; 2 W(n/2) + k\lg n\\
+     \;& \leq \; 2 \left(\kappa_1 \frac{n}{2} + \kappa_2 \lg \frac{n}{2} + \kappa_3 \right) + k \lg n\\
+     \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(\kappa_2 \lg n - 2 \kappa_2 + \kappa_3 + k \lg n \right) \\
+     \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(-k \lg n - 2 (-k) + (-2k) + k \lg n \right) \\
+     \;& = \; \kappa_1 n + \kappa_2 \lg n + \kappa_3
+\end{align*}
+\end{example}
+
+\begin{gram}
+Since we have shown $W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$, we can
+conclude that $W(n) = O(n)$.
+\end{gram}
+
+\begin{important}
+You should convince yourself that the above proof is correct before continuing.
+\end{important}
+
+\subsection{Determining Constants}
+\begin{note}
+The following section is meant only to develop an intuition for how we can approach
+guessing an upper bound and determining the constants; any substitution
+proofs should take the form of the initial ``formal proof'', and do not need to
+specify how constants were obtained.
+\end{note}
+
+\begin{note}
+We try to thoroughly cover the substitution method to help
+provide a deep understanding of why it works. We have a lot of extra details
+in Diderot collapsible content sections, which might be confusing initially.
+We recommend skipping this content for now and going back later.
+\end{note}
+
+\begin{flex}
+\begin{gram}
+Now we investigate a method to determine these constants.
+Before we proceed with the proof, let's clarify any implicit constants. We need to be extremely
+precise about our constants in the substitution method, since if we become
+handwavy it is easy to convince ourselves of the correctness of a proof,
+even if the claim is actually false.
+
+We can essentially assume all constants in our recurrence to be $k$. That is,
+since $W(n) = 2W(n/2) + O(\log(n))$, we can say $W(n) \leq 2W(n/2) + k \lg(n)$.
+We use the same constant for the base case; i.e., we assume $W(1) \leq k$.
+\end{gram}
+
+\begin{note}
+But why do we assume the constants are the same? Essentially, this assumption
+simplifies the math, and still shows a correct upper bound.
+
+But why is the bound correct?
+Say, for example, we had some recurrence $W(n)$ that did not share constants,
+e.g. $W(1) \leq k_1$ and $W(n) \leq 2W(n/2) + k_2 \lg n$. Then, if we set
+$k = \max (k_1, k_2)$, and constructed some new recurrence $W'(n)$ with $W'(1) \leq k$ and
+$W'(n) \leq 2W'(n/2) + k \lg n$, then clearly $W(n) \leq W'(n)$, and so
+proving an upper bound on $W'(n)$ also shows an upper bound on $W(n)$.
+\end{note}
+
+\begin{note}
+The base case doesn't have to be $n=1$. However, since we're going to proceed by
+strong induction, we'll need the inductive hypothesis to apply to
+all $n' < n$ (as we do in the above ``formal proof''). Therefore, our base case
+would look like $\forall n' \leq d, W(n') \leq k$ for some fixed constant $d$.
+\end{note}
+\end{flex}
+
+\begin{gram}
+Now we begin a proof by substitution. We will essentially
+try to write the previous inductive proof, and keep track of a list of
+\textit{constraints} we must satisfy in order for the proof to proceed.
+This is how we determine the values of the constants.
+\end{gram}
+
+\begin{flex}
+\begin{gram}
+\textbf{Theorem.}
+Let a constant $k > 0$ be given.  If $W(n) = 2 W(n/2) + k \lg n$ for $n >
+1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$,
+$\kappa_2$, and $\kappa_3$ such that \[ W(n) \;\leq\; \kappa_1 n + \kappa_2 \lg n + \kappa_3.\]
+\end{gram}
+
+\begin{note}
+Why $\kappa_1 n + \kappa_2 \lg n + \kappa_3$? More than anything else,
+this is an intuitive guess. Since we think $W(n) = O(n)$, we need an $n$ term.
+Since there's a $\log n$ term in the recurrence, there will probably be a $\log n$
+term somewhere here as well. Finally, there's usually a constant term, hence the
+$\kappa_3$.
+
+But what if we ended up not needing any of these terms? Then the corresponding
+constant for the term would be zero, and we could effectively ignore the term.
+That is, if we determined $\kappa_3$ to be 0, this would effectively be the same
+as if we had initially chosen the expression $\kappa_1 n + \kappa_2 \lg n$
+(which, in fact, would also work!).
+
+What if we needed more terms? This is certainly possible; sometimes you just
+have to try a few things until something works. If we tried something that didn't
+work, though, we would get stuck somewhere and be unable to proceed with the proof.
+\end{note}
+
+\begin{note}
+This is not the only possible expression we could pick as an upper bound for
+$W(n)$ in order to show that $W(n) = O(n)$. We could, for example, show
+that $W(n) \leq \kappa_1 n + \kappa_2 \lg n$, or that
+$W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3 \lg^2 n$.
+\end{note}
+
+\begin{note}
+In our proof, we cannot choose any values of $\kappa_1, \kappa_2, \kappa_3$
+that would make the work ever negative or zero, as that is clearly a contradiction.
+However, we can choose any of $\kappa_1, \kappa_2, \kappa_3$ to be negative, as
+long as the total work is never negative or zero.
+
+If this is confusing at first, consider this. In our specific case, say
+it worked out that our recurrence solved to $W(n) \leq n - 2 \lg n + 2$.
+Is that possible? Yes! Although it's true that the function dips down, it never
+reaches any impossible state (negative or zero), and $n - 2 \lg n + 2 = \Theta(n)$.
+\end{note}
+\end{flex}
+
+\begin{gram}
+\textbf{Base case.}
+We know by our assumption that $W(1) \leq k$.
+We want to show that $W(1) \leq \kappa_1 (1) + \kappa_2 \lg (1) + \kappa_3.$
+
+Thus, we need to have
+$k \leq \kappa_1 + \kappa_3$. We add this to our list of constraints.
+\end{gram}
+
+\begin{gram}
+\textbf{Inductive Hypothesis.}
+Assume $\forall n' < n, W(n') \leq \kappa_1 n' + \kappa_2 \lg n' + \kappa_3$.
+\end{gram}
+
+\begin{gram}
+\textbf{Inductive Step.}
+We want to show that $W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$.
+
+We substitute an upper bound for $W(n/2)$ from our Inductive Hypothesis, yielding
+\begin{align*}
+W(n) \;& \leq \; 2 W(n/2) + k\lg n\\
+  \;& \leq \; 2 \left(\kappa_1 \frac{n}{2} + \kappa_2 \lg \frac{n}{2} + \kappa_3 \right) + k \lg n\\
+  \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(\kappa_2 \lg n - 2 \kappa_2 + \kappa_3 + k \lg n \right) \\
+  \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(\kappa_2 \lg n + k \lg n - 2 \kappa_2 + \kappa_3 \right) \\
+\end{align*}
+\end{gram}
+
+\begin{note}
+It's worth noting that we break up the terms into exactly what we're trying to prove
+and everything else in the second to last step. Then, all we have to do is show
+that everything else is $\leq 0$. For this reason, we add
+$\left(\kappa_2 \lg n + k \lg n - 2 \kappa_2 + \kappa_3 \right) \leq 0$
+to our list of constraints.
+
+We can assume that $n \geq 2$ for the inductive step,
+since otherwise we would apply the base case. Thus, the above constraint only needs
+to be satisfied for $n \geq 2$.
+\end{note}
+
+\begin{gram}
+We have accumulated the following constraints:
+\begin{enumerate}
+\item The work must always be positive, i.e. $\forall n \geq 1, \; \kappa_1 n + \kappa_2 \lg n + \kappa_3 > 0$
+\item $k \leq \kappa_1 + \kappa_3$
+\item $\forall n \geq 2, \; \kappa_2 \lg n + k \lg n - 2 \kappa_2 + \kappa_3 \leq 0$
+\end{enumerate}
+\end{gram}
+
+\begin{flex}
+\begin{gram}
+Let's begin by analyzing constraint 3. If we set $\kappa_2 = -k$, then the $\kappa_2 \lg n$ term cancels out the
+$k \lg n$ term. Then, we note that we have a $-2 \kappa_2 = 2k$ term, so we can
+set $\kappa_3 = -2k$ to cancel out this term.
+
+Now we must ensure constraint 1 is satisfied. To ensure the work is always
+positive, we need a large $\kappa_1$. Noting that $kn \geq k \lg n$ and $kn \geq k$
+when $n \geq 1$, setting $\kappa_1 = 3k$ is sufficient to cancel out the
+$\kappa_2 \lg n + \kappa_3$ terms and ensure $\kappa_1 n + \kappa_2 \lg n + \kappa_3 > 0$.
+
+Finally, we must ensure that constraint 2 is satisfied. Indeed,
+$k \leq \kappa_1 + \kappa_3 = k$.
+\end{gram}
+
+\begin{note}
+These are certainly not the only possible values for the above constants that
+would be correct. In fact, there are an infinite number of possible values
+for these constants.
+\end{note}
+\end{flex}
+
+\subsection{Substitution Conclusion}
+\begin{important}
+This technique can be tricky to use: it is easy to start on the wrong
+foot with a poor guess and then derive an incorrect proof, by for example,
+making a small mistake.
+%
+To minimize errors, you can follow the following tips:
+\begin{enumerate}
+\item Spell out the constants---do not use asymptotic notation such as
+  big-$O$.  The problem with asymptotic notation is that it makes it
+  super easy to overlook constant factors, which need to be carefully
+  accounted for.
+
+\item Be careful that the induction goes in the right direction.
+
+\item Add additional lower-order terms, if necessary, to make the
+  induction work.
+\end{enumerate}
+\end{important}
+
+\begin{gram}
+The following are two final examples of the substitution method. It's worth noting that
+we are less explicit about the steps of induction, but this proof format
+would nevertheless be sufficient for any assignments in this course.
+\end{gram}
+
+\begin{example}
+Consider the recurrence
+$$
+W(n) = 2W(n/2) + O(n).
+$$
+%
+%
+By the definition of asymptotic complexity, we
+can establish that
+\begin{eqnarray*}
+  W(n) &\leq& 2W(n/2) + c_1\cdot n + c_2,
+\end{eqnarray*}
+where $c_1$ and $c_2$ are constants.  
+
+
+
+We will prove the following theorem using strong induction on $n$.
+
+
+\textbf{Theorem.}
+  Let a constant $k > 0$ be given.  If $W(n) \leq 2 W(n/2) + k \cdot n$ for $n >
+  1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$ and
+  $\kappa_2$ such that \[ W(n) \;\leq\; \kappa_1 \cdot n \lg n + \kappa_2.\]
+
+\textbf{Proof.}
+  Let $\kappa_1 = 2k$ and $\kappa_2 = k$.  For the base case ($n=1$), we check
+  that $W(1) \leq k \leq \kappa_2$.  For the inductive step ($n>1$), we assume that
+  \[
+  W(n/2) \leq \kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2,
+  \]
+  And we'll show that $W(n) \leq \kappa_1 \cdot n \lg n + \kappa_2$.  To show
+  this, we substitute an upper bound for $W(n/2)$ from our assumption into the
+  recurrence, yielding
+  \begin{align*}
+    W(n) \;&\leq\; 2W(n/2) + k \cdot n  \\
+    \;&\leq\; 2(\kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2) + k \cdot n\\
+    \;&=\; \kappa_1 n (\lg n - 1) + 2 \kappa_2 + k \cdot n\\
+    \;&=\; \kappa_1 n \lg n + \kappa_2 + (k \cdot n + \kappa_2 - \kappa_1 \cdot n)\\
+    \;&\leq\; \kappa_1 n \lg n + \kappa_2,
+  \end{align*}
+  where the final step follows because $k \cdot n + \kappa_2 - \kappa_1 \cdot n \leq
+  0$ as long as $n > 1$.
+
+\end{example}
+
+\begin{gram}
+Variants of the recurrence considered in our last example arise
+commonly in algorithms.  Next, we establish a theorem that shows that
+the same bound holds for a more general class of recurrences. 
+\end{gram}
+
+\begin{flex}
+\begin{theorem}[Superlinear Recurrence]
+\label{thm:analysis::recurrences::linear-plus}
+Let $\vareps > 0$ be a
+constant and consider  the recurrence
+\begin{align*}
+  W(n) & = 2W(n/2) + k\cdot n^{1+\vareps}.
+\end{align*}
+
+  %
+  If $W(n) \leq 2 W(n/2) + k \cdot n^{1+\vareps}$ for $n > 1$ and $W(n) \leq k$ for $n \leq
+  1$, then for some constant $\kappa$, \[ W(n) \;\leq\;
+  \kappa \cdot n^{1+\vareps}. \]
+\end{theorem}
+
+\begin{proof}
+  Let $\kappa = \frac1{1-1/2^{\vareps}} \cdot k$. The base case is easy: $W(1) =
+  k \leq \kappa_1$ as $\frac1{1 - 1/2^{\vareps}} \geq 1$.  For the inductive
+  step, we substitute the inductive hypothesis into the recurrence and obtain
+  \begin{eqnarray*}
+    W(n) &\leq& 2W(n/2) + k \cdot n^{1+\vareps}\\
+    &\leq& 2 \kappa\left(\frac{n}2 \right)^{1+\vareps} + k \cdot n^{1+\vareps}\\
+    &=& \kappa \cdot n^{1+\vareps} + \left(2 \kappa\left(\frac{n}2 \right)^{1+\vareps} +
+      k \cdot n^{1+\vareps} - \kappa \cdot n^{1+\vareps}\right)\\
+    &\leq& \kappa \cdot n^{1+\vareps},
+  \end{eqnarray*}
+  where in the final step, we use the fact  that for any $\delta > 1$:
+
+  \begin{eqnarray*}
+    2 \kappa\left(\frac{n}2 \right)^{\delta} +
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta}
+    &=& \kappa \cdot 2^{-\vareps} \cdot n^{\delta}  +
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta} \\
+    &=& \kappa \cdot 2^{-\vareps} \cdot n^{\delta}  +
+    (1 - 2^{-\vareps})\kappa\cdot n^{\delta} - \kappa \cdot n^{\delta} \\
+    &\leq& 0.
+  \end{eqnarray*}
+
+%% Case I: Equally heavy
+%% Case II: Leaf heavy
+%%
+
+An alternative way to prove the same theorem is to use the tree method
+and evaluate the sum directly. The recursion tree here has depth $\lg
+n$ and at level $i$ (again, the root is at level $0$), we have $2^i$
+nodes, each costing $k\cdot (n/2^i)^{1+\vareps}$.  Thus, the total
+cost is
+  \begin{eqnarray*}
+    \sum_{i=0}^{\lg n} k\cdot 2^i \cdot \pparen{\frac{n}{2^i}}^{1+\vareps}
+%    &=&  k \sum_{i=0}^{\lg n}  2^{i - i - \vareps \cdot i} \cdot n^{1+\vareps} \\
+    &=&  k\cdot n^{1+\vareps} \cdot \sum_{i=0}^{\lg n} 2^{-i\cdot\vareps} \\
+    &\leq& k\cdot n^{1+\vareps} \cdot \sum_{i=0}^{\infty} 2^{-i\cdot\vareps}.
+  \end{eqnarray*}
+  But the infinite sum $\sum_{i=0}^{\infty} 2^{-i\cdot\vareps}$ is at most
+  $\frac1{1 - 1/2^{\vareps}}$. Hence, we conclude $W(n) \in O(n^{1+\vareps})$.
+
+\end{proof}
+\end{flex}
+
+%% \begin{checkpoint}
+
+%% \begin{questionfr}
+%% \points 10
+%% \prompt 
+%% Show that $W(n) = 2W(n/2) + \lg{n} \in O(n)$ by using tree of
+%% substitution method.
+%% \answer 
+%% \end{questionfr}
+%% \end{checkpoint}
+
+
+\section{Master Method}
+\label{sec:analysis::recurrences::master-method}
+
+\begin{gram}
+You might have learned in a previous course about the~\defn{master method} for solving
+recurrences.
+%
+We do not like to use it, because it only works for special cases and
+does not help develop intuition.     
+It requires that all recursive calls are the same size and are some
+constant factor smaller than $n$.
+%
+It doesn't work for recurrences such as:
+\[
+\begin{array}{lcl}
+W(n) & = & W(n - 1) + 1 \\
+W(n) & = & W(2n / 3) + W(n /3) + n^3\\
+W(n) & = & \sqrt{n}~W(\sqrt{n}) + 1\\
+\end{array}
+\]
+all for which the tree, brick, and substitution method work.
+%
+We note, however, that the three cases of the master method correspond
+to limited cases of leaves dominated, balanced, and root dominated of
+the brick method.
+\end{gram}
+
+
+
+
+%% \paragraph{The Substitution Method.} 
+%% Using the definition of big-$O$, we know
+%% that
+%% \begin{eqnarray*}
+%%   W(n) &\leq& 2W(n/2) + c_1\cdot n + c_2,
+%% \end{eqnarray*}
+%% where $c_1$ and $c_2$ are constants.
+
+%% Besides using the recursion tree method, can also arrive at the
+%% same answer by mathematical induction.  If you want to go via this route (and
+%% you don't know the answer a priori), you'll need to guess the answer first and
+%% check it.  This is often called the ``substitution method.''  Since this
+%% technique relies on guessing an answer, you can sometimes fool yourself by
+%% giving a false proof.  The following are some tips:
+%% \begin{enumerate}
+%% \item Spell out the constants. Do not use big-$O$---we need to be precise about
+%%   constants, so big-$O$ makes it super easy to fool ourselves.
+
+%% \item Be careful that the induction goes in the right direction.
+
+%% \item Add additional lower-order terms, if necessary, to make the induction go
+%%   through.
+%% \end{enumerate}
+
+%% Let's now redo the recurrences above using this method.  Specifically, we'll
+%% prove the following theorem using (strong) induction on $n$.
+
+%% \begin{theorem}
+%%   Let a constant $k > 0$ be given.  If $W(n) \leq 2 W(n/2) + k \cdot n$ for $n >
+%%   1$ and $W(1) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$ and
+%%   $\kappa_2$ such that \[ W(n) \;\leq\; \kappa_1 \cdot n \lg n + \kappa_2.\]
+%% \end{theorem}
+%% \begin{proof}
+%%   Let $\kappa_1 = 2k$ and $\kappa_2 = k$.  For the base case ($n=1$), we check
+%%   that $W(1) \leq k \leq \kappa_2$.  For the inductive step ($n>1$), we assume that
+%%   \[
+%%   W(n/2) \leq \kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2,
+%%   \]
+%%   And we'll show that $W(n) \leq \kappa_1 \cdot n \lg n + \kappa_2$.  To show
+%%   this, we substitute an upper bound for $W(n/2)$ from our assumption into the
+%%   recurrence, yielding
+%%   \begin{align*}
+%%     W(n) \;&\leq\; 2W(n/2) + k \cdot n  \\
+%%     \;&\leq\; 2(\kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2) + k \cdot n\\
+%%     \;&=\; \kappa_1 n (\lg n - 1) + 2 \kappa_2 + k \cdot n\\
+%%     \;&=\; \kappa_1 n \lg n + \kappa_2 + (k \cdot n + \kappa_2 - \kappa_1 \cdot n)\\
+%%     \;&\leq\; \kappa_1 n \lg n + \kappa_2,
+%%   \end{align*}
+%%   where the final step follows because $k \cdot n + \kappa_2 - \kappa_1 \cdot n \leq
+%%   0$ as long as $n > 1$.
+%% \end{proof}
+
+
+%% \levelGate{\levelE}{
+%% \begin{figure}
+%% \centering
+%% \includegraphics[width=3in]{analysis/cezanne}
+%% \caption{Abstraction is a powerful technique in computer science.  One
+%%   reason why is that it enables us to use our intelligence more
+%%   effectively allowing us not to worry about all the details or the
+%%   reality.  Paul Cezanne noticed that all reality, as we call it, is
+%%   constructed by our intellect.  Thus he thought, I can paint in
+%%   different ways, in ways that don't necessarily mimic vision, and the
+%%   viewer can still create a reality.  This allowed him to construct
+%%   more interesting realities.  He used abstract, geometric forms to
+%%   architect reality.  Can you see them in his self-portrait?  Do you
+%%   think that his self-portrait creates a reality that is much more
+%%   three dimensional, with more volume, more tactile presence than a 2D
+%%   painting that would mimic vision?  Cubists such as Picasso and
+%%   Braque took his ideas on abstraction to the next level. }
+%% \label{fig:lec?::}
+%% \end{figure}
+%% }
+
+
+%% \input{analysis/problems}
+%% \flushchapter
+
+
+%\section{Misc Figs.}
+
+% \begin{figure}[h]
+%   \begin{tikzpicture}
+%     \GraphInit[vstyle=Normal]
+%     \SetGraphUnit{2}
+%     \Vertex[L=$e_1$]{A}
+%     \SO[L=$e_2$](A){B}
+%     \SetUpEdge[style={-latex}]
+%     \Edge(A)(B)
+%   \end{tikzpicture}
+%   \qquad
+%   \begin{tikzpicture}
+%     \GraphInit[vstyle=Normal]
+%     \SetGraphUnit{2}
+%     \Vertex[style={shape=rectangle}]{x}
+%    \Vertex[L=$e_1$]{A}
+%    \EA[L=$e_2$](A){B}
+%    \SetUpEdge[style={-latex}]
+%    \Edge(A)(B)
+%  \end{tikzpicture}
+%\end{figure}
+
+
+
+% \section{What did we learn in this lecture?}
+% \begin{itemize}[itemsep=2pt]
+% \item Defining a problem precisely is important.
+% \item One problem can have many algorithmic solutions.
+% \item Depending on the input, we can pick the algorithm that works the
+%   best for our needs.
+% \item Surprising mappings between problems can be use to reduce
+%   one problem to another.
+% \item The "greedy method" is an important tool in your toolbox
+% \item Many algorithms are naturally parallel but also have sequential
+%   dependencies
+% \end{itemize}

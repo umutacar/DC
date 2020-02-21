@@ -1,0 +1,1795 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Contraction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:design::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:design::contraction::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:design::contraction::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter describes the contraction technique for algorithm design and applies it to several problems.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter describes the contraction technique for algorithm design
+and applies it to several problems.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Contraction Technique
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Contraction Technique
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A contraction algorithm has a distinctive anatomy: it has a base case to handle small instances and an inductive step with three distinct phases: “contract, “recur”, and “expand.” It involves solving recursively smaller instances of the same problem and then expanding the solution for the larger instance.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A contraction algorithm has a distinctive anatomy: it has a base case to handle small instances and an inductive step with three
+distinct phases: ``contract, ``recur'', and ``expand.''
+It  involves
+solving recursively  smaller instances of the same problem and then expanding the solution for the larger instance.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:design::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Contraction
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:design::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A contraction algorithm for problem <span class="math inline">\(P\)</span> has the following structure.</p>
+<dl>
+<dt>Base Case:</dt>
+<dd><p>If the problem instance is sufficiently small, then compute and return the solution, possibly using another algorithm.</p>
+</dd>
+<dt>Inductive Step(s):</dt>
+<dd><p>If the problem instance is sufficiently large, then</p>
+<ul>
+<li><p>Apply the following two steps, as many times as needed.</p>
+<ol>
+<li><p><strong><em>Contract:</em></strong></p>
+<p>“contract”, i.e., map the instance of the problem <span class="math inline">\(P\)</span> to a smaller instance of <span class="math inline">\(P\)</span>.</p></li>
+<li><p><strong><em>Solve:</em></strong></p>
+<p>solve the smaller instance recursively.</p></li>
+</ol></li>
+<li><p><strong><em>Expand</em></strong> the solutions to smaller instance to solve the original instance.</p></li>
+</ul>
+</dd>
+</dl>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:design::contraction}
+
+A contraction algorithm for problem $P$ has the following structure.
+
+\begin{description}[topsep=1pt,itemsep=1pt]
+
+\item[Base Case:] If the problem instance is sufficiently small, then
+  compute and return the solution, possibly using another algorithm.
+
+\item[Inductive Step(s):] If the problem instance is sufficiently large,
+  then 
+
+
+\begin{itemize}
+\item 
+Apply the following two steps, as many  times as needed.
+
+\begin{enumerate}[topsep=1pt,itemsep=1pt]
+\item \defn{Contract:} 
+``contract'', i.e., map the instance of the problem $P$ to a smaller
+  instance of $P$.
+
+\item \defn{Solve:}
+solve the smaller instance recursively.
+\end{enumerate}
+
+\item
+\defn{Expand} the solutions to smaller instance to solve the original
+instance.
+
+\end{itemize}
+\end{description}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:design::contraction::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:design::contraction::contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Contraction differs from divide and conquer in that it allows there to be only one <em>independent</em> smaller instance to be recursively solved. There could be multiple <em>dependent</em> smaller instances to be solved one after another (sequentially).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Contraction differs from divide and conquer in that it allows there to
+be only one \emph{independent} smaller instance to be recursively
+solved.
+There could be multiple \emph{dependent} smaller instances to be
+solved one after another (sequentially).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::properties-of-contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Properties of Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Properties of Contraction
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::properties-of-contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Contraction algorithms have several important properties.</p>
+<ul>
+<li><p>Due to their inductive structure, we can establish the correctness of a contraction algorithm using principles of induction: we first prove correctness for the base case, and then prove the general (inductive) case by using strong induction, which allows us to assume that the recursive call is correct.</p></li>
+<li><p>The work and span of a contraction algorithm can be expressed as a mathematical recurrence that reflects the structure of the algorithm itself. Such recurrences can then unually be solved using well-understood techniques, and without significant difficulty.</p></li>
+<li><p>Contraction algorithms can be work efficient, if they can reduce the problem size geometrically (by a constant factor greater than <span class="math inline">\(1\)</span>) at each contraction step, and if the contraction and the expansions steps are efficient.</p></li>
+<li><p>Contraction algorithms can have a low span (high parallelism), if size of the problem instance decreases geometrically, and if contraction and expansion steps have low spans.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Contraction algorithms have several important properties.  
+
+\begin{itemize}
+\item Due to their inductive structure, we can establish the
+  correctness of a contraction algorithm using principles of
+  induction: we first prove correctness for the base case, and then
+  prove the general (inductive) case by using strong induction, which
+  allows us to assume that the recursive call is correct.
+
+\item 
+The work and span of a contraction algorithm can be expressed as a
+mathematical recurrence that reflects the structure of the algorithm
+itself. Such recurrences can then unually be solved using
+well-understood techniques, and without significant difficulty.
+
+\item 
+Contraction algorithms can be work efficient, if they can reduce the
+problem size geometrically (by a constant factor greater than $1$) at
+each contraction step, and if the contraction and the expansions steps
+are efficient.
+
+\item Contraction algorithms can have a low span (high parallelism),
+  if size of the problem instance decreases geometrically, and if
+  contraction and expansion steps have low spans.
+
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:design::contraction::maximal-element
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Maximal Element
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Maximal Element
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:design::contraction::maximal-element
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We can find the maximal element in a sequence <span class="math inline">\(a\)</span> using contraction as follows. If the sequence has only one element, we return that element, otherwise, we can map the sequence <span class="math inline">\(a\)</span> into a sequence <span class="math inline">\(b\)</span> which is half the length by comparing the elements of <span class="math inline">\(a\)</span> at consecutive even-odd positions and writing the larger into <span class="math inline">\(b\)</span>. We then find the largest in <span class="math inline">\(b\)</span> and return this as the result.</p>
+<p>For example, we map the sequence <span class="math inline">\(\left\langle\, 1,2,4,3,6,5 \,\right\rangle\)</span> to <span class="math inline">\(\left\langle\, 2,4,6 \,\right\rangle\)</span>. The largest element of this sequence, <span class="math inline">\(6\)</span> is then the largest element in the input sequence.</p>
+<p>For a sequence of length <span class="math inline">\(n\)</span>, we can write the work and span for this algorithm as recurrences as follows <span class="math display">\[W(n) = \left\{  
+\begin{array}{lll}  
+\Theta(1) &amp; \mbox{if} &amp; n \le 1  
+\\  
+W(n/2) + \Theta(n) &amp;  \mbox{otherwise}  
+\end{array}  
+\right.\]</span> <span class="math display">\[S(n) = \left\{  
+\begin{array}{lll}  
+\Theta(1) &amp; \mbox{if} &amp; n \le 1  
+\\  
+S(n/2) + \Theta(1) &amp;  \mbox{otherwise}.  
+\end{array}  
+\right.\]</span> Using the techniques discussed at the end of this chapter, we can solve the recurrences to obtain <span class="math inline">\(W(n) = \Theta(n)\)</span> and <span class="math inline">\(S(n) =  
+\Theta(\lg{n})\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can find the maximal element in a sequence $a$ using contraction as
+follows.
+If the sequence has only one element, we return that element,
+otherwise,
+we can map the sequence $a$ into a sequence $b$ which is half the
+length by comparing the elements of $a$ at consecutive even-odd
+positions and writing the larger into $b$.
+We then find the largest in $b$ and return this as the result.
+
+For example, we map the sequence
+$\cseq{1,2,4,3,6,5}$ 
+to 
+$\cseq{2,4,6}$.
+The largest element of this sequence, $6$ is then the largest element
+in the input sequence.
+
+For a sequence of length $n$, we can write the work and span for this
+algorithm as recurrences as follows
+\[
+W(n) = \left\{
+\begin{array}{lll}
+\Theta(1) & \mbox{if} & n \le 1
+\\
+W(n/2) + \Theta(n) &  \mbox{otherwise}
+\end{array}
+\right.
+\]
+\[
+S(n) = \left\{
+\begin{array}{lll}
+\Theta(1) & \mbox{if} & n \le 1
+\\
+S(n/2) + \Theta(1) &  \mbox{otherwise}.
+\end{array}
+\right.
+\]
+Using the techniques discussed at the end of this chapter, we can solve
+the recurrences to obtain $W(n) = \Theta(n)$ and $S(n) =
+\Theta(\lg{n})$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Reduce with Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Reduce with Contraction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::contraction::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>reduce</em></strong> primitive performs a computation that involves applying an associative binary operation <span class="math inline">\(op\)</span> to the elements of a sequence to obtain (reduce the sequence to) a final value. For example, reducing the sequence <span class="math inline">\(\left\langle\, 0,1,2,3,4 \,\right\rangle\)</span> with the <span class="math inline">\(+\)</span> operation gives us <span class="math inline">\(0 + 1 + 2 + 3 + 4 = 10\)</span>. Recall that the type signature for <span class="math inline">\(\mathit{reduce}\)</span> is as follows. <span class="math display">\[\mathit{reduce}~(f: \alpha * \alpha \rightarrow\alpha)~(\mathit{id}: \alpha)~(a: \mathbb{S}_{\alpha}): \alpha,\]</span> where <span class="math inline">\(f\)</span> is a binary function, <span class="math inline">\(a\)</span> is the sequence, and <span class="math inline">\(\mathit{id}\)</span> is the left identity for <span class="math inline">\(f\)</span>.</p>
+<p>Even though we can define <span class="math inline">\(\mathit{reduce}\)</span> broadly for both associative and non-associative functions, in this section, we assume that the function <span class="math inline">\(f\)</span> is associative.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{reduce} primitive performs a computation that involves
+applying an associative binary operation $op$ to the elements of a
+sequence to obtain (reduce the sequence to) a final value.
+For example, reducing the sequence $\cseq{0,1,2,3,4}$ with the $+$
+operation gives us $0 + 1 + 2 + 3 + 4 = 10$.
+Recall that the type signature for~$\cdvar{reduce}$ is as follows.
+\[
+\cdvar{reduce}~(f: \alpha * \alpha \ra \alpha)~(\cdvar{id}: \alpha)~(a: \sseq{\alpha}): \alpha,
+\]
+where $f$ is a binary function, $a$ is the sequence, and $\cdvar{id}$
+is the left identity for $f$.
+
+Even though we can define $\cdvar{reduce}$ broadly for both associative
+and non-associative functions, in this section, we assume that the
+function~$f$ is associative.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::generalizing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::generalizing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Generalizing the algorithm for computing the maximal element leads us to an implementation of an important parallelism primitive called <span class="math inline">\(\mathit{reduce}\)</span>. The crux in using the contraction technique is to design an algorithm for reducing an instance of the problem to a geometrically smaller instance by performing a parallel contraction step. To see how this can be done, consider instead applying the function <span class="math inline">\(f\)</span> to consecutive pairs of the input.</p>
+<p>For example if we wish to compute the sum of the input sequence <span class="math display">\[\left\langle\,  2,1,3,2,2,5,4,1 \,\right\rangle\]</span> by using the addition function, we can contract the sequence to <span class="math display">\[\left\langle\,  3, 5, 7, 5  \,\right\rangle.\]</span> Note that the contraction step can be performed in parallel, because each pair can be considered independently in parallel.</p>
+<p>By using this contraction step, we have reduced the input size by a factor of two. We next solve the resulting problem by invoking the same algorithm and apply expansion to construct the final result. We note now that by solving the smaller problem, we obtain a solution to the original problem, because the sum of the sequence remains the same as that of the original. Thus, the expansion step requires no additional work.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Generalizing the algorithm for computing the maximal element leads us
+to an implementation of an important parallelism primitive called $\cdvar{reduce}$.
+The crux in using the contraction technique is to design an algorithm
+for reducing an instance of the problem to a geometrically smaller
+instance by performing a parallel contraction step.
+To see how this can be done, consider instead applying the
+function~$f$ to consecutive pairs of the input.
+
+For example if we wish to compute the sum of the input sequence 
+\[
+\cseq{ 2,1,3,2,2,5,4,1}
+\]
+by using the addition function, we can contract the sequence to
+\[
+\cseq{ 3, 5, 7, 5 }.
+\]
+Note that the contraction step can be performed in parallel, because
+each pair can be considered independently in parallel.
+
+By using this contraction step, we have reduced the input size by a
+factor of two.
+We next solve the resulting problem by invoking the same algorithm and
+apply expansion to construct the final result.
+We note now that by solving the smaller problem, we obtain a solution
+to the original problem, because the sum of the sequence remains the
+same as that of the original.  Thus, the expansion step requires no
+additional work.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:alg:design::contraction::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='algorithm'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Reduce with Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Reduce with Contraction
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+alg:design::contraction::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> An algorithm for <span class="math inline">\(\mathit{reduce}\)</span> using contraction is shown below; for simplicity, we assume that the input size is a power of two.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\texttt{(* Assumption:}~|a|~\texttt{is a power of 2 *)}  
+\\  
+\mathit{reduceContract}~f~\mathit{id}~a =  
+\\   
+~~~~\texttt{if}~|a| = 1~\texttt{then}  
+\\  
+~~~~~~~~a[0]  
+\\  
+~~~~\texttt{else}  
+\\   
+~~~~~~~~\texttt{let}  
+\\  
+~~~~~~~~~~~~b = \left\langle\, f(a[2i],a[2i+1]) : 0 \le i &lt; \lfloor |a|/2  
+  \rfloor \,\right\rangle  
+\\   
+~~~~~~~~\texttt{in}  
+\\  
+~~~~~~~~~~~~\mathit{reduceContract}~f~\mathit{id}~b  
+\\  
+~~~~~~~~\texttt{end}  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{alg:design::contraction::reduce}
+An algorithm for $\cdvar{reduce}$ using contraction is shown below; for
+simplicity, we assume that the input size is a power of two.
+
+\[
+\begin{array}{l}
+\cd{(* Assumption:}~|a|~\cd{is a power of 2 *)}
+\\
+\cdvar{reduceContract}~f~\cdvar{id}~a =
+\\ 
+~~~~\cd{if}~|a| = 1~\cd{then}
+\\
+~~~~~~~~a[0]
+\\
+~~~~\cd{else}
+\\ 
+~~~~~~~~\cd{let}
+\\
+~~~~~~~~~~~~b = \cseq{f(a[2i],a[2i+1]) : 0 \le i < \lfloor |a|/2
+  \rfloor}
+\\ 
+~~~~~~~~\cd{in}
+\\
+~~~~~~~~~~~~\cdvar{reduceContract}~f~\cdvar{id}~b
+\\
+~~~~~~~~\cd{end}
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- algorithm -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::cost-of-reduce-with-contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Cost of Reduce with Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Cost of Reduce with Contraction
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::cost-of-reduce-with-contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Assuming that the function being reduced over performs constant work, parallel tabulate in the contraction step requires linear work, we can thus write the work of this algorithm as <span class="math display">\[W(n) = W(n/2) + n.\]</span> This recurrence solves to <span class="math inline">\(O(n)\)</span>.</p>
+<p>Assuming that the function being reduced over performs constant span, parallel tabulate in the contraction step requires constant span; we can thus write the work of this algorithm as <span class="math display">\[S(n) = S(n/2) + 1.\]</span> This recurrence solves to <span class="math inline">\(O(\log{n})\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Assuming that the function being reduced over performs constant work, 
+parallel tabulate in the contraction step requires linear work, 
+we can thus write the work of this algorithm as 
+\[
+W(n) = W(n/2) + n.
+\]
+This recurrence solves to $O(n)$.
+
+
+Assuming that the function being reduced over performs constant span, 
+parallel tabulate in the contraction step requires constant span;
+we can thus write the work of this algorithm as
+\[
+S(n) = S(n/2) + 1.
+\]
+This recurrence solves to $O(\log{n})$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Scan with Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Scan with Contraction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:design::contraction::scan
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::describe
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::describe
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We describe how to implement the <span class="math inline">\(\mathit{scan}\)</span> sequence primitive efficiently by using contraction. Recall that the <span class="math inline">\(\mathit{scan}\)</span> function has the type signature <span class="math display">\[\mathit{scan}~(f: \alpha * \alpha \rightarrow\alpha)~(\mathit{id}: \alpha)~(a: \mathbb{S}_{\alpha})~:~(\mathbb{S}_{\alpha} * \alpha)\]</span> where <span class="math inline">\(f\)</span> is an associative function, <span class="math inline">\(a\)</span> is a sequence, and <span class="math inline">\(\mathit{id}\)</span> is the identity element of <span class="math inline">\(f\)</span>. When evaluated with a function and a sequence, <span class="math inline">\(\mathit{scan}\)</span> can be viewed as applying a reduction to every prefix of the sequence and returning the results of such reductions as a sequence.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We describe how to implement the $\cdvar{scan}$ sequence primitive
+efficiently by using contraction.
+Recall that 
+the $\cdvar{scan}$ function has the type signature
+\[
+\cdvar{scan}~(f: \alpha * \alpha \ra \alpha)~(\cdvar{id}: \alpha)~(a: \sseq{\alpha})~:~(\sseq{\alpha} * \alpha)
+\]
+where $f$ is an associative function, $a$ is a sequence, and
+$\cdvar{id}$ is the identity element of $f$.
+When evaluated with a function and a sequence, $\cdvar{scan}$ can be
+viewed as applying a reduction to every prefix of the sequence and
+returning the results of such reductions as a sequence.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:design::contraction::applying
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:design::contraction::applying
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Applying <span class="math inline">\(\mathit{scan}~`+`\)</span>, i.e., “plus scan” on the sequence <span class="math inline">\(\left\langle\, 2,1,3,2,2,5,4,1 \,\right\rangle\)</span> returns <span class="math display">\[\left(\left\langle\, 0, 2, 3, 6, 8, 10, 15, 19 \,\right\rangle, 20\right).\]</span> We will use this as a running example.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Applying $\cdvar{scan}~`+`$, i.e., ``plus scan'' on the sequence
+$\cseq{2,1,3,2,2,5,4,1}$ returns
+\[
+\left(\cseq{0, 2, 3, 6, 8, 10, 15, 19}, 20\right).
+\]
+We will use this as a running example.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::based
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::based
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Based on its specification, a direct algorithm for <span class="math inline">\(\mathit{scan}\)</span> is to apply a reduce to all prefixes of the input sequence. Unfortunately, this easily requires quadratic work in the size of the input sequence.</p>
+<p>We can see that this algorithm is inefficient by noting that it performs lots of redundant computations. In fact, two consecutive prefixes overlap significantly but the algorithm does not take advantage of such overlaps at all, computing the result for each overlap independently.</p>
+<p>By taking advantage of the fact that any two consecutive prefixes differ by just one element, it is not difficult to give a linear work algorithm (modulo the cost of the application of the argument function) by using iteration.</p>
+<p>Such an algorithm may be expressed as follows <span class="math display">\[\mathit{scan}~f~\mathit{id}~{a} = h \left( \mathit{iterate}~g~(\left\langle\,  \,\right\rangle,id)~a \right),\]</span> where <span class="math display">\[g((b, y), x) = ((\mathit{append} \left\langle\, y \,\right\rangle b),~f(y,x))~\]</span><br />
+and<br />
+<span class="math display">\[h (b,y) = ((\mathit{reverse}~b), y)\]</span> where <span class="math inline">\(\mathit{reverse}\)</span> reverses a sequence.</p>
+<p>This algorithm is correct but it almost entirely sequential, leaving no room for parallelism.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Based on its specification, a direct algorithm for $\cdvar{scan}$ is to
+apply a reduce to all prefixes of the input sequence.  
+Unfortunately, this easily requires quadratic work in the size of the
+input sequence.
+
+We can see that this algorithm is inefficient by noting that it
+performs lots of redundant computations.  In fact, two consecutive
+prefixes overlap significantly but the algorithm does not take
+advantage of such overlaps at all, computing the result for each
+overlap independently. 
+
+By taking advantage of the fact that any two consecutive prefixes
+differ by just one element, it is not difficult to give a linear work
+algorithm (modulo the cost of the application of the argument
+function) by using iteration.  
+
+Such an algorithm may be expressed as
+follows
+\[
+\cdvar{scan}~f~\cdvar{id}~{a} = h \left( \cdvar{iterate}~g~(\cseq{},id)~a \right), 
+\]
+where
+\[ 
+g((b, y), x) = ((\cdvar{append} \cseq{y} b),~f(y,x))~
+\]
+\\
+and 
+\\
+\[
+h (b,y) = ((\cdvar{reverse}~b), y)
+\]
+where $\cdvar{reverse}$ reverses a sequence.
+
+This algorithm is correct but it almost entirely sequential, leaving
+no room for parallelism.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::scan-via-contraction-the-intuition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Scan via Contraction, the Intuition
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Scan via Contraction, the Intuition
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::scan-via-contraction-the-intuition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Because <span class="math inline">\(\mathit{scan}\)</span> has to compute some value for each prefix of the given sequence, it may appear to be inherently sequential. We might be inclined to believe that any efficient algorithms will have to keep a cumulative “sum,” computing each output value by relying on the “sum” of the all values before it.</p>
+<p>We will now see that we can implement <span class="math inline">\(\mathit{scan}\)</span> efficiently using contraction. To this end, we need to reduce a given problem instance to a geometrically smaller instance by applying a contraction step. As a starting point, let’s apply the same idea as we used for implementing <a href="alg:design::contraction::reduce">reduce with contraction</a>.</p>
+<p>Applying the contraction step from the <span class="math inline">\(\mathit{reduce}\)</span> algorithm described above, we would reduce the input sequence <span class="math display">\[\left\langle\, 2,1,3,2,2,5,4,1 \,\right\rangle\]</span> to the sequence <span class="math display">\[\left\langle\, 3,5,7,5 \,\right\rangle,\]</span> which if recursively used as input would give us the result <span class="math display">\[(\left\langle\,  0, 3, 8, 15  \,\right\rangle, 20).\]</span> Notice that in this sequence, the elements in even numbered positions are consistent with the desired result: <span class="math display">\[(\left\langle\, 0, 2, 3, 6, 8, 10, 15, 19 \,\right\rangle, 20).\]</span></p>
+<p>Half of the elements are correct because the contraction step, which pairs up the elements and reduces them, does not affect, by associativity of the function being used, the result at a position that do not fall in between a pair.</p>
+<p>To compute the missing element of the result, we will use an expansion step and compute each missing elements by applying the function element-wise to the corresponding elements in the input and the results of the recursive call to <span class="math inline">\(\mathit{scan}.\)</span> The drawing below illustrates this expansion step.</p>
+<p><img src="./design/media-contraction/prefix-eval.jpg" alt="image" style="width:4in" /></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Because $\cdvar{scan}$ has to compute some value for each
+prefix of the given sequence, it may appear to be inherently sequential.  
+We might be inclined to believe that any efficient algorithms will
+have to keep a cumulative ``sum,'' computing each output value by
+relying on the ``sum'' of the all values before it.  
+
+We will now see that we can implement $\cdvar{scan}$ efficiently using contraction.  To this
+end, we need to reduce a given problem instance to a geometrically
+smaller instance by applying a contraction step.
+As a starting point, let's apply the same idea as we used for
+implementing 
+\href{alg:design::contraction::reduce}{reduce with contraction}.
+
+Applying the contraction step from the $\cdvar{reduce}$ algorithm
+described above, we would reduce the input sequence
+\[
+\cseq{2,1,3,2,2,5,4,1}
+\]
+to the sequence
+\[
+\cseq{3,5,7,5},
+\]
+which if recursively used as input would give us the result
+\[
+(\cseq{ 0, 3, 8, 15 }, 20).
+\]
+Notice that in this sequence, the elements in even numbered positions are consistent with the desired result:
+\[
+(\cseq{0, 2, 3, 6, 8, 10, 15, 19}, 20).
+\]
+
+Half of the elements are correct because the
+contraction step, which pairs up the elements and reduces them, does
+not affect, by associativity of the function being used, the result at
+a position that do not fall in between a pair.  
+
+To compute the missing element of the result, we will use an expansion
+step and compute each missing elements by applying
+the function element-wise to the corresponding elements in the input and the results of the recursive call to $\cdvar{scan}.$
+The drawing below illustrates this expansion step.
+\begin{center}
+  \includegraphics[width=4in]{./design/media-contraction/prefix-eval.jpg}
+\end{center}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:alg:design::contraction::scan
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='algorithm'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Scan Using Contraction, for Powers of 2
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Scan Using Contraction, for Powers of 2
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+alg:design::contraction::scan
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Based on the intuitive description above, we can write the pseudo-code for <span class="math inline">\(\mathit{scan}\)</span> as follows. For simplicity, we assume that <span class="math inline">\(n\)</span> is a power of two.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\texttt{(* Assumption:}~|a|~\texttt{is a power of two. *)}  
+\\  
+\mathit{scan}~f~\mathit{id}~a =  
+\\  
+~~~~\texttt{if}~|a| = 0~\texttt{then}   
+\\  
+~~~~\left(\left\langle\,  \,\right\rangle, id\right)  
+\\  
+~~~~\texttt{else if}~|a| = 1 ~\texttt{then}  
+\\  
+~~~~~~~~\left( \left\langle\, id \,\right\rangle, a[0] \right)  
+\\  
+~~~~\texttt{else}  
+\\   
+~~~~~~~~\texttt{let}  
+\\  
+~~~~~~~~~~~~a&#39; = \left\langle\,  f(a[2i],a[2i+1]) : 0 \leq i &lt; n/2 \,\right\rangle  
+\\  
+~~~~~~~~~~~~(r,t) = \mathit{scan}~f~\mathit{id}~ a&#39;  
+\\  
+~~~~~~~~\texttt{in}  
+\\   
+~~~~~~~~~~~~(\left\langle\,  p_i : 0 \leq i &lt; n  \,\right\rangle, t),~\texttt{where}~p_i =   
+\begin{cases}  
+     r[i/2]  &amp; \texttt{even}(i) \\  
+     f(r[i/2], a[i-1]) &amp; \texttt{otherwise}  
+\end{cases}  
+\\  
+~~~~~~~~\texttt{end}  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{alg:design::contraction::scan}
+
+Based on the intuitive description above, we can write the pseudo-code
+for $\cdvar{scan}$ as  follows.
+For simplicity, we assume that $n$ is a power of two.
+
+\[
+\begin{array}{l}
+\cd{(* Assumption:}~|a|~\cd{is a power of two. *)}
+\\
+\cdvar{scan}~f~\cdvar{id}~a =
+\\
+~~~~\cd{if}~|a| = 0~\cd{then} 
+\\
+~~~~\left(\cseq{}, id\right)
+\\
+~~~~\cd{else if}~|a| = 1 ~\cd{then}
+\\
+~~~~~~~~\left( \cseq{id}, a[0] \right)
+\\
+~~~~\cd{else}
+\\ 
+~~~~~~~~\cd{let}
+\\
+~~~~~~~~~~~~a' = \cseq{ f(a[2i],a[2i+1]) : 0 \leq i < n/2}
+\\
+~~~~~~~~~~~~(r,t) = \cdvar{scan}~f~\cdvar{id}~ a'
+\\
+~~~~~~~~\cd{in}
+\\ 
+~~~~~~~~~~~~(\cseq{ p_i : 0 \leq i < n }, t),~\com{where}~p_i = 
+\begin{cases}
+     r[i/2]  & \cd{even}(i) \\
+     f(r[i/2], a[i-1]) & \cd{otherwise}
+\end{cases}
+\\
+~~~~~~~~\cd{end}
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- algorithm -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::contraction::cost-of-scan-with-contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Cost of Scan with Contraction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Cost of Scan with Contraction
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::contraction::cost-of-scan-with-contraction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Let’s assume for simplicity that the function being applied has constant work and constant span. We can write out the work and span for the algorithm as a recursive relation as <span class="math display">\[\begin{align*}  
+W(n) &amp;= W(n/2) + n,~\mbox{and}  
+\\  
+S(n) &amp;= S(n/2) + 1,  
+\end{align*}\]</span> because 1) the contraction step which tabulates the smaller instance of the problem performs linear work in constant span, and 2) the expansion step that constructs the output by tabulating based on the result of the recursive call also performs linear work in constant span.</p>
+<p>These recursive relations should look familiar. They are the same as those that we ended up with when we analyzed the work and span of our contraction-based implementation of <span class="math inline">\(\mathit{reduce}\)</span> and yield <span class="math display">\[\begin{align*}  
+W(n) &amp;= O(n)  
+\\  
+S(n) &amp;=  O(\log{n}).  
+\end{align*}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Let's assume for simplicity that the function being applied has
+constant work and constant span. We can write out the work and span
+for the algorithm as a recursive relation as 
+\[ \begin{align*}
+W(n) &= W(n/2) + n,~\mbox{and}
+\\
+S(n) &= S(n/2) + 1,
+\end{align*} \]
+because 1) the contraction step which tabulates the smaller instance
+of the problem performs linear work in constant span, and 2) the
+expansion step that constructs the output by tabulating based on the
+result of the recursive call also performs linear work in constant
+span.
+
+These recursive relations should look familiar.  They are the same as
+those that we ended up with when we analyzed the work and span of our
+contraction-based implementation of $\cdvar{reduce}$ and  yield 
+\[ \begin{align*}
+W(n) &= O(n)
+\\
+S(n) &=  O(\log{n}).
+\end{align*} \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

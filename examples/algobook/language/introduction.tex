@@ -1,0 +1,87 @@
+\chapter{Introduction}
+\label{ch:language:introduction}
+ 
+\begin{gram} 
+  In this book we define algorithms and data structures using nested
+  parallelism in conjunction with a functional programming style.  Our
+  opinion is that this is the best way to capture the core ideas of
+  algorithms and parallelism in a concise, clear, safe, and precise way.
+  Most of the ideas we present, however, transcend the particular
+  style of parallelism and programming we use and will be useful in a
+  broad set of programming languages.
+\end{gram}
+
+\begin{gram}[Nested parallelism]
+  Nested parallelism (or nested fork-join parallelism) is a style of
+  parallelism in which any task can fork a set of new child tasks to
+  run in parallel.  When forking, the parent task suspends, and when
+  all the child tasks finish, they ``join'', and the parent continues.
+  Since any task can fork new tasks, the forking can be nested.
+  Nested parallelism supports a form of parallelism in which
+  computation can be cleanly composed either sequentially (within a
+  task), or in parallel (among forked tasks).  This in turn leads a
+  simple cost model based on analyzing work and span.
+
+%
+  Importantly, the model is sufficiently powerful to capture the
+  parallelism in most of the algorithms needed for the purpose of this
+  book.  For dynamic programming, we diverge slightly from this model
+  to a somewhat more general model.
+\end{gram}
+
+\begin{gram}[Functional Algorithms]
+  Functional programming is a style of programming in which functions
+  act like mathematical functions (a mapping from domain to a
+  codomain, and no side effects), and can be uses as values (can be
+  passed around, stored as data, and created on the fly).  In this
+  book we use this style for two important reasons.
+
+\begin{enumerate}
+\item Since functions have no side effects, parallelism is inherently
+  safe and deterministic. Functions can be applied in parallel, or in
+  different orders, without effecting each others outcomes, or the
+  result of the final computation.
+\item The ability to use functions as values allows powerful
+  abstractions.  A large fraction of the functions in many of the
+  abstract data types we define, for example, take functions as
+  arguments to other functions. Often these functions are created on
+  the fly.
+\end{enumerate}
+
+The functional programming style is not limited to functional
+programming languages.  Today most programming languages support it,
+and in many situations the style has become dominant.  
+% The majority of
+% languages, however, also allow non-functional programming.  In
+% particular in languages such as C or python, what is refereed to as
+% functions often do not act like functions at all.  They need not take
+% an argument, need not return a result, and instead operate by reading
+% and side effecting the global state.
+\end{gram}
+
+\begin{gram}[\pml{}]
+We use a minimal, perhaps ``toy'',  language called \pml{} to describe algorithms
+and data structures.   It only supplies what we need for the purposes of the book,
+and is not meant to be fully precise.   We will sometime substitute text for code.  \pml{} has structures for supporting nested
+parallelism and supports only functional programming---it does not allow for
+side effects.
+
+\pml{}, like many functional languages, is an extension of the
+lambda-calculus, which is arguably the first programming language
+and the basis of many ideas in modern programming languages.
+\chref{lambda-calculus} gives a very brief overview of the lambda
+calculus, and \chref{sparc} describes \pml{}.
+\end{gram}
+
+\begin{gram}[Function vs. Algorithm]
+  Finally, we note that although functions in the functional
+  programming style act like mathematical functions---i.e. a mapping
+  from inputs to outputs---each is more than just a mathematical
+  function.  They not only embody the mapping, but they also specify
+  the mechanism (code) by which the output is generated from the
+  input.  There can be multiple different definitions of a function
+  that describe the same mathematical function, but compute it in
+  different ways.  Functions are therefore more accurately algorithms,
+  and the input to output map they define is the mathematical
+  function.
+\end{gram}

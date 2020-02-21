@@ -1,0 +1,253 @@
+\chapter{Specification, Problem, and Implementation}
+\label{ch:introduction::spec}
+
+\begin{preamble}
+This chapter reviews the basic concepts of specification, problem, and
+implementation.
+\end{preamble}
+
+
+\begin{gram}
+Problem solving in computer science requires reasoning precisely about
+problems being studied and the properties of solutions.
+%
+To facilitate such reasoning,  we define problems by
+specifying them and describe the desired properties of solutions at
+different levels of abstraction, including the cost of the solution, and its
+implementation.
+
+In this book, we are usually interested in two distinct classes of
+problems: algorithms or algorithmic problems and data structures
+problems.
+\end{gram}
+
+\section{Algorithm Specification}
+\begin{gram}
+We specify an algorithm by describing what is expected of the
+algorithm via an~\defn{algorithm specification}.
+%
+For example, we can specify a sorting algorithm for sequences with
+respect to a given comparison function as follows.
+\end{gram}
+
+\begin{definition}[Comparison Sort]
+Given a sequence $A$ of $n$ elements taken from a totally ordered set
+with comparison operator $<$, return a
+sequence $B$ containing the same elements but such that $B[i] \leq
+B[j]$ for $0 \leq i < j < n$.
+\end{definition}
+
+\begin{note}
+The specification describes~\defn{what} the algorithm should do but it
+does not describe~\defn{how} it achieves what is asked.
+%
+This is intentional---and is exactly the point---because there can be
+many algorithms that meet a specification.
+%
+\end{note}
+
+\begin{gram}
+A crucial property of any algorithm is its resource requirements or
+its~\defn{cost}.
+%
+For example, of the many ways algorithms for sorting a sequence, we
+may prefer some over the others.  
+%
+We specify the cost of class of algorithms with a~\defn{cost
+  specification}.  The following cost specification states that a
+particular class of parallel sorting algorithms performs $O(n
+\log{n})$ work and $O(\log^2{n})$ span.
+\end{gram}
+
+\begin{costspec}[Comparison Sort: Efficient \& Parallel]
+\label{cost:intro::spec::sorting-efficient}
+Assuming the comparison function $<$ does constant work, the cost for
+parallel comparison sorting a sequence of length $n$ is $O(n \log n)$
+work and $O(\log^2 n)$ span.
+\end{costspec}
+
+\begin{gram}
+There can be many cost specifications for sorting.  For example, if we
+are not interested in parallelism, we can specify the work to be $O(n
+\log{n})$ but leave span unspecified. 
+%
+\href{cost:intro::spec::sorting-inefficient}{The cost specification below}
+%
+requires even smaller span but allows for more work.
+%
+We usually care more about work and thus would prefer the first cost
+specification; there might, however, be cases where the second
+specification is preferable.
+\end{gram}
+
+\begin{costspec}[Comparison Sort: Inefficient but Parallel]
+\label{cost:intro::spec::sorting-inefficient}
+Assuming the comparison function $<$ does constant work, the cost for
+parallel comparison sorting a sequence of length $n$ is $O(n^2)$ work
+and $O(\log n)$ span.
+\end{costspec}
+%
+
+\section{Data Structure Specification}
+\begin{gram}
+We specify a data structure by describing what is expected of the data
+structure via an~\defn{Abstract Data Type (ADT) specification}.
+%
+As with algorithms, we usually give cost specifications to data
+structures.
+%
+For example, we can specify a priority queue ADT and give it a cost
+specification. 
+%
+\end{gram}
+
+\begin{datatype}[Priority Queue]
+A priority queue consists of a priority queue type and supports three
+operations on values of this type.  The operation $\cd{empty}$ returns
+an empty queue.  The operation $\cd{insert}$ inserts a given value with
+a priority into the queue and returns the queue.  The operation
+$\cd{removeMin}$ removes the value with the smallest priority from the
+queue and returns it.
+\end{datatype}
+
+%
+\begin{costspec}[Priority Queue: Basic]
+The work and span of a priority queue operations are as follows.
+\begin{itemize}
+\item $\cd{empty}$: $O(1)$, $O(1)$.
+\item $\cd{insert}$: $O(\log{n})$, $O(\log{n})$.
+\item $\cd{removeMin}$: $O(\log{n})$, $O(\log{n})$.
+\end{itemize}
+\end{costspec}
+
+\section{Problem}
+
+\begin{gram}
+%
+A~\defn{problem} requires meeting an algorithm or an ADT specification
+and a corresponding cost specification.
+%
+Since we allow specifying algorithms and data structures, we can
+distinguish between algorithms problems and data-structure problems.
+%
+\end{gram}
+
+\begin{definition}[Algorithmic Problem]
+\label{def:intro::spec::algorithmic-problem}
+An~\defn{algorithmic problem}~or an~\defn{algorithms problem}~requires
+designing an algorithm that satisfies the given algorithm
+specification and cost specification if any.
+%
+\end{definition}
+
+\begin{definition}[Data-Structures Problem]
+\label{def:intro::spec::ds-problem}
+
+A~\defn{data-structures problem}~requires meeting an ADT
+specification by designing a data structure that can
+support the desired operations with the required efficiency specified
+by the cost specification.
+%
+\end{definition}
+
+\begin{note}
+The difference between an algorithmic problem and a data-structures
+problem is that the latter involves designing a data structure and a
+collection of algorithms, one for each operation, that operate on that
+data structure.
+\end{note}
+
+\begin{remark}
+When we are considering a problem, it is usually clear from the context whether we are talking about an algorithm or a data structure.
+%
+We therefore usually use the simpler terms~\defn{specification}~\defn{problem}~to refer to the algorithm/ADT specification and the corresponding problem respectively.
+\end{remark}
+
+\section{Implementation}
+
+\begin{gram}
+We can solve an algorithms or a data-structures problem by presenting an~\defn{implementation} or code written is some formal or semi-formal programming language.  
+%
+The term~\defn{algorithm}~refers to an implementation that solves an algorithms problem and the term~\defn{data structure}~to refer to an implementation that solves a data-structures problem.
+%%
+\end{gram}
+
+
+\begin{note}
+The distinction between algorithmic problems and algorithms is common
+in the literature but the distinction between abstract data types and
+data structures is less so.
+\end{note}
+
+
+\begin{teachnote}
+Why do we think this distinction is important?
+\end{teachnote}
+
+\begin{example}[Insertion Sort]
+In this book, we describe algorithms by using the pseudo-code notation based on \pml{}, the language used in this book.
+%
+% (\chref{sparc}). 
+%
+For example, we can specify the classic insertion sort algorithm as
+follows.
+%
+
+\[
+\begin{array}{l}
+\cdvar{insSort}~f~s =
+\\ 
+~~~~\cd{if}~|s| = 0~\cd{then} 
+\\
+~~~~~~~~\cseq{}
+\\
+~~~~\cd{else}~\cdvar{insert}~f~s[0]~(\cdvar{insSort}~f~(s[1,...,n-1]))
+\end{array}
+\]
+
+
+In the algorithm, $f$ is the comparison function and $s$ is the input
+sequence.  The algorithm uses a function ($\cd{insert}~f~x~s$) that takes the comparison function $f$, an element $x$, and a sequence $s$ sorted by $f$, and inserts $x$ in the appropriate place.  
+%
+Inserting into a sorted sequence is itself an algorithmic problem, since we are not specifying how it is implemented, but just specifying its functionality.  
+%
+\end{example}
+
+\begin{example}[Cost of Insertion Sort]
+Considering insertion sort example, suppose that we are given a cost specification for $\cd{insert}$: for a sequence of length $n$ the cost of $\cd{insert}$ should be $O(n)$ work and $O(\log n)$ span.
+%
+We can then determine the overall asymptotic cost of $\cd{sort}$ using our composition rules described in 
+%
+\href{sec:introduction::parallelism::work-span}
+{Section (Work, Span, and Parallel Time)}.
+%
+Since the code uses $\cd{insert}$ sequentially and since there are $n$ inserts, the algorithm $\cd{insSort}$ has $n \times O(n) = O(n^2)$ work and $n \times O(\log n) = O(n \log n)$ span.
+\end{example}
+
+\begin{example}[Priority Queues]
+We can give a data structure by specifying the data type used by the implementation, and the algorithms for each operation.
+%
+For example, we can implement a priority queue with a binary heap data structure and describe each operation as an algorithm that operates on
+this data structure.  
+%
+In other words, a data structure can be viewed as a collection of algorithms that operate on the same organization of the data.
+\end{example}
+
+
+\begin{remark}[On the Importance of Specification]
+%
+Distinguishing between specification and implementation is important due to several reasons.
+
+First, specifications allow us to ignore the details of an implementation that we might not care to know.
+%
+In many cases the specification of a problem is quite simple, but an efficient algorithm or implementation that solves it is complicated.
+%
+Specifications allow us abstract from implementation details.
+%
+
+Second, specifications allow modularity. In computer science, it is important to improve implementations over time.  As long as each implementation matches the same specification and the client only relies on the specification, then new implementations can be used without breaking things.
+%
+
+Third, when we compare the performance of different algorithms or data structures it is important that we do not compare apples and oranges. We have to make sure the compared objects solve the same problem---subtle differences in the problem specification can make a significant difference in how efficiently that problem can be solved.
+\end{remark}
+%\end{book}

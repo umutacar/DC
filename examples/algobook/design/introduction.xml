@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:design::intro
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:design::intro::designing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:design::intro::designing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Designing algorithms requires a toolbox of design techniques. In this chapter we will describe some of these techniques. Chapter <a href="#ch:design::basics" data-reference-type="ref" data-reference="ch:design::basics">[ch:design::basics]</a> covers the two most basic techniques, which are algorithmic reductions and brute force. In the first we simply convert one problem to another for which we already have a solution. For the second, we find a solution, or the best solution by trying “all possibilities”. Chapter <a href="#ch:design::dc" data-reference-type="ref" data-reference="ch:design::dc">[ch:design::dc]</a> covers Divide-and-Conquer. This is an approach you have most likely seen before, but we go into some more depth. Chapter <a href="#ch:design::contraction" data-reference-type="ref" data-reference="ch:design::contraction">[ch:design::contraction]</a> covers a technique called “contraction”. The basic idea is to contract a problem into a single smaller instance of itself, recurse on the smaller instance, and then use it to help solve the larger instance. Chapter <a href="#ch:mcss" data-reference-type="ref" data-reference="ch:mcss">[ch:mcss]</a> covers an example problem, the Maximum Contiguous Subsequence Sum (MCSS) problem, and shows how it can be solved by using many different techniques.</p>
+<p>In later parts we will cover other techniques such as randomization, and dynamic programming.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Designing algorithms requires a toolbox of design techniques.   In
+  this chapter we will describe some of these techniques.  
+  \chref{design::basics}  covers the two most basic techniques,
+  which are algorithmic reductions and brute force.   In the first we
+  simply convert one problem to another for which we already
+  have a solution.   For the second, we find a solution, or the best
+  solution by trying ``all possibilities''.    \chref{design::dc}
+  covers Divide-and-Conquer.     This is an approach you have most
+  likely seen before, but we go into some more depth.
+  \chref{design::contraction} covers a technique called
+  ``contraction''.   The basic idea is to contract a problem into a
+  single smaller instance of itself, recurse on the smaller instance,
+  and then use it to help solve the larger instance.
+  \chref{mcss} covers an example problem, the Maximum Contiguous
+  Subsequence Sum (MCSS) problem, and shows how it can be solved by
+  using many different techniques.
+  
+  In later parts we will cover other techniques such as randomization,
+  and dynamic programming.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- chapter -->

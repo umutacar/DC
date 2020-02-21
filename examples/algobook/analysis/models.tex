@@ -1,0 +1,1051 @@
+\chapter{Cost Models}
+\label{ch:analysis::models}
+
+
+\begin{preamble}
+Any algorithmic analysis must assume a~\defn{cost model}~that defines
+the resource costs required by a computation.
+%
+There are two broadly accepted ways of defining cost models:
+machine-based and language-based cost models.
+%
+%% In this book,  we use a language-based cost model.
+%% %
+%% Perhaps the most important reason for this is that analyzing an
+%% algorithm by using machine-based cost models can be difficult, because
+%% it requires reasoning about the mapping of the algorithm to a lower
+%% level machine model.
+%% %
+%% This problem is especially exacerbated for parallel algorithms,
+%% because the machine model itself is more complex, especially if it
+%% accounts for important practical concerns such as the effects of
+%% scheduling.
+\end{preamble}
+
+\section{Machine-Based Cost Models}
+
+\begin{definition}[Machine-Based Cost Model]
+A~\defn{machine-based (cost) model}~takes a machine model and defines the
+cost of each instruction that can be executed by the machine---often
+unit cost per instruction.
+%
+When using a machine-based model for analyzing an algorithm, we
+translate the algorithm so that it can be executed on the machine and
+then analyze the cost of the machine instructions used by the algorithm.
+%
+%
+\end{definition}
+
+\begin{remark}
+Machine-based models are suitable for deriving asymptotic bounds
+(i.e., using big-O, big-Theta and big-Omega) but not for predicting
+exact runtimes.   The reason for this is that on a real machine not all
+instructions take the same time, and furthermore not all machines have
+the same instructions.
+\end{remark}
+
+\subsection{RAM Model}
+
+\begin{gram}
+%
+The classic machine-based model for analyzing sequential algorithms is
+the~\defn{Random Access Machine} or~\defn{RAM}.
+%
+%%???????
+%%(This is not to be confused with Random Access Memory---RAM---model.)  
+%
+In this model, a machine consists of a single processor that can
+access unbounded memory; the memory is indexed by the natural numbers.
+%
+The processor interprets sequences of machine instructions (code) that
+are stored in the memory.  Instructions include basic arithmetic and
+logical operations (e.g. $\cd{+}$, $\cd{-}$, $\cd{*}$, and, or,
+$\cd{not}$), reads from and writes to arbitrary memory locations, and
+conditional and unconditional jumps to other locations in the code.
+%
+Each instruction takes unit time to execute, including those that
+access memory.
+%
+The execution-time, or simply~\defn{time} of a computation is measured
+in terms of the number of instructions executed by the machine.
+%
+Because the model is sequential (there is only one processor) time
+and work are the same.
+\end{gram}
+
+\begin{gram}[Critique of the RAM Model]
+Most research and development of sequential algorithms has used the RAM model for
+analyzing time and space costs.
+%
+% The RAM model is reasonably adequate for analyzing the asymptotic
+% runtime of sequential algorithms
+%% Commented out, student advice
+%It is therefore important to understand
+% the model, or at least know what it is.
+%
+One reason for the RAM model's success is that it is relatively easy
+to reason about the costs because algorithmic pseudo code can usually
+be translated to the model.
+%
+Similarly, code in low-level sequential languages such as C can also
+be translated (compiled) to the RAM Model relatively easily.
+%
+When using higher level languages, the translation from the algorithm to
+machine instructions becomes more complex and we find ourselves making
+strong, possibly unrealistic assumptions about costs, even sometimes
+without being aware of the assumptions.  
+%
+%For example, how exactly would we map the allocation of a new block of memory
+%to the RAM model, and what is its cost? 
+%
+
+%
+More broadly, the RAM model becomes difficult to justify in modern
+languages.
+%
+For example, in object- oriented languages certain operations may
+require substantially more time than others.
+%
+Likewise, features of modern programming languages such as automatic
+memory management can be difficult to account for in
+analysis.
+%
+Functional features such as higher-order functions are even more
+difficult to reason about in the RAM model because their behavior
+depends on other functions that are used as arguments.
+%
+Such functional features, which are the mainstay of ``advanced''
+languages such as the ML family and Haskell, are now being adopted by
+more mainstream languages such as Python, Scala, and even for more primitive (closer to the machine)
+languages such as C++.
+%
+All in all, it requires significant expertise to understand how an
+algorithm implemented in modern languages today may be translated to the
+RAM model.
+%
+\end{gram}
+
+
+% The model we use in this course also does not directly account for the
+% variance in memory costs.  Towards the end of the course, if time
+% permits, we will discuss how it can be extended to capture memory
+% costs.
+
+
+\begin{remark}
+One aspect of the RAM model is the assumption that
+accessing all memory locations has the same uniform cost.  On real
+machines this is not the case.  In fact, there can be a factor of 100
+or more
+difference between the time for accessing different locations in
+memory.  For example, all machines today have caches and accessing the
+first-level cache is usually two orders of magnitude faster than
+accessting main memory.
+
+Various extensions to the RAM model have been developed to account for
+this non-uniform cost of memory access.  One variant assumes that the
+cost for accessing the $i^{th}$ memory location is $f(i)$ for some
+function $f$, e.g. $f(i) = \log(i)$.  
+%%
+%% Broken logic.
+% Fortunately, however, most algorithms that are good in the RAM are
+% reasonably good (if not optimal) in these more detailed models.
+%
+Fortunately, however, most algorithms that are good in these more
+detailed models are also good in the RAM model.
+%
+Therefore analyzing algorithms in the simpler RAM model is often a
+reasonable approximation to analyzing in the more refined models.
+Hence the RAM has served quite well despite not fully accounting for
+non-uniform memory costs.
+
+The model we use in this book also does not account for non-uniform
+memory costs, but as with the RAM the model can be refined to account
+for it.
+\end{remark} 
+
+\subsection{PRAM: Parallel Random Access Machine}
+\begin{gram}
+The RAM model is sequential but can be extended to use multiple processors
+which share the same memory.  The extended model is called the
+Parallel Random Access Machine.
+\end{gram}
+
+\begin{gram}[PRAM Model]
+A \defn{Parallel Random Access Machine}, or \defn{PRAM}, 
+consist of $p$ sequential random access machines
+(RAMs) sharing  the same memory.
+%
+The number of processors, $p$, is a parameter of the machine,
+and each processor has a unique index in $\{0, \dots, p-1\}$,
+called the~\defn{processor id}.
+%
+Processors in the PRAM operate under the control of a common
+clock and execute one instruction at each time step.
+%
+The PRAM model is most usually used as a {\em synchronous} model,
+where all processors execute the same algorithm and operate on the same
+data structures.
+%
+Because they have distinct ids, however, different processors can do
+different computations.
+\end{gram}
+
+\begin{example}
+\label{ex:analysis::models::pram-array-add}
+We can specify a PRAM algorithm for adding one to each element of an
+integer array with $p$ elements as shown below.  In the algorithm,
+each processor updates certain elements of the array as determined by
+its processor id, $id$.
+
+\[
+\begin{array}{l}
+\cd{(* Input: integer array A. *)}
+\\
+\cdvar{arrayAdd} =  A[id] \la A[id]+1
+\end{array}
+\]
+If the array is larger than $p$, then the algorithm would have to
+divide the array up and into parts, each of which is updated by one
+processor.
+\end{example}
+
+\begin{gram}[SIMD Model]
+Because in the PRAM all processors execute the same algorithm, this
+typically leads to computations where each processor executes the same
+instruction but possibly on different data.   PRAM algorithms
+therefore typically fit into~\defn{single instruction multiple
+  data}, or \defn{SIMD}, programming model.
+%
+\exref{analysis::models::pram-array-add} shows an example SIMD program.
+
+% Not all PRAM programs are SIMD.   Because processors have distinct
+% ids, they are allowed to make local decisions independently of other
+% processors and thus can execute a different instruction that others.
+%
+\end{gram}
+
+%%% Umut: expanded on this. 
+% In the model all of $p$ processors run the same instruction on each
+% step, although typically on different data.  
+
+\begin{gram}[Critique of PRAM]
+Since the model is synchronous, and it requires the algorithm designer to map
+or schedule computation to a fixed number of processors, the PRAM model can be awkward
+to work with.
+%
+Adding a value to each element of an array is easy if the array
+length is equal to the number of processors, but messier if not, which is
+typically the case.
+%
+%% For simple parallel loops over $n$ elements we could imagine dividing
+%% up the elements evenly among the processors---about $n/P$ each,
+%% although some rounding might be required when $n$ is not a
+%% multiple of $P$.
+%% %
+%% If the cost of each iteration of the loop is different then we would
+%% further have to add some load balancing.  In particular simply giving
+%% $n/P$ to each processor might be the wrong choice---one processor
+%% could get stuck with all the expensive iterations.  
+%% %
+For computations with nested parallelism, such as divide-and-conquer
+algorithms, the mapping becomes much more complicated.
+
+We therefore don't use the PRAM model in this book.
+%
+Most of the algorithms presented in this book, however, also work with the
+PRAM (with more complicated analysis), and many of them were
+originally developed using the PRAM model.
+\end{gram}
+
+\section{Language Based Models}
+\label{sec:analysis::models::language}
+
+\begin{gram}[Language-Based Cost-Models]
+A~\defn{language-based model}~takes a language as the starting point
+and defines cost as a function mapping the expressions of the language
+to their cost.
+%
+Such a cost function is usually defined as a recursive function over
+the different forms of expressions in the language.  
+%
+To analyze an algorithm by using a language-based model, we apply the
+cost function to the algorithm written in the language.
+%
+In this book, we use a language-based cost model, called the work-span
+model.
+\end{gram}
+
+\subsection{The Work-Span Model}
+\label{sec:analysis::models::language:ws}
+
+\begin{gram}
+%
+Our language-based cost model is based on two cost metrics: work and
+span.  Roughly speaking, the~\defn{work} of a computation corresponds to
+the total number of operations it performs, and the \defn{span} corresponds
+to the longest chain of dependencies in the computation.
+%
+The work and span functions can be defined for essentially any
+language ranging from low-level languages such as C to higher level
+languages such as the ML family.  
+%
+In this book, we use the \PML{} language. 
+\end{gram}
+%%  As discussed in \secref{analysis::models}, we have to be
+%% careful about the cost model to make sure that it can be mapped to
+%% real hardware by implementing the necessary compilation and run-time
+%% system support.  Indeed, for the cost-model that we describe here,
+%% this is the case (see \secref{analysis::scheduling} for more details).
+
+%% To formally define a cost model in terms of programming constructs
+%% requires a so-called ``operational semantics''.  We won't define a
+%% complete semantics, but will give a partial semantics to give a sense
+%% of how it works.  
+
+
+\begin{gram}[Notation for Work and Span]
+For an expressions $e$, or an algorithm written in a language, we write 
+$W(e)$ for the work of $e$ and $S(e)$ for the span of $e$.
+%
+\end{gram}
+
+\begin{example}
+For example, 
+the notation
+\[
+W(7 + 3)
+\]
+denotes the work of adding $7$ and $3$.
+
+The notation 
+\[
+S(\cdvar{fib}(11))
+\]
+denotes the span for calculating the 11$^{th}$ Fibonacci number using
+some particular code for $\cdvar{fib}$.
+
+The notation 
+\[
+W(\cdvar{mySort}(a))
+\]
+denotes the work for $\cdvar{mySort}$ applied to the sequence~$a$.
+\end{example}
+
+
+\begin{gram}[Using Input Size]
+Note that in the third example the sequence $a$ is not defined within
+the expression.  Therefore we cannot say in general what the work is
+as a fixed value.  However, we might be able to use asymptotic
+analysis to write a cost in terms of the length of $a$, and in
+particular if $\cd{mySort}$ is a good sorting algorithm we would have:
+\[
+W(\cd{mySort}(a)) = O(|a| \log |a|).
+\]
+Often instead of writing  $|a|$ to indicate the size of the input, we
+use $n$ or $m$ as shorthand.  Also if the cost is for a particular
+algorithm, we use a subscript to indicate the algorithm. This leads to
+the following notation
+\[
+W_{\cd{mySort}}(n) = O(n \log n).
+\]
+where $n$ is the size of the input of $\cd{mysort}$.  When obvious
+from the context (e.g. when in a section on analyzing $\cd{mySort}$)
+we typically drop the subscript, writing $W(n) = O(n \log n)$.
+\end{gram}
+
+\begin{definition}[\PML{} Cost Model]
+\label{def:analysis::models::pml}
+The work and span of \PML{} expressions are defined below.
+%
+In the definition and throughout this book, we write~$W(e)$ for the
+work of the expression and~$S(e)$ for its span. 
+%
+Both work and span are cost functions that map an expression to a
+integer cost.
+%
+As common in language-based models, the definition follows the
+definition of expressions for \PML{} (\chref{sparc}). 
+%
+We make one simplifying assumption in the presentation: instead of
+considering general bindings, we only consider the case where a single
+variable is bound to the value of the expression.
+
+In the definition, the notation $\eval{e}$ evaluates the expression
+$e$ and returns the result, and the notation $[v/x]~e$ indicates that
+all free (unbound) occurrences of the variable $x$ in the expression
+$e$ are replaced with the value $v$.
+
+\[
+\begin{array}{lcl}
+W(v) & = & 1 
+\\
+W(\cfn{p}{e})  & = & 1 
+\\
+  W(e_1~e_2) & =  & W(e_1) + W(e_2) + W([\eval{e_2}/x]~e_3) + 1 
+\\
+          &    & \mbox{where}~\eval{e_1} = \cfn{x}{e_3}
+\\
+W(e_1~\cd{op}~e_2) & = &  W(e_1) + W(e_2) + 1
+\\
+W(e_1~,~e_2) & = & W(e_1) + W(e_2) + 1
+\\
+W(e_1~||~e_2) &=& W(e_1) + W(e_2) + 1
+\\[1ex]
+W\left(
+\begin{array}{l}
+\cif~e_1
+\\
+\cthen~e_2
+\\
+\celse~e_3
+\end{array}
+\right)  
+& = & 
+\left\{
+\begin{array}{ll}
+W(e_1) + W(e_2) + 1 & \mbox{if}~\eval{e_1} = \cd{true}
+\\
+W(e_1) + W(e_3) + 1 & \mbox{otherwise}
+\end{array}\right.
+\\[1ex]
+W\left(
+\begin{array}{l}
+\clet~x=e_1~
+\\
+\cin~e_2~\cend
+\end{array}
+\right) 
+& = & W(e_1) + W([\eval{e_1}/x]~e_2) + 1
+\\[1ex]
+W( ( e ) ) & = & W(e)
+\end{array}
+\]
+%
+\medskip
+%
+\[
+\begin{array}{lcl}
+S(v) & = & 1 
+\\
+S(\cfn{p}{e})  & = & 1 
+\\
+S(e_1~e_2) & =  & S(e_1) + S(e_2) + S([\eval{e_2}/x]~e_3) + 1 
+\\
+          &    & \mbox{where}~\eval{e_1} = \cfn{x}{e_3}
+\\
+S(e_1~\mbox{op}~e_2) & = &  S(e_1) + S(e_2) + 1
+\\
+S(e_1~,~e_2) & = & S(e_1) + S(e_2) + 1
+\\
+S(e_1~||~e_2) &=& \max{}{(S(e_1),S(e_2))} + 1
+\\[1ex]
+S\left(
+\begin{array}{l}
+\cif~e_1
+\\
+\cthen~e_2
+\\
+\celse~e_3
+\end{array}
+\right)
+& = & 
+\left\{
+\begin{array}{ll}
+S(e_1) + S(e_2) + 1 & \eval{e_1} = \cd{true}\\
+S(e_1) + S(e_3) + 1 & \mbox{otherwise}
+\end{array}\right.
+\\[1ex]
+S\left(
+\begin{array}{l}
+\clet~x=e_1~
+\\
+\cin~e_2~\cend
+\end{array}
+\right) 
+& = & S(e_1) + S([\eval{e_1}/x]~e_2) + 1
+\\[1ex]
+S( ( e ) ) & = & S(e)
+\\
+\end{array}
+\]
+
+%   Notice that all the rules for span 
+% are the same as for work except for parallel application indicated by 
+% $(e_1\ ||\ e_2)$ and the parallel map indicated by
+% $\{f(x) : x \in A\}$.}
+%  The expression $e$ inside $W(e)$ and $S(e)$ have to
+%be closed.  Note, however, that in the rules such as for \texttt{let}
+%we replace all the free occurrences of $x$ in the expression $e_2$ with
+%their values before applying $W$.}
+\end{definition}
+
+\begin{example}
+Consider the expression $e_1 + e_2$ where $e_1$ and $e_2$ are
+themselves other expressions (e.g., function application).  Note that
+this is an instance of the rule $e_1~\mbox{op}~e_2$, where \mbox{op} is a plus operation.
+%
+In \PML{}, we evaluate this expressions by first evaluating $e_1$ and
+then $e_2$ and then computing the sum.  The work of the expressions is
+therefore
+\[
+W(e_1 + e_2) = W(e_1) + W(e_2) + 1
+.
+\]
+The additional $1$ accounts for computation of the sum.   
+\end{example}
+
+\begin{flex}
+\begin{gram}
+For the $\cd{let}$ expression, we first evaluate $e_1$ and assign it
+to $x$ before we can evaluate $e_2$.  Hence the fact that the span is
+composed sequentially, i.e., by adding the spans.
+\end{gram}
+
+\begin{example}
+In \pml, $\cd{let}$ expressions compose sequentially.
+\[
+\begin{array}{lcl}
+W(\cd{let}~y = f(x)~\cd{in}~g(y)~\cd{end}) & = & 1 + W(f(x)) + W(g(y))
+\\
+S(\cd{let}~y = f(x)~\cd{in}~g(y)~\cd{end}) & = & 1 + S(f(x)) + S(g(y))
+\end{array}
+\]
+\end{example}
+\end{flex}
+
+\begin{teachask}
+In \PML{}, when are expressions evaluated in parallel?
+\end{teachask}
+
+\begin{gram}
+Note that all the rules for work and span 
+have the same form except for parallel application, i.e., $(e_1\ ||\ e_2)$.    
+%
+Recall that parallel application indicates that the two 
+expressions can be evaluated in parallel, and the result is a pair of values 
+containing the two results. 
+%
+In this case we use maximum for combining the span since we have
+to wait for the longer of the two.   In all other
+cases we sum both the work and span.
+%
+Later we will also add a parallel construct for working with
+sequences.
+\end{gram}
+
+\begin{flex}
+\begin{example}
+The expression $(\cd{fib}(6)\ ||\ \cd{fib}(7))$ runs the two
+calls to {\tt fib} in parallel and returns the pair $(8,13)$.   It
+does work 
+\[
+1 + W(\cd{fib}(6)) + W(\cd{fib}(7))
+\] 
+and span
+\[
+1 + \max{}(S(\cd{fib}(6)), S(\cd{fib}(7))).
+\]   
+If we know that the
+span of $\cd{fib}$ grows with the input size, then the span can
+be simplified to $1 + S(\cd{fib}(7))$.
+\end{example}
+\end{flex}
+
+\begin{remark}
+When assuming purely functional programs, it is
+always safe to run things in parallel if there is no explicit
+sequencing.     For the expression $e_1 + e_2$, for example, it is
+safe to evaluate the
+two expressions in parallel, which would give the rule
+\[
+S(e_1 + e_2) = \max{}(S(e_1), S(e_2)) + 1~,
+\]
+i.e., we wait for the later of the two expression fo finish, and then spend one
+additional unit to do the addition.
+However, in this book we use the convention that parallelism has to be stated
+explicitly using $||$.
+\end{remark}
+
+\begin{teachnote}
+As there is no $||$
+construct in ML, in your assignments you will need to specify in comments when two calls run
+in parallel.  We will also supply an ML function $\cd{par (f1,f2)}$ with
+type 
+%
+\[
+(\cd{unit} \ra \alpha) \times (\cd{unit} \ra \beta) \ra \alpha
+\times \beta.
+\]
+This function executes the two functions that are passed in as
+arguments in parallel and returns their results as a pair.  For
+example:
+
+$\cd{par (fn => fib(6), fn => fib(7))}$
+
+returns the pair $(8,13)$.  We need to wrap the expressions in
+functions in ML so that we can make the actual implementation run them
+in parallel.  If they were not wrapped both arguments would be
+evaluated sequentially before they are passed to the function
+$\cd{par}$.  
+
+Also in the ML code you do not have the set
+notation $\{f(x) : x \in A\}$, but as mentioned before, it is
+basically equivalent to a
+$\cd{map}$.   Therefore, for ML code you can use the rules:
+
+  \[ W(\mbox{\tt map } f\ \cseq{s_0, \ldots, s_{n-1}}) = 1 + \sum_{i=0}^{n-1} W(f(s_i)) \]
+   \[S(\mbox{\tt map } f\ \cseq{s_0, \ldots, s_{n-1}}) = 1 + \max{}_{i=0}^{n-1} S(f(s_i)) \]
+
+\end{teachnote}
+
+\begin{definition}[Average Parallelism]
+Parallelism, sometimes called \defn{average parallelism}, is
+defined as the work over the span:
+\[ 
+\paral = \frac{W}{S}.
+\]
+%
+Parallelism informs us approximately how many processors we can use
+efficiently.
+\end{definition}
+
+\begin{example}
+For a mergesort with work $\Theta(n \log n)$ and span
+$\Theta(\log^2 n)$ the parallelism would be $\Theta(n/\log
+n)$.
+\end{example}
+
+\begin{example}
+Consider an algorithm with work $W(n) = \Theta(n^3)$ and span 
+$S(n) = \Theta(n \log n)$.
+%
+For $n = 10,000$, $\paral(n) \approx 10^7$, which is a lot of
+parallelism.  
+%
+But, if $W(n) = \Theta(n^2) \approx 10^8$ then
+$\paral(n) \approx 10^3$, which is much less parallelism. 
+%
+Note that the decrease in parallelism is not because of an increase in
+span but because of a reduction in work.
+\end{example}
+
+\begin{teachask}
+What are ways in which we can increase parallelism?
+\end{teachask}
+
+%% \begin{gram}
+%% We can increase parallelism by decreasing span and/or increasing work.
+%% UnnessIncreasing work, however, is not desirable because it leads to an
+%% inefficient algorithm.
+%% \end{gram}
+
+
+\begin{gram}[Designing Parallel Algorithms]
+
+In parallel-algorithm design, we aim to keep parallelism as high
+as possible.
+%
+Since parallelism is defined as the amount of work per unit of span, 
+we can do this by decreasing span.
+%
+We can increase parallelism by increasing work also, but this is
+usually not desirable.
+%
+In designing parallel algorithms our goals are: 
+
+\begin{enumerate}
+\item   to keep work as low as possible, and
+\item   to keep span as low as possible.
+\end{enumerate}
+
+Except in cases of extreme parallelism, where for example, we may have
+thousands or more processors available to use, the first priority is
+usually to keep work low, even if it comes at the cost of increasing
+span.
+
+\end{gram}
+
+\begin{flex}
+\begin{definition}[Work efficiency]
+ We say that a parallel algorithm is {\em
+  work efficient} if it perform asymptotically the same work as the best known sequential algorithm for that problem. 
+\end{definition}
+
+
+\begin{example}
+A (comparison-based) parallel sorting algorithm with
+$\Theta(n\log{n})$ work is work efficient; one with $\Theta(n^2)$ is
+not, because we can sort sequentially with $\Theta(n\log{n})$ work.
+\end{example}
+\end{flex}
+
+\begin{note}
+In this book, we will mostly cover work-efficient algorithms where
+the work is the same or close to the same as the best sequential time.
+%
+Among the algorithm that have the same work as the best sequential
+time, our goal will be to achieve the greatest parallelism.
+\end{note}
+
+\subsection{Scheduling}
+\label{sec:analysis::models::language::scheduling}
+
+
+\begin{gram}
+Scheduling involves executing a parallel program by mapping the
+computation over the processors in such a way to minimize
+the completion time and possibly, the use of other resources such as
+space and energy.
+%
+There are many forms of scheduling.
+%
+This section describes the scheduling problem and briefly reviews one
+particular technique called greedy scheduling.
+\end{gram}
+
+\subsubsection{Scheduling Problem}
+\begin{flex}
+\begin{gram}
+An important advantage of the work-span model is that it allows us to
+design parallel algorithms without having to worry about the details
+of how they are executed on an actual parallel machine. 
+%
+In other words, we never have to worry about mapping of the parallel
+computation to processors, i.e., scheduling. 
+
+Scheduling can be challenging, because a parallel algorithm generates
+independently executable \defn{tasks} on the fly as it runs, and it
+can generate a large number of them, typically many more than the
+number of processors.
+%
+\end{gram}
+
+\begin{example}
+A parallel algorithm with $\Theta(n/\lg{n})$ parallelism can easily
+generate millions of parallel subcomptutations or task at the same time,
+even when running on a multicore computer with $10$ cores.
+%
+For example, for $n = 10^8$, the algorithm may generate millions of
+independent tasks.
+\end{example}
+\end{flex}
+
+\begin{definition}[Scheduler]
+A~\defn{scheduling algorithm} or a~\defn{scheduler} is an algorithm
+for mapping parallel tasks to available processors.
+%
+%
+% so that each
+%processor remains busy as much as possible is the task of a scheduler.
+The scheduler works by taking all parallel tasks, which are generated
+dynamically as the algorithm evaluates, and assigning them to
+processors.  
+%
+If only one processor is available, for example, then all
+tasks will run on that one processor.  If two processors are available,
+the task will be divided between the two.
+
+Schedulers are typically designed to minimize the execution time of a
+parallel computation,
+%
+but 
+%
+minimizing space usage is also important.
+\end{definition}
+
+\begin{teachask}
+Can you think of a scheduling algorithm?
+\end{teachask}
+
+\subsubsection{Greedy Scheduling}
+
+\begin{definition}[Greedy Scheduler]
+We say that a scheduler is~\defn{greedy} if whenever there is a
+processor available and a task ready to execute, then it assigns the
+task to the processor and starts running it immediately.  Greedy
+schedulers have an important property that is summarized by the greedy
+scheduling principle.
+\end{definition}
+
+% Guy : is this a principle or a theorem.    The term postulate is
+% awfully weak.
+\begin{definition}[Greedy Scheduling Principle]
+\label{def:analysis::models::greedy}
+The \defn{greedy scheduling principle} postulates that if a
+computation is run on $P$ processors using a greedy scheduler, then
+the total time (clock cycles) for running the computation is bounded
+by
+\[
+\begin{array}{lll}
+T_P & < & \frac{W}{P} + S
+%% This won't  work.  No equation references are supported inside mathjax.
+%\label{eqn:analysis::models::greedy}
+\end{array}
+\]
+where $W$ is the work of the computation, and $S$ is the span of the
+computation (both measured in units of clock cycles).
+\end{definition}
+
+\begin{gram}[Optimality of Greedy Schedulers]
+This simple statement is powerful. 
+
+Firstly, the time to execute the computation cannot be less than
+$\frac{W}{P}$ clock cycles since we have a total of $W$ clock cycles
+of work to do and the best we can possibly do is divide it evenly
+among the processors.
+%
+
+Secondly, the time to execute the computation cannot be any less than
+$S$ clock cycles, because $S$ represents the longest chain of
+sequential dependencies.  Therefore we have
+
+\[
+T_p \geq \max{}\left(\frac{W}{P},S\right).
+\]
+
+We therefore see that a greedy scheduler does reasonably close to the
+best possible.  In particular $\frac{W}{P} + S$ is never more than
+twice $\max{}(\frac{W}{P},S)$.
+
+
+Furthermore, greedy scheduling is particularly good for algorithms
+with abundant parallellism.  To see this, let's rewrite the inequality
+of the Greedy Principle
+%
+%~\ref{eqn:greedy} above
+%
+in terms of the parallelism $\paral = W/S$:
+\[
+\begin{array}{lll}
+T_P & < & \frac{W}{P} + S \\
+    & = &  \frac{W}{P} + \frac{W}{\paral{}}\\
+    & = &  \frac{W}{P}\left(1 + \frac{P}{\paral{}}\right).
+\end{array}
+\]
+Therefore, if $\paral{} \gg P$, i.e., the parallelism is much greater
+than the number of processors, then the parallel time $T_P$ is close
+to $W/P$, the best possible.  In this sense, we can view parallelism
+as a measure of the number of processors that can be used effectively.
+\end{gram}
+
+\begin{definition}[Speedup]
+The \defn{speedup} $S_P$ of a $P$-processor parallel execution over a
+sequential one is defined as
+\[
+S_P = T_s / T_P, 
+\]
+where $T_S$ denotes the sequential time.
+%
+We use the term \defn{perfect speedup} to refer to a speedup that is
+equal to $P$.
+
+When assessing speedups, it is important to select the best sequential
+algorithm that solves the same problem (as the parallel one).  
+\end{definition}
+
+\begin{exercise}
+Describe the conditions under which a parallel algorithm would obtain
+near perfect speedups.
+\end{exercise}
+%%%% SOLUTION (incomplete)
+%%  obtain near perfect
+%% speedup. (Speedup is $W/T_P$ and perfect speedup would be
+%% $P$). Therefore $\paral{}$ gives us a rough upper bound on the number
+%% of processors we can effectively use.
+
+
+% Guy: took the following out since it is described earlier
+
+% \begin{example}
+% \label{ex:analysis::models::mergesortcost}
+% As an example, consider the mergeSort algorithm for sorting a
+% sequence of length $n$.  The work is the same as the sequential time,
+% which you might know is \[W(n) = O(n \log n)\; .\] We will show that
+% the span for mergeSort is \[S(n) = O(\log^2 n)\; .\] The parallelism
+% is therefore 
+% \[\paral{} = O\left(\frac{n \log n}{\log^2 n}\right)
+% = O\left(\frac{n}{\log n}\right)\; .\] 
+
+% This means that for sorting a million keys, we
+% can effectively make use of quite a few processors: $10^6/(\log_2
+% 10^6) \approx 50,000$. 
+% \end{example}
+
+
+\begin{remark}
+Greedy Scheduling Principle does not account for the time it requires
+to compute the (greedy) schedule, assuming instead that such a
+schedule can be created instantaneously and at no cost.
+%
+This is of course unrealistic and there has been much work on
+algorithms that attempt to match the Greedy Scheduling Principle.
+%
+No real schedulers can match it exactly, because scheduling itself
+requires work.
+%
+For example, there will surely be some delay from when a task becomes
+ready for execution and when it actually starts executing.
+%
+In practice, therefore, the efficiency of a scheduler is quite
+important to achieving good efficiency.  
+%
+Because of this, the greedy scheduling principle should only be viewed
+as an asymptotic cost estimate in much the same way that the RAM model
+or any other computational model should be just viewed as an
+asymptotic estimate of real time.
+%
+%We also note that the greedy scheduling principle does not account for
+%cost of memory operations.  By moving a job we might have to move data
+%along with it; the cost of such data movement could be large.
+\end{remark}
+
+
+%% \begin{section}[Machine versus Language Models]
+
+
+%% \begin{gram}
+%% A~\defn{machine-based (cost) model}~takes a machine model as the
+%% starting point and defines the cost of each instruction that can be
+%% executed by the machine.
+%% %
+%% When using a machine-based model for analyzing an algorithm, we
+%% consider the instructions executed by the algorithm on the machine and
+%% calculate their cost.
+%% %
+
+
+%% The advantage to machine-based models is that they can better
+%% approximate the actual cost of an algorithm, i.e., the cost observed
+%% when the algorithm is executed on actual hardware.
+%% %
+%% The disadvantage is the complexity of analysis and the limited
+%% expressiveness of the languages that can be used for specifying the
+%% algorithms.
+%% %
+
+%% When using a machine model, we have to reason about how the algorithm
+%% compiles and runs on that machine.  For example, if we express our
+%% algorithm in a low-level language such as C, cost analysis based on a
+%% machine model that represents a von Neumann machine is straightforward
+%% because there is an almost one-to-one mapping of statements in C to
+%% the instructions of such a machine.  For higher-level languages, this
+%% becomes difficult.  There may be uncertainties, for example, about the
+%% cost of automatic memory management, or the cost of dispatching in an
+%% object-oriented language.
+%% %
+
+%% For parallel programs, cost analysis based on machine-based models
+%% even more difficult, because we have to reason about how parallel
+%% tasks of the algorithm are scheduled on the processors of the machine,
+%% a.k.a., scheduling.
+%% %
+%% Due to this gap between the level at which algorithms are analyzed
+%% (machine level) and the level they are usually implemented
+%% (programming-language level), there can be difficulties in
+%% implementing an algorithm in a high-level language in such a way that
+%% matches the bound given by the analysis.
+
+
+%% \end{gram}
+
+%% \begin{gram}[Language-Based Cost-Models]
+%% A~\defn{language-based model}~takes a language as the starting point
+%% and defines cost as a function mapping the expressions of the language
+%% to their cost.
+%% %
+%% Such a cost function is usually defined as a recursive function over
+%% the different forms of expressions in the language.  
+%% %
+%% When using a language-based model for analyzing an algorithm, we apply
+%% the cost function to the expression describing the algorithm in the
+%% language.
+
+%% The advantage to language-based models is that they simplify analysis of
+%% algorithms. 
+%% %
+%% When analyzing algorithms in a language-based model we don't need to
+%% care about how the language compiles or runs on the machine.  Costs
+%% are defined directly in the language, specifically its syntax and its
+%% semantics, which specifies the evaluation of expressions.  We thus
+%% simply consider the algorithm as expressed and analyze the cost by
+%% applying the cost function provided by the model.
+%% %
+
+%% The disadvantage of language-based models is that the predicted cost
+%% bounds may not precisely reflect the cost observed when the algorithm
+%% is executed on actual hardware.  This imprecision of the language
+%% model can be minimized and even eliminated by defining the model to be
+%% consistent with the machine model and the programming-language
+%% environment assumed such as the compiler and the run-time system.
+%% \end{gram}
+
+%% \begin{example}
+%% The language considered in a language based cost-model can in
+%% principle be a high-level language, such as a functional language, an
+%% object-oriented language, and even a pseudo-code language such as
+%% \PML{}.
+%% %
+%% Though less common, the language could also be low level such as the
+%% intermediate language of a compiler, and even an assembly language.
+%% %
+%% \end{example}
+
+
+%% \begin{gram}
+%% In  sequential-algorithms literature, much work is based on machine
+%% models rather than language-based model.
+%% %
+%% This can be attributed to several reasons:
+%% \begin{itemize}
+
+%% \item the mapping from language constructs to machine cost (time or
+%%   number of instructions) is relatively simple when using low-level
+%%   languages; 
+
+%% \item much work on algorithms predates or coincides with the
+%%   development of higher-level languages.
+%% \end{itemize}
+
+%% %
+%% For parallel algorithms, however, machine-based models are difficult
+%% to use, especially when considering higher-level languages that are
+%% broadly used in practice today.
+%% %
+%% For this reason, in this book we use a language-based cost model.
+%% %
+%% Our language-based model allows us to use abstract cost measures, work
+%% and span, which have no direct meaning on a physical machine.
+%% \end{gram}
+
+%% \begin{remark}
+%% We note that both machine models and language-based models usually
+%% abstract over existing architectures and programming languages
+%% respectively.  This is necessary because we wish our cost analysis to
+%% have broader relevance than just a specific architecture or
+%% programming language.
+%% %
+
+%% For example, machine models are usually defined
+%% to be valid over many different architectures such as an Intel Nehalem
+%% or AMD Phenom. 
+%% %
+%% Similarly, language-based models are defined to be
+%% applicable to a range of languages.  
+%% %
+
+%% To this end, we usually simplify our cost functions by ignoring
+%% ``constant factors'' that depend on the specifics of the actual
+%% practical hardware our algorithms may execute on.
+%% %
+%% Similarly, we may abstract over differences in language constructs,
+%% e.g, a call to a ``plus'' operation, or call to an abstract
+%% function may both take unit time.
+%% %
+%% The \PML{} language that we use in this book is essentially lambda
+%% calculus with some syntactic sugar. As you may know the lambda
+%% calculus can be used to model many languages.
+%% \end{remark}
+
+
+%% \end{section}

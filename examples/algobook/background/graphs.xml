@@ -1,0 +1,4451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Graph Theory
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Graph Theory
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:bg::graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:bg::graphs::presents
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:bg::graphs::presents
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter presents an overview of basic graph theory used throughout the book. This chapter does not aim to be complete (and is far from it) but tries to cover the most relevant material to the course. More details can be found in standard texts.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter presents an overview of basic graph theory
+used throughout the book.
+This chapter does not aim to be complete (and is far from it) but
+tries to cover the most relevant material to the course.  
+More details can be found in standard texts.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Basic Definitions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Basic Definitions
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::graphs::basics
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:tch:bg::graphs::todo
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='teachnote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tch:bg::graphs::todo
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>TODO</p>
+<p>Hamiltonian paths/cycles.</p>
+<p>Define Diameter</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+TODO
+
+Hamiltonian paths/cycles.
+
+Define Diameter
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- teachnote -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::directed-graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Directed Graph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Directed Graph
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::directed-graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>directed graph</em></strong>  or ( <strong><em>digraph</em></strong> ) is a pair <span class="math inline">\(G = (V,A)\)</span> where</p>
+<ul>
+<li><p><span class="math inline">\(V\)</span> is a set of  <strong><em>vertices</em></strong> , and</p></li>
+<li><p><span class="math inline">\(A \subseteq V \times V\)</span> is a set of  <strong><em>directed edges</em></strong>  or <strong><em>arcs</em></strong> .</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{directed graph}~or (\defn{digraph})~is a pair $G = (V,A)$
+where
+\begin{itemize}
+\item $V$ is a set of~\defn{vertices},~and
+
+\item $A \subseteq V \times V$ is a set of~\defn{directed edges}~or \defn{arcs}.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:bg::graphs::digraph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:bg::graphs::digraph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In a digraph, each arc is an ordered pair <span class="math inline">\(e = (u,v)\)</span>. A digraph can have  <strong><em>self loops</em></strong>  <span class="math inline">\((u,u)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In a digraph, each arc is an ordered pair $e = (u,v)$.  A digraph can
+have~\defn{self loops}~$(u,u)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::undirected-graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Undirected graph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Undirected graph
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::undirected-graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>An  <strong><em>undirected graph</em></strong>  is a pair <span class="math inline">\(G = (V,E)\)</span> where</p>
+<ul>
+<li><p><span class="math inline">\(V\)</span> is a set of  <strong><em>vertices</em></strong>  (or nodes), and</p></li>
+<li><p><span class="math inline">\(E \subseteq  \binom{V}{2}\)</span> is a set of edges.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An~\defn{undirected graph}~is a pair $G = (V,E)$ where
+\begin{itemize}
+\item  $V$ is a set of~\defn{vertices}~(or nodes), and
+\item  $E \subseteq  \binom{V}{2}$ is a set of edges.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:bg::graphs::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:bg::graphs::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Given a set <span class="math inline">\(V\)</span>, a  <strong><em>k-combination</em></strong>  of <span class="math inline">\(V\)</span> is a subset of <span class="math inline">\(k\)</span> distinct elements of <span class="math inline">\(V\)</span>. The notation <span class="math display">\[\binom{V}{k}\]</span> denotes the set of all <span class="math inline">\(k\)</span>-combinations of the set <span class="math inline">\(V\)</span>.</p>
+<p>Therefore, in an undirected graph, each edge is an unordered pair <span class="math inline">\(e = \{ u,v \}\)</span> (or equivalently <span class="math inline">\(\{ v,u \}\)</span>) and there cannot be self loops (<span class="math inline">\(\{v,v\} = \{v\} \not\in  
+\binom{V}{2}\)</span>).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a set $V$, a~\defn{k-combination}~of~$V$ is a subset of
+$k$~distinct elements of~$V$.
+The notation 
+\[
+\binom{V}{k}
+\]
+denotes the set of all $k$-combinations of the set~$V$. 
+
+Therefore, in an undirected graph, each edge is an unordered pair
+$e = \{ u,v \}$ (or equivalently $\{ v,u \}$)
+and there cannot be self loops ($\{v,v\} = \{v\} \not\in
+\binom{V}{2}$).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:ex:bg::graphs::basics::examples
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+ex:bg::graphs::basics::examples
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> An example directed graph with <span class="math inline">\(4\)</span> vertices:</p>
+<p><img src="background/media-graphs/directed1.jpg" alt="image" style="width:2in" /></p>
+<p>An undirected graph on <span class="math inline">\(4\)</span> vertices, representing the Königsberg problem. (Picture Source: Wikipedia):</p>
+<p><img src="background/media-graphs/konig.jpg" alt="image" style="width:2in" /></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{ex:bg::graphs::basics::examples}
+An example directed graph with $4$ vertices:
+
+\includegraphics[width=2in]{background/media-graphs/directed1.jpg} 
+
+An undirected graph on $4$ vertices, representing the
+  K\"onigsberg problem. (Picture Source: Wikipedia):
+
+\includegraphics[width=2in]{background/media-graphs/konig.jpg}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:bg::graphs::directed
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:bg::graphs::directed
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>While directed graphs represent possibly asymmetric relationships, undirected graphs represent symmetric relationships. Directed graphs are therefore more general than undirected graphs because an undirected graph can be represented by a directed graph by replacing an edge with two arcs, one in each direction.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+While directed graphs represent possibly asymmetric relationships,
+undirected graphs represent symmetric relationships.
+Directed graphs are therefore more general than undirected graphs
+because an undirected graph can be represented by a directed graph by
+replacing an edge with two arcs, one in each direction.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Graphs come with a lot of terminology, but fortunately most of it is intuitive once we understand the concept. In this section, we consider graphs that do not have any data associated with edges, such as weights. In the next section, we consider weighted graphs, where the weights on edges can represent a distance, a capacity or the strength of the connection.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Graphs come with a lot of terminology, but fortunately most of it is
+intuitive once we understand the concept.  
+In this section, we consider graphs that do not have any data
+associated with edges, such as weights.
+In the next section, we consider weighted graphs, where the weights on
+edges can represent a distance, a capacity or the strength of the
+connection.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::neighbors
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Neighbors
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Neighbors
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::neighbors
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A vertex <span class="math inline">\(u\)</span> is a  <strong><em>neighbor</em></strong>  of, or equivalently  <strong><em>adjacent</em></strong>  to, a vertex <span class="math inline">\(v\)</span> in a graph <span class="math inline">\(G = (V,E)\)</span> if there is an edge <span class="math inline">\(\{u,v\} \in E\)</span>. For a directed graph a vertex <span class="math inline">\(u\)</span> is an  <strong><em>in-neighbor</em></strong>  of a vertex <span class="math inline">\(v\)</span> if <span class="math inline">\((u,v) \in E\)</span> and an  <strong><em>out-neighbor</em></strong>  if <span class="math inline">\((v,u) \in E\)</span>. We also say two edges or arcs are neighbors if they share a vertex.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A vertex $u$ is a~\defn{neighbor}~of, or
+ equivalently~\defn{adjacent}~to, a vertex $v$ in a graph $G = (V,E)$
+ if there is an edge $\{u,v\} \in E$.  For a directed graph a vertex
+ $u$ is an~\defn{in-neighbor}~of a vertex $v$ if $(u,v) \in E$ and
+ an~\defn{out-neighbor}~if $(v,u) \in E$.  We also say two edges or
+ arcs are neighbors if they share a vertex.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::neighborhood
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Neighborhood
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Neighborhood
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::neighborhood
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For an undirected graph <span class="math inline">\(G = (V,E)\)</span>, the  <strong><em>neighborhood</em></strong>  <span class="math inline">\(N_G(v)\)</span> of a vertex <span class="math inline">\(v \in V\)</span> is its set of all neighbors of <span class="math inline">\(v\)</span>, i.e., <span class="math inline">\(N_G(v) = \left\{ u \;|\; \{u,v\} \in E \right\}\)</span>. For a directed graph we use <span class="math inline">\(N_G^+(v)\)</span> to indicate the set of out-neighbors and <span class="math inline">\(N_G^-(v)\)</span> to indicate the set of in-neighbors of <span class="math inline">\(v\)</span>. If we use <span class="math inline">\(N_G(v)\)</span> for a directed graph, we mean the out neighbors.</p>
+<p>The neighborhood of a set of vertices <span class="math inline">\(U \subseteq V\)</span> is the union of their neighborhoods, e.g.,</p>
+<ul>
+<li><p><span class="math inline">\(N_G(U) = \bigcup_{u \in U} N_G(y)\)</span>, or</p></li>
+<li><p><span class="math inline">\(N_G^+(U) = \bigcup_{u \in U} N_G^+(u)\)</span>.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For an undirected graph $G = (V,E)$, the~\defn{neighborhood}~$N_G(v)$ 
+of a vertex $v \in V$ is its set of all neighbors of $v$, i.e.,
+$N_G(v) = \csetf{u}{\{u,v\} \in E}$. 
+For a directed graph we use $N_G^+(v)$ to indicate the set of 
+out-neighbors and $N_G^-(v)$ to indicate the set of in-neighbors of
+$v$.  If we use $N_G(v)$ for a directed graph, we mean the out 
+neighbors.  
+
+The neighborhood of a set of vertices $U \subseteq V$ is the union of
+their neighborhoods, e.g.,
+
+\begin{itemize}
+\item  $N_G(U) = \bigcup_{u \in U} N_G(y)$, or
+\item $N_G^+(U) = \bigcup_{u \in U} N_G^+(u)$.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::incidence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Incidence
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Incidence
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::incidence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We say an edge is  <strong><em>incident</em></strong>  on a vertex if the vertex is one of its endpoints. Similarly we say a vertex is incident on an edge if it is one of the endpoints of the edge.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We say an edge is~\defn{incident}~on a vertex if the vertex is one of
+its endpoints.  Similarly we say a vertex is incident on an edge if it
+is one of the endpoints of the edge.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::degree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Degree
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Degree
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::degree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>degree</em></strong>  <span class="math inline">\(d_G(v)\)</span> of a vertex <span class="math inline">\(v \in V\)</span> in a graph <span class="math inline">\(G =  
+ (V,E)\)</span> is the size of the neighborhood <span class="math inline">\(|N_G(v)|\)</span>. For directed graphs we use  <strong><em>in-degree</em></strong>  <span class="math inline">\(d_G^-(v) = |N_G^-(v)|\)</span> and  <strong><em>out-degree</em></strong>  <span class="math inline">\(d_G^+(v) = |N_G^+(v)|\)</span>. We will drop the subscript <span class="math inline">\(G\)</span> when it is clear from the context which graph we’re talking about.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{degree}~$d_G(v)$ of a vertex $v \in V$ in a graph $G =
+ (V,E)$ is the size of the neighborhood $|N_G(v)|$.  For directed
+ graphs we use~\defn{in-degree}~$d_G^-(v) = |N_G^-(v)|$
+ and~\defn{out-degree}~$d_G^+(v) = |N_G^+(v)|$.  We will drop the
+ subscript $G$ when it is clear from the context which graph we're
+ talking about.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::path
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Path
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Path
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::path
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>path</em></strong>  in a graph is a sequence of adjacent vertices. More formally for a graph <span class="math inline">\(G = (V,E)\)</span>, we define the set of all paths in <span class="math inline">\(G\)</span>, written <span class="math inline">\(\textit{Paths}(G)\)</span> as <span class="math display">\[\textit{Paths}(G) = \left\{ P  
+  \in V^+ \;|\; 1 \leq i &lt; |P|, (P_i, P_{i+1}) \in E \right\},\]</span> where <span class="math inline">\(V^+\)</span> indicates all positive length sequences of vertices (allowing for repeats). The length of a path is one less than the number of vertices in the path—i.e., it is the number of edges in the path. A path in a finite graph can have infinite length. A  <strong><em>simple path</em></strong>  is a path with no repeated vertices. Please see the remark below, however.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{path}~in a graph is a sequence of adjacent vertices.  
+More formally for a graph $G = (V,E)$, we define the set of all paths
+in $G$, written $\textit{Paths}(G)$ as 
+\[
+\textit{Paths}(G) = \csetf{P
+  \in V^+}{1 \leq i < |P|, (P_i, P_{i+1}) \in E},
+\]
+where $V^+$ indicates all positive length sequences of vertices
+(allowing for repeats).
+The length of a path is one less than the number of vertices in the
+path---i.e., it is the number of edges in the path.  A path in a
+finite graph can have infinite length.  A~\defn{simple path}~is a path
+with no repeated vertices.  Please see the remark below, however.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:bg::graphs::authors
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:bg::graphs::authors
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Some authors use the terms walk for path, and path for simple path. Even in this book when it is clear from the context we will sometimes drop the “simple” from simple path.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Some authors use the terms walk for path, and path for
+simple path.   Even in this book when it is clear from the context
+we will sometimes drop the ``simple'' from simple path.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::reachability-and-connectivity
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Reachability and connectivity
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Reachability and connectivity
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::reachability-and-connectivity
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In a graph <span class="math inline">\(G\)</span>, a vertex <span class="math inline">\(u\)</span> can  <strong><em>reach</em></strong>  another vertex <span class="math inline">\(v\)</span> if there is a path in <span class="math inline">\(G\)</span> that starts at <span class="math inline">\(u\)</span> and ends at <span class="math inline">\(v\)</span>. If <span class="math inline">\(u\)</span> can reach <span class="math inline">\(v\)</span>, we also say that <span class="math inline">\(v\)</span> is  <strong><em>reachable</em></strong>  from <span class="math inline">\(u\)</span>. We use <span class="math inline">\(R_G(u)\)</span> to indicate the set of all vertices reachable from <span class="math inline">\(u\)</span> in <span class="math inline">\(G\)</span>. Note that in an undirected graph reachability is symmetric: if <span class="math inline">\(u\)</span> can reach <span class="math inline">\(v\)</span>, then <span class="math inline">\(v\)</span> can reach <span class="math inline">\(u\)</span>.</p>
+<p>We say that an undirected graph is  <strong><em>connected</em></strong>  if all vertices are reachable from all other vertices. We say that a directed graph is  <strong><em>strongly connected</em></strong>  if all vertices are reachable from all other vertices.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In a graph $G$, a vertex $u$ can~\defn{reach}~another vertex $v$
+if there is a path in $G$ that starts at $u$ and ends at $v$.
+If $u$ can reach $v$, we also say that $v$ is~\defn{reachable}~from $u$.
+We use $R_G(u)$ to indicate the set of all vertices reachable from $u$
+in $G$.
+Note that in an undirected graph reachability is symmetric: if $u$ can reach $v$, then $v$ can reach $u$.
+
+We say that an undirected graph is~\defn{connected}~if all vertices are reachable from all other vertices.  
+We say that a directed graph is~\defn{strongly   connected}~if all vertices are reachable from all other vertices.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::cycles
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Cycles
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Cycles
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::cycles
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In a directed graph a  <strong><em>cycle</em></strong>  is a path that starts and ends at the same vertex. A cycle can have length one (i.e. a  <strong><em>self loop</em></strong> ). A  <strong><em>simple cycle</em></strong>  is a cycle that has no repeated vertices other than the start and end vertices being the same. In an undirected graph a simple  <strong><em>cycle</em></strong>  is a path that starts and ends at the same vertex, has no repeated vertices other than the first and last, and has length at least three. In this course we will exclusively talk about simple cycles and hence, as with paths, we will often drop simple.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In a directed graph a~\defn{cycle}~is a path that starts and ends at
+the same vertex.    A cycle can have length one (i.e. a~\defn{self loop}).
+A~\defn{simple cycle}~is a
+cycle that has no repeated vertices other than the start and end
+vertices being the same.
+In an undirected graph a simple~\defn{cycle}~is a path that
+starts and ends at the same vertex, has no repeated vertices other
+than the first and last, and has length at least three.
+In this course we will exclusively talk
+about simple cycles and hence, as with paths, we will often drop
+simple.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:bg::graphs::undirected
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:bg::graphs::undirected
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Why is important in a undirected graph to require that a cycle has length at least three? Why is important that we do not allow repeated vertices?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Why is important in a undirected graph to require that a cycle has
+length at least three?  Why is important that we do not allow repeated
+vertices?
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::trees-and-forests
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Trees and forests
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Trees and forests
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::trees-and-forests
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>An undirected graph with no cycles is a  <strong><em>forest</em></strong> . A forest that is connected is a  <strong><em>tree</em></strong> . A directed graph is a forest (or tree) if when all edges are converted to undirected edges it is undirected forest (or tree). A  <strong><em>rooted tree</em></strong>  is a tree with one vertex designated as the root. For a directed graph the edges are typically all directed toward the root or away from the root.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An undirected graph with no cycles is a~\defn{forest}.
+A forest that is connected is a~\defn{tree}.  
+A directed graph is a forest (or tree) if when all edges are converted
+to undirected edges it is undirected forest (or tree).  
+A~\defn{rooted tree}~is a tree with one vertex designated as the root.
+For a directed graph the edges are typically all directed toward the
+root or away from the root.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::directed-acyclic-graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Directed acyclic graphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Directed acyclic graphs
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::directed-acyclic-graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A directed graph with no cycles is a  <strong><em>directed acyclic graph</em></strong>  (DAG).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A directed graph with no cycles is a~\defn{directed acyclic graph}~(DAG).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::distance
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Distance
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Distance
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::distance
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>distance</em></strong>  <span class="math inline">\(\delta_G(u,v)\)</span> from a vertex <span class="math inline">\(u\)</span> to a vertex <span class="math inline">\(v\)</span> in a graph <span class="math inline">\(G\)</span> is the shortest path (minimum number of edges) from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. It is also referred to as the  <strong><em>shortest path length</em></strong>  from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{distance}~$\delta_G(u,v)$ from a vertex $u$ to a vertex $v$
+in a graph $G$ is the shortest path (minimum number of edges) from $u$
+to $v$.  It is also referred to as the~\defn{shortest path
+  length}~from $u$ to $v$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::diameter
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Diameter
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Diameter
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::diameter
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>diameter</em></strong>  of a graph <span class="math inline">\(G\)</span> is the maximum shortest path length over all pairs of vertices in <span class="math inline">\(G\)</span>, i.e., <span class="math inline">\(\max\left\{ \delta_G(u,v) : u, v \in V \right\}\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{diameter}~of a graph $G$ is the maximum shortest path length over all
+pairs of vertices in $G$, i.e., $\max\cset{\delta_G(u,v) : u, v \in V}$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::multigraphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Multigraphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Multigraphs
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::multigraphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Sometimes graphs allow multiple edges between the same pair of vertices, called  <strong><em>multi-edges</em></strong> . Graphs with multi-edges are called  <strong><em>multi-graphs</em></strong> . We will allow multi-edges in a couple algorithms just for convenience.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Sometimes graphs allow multiple edges between the same pair of
+vertices, called~\defn{multi-edges}.  Graphs with multi-edges are
+called~\defn{multi-graphs}.  We will allow multi-edges in a couple
+algorithms just for convenience.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::sparse-and-dense-graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Sparse and Dense Graphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Sparse and Dense Graphs
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::sparse-and-dense-graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We will use the following conventions: <span class="math display">\[\begin{aligned}
+n &amp; = |V|\\  
+m &amp; = |E|  \end{aligned}\]</span> Note that a directed graph can have at most <span class="math inline">\(n^2\)</span> edges (including self loops) and an undirected graph at most <span class="math inline">\(n(n-1)/2\)</span>. We informally say that a graph is  <strong><em>sparse</em></strong>  if <span class="math inline">\(m \ll n^2\)</span> and  <strong><em>dense</em></strong>  otherwise. In most applications graphs are very sparse, often with only a handful of neighbors per vertex when averaged across vertices, although some vertices could have high degree. Therefore, the emphasis in the design of graph algorithms, at least for this book, is on algorithms that work well for sparse graphs.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We will use the following conventions:
+\begin{eqnarray*}
+n & = |V|\\
+m & = |E|
+\end{eqnarray*}
+Note that a directed graph can have at most $n^2$ edges (including self loops)
+and an undirected graph at most $n(n-1)/2$.  We informally say that a graph
+is~\defn{sparse}~if $m \ll n^2$ and~\defn{dense}~otherwise.  In most
+applications graphs are very sparse, often with only a handful of neighbors per
+vertex when averaged across vertices, although some vertices could have high
+degree.  Therefore, the emphasis in the design of graph algorithms, at least for
+this book, is on algorithms that work well for sparse graphs.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::basics::enumerable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Enumerable graphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Enumerable graphs
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::basics::enumerable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> In some cases, it is possible to label the vertices of the graphs with natural numbers starting from <span class="math inline">\(0\)</span>. More precisely, an  <strong><em>enumerable graph</em></strong> is a graph <span class="math inline">\(G = (V,E)\)</span> where <span class="math inline">\(V =  
+\{0,1,\ldots,n-1\}\)</span>. Enumerable graphs can be more efficient to represent than general graphs.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::basics::enumerable}
+In some cases, it is possible to label the vertices of the graphs with
+natural numbers starting from $0$.  More precisely, an~\defn{enumerable graph} is a graph $G = (V,E)$ where $V =
+\{0,1,\ldots,n-1\}$.
+Enumerable graphs can be more efficient to represent than
+general graphs.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Weighted Graphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Weighted Graphs
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::graphs::weighted
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::applications
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::applications
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Many applications of graphs require associating weights or other values with the edges of a graph.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{sec:bg::graphs::weighted}
+\begin{gram}
+Many applications of graphs require associating weights or other
+values with the edges of a graph.  
+\end{gram}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::weighted
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Weighted and Edge-Labeled Graphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Weighted and Edge-Labeled Graphs
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::weighted
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> An <strong><em>edge-labeled graph</em></strong>  or a <strong><em>weighted graph</em></strong>  is a triple <span class="math inline">\(G = (E,V,w)\)</span> where <span class="math inline">\(w\!: E \to L\)</span> is a function mapping edges or directed edges to their labels (weights) , and <span class="math inline">\(L\)</span> is the set of possible labels (weights).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::weighted}
+An \defn{edge-labeled graph}~or a \defn{weighted graph}~is a triple
+$G = (E,V,w)$ where $w\!: E \to L$ is a function mapping edges or
+directed edges to their labels (weights) , and $L$ is the set of
+possible labels (weights).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In a graph, if the data associated with the edges are real numbers, we often use the term “weight” to refer to the edge labels, and use the term “weighted graph” to refer to the graph. In the general case, we use the terms “edge label” and edge-labeled graph. Weights or other values on edges could represent many things, such as a distance, or a capacity, or the strength of a relationship.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In a graph, if the data associated with the edges are real numbers, we
+often use the term ``weight'' to refer to the edge labels, and use the
+term ``weighted graph'' to refer to the graph.  In the general case,
+we use the terms ``edge label'' and edge-labeled graph.  Weights or
+other values on edges could represent many things, such as a distance,
+or a capacity, or the strength of a relationship.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:bg::graphs::directed
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:bg::graphs::directed
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>An example directed weighted graph.</p>
+<p><img src="background/media-graphs/dir-graph1.jpg" alt="image" style="width:1.5in" /></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An example directed weighted graph.
+
+\begin{center}
+\includegraphics[width=1.5in]{background/media-graphs/dir-graph1.jpg}
+\end{center}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:bg::graphs::expected
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:bg::graphs::expected
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>As it may be expected, basic terminology on graphs defined above straightforwardly extend to weighted graphs.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+As it may be expected, basic terminology on graphs defined above
+straightforwardly extend to weighted graphs.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Subgraphs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Subgraphs
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::graphs::subgraphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::working
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::working
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>When working with graphs, we sometimes wish to refer to parts of a graph. To this end, we can use the notion of a subgraph, which refers to a graph contained in a larger graph. A subgraph can be defined as any subsets of edges and vertices that together constitute a well defined graph.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When working with graphs, we sometimes wish to refer to parts of a
+graph.  To this end, we can use the notion of a subgraph, which refers
+to a graph contained in a larger graph. A subgraph can be defined as
+any subsets of edges and vertices that together constitute a well
+defined graph.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::subgraph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Subgraph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Subgraph
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::subgraph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Let <span class="math inline">\(G = (V,E)\)</span> and <span class="math inline">\(H = (V&#39;, E&#39;)\)</span> be two graphs. <span class="math inline">\(H\)</span> is a subgraph of if <span class="math inline">\(V&#39; \subseteq V\)</span> and <span class="math inline">\(E&#39; \subseteq E\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::subgraph}
+Let $G = (V,E)$ and $H = (V', E')$ be two graphs.  $H$ is a
+subgraph of if $V' \subseteq V$ and $E' \subseteq E$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:bg::graphs::graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:bg::graphs::graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Note that since <span class="math inline">\(H\)</span> is a graph, the vertices defining each edge are in the vertex set <span class="math inline">\(V&#39;\)</span>, i.e., for an undirected graph <span class="math inline">\(E&#39; \subseteq  
+\binom{V&#39;}{2}\)</span>. There are many possible subgraphs of a graph.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Note that since $H$ is a graph, the vertices defining each edge are in
+the vertex set $V'$, i.e., for an undirected graph $E' \subseteq
+\binom{V'}{2}$.  There are many possible subgraphs of a graph.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::class
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::class
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>An important class of subgraphs are  <strong><em>vertex-induced subgraphs</em></strong> , which are maximal subgraphs defined by a set of vertices. A vertex-induced subgraph is maximal in the sense that it contains all the edges that it can possibly contain. In general when an object is said to be a  <strong><em>maximal</em></strong>  “X”, it means that nothing more can be added to the object without violating the property “X”.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An important class of subgraphs are~\defn{vertex-induced subgraphs},
+which are maximal subgraphs defined by a set of vertices.
+A vertex-induced subgraph is maximal in the sense that it contains all
+the edges that it can possibly contain.
+In general when an object is said to be a~\defn{maximal}~``X'', it
+means that nothing more can be added to the object without violating
+the property ``X''.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::subgraph::vi
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Vertex-Induced Subgraph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Vertex-Induced Subgraph
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::subgraph::vi
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> The subgraph of <span class="math inline">\(G = (V,E)\)</span> induced by <span class="math inline">\(V&#39; \subseteq V\)</span> is the graph <span class="math inline">\(H  
+= (V&#39;,E&#39;)\)</span> where <span class="math inline">\(E&#39; = \left\{ \left\{ u,v \right\} \in E \;|\; u \in V&#39;, v \in V&#39; \right\}\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::subgraph::vi}
+The subgraph of $G = (V,E)$ induced by $V' \subseteq V$ is the graph $H
+= (V',E')$ where $E' = \csetf{\cset{u,v} \in E}{u \in V', v \in V'}$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:bg::graphs::vertex
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:bg::graphs::vertex
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Some vertex induced subgraphs:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="background/media-graphs/contract-example1.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Original graph</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="background/media-graphs/induced-example.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Induced by <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{e},\texttt{f} \right\}\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="background/media-graphs/induced-example2.jpg" alt="image" style="width:1in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Induced by <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{d} \right\}\)</span></td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Some vertex induced subgraphs:
+\begin{center}
+\begin{tabular}{c}
+\includegraphics[width=2in]{background/media-graphs/contract-example1.jpg}
+\\
+Original graph 
+\\
+\includegraphics[width=2in]{background/media-graphs/induced-example.jpg}
+\\
+ Induced by
+$\cset{\vname{a},\vname{b},\vname{c},\vname{e},\vname{f}}$ 
+\\
+\includegraphics[width=1in]{background/media-graphs/induced-example2.jpg}
+\\
+Induced by $\cset{\vname{a},\vname{b},\vname{c},\vname{d}}$
+\end{tabular}
+\end{center}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::although
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::although
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Although we will not use it in this book, it is also possible to define an induced subgraph in terms of a set of edges by including in the graph all the vertices incident on the edges.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Although we will not use it in this book, it is also possible to
+define an induced subgraph in terms of a set of edges by including in
+the graph all the vertices incident on the edges.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::subgraph::ei
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Edge-Induced Subgraph
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Edge-Induced Subgraph
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::subgraph::ei
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> The subgraph of <span class="math inline">\(G = (V,E)\)</span> induced by <span class="math inline">\(E&#39; \subseteq E\)</span> is a graph <span class="math inline">\(H  
+= (V&#39;,E&#39;)\)</span> where <span class="math inline">\(V&#39; = \cup_{e \in E} e\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::subgraph::ei}
+The subgraph of $G = (V,E)$ induced by $E' \subseteq E$ is a graph $H
+= (V',E')$ where $V' = \cup_{e \in E} e$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Connectivity
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Connectivity
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::graphs::connectivity
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::recall
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::recall
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Recall that in a graph (either directed or undirected) a vertex <span class="math inline">\(v\)</span> is reachable from a vertex <span class="math inline">\(u\)</span> if there is a path from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>. Also recall that an undirected graph is connected if all vertices are reachable from all other vertices.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Recall that in a graph (either directed or undirected) a vertex $v$ is
+reachable from a vertex $u$ if there is a path from $u$ to $v$.  Also
+recall that an undirected graph is connected if all vertices are
+reachable from all other vertices.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:ex:gc-two-graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+ex:gc-two-graphs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Two example graphs shown. The first in connected; the second is not.</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><img src="background/media-graphs/contract-example1.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span>Graph 1</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><img src="background/media-graphs/contract-example4.jpg" alt="image" style="width:2in" /></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><span>Graph 2</span></td>
+</tr>
+</tbody>
+</table>
+<p>An important subgraph of an undirected graph is a connected component of a graph, defined below.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{ex:gc-two-graphs}
+Two example graphs shown. The first in connected; the second is not.
+
+\begin{tabular}{c}
+\includegraphics[width=2in]{background/media-graphs/contract-example1.jpg}
+\\
+{Graph 1}
+\\
+\includegraphics[width=2in]{background/media-graphs/contract-example4.jpg}
+\\
+{Graph 2}
+\end{tabular}
+
+An important subgraph of an undirected graph is a connected component
+of a graph, defined below.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::cc
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Connected Component
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Connected Component
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::cc
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Let <span class="math inline">\(G = (V,E)\)</span> be an undirected graph. A subgraph <span class="math inline">\(H\)</span> of <span class="math inline">\(G\)</span> is a  <strong><em>connected component</em></strong>  of <span class="math inline">\(G\)</span> if it is a maximally connected subgraph of <span class="math inline">\(G\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::cc}
+Let $G = (V,E)$ be an undirected graph.  A subgraph $H$ of $G$ is
+a~\defn{connected component}~of $G$ if it is a maximally connected
+subgraph of $G$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::maximally
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::maximally
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Here, “maximally connected component” means we cannot add any more vertices and edges from <span class="math inline">\(G\)</span> to <span class="math inline">\(H\)</span> without disconnecting <span class="math inline">\(H\)</span>. In the graphs shown in the example above, the first graph has one connected component (hence it is connected); the second has two connected components.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Here, ``maximally connected component'' means we cannot add any more
+vertices and edges from $G$ to $H$ without disconnecting $H$. In the
+graphs shown in the example above, the first graph has one connected
+component (hence it is connected); the second has two connected
+components.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:bg::graphs::specify
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:bg::graphs::specify
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We can specify a connected component of a graph by simply specifying the vertices in the component. For example, the connected components of the second graph in the example above can be specified as <span class="math inline">\(\left\{ \texttt{a},\texttt{b},\texttt{c},\texttt{d} \right\}\)</span> and <span class="math inline">\(\left\{ \texttt{e},\texttt{f} \right\}\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can specify a connected component of a graph by simply specifying the
+vertices in the component.
+For example, the connected components of the second graph in the
+example above can be specified as
+$\cset{\vname{a},\vname{b},\vname{c},\vname{d}}$
+and 
+$\cset{\vname{e},\vname{f}}$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Graph Partition
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Graph Partition
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::graphs::partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::graphs::partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::graphs::partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Recall that a partition of a set <span class="math inline">\(A\)</span> is a set <span class="math inline">\(P\)</span> of non-empty subsets of <span class="math inline">\(A\)</span> such that each element of <span class="math inline">\(A\)</span> is in exactly one subset, also called block, <span class="math inline">\(B \in P\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Recall that a partition of a set $A$ is a set $P$ of non-empty subsets
+of $A$ such that each element of $A$ is in exactly one subset, also
+called block, $B \in P$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Graph Partition
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Graph Partition
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> A  <strong><em>graph partition</em></strong>  is a partition of the vertex set of the graph. More precisely, given graph <span class="math inline">\(G = (V,E)\)</span>, we define a partition of <span class="math inline">\(G\)</span> as a set of graphs <span class="math display">\[P = \{ G_1 = (V_1,E_1) \ldots G_k = (V_k,E_k) \},\]</span> where <span class="math inline">\(\{V_1, \ldots, V_k\}\)</span> is a (set) partition of <span class="math inline">\(V\)</span> and <span class="math inline">\(G_1,  
+\ldots, G_k\)</span> are vertex-induced subgraphs of <span class="math inline">\(G\)</span> with respect to <span class="math inline">\(V_1,  
+\ldots, V_k\)</span> respectively. As in set partitions, we use the term  <strong><em>part</em></strong>  or  <strong><em>block</em></strong>  to refer to each vertex-induced subgraph <span class="math inline">\(G_1, \ldots, G_k\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::partition}
+A~\defn{graph partition}~is a partition of the vertex set of the
+graph.
+More precisely, given graph $G = (V,E)$, we define a partition of $G$
+as a set of graphs 
+\[
+P = \{ G_1 = (V_1,E_1) \ldots G_k = (V_k,E_k) \},
+\]
+where $\{V_1, \ldots, V_k\}$ is a (set) partition of $V$ and $G_1,
+\ldots, G_k$ are vertex-induced subgraphs of $G$ with respect to $V_1,
+\ldots, V_k$ respectively.  
+As in set partitions, we use the term~\defn{part}~or~\defn{block}~to
+refer to each vertex-induced subgraph $G_1, \ldots, G_k$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::partition::edges
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Internal and Cut Edges
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Internal and Cut Edges
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::partition::edges
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> In a graph partition, we can distinguish between two kinds of edges: internal edges and cut edges.   <strong><em>Internal edges</em></strong>  are edges that are within a block;  <strong><em>cut edges</em></strong>  are edges that are between blocks. One way to partition a graph is to make each connected component a block. In such a partition, there are no cut edges between the partitions.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::partition::edges}
+In a graph partition, we can distinguish between two kinds of edges:
+internal edges and cut edges. ~\defn{Internal edges}~are edges that
+are within a block;~\defn{cut edges}~are edges that are between
+blocks.
+One way to partition a graph is to make each connected component a
+block. In such a partition, there are no cut edges between the
+partitions.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Trees
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Trees
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::graphs::trees
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Tree
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Tree
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> An undirected graph is a  <strong><em>tree</em></strong>  if it does not have cycles and it is connected. A  <strong><em>rooted tree</em></strong>  is a tree with a distinguished root node that can be used to access all other nodes. An example of a rooted tree along with the associated terminology is given in below.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::tree}
+An undirected graph is a~\defn{tree}~if it does not have cycles and it is
+connected.  A~\defn{rooted tree}~is a tree with a distinguished root
+node that can be used to access all other nodes.
+An example of a rooted tree along with
+the associated terminology is given in below.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::graphs::rooted-tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Rooted Trees
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Rooted Trees
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::graphs::rooted-tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>rooted tree</em></strong>  is a directed graph such that</p>
+<ol>
+<li><p>One of the vertices is the  <strong><em>root</em></strong>  and it has no in edges.</p></li>
+<li><p>All other vertices have one in-edge.</p></li>
+<li><p>There is a path from the root to all other vertices.</p></li>
+</ol>
+<p>Rooted trees are common structures in computing and have their own dedicated terminology.</p>
+<ul>
+<li><p>By convention we use the term  <strong><em>node</em></strong>  instead of vertex to refer to the vertices of a rooted tree.</p></li>
+<li><p>A node is a  <strong><em>leaf</em></strong>  if it has no out edges, and an  <strong><em>internal node</em></strong>  otherwise.</p></li>
+<li><p>For each directed edge <span class="math inline">\((u,v)\)</span>, <span class="math inline">\(u\)</span> is the  <strong><em>parent</em></strong>  of <span class="math inline">\(v\)</span>, and <span class="math inline">\(v\)</span> is a  <strong><em>child</em></strong>  of <span class="math inline">\(u\)</span>.</p></li>
+<li><p>For each path from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span> (including the empty path with <span class="math inline">\(u = v\)</span>), <span class="math inline">\(u\)</span> is an  <strong><em>ancestor</em></strong>  of <span class="math inline">\(v\)</span>, and <span class="math inline">\(v\)</span> is a  <strong><em>descendant</em></strong>  of <span class="math inline">\(u\)</span>.</p></li>
+<li><p>For a vertex <span class="math inline">\(v\)</span>, its  <strong><em>depth</em></strong>  is the length of the path from the root to <span class="math inline">\(v\)</span> and its  <strong><em>height</em></strong>  is the longest path from <span class="math inline">\(v\)</span> to any leaf.</p></li>
+<li><p>The  <strong><em>height of a tree</em></strong>  is the height of its root.</p></li>
+<li><p>For any node <span class="math inline">\(v\)</span> in a tree, the  <strong><em>subtree rooted at</em></strong>  <span class="math inline">\(v\)</span> is the rooted tree defined by taking the induced subgraph of all vertices reachable from <span class="math inline">\(v\)</span> (i.e. the vertices and the directed edges between them), and making <span class="math inline">\(v\)</span> the root.</p></li>
+<li><p>As with graphs, an  <strong><em>ordered rooted tree</em></strong>  is a rooted tree in which the out edges (children) of each node are ordered.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:bg::graphs::rooted-tree}
+
+A~\defn{rooted tree}~is a directed graph such that
+\begin{enumerate}
+\item 
+One of the vertices is the~\defn{root}~and it has no in edges.
+\item 
+All other vertices have one in-edge.
+\item
+There is a path from the root to all other vertices.
+\end{enumerate}
+
+Rooted trees are common structures in computing and have their own
+dedicated terminology.
+\begin{itemize}
+\item
+By convention we use the term~\defn{node}~instead of vertex to refer
+to the vertices of a rooted tree.  
+\item
+A node is a~\defn{leaf}~if it has no out edges, and an~\defn{internal
+  node}~otherwise.  
+
+\item
+For each directed edge $(u,v)$, $u$ is the~\defn{parent}~of $v$, and
+$v$ is a~\defn{child}~of $u$.  
+
+\item
+For each path from $u$ to $v$ (including the empty path with $u = v$),
+$u$ is an~\defn{ancestor}~of $v$, and $v$ is a~\defn{descendant}~of
+$u$.
+\item
+For a vertex $v$, its~\defn{depth}~is the length of the path from the
+root to $v$ and its~\defn{height}~is the longest path from $v$ to any
+leaf.  
+
+\item
+The~\defn{height of a tree}~is the height of its root.  
+
+\item
+For any node $v$ in a tree, the~\defn{subtree rooted at}~$v$ is the
+rooted tree defined by taking the induced subgraph of all vertices
+reachable from $v$ (i.e. the vertices and the directed edges between
+them), and making $v$ the root.  
+
+\item
+As with graphs, an~\defn{ordered rooted tree}~is a rooted tree in
+which the out edges (children) of each node are ordered.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:ex:bg::graphs::rooted-tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+ex:bg::graphs::rooted-tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> An example rooted tree follows.</p>
+<p><img src="background/media-graphs/rootedtree.jpg" alt="image" style="width:2in" /></p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">root</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">leaves</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(E\)</span>, <span class="math inline">\(C\)</span>, <span class="math inline">\(F\)</span>, <span class="math inline">\(G\)</span>, and <span class="math inline">\(H\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">internal nodes</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(A\)</span>, <span class="math inline">\(B\)</span>, and <span class="math inline">\(D\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">children of <span class="math inline">\(A\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(B\)</span>, <span class="math inline">\(C\)</span> and <span class="math inline">\(D\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">parent of <span class="math inline">\(E\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(B\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">descendants of <span class="math inline">\(A\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">all nodes, including <span class="math inline">\(A\)</span> itself</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">ancestors of <span class="math inline">\(F\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(F\)</span>, <span class="math inline">\(D\)</span> and <span class="math inline">\(A\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">depth of <span class="math inline">\(F\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">height of <span class="math inline">\(B\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">height of the tree</td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">subtree rooted at <span class="math inline">\(D\)</span></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;">the rooted tree consisting of <span class="math inline">\(D\)</span>, <span class="math inline">\(F\)</span>, <span class="math inline">\(G\)</span> and <span class="math inline">\(H\)</span></td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{ex:bg::graphs::rooted-tree}
+An example rooted tree follows.
+\begin{center}
+  \includegraphics[width=2in]{background/media-graphs/rootedtree.jpg}
+\end{center}
+
+\begin{center}
+\begin{tabular}{rcl}
+root & : & $A$\\
+leaves & : & $E$, $C$, $F$, $G$, and $H$\\
+internal nodes & : & $A$, $B$, and $D$\\
+children of $A$ & : & $B$, $C$ and $D$\\
+parent of $E$ & : & $B$\\
+descendants of $A$ & : & all nodes, including $A$ itself\\
+ancestors of $F$ & : & $F$, $D$ and $A$\\
+depth of $F$ & : & 2\\
+height of $B$ & : & 1\\
+height of the tree & : & 2\\
+subtree rooted at $D$ & : & the rooted tree consisting of $D$, $F$, $G$ and $H$
+\end{tabular}
+\end{center}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

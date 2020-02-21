@@ -1,0 +1,577 @@
+\chapter{Asymptotics}
+\label{ch:analysis::asymptotics}
+
+
+%%
+%% TODO:
+%% Guy: talk briefly about upper and lower bounds even before big-O 
+%% and big omega, perhaps even in the preamble. 
+%%
+
+
+\begin{preamble}
+This chapter describes the asymptotic notation that is used nearly
+universally in computer science to analyze the resource consumption of
+algorithms.
+\end{preamble}
+
+\section{Basics}
+\label{sec:analysis::asymptotics::asymptotics}
+
+\begin{flex}
+
+  \begin{gram}
+When analyzing algorithms, we are usually interested in
+costs such as the total work, the running time, or space usage. 
+%
+In such analysis, we typically characterize the behavior of an
+algorithm with a~\defn{numeric function} from the domain of natural
+numbers (typically input sizes) to the codomain of real numbers (cost).
+%
+%The parameters of such numeric functions, natural numbers, typically
+%denote the size of the problem-instance or the input.
+%
+\end{gram}
+
+\begin{example}[Numeric Functions]
+By analyzing the work of the algorithm~$A$ for problem~$P$ in terms of
+its input size $n$, we may obtain the numeric function
+%
+$$W_A(n) = 2n\lg{n} + 3n + 4\lg{n} + 5.$$  
+%
+By applying the analysis method to another algorithm, algorithm~$B$,
+we may derive the numeric function
+%
+$$ W_B(n) = 6n + 7\lg^2{n} + 8\lg{n} + 9.$$
+%
+Both of these functions are numeric because their domain is the natural
+numbers.
+\end{example}
+
+\end{flex}
+
+\begin{flex}
+
+  \begin{gram}
+When given numeric functions, how should we interpret them?
+%
+Perhaps more importantly given two algorithms and their work cost as
+represented by two numeric functions, how should we compare them?
+%
+One option would be to calculate the two functions for varying values
+of~$n$ and pick the algorithm that does the least amount of work for
+the values of $n$ that we are interested in.
+
+In computer science, we typically care about the cost of an algorithm
+for large inputs.
+%
+We are therefore usually interested in the~\defn{growth} or
+the~\defn{growth rate} of the functions.
+%
+Asymptotic analysis offers a technique for comparing algorithms by
+comparing the growth rate of their cost functions as the sizes get
+large (approach infinity).
+%
+\end{gram}
+
+\begin{example}[Asymptotics]
+Consider two algorithms~$A$ and $B$ for a problem~$P$ and suppose that
+their work costs, in terms of the input size $n$, are 
+%
+$$W_A(n) = 2n\lg{n} + 3n + 4\lg{n} + 5, \mbox{and}$$
+%
+$$W_B(n) = 6n + 7\lg^2{n} + 8\lg{n}+ 9.$$
+%
+Via asymptotic analysis, we derive 
+%
+$$W_A(n) \in \Theta(n\lg{n}),~\mbox{and}$$
+%
+$$W_B(n) \in \Theta(n).$$
+%
+Since ~$n\lg{n}$ grows faster that~$n$, we would usually prefer the
+second algorithm, because it performs better for sufficiently large
+inputs.
+
+%
+The difference between the exact work expressions and the ``asymptotic
+bounds'' written in terms of the ``Theta'' functions is that the
+latter ignores so called~\defn{constant factors}, which are the
+constants in front of the variables, and~\defn{lower-order terms},
+which are the terms such as $3n$ and $4\lg{n}$ that diminish in
+growth with respect to $n\lg{n}$ as $n$ increases.
+%
+\end{example}
+
+\end{flex}
+
+\begin{remark}
+In addition to enabling us to compare algorithms, asymptotic analysis
+also allows us to ignore certain details such as the exact time an
+operation may require to complete on a particular architecture.
+%
+This is important because it makes it possible to apply our analysis
+to different architectures, where such constant may differ.
+%
+Furthermore, it also enables us to create more abstract cost models:
+in designing cost models, we assign most operations unit costs
+regardless of the exact time they might take on hardware.
+%
+This greatly simplifies the definition of the models.
+\end{remark}
+
+\begin{teachask}
+Do you know of an algorithm that compared to other algorithms for the
+same problem, performs asymptotically better at large inputs but poorly
+at smaller inputs.
+\end{teachask}
+
+\begin{flex}
+
+  \begin{exercise}
+    Comparing two algorithms that solve the same problem, one might
+    perform better on large inputs and the other on small inputs.  
+    Can you give an example? 
+  \end{exercise}
+
+  \begin{solution}
+    There are many such algorithms.  
+    % 
+    A classic example is the merge-sort algorithm that performs
+    $\Theta(n\lg{n})$ work, but performs worse on smaller inputs than the
+    asymptotically inefficient $\Theta(n^2)$-work insertion-sort
+    algorithm.
+    % 
+    Asymptotic notation does not help in comparing the efficiency of
+    insertion sort and merge sort at small input sizes.
+    % 
+    For this, we need to compare their actual work functions which include
+    the constant factors and lower-order terms that asymptotic notation
+    ignores.
+  \end{solution}
+
+\end{flex}
+
+\section{Big-O, big-Omega, and big-Theta}
+
+\begin{gram}
+  The key idea in asymptotic analysis is to understand how the growth
+  rate of two functions compare on large input.  In 
+  particular as we increase the numeric argument of both functions to
+  infinity, does one grow faster, equally fast or slower than the
+  other?   In
+  answering this question we do not care about small input and 
+  do not care about constant factors.  To capture this idea, we use the following
+  definition.
+\end{gram}
+
+\begin{flex}
+
+  \begin{definition}[Asymptotic dominance]
+    Let $f(\cdot)$ and $g(\cdot)$ be two numeric functions.  We say that
+    $f(\cdot)$~\defn{asymptotically dominates} $g(\cdot)$,  if there
+    exists constants~$c > 0$ and~$n_0 > 0$ such that for all 
+    $n \ge n_0,$
+    \[
+      g(n) \le c \cdot f(n).
+    \]
+    or, equivalently, if
+    \[\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)} \leq c~.\]
+  \end{definition}
+
+  \begin{example}
+    In the following examples, the function $f(\cdot)$ asymptotically 
+    dominates and thus grows at least as fast as the function $g(\cdot)$. 
+    % 
+    \[
+      \begin{array}{ll}
+        f(n) = 2n & g(n) = n \\
+        f(n) = 2n & g(n) = 4n \\
+        f(n) = n\lg{n} & g(n) = 8n \\
+        f(n) = n\lg{n} & g(n) = 8n\lg{n} + 16n \\
+        f(n) = n\sqrt{n} & g(n) = n\lg{n} + 2n \\
+        f(n) = n\sqrt{n} & g(n) = n\lg^8{n} + 16n \\
+        f(n) = n^2 & g(n) = n\lg^2{n} + 4n \\
+        f(n) = n^2 & g(n) = n\lg^2{n} + 4n\lg{n} + n \\
+      \end{array}
+    \]
+  \end{example}
+
+\end{flex}
+
+\begin{gram}
+In the definition we ignore all $n$ that are less than 
+$n_0$ (i.e. small inputs), and we allow $g(n)$ to be some constant factor, $c$, larger
+than $f(n)$ even though $f(n)$ ``dominates''.
+%We sometimes drop the ``asymptotically'' and say $f$ dominates $g$ for short.
+When a function $f(\cdot)$ asymptotically dominates (or dominates for short)
+$g(\cdot)$,  we sometimes say that $f(\cdot)$ grows as least as fast as
+$g(\cdot)$
+\end{gram}
+
+\begin{flex}
+
+  \begin{exercise}
+Prove that for all $k$, $f(n) = n$ asymptotically dominates $g(n) =
+\ln^k n$.
+
+\textbf{Hint}: use L'Hopital's
+rule, which states:
+\[\mbox{if}~
+\lim_{n \rightarrow \infty} f(n) = \infty~\mbox{and}~
+\lim_{n \rightarrow \infty} g(n) = \infty,~\mbox{then:}~~
+\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)} =
+\lim_{n \rightarrow \infty} \frac{g'(n)}{f'(n)}~. 
+\]
+\end{exercise}
+
+\begin{solution}
+We have:
+\[
+\begin{array}{lcl}
+\displaystyle\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)}
+& = & \displaystyle\lim_{n \rightarrow \infty} \frac{\ln^k n}{n} \\
+& = & \left( \displaystyle\lim_{n \rightarrow \infty} \frac{\ln n}{n^{1/k}}
+      \right)^k\\ 
+& = & \left( \displaystyle\lim_{n \rightarrow \infty} \frac{1/n}{(1/k)
+      n^{1/k - 1}}
+      \right)^k\\ 
+& = & \left( \displaystyle\lim_{n \rightarrow \infty} \frac{k}{n^{1/k}} \right)^k\\ 
+& = & 0\\
+\end{array}
+\]
+We applied L'Hospital's rule from the second to the third line.
+Since $0$ is certainly upper bounded by a constant $c$, we have that
+$f$ dominates $g$.
+\end{solution}
+
+\end{flex}
+
+\begin{gram}
+For two functions $f$ and $g$ it is possible neither dominates the
+other.
+For example, for $f(n) = n \sin(n)$ and 
+$g(n) = n \cos(n)$ neither dominates since they keep
+crossing.
+However, both $f$ and $g$ are dominated by $h(n) = n$. 
+
+The dominance relation defines what is called a \defn{preorder} (distinct
+from ``pre-order'' for traversal of a tree) over numeric
+functions.  This means that the relation is transitive (i.e., if $f$ dominates
+$g$, and $g$ dominates $h$, then $f$ dominates $h$), and reflexive
+(i.e., $f$ dominates itself).
+\end{gram}
+
+\begin{flex}
+
+  \begin{exercise}
+    Prove that asymptotic dominance is transitive.
+  \end{exercise}
+
+  \begin{solution}
+    By the definition of dominance we have that 
+    \begin{enumerate}
+    \item 
+      for some $c_a, n_a$ and all $n \geq n_a$,  $g(n) \leq c_a \cdot f(n)$,
+      and
+    \item
+      for some $c_b, n_b$ and all $n \geq n_b$,  $h(n) \leq c_b \cdot g(n)$.
+    \end{enumerate}
+    By plugging in, we have that for all $n \geq \max(n_a,n_b)$
+    \[h(n) \leq c_b (c_a f(n))~.\]
+    This satisfies the definition  $f$ dominates $h$ with $c = c_a
+    \cdot c_b$ and $n_0 = \max(n_a,n_b)$.
+  \end{solution}
+
+\end{flex}
+
+
+
+
+%% \begin{checkpoint}
+%% Prove that $n^2$ grows faster than $2n^2 + 10n$.
+%% Prove that $n^2$ grows faster than $2n\lg{n} + 10\lg^4{n}$.
+%% Prove that $n\lg{n}$ grows faster than $5n\lg{n} + 6n$.
+%% Prove or disprove:  $O(n\lg^3{n})$ grows faster than $5n\lg^2{n} + 6n\lg{n}$.
+%% Prove or disprove: $O(\sqrt{n})$ grows faster than $7\lg^2{n} + 6\lg{n}$. 
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% $f(n) + g(n)$ grows faster than $\max{}(f(n), g(n)).$
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
+%% g(n)$ for any $n$, 
+%% $f(n) - g(n)$ grows faster than $\minof{}(f(n), g(n))$.
+%% \]
+
+\begin{flex}
+
+  \begin{definition}[$O, \Omega, \Theta, o, \omega$ Notation]
+Consider the set of all numeric functions $F$, and $f \in F$.   We define the following sets:
+\[
+\begin{array}{lclc}
+~\mbox{Name} &   & \mbox{Definition}  & \mbox{Intuitively}\\ \hline
+~\mbox{big-O} & : & O(f)  = \{g \in F ~\mbox{such that}~
+                    f~\mbox{dominates}~g\} & \leq f \\
+~\mbox{big-Omega} & : & \Omega(f) = \{g \in F ~\mbox{such that}~ g
+                        ~\mbox{dominates}~f\} & \geq f \\
+~\mbox{big-Theta} & : & \Theta(f) =  O(f) \cap \Omega(f) & = f\\
+~\mbox{little-o} & : & o(f) =  O(f) \setminus \Omega(f) & < f \\
+~\mbox{little-omega} & : & \omega(f) =  \Omega(f) \setminus O(f) & > f\\
+\end{array}
+\]
+Here ``$\setminus$'' means set difference.
+\end{definition}
+
+\begin{example}
+\[
+\begin{array}{lclcl}
+f(n) & = & 2n & \in & O(n) \\
+f(n) & = & 2n & \in & \Omega(n) \\
+f(n) & = & 2n & \in &  \Theta(n) \\
+f(n) & = & 2n & \in & O(n^2) \\
+f(n) & = & 2n & \in & o(n^2) \\ 
+f(n) & = & 2n & \in & \Omega(\sqrt{n}) \\
+f(n) & = & 2n & \in & \omega(\sqrt{n}) \\
+f(n) & = & n\lg^8{n} + 16n & \in & O(n\sqrt{n}) \\
+f(n) & = & n\lg^2{n} + 4n\lg{n} + n & \in & \Theta(n \lg^2 n) \\
+\end{array}
+\]
+\end{example}
+
+\end{flex}
+
+\begin{flex}
+\begin{exercise}
+Prove or disprove the following statement:
+%
+if $g(n) \in O(f(n))$ and $g(n)$ is a finite function ($g(n)$ is finite
+for all $n$), then it follows that there exist constants $k_1$ and
+$k_2$ such that for all $n \geq 1$,
+\[
+g(n) \leq k_1\cdot f(n) + k_2.
+\]
+\end{exercise}
+
+\begin{solution}
+The statement is correct. 
+%
+Because $g(n) \in O(f(n))$, we know by the definition that there exists positive constants $c$ and $n_o$ such that for all $n \geq n_0$, $g(n) \le c \cdot f(n)$.
+%
+It follows that for the function $k_1 \cdot f(n) + k_2$ where  $k_1 = c$ and $k_2 = \sum_{i=1}^{n_0}  g(i)$,  we have $g(n) \leq k_1 \cdot f(n) + k_2$.
+\end{solution}
+
+\end{flex}
+
+%Guy : the following exercise is confusing to me.   Perhaps drop.
+% \begin{exercise}[Graphical Illustration of Upper bounds]
+% Can you illustrate graphically when $g(n) \in O(f(n))$?  Show
+% different cases by considering different functions.
+% \end{exercise}
+
+%% \begin{checkpoint}
+%% Prove that $2n^2 + 10n \in O(n^2)$.
+%% Prove that $2n\lg{n} + 10\lg^4{n} \in O(n^2)$.
+%% Prove that $5n\lg{n} + 6n \in O(n\lg{n})$.
+%% Prove or disprove $5n\lg^2{n} + 6n\lg{n} \in O(n\lg^3{n})$.
+%% Prove or disprove $7\lg^2{n} + 6\lg{n} \in O(\sqrt{n})$.
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = O(f(n) + g(n)).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
+%% g(n)$ for any $n$ 
+%% \[
+%% \minof{}(f(n), g(n)) = O(f(n) - g(n)).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% f(n) * g(n) = O(f(n)) * O(g(n)).
+%% \]
+
+% \begin{flex}
+% \begin{definition}[Big-Omega Notation]
+% For a function $f(n)$, 
+% \[\Omega(f(n))\]
+% indicates the set of all functions
+% that asymptotically dominate $f(n)$---i.e., the set of functions that
+% grow at least as fast as $f(n)$.    
+% \end{definition}
+
+% \begin{example}
+% The following bounds hold for the function $f(\cdot)$.
+% %
+% \[
+% \begin{array}{lclcl}
+% f(n) & = & 2n & \in & \Omega(n) \\
+% f(n) & = & 4n\lg{n} & \in & \Omega(n\lg{n}) \\
+% f(n) & = & n\lg{n} & \in & \Omega(n)\\
+% f(n) & = & n\sqrt{n} & \in & \Omega(n\lg{n} + 2n)\\
+% f(n) & = & n\sqrt{n} & \in & \Omega(n\lg^8{n})\\
+% f(n) & = & n^2 & \in & \Omega(n\lg^2{n})\\
+% \end{array}
+% \]
+% \end{example}
+% \end{flex}
+
+%% \begin{checkpoint}
+%% Prove that $2n^2 + 10n \in \Omega(n^2)$.
+%% Prove or disprove $2n\lg{n} + 10\lg^4{n} \in \Omega(n^2)$.
+%% Prove or disprove: $5n\lg{n} + 6n \in \Omega(n\lg{n})$.
+%% Prove or disprove $5n\lg^2{n} + 6n\lg{n} \in \Omega(n\lg{n})$.
+%% Prove or disprove $7\lg^2{n} + 6\lg{n} \in O(\lg{n})$.
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \maxof{}(f(n), g(n)) = \Omega(f(n) + g(n)).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = \Omega(\minof{}(f(n), g(n))).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, such that $f(n) >
+%% g(n)$ for any $n$ 
+%% \[
+%% \minof{}(f(n), g(n)) = \Omega(f(n) - g(n)).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% f(n) * g(n) = \Omega(f(n)) * O(g(n)).
+%% \]
+
+% \begin{flex}
+% \begin{definition}[Big-Theta Notation]
+% For a function $f(n)$,  
+% \[\Theta(f(n)) = O(f(n)) \cap \Omega(f(n)),\]
+% i.e., the set of functions that grow at the same rate as $f(n)$.
+% \end{definition}
+
+% \begin{example}
+% The following bounds hold for the function $f(\cdot)$.
+% %
+
+% \[
+% \begin{array}{lclcl}
+% f(n) & = & 2n & \in & \Theta(n)\\
+% f(n) & = & 4n\lg{n} & \in & \Theta(n\lg{n})\\
+% f(n) & = & n\sqrt{n} + n\lg^2{n} & \in & \Theta(n\sqrt{n})\\
+% f(n) & = & n\sqrt{n} + n\lg^3{n} & \in & \Theta(n\sqrt{n})\\
+% f(n) & = & n^2 + n\lg^4{n} & \in & \Theta(n^2)\\
+% \end{array}
+% \]
+% \end{example}
+% \end{flex}
+
+\begin{gram}
+  We often think of $g(n) \in O(f(n))$ as indicating that $f(n)$ is
+  an~\defn{upper bound} for $g(n)$ Similarly $g(n) \in \Omega(f(n))$
+  indicates that $f(n)$ is a~\defn{lower bound} for $g(n)$, and
+  $g(n) \in \Theta(f(n))$ indicates that $f(n)$ is
+  a~\defn{tight bound} for $g(n)$.
+\end{gram}
+
+%% \begin{checkpoint}
+%% Prove that $2n^2 + 10n \in \Theta(n^2)$.
+%% Prove or disprove $2n\lg{n} + 10\lg^4{n} \in \Theta(n^2)$.
+%% Prove or disprove: $5n\lg{n} + 6n \in \Theta(n\lg{n})$.
+%% Prove or disprove $4n\lg^4{n} + 6n\lg{n} \in \Theta(n\lg^4{n})$.
+%% Prove or disprove $7\lg^2{n} + 6\lg{n} \in \Theta(\lg^2{n})$.
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = \Theta(f(n) + g(n)).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% \max{}(f(n), g(n)) = \Theta(\min{}(f(n), g(n))).
+%% \]
+%% Prove or disprove:
+%% for any  two numeric functions, $f(\cdot)$ and $g(\cdot)$, 
+%% \[
+%% f(n) * g(n) = \Theta(f(n)) * O(g(n)).
+%% \]
+
+\section{Some Conventions}
+\label{sec:analysis::asymptotics::conventions}
+
+\begin{gram}
+When using asymptotic notations, we follow some standard conventions
+of convenience.
+%
+\end{gram}
+
+\begin{gram}[Writing $=$ Instead of $\in$]
+  In is reasonably common to write $g(n) = O(f(n))$ instead of
+  $g(n) \in O(f(n))$ (or equivalently for $\Omega$ and $\Theta$).
+  This is often considered abuse of notation since in this context the ``$=$'' does not
+  represent any form of equality---it is not even reflexive.   In this
+  book we try to avoid using ``$=$'', although we expect it still appears in
+  various places.
+\end{gram}
+
+\begin{gram}[Common Cases]
+By convention, and in common use, we use the following names:
+
+\begin{tabular}{lcl}
+\defn{linear} & : & $O(n)$ \\
+\defn{sublinear} & : & $o(n)$ \\
+\defn{quadratic} & : & $O(n^2)$ \\
+\defn{polynomial} & : & $O(n^k)$, for any constant $k$.\\
+\defn{superpolynomial} & : & $\omega(n^k)$, for any constant $k$.\\
+\defn{logarithmic} & : & $O(\lg n)$ \\
+\defn{polylogarithmic} & : & $O(\lg^k n)$, for any constant $k$.\\
+\defn{exponential} & : & $O(a^n)$, for any constant $a > 1$.\\
+\end{tabular}
+
+\end{gram}
+
+\begin{gram}[Expressions as Sets]
+We typically treat expressions that involve asymptotic notation 
+as sets. 
+%
+For example, in $g(n) + O(f(n))$, 
+represents the set of functions $\{g(n) + h(n) : h(n) \in  f(n)\}$.
+The exception is when using big-O in recurrences, which we will
+discuss in \chref{analysis::recurrences}.
+\end{gram}
+
+\begin{gram}[Subsets]
+We can use big-O ($\Omega$, $\Theta$) on both the left and right-hand sides of an equation.
+In this case we are indicating that one set of functions is
+a subset of the other.
+%
+For example, consider $\Theta(n) \subset O(n^2)$.
+This equation indicates that the set of functions on the left-hand side is contained in
+the set on the right hand side.  
+%
+Again, sometimes ``$=$'' is used instead of ``$\subset$''.
+\end{gram}
+
+\begin{gram}[The Argument]
+  When writing $O(n + a)$ we have to guess what the argument of the
+  function is---is it $n$ or is it $a$?   By convention we assume the
+  letters $l, m$, and $n$ are
+  the arguments when they appear.  A more precise notation would be
+  to use $O(\lambda n . n + a)$---after all the
+  argument to the big-O is supposed to be a function, not an
+  expression.
+\end{gram}
+
+\begin{gram}[Multiple Arguments]
+  Sometimes the function used in big-O notation has multiple
+  arguments, as in $f(n,m) = n^2 + m \lg n$ and used in $O(f(n,m))$.
+  In this case $f(n,m)$ asymptotically dominates $g(n,m)$ if there
+  exists constants $c$ and $x_0 > 0$ such that for all inputs where
+  $n > x_0$ or $m > x_0$, $g(n, m) \leq c \cdot f(n,m)$.  
+ % We typically
+%   also require $n > 0$ and $m > 0$, otherwise $O(nm)$ would be
+%   meaningless---we would have to use the messier $O((n+1)(m+1))$
+%   instead.
+% 
+\end{gram}

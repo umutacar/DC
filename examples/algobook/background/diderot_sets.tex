@@ -1,0 +1,275 @@
+\chapter{Sets and Relations}
+\label{ch:bg::sets-and-relations}
+
+\begin{cluster}
+\label{grp:prmbl:bg::sets-and-relations::presents}
+
+\begin{preamble}
+\label{prmbl:bg::sets-and-relations::presents}
+This chapter presents a review of some basic definitions on sets and
+relations.
+
+\end{preamble}
+\end{cluster}
+
+
+\section{Sets}
+\label{sec:bg::sets}
+
+\begin{cluster}
+\label{grp:grm:bg::sets-and-relations::collection}
+
+\begin{gram}
+\label{grm:bg::sets-and-relations::collection}
+A~\defn{set} is a collection of distinct objects.  The objects that
+are contained in a set, are called~\defn{members} or
+the~\defn{elements} of the set.  The elements of a set must be
+distinct: a set may not contain the same element more than once. The
+set that contains no elements is called the~\defn{empty set} and is
+denoted by $\{\}$ or $\emptyset$.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:bg::sets-and-relations::specification-of-sets}
+
+\begin{gram}[Specification of Sets]
+\label{grm:bg::sets-and-relations::specification-of-sets}
+Sets can be specified intentionally, by mathematically describing
+their members.
+For example, the set of natural numbers, traditionally written as
+$\tynat$, can be specified~\defn{intentionally} as the set of all
+nonnegative integral numbers.
+Sets can also be specified~\defn{extensionally} by listing their members.
+For example, the set $\tynat = \{0, 1, 2, \ldots\}.$
+We say that an element $x$ is a {\em member of} $A$, written $x \in
+A$, if $x$ is in $A$.  
+More generally, sets can be specified using~\defn{set comprehensions},
+which offer a compact and precise way to define sets by mixing
+intentional and extensional notation.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:def:bg::sets-and-relations::union-and-intersection}
+
+\begin{definition}[Union and Intersection]
+\label{def:bg::sets-and-relations::union-and-intersection}
+For two sets $A$ and $B$, the~\defn{union} $A \cup B$ is defined as
+the set containing all the elements of $A$ and $B$.  Symmetrically,
+their~\defn{intersection}, $A \cap B$ is the defined as the set
+containing the elements that are member of both $A$ and $B$.
+We say that $A$ and $B$ are~\defn{disjoint} if their intersection is
+the empty set, i.e., $A \cap B = \emptyset$.
+
+\end{definition}
+\end{cluster}
+
+\begin{flex}
+\label{grp:def:bg::sets-and-relations::cartesian-product}
+
+\begin{definition}[Cartesian Product]
+\label{def:bg::sets-and-relations::cartesian-product}
+Consider two sets~$A$ and~$B$.  The~\defn{Cartesian product $A \times
+  B$} is the set of all ordered pairs $(a,b)$ where $a \in A$ and $b
+\in B$, i.e.,
+\[
+A \times B = \cset{(a,b) : a \in A, b \in B}.
+\]
+
+\end{definition}
+
+\begin{example}
+\label{ex:bg::sets::cartesian}
+The Cartesian product of $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$ is
+\[
+\begin{array}{lll}
+A \times B = & \{ & (0,a),(0,b),(1,a),(1,b),
+\\
+             &    & (2,a),(2,b),(3,a),(3,b) 
+\\
+             & \}.
+\end{array}
+\]
+
+\end{example}
+\end{flex}
+
+\begin{flex}
+\label{grp:def:bg::sets-and-relations::set-partition}
+
+\begin{definition}[Set Partition]
+\label{def:bg::sets-and-relations::set-partition}
+Given a set $A$, a partition of $A$ is a set $P$ of non-empty subsets
+of $A$ such that each element of $A$ is in exactly one subset in $P$.
+We refer to each element of $P$ as a~\defn{block} or a~\defn{part} and
+the set $P$ as a~\defn{partition} of $A$.
+More precisely, $P$ is a partition of $A$ if the following conditions
+hold:
+\begin{itemize}
+\item if $B \in P$, then $B \not= \emptyset$,
+\item if $A = \bigcup_{B \in P}{B}$, and
+\item if $B, C \in P$, then $B = C$ or $B \cap C = \emptyset$.
+\end{itemize}
+
+\end{definition}
+
+\begin{example}
+\label{xmpl:bg::sets-and-relations::contained}
+If $A = \{1, 2, 3, 4, 5, 6 \}$ then $P = \{ \{1,3,5\}, \{2, 4, 6\} \}$
+is a partition of $A$.  The set $\{1,3,5\}$ is a block.
+
+The set $Q = \{ \{1,3,5,6\}, \{2, 4, 6\} \}$ is a not partition of
+$A$, because the element $6$ is contained multiple blocks.
+
+\end{example}
+\end{flex}
+
+\begin{flex}
+\label{grp:def:bg::sets-and-relations::kleene-operators}
+
+\begin{definition}[Kleene Operators]
+\label{def:bg::sets-and-relations::kleene-operators}
+For any set $\Sigma$, its~\defn{Kleene star} $\Sigma^*$ is the set of
+all possible strings consisting of members of $\Sigma$, including the
+empty string.
+
+For any set $\Sigma$, its~\defn{Kleene plus} $\Sigma^+$ is the set of
+all possible strings consisting of members $\Sigma$, excluding the
+empty string.
+
+\end{definition}
+
+\begin{example}
+\label{xmpl:bg::sets-and-relations::given}
+Given $\Sigma = \{\texttt{a},\texttt{b}\}$,
+\[
+\begin{array}{rl}
+\Sigma^* 
+= 
+\{
+&
+\str{}, 
+\\
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+\\
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}},
+\str{\texttt{abb}},
+\\
+& \str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, \str{\texttt{bbb}},
+\\
+&
+\ldots
+\\
+\} &
+\end{array}
+\]
+and
+\[
+\begin{array}{rl}
+\Sigma^+ 
+= 
+\{
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+\\
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}}, \str{\texttt{abb}}, 
+\\
+&
+\str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, 
+\str{\texttt{bbb}},
+\\
+& \ldots
+\\
+\} & 
+\\
+\end{array}
+\]
+
+\end{example}
+\end{flex}
+
+\begin{cluster}
+\label{grp:xrcs:bg::sets-and-relations::prove}
+
+\begin{exercise}
+\label{xrcs:bg::sets-and-relations::prove}
+Prove that Kleene star and Kleene plus are closed under
+string concatenation. 
+
+\end{exercise}
+\end{cluster}
+
+
+\section{Relations}
+\label{sec:bg::relations}
+
+\begin{cluster}
+\label{grp:def:bg::sets-and-relations::relation}
+
+\begin{definition}[Relation]
+\label{def:bg::sets-and-relations::relation}
+A~\defn{(binary)~\defn{relation} from a set~$A$ to set~$B$} is a
+subset of the Cartesian product of~$A$ and~$B$.  
+For a relation~$R \subseteq A \times B$, 
+\begin{itemize}
+\item the set~$\cset{a : (a,b) \in
+  R}$ is referred to as the~\defn{domain} of $R$, and 
+\item 
+the set~$\cset{b
+  : (a,b) \in R}$ is referred to as the~\defn{range} of $R$.
+\end{itemize} 
+
+\end{definition}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:def:bg::sets-and-relations::function}
+
+\begin{definition}[Function]
+\label{def:bg::sets-and-relations::function}
+A~\defn{mapping} or
+\defn{function from $A$ to $B$}
+is a relation $R \subset A \times B$
+such that $|R| = |\mbox{domain}(R)|$, i.e., for every $a$ in the
+domain of $R$ there is only one $b$ such that $(a,b) \in R$.  
+The \defn{range} of the function is the range of $R$.
+We call the set $A$ the \defn{domain} and the $B$ the \defn{co-domain}
+of the function.
+
+\end{definition}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:ex:bg::relations::sequencesdef}
+
+\begin{example}
+\label{ex:bg::relations::sequencesdef}
+Consider the sets $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$.
+
+The set:
+\[X = \cset{(0,a),(0,b),(1,b),(3,a)}\]
+is a relation from $A$ to $B$ since $X \subset A \times B$, but not a mapping (function) since $0$
+is repeated.   
+
+The set
+\[Y = \cset{(0,a),(1,b),(3,a)}\]
+is both a relation and a function from $A$ to $B$ since each element
+only appears once on the left.  
+
+\end{example}
+\end{cluster}
+

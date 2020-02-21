@@ -1,0 +1,263 @@
+\chapter{The Lambda Calculus}
+\label{ch:lambda-calculus}
+
+\begin{cluster}
+\label{grp:prmbl:lambda-calculus::describes}
+
+\begin{preamble}
+\label{prmbl:lambda-calculus::describes}
+This section briefly describes the lambda calculus, one of the
+earliest and most important contributions to computer science.   It is
+is a pure language, only supporting pure functions, and it fully
+supports higher-order functions.
+
+\end{preamble}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:lambda-calculus::lamba}
+
+\begin{gram}
+\label{grm:lambda-calculus::lamba}
+  The lamba calculus, developed by Alonzo Church in the early 30s, is arguably
+  the first general purpose ``programming language''.  
+  Although it is very simple with
+  only three types of expressions, and one rule for ``evaluation'', it
+  captures many of the core ideas of modern
+  programming languages.  
+  The idea of variables, functions, and
+  function application are built in.  
+  Although conditionals and
+  recursion are not built in, they can be easily implemented.
+  Furthermore, although it has no primitive data types, integers,
+  lists, trees, and other structures, can also be easily implemented.    
+  Perhaps most importantly for this book, and impressive given it was
+  developed before computers even existed, the lambda calculus in
+  inherently parallel.
+  The language (pseudocode) we use in this book, \PML{}, is
+  effectively an extended and typed lambda calculus.
+
+\end{gram}
+\end{cluster}
+
+
+\section{Syntax and Semantics}
+\label{sec:lc::syntax-and-semantics}
+
+\begin{cluster}
+\label{grp:def:lc::syntax}
+
+\begin{definition}[Syntax of the Lambda Calculus]
+\label{def:lc::syntax}
+The lambda calculus consists of expressions $e$ that are in one
+of the following three forms:
+
+\begin{itemize}
+\item a \defn{variable}, such as $x, y, z, \ldots$,
+
+\item a \defn{lambda abstraction}, written as $(\lambda~x~.~e)$, where $x$ is a variable name and $e$ is
+  an expression, or
+
+\item an \defn{application}, written as $(e_1~e_2)$, where $e_1$ and
+  $e_2$ are expressions.
+\end{itemize}
+
+\end{definition}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:lambda-calculus::lambda}
+
+\begin{gram}
+\label{grm:lambda-calculus::lambda}
+{}
+A lambda abstraction $(\lambda~x~.~e)$  defines a function where $x$ is the argument parameter 
+and $e$ is the body of the function, likely containing $x$, possibly
+more than once.    An application $(e_1~e_2)$ indicates 
+that the function calculated from $e_1$ should be applied to the expression $e_2$.   This idea 
+of function application is captured by beta reduction. 
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:def:lc::beta}
+
+\begin{definition}[Beta Reduction]
+\label{def:lc::beta}
+For any application for which the left hand expression is a lambda abstraction, beta reduction ``applies the function'' by making the 
+transformation: 
+\[ (\lambda~x~.~e_1)~e_2 \longrightarrow e_1[x/e_2] \]
+where $e_1[x/e_2]$ roughly means for every (free) occurrence of $x$ in 
+$e_1$, substitute it with $e_2$.  
+
+\end{definition}
+\end{cluster}
+
+\begin{flex}
+\label{grp:grm:lambda-calculus::standard}
+
+\begin{gram}
+\label{grm:lambda-calculus::standard}
+Note that this is the standard notion of function application, in
+which we pass in the value or the argument(s) by setting the function variables
+to those values.
+
+Computation in the \lc{} consists of 
+using beta reduction until there is nothing left to reduce.  
+An expression that has nothing left to reduce is in \defn{normal
+  form}.
+It is possible that an expression in the lambda calculus can ``loop
+forever'' never reducing to normal form.   Indeed, the possibility of
+looping forever is crucial in any general (Church-Turing complete) computational model.
+
+\end{gram}
+
+\begin{exercise}
+\label{xrcs:lambda-calculus::argue}
+Argue that the following expression in the lamba calculus never
+reduces to normal form, i.e., however many times beta reduction is
+applied, it can still be applied again.
+\[ ((\lambda~x~.(x~x))~(\lambda~x~.(x~x)))~.\]
+
+\end{exercise}
+
+\begin{solution}
+\label{sol:lambda-calculus::beta}
+A beta reduction will replace the two $x$s in the first lambda with
+the second lambda.    This will generate the same expression as the
+original.   This can be repeated any number of times, and will always
+come to the same point.
+
+\end{solution}
+\end{flex}
+
+\begin{cluster}
+\label{grp:grm:lambda-calculus::church-turing-hypothesis}
+
+\begin{gram}[Church-Turing Hypothesis]
+\label{grm:lambda-calculus::church-turing-hypothesis}
+In the early 30s, soon after he developed the language, Church argued that anything that can be ``effectively
+computed'' can be computed with the lambda calculus, and therefore
+it is a universal mechanism for computation.  
+However, it was not until a few years later when Alan Turing developed
+the Turing machine and showed its equivalence to the lambda calculus
+that the concept of universality became widely accepted.  The fact
+that the models were so different, but equivalent in what they can
+compute, was a powerful argument for the universality of the models.
+We now refer to the hypothesis that anything that can be computed can
+be computed with the lambda calculus, or equivalently the Turing
+machine, as the~\defn{Church-Turing hypothesis}, and refer to any
+computational model that is computationally equivalent to the lambda
+calculus as~\defn{Church-Turing complete}.
+
+\end{gram}
+\end{cluster}
+
+
+\section{Parallelism and Reduction Order}
+\label{sec:lc::call-by-value-and-need}
+
+\begin{cluster}
+\label{grp:grm:lambda-calculus::unlike}
+
+\begin{gram}
+\label{grm:lambda-calculus::unlike}
+Unlike the Turing machine, the lambda calculus is inherently parallel.
+This is because there can be many applications in an expression
+for which beta reduction can be applied,
+and the lambda calculus allows them to be applied in any order,
+including a parallel order---e.g., all at once.
+We have to be careful, however, since the number of reductions needed
+to evaluate an expression (reduce to normal form) can depend
+significantly on the reduction order.  In fact, some orders might
+terminate while others will not.
+Because of this, specific orders are used in practice.
+The two most prominent orders adopted by programming
+languages are called ``call-by-value'' and
+``call-by-need.''    
+In both these orders lambda abstractions are considered values and 
+beta reductions are not applied inside of them. 
+
+\end{gram}
+\end{cluster}
+
+\begin{flex}
+\label{grp:def:lambda-calculus::call-by-value}
+
+\begin{definition}[Call-by-Value]
+\label{def:lambda-calculus::call-by-value}
+In~\defn{call-by-value} evaluation order, beta reduction is only applied to
+$(\lambda~x~.~e_1)~e_2$ if the expression $e_2$
+is a value, i.e., $e_2$ is evaluated to a value (lambda abstraction)
+first, and then
+beta reduction is applied.
+
+\end{definition}
+
+\begin{example}
+\label{xmpl:lambda-calculus::class}
+The ML class of languages such as Standard ML, CAML, and OCAML, all
+use call-by-value evaluation order.
+
+\end{example}
+\end{flex}
+
+\begin{flex}
+\label{grp:def:lambda-calculus::call-by-need}
+
+\begin{definition}[Call-by-Need]
+\label{def:lambda-calculus::call-by-need}
+In~\defn{call-by-need} evaluation order,
+beta reduction is applied to
+$(\lambda~x~.~e_1)~e_2$ even if $e_2$ is not a value (it could be another application).
+If during beta reduction $e_2$ is copied into each variable $x$ in the
+body, this reduction order is called~\defn{call-by-name}, and if $e_2$
+is shared, it is called call-by-need.  
+
+\end{definition}
+
+\begin{example}
+\label{xmpl:lambda-calculus::haskell}
+The Haskell language is perhaps the most well known example of a
+call-by-need (or lazy) functional language.
+
+\end{example}
+\end{flex}
+
+\begin{cluster}
+\label{grp:grm:lambda-calculus::neither}
+
+\begin{gram}
+\label{grm:lambda-calculus::neither}
+  Since neither reduction order reduce inside of a
+  lambda abstraction, neither of them reduce expressions to normal form.  Instead they
+  reduce to what is called ``weak head normal form''.
+  However, both reduction orders, as with most orders, remain Church-Turing complete.
+
+\end{gram}
+\end{cluster}
+
+\begin{cluster}
+\label{grp:grm:lambda-calculus::call-by-value}
+
+\begin{gram}
+\label{grm:lambda-calculus::call-by-value}
+Call-by-value is an inherently parallel reduction order.    This is
+because in an expression $(e_1~e_2)$ the two subexpressions can be
+evaluated (reduced) in parallel, and when both are fully reduced we can apply
+beta reduction to the results.    Evaluating in parallel, or not, has no
+effect on which reductions are applied, only on the order in which
+they are applied.
+On the other hand call-by-need is inherently sequential.    In an
+expression $(e_1~e_2)$  only the first subexpression can be evaluated and
+when completed we can apply beta reduction to the resulting lamba
+abstraction by substituting in the second expression.     Therefore
+the second expression cannot be evaluated until the first is done
+without potentially changing which reductions are applied.
+
+In this book we use call-by-value.
+
+\end{gram}
+\end{cluster}
+

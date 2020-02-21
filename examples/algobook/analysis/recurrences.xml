@@ -1,0 +1,3725 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Recurrences
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Recurrences
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:analysis::recurrences
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:analysis::recurrences::covers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:analysis::recurrences::covers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter covers recurrences and presents three methods for solving recurrences: the <a href="sec:analysis::recurrences::tree-method">“Tree Method”</a> the <a href="sec:analysis::recurrences::brick-method">“Brick Method”</a>, and the <a href="sec:analysis::recurrences::master-method">“Substitution Method”</a>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter covers recurrences  and presents
+three methods for solving recurrences: 
+the \href{sec:analysis::recurrences::tree-method}{``Tree Method''}
+the \href{sec:analysis::recurrences::brick-method}{``Brick Method''}, and
+the \href{sec:analysis::recurrences::master-method}{``Substitution Method''}.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+The Basics
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The Basics
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::recurrences::the-basics
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::recurrences
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::recurrences
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Recurrences are simply recursive functions for which the argument(s) and result are numbers. As is normal with recursive functions, recurrences have a recursive case along with one or more base cases. Although recurrences have many applications, in this book we mostly use them to represent the cost of algorithms, and in particular their work and span. They are typically derived directly from recursive algorithms by abstracting the arguments of the algorithm based on their sizes, and using the cost model described in Chapter <a href="#ch:analysis::models" data-reference-type="ref" data-reference="ch:analysis::models">[ch:analysis::models]</a>. Although the recurrence is itself a function similar to the algorithm it abstracts, the goal is not to run it, but instead the goal is to determine a closed form solution to it using other methods. Often we satisfy ourselves with finding a closed form that specifies an upper or lower bound on the function, or even just an asymptotic bound.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Recurrences are simply recursive functions for which the argument(s) and
+  result are numbers. 
+  As is normal with recursive functions, recurrences have a recursive
+  case along with one or more base cases.
+  Although recurrences have many applications, in this book we mostly use
+  them to represent the cost of algorithms, and in particular their
+  work and span.
+  They are typically derived directly from recursive algorithms by
+  abstracting the arguments of the algorithm based on their sizes, and
+  using the cost model described in \chref{analysis::models}.
+  Although the recurrence is itself a function similar to the
+  algorithm it abstracts, the goal is not to run it, but instead the
+  goal is to determine a closed form solution to it using other
+  methods.
+  Often we satisfy ourselves with finding a closed form that specifies an
+  upper or lower bound on the function, or even just an asymptotic
+  bound.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::fibonacci
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Fibonacci
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Fibonacci
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::fibonacci
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Here is a recurrence written in SPARC that you should recognize: <span class="math display">\[\begin{array}{ll}  
+F(n) =&amp;\texttt{case}~n~\texttt{of}  
+\\   
+&amp; ~~~~0~~\texttt{=&gt;}~0  
+\\  
+&amp; ~~|~1~~\texttt{=&gt;}~1  
+\\  
+&amp; ~~|~\_~~\texttt{=&gt;}~F(n-1) + F(n-2)~~.  
+\end{array}\]</span> It has an exact closed form solution: <span class="math display">\[F(n) = \frac{\varphi^n - (1 - \varphi)^n}{\sqrt{5}}~,\]</span> where <span class="math inline">\(\varphi = \frac{1 + \sqrt{5}}{2}\)</span> is the golden ratio. We can write this in asymptotic notation as <span class="math display">\[F(n) =  
+\Theta(\varphi^n)\]</span> since the first term dominates asymptotically.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Here is a recurrence written in \PML{} that you should recognize:
+\[
+\begin{array}{ll}
+F(n) =&\cd{case}~n~\cd{of}
+\\ 
+& ~~~~0~~\cdra~0
+\\
+& ~~|~1~~\cdra~1
+\\
+& ~~|~\_~~\cdra~F(n-1) + F(n-2)~~.
+\end{array}
+\]
+It has an exact closed form solution:
+ \[F(n) = \frac{\varphi^n - (1 - \varphi)^n}{\sqrt{5}}~,\]
+where $\varphi = \frac{1 + \sqrt{5}}{2}$ is the golden ratio.
+We can write this in asymptotic notation as \[F(n) =
+\Theta(\varphi^n) \]
+since the first term dominates asymptotically.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:ex:analysis::recurrences::mergesort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Mergesort Recurrence
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Mergesort Recurrence
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+ex:analysis::recurrences::mergesort
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Assuming that the input length is a power of <span class="math inline">\(2\)</span>, we can write the code for parallel mergesort algorithm as follows. <span class="math display">\[\begin{array}{l}  
+\mathit{msort}(A) =   
+\\  
+~~~~\texttt{if}~|A| \leq 1~\texttt{then}~A   
+\\  
+~~~~\texttt{else}  
+\\  
+~~~~~~~\texttt{let}~(L,R)   
+  =~\mathit{msort}(A[0 \dots |A|/2])~||~\mathit{msort}(A[|A|/2 \dots|A|])   
+\\  
+~~~~~~~\texttt{in}~\mathit{merge}(L,R)~\texttt{end}  
+\end{array}\]</span> By abstracting based on the length of <span class="math inline">\(A\)</span>, and using the cost model described in Chapter <a href="#ch:analysis::models" data-reference-type="ref" data-reference="ch:analysis::models">[ch:analysis::models]</a>, we can write a recurrence for the work of mergesort as: <span class="math display">\[\begin{array}{l}  
+W_{\mathit{msort}}(n) =   
+\\  
+~~~~\texttt{if}~n \leq 1~\texttt{then}~c_1  
+\\  
+~~~~\texttt{else}  
+\\  
+~~~~~~~\texttt{let}~(W_L,W_R)   
+  =~(W_{\mathit{msort}}(n/2), W_{\mathit{msort}}(n/2))   
+\\  
+~~~~~~~\texttt{in}~W_L + W_R + W_{\mathit{merge}}(n)+ c_2~\texttt{end}  
+\end{array}\]</span> where the <span class="math inline">\(c_i\)</span> are constants. Assuming <span class="math inline">\(W_{\mathit{merge}}(n) = c_3 n + c_4\)</span> this can be simplified to <span class="math display">\[\begin{array}{ll}  
+W_{\mathit{msort}}(n) = &amp;\texttt{if}~n \leq 1~\texttt{then}~c_1  
+\\  
+&amp;\texttt{else}~2 W_{\mathit{msort}}(n/2) + c_3 n + c_5  
+\end{array}\]</span> where <span class="math inline">\(c_5 = c_2 + c_4\)</span>. We will show in this chapter that this recurrence solves to <span class="math display">\[W_{\mathit{msort}}(n) = O(n \lg n)\]</span> using all three of our methods.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{ex:analysis::recurrences::mergesort} 
+Assuming that the input length is a power of $2$, we can write the code for parallel mergesort algorithm as follows.
+\[
+\begin{array}{l}
+\cdvar{msort}(A) = 
+\\
+~~~~\cd{if}~|A| \leq 1~\cd{then}~A 
+\\
+~~~~\cd{else}
+\\
+~~~~~~~\cd{let}~(L,R) 
+  =~\cdvar{msort}(A[0 \dots |A|/2])~||~\cdvar{msort}(A[|A|/2 \dots|A|]) 
+\\
+~~~~~~~\cd{in}~\cdvar{merge}(L,R)~\cd{end}
+\end{array}
+\]
+By abstracting based on the length of $A$, and using the cost model
+described in \chref{analysis::models}, we can write a recurrence for the work of mergesort as:
+\[
+\begin{array}{l}
+W_{\cdvar{msort}}(n) = 
+\\
+~~~~\cd{if}~n \leq 1~\cd{then}~c_1
+\\
+~~~~\cd{else}
+\\
+~~~~~~~\cd{let}~(W_L,W_R) 
+  =~(W_{\cdvar{msort}}(n/2), W_{\cdvar{msort}}(n/2)) 
+\\
+~~~~~~~\cd{in}~W_L + W_R + W_{\cdvar{merge}}(n)+ c_2~\cd{end}
+\end{array}
+\]
+where the $c_i$ are constants.    Assuming 
+$W_{\cdvar{merge}}(n) = c_3 n + c_4$ this can be simplified to
+\[
+\begin{array}{ll}
+W_{\cdvar{msort}}(n) = &\cd{if}~n \leq 1~\cd{then}~c_1
+\\
+&\cd{else}~2 W_{\cdvar{msort}}(n/2) + c_3 n + c_5
+\end{array}
+\]
+where $c_5 = c_2 + c_4$.    We will show in this chapter that this
+recurrence solves to
+\[W_{\cdvar{msort}}(n) = O(n \lg n) \]
+using all three of our methods.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Some conventions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Some conventions
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::recurrences::some-conventions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::reduce
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>To reduce notation we use several conventions when writing recurrences.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+To reduce notation we use several conventions when writing recurrences.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::syntax
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Syntax
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Syntax
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::syntax
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We typically write recurrences as mathematical relations of the form <span class="math display">\[W_f(n) = \left\{  
+\begin{array}{lll}  
+c_1 &amp; \mbox{base case 1}   
+\\  
+c_2 &amp; \mbox{base case 2}   
+\\  
+\cdots&amp; \cdots  
+\\  
+\mbox{recursive definition}  &amp;  \mbox{otherwise}.  
+\end{array}  
+\right.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We typically write recurrences as mathematical relations of the form
+\[
+W_f(n) = \left\{
+\begin{array}{lll}
+c_1 & \mbox{base case 1} 
+\\
+c_2 & \mbox{base case 2} 
+\\
+\cdots& \cdots
+\\
+\mbox{recursive definition}  &  \mbox{otherwise}.
+\end{array}
+\right. 
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::dropping-the-subscript
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Dropping the subscript
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Dropping the subscript
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::dropping-the-subscript
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We often drop the subscript on the cost <span class="math inline">\(W\)</span> or <span class="math inline">\(S\)</span> (span) when obvious from the context.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We often drop the subscript on the cost $W$ or $S$ (span) when obvious from the context.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::base-case
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Base case
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Base case
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::base-case
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Often base cases are trivial—i.e., some constant if <span class="math inline">\(n  
+\leq 1\)</span>. In such cases, we usually leave them out.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Often  base cases are trivial---i.e., some constant if $n
+\leq 1$.  In such cases, we usually leave them out.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::big-o-inside-a-recurrence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Big-O inside a recurrence
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Big-O inside a recurrence
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::big-o-inside-a-recurrence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Technically using big-O notation in a recurrence as in: <span class="math display">\[W(n) = 2 W(n/2) + O(n)\]</span> is not well defined. This is because <span class="math inline">\(2 W(n/2) + O(n)\)</span> indicates a set of functions, not a single function. In this book when we use <span class="math inline">\(O(f(n))\)</span> in a recurrences it is meant as shorthand for <span class="math inline">\(c_1 f(n) +  
+c_2\)</span>, for some constants <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span>. Furthermore, when solving the recurrence the <span class="math inline">\(O(f(n))\)</span> should always be replaced by <span class="math inline">\(c_1 f(n) + c_2\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Technically using big-O notation in a recurrence as in:
+\[ 
+W(n) = 2 W(n/2) + O(n) 
+\]
+is not well defined.   
+This is because $2 W(n/2) + O(n)$ indicates a
+set of functions, not a single function.    
+In this book when we use
+$O(f(n))$ in a recurrences it is meant as shorthand for $c_1 f(n) +
+c_2$, for some constants $c_1$ and $c_2$. 
+Furthermore, when solving the recurrence the $O(f(n))$ should
+always be replaced by $c_1 f(n) + c_2$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::inequality
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Inequality
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Inequality
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::inequality
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Because we are mostly concerned with upper bounds, we can be sloppy and add (positive) constants on the right-hand side of an equation. In such cases, we typically use an inequality, as in <span class="math display">\[W(n) \leq 2 W(n/2) + n.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Because we are mostly concerned with upper bounds,  we can be  sloppy and 
+add (positive) constants on the right-hand side of an equation.
+In such cases, we typically use an inequality, as in
+\[ 
+W(n) \leq 2 W(n/2) + n.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::input-size-inprecision
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Input size inprecision
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Input size inprecision
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::input-size-inprecision
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A technical issue concerns rounding of input sizes. Going back to the <a href="ex:analysis::recurrences::mergesort">mergesort example</a>, note that we assumed that the size of the input to merge sort, <span class="math inline">\(n\)</span>, is a power of <span class="math inline">\(2\)</span>. If we did not make this assumption, i.e., for general <span class="math inline">\(n\)</span>, we would partition the input into two parts, whose sizes may differ by up to one element. In such a case, we could write the work recurrence as <span class="math display">\[W(n) = \left\{  
+\begin{array}{ll}  
+O(1) &amp; \mbox{if} ~ n \le 1  
+\\  
+W(\lceil n/2 \rceil) + W(\lfloor n/2 \rfloor) + O(n) &amp;  \mbox{otherwise}.  
+\end{array}  
+\right.\]</span></p>
+<p>When working with recurrences, we typically ignore floors and ceiling because they change the size of the input by at most one, which does not usually affect the closed form by more than a constant factor.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A technical issue concerns rounding of input sizes.
+Going back to the \href{ex:analysis::recurrences::mergesort}{mergesort example}, note that we assumed that the size
+of the input to merge sort, $n$, is a power of $2$.
+If we did not make this assumption, i.e., for general $n$, 
+we would partition the input into two parts, whose sizes may differ by up to one element.
+In such a case, we could write the work recurrence as 
+\[
+W(n) = \left\{
+\begin{array}{ll}
+O(1) & \mbox{if} ~ n \le 1
+\\
+W(\lceil n/2 \rceil) + W(\lfloor n/2 \rfloor) + O(n) &  \mbox{otherwise}.
+\end{array}
+\right.
+\]
+
+When working with recurrences, we typically ignore floors and ceiling
+because they change the size of the input by at most one, which
+does not usually affect the closed form by more than a constant
+factor.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::mergesort-recurrence-revisited
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Mergesort recurrence revisited
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Mergesort recurrence revisited
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::mergesort-recurrence-revisited
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Using our conventions we can write our recurrence for the work of mergesort as: <span class="math display">\[W(n) \leq 2W(n/2) + O(n)~.\]</span> However, when solving it is best to write it as: <span class="math display">\[W(n) \leq \left\{  
+\begin{array}{lll}  
+c_b &amp; \mbox{if}~n \leq 1  
+\\  
+2W(n/2) + c_1 n + c_2 &amp; \mbox{otherwise} ~.  
+\end{array}  
+\right.\]</span> Assuming <span class="math inline">\(\mathit{merge}\)</span> has logarithmic span, we can similarly write a recurrence for the span of the parallel mergesort as: <span class="math display">\[S(n) \leq S(n/2) + O(\lg n)~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Using our conventions we can write our recurrence for the work of
+mergesort as:
+\[W(n) \leq 2W(n/2) + O(n)~.\]
+However, when solving it is best to write it as:
+\[
+W(n) \leq \left\{
+\begin{array}{lll}
+c_b & \mbox{if}~n \leq 1
+\\
+2W(n/2) + c_1 n + c_2 & \mbox{otherwise} ~.
+\end{array}
+\right. 
+\]
+Assuming $\cdvar{merge}$ has logarithmic span, we can similarly write
+a recurrence for the span of the parallel mergesort as:
+\[S(n) \leq S(n/2) + O(\lg n)~.\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+The Tree Method
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The Tree Method
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::recurrences::tree-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:analysis::recurrences::tree-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Tree Method
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Tree Method
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:analysis::recurrences::tree-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>tree method</em></strong> is a technique for solving recurrences. Given a recurrence, the idea is to derive a closed form solution of the recurrence by first unfolding the recurrence as a tree and then deriving a bound by considering the cost at each level of the tree. To apply the technique, we start by replacing the asymptotic notations in the recurrence, if any. We then draw a tree where each recurrence instance is represented by a subtree and the root is annotated with the cost that occurs at this level, that is beside the recurring costs.</p>
+<p>After we determine the tree, we ask several questions.</p>
+<ul>
+<li><p>How many levels are there in the tree?</p></li>
+<li><p>What is the problem size on level <span class="math inline">\(i\)</span>?</p></li>
+<li><p>What is the cost of each node on level <span class="math inline">\(i\)</span>?</p></li>
+<li><p>How many nodes are there on level <span class="math inline">\(i\)</span>?</p></li>
+<li><p>What is the total cost across the level <span class="math inline">\(i\)</span>?</p></li>
+</ul>
+<p>Based on the answers to these questions, we can write the cost as a sum and calculate it.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{tree method} is a technique for solving recurrences.
+Given a recurrence, the idea is to derive a closed form solution of
+the recurrence by first unfolding the recurrence as a tree and then
+deriving a bound by considering the cost at each level of the tree.
+To apply the technique, we start by replacing the asymptotic notations
+in the recurrence, if any.
+We then draw a tree where each recurrence instance is represented by a
+subtree and the root is annotated with the cost that occurs at this
+level, that is beside the recurring costs. 
+
+After we determine the tree, we ask several questions.
+\begin{itemize}
+\item How many levels are there in the tree?
+\item What is the problem size on level $i$?
+\item What is the cost of each node on level $i$?
+\item How many nodes are there on level $i$?
+\item What is the total cost across the level $i$?
+\end{itemize}
+
+Based on the answers to these questions, we can write the cost as a
+sum and calculate it.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:tch:analysis::recurrences::todo
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='teachnote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tch:analysis::recurrences::todo
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>TODO: we can place a ref to a cross chapter atom in the atom below</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+TODO: we can place a ref to a cross chapter atom in the atom below
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- teachnote -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the recurrence <span class="math display">\[W(n) = 2W(n/2) + O(n).\]</span> By the definition of asymptotic complexity, we can establish that <span class="math display">\[\begin{aligned}
+  W(n) &amp;\leq&amp; 2W(n/2) + c_1\cdot n + c_2,  \end{aligned}\]</span> where <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span> are constants.</p>
+<p>We now draw a tree to represent the recursion. Since there are two recursive calls, the tree is a binary tree, whose input is half the size of the size of the parent node. We then annotate each node in the tree with its cost noting that if the problem has size <span class="math inline">\(m\)</span>, then the cost, excluding that of the recursive calls, is at most <span class="math inline">\(c_1 \cdot m + c_2\)</span>.</p>
+<p>The drawing below illustrates the resulting tree; each level is annotated with the problem size (left) and the cost at that level (right).</p>
+<p><img src="./analysis/media-recurrences/recurtree1.jpg" alt="image" style="width:4.5in" /></p>
+<p>We observe that:</p>
+<ul>
+<li><p>level <span class="math inline">\(i\)</span> (the root is level <span class="math inline">\(i=0\)</span>) contains <span class="math inline">\(2^i\)</span> nodes,</p></li>
+<li><p>a node at level <span class="math inline">\(i\)</span> costs at most <span class="math inline">\(c_1 (n/2^i) + c_2\)</span>.</p></li>
+</ul>
+<p>Thus, the total cost on level <span class="math inline">\(i\)</span> is at most <span class="math display">\[\begin{aligned}
+2^i \cdot \left(c_1 \frac{n}{2^i} + c_2\right) &amp;=&amp; c_1 \cdot n + 2^i \cdot c_2.  \end{aligned}\]</span></p>
+<p>Because we keep halving the input size, the number of levels <span class="math inline">\(i \le  
+\lg n\)</span>. Hence, we have <span class="math display">\[\begin{aligned}
+  W(n) &amp;\leq&amp; \sum_{i=0}^{\lg n} \left(c_1 \cdot n + 2^i \cdot c_2\right) \\  
+  &amp;=&amp; c_1 n (1+\lg n)+ c_2(n +\tfrac{n}{2} + \tfrac{n}{4} + \dots + 1)\\  
+  &amp;=&amp; c_1 n (1+\lg n)+ c_2(2n - 1)\\  
+  &amp;\in&amp; O(n\lg n),  \end{aligned}\]</span> where in the second to last step, we apply the fact that for <span class="math inline">\(a &gt; 1\)</span>, <span class="math display">\[\begin{equation*}  
+1 + a + \dots + a^{n} = \frac{a^{n+1} - 1}{a-1} \leq a^{n+1}.  
+\end{equation*}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the recurrence
+$$
+W(n) = 2W(n/2) + O(n).
+$$
+By the definition of asymptotic complexity, we
+can establish that
+\begin{eqnarray*}
+  W(n) &\leq& 2W(n/2) + c_1\cdot n + c_2,
+\end{eqnarray*}
+where $c_1$ and $c_2$ are constants.  
+
+We now draw a tree to represent the recursion. Since there are two
+recursive calls, the tree is a binary tree, whose input is half the
+size of the size of the parent node.
+We then annotate each node in the tree with its cost noting that if
+the problem has size~$m$, then the cost, excluding that of the
+recursive calls, is at most~$c_1 \cdot m + c_2$.  
+
+The drawing below illustrates the resulting tree; each level is
+annotated with the problem size (left) and the cost at that level
+(right).
+
+\begin{center}
+\includegraphics[width=4.5in]{./analysis/media-recurrences/recurtree1.jpg}
+\end{center}
+
+We observe that:
+\begin{itemize}
+\item  level $i$ (the root is level $i=0$) contains $2^i$
+nodes, 
+\item a node at level $i$ costs at most $c_1 (n/2^i) + c_2$.
+\end{itemize}
+Thus, the total cost on level $i$ is at most
+\begin{eqnarray*}
+2^i \cdot \left(c_1 \frac{n}{2^i} + c_2\right) &=& c_1 \cdot n + 2^i \cdot c_2.
+\end{eqnarray*}
+
+Because we keep halving the input size, the number of levels $i \le
+\lg n$.  Hence, we have
+\begin{eqnarray*}
+  W(n) &\leq& \sum_{i=0}^{\lg n} \left(c_1 \cdot n + 2^i \cdot c_2\right) \\
+  &=& c_1 n (1+\lg n)+ c_2(n +\tfrac{n}{2} + \tfrac{n}{4} + \dots + 1)\\
+  &=& c_1 n (1+\lg n)+ c_2(2n - 1)\\
+  &\in& O(n\lg n),
+\end{eqnarray*}
+where in the second to last step, we apply the fact that for $a > 1$,
+\[ \begin{equation*}
+1 + a + \dots + a^{n} = \frac{a^{n+1} - 1}{a-1} \leq a^{n+1}.
+\end{equation*} \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+The Brick Method
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The Brick Method
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::recurrences::brick-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::brick
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::brick
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>brick method</em></strong> is a special case of the tree method, aimed at recurrences that grow or decay geometrically across levels of the recursion tree. A sequence of numbers has <strong><em>geometric growth</em></strong> if it grows by at least a constant factor (<span class="math inline">\(&gt; 1\)</span>) from element to element, and has <strong><em>geometric decay</em></strong> if it decreases by at least a constant factor. The beauty of a geometric sequence is that its sum is bounded by a constant times the last element (for geometric growth), or the first element (for geometric decay).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{brick method} is a special case of the tree method, aimed
+  at recurrences that grow or decay geometrically across levels of the
+  recursion tree.
+  A sequence of numbers has \defn{geometric growth} if it grows by at
+  least a constant factor ($> 1$) from element to element, and has \defn{geometric decay} if it decreases by at least a constant
+  factor.  
+  The beauty of a geometric sequence is that its sum is
+  bounded by a constant times the last element (for geometric growth), or
+  the first element (for geometric decay).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:analysis::recurrences::sums-of-geometric-series
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Sums of geometric series.
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Sums of geometric series.
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:analysis::recurrences::sums-of-geometric-series
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the sum of the sequence <span class="math inline">\(S = \langle 1, \alpha, \alpha^2,  
+  \ldots, \alpha^n \rangle\)</span>. Show that</p>
+<ol>
+<li><p>for <span class="math inline">\(\alpha &gt; 1\)</span> (geometric growth), the sum of <span class="math inline">\(S\)</span> is at most <span class="math inline">\(\left(\frac{\alpha}{\alpha -1}\right) \cdot \alpha^n\)</span>, and</p></li>
+<li><p>for <span class="math inline">\(\alpha &lt; 1\)</span> (geometric decay), the sum of <span class="math inline">\(S\)</span> is at most <span class="math inline">\(\left(\frac{1}{1 - \alpha}\right) \cdot 1\)</span>.</p></li>
+</ol>
+<p>Hint: for the first let <span class="math inline">\(s\)</span> be the sum, and consider <span class="math inline">\(\alpha s - s\)</span>, cancelling terms as needed.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the sum of the sequence $S = \langle 1, \alpha, \alpha^2,
+  \ldots, \alpha^n \rangle$.   Show that
+\begin{enumerate}
+\item
+ for $\alpha > 1$ (geometric growth), the sum of $S$ is at most
+  $\left(\frac{\alpha}{\alpha -1}\right) \cdot \alpha^n$, and 
+\item
+for $\alpha < 1$ (geometric decay), the
+  sum of $S$ is at most  $\left(\frac{1}{1 - \alpha}\right) \cdot 1$.
+\end{enumerate}
+Hint: for the first let $s$ be the sum, and consider $\alpha s - s$, cancelling
+terms as needed.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:analysis::recurrences::solve
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Let <span class="math display">\[s = \sum_{i=0}^n \alpha^i~.\]</span> To solve the first case we use <span class="math display">\[\begin{array}{lcl}  
+\alpha s - s &amp; = &amp; \left(\alpha \sum_{i=0}^n \alpha^i\right) -  
+                   \sum_{i=0}^n \alpha^i\\  
+                  &amp; = &amp; \left(\sum_{i=0}^n \alpha^{i+1}\right) -  
+                        \sum_{i=0}^n \alpha^i\\  
+                  &amp; = &amp; \alpha^{n+1} - 1\\  
+                  &amp; &lt; &amp; \alpha^{n+1} ~.  
+\end{array}\]</span> Now by dividing through by <span class="math inline">\(\alpha - 1\)</span> we get <span class="math display">\[s &lt; \frac{\alpha^{n+1}}{\alpha-1} = \left(\frac{\alpha}{\alpha-1}\right)  
+  \cdot \alpha^n~,\]</span> which is we wanted to show.</p>
+<p>The second case is similar but using <span class="math inline">\(s - \alpha s\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Let
+\[s = \sum_{i=0}^n \alpha^i~.\]
+To solve the first case we use
+\[ 
+\begin{array}{lcl}
+\alpha s - s & = & \left(\alpha \sum_{i=0}^n \alpha^i\right) -
+                   \sum_{i=0}^n \alpha^i\\
+                  & = & \left(\sum_{i=0}^n \alpha^{i+1}\right) -
+                        \sum_{i=0}^n \alpha^i\\
+                  & = & \alpha^{n+1} - 1\\
+                  & < & \alpha^{n+1} ~.
+\end{array}
+\]
+Now by dividing through by $\alpha - 1$ we get
+\[ s < \frac{\alpha^{n+1}}{\alpha-1} = \left(\frac{\alpha}{\alpha-1}\right)
+  \cdot \alpha^n~, \]
+which is we wanted to show.
+
+The second case is similar but using $s - \alpha s$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In the tree method, if the costs grow or decay geometrically across levels (often the case), then for analyzing asymptotic costs we need only consider the cost of the root (decay) , or the total cost of the leaves (growth). If there is no geometric growth or decay then it often suffices to calculate the cost of the worst level (often either the root or leaves) and multiply it by the number of levels. This leads to three cases which we refer to as root dominated, leaf dominated and balanced. Conveniently, to distinguish these three cases we need only consider the cost of each node in the tree and how it relates to the cost of its children.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In the tree method, if the costs grow or decay geometrically across
+  levels (often the case), then for analyzing asymptotic costs we need only consider the
+  cost of the root (decay) , or the total cost of the leaves (growth).
+  If there is no geometric growth or decay then it often suffices to
+  calculate the cost of the worst level (often either the root or
+  leaves) and multiply it by the number of levels.
+  This leads to three cases which we refer to as root dominated, leaf 
+  dominated and balanced.   
+  Conveniently, to distinguish these three cases 
+  we need only consider the cost of each node in the 
+  tree and how it relates to the cost of its children.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:analysis::brick-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Brick Method
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Brick Method
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:analysis::brick-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Consider each node <span class="math inline">\(v\)</span> of the recursion tree, and let <span class="math inline">\(N(v)\)</span> denote its input size, <span class="math inline">\(C(v)\)</span> denote its cost, and <span class="math inline">\(D(v)\)</span> denote the set of its children. There exists constants <span class="math inline">\(a \geq 1\)</span> (base size), <span class="math inline">\(\alpha  
+&gt; 1\)</span> (grown/decay rate) such that:</p>
+<dl>
+<dt>Root Dominated</dt>
+<dd><p>For all nodes <span class="math inline">\(v\)</span> such that <span class="math inline">\(N(v) &gt; a\)</span>, <span class="math display">\[C(v) \geq \alpha \sum_{u \in D(v)} C(u),\]</span> i.e., the cost of the parent is at least a constant factor greater than the sum of the costs of the children. In this case, the total cost is dominated by the root, and is upper bounded by <span class="math inline">\(\frac{\alpha}{\alpha - 1}\)</span> times the cost of the root.</p>
+</dd>
+<dt>Leaves Dominated</dt>
+<dd><p>For all <span class="math inline">\(v\)</span> such that <span class="math inline">\(N(v) &gt; a\)</span>, <span class="math display">\[C(v) \leq \frac{1}{\alpha} \sum_{u \in D(v)} C(u),\]</span> i.e., the cost of the parent is at least a constant factor less than the sum of the costs of the children. In this case, the total cost is dominated by the cost of the leaves, and is upper bounded by <span class="math inline">\(\frac{\alpha}{\alpha - 1}\)</span> times the sum of the cost of the leaves. Most often all leaves have constant cost so we just have to count the number of leaves.</p>
+</dd>
+<dt>Balanced</dt>
+<dd><p>When neither of the two above cases is true. In this case the cost is upper bounded by the number of levels times the maximum cost of a level.</p>
+</dd>
+</dl>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:analysis::brick-method}
+Consider each node $v$ of the recursion tree, and let $N(v)$ denote  
+its input size, $C(v)$ denote its cost, and $D(v)$ denote the set of
+its children.   There exists constants $a \geq 1$ (base size), $\alpha
+> 1$ (grown/decay rate) such that:
+
+\begin{description}
+
+\item[Root Dominated]
+For all nodes $v$ such that $N(v) > a$,
+\[C(v) \geq \alpha \sum_{u \in D(v)} C(u),\]
+i.e., the cost of the parent is at least a
+constant factor greater than the sum of the 
+costs of the children.  In this case, the total cost is dominated by
+the root, and is upper bounded 
+by $\frac{\alpha}{\alpha - 1}$ times the cost of the root. 
+
+\item[Leaves Dominated]
+For all $v$ such that $N(v) > a$, 
+\[C(v) \leq \frac{1}{\alpha} \sum_{u \in D(v)} C(u),\]
+i.e., the cost of the parent is at least a
+constant factor less than the sum of the costs of the 
+children.   In this case,
+the total cost is dominated by the cost of the leaves, and is upper bounded by $\frac{\alpha}{\alpha - 1}$ times the
+sum of the cost of the leaves.
+Most often all leaves have constant cost so we just have to count the
+number of leaves.
+
+\item[Balanced]
+When neither of the two above cases is true.     In this case the cost
+is upper bounded by the number of levels times the maximum cost of a
+level.
+\end{description}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='proof'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prf:analysis::recurrences::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We first consider the root dominated case. For this case if the root has cost <span class="math inline">\(C(r)\)</span>, level <span class="math inline">\(i\)</span> (the root is level <span class="math inline">\(0\)</span>) will have total cost at most <span class="math inline">\((1/\alpha)^i C(r)\)</span>. This is because the cost of the children of every node on a level decrease by at least a factor of <span class="math inline">\(\alpha\)</span> to the next level. The total cost is therefore upper bounded by <span class="math display">\[\sum_{i=0}^{\infty} \left(\frac{1}{\alpha}\right)^i C(r).\]</span> This is a decaying geometric sequence and therefore is upper bounded by <span class="math inline">\(\frac{\alpha}{\alpha - 1} C(r)\)</span>, as claimed.</p>
+<p>For the leaf dominated case, if all leaves are on the same level and have the same cost, we can make a similar argument as above but in the other direction—i.e. the levels increase geometrically down to the leaves. The cost is therefore dominated by the leaf level. In general, however, not all leaves are at the same level.</p>
+<p>For the general leaf-dominated case, let <span class="math inline">\(L\)</span> be the set of leaves. Consider the cost <span class="math inline">\(C(l)\)</span> for <span class="math inline">\(l \in L\)</span>, and account a charge of <span class="math inline">\((1/\alpha)^i C(l)\)</span> to its <span class="math inline">\(i\)</span>-th ancestor in the tree (its parent is its first ancestor). Adding up the contributions from every leaf to the internal nodes of the tree gives the maximum possible cost for all internal nodes. This is because for this charging every internal node will have a cost that is exactly <span class="math inline">\((1/\alpha)\)</span> the sum of the cost of the children, and this is the most each node can have by our assumption of leaf-dominated recurrences. Now summing the contributions across leaves, including the cost of the leaves themselves (<span class="math inline">\(i = 0\)</span>), we have as an upper bound on the total cost across the tree: <span class="math display">\[\sum_{l \in L} \sum_{i=0}^{\infty}  \left(\frac{1}{\alpha}\right)^i C(l)~.\]</span> This is a sum of sums of decaying geometric sequences, giving an upper bound on the total cost across all nodes of <span class="math inline">\(\frac{\alpha}{\alpha -1} \sum_{l \in L} C(l)\)</span>, as claimed.</p>
+<p>The balanced case follows directly from the fact that the total cost is the sum of the cost of the levels, and hence at most the number of levels times the level with maximum cost.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We first consider the root dominated case.  For this case if the
+  root has cost $C(r)$, level $i$ (the root is level $0$) will have
+  total cost at most $(1/\alpha)^i C(r)$.  
+  This is because the cost of the children of every node on a level
+  decrease by at least a factor of $\alpha$ to the next level.  
+  The total cost is therefore upper bounded by
+  \[ \sum_{i=0}^{\infty} \left(\frac{1}{\alpha}\right)^i C(r).   \]
+  This is a decaying geometric sequence and therefore is upper bounded
+  by $\frac{\alpha}{\alpha - 1} C(r)$, as claimed.
+
+  For the leaf dominated case, if all leaves are on the same level and
+  have the same cost, we can make a
+  similar argument as above but in the other direction---i.e. the
+  levels increase geometrically down to the leaves.    The cost is
+  therefore dominated by the leaf level.
+  In general, however, not all leaves are at the same level.
+
+  For the general leaf-dominated case, let
+  $L$ be the set of leaves.
+  Consider the cost $C(l)$ for $l \in L$, and account a charge of
+  $(1/\alpha)^i C(l)$ to its $i$-th ancestor in the tree (its parent
+  is its first ancestor).
+  Adding up the contributions from every leaf to the internal nodes of
+  the tree gives the maximum possible cost for all internal nodes.
+  This is because for this charging every internal node will have a
+  cost that is exactly $(1/\alpha)$ the sum of the cost of the
+  children, and this is the most each node can have by our assumption of
+  leaf-dominated recurrences.
+  Now summing the contributions across leaves, including the cost of
+  the leaves themselves ($i = 0$), we have as an upper bound on the
+  total cost across the tree:
+  \[\sum_{l \in L} \sum_{i=0}^{\infty}  \left(\frac{1}{\alpha}\right)^i C(l)~. \]
+  This is a sum of sums of decaying geometric sequences, giving an
+  upper bound on the total cost
+  across all nodes of 
+  $\frac{\alpha}{\alpha -1} \sum_{l \in L} C(l)$, as claimed.
+
+  The balanced case follows directly from the fact that the total cost
+  is the sum of the cost of the levels, and hence at most the number
+  of levels times the level with maximum cost.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- proof -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:analysis::recurrences::term
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:analysis::recurrences::term
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The term “brick” comes from thinking of each node of the tree as a brick and the width of a brick being its cost. The bricks can be thought of as being stacked up by level. A recurrence is leaf dominated if the pile of bricks gets narrower as you go up to the root. It is root dominated if it gets wider going up to the root. It is balanced if it stays about the same width.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The term ``brick'' comes from thinking of each node of the tree as a 
+  brick and the width of a brick being its cost.  The bricks can be
+  thought of as being stacked up  by level.    A recurrence is leaf dominated if the pile of bricks 
+  gets narrower as you go up to the root.  It is root dominated if it 
+  gets wider going up to the root.  It is balanced 
+  if it stays about the same width.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::root-dominated
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Root dominated
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Root dominated
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::root-dominated
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Lets consider the recurrence <span class="math display">\[W(n) = 2 W(n/2) + n^2.\]</span> For a node in the recursion tree of size <span class="math inline">\(n\)</span> we have that the cost of the node is <span class="math inline">\(n^2\)</span> and the sum of the cost of its children is <span class="math inline">\((n/2)^2 + (n/2)^2 = n^2/2\)</span>. In this case the cost has <strong>decreased</strong> by a factor of two going down the tree, and hence the recurrence is root dominated. Therefore for asymptotic analysis we need only consider the cost of the root, and we have that <span class="math inline">\(W(n) = O(n^2)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Lets consider the recurrence 
+\[W(n) = 2 W(n/2) + n^2.\]
+For a node in the recursion tree of size $n$ we have that the cost of
+the node is $n^2$ and the sum of the cost of its children is
+$(n/2)^2 + (n/2)^2 = n^2/2$.  In this case the cost has
+\textbf{decreased} by a factor of two going down the tree, and hence
+the recurrence is root dominated.  Therefore for asymptotic analysis
+we need only consider the cost of the root, and we have that
+$W(n) = O(n^2)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::leaf
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::leaf
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In the leaf dominated case the cost is proportional to the number of leaves, but we have to calculate how many leaves there are. In the common case that all leaves are at the same level (i.e. all recursive calls are the same size), then it is relatively easy. In particular, one can calculate the number of recursive calls at each level, and take it to the power of the depth of the tree, i.e., <span class="math inline">\((\mbox{branching factor})^{\mbox{depth}}\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In the leaf dominated case the cost is proportional to the number of
+  leaves, but we have to calculate how many leaves there are.  In the common case that all leaves are at the 
+  same level (i.e. all recursive calls are the same size), then it is 
+  relatively easy.  In particular, one can calculate the number of 
+  recursive calls at each level, and take it to the power of the 
+  depth of the tree, i.e., $(\mbox{branching factor})^{\mbox{depth}}$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::leaf-dominated
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Leaf dominated
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Leaf dominated
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::leaf-dominated
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Lets consider the recurrence <span class="math display">\[W(n) = 2W(n/2) + \sqrt{n}~.\]</span> For a node of size <span class="math inline">\(n\)</span> we have that the cost of the node is <span class="math inline">\(\sqrt{n}\)</span> and the sum of the cost of its two children is <span class="math inline">\(\sqrt{n/2} + \sqrt{n/2} =  
+\sqrt{2} \sqrt{n}\)</span>. In this case the cost has <strong>increased</strong> by a factor of <span class="math inline">\(\sqrt{2}\)</span> going down the tree, and hence the recurrence is leaf dominated. Each leaf corresponds to the base case, which has cost <span class="math inline">\(1\)</span>.</p>
+<p>Now we need to determine how many leaves there are. Since each recursive call halves the input size, the depth of recursion is going to be <span class="math inline">\(\lg n\)</span> (the number of times one needs to half <span class="math inline">\(n\)</span> before getting to size <span class="math inline">\(1\)</span>). Now on each level the recursion is making two recursive calls, so the number of leaves will be <span class="math inline">\(2^{\lg n}  
+= n\)</span>. We therefore have that <span class="math inline">\(W(n) = O(n)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Lets consider the recurrence 
+\[
+W(n) = 2W(n/2) + \sqrt{n}~.
+\]
+For a node of size $n$ we have that the cost of the node is $\sqrt{n}$ and 
+the sum of the cost of its two children is $\sqrt{n/2} + \sqrt{n/2} =
+\sqrt{2} \sqrt{n}$. 
+In this case the cost has \textbf{increased} by a factor of $\sqrt{2}$ going down the 
+tree, and hence the recurrence is leaf dominated.     
+Each leaf corresponds to the base case, which has cost $1$.
+
+Now we need to determine how many leaves there are. 
+Since each recursive call halves the input size, the depth of
+recursion is going to be $\lg n$ (the number of times one needs to
+half $n$ before getting to size $1$).   Now on each level the recursion is
+making two recursive calls, so the number of leaves will be $2^{\lg n}
+= n$.    We therefore have that $W(n) = O(n)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::balanced
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Balanced
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Balanced
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::balanced
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Lets consider the same recurrence we considered for the tree method, i.e., <span class="math display">\[W(n) = 2 W(n/2) + c_1 n + c_2.\]</span> For all nodes we have that the cost of the node is <span class="math inline">\(c_1 n + c_2\)</span> and the sum of the cost of the two children is <span class="math inline">\((c_1 n/2 + c_2) + (c_1 n/2  
++ c_2) = c_1 n + 2 c_2\)</span>. In this case the cost is about the same for the parent and children, and certainly not growing or decaying geometrically. It is therefore a balanced recurrence. The maximum cost of any level is upper bounded by <span class="math inline">\((c_1 + c_2) n\)</span>, since there are at most <span class="math inline">\(n\)</span> total elements across any level (for the <span class="math inline">\(c_1 n\)</span> term) and at most <span class="math inline">\(n\)</span> nodes (for the <span class="math inline">\(c_2 n\)</span> term). There are <span class="math inline">\(1 + \lg n\)</span> levels, so the total cost is upper bounded by <span class="math inline">\((c_1 + c_2) n (1 + \lg n)\)</span>. This is slightly larger than our earlier bound of <span class="math inline">\(c_1  n \lg n + c_2 (2n - 1)\)</span>, but it makes no difference asymptotically—they are both <span class="math inline">\(O(n \lg n)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Lets consider the same recurrence we considered for the tree method, i.e.,
+\[W(n) = 2 W(n/2) + c_1 n + c_2.\]
+For all nodes we have that the cost of the node is $c_1 n + c_2$ and
+the sum of the cost of the two children is $(c_1 n/2 + c_2) + (c_1 n/2
++ c_2) = c_1 n + 2 c_2$.    In this case
+the cost is about the same for the parent and children, and certainly not growing or decaying
+geometrically.   It is therefore a balanced recurrence.    The maximum
+cost of any level is upper bounded by $(c_1 + c_2) n$, since there are
+at most $n$ total elements across any level (for the $c_1 n$ term) and
+at most $n$ nodes (for the $c_2 n$ term).
+There are $1 + \lg n$ levels, so the total cost is upper bounded
+by $(c_1 + c_2) n (1 + \lg n)$.   This is slightly larger than our
+earlier bound of $c_1  n \lg n + c_2 (2n - 1)$, but it makes no
+difference asymptotically---they are both $O(n \lg n)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:analysis::recurrences::used
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:analysis::recurrences::used
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Once you are used to using the brick method, solving recurrences can often be done very quickly. Furthermore the brick method can give a strong intuition of what part of the program dominates the cost—either the root or the leaves (or both if balanced). This can help a programmer decide how to best optimize the performance of recursive code. If it is leaf dominated then it is important to optimize the base case, while if it is root dominated it is important to optimize the calls to other functions used in conjunction with the recursive calls. If it is balanced, then, unfortunately, both need to be optimized.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Once you are used to using the brick method, solving recurrences can 
+  often be done very quickly.   Furthermore the brick method can give a 
+  strong intuition of what part of the program dominates the
+  cost---either the root or the leaves (or both if balanced).    This
+  can help a programmer decide how to best optimize the performance of
+  recursive code.    If it is leaf
+  dominated then it is important to optimize the base case, while if
+  it is root dominated it is important to optimize the calls to other
+  functions used in conjunction with the recursive calls.   If it is
+  balanced, then, unfortunately, both need to be optimized.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:analysis::recurrences::recurrences
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:analysis::recurrences::recurrences
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For each of the following recurrences state whether it is leaf dominated, root dominated or balanced, and then solve the recurrence <span class="math display">\[\begin{array}{lcl}  
+W(n) &amp; = &amp; 3 W(n/2) + n \\  
+W(n) &amp; = &amp; 2 W(n/3) + n \\  
+W(n) &amp; = &amp; 3 W(n/3) + n \\  
+W(n) &amp; = &amp; W(n - 1) + n \\  
+W(n) &amp; = &amp; \sqrt{n} W(\sqrt{n}) + n^2 \\  
+W(n) &amp; = &amp; W(\sqrt{n}) + W(n/2) + n \\  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For each of the following recurrences state whether it is leaf
+dominated, root dominated or balanced, and then solve the recurrence
+\[
+\begin{array}{lcl}
+W(n) & = & 3 W(n/2) + n \\
+W(n) & = & 2 W(n/3) + n \\
+W(n) & = & 3 W(n/3) + n \\
+W(n) & = & W(n - 1) + n \\
+W(n) & = & \sqrt{n} W(\sqrt{n}) + n^2 \\
+W(n) & = & W(\sqrt{n}) + W(n/2) + n \\
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:analysis::recurrences::recurrence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The recurrence <span class="math inline">\(W(n) = 3 W(n/2) + n\)</span> is leaf dominated since <span class="math inline">\(n \leq  
+3(n/2) = \frac{3}{2}n\)</span>. It has <span class="math inline">\(3^{\lg n} = n^{\lg 3}\)</span> leaves so <span class="math inline">\(W(n) = O(n^{\lg   
+  3})\)</span>.</p>
+<p>The recurrence <span class="math inline">\(W(n) = 2 W(n/3) + n\)</span> is root dominated since <span class="math inline">\(n \geq   
+2(n/3) = \frac{2}{3} n.\)</span> Therefore <span class="math inline">\(W(n) = O(n)\)</span>, i.e., the cost of the root.</p>
+<p>The recurrence <span class="math inline">\(W(n) = 3 W(n/3) + n\)</span> is balanced since <span class="math inline">\(n = 3(n/3)\)</span>. The depth of recursion is <span class="math inline">\(\log_3 n\)</span>, so the overall cost is <span class="math inline">\(n\)</span> per level for <span class="math inline">\(\log_3 n\)</span> levels, which gives <span class="math inline">\(W(n) = O(n \log n)\)</span>.</p>
+<p>The recurrence <span class="math inline">\(W(n) = W(n - 1) + n\)</span> is balanced since each level only decreases by <span class="math inline">\(1\)</span> instead of by a constant fraction. The largest level is <span class="math inline">\(n\)</span> (at the root) and there are <span class="math inline">\(n\)</span> levels, which gives <span class="math inline">\(W(n) = O(n \cdot n) = O(n^2)\)</span>.</p>
+<p>The recurrence <span class="math inline">\(W(n) = \sqrt{n} W(\sqrt{n}) + n^2\)</span> is root dominated since <span class="math inline">\(n^2 \geq \sqrt{n} \cdot \left(\sqrt{n}\right)^2 = n^{3/2}\)</span>. In this case the decay is even faster than geometric. Certainly for any <span class="math inline">\(n \geq 2\)</span>, it satisfies our root dominated condition for <span class="math inline">\(\alpha = \sqrt{2}\)</span>. Therefore <span class="math inline">\(W(n) = O(n^2)\)</span>.</p>
+<p>The recurrence <span class="math inline">\(W(n) = W(\sqrt{n}) + W(n/2) + n\)</span> is root dominated since for <span class="math inline">\(n &gt; 16\)</span>, <span class="math inline">\(n \geq \frac{4}{3} (\sqrt{n} + n/2)\)</span>. Note that here we are using the property that a leaf can be any problem size greater than some constant <span class="math inline">\(a\)</span>. Therefore <span class="math inline">\(W(n) = O(n)\)</span>, i.e., the cost of the root.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The recurrence $W(n) = 3 W(n/2) + n$  is leaf dominated since $n \leq
+3(n/2) = \frac{3}{2}n$.  It has $3^{\lg n} = n^{\lg 3}$ leaves so $W(n) = O(n^{\lg 
+  3})$.
+
+The recurrence $W(n) = 2 W(n/3) + n$  is root dominated since $n \geq 
+2(n/3) = \frac{2}{3} n.$ 
+Therefore $W(n) = O(n)$, i.e., the cost of 
+the root.
+
+The recurrence $W(n) = 3 W(n/3) + n$  is balanced since $n = 3(n/3)$.
+The depth of recursion is $\log_3 n$, so the overall cost is
+$n$ per level for $\log_3 n$ levels, which gives $W(n) = O(n \log n)$.
+
+The recurrence $W(n) = W(n - 1) + n$  is balanced since each level
+only decreases by $1$ instead of by a constant fraction.    The
+largest level is $n$ (at the root) and there are $n$ levels, which
+gives $W(n) = O(n \cdot n) = O(n^2)$.
+
+The recurrence $W(n) = \sqrt{n} W(\sqrt{n}) + n^2$  is root dominated
+since $n^2 \geq \sqrt{n} \cdot \left(\sqrt{n}\right)^2 = n^{3/2}$.   In
+  this case the decay is even faster than geometric.    Certainly for
+  any $n \geq 2$, it satisfies our root dominated condition for
+  $\alpha = \sqrt{2}$.
+Therefore $W(n) = O(n^2)$.
+
+  The recurrence $W(n) = W(\sqrt{n}) + W(n/2) + n$ is root dominated
+  since for $n > 16$, $n \geq \frac{4}{3} (\sqrt{n} + n/2)$.  Note
+  that here we are using the property that a leaf can be any problem
+  size greater than some constant $a$.  Therefore $W(n) = O(n)$, i.e.,
+  the cost of the root.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::advanced
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Advanced
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Advanced
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::advanced
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In some leaf-dominated recurrences not all leaves are at the same level. An example is <span class="math inline">\(W(n) = W(n/2) + W(n/3) + 1\)</span>. Let <span class="math inline">\(L(n)\)</span> be the number of leaves as a function of <span class="math inline">\(n\)</span>. We can solve for <span class="math inline">\(L(n)\)</span> using yet another recurrence. In particular the number of leaves for an internal node is simply the sum of the number of leaves of each of its children. In the example this will give the recurrence <span class="math inline">\(L(n) = L(n/2) + L(n/3)\)</span>. Hence, we need to find a function <span class="math inline">\(L(n)\)</span> that satisfies this equation. If we guess that it has the form <span class="math inline">\(L(n) = n^{\beta}\)</span> for some <span class="math inline">\(\beta\)</span>, we can plug it into the equation and try to solve for <span class="math inline">\(\beta\)</span>: <span class="math display">\[\begin{array}{lcl}  
+n^{\beta} &amp; =  &amp;\left(\frac{n}{2}\right)^{\beta} +  
+                         \left(\frac{n}{3}\right)^{\beta}\\  
+             &amp; =  &amp;n^{\beta}\left(\left(\frac{1}{2}\right)^{\beta} +  
+                    \left(\frac{1}{3}\right)^{\beta}\right)  
+\end{array}\]</span> Now dividing through by <span class="math inline">\(n^{\beta}\)</span> gives <span class="math display">\[\left(\frac{1}{2}\right)^{\beta} + \left(\frac{1}{3}\right)^{\beta}  
+= 1~.\]</span> This gives <span class="math inline">\(\beta \approx .788\)</span> (actually a tiny bit less). Hence <span class="math inline">\(L(n) &lt; n^{.788}\)</span>, and because the original recurrence is leaf dominated: <span class="math inline">\(W(n) \in O(n^{.788})\)</span>.</p>
+<p>This idea of guessing a form of a solution and solving for it is key in our next method for solving recurrences, the substitution method.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In some leaf-dominated recurrences 
+ not all leaves are at the same level.    An example is
+  $W(n) = W(n/2) + W(n/3) + 1$.
+  Let $L(n)$ be the number of leaves as a function of $n$.  We can
+  solve for $L(n)$ using yet another recurrence.  In particular the
+  number of leaves for an internal node is simply the sum of the
+  number of leaves of each of its children.  In the example this will
+  give the recurrence $L(n) = L(n/2) + L(n/3)$.  Hence, we need to
+  find a function $L(n)$ that satisfies this equation.  If we guess
+  that it has the form $L(n) = n^{\beta}$ for some $\beta$, we can
+  plug it into the equation and try to solve for $\beta$:
+\[
+\begin{array}{lcl}
+n^{\beta} & =  &\left(\frac{n}{2}\right)^{\beta} +
+                         \left(\frac{n}{3}\right)^{\beta}\\
+             & =  &n^{\beta}\left(\left(\frac{1}{2}\right)^{\beta} +
+                    \left(\frac{1}{3}\right)^{\beta}\right)
+\end{array}
+\]
+Now dividing through by $n^{\beta}$ gives 
+\[ \left(\frac{1}{2}\right)^{\beta} + \left(\frac{1}{3}\right)^{\beta}
+= 1~.\]
+This gives $\beta \approx .788$ (actually a tiny bit less).   Hence $L(n) < n^{.788}$, and
+because the original recurrence is leaf dominated:
+$W(n) \in O(n^{.788})$.
+
+This idea of guessing a form of a solution and solving for it is key
+in our next method for solving recurrences, the substitution method.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Substitution Method
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Substitution Method
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::recurrences::substitution-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The tree method can be used to find the closed form solution to many recurrences but in some cases, we need a more powerful techniques that allows us to make a guess and then verify our guess via mathematical induction. The substitution method allows us to do that exactly.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The tree method can be used to find the closed form solution to many
+recurrences but in some cases, we need a more powerful techniques that
+allows us to make a guess and then verify our guess via mathematical induction.
+The substitution method allows us to do that exactly.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:imp:analysis::recurrences::technique
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='important'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+imp:analysis::recurrences::technique
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This technique can be tricky to use: it is easy to start on the wrong foot with a poor guess and then derive an incorrect proof, by for example, making a small mistake. To minimize errors, you can follow the following tips:</p>
+<ol>
+<li><p>Spell out the constants—do not use asymptotic notation such as big-<span class="math inline">\(O\)</span>. The problem with asymptotic notation is that it makes it super easy to overlook constant factors, which need to be carefully accounted for.</p></li>
+<li><p>Be careful that the induction goes in the right direction.</p></li>
+<li><p>Add additional lower-order terms, if necessary, to make the induction work.</p></li>
+</ol>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This technique can be tricky to use: it is easy to start on the wrong
+foot with a poor guess and then derive an incorrect proof, by for example,
+making a small mistake.
+To minimize errors, you can follow the following tips:
+\begin{enumerate}
+\item Spell out the constants---do not use asymptotic notation such as
+  big-$O$.  The problem with asymptotic notation is that it makes it
+  super easy to overlook constant factors, which need to be carefully
+  accounted for.
+
+\item Be careful that the induction goes in the right direction.
+
+\item Add additional lower-order terms, if necessary, to make the
+  induction work.
+\end{enumerate}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- important -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:analysis::recurrences::recurrence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::recurrences::recurrence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the recurrence <span class="math display">\[W(n) = 2W(n/2) + O(n).\]</span> By the definition of asymptotic complexity, we can establish that <span class="math display">\[\begin{aligned}
+  W(n) &amp;\leq&amp; 2W(n/2) + c_1\cdot n + c_2,  \end{aligned}\]</span> where <span class="math inline">\(c_1\)</span> and <span class="math inline">\(c_2\)</span> are constants.</p>
+<p>We will prove the following theorem using strong induction on <span class="math inline">\(n\)</span>.</p>
+<p><strong>Theorem.</strong> Let a constant <span class="math inline">\(k &gt; 0\)</span> be given. If <span class="math inline">\(W(n) \leq 2 W(n/2) + k \cdot n\)</span> for <span class="math inline">\(n &gt;  
+  1\)</span> and <span class="math inline">\(W(n) \leq k\)</span> for <span class="math inline">\(n \leq 1\)</span>, then we can find constants <span class="math inline">\(\kappa_1\)</span> and <span class="math inline">\(\kappa_2\)</span> such that <span class="math display">\[W(n) \;\leq\; \kappa_1 \cdot n \lg n + \kappa_2.\]</span></p>
+<p><strong>Proof.</strong> Let <span class="math inline">\(\kappa_1 = 2k\)</span> and <span class="math inline">\(\kappa_2 = k\)</span>. For the base case (<span class="math inline">\(n=1\)</span>), we check that <span class="math inline">\(W(1) \leq k \leq \kappa_2\)</span>. For the inductive step (<span class="math inline">\(n&gt;1\)</span>), we assume that <span class="math display">\[W(n/2) \leq \kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2,\]</span> And we’ll show that <span class="math inline">\(W(n) \leq \kappa_1 \cdot n \lg n + \kappa_2\)</span>. To show this, we substitute an upper bound for <span class="math inline">\(W(n/2)\)</span> from our assumption into the recurrence, yielding <span class="math display">\[\begin{align*}  
+    W(n) \;&amp;\leq\; 2W(n/2) + k \cdot n  \\  
+    \;&amp;\leq\; 2(\kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2) + k \cdot n\\  
+    \;&amp;=\; \kappa_1 n (\lg n - 1) + 2 \kappa_2 + k \cdot n\\  
+    \;&amp;=\; \kappa_1 n \lg n + \kappa_2 + (k \cdot n + \kappa_2 - \kappa_1 \cdot n)\\  
+    \;&amp;\leq\; \kappa_1 n \lg n + \kappa_2,  
+  \end{align*}\]</span> where the final step follows because <span class="math inline">\(k \cdot n + \kappa_2 - \kappa_1 \cdot n \leq  
+  0\)</span> as long as <span class="math inline">\(n &gt; 1\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the recurrence
+$$
+W(n) = 2W(n/2) + O(n).
+$$
+By the definition of asymptotic complexity, we
+can establish that
+\begin{eqnarray*}
+  W(n) &\leq& 2W(n/2) + c_1\cdot n + c_2,
+\end{eqnarray*}
+where $c_1$ and $c_2$ are constants.  
+
+
+
+We will prove the following theorem using strong induction on $n$.
+
+
+\textbf{Theorem.}
+  Let a constant $k > 0$ be given.  If $W(n) \leq 2 W(n/2) + k \cdot n$ for $n >
+  1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$ and
+  $\kappa_2$ such that \[ W(n) \;\leq\; \kappa_1 \cdot n \lg n + \kappa_2.\]
+
+\textbf{Proof.}
+  Let $\kappa_1 = 2k$ and $\kappa_2 = k$.  For the base case ($n=1$), we check
+  that $W(1) \leq k \leq \kappa_2$.  For the inductive step ($n>1$), we assume that
+  \[
+  W(n/2) \leq \kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2,
+  \]
+  And we'll show that $W(n) \leq \kappa_1 \cdot n \lg n + \kappa_2$.  To show
+  this, we substitute an upper bound for $W(n/2)$ from our assumption into the
+  recurrence, yielding
+  \[ \begin{align*}
+    W(n) \;&\leq\; 2W(n/2) + k \cdot n  \\
+    \;&\leq\; 2(\kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2) + k \cdot n\\
+    \;&=\; \kappa_1 n (\lg n - 1) + 2 \kappa_2 + k \cdot n\\
+    \;&=\; \kappa_1 n \lg n + \kappa_2 + (k \cdot n + \kappa_2 - \kappa_1 \cdot n)\\
+    \;&\leq\; \kappa_1 n \lg n + \kappa_2,
+  \end{align*} \]
+  where the final step follows because $k \cdot n + \kappa_2 - \kappa_1 \cdot n \leq
+  0$ as long as $n > 1$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::variants
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::variants
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Variants of the recurrence considered in our last example arise commonly in algorithms. Next, we establish a theorem that shows that the same bound holds for a more general class of recurrences.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Variants of the recurrence considered in our last example arise
+commonly in algorithms.  Next, we establish a theorem that shows that
+the same bound holds for a more general class of recurrences.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:thm:analysis::recurrences::linear-plus
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='theorem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Superlinear Recurrence
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Superlinear Recurrence
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+thm:analysis::recurrences::linear-plus
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Let <span class="math inline">\(\varepsilon&gt; 0\)</span> be a constant and consider the recurrence <span class="math display">\[\begin{align*}  
+  W(n) &amp; = 2W(n/2) + k\cdot n^{1+\varepsilon}.  
+\end{align*}\]</span></p>
+<p>If <span class="math inline">\(W(n) \leq 2 W(n/2) + k \cdot n^{1+\varepsilon}\)</span> for <span class="math inline">\(n &gt; 1\)</span> and <span class="math inline">\(W(n) \leq k\)</span> for <span class="math inline">\(n \leq  
+  1\)</span>, then for some constant <span class="math inline">\(\kappa\)</span>, <span class="math display">\[W(n) \;\leq\;  
+  \kappa \cdot n^{1+\varepsilon}.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{thm:analysis::recurrences::linear-plus}
+Let $\vareps > 0$ be a
+constant and consider  the recurrence
+\[ \begin{align*}
+  W(n) & = 2W(n/2) + k\cdot n^{1+\vareps}.
+\end{align*} \]
+
+    If $W(n) \leq 2 W(n/2) + k \cdot n^{1+\vareps}$ for $n > 1$ and $W(n) \leq k$ for $n \leq
+  1$, then for some constant $\kappa$, \[ W(n) \;\leq\;
+  \kappa \cdot n^{1+\vareps}. \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- theorem -->
+
+<atom name='proof'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prf:analysis::recurrences::inductive
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Let <span class="math inline">\(\kappa = \frac1{1-1/2^{\varepsilon}} \cdot k\)</span>. The base case is easy: <span class="math inline">\(W(1) =  
+  k \leq \kappa_1\)</span> as <span class="math inline">\(\frac1{1 - 1/2^{\varepsilon}} \geq 1\)</span>. For the inductive step, we substitute the inductive hypothesis into the recurrence and obtain <span class="math display">\[\begin{aligned}
+    W(n) &amp;\leq&amp; 2W(n/2) + k \cdot n^{1+\varepsilon}\\  
+    &amp;\leq&amp; 2 \kappa\left(\frac{n}2 \right)^{1+\varepsilon} + k \cdot n^{1+\varepsilon}\\  
+    &amp;=&amp; \kappa \cdot n^{1+\varepsilon} + \left(2 \kappa\left(\frac{n}2 \right)^{1+\varepsilon} +  
+      k \cdot n^{1+\varepsilon} - \kappa \cdot n^{1+\varepsilon}\right)\\  
+    &amp;\leq&amp; \kappa \cdot n^{1+\varepsilon},  
+  \end{aligned}\]</span> where in the final step, we use the fact that for any <span class="math inline">\(\delta &gt; 1\)</span>:</p>
+<p><span class="math display">\[\begin{aligned}
+    2 \kappa\left(\frac{n}2 \right)^{\delta} +  
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta}  
+    &amp;=&amp; \kappa \cdot 2^{-\varepsilon} \cdot n^{\delta}  +  
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta} \\  
+    &amp;=&amp; \kappa \cdot 2^{-\varepsilon} \cdot n^{\delta}  +  
+    (1 - 2^{-\varepsilon})\kappa\cdot n^{\delta} - \kappa \cdot n^{\delta} \\  
+    &amp;\leq&amp; 0.  
+  \end{aligned}\]</span></p>
+<p>An alternative way to prove the same theorem is to use the tree method and evaluate the sum directly. The recursion tree here has depth <span class="math inline">\(\lg  
+n\)</span> and at level <span class="math inline">\(i\)</span> (again, the root is at level <span class="math inline">\(0\)</span>), we have <span class="math inline">\(2^i\)</span> nodes, each costing <span class="math inline">\(k\cdot (n/2^i)^{1+\varepsilon}\)</span>. Thus, the total cost is <span class="math display">\[\begin{aligned}
+    \sum_{i=0}^{\lg n} k\cdot 2^i \cdot \left(\frac{n}{2^i}\right)^{1+\varepsilon}  
+    &amp;=&amp;  k\cdot n^{1+\varepsilon} \cdot \sum_{i=0}^{\lg n} 2^{-i\cdot\varepsilon} \\  
+    &amp;\leq&amp; k\cdot n^{1+\varepsilon} \cdot \sum_{i=0}^{\infty} 2^{-i\cdot\varepsilon}.  
+  \end{aligned}\]</span> But the infinite sum <span class="math inline">\(\sum_{i=0}^{\infty} 2^{-i\cdot\varepsilon}\)</span> is at most <span class="math inline">\(\frac1{1 - 1/2^{\varepsilon}}\)</span>. Hence, we conclude <span class="math inline">\(W(n) \in O(n^{1+\varepsilon})\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Let $\kappa = \frac1{1-1/2^{\vareps}} \cdot k$. The base case is easy: $W(1) =
+  k \leq \kappa_1$ as $\frac1{1 - 1/2^{\vareps}} \geq 1$.  For the inductive
+  step, we substitute the inductive hypothesis into the recurrence and obtain
+  \begin{eqnarray*}
+    W(n) &\leq& 2W(n/2) + k \cdot n^{1+\vareps}\\
+    &\leq& 2 \kappa\left(\frac{n}2 \right)^{1+\vareps} + k \cdot n^{1+\vareps}\\
+    &=& \kappa \cdot n^{1+\vareps} + \left(2 \kappa\left(\frac{n}2 \right)^{1+\vareps} +
+      k \cdot n^{1+\vareps} - \kappa \cdot n^{1+\vareps}\right)\\
+    &\leq& \kappa \cdot n^{1+\vareps},
+  \end{eqnarray*}
+  where in the final step, we use the fact  that for any $\delta > 1$:
+
+  \begin{eqnarray*}
+    2 \kappa\left(\frac{n}2 \right)^{\delta} +
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta}
+    &=& \kappa \cdot 2^{-\vareps} \cdot n^{\delta}  +
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta} \\
+    &=& \kappa \cdot 2^{-\vareps} \cdot n^{\delta}  +
+    (1 - 2^{-\vareps})\kappa\cdot n^{\delta} - \kappa \cdot n^{\delta} \\
+    &\leq& 0.
+  \end{eqnarray*}
+
+
+An alternative way to prove the same theorem is to use the tree method
+and evaluate the sum directly. The recursion tree here has depth $\lg
+n$ and at level $i$ (again, the root is at level $0$), we have $2^i$
+nodes, each costing $k\cdot (n/2^i)^{1+\vareps}$.  Thus, the total
+cost is
+  \begin{eqnarray*}
+    \sum_{i=0}^{\lg n} k\cdot 2^i \cdot \pparen{\frac{n}{2^i}}^{1+\vareps}
+    &=&  k\cdot n^{1+\vareps} \cdot \sum_{i=0}^{\lg n} 2^{-i\cdot\vareps} \\
+    &\leq& k\cdot n^{1+\vareps} \cdot \sum_{i=0}^{\infty} 2^{-i\cdot\vareps}.
+  \end{eqnarray*}
+  But the infinite sum $\sum_{i=0}^{\infty} 2^{-i\cdot\vareps}$ is at most
+  $\frac1{1 - 1/2^{\vareps}}$. Hence, we conclude $W(n) \in O(n^{1+\vareps})$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- proof -->
+
+</segment> <!-- flex -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Master Method
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Master Method
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::recurrences::master-method
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::recurrences::might
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::recurrences::might
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>You might have learned in a previous course about the  <strong><em>master method</em></strong> for solving recurrences. We do not like to use it, because it only works for special cases and does not help develop intuition. It requires that all recursive calls are the same size and are some constant factor smaller than <span class="math inline">\(n\)</span>. It doesn’t work for recurrences such as: <span class="math display">\[\begin{array}{lcl}  
+W(n) &amp; = &amp; W(n - 1) + 1 \\  
+W(n) &amp; = &amp; W(2n / 3) + W(n /3) + n^3\\  
+W(n) &amp; = &amp; \sqrt{n}~W(\sqrt{n}) + 1\\  
+\end{array}\]</span> all for which the tree, brick, and substitution method work. We note, however, that the three cases of the master method correspond to limited cases of leaves dominated, balanced, and root dominated of the brick method.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+You might have learned in a previous course about the~\defn{master method} for solving
+recurrences.
+We do not like to use it, because it only works for special cases and
+does not help develop intuition.     
+It requires that all recursive calls are the same size and are some
+constant factor smaller than $n$.
+It doesn't work for recurrences such as:
+\[
+\begin{array}{lcl}
+W(n) & = & W(n - 1) + 1 \\
+W(n) & = & W(2n / 3) + W(n /3) + n^3\\
+W(n) & = & \sqrt{n}~W(\sqrt{n}) + 1\\
+\end{array}
+\]
+all for which the tree, brick, and substitution method work.
+We note, however, that the three cases of the master method correspond
+to limited cases of leaves dominated, balanced, and root dominated of
+the brick method.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

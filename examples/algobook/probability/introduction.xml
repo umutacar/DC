@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:probability::introduction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::introduction::part
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::introduction::part
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This part covers discrete probability theory. Chapter <a href="#ch:probability::spaces" data-reference-type="ref" data-reference="ch:probability::spaces">[ch:probability::spaces]</a> describes probability spaces, events, probabilities and conditional probabilities. Chapter <a href="#ch:probability::randvar" data-reference-type="ref" data-reference="ch:probability::randvar">[ch:probability::randvar]</a> describes random variables. Chapter <a href="#ch:probability::expectation" data-reference-type="ref" data-reference="ch:probability::expectation">[ch:probability::expectation]</a> presents expectations, which can be used to summarize random variables by their average or mean value.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This part covers discrete probability theory.
+\chref{probability::spaces} describes probability spaces, events, probabilities
+and conditional probabilities.
+\chref{probability::randvar} describes random variables.
+\chref{probability::expectation} presents expectations, which can be used
+to summarize random variables by their average or mean value.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- chapter -->

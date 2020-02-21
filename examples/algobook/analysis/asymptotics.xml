@@ -1,0 +1,2568 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Asymptotics
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Asymptotics
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:analysis::asymptotics
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:analysis::asymptotics::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:analysis::asymptotics::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter describes the asymptotic notation that is used nearly universally in computer science to analyze the resource consumption of algorithms.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter describes the asymptotic notation that is used nearly
+universally in computer science to analyze the resource consumption of
+algorithms.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Basics
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Basics
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::asymptotics::asymptotics
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::analyzing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::analyzing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>When analyzing algorithms, we are usually interested in costs such as the total work, the running time, or space usage. In such analysis, we typically characterize the behavior of an algorithm with a  <strong><em>numeric function</em></strong> from the domain of natural numbers (typically input sizes) to the codomain of real numbers (cost).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When analyzing algorithms, we are usually interested in
+costs such as the total work, the running time, or space usage. 
+In such analysis, we typically characterize the behavior of an
+algorithm with a~\defn{numeric function} from the domain of natural
+numbers (typically input sizes) to the codomain of real numbers (cost).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Numeric Functions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Numeric Functions
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::asymptotics::numeric-functions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>By analyzing the work of the algorithm <span class="math inline">\(A\)</span> for problem <span class="math inline">\(P\)</span> in terms of its input size <span class="math inline">\(n\)</span>, we may obtain the numeric function <span class="math display">\[W_A(n) = 2n\lg{n} + 3n + 4\lg{n} + 5.\]</span> By applying the analysis method to another algorithm, algorithm <span class="math inline">\(B\)</span>, we may derive the numeric function <span class="math display">\[W_B(n) = 6n + 7\lg^2{n} + 8\lg{n} + 9.\]</span> Both of these functions are numeric because their domain is the natural numbers.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+By analyzing the work of the algorithm~$A$ for problem~$P$ in terms of
+its input size $n$, we may obtain the numeric function
+$$W_A(n) = 2n\lg{n} + 3n + 4\lg{n} + 5.$$  
+By applying the analysis method to another algorithm, algorithm~$B$,
+we may derive the numeric function
+$$ W_B(n) = 6n + 7\lg^2{n} + 8\lg{n} + 9.$$
+Both of these functions are numeric because their domain is the natural
+numbers.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>When given numeric functions, how should we interpret them? Perhaps more importantly given two algorithms and their work cost as represented by two numeric functions, how should we compare them? One option would be to calculate the two functions for varying values of <span class="math inline">\(n\)</span> and pick the algorithm that does the least amount of work for the values of <span class="math inline">\(n\)</span> that we are interested in.</p>
+<p>In computer science, we typically care about the cost of an algorithm for large inputs. We are therefore usually interested in the  <strong><em>growth</em></strong> or the  <strong><em>growth rate</em></strong> of the functions. Asymptotic analysis offers a technique for comparing algorithms by comparing the growth rate of their cost functions as the sizes get large (approach infinity).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When given numeric functions, how should we interpret them?
+Perhaps more importantly given two algorithms and their work cost as
+represented by two numeric functions, how should we compare them?
+One option would be to calculate the two functions for varying values
+of~$n$ and pick the algorithm that does the least amount of work for
+the values of $n$ that we are interested in.
+
+In computer science, we typically care about the cost of an algorithm
+for large inputs.
+We are therefore usually interested in the~\defn{growth} or
+the~\defn{growth rate} of the functions.
+Asymptotic analysis offers a technique for comparing algorithms by
+comparing the growth rate of their cost functions as the sizes get
+large (approach infinity).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Asymptotics
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Asymptotics
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::asymptotics::asymptotics
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider two algorithms <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> for a problem <span class="math inline">\(P\)</span> and suppose that their work costs, in terms of the input size <span class="math inline">\(n\)</span>, are <span class="math display">\[W_A(n) = 2n\lg{n} + 3n + 4\lg{n} + 5, \mbox{and}\]</span> <span class="math display">\[W_B(n) = 6n + 7\lg^2{n} + 8\lg{n}+ 9.\]</span> Via asymptotic analysis, we derive <span class="math display">\[W_A(n) \in \Theta(n\lg{n}),~\mbox{and}\]</span> <span class="math display">\[W_B(n) \in \Theta(n).\]</span> Since  <span class="math inline">\(n\lg{n}\)</span> grows faster that <span class="math inline">\(n\)</span>, we would usually prefer the second algorithm, because it performs better for sufficiently large inputs.</p>
+<p>The difference between the exact work expressions and the “asymptotic bounds” written in terms of the “Theta” functions is that the latter ignores so called  <strong><em>constant factors</em></strong> , which are the constants in front of the variables, and  <strong><em>lower-order terms</em></strong> , which are the terms such as <span class="math inline">\(3n\)</span> and <span class="math inline">\(4\lg{n}\)</span> that diminish in growth with respect to <span class="math inline">\(n\lg{n}\)</span> as <span class="math inline">\(n\)</span> increases.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider two algorithms~$A$ and $B$ for a problem~$P$ and suppose that
+their work costs, in terms of the input size $n$, are 
+$$W_A(n) = 2n\lg{n} + 3n + 4\lg{n} + 5, \mbox{and}$$
+$$W_B(n) = 6n + 7\lg^2{n} + 8\lg{n}+ 9.$$
+Via asymptotic analysis, we derive 
+$$W_A(n) \in \Theta(n\lg{n}),~\mbox{and}$$
+$$W_B(n) \in \Theta(n).$$
+Since ~$n\lg{n}$ grows faster that~$n$, we would usually prefer the
+second algorithm, because it performs better for sufficiently large
+inputs.
+
+The difference between the exact work expressions and the ``asymptotic
+bounds'' written in terms of the ``Theta'' functions is that the
+latter ignores so called~\defn{constant factors}, which are the
+constants in front of the variables, and~\defn{lower-order terms},
+which are the terms such as $3n$ and $4\lg{n}$ that diminish in
+growth with respect to $n\lg{n}$ as $n$ increases.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:analysis::asymptotics::addition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:analysis::asymptotics::addition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In addition to enabling us to compare algorithms, asymptotic analysis also allows us to ignore certain details such as the exact time an operation may require to complete on a particular architecture. This is important because it makes it possible to apply our analysis to different architectures, where such constant may differ. Furthermore, it also enables us to create more abstract cost models: in designing cost models, we assign most operations unit costs regardless of the exact time they might take on hardware. This greatly simplifies the definition of the models.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In addition to enabling us to compare algorithms, asymptotic analysis
+also allows us to ignore certain details such as the exact time an
+operation may require to complete on a particular architecture.
+This is important because it makes it possible to apply our analysis
+to different architectures, where such constant may differ.
+Furthermore, it also enables us to create more abstract cost models:
+in designing cost models, we assign most operations unit costs
+regardless of the exact time they might take on hardware.
+This greatly simplifies the definition of the models.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:tch:analysis::asymptotics::know
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='teachask'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tch:analysis::asymptotics::know
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Do you know of an algorithm that compared to other algorithms for the same problem, performs asymptotically better at large inputs but poorly at smaller inputs.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Do you know of an algorithm that compared to other algorithms for the
+same problem, performs asymptotically better at large inputs but poorly
+at smaller inputs.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- teachask -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:analysis::asymptotics::comparing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:analysis::asymptotics::comparing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Comparing two algorithms that solve the same problem, one might perform better on large inputs and the other on small inputs. Can you give an example?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Comparing two algorithms that solve the same problem, one might
+    perform better on large inputs and the other on small inputs.  
+    Can you give an example?
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:analysis::asymptotics::classic
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>There are many such algorithms. A classic example is the merge-sort algorithm that performs <span class="math inline">\(\Theta(n\lg{n})\)</span> work, but performs worse on smaller inputs than the asymptotically inefficient <span class="math inline">\(\Theta(n^2)\)</span>-work insertion-sort algorithm. Asymptotic notation does not help in comparing the efficiency of insertion sort and merge sort at small input sizes. For this, we need to compare their actual work functions which include the constant factors and lower-order terms that asymptotic notation ignores.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+There are many such algorithms.  
+        A classic example is the merge-sort algorithm that performs
+    $\Theta(n\lg{n})$ work, but performs worse on smaller inputs than the
+    asymptotically inefficient $\Theta(n^2)$-work insertion-sort
+    algorithm.
+        Asymptotic notation does not help in comparing the efficiency of
+    insertion sort and merge sort at small input sizes.
+        For this, we need to compare their actual work functions which include
+    the constant factors and lower-order terms that asymptotic notation
+    ignores.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Big-O, big-Omega, and big-Theta
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Big-O, big-Omega, and big-Theta
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::asymptotics::big-o-big-omega-and-big-theta
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::idea
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::idea
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The key idea in asymptotic analysis is to understand how the growth rate of two functions compare on large input. In particular as we increase the numeric argument of both functions to infinity, does one grow faster, equally fast or slower than the other? In answering this question we do not care about small input and do not care about constant factors. To capture this idea, we use the following definition.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The key idea in asymptotic analysis is to understand how the growth
+  rate of two functions compare on large input.  In 
+  particular as we increase the numeric argument of both functions to
+  infinity, does one grow faster, equally fast or slower than the
+  other?   In
+  answering this question we do not care about small input and 
+  do not care about constant factors.  To capture this idea, we use the following
+  definition.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:analysis::asymptotics::asymptotic-dominance
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Asymptotic dominance
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Asymptotic dominance
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:analysis::asymptotics::asymptotic-dominance
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Let <span class="math inline">\(f(\cdot)\)</span> and <span class="math inline">\(g(\cdot)\)</span> be two numeric functions. We say that <span class="math inline">\(f(\cdot)\)</span>  <strong><em>asymptotically dominates</em></strong> <span class="math inline">\(g(\cdot)\)</span>, if there exists constants <span class="math inline">\(c &gt; 0\)</span> and <span class="math inline">\(n_0 &gt; 0\)</span> such that for all <span class="math inline">\(n \ge n_0,\)</span> <span class="math display">\[g(n) \le c \cdot f(n).\]</span> or, equivalently, if <span class="math display">\[\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)} \leq c~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Let $f(\cdot)$ and $g(\cdot)$ be two numeric functions.  We say that
+    $f(\cdot)$~\defn{asymptotically dominates} $g(\cdot)$,  if there
+    exists constants~$c > 0$ and~$n_0 > 0$ such that for all 
+    $n \ge n_0,$
+    \[
+      g(n) \le c \cdot f(n).
+    \]
+    or, equivalently, if
+    \[\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)} \leq c~.\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::asymptotics::function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In the following examples, the function <span class="math inline">\(f(\cdot)\)</span> asymptotically dominates and thus grows at least as fast as the function <span class="math inline">\(g(\cdot)\)</span>. <span class="math display">\[\begin{array}{ll}  
+        f(n) = 2n &amp; g(n) = n \\  
+        f(n) = 2n &amp; g(n) = 4n \\  
+        f(n) = n\lg{n} &amp; g(n) = 8n \\  
+        f(n) = n\lg{n} &amp; g(n) = 8n\lg{n} + 16n \\  
+        f(n) = n\sqrt{n} &amp; g(n) = n\lg{n} + 2n \\  
+        f(n) = n\sqrt{n} &amp; g(n) = n\lg^8{n} + 16n \\  
+        f(n) = n^2 &amp; g(n) = n\lg^2{n} + 4n \\  
+        f(n) = n^2 &amp; g(n) = n\lg^2{n} + 4n\lg{n} + n \\  
+      \end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In the following examples, the function $f(\cdot)$ asymptotically 
+    dominates and thus grows at least as fast as the function $g(\cdot)$. 
+        \[
+      \begin{array}{ll}
+        f(n) = 2n & g(n) = n \\
+        f(n) = 2n & g(n) = 4n \\
+        f(n) = n\lg{n} & g(n) = 8n \\
+        f(n) = n\lg{n} & g(n) = 8n\lg{n} + 16n \\
+        f(n) = n\sqrt{n} & g(n) = n\lg{n} + 2n \\
+        f(n) = n\sqrt{n} & g(n) = n\lg^8{n} + 16n \\
+        f(n) = n^2 & g(n) = n\lg^2{n} + 4n \\
+        f(n) = n^2 & g(n) = n\lg^2{n} + 4n\lg{n} + n \\
+      \end{array}
+    \]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::ignore
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::ignore
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In the definition we ignore all <span class="math inline">\(n\)</span> that are less than <span class="math inline">\(n_0\)</span> (i.e. small inputs), and we allow <span class="math inline">\(g(n)\)</span> to be some constant factor, <span class="math inline">\(c\)</span>, larger than <span class="math inline">\(f(n)\)</span> even though <span class="math inline">\(f(n)\)</span> “dominates”. When a function <span class="math inline">\(f(\cdot)\)</span> asymptotically dominates (or dominates for short) <span class="math inline">\(g(\cdot)\)</span>, we sometimes say that <span class="math inline">\(f(\cdot)\)</span> grows as least as fast as <span class="math inline">\(g(\cdot)\)</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In the definition we ignore all $n$ that are less than 
+$n_0$ (i.e. small inputs), and we allow $g(n)$ to be some constant factor, $c$, larger
+than $f(n)$ even though $f(n)$ ``dominates''.
+When a function $f(\cdot)$ asymptotically dominates (or dominates for short)
+$g(\cdot)$,  we sometimes say that $f(\cdot)$ grows as least as fast as
+$g(\cdot)$
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:analysis::asymptotics::prove
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:analysis::asymptotics::prove
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Prove that for all <span class="math inline">\(k\)</span>, <span class="math inline">\(f(n) = n\)</span> asymptotically dominates <span class="math inline">\(g(n) =  
+\ln^k n\)</span>.</p>
+<p><strong>Hint</strong>: use L’Hopital’s rule, which states: <span class="math display">\[\mbox{if}~  
+\lim_{n \rightarrow \infty} f(n) = \infty~\mbox{and}~  
+\lim_{n \rightarrow \infty} g(n) = \infty,~\mbox{then:}~~  
+\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)} =  
+\lim_{n \rightarrow \infty} \frac{g&#39;(n)}{f&#39;(n)}~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Prove that for all $k$, $f(n) = n$ asymptotically dominates $g(n) =
+\ln^k n$.
+
+\textbf{Hint}: use L'Hopital's
+rule, which states:
+\[\mbox{if}~
+\lim_{n \rightarrow \infty} f(n) = \infty~\mbox{and}~
+\lim_{n \rightarrow \infty} g(n) = \infty,~\mbox{then:}~~
+\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)} =
+\lim_{n \rightarrow \infty} \frac{g'(n)}{f'(n)}~. 
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:analysis::asymptotics::applied
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We have: <span class="math display">\[\begin{array}{lcl}  
+\displaystyle\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)}  
+&amp; = &amp; \displaystyle\lim_{n \rightarrow \infty} \frac{\ln^k n}{n} \\  
+&amp; = &amp; \left( \displaystyle\lim_{n \rightarrow \infty} \frac{\ln n}{n^{1/k}}  
+      \right)^k\\   
+&amp; = &amp; \left( \displaystyle\lim_{n \rightarrow \infty} \frac{1/n}{(1/k)  
+      n^{1/k - 1}}  
+      \right)^k\\   
+&amp; = &amp; \left( \displaystyle\lim_{n \rightarrow \infty} \frac{k}{n^{1/k}} \right)^k\\   
+&amp; = &amp; 0\\  
+\end{array}\]</span> We applied L’Hospital’s rule from the second to the third line. Since <span class="math inline">\(0\)</span> is certainly upper bounded by a constant <span class="math inline">\(c\)</span>, we have that <span class="math inline">\(f\)</span> dominates <span class="math inline">\(g\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We have:
+\[
+\begin{array}{lcl}
+\displaystyle\lim_{n \rightarrow \infty} \frac{g(n)}{f(n)}
+& = & \displaystyle\lim_{n \rightarrow \infty} \frac{\ln^k n}{n} \\
+& = & \left( \displaystyle\lim_{n \rightarrow \infty} \frac{\ln n}{n^{1/k}}
+      \right)^k\\ 
+& = & \left( \displaystyle\lim_{n \rightarrow \infty} \frac{1/n}{(1/k)
+      n^{1/k - 1}}
+      \right)^k\\ 
+& = & \left( \displaystyle\lim_{n \rightarrow \infty} \frac{k}{n^{1/k}} \right)^k\\ 
+& = & 0\\
+\end{array}
+\]
+We applied L'Hospital's rule from the second to the third line.
+Since $0$ is certainly upper bounded by a constant $c$, we have that
+$f$ dominates $g$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::functions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::functions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For two functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> it is possible neither dominates the other. For example, for <span class="math inline">\(f(n) = n \sin(n)\)</span> and <span class="math inline">\(g(n) = n \cos(n)\)</span> neither dominates since they keep crossing. However, both <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> are dominated by <span class="math inline">\(h(n) = n\)</span>.</p>
+<p>The dominance relation defines what is called a <strong><em>preorder</em></strong> (distinct from “pre-order” for traversal of a tree) over numeric functions. This means that the relation is transitive (i.e., if <span class="math inline">\(f\)</span> dominates <span class="math inline">\(g\)</span>, and <span class="math inline">\(g\)</span> dominates <span class="math inline">\(h\)</span>, then <span class="math inline">\(f\)</span> dominates <span class="math inline">\(h\)</span>), and reflexive (i.e., <span class="math inline">\(f\)</span> dominates itself).</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For two functions $f$ and $g$ it is possible neither dominates the
+other.
+For example, for $f(n) = n \sin(n)$ and 
+$g(n) = n \cos(n)$ neither dominates since they keep
+crossing.
+However, both $f$ and $g$ are dominated by $h(n) = n$. 
+
+The dominance relation defines what is called a \defn{preorder} (distinct
+from ``pre-order'' for traversal of a tree) over numeric
+functions.  This means that the relation is transitive (i.e., if $f$ dominates
+$g$, and $g$ dominates $h$, then $f$ dominates $h$), and reflexive
+(i.e., $f$ dominates itself).
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:analysis::asymptotics::asymptotic
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:analysis::asymptotics::asymptotic
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Prove that asymptotic dominance is transitive.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Prove that asymptotic dominance is transitive.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:analysis::asymptotics::dominance
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>By the definition of dominance we have that</p>
+<ol>
+<li><p>for some <span class="math inline">\(c_a, n_a\)</span> and all <span class="math inline">\(n \geq n_a\)</span>, <span class="math inline">\(g(n) \leq c_a \cdot f(n)\)</span>, and</p></li>
+<li><p>for some <span class="math inline">\(c_b, n_b\)</span> and all <span class="math inline">\(n \geq n_b\)</span>, <span class="math inline">\(h(n) \leq c_b \cdot g(n)\)</span>.</p></li>
+</ol>
+<p>By plugging in, we have that for all <span class="math inline">\(n \geq \max(n_a,n_b)\)</span> <span class="math display">\[h(n) \leq c_b (c_a f(n))~.\]</span> This satisfies the definition <span class="math inline">\(f\)</span> dominates <span class="math inline">\(h\)</span> with <span class="math inline">\(c = c_a  
+    \cdot c_b\)</span> and <span class="math inline">\(n_0 = \max(n_a,n_b)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+By the definition of dominance we have that 
+    \begin{enumerate}
+    \item 
+      for some $c_a, n_a$ and all $n \geq n_a$,  $g(n) \leq c_a \cdot f(n)$,
+      and
+    \item
+      for some $c_b, n_b$ and all $n \geq n_b$,  $h(n) \leq c_b \cdot g(n)$.
+    \end{enumerate}
+    By plugging in, we have that for all $n \geq \max(n_a,n_b)$
+    \[h(n) \leq c_b (c_a f(n))~.\]
+    This satisfies the definition  $f$ dominates $h$ with $c = c_a
+    \cdot c_b$ and $n_0 = \max(n_a,n_b)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:analysis::asymptotics::o-o-notation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+<span class="math inline">\(O, \Omega, \Theta, o, \omega\)</span> Notation
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+$O, \Omega, \Theta, o, \omega$ Notation
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:analysis::asymptotics::o-o-notation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the set of all numeric functions <span class="math inline">\(F\)</span>, and <span class="math inline">\(f \in F\)</span>. We define the following sets: <span class="math display">\[\begin{array}{lclc}  
+~\mbox{Name} &amp;   &amp; \mbox{Definition}  &amp; \mbox{Intuitively}\\ \hline  
+~\mbox{big-O} &amp; : &amp; O(f)  = \{g \in F ~\mbox{such that}~  
+                    f~\mbox{dominates}~g\} &amp; \leq f \\  
+~\mbox{big-Omega} &amp; : &amp; \Omega(f) = \{g \in F ~\mbox{such that}~ g  
+                        ~\mbox{dominates}~f\} &amp; \geq f \\  
+~\mbox{big-Theta} &amp; : &amp; \Theta(f) =  O(f) \cap \Omega(f) &amp; = f\\  
+~\mbox{little-o} &amp; : &amp; o(f) =  O(f) \setminus \Omega(f) &amp; &lt; f \\  
+~\mbox{little-omega} &amp; : &amp; \omega(f) =  \Omega(f) \setminus O(f) &amp; &gt; f\\  
+\end{array}\]</span> Here “<span class="math inline">\(\setminus\)</span>” means set difference.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the set of all numeric functions $F$, and $f \in F$.   We define the following sets:
+\[
+\begin{array}{lclc}
+~\mbox{Name} &   & \mbox{Definition}  & \mbox{Intuitively}\\ \hline
+~\mbox{big-O} & : & O(f)  = \{g \in F ~\mbox{such that}~
+                    f~\mbox{dominates}~g\} & \leq f \\
+~\mbox{big-Omega} & : & \Omega(f) = \{g \in F ~\mbox{such that}~ g
+                        ~\mbox{dominates}~f\} & \geq f \\
+~\mbox{big-Theta} & : & \Theta(f) =  O(f) \cap \Omega(f) & = f\\
+~\mbox{little-o} & : & o(f) =  O(f) \setminus \Omega(f) & < f \\
+~\mbox{little-omega} & : & \omega(f) =  \Omega(f) \setminus O(f) & > f\\
+\end{array}
+\]
+Here ``$\setminus$'' means set difference.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:analysis::asymptotics::lclcl
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p><span class="math display">\[\begin{array}{lclcl}  
+f(n) &amp; = &amp; 2n &amp; \in &amp; O(n) \\  
+f(n) &amp; = &amp; 2n &amp; \in &amp; \Omega(n) \\  
+f(n) &amp; = &amp; 2n &amp; \in &amp;  \Theta(n) \\  
+f(n) &amp; = &amp; 2n &amp; \in &amp; O(n^2) \\  
+f(n) &amp; = &amp; 2n &amp; \in &amp; o(n^2) \\   
+f(n) &amp; = &amp; 2n &amp; \in &amp; \Omega(\sqrt{n}) \\  
+f(n) &amp; = &amp; 2n &amp; \in &amp; \omega(\sqrt{n}) \\  
+f(n) &amp; = &amp; n\lg^8{n} + 16n &amp; \in &amp; O(n\sqrt{n}) \\  
+f(n) &amp; = &amp; n\lg^2{n} + 4n\lg{n} + n &amp; \in &amp; \Theta(n \lg^2 n) \\  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\[
+\begin{array}{lclcl}
+f(n) & = & 2n & \in & O(n) \\
+f(n) & = & 2n & \in & \Omega(n) \\
+f(n) & = & 2n & \in &  \Theta(n) \\
+f(n) & = & 2n & \in & O(n^2) \\
+f(n) & = & 2n & \in & o(n^2) \\ 
+f(n) & = & 2n & \in & \Omega(\sqrt{n}) \\
+f(n) & = & 2n & \in & \omega(\sqrt{n}) \\
+f(n) & = & n\lg^8{n} + 16n & \in & O(n\sqrt{n}) \\
+f(n) & = & n\lg^2{n} + 4n\lg{n} + n & \in & \Theta(n \lg^2 n) \\
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:analysis::asymptotics::disprove
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:analysis::asymptotics::disprove
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Prove or disprove the following statement: if <span class="math inline">\(g(n) \in O(f(n))\)</span> and <span class="math inline">\(g(n)\)</span> is a finite function (<span class="math inline">\(g(n)\)</span> is finite for all <span class="math inline">\(n\)</span>), then it follows that there exist constants <span class="math inline">\(k_1\)</span> and <span class="math inline">\(k_2\)</span> such that for all <span class="math inline">\(n \geq 1\)</span>, <span class="math display">\[g(n) \leq k_1\cdot f(n) + k_2.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Prove or disprove the following statement:
+if $g(n) \in O(f(n))$ and $g(n)$ is a finite function ($g(n)$ is finite
+for all $n$), then it follows that there exist constants $k_1$ and
+$k_2$ such that for all $n \geq 1$,
+\[
+g(n) \leq k_1\cdot f(n) + k_2.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:analysis::asymptotics::statement
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The statement is correct. Because <span class="math inline">\(g(n) \in O(f(n))\)</span>, we know by the definition that there exists positive constants <span class="math inline">\(c\)</span> and <span class="math inline">\(n_o\)</span> such that for all <span class="math inline">\(n \geq n_0\)</span>, <span class="math inline">\(g(n) \le c \cdot f(n)\)</span>. It follows that for the function <span class="math inline">\(k_1 \cdot f(n) + k_2\)</span> where <span class="math inline">\(k_1 = c\)</span> and <span class="math inline">\(k_2 = \sum_{i=1}^{n_0}  g(i)\)</span>, we have <span class="math inline">\(g(n) \leq k_1 \cdot f(n) + k_2\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The statement is correct. 
+Because $g(n) \in O(f(n))$, we know by the definition that there exists positive constants $c$ and $n_o$ such that for all $n \geq n_0$, $g(n) \le c \cdot f(n)$.
+It follows that for the function $k_1 \cdot f(n) + k_2$ where  $k_1 = c$ and $k_2 = \sum_{i=1}^{n_0}  g(i)$,  we have $g(n) \leq k_1 \cdot f(n) + k_2$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::often
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::often
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We often think of <span class="math inline">\(g(n) \in O(f(n))\)</span> as indicating that <span class="math inline">\(f(n)\)</span> is an  <strong><em>upper bound</em></strong> for <span class="math inline">\(g(n)\)</span> Similarly <span class="math inline">\(g(n) \in \Omega(f(n))\)</span> indicates that <span class="math inline">\(f(n)\)</span> is a  <strong><em>lower bound</em></strong> for <span class="math inline">\(g(n)\)</span>, and <span class="math inline">\(g(n) \in \Theta(f(n))\)</span> indicates that <span class="math inline">\(f(n)\)</span> is a  <strong><em>tight bound</em></strong> for <span class="math inline">\(g(n)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We often think of $g(n) \in O(f(n))$ as indicating that $f(n)$ is
+  an~\defn{upper bound} for $g(n)$ Similarly $g(n) \in \Omega(f(n))$
+  indicates that $f(n)$ is a~\defn{lower bound} for $g(n)$, and
+  $g(n) \in \Theta(f(n))$ indicates that $f(n)$ is
+  a~\defn{tight bound} for $g(n)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Some Conventions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Some Conventions
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:analysis::asymptotics::conventions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::using
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::using
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>When using asymptotic notations, we follow some standard conventions of convenience.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When using asymptotic notations, we follow some standard conventions
+of convenience.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::writing-instead-of
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Writing <span class="math inline">\(=\)</span> Instead of <span class="math inline">\(\in\)</span>
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Writing $=$ Instead of $\in$
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::writing-instead-of
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In is reasonably common to write <span class="math inline">\(g(n) = O(f(n))\)</span> instead of <span class="math inline">\(g(n) \in O(f(n))\)</span> (or equivalently for <span class="math inline">\(\Omega\)</span> and <span class="math inline">\(\Theta\)</span>). This is often considered abuse of notation since in this context the “<span class="math inline">\(=\)</span>” does not represent any form of equality—it is not even reflexive. In this book we try to avoid using “<span class="math inline">\(=\)</span>”, although we expect it still appears in various places.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In is reasonably common to write $g(n) = O(f(n))$ instead of
+  $g(n) \in O(f(n))$ (or equivalently for $\Omega$ and $\Theta$).
+  This is often considered abuse of notation since in this context the ``$=$'' does not
+  represent any form of equality---it is not even reflexive.   In this
+  book we try to avoid using ``$=$'', although we expect it still appears in
+  various places.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::common-cases
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Common Cases
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Common Cases
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::common-cases
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>By convention, and in common use, we use the following names:</p>
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>linear</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(O(n)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><em>sublinear</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(o(n)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>quadratic</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(O(n^2)\)</span></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><em>polynomial</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(O(n^k)\)</span>, for any constant <span class="math inline">\(k\)</span>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>superpolynomial</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(\omega(n^k)\)</span>, for any constant <span class="math inline">\(k\)</span>.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><em>logarithmic</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(O(\lg n)\)</span></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong><em>polylogarithmic</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(O(\lg^k n)\)</span>, for any constant <span class="math inline">\(k\)</span>.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong><em>exponential</em></strong></td>
+<td style="text-align: center;">:</td>
+<td style="text-align: left;"><span class="math inline">\(O(a^n)\)</span>, for any constant <span class="math inline">\(a &gt; 1\)</span>.</td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+By convention, and in common use, we use the following names:
+
+\begin{tabular}{lcl}
+\defn{linear} & : & $O(n)$ \\
+\defn{sublinear} & : & $o(n)$ \\
+\defn{quadratic} & : & $O(n^2)$ \\
+\defn{polynomial} & : & $O(n^k)$, for any constant $k$.\\
+\defn{superpolynomial} & : & $\omega(n^k)$, for any constant $k$.\\
+\defn{logarithmic} & : & $O(\lg n)$ \\
+\defn{polylogarithmic} & : & $O(\lg^k n)$, for any constant $k$.\\
+\defn{exponential} & : & $O(a^n)$, for any constant $a > 1$.\\
+\end{tabular}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::expressions-as-sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Expressions as Sets
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Expressions as Sets
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::expressions-as-sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We typically treat expressions that involve asymptotic notation as sets. For example, in <span class="math inline">\(g(n) + O(f(n))\)</span>, represents the set of functions <span class="math inline">\(\{g(n) + h(n) : h(n) \in  f(n)\}\)</span>. The exception is when using big-O in recurrences, which we will discuss in Chapter <a href="#ch:analysis::recurrences" data-reference-type="ref" data-reference="ch:analysis::recurrences">[ch:analysis::recurrences]</a>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We typically treat expressions that involve asymptotic notation 
+as sets. 
+For example, in $g(n) + O(f(n))$, 
+represents the set of functions $\{g(n) + h(n) : h(n) \in  f(n)\}$.
+The exception is when using big-O in recurrences, which we will
+discuss in \chref{analysis::recurrences}.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::subsets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Subsets
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Subsets
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::subsets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We can use big-O (<span class="math inline">\(\Omega\)</span>, <span class="math inline">\(\Theta\)</span>) on both the left and right-hand sides of an equation. In this case we are indicating that one set of functions is a subset of the other. For example, consider <span class="math inline">\(\Theta(n) \subset O(n^2)\)</span>. This equation indicates that the set of functions on the left-hand side is contained in the set on the right hand side. Again, sometimes “<span class="math inline">\(=\)</span>” is used instead of “<span class="math inline">\(\subset\)</span>”.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can use big-O ($\Omega$, $\Theta$) on both the left and right-hand sides of an equation.
+In this case we are indicating that one set of functions is
+a subset of the other.
+For example, consider $\Theta(n) \subset O(n^2)$.
+This equation indicates that the set of functions on the left-hand side is contained in
+the set on the right hand side.  
+Again, sometimes ``$=$'' is used instead of ``$\subset$''.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::the-argument
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+The Argument
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The Argument
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::the-argument
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>When writing <span class="math inline">\(O(n + a)\)</span> we have to guess what the argument of the function is—is it <span class="math inline">\(n\)</span> or is it <span class="math inline">\(a\)</span>? By convention we assume the letters <span class="math inline">\(l, m\)</span>, and <span class="math inline">\(n\)</span> are the arguments when they appear. A more precise notation would be to use <span class="math inline">\(O(\lambda n . n + a)\)</span>—after all the argument to the big-O is supposed to be a function, not an expression.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When writing $O(n + a)$ we have to guess what the argument of the
+  function is---is it $n$ or is it $a$?   By convention we assume the
+  letters $l, m$, and $n$ are
+  the arguments when they appear.  A more precise notation would be
+  to use $O(\lambda n . n + a)$---after all the
+  argument to the big-O is supposed to be a function, not an
+  expression.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::asymptotics::multiple-arguments
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Multiple Arguments
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Multiple Arguments
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::asymptotics::multiple-arguments
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Sometimes the function used in big-O notation has multiple arguments, as in <span class="math inline">\(f(n,m) = n^2 + m \lg n\)</span> and used in <span class="math inline">\(O(f(n,m))\)</span>. In this case <span class="math inline">\(f(n,m)\)</span> asymptotically dominates <span class="math inline">\(g(n,m)\)</span> if there exists constants <span class="math inline">\(c\)</span> and <span class="math inline">\(x_0 &gt; 0\)</span> such that for all inputs where <span class="math inline">\(n &gt; x_0\)</span> or <span class="math inline">\(m &gt; x_0\)</span>, <span class="math inline">\(g(n, m) \leq c \cdot f(n,m)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Sometimes the function used in big-O notation has multiple
+  arguments, as in $f(n,m) = n^2 + m \lg n$ and used in $O(f(n,m))$.
+  In this case $f(n,m)$ asymptotically dominates $g(n,m)$ if there
+  exists constants $c$ and $x_0 > 0$ such that for all inputs where
+  $n > x_0$ or $m > x_0$, $g(n, m) \leq c \cdot f(n,m)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->
