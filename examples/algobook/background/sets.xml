@@ -1,0 +1,1306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Sets and Relations
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Sets and Relations
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:bg::sets-and-relations
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:bg::sets-and-relations::presents
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:bg::sets-and-relations::presents
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter presents a review of some basic definitions on sets and relations.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter presents a review of some basic definitions on sets and
+relations.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Sets
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Sets
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::sets-and-relations::collection
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::sets-and-relations::collection
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>set</em></strong> is a collection of distinct objects. The objects that are contained in a set, are called  <strong><em>members</em></strong> or the  <strong><em>elements</em></strong> of the set. The elements of a set must be distinct: a set may not contain the same element more than once. The set that contains no elements is called the  <strong><em>empty set</em></strong> and is denoted by <span class="math inline">\(\{\}\)</span> or <span class="math inline">\(\emptyset\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{set} is a collection of distinct objects.  The objects that
+are contained in a set, are called~\defn{members} or
+the~\defn{elements} of the set.  The elements of a set must be
+distinct: a set may not contain the same element more than once. The
+set that contains no elements is called the~\defn{empty set} and is
+denoted by $\{\}$ or $\emptyset$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:bg::sets-and-relations::specification-of-sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Specification of Sets
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Specification of Sets
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:bg::sets-and-relations::specification-of-sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Sets can be specified intentionally, by mathematically describing their members. For example, the set of natural numbers, traditionally written as <span class="math inline">\(\mathbb{N}\)</span>, can be specified  <strong><em>intentionally</em></strong> as the set of all nonnegative integral numbers. Sets can also be specified  <strong><em>extensionally</em></strong> by listing their members. For example, the set <span class="math inline">\(\mathbb{N}= \{0, 1, 2, \ldots\}.\)</span> We say that an element <span class="math inline">\(x\)</span> is a <span><em>member of</em></span> <span class="math inline">\(A\)</span>, written <span class="math inline">\(x \in  
+A\)</span>, if <span class="math inline">\(x\)</span> is in <span class="math inline">\(A\)</span>. More generally, sets can be specified using  <strong><em>set comprehensions</em></strong> , which offer a compact and precise way to define sets by mixing intentional and extensional notation.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Sets can be specified intentionally, by mathematically describing
+their members.
+For example, the set of natural numbers, traditionally written as
+$\tynat$, can be specified~\defn{intentionally} as the set of all
+nonnegative integral numbers.
+Sets can also be specified~\defn{extensionally} by listing their members.
+For example, the set $\tynat = \{0, 1, 2, \ldots\}.$
+We say that an element $x$ is a {\em member of} $A$, written $x \in
+A$, if $x$ is in $A$.  
+More generally, sets can be specified using~\defn{set comprehensions},
+which offer a compact and precise way to define sets by mixing
+intentional and extensional notation.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::sets-and-relations::union-and-intersection
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Union and Intersection
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Union and Intersection
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::sets-and-relations::union-and-intersection
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>, the  <strong><em>union</em></strong> <span class="math inline">\(A \cup B\)</span> is defined as the set containing all the elements of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. Symmetrically, their  <strong><em>intersection</em></strong> , <span class="math inline">\(A \cap B\)</span> is the defined as the set containing the elements that are member of both <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. We say that <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span> are  <strong><em>disjoint</em></strong> if their intersection is the empty set, i.e., <span class="math inline">\(A \cap B = \emptyset\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For two sets $A$ and $B$, the~\defn{union} $A \cup B$ is defined as
+the set containing all the elements of $A$ and $B$.  Symmetrically,
+their~\defn{intersection}, $A \cap B$ is the defined as the set
+containing the elements that are member of both $A$ and $B$.
+We say that $A$ and $B$ are~\defn{disjoint} if their intersection is
+the empty set, i.e., $A \cap B = \emptyset$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::sets-and-relations::cartesian-product
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Cartesian Product
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Cartesian Product
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::sets-and-relations::cartesian-product
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider two sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. The  <strong><em>Cartesian product <span class="math inline">\(A \times  
+  B\)</span></em></strong> is the set of all ordered pairs <span class="math inline">\((a,b)\)</span> where <span class="math inline">\(a \in A\)</span> and <span class="math inline">\(b  
+\in B\)</span>, i.e., <span class="math display">\[A \times B = \left\{ (a,b) : a \in A, b \in B \right\}.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider two sets~$A$ and~$B$.  The~\defn{Cartesian product $A \times
+  B$} is the set of all ordered pairs $(a,b)$ where $a \in A$ and $b
+\in B$, i.e.,
+\[
+A \times B = \cset{(a,b) : a \in A, b \in B}.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+ex:bg::sets::cartesian
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> The Cartesian product of <span class="math inline">\(A = \left\{ 0,1,2,3 \right\}\)</span> and <span class="math inline">\(B = \left\{ a,b \right\}\)</span> is <span class="math display">\[\begin{array}{lll}  
+A \times B = &amp; \{ &amp; (0,a),(0,b),(1,a),(1,b),  
+\\  
+             &amp;    &amp; (2,a),(2,b),(3,a),(3,b)   
+\\  
+             &amp; \}.  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{ex:bg::sets::cartesian}
+The Cartesian product of $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$ is
+\[
+\begin{array}{lll}
+A \times B = & \{ & (0,a),(0,b),(1,a),(1,b),
+\\
+             &    & (2,a),(2,b),(3,a),(3,b) 
+\\
+             & \}.
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::sets-and-relations::set-partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Set Partition
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Set Partition
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::sets-and-relations::set-partition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Given a set <span class="math inline">\(A\)</span>, a partition of <span class="math inline">\(A\)</span> is a set <span class="math inline">\(P\)</span> of non-empty subsets of <span class="math inline">\(A\)</span> such that each element of <span class="math inline">\(A\)</span> is in exactly one subset in <span class="math inline">\(P\)</span>. We refer to each element of <span class="math inline">\(P\)</span> as a  <strong><em>block</em></strong> or a  <strong><em>part</em></strong> and the set <span class="math inline">\(P\)</span> as a  <strong><em>partition</em></strong> of <span class="math inline">\(A\)</span>. More precisely, <span class="math inline">\(P\)</span> is a partition of <span class="math inline">\(A\)</span> if the following conditions hold:</p>
+<ul>
+<li><p>if <span class="math inline">\(B \in P\)</span>, then <span class="math inline">\(B \not= \emptyset\)</span>,</p></li>
+<li><p>if <span class="math inline">\(A = \bigcup_{B \in P}{B}\)</span>, and</p></li>
+<li><p>if <span class="math inline">\(B, C \in P\)</span>, then <span class="math inline">\(B = C\)</span> or <span class="math inline">\(B \cap C = \emptyset\)</span>.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a set $A$, a partition of $A$ is a set $P$ of non-empty subsets
+of $A$ such that each element of $A$ is in exactly one subset in $P$.
+We refer to each element of $P$ as a~\defn{block} or a~\defn{part} and
+the set $P$ as a~\defn{partition} of $A$.
+More precisely, $P$ is a partition of $A$ if the following conditions
+hold:
+\begin{itemize}
+\item if $B \in P$, then $B \not= \emptyset$,
+\item if $A = \bigcup_{B \in P}{B}$, and
+\item if $B, C \in P$, then $B = C$ or $B \cap C = \emptyset$.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:bg::sets-and-relations::contained
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>If <span class="math inline">\(A = \{1, 2, 3, 4, 5, 6 \}\)</span> then <span class="math inline">\(P = \{ \{1,3,5\}, \{2, 4, 6\} \}\)</span> is a partition of <span class="math inline">\(A\)</span>. The set <span class="math inline">\(\{1,3,5\}\)</span> is a block.</p>
+<p>The set <span class="math inline">\(Q = \{ \{1,3,5,6\}, \{2, 4, 6\} \}\)</span> is a not partition of <span class="math inline">\(A\)</span>, because the element <span class="math inline">\(6\)</span> is contained multiple blocks.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+If $A = \{1, 2, 3, 4, 5, 6 \}$ then $P = \{ \{1,3,5\}, \{2, 4, 6\} \}$
+is a partition of $A$.  The set $\{1,3,5\}$ is a block.
+
+The set $Q = \{ \{1,3,5,6\}, \{2, 4, 6\} \}$ is a not partition of
+$A$, because the element $6$ is contained multiple blocks.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::sets-and-relations::kleene-operators
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Kleene Operators
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Kleene Operators
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::sets-and-relations::kleene-operators
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For any set <span class="math inline">\(\Sigma\)</span>, its  <strong><em>Kleene star</em></strong> <span class="math inline">\(\Sigma^*\)</span> is the set of all possible strings consisting of members of <span class="math inline">\(\Sigma\)</span>, including the empty string.</p>
+<p>For any set <span class="math inline">\(\Sigma\)</span>, its  <strong><em>Kleene plus</em></strong> <span class="math inline">\(\Sigma^+\)</span> is the set of all possible strings consisting of members <span class="math inline">\(\Sigma\)</span>, excluding the empty string.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For any set $\Sigma$, its~\defn{Kleene star} $\Sigma^*$ is the set of
+all possible strings consisting of members of $\Sigma$, including the
+empty string.
+
+For any set $\Sigma$, its~\defn{Kleene plus} $\Sigma^+$ is the set of
+all possible strings consisting of members $\Sigma$, excluding the
+empty string.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:bg::sets-and-relations::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Given <span class="math inline">\(\Sigma = \{\texttt{a},\texttt{b}\}\)</span>, <span class="math display">\[\begin{array}{rl}  
+\Sigma^*   
+=   
+\{  
+&amp;  
+\text{&#39;}\,{}\,\text{&#39;},   
+\\  
+&amp;  
+\text{&#39;}\,{\texttt{a}}\,\text{&#39;}, \text{&#39;}\,{\texttt{b}}\,\text{&#39;},   
+\\  
+&amp;  
+\text{&#39;}\,{\texttt{aa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{ab}}\,\text{&#39;},   
+\text{&#39;}\,{\texttt{ba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bb}}\,\text{&#39;},   
+\\  
+&amp;  
+\text{&#39;}\,{\texttt{aaa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aba}}\,\text{&#39;},  
+\text{&#39;}\,{\texttt{abb}}\,\text{&#39;},  
+\\  
+&amp; \text{&#39;}\,{\texttt{baa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bbb}}\,\text{&#39;},  
+\\  
+&amp;  
+\ldots  
+\\  
+\} &amp;  
+\end{array}\]</span> and <span class="math display">\[\begin{array}{rl}  
+\Sigma^+   
+=   
+\{  
+&amp;  
+\text{&#39;}\,{\texttt{a}}\,\text{&#39;}, \text{&#39;}\,{\texttt{b}}\,\text{&#39;},   
+\\  
+&amp;  
+\text{&#39;}\,{\texttt{aa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{ab}}\,\text{&#39;},   
+\text{&#39;}\,{\texttt{ba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bb}}\,\text{&#39;},   
+\\  
+&amp;  
+\text{&#39;}\,{\texttt{aaa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{aba}}\,\text{&#39;}, \text{&#39;}\,{\texttt{abb}}\,\text{&#39;},   
+\\  
+&amp;  
+\text{&#39;}\,{\texttt{baa}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bab}}\,\text{&#39;}, \text{&#39;}\,{\texttt{bba}}\,\text{&#39;},   
+\text{&#39;}\,{\texttt{bbb}}\,\text{&#39;},  
+\\  
+&amp; \ldots  
+\\  
+\} &amp;   
+\\  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given $\Sigma = \{\texttt{a},\texttt{b}\}$,
+\[
+\begin{array}{rl}
+\Sigma^* 
+= 
+\{
+&
+\str{}, 
+\\
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+\\
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}},
+\str{\texttt{abb}},
+\\
+& \str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, \str{\texttt{bbb}},
+\\
+&
+\ldots
+\\
+\} &
+\end{array}
+\]
+and
+\[
+\begin{array}{rl}
+\Sigma^+ 
+= 
+\{
+&
+\str{\texttt{a}}, \str{\texttt{b}}, 
+\\
+&
+\str{\texttt{aa}}, \str{\texttt{ab}}, 
+\str{\texttt{ba}}, \str{\texttt{bb}}, 
+\\
+&
+\str{\texttt{aaa}}, \str{\texttt{aab}}, \str{\texttt{aba}}, \str{\texttt{abb}}, 
+\\
+&
+\str{\texttt{baa}}, \str{\texttt{bab}}, \str{\texttt{bba}}, 
+\str{\texttt{bbb}},
+\\
+& \ldots
+\\
+\} & 
+\\
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:bg::sets-and-relations::prove
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:bg::sets-and-relations::prove
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Prove that Kleene star and Kleene plus are closed under string concatenation.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Prove that Kleene star and Kleene plus are closed under
+string concatenation.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Relations
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Relations
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:bg::relations
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::sets-and-relations::relation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Relation
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Relation
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::sets-and-relations::relation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>(binary)  <strong><em>relation</em></strong> from a set <span class="math inline">\(A\)</span> to set <span class="math inline">\(B\)</span></em></strong> is a subset of the Cartesian product of <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>. For a relation <span class="math inline">\(R \subseteq A \times B\)</span>,</p>
+<ul>
+<li><p>the set <span class="math inline">\(\left\{ a : (a,b) \in  
+  R \right\}\)</span> is referred to as the  <strong><em>domain</em></strong> of <span class="math inline">\(R\)</span>, and</p></li>
+<li><p>the set <span class="math inline">\(\left\{ b  
+  : (a,b) \in R \right\}\)</span> is referred to as the  <strong><em>range</em></strong> of <span class="math inline">\(R\)</span>.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{(binary)~\defn{relation} from a set~$A$ to set~$B$} is a
+subset of the Cartesian product of~$A$ and~$B$.  
+For a relation~$R \subseteq A \times B$, 
+\begin{itemize}
+\item the set~$\cset{a : (a,b) \in
+  R}$ is referred to as the~\defn{domain} of $R$, and 
+\item 
+the set~$\cset{b
+  : (a,b) \in R}$ is referred to as the~\defn{range} of $R$.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:bg::sets-and-relations::function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Function
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Function
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:bg::sets-and-relations::function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>mapping</em></strong> or</p>
+<p><strong><em>function from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span></em></strong></p>
+<p>is a relation <span class="math inline">\(R \subset A \times B\)</span> such that <span class="math inline">\(|R| = |\mbox{domain}(R)|\)</span>, i.e., for every <span class="math inline">\(a\)</span> in the domain of <span class="math inline">\(R\)</span> there is only one <span class="math inline">\(b\)</span> such that <span class="math inline">\((a,b) \in R\)</span>. The <strong><em>range</em></strong> of the function is the range of <span class="math inline">\(R\)</span>. We call the set <span class="math inline">\(A\)</span> the <strong><em>domain</em></strong> and the <span class="math inline">\(B\)</span> the <strong><em>co-domain</em></strong></p>
+<p>of the function.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{mapping} or
+\defn{function from $A$ to $B$}
+is a relation $R \subset A \times B$
+such that $|R| = |\mbox{domain}(R)|$, i.e., for every $a$ in the
+domain of $R$ there is only one $b$ such that $(a,b) \in R$.  
+The \defn{range} of the function is the range of $R$.
+We call the set $A$ the \defn{domain} and the $B$ the \defn{co-domain}
+of the function.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:ex:bg::relations::sequencesdef
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+ex:bg::relations::sequencesdef
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> Consider the sets <span class="math inline">\(A = \left\{ 0,1,2,3 \right\}\)</span> and <span class="math inline">\(B = \left\{ a,b \right\}\)</span>.</p>
+<p>The set: <span class="math display">\[X = \left\{ (0,a),(0,b),(1,b),(3,a) \right\}\]</span> is a relation from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span> since <span class="math inline">\(X \subset A \times B\)</span>, but not a mapping (function) since <span class="math inline">\(0\)</span> is repeated.</p>
+<p>The set <span class="math display">\[Y = \left\{ (0,a),(1,b),(3,a) \right\}\]</span> is both a relation and a function from <span class="math inline">\(A\)</span> to <span class="math inline">\(B\)</span> since each element only appears once on the left.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{ex:bg::relations::sequencesdef}
+Consider the sets $A = \cset{0,1,2,3}$ and $B = \cset{a,b}$.
+
+The set:
+\[X = \cset{(0,a),(0,b),(1,b),(3,a)}\]
+is a relation from $A$ to $B$ since $X \subset A \times B$, but not a mapping (function) since $0$
+is repeated.   
+
+The set
+\[Y = \cset{(0,a),(1,b),(3,a)}\]
+is both a relation and a function from $A$ to $B$ since each element
+only appears once on the left.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

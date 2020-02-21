@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:language:introduction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:language:introduction::book
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:language:introduction::book
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In this book we define algorithms and data structures using nested parallelism in conjunction with a functional programming style. Our opinion is that this is the best way to capture the core ideas of algorithms and parallelism in a concise, clear, safe, and precise way. Most of the ideas we present, however, transcend the particular style of parallelism and programming we use and will be useful in a broad set of programming languages.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In this book we define algorithms and data structures using nested
+  parallelism in conjunction with a functional programming style.  Our
+  opinion is that this is the best way to capture the core ideas of
+  algorithms and parallelism in a concise, clear, safe, and precise way.
+  Most of the ideas we present, however, transcend the particular
+  style of parallelism and programming we use and will be useful in a
+  broad set of programming languages.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:language:introduction::nested-parallelism
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Nested parallelism
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Nested parallelism
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:language:introduction::nested-parallelism
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Nested parallelism (or nested fork-join parallelism) is a style of parallelism in which any task can fork a set of new child tasks to run in parallel. When forking, the parent task suspends, and when all the child tasks finish, they “join”, and the parent continues. Since any task can fork new tasks, the forking can be nested. Nested parallelism supports a form of parallelism in which computation can be cleanly composed either sequentially (within a task), or in parallel (among forked tasks). This in turn leads a simple cost model based on analyzing work and span.</p>
+<p>Importantly, the model is sufficiently powerful to capture the parallelism in most of the algorithms needed for the purpose of this book. For dynamic programming, we diverge slightly from this model to a somewhat more general model.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Nested parallelism (or nested fork-join parallelism) is a style of
+  parallelism in which any task can fork a set of new child tasks to
+  run in parallel.  When forking, the parent task suspends, and when
+  all the child tasks finish, they ``join'', and the parent continues.
+  Since any task can fork new tasks, the forking can be nested.
+  Nested parallelism supports a form of parallelism in which
+  computation can be cleanly composed either sequentially (within a
+  task), or in parallel (among forked tasks).  This in turn leads a
+  simple cost model based on analyzing work and span.
+
+  Importantly, the model is sufficiently powerful to capture the
+  parallelism in most of the algorithms needed for the purpose of this
+  book.  For dynamic programming, we diverge slightly from this model
+  to a somewhat more general model.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:language:introduction::functional-algorithms
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Functional Algorithms
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Functional Algorithms
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:language:introduction::functional-algorithms
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Functional programming is a style of programming in which functions act like mathematical functions (a mapping from domain to a codomain, and no side effects), and can be uses as values (can be passed around, stored as data, and created on the fly). In this book we use this style for two important reasons.</p>
+<ol>
+<li><p>Since functions have no side effects, parallelism is inherently safe and deterministic. Functions can be applied in parallel, or in different orders, without effecting each others outcomes, or the result of the final computation.</p></li>
+<li><p>The ability to use functions as values allows powerful abstractions. A large fraction of the functions in many of the abstract data types we define, for example, take functions as arguments to other functions. Often these functions are created on the fly.</p></li>
+</ol>
+<p>The functional programming style is not limited to functional programming languages. Today most programming languages support it, and in many situations the style has become dominant.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Functional programming is a style of programming in which functions
+  act like mathematical functions (a mapping from domain to a
+  codomain, and no side effects), and can be uses as values (can be
+  passed around, stored as data, and created on the fly).  In this
+  book we use this style for two important reasons.
+
+\begin{enumerate}
+\item Since functions have no side effects, parallelism is inherently
+  safe and deterministic. Functions can be applied in parallel, or in
+  different orders, without effecting each others outcomes, or the
+  result of the final computation.
+\item The ability to use functions as values allows powerful
+  abstractions.  A large fraction of the functions in many of the
+  abstract data types we define, for example, take functions as
+  arguments to other functions. Often these functions are created on
+  the fly.
+\end{enumerate}
+
+The functional programming style is not limited to functional
+programming languages.  Today most programming languages support it,
+and in many situations the style has become dominant.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:language:introduction::minimal
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+SPARC
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+\pml{}
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:language:introduction::minimal
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We use a minimal, perhaps “toy”, language called SPARC to describe algorithms and data structures. It only supplies what we need for the purposes of the book, and is not meant to be fully precise. We will sometime substitute text for code. SPARC has structures for supporting nested parallelism and supports only functional programming—it does not allow for side effects.</p>
+<p>SPARC, like many functional languages, is an extension of the lambda-calculus, which is arguably the first programming language and the basis of many ideas in modern programming languages. Chapter <a href="#ch:lambda-calculus" data-reference-type="ref" data-reference="ch:lambda-calculus">[ch:lambda-calculus]</a> gives a very brief overview of the lambda calculus, and Chapter <a href="#ch:sparc" data-reference-type="ref" data-reference="ch:sparc">[ch:sparc]</a> describes SPARC.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We use a minimal, perhaps ``toy'',  language called \pml{} to describe algorithms
+and data structures.   It only supplies what we need for the purposes of the book,
+and is not meant to be fully precise.   We will sometime substitute text for code.  \pml{} has structures for supporting nested
+parallelism and supports only functional programming---it does not allow for
+side effects.
+
+\pml{}, like many functional languages, is an extension of the
+lambda-calculus, which is arguably the first programming language
+and the basis of many ideas in modern programming languages.
+\chref{lambda-calculus} gives a very brief overview of the lambda
+calculus, and \chref{sparc} describes \pml{}.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:language:introduction::function-vs-algorithm
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Function vs. Algorithm
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Function vs. Algorithm
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:language:introduction::function-vs-algorithm
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Finally, we note that although functions in the functional programming style act like mathematical functions—i.e. a mapping from inputs to outputs—each is more than just a mathematical function. They not only embody the mapping, but they also specify the mechanism (code) by which the output is generated from the input. There can be multiple different definitions of a function that describe the same mathematical function, but compute it in different ways. Functions are therefore more accurately algorithms, and the input to output map they define is the mathematical function.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Finally, we note that although functions in the functional
+  programming style act like mathematical functions---i.e. a mapping
+  from inputs to outputs---each is more than just a mathematical
+  function.  They not only embody the mapping, but they also specify
+  the mechanism (code) by which the output is generated from the
+  input.  There can be multiple different definitions of a function
+  that describe the same mathematical function, but compute it in
+  different ways.  Functions are therefore more accurately algorithms,
+  and the input to output map they define is the mathematical
+  function.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- chapter -->

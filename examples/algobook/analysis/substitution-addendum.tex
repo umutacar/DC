@@ -1,0 +1,399 @@
+\chapter{Substitution Addendum}
+\label{ch:analysis::substitution}
+
+\begin{gram}
+The tree method can be used to find the closed form solution to many
+recurrences but in some cases, we need a more powerful techniques that
+allows us to make a guess and then verify our guess via mathematical induction.
+%
+The substitution method allows us to do that exactly.
+%
+\end{gram}
+
+\begin{gram}
+More formally, say we have some recurrence $f(n)$. We will prove by strong induction
+that some closed-form $g(n)$ is an upper bound on our recurrence $f(n)$.
+Specifically, we want to show that $\forall n \geq 1, f(n) \leq g(n)$.
+This suffices to prove a big-O complexity because if $g(n) = O(h(n))$ for some
+$h(n)$, it is clear that $f(n) = O(h(n))$ as well.
+\end{gram}
+
+\begin{example}
+If we had a recurrence $f(n) = 2 f(n/2) + k \lg n$, we can show that
+$f(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$ for all $n \geq 1$, with
+$\kappa_1 = 3k, \kappa_2 = -k, \kappa_3 = -2k$ (which we prove in the next
+section!). Since $\kappa_1 n + \kappa_2 \lg n + \kappa_3 = O(n)$, we can
+conclude that $f(n) = 2 f(n/2) + k \lg n = O(n)$.
+\end{example}
+
+\begin{note}
+Since we usually use recurrences to describe algorithmic complexity,
+we usually only need to consider any $n \in \mathbb{N}^+$ because we are only
+considering input data of some integral size. However, it's usually ok
+to gloss over some of the subtle details, such as why we can divide a sequence
+of odd length in half.
+\end{note}
+
+\begin{gram}
+Let's actually prove this claim inductively.
+We begin with a formal proof of the claim, where we simply
+pull the upper bound $\kappa_1 n + \kappa_2 \lg n + \kappa_3$ and the values
+for these constants out of a hat. Subsequently, we discuss how we came up with
+this upper bound and the values of these constants.
+\end{gram}
+
+\section{A Formal Inductive Proof}
+
+\begin{example}
+Consider the recurrence
+  $$W(n) = 2 W(n/2) + O(\log(n)).$$
+
+We will prove the following theorem using strong induction on $n$.
+
+\textbf{Theorem.}
+Let a constant $k > 0$ be given.  If $W(n) = 2 W(n/2) + k \lg n$ for $n >
+1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$,
+$\kappa_2$, and $\kappa_3$ such that \[ W(n) \;\leq\; \kappa_1 n + \kappa_2 \lg n + \kappa_3.\]
+
+\textbf{Proof.} Let $\kappa_1 = 3k$, $\kappa_2 = -k$, and $\kappa_3 = -2k$.
+We proceed by strong induction on $n$.
+
+\textbf{Base case.} We know by our assumption that $W(1) \leq k$.
+We want to show that $W(1) \leq \kappa_1 (1) + \kappa_2 \lg (1) + \kappa_3$.
+
+\begin{align*}
+W(1) \;& \leq \; k\\
+      \;& = \; 3k + 0 - 2k\\
+      \;& = \; \kappa_1 (1) + \kappa_2 \lg (1) + \kappa_3\\
+\end{align*}
+
+\textbf{Inductive Hypothesis.}
+Assume $\forall n' < n, W(n') \leq \kappa_1 n' + \kappa_2 \lg n' + \kappa_3$.
+
+\textbf{Inductive Step.} We want to show that $W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$.
+
+We substitute an upper bound for $W(n/2)$ from our Inductive Hypothesis, yielding
+\begin{align*}
+W(n) \;& \leq \; 2 W(n/2) + k\lg n\\
+     \;& \leq \; 2 \left(\kappa_1 \frac{n}{2} + \kappa_2 \lg \frac{n}{2} + \kappa_3 \right) + k \lg n\\
+     \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(\kappa_2 \lg n - 2 \kappa_2 + \kappa_3 + k \lg n \right) \\
+     \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(-k \lg n - 2 (-k) + (-2k) + k \lg n \right) \\
+     \;& = \; \kappa_1 n + \kappa_2 \lg n + \kappa_3
+\end{align*}
+\end{example}
+
+\begin{gram}
+Since we have shown $W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$, we can
+conclude that $W(n) = O(n)$.
+\end{gram}
+
+\begin{important}
+You should convince yourself that the above proof is correct before continuing.
+\end{important}
+
+\section{Determining Constants}
+\begin{note}
+The following section is meant only to develop an intuition for how we can approach
+guessing an upper bound and determining the constants; any substitution
+proofs should take the form of the initial ``formal proof'', and do not need to
+specify how constants were obtained.
+\end{note}
+
+\begin{note}
+We try to thoroughly cover the substitution method to help
+provide a deep understanding of why it works. We have a lot of extra details
+in Diderot collapsible content sections, which might be confusing initially.
+We recommend skipping this content for now and going back later.
+\end{note}
+
+\begin{flex}
+\begin{gram}
+Now we investigate a method to determine these constants.
+Before we proceed with the proof, let's clarify any implicit constants. We need to be extremely
+precise about our constants in the substitution method, since if we become
+handwavy it is easy to convince ourselves of the correctness of a proof,
+even if the claim is actually false.
+
+We can essentially assume all constants in our recurrence to be $k$. That is,
+since $W(n) = 2W(n/2) + O(\log(n))$, we can say $W(n) \leq 2W(n/2) + k \lg(n)$.
+We use the same constant for the base case; i.e., we assume $W(1) \leq k$.
+\end{gram}
+
+\begin{note}
+But why do we assume the constants are the same? Essentially, this assumption
+simplifies the math, and still shows a correct upper bound.
+
+But why is the bound correct?
+Say, for example, we had some recurrence $W(n)$ that did not share constants,
+e.g. $W(1) \leq k_1$ and $W(n) \leq 2W(n/2) + k_2 \lg n$. Then, if we set
+$k = \max (k_1, k_2)$, and constructed some new recurrence $W'(n)$ with $W'(1) \leq k$ and
+$W'(n) \leq 2W'(n/2) + k \lg n$, then clearly $W(n) \leq W'(n)$, and so
+proving an upper bound on $W'(n)$ also shows an upper bound on $W(n)$.
+\end{note}
+
+\begin{note}
+The base case doesn't have to be $n=1$. However, since we're going to proceed by
+strong induction, we'll need the inductive hypothesis to apply to
+all $n' < n$ (as we do in the above ``formal proof''). Therefore, our base case
+would look like $\forall n' \leq d, W(n') \leq k$ for some fixed constant $d$.
+\end{note}
+\end{flex}
+
+\begin{gram}
+Now we begin a proof by substitution. We will essentially
+try to write the previous inductive proof, and keep track of a list of
+\textit{constraints} we must satisfy in order for the proof to proceed.
+This is how we determine the values of the constants.
+\end{gram}
+
+\begin{flex}
+\begin{gram}
+\textbf{Theorem.}
+Let a constant $k > 0$ be given.  If $W(n) = 2 W(n/2) + k \lg n$ for $n >
+1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$,
+$\kappa_2$, and $\kappa_3$ such that \[ W(n) \;\leq\; \kappa_1 n + \kappa_2 \lg n + \kappa_3.\]
+\end{gram}
+
+\begin{note}
+Why $\kappa_1 n + \kappa_2 \lg n + \kappa_3$? More than anything else,
+this is an intuitive guess. Since we think $W(n) = O(n)$, we need an $n$ term.
+Since there's a $\log n$ term in the recurrence, there will probably be a $\log n$
+term somewhere here as well. Finally, there's usually a constant term, hence the
+$\kappa_3$.
+
+But what if we ended up not needing any of these terms? Then the corresponding
+constant for the term would be zero, and we could effectively ignore the term.
+That is, if we determined $\kappa_3$ to be 0, this would effectively be the same
+as if we had initially chosen the expression $\kappa_1 n + \kappa_2 \lg n$
+(which, in fact, would also work!).
+
+What if we needed more terms? This is certainly possible; sometimes you just
+have to try a few things until something works. If we tried something that didn't
+work, though, we would get stuck somewhere and be unable to proceed with the proof.
+\end{note}
+
+\begin{note}
+This is not the only possible expression we could pick as an upper bound for
+$W(n)$ in order to show that $W(n) = O(n)$. We could, for example, show
+that $W(n) \leq \kappa_1 n + \kappa_2 \lg n$, or that
+$W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3 \lg^2 n$.
+\end{note}
+
+\begin{note}
+In our proof, we cannot choose any values of $\kappa_1, \kappa_2, \kappa_3$
+that would make the work ever negative or zero, as that is clearly a contradiction.
+However, we can choose any of $\kappa_1, \kappa_2, \kappa_3$ to be negative, as
+long as the total work is never negative or zero.
+
+If this is confusing at first, consider this. In our specific case, say
+it worked out that our recurrence solved to $W(n) \leq n - 2 \lg n + 2$.
+Is that possible? Yes! Although it's true that the function dips down, it never
+reaches any impossible state (negative or zero), and $n - 2 \lg n + 2 = \Theta(n)$.
+\end{note}
+\end{flex}
+
+\begin{gram}
+\textbf{Base case.}
+We know by our assumption that $W(1) \leq k$.
+We want to show that $W(1) \leq \kappa_1 (1) + \kappa_2 \lg (1) + \kappa_3.$
+
+Thus, we need to have
+$k \leq \kappa_1 + \kappa_3$. We add this to our list of constraints.
+\end{gram}
+
+\begin{gram}
+\textbf{Inductive Hypothesis.}
+Assume $\forall n' < n, W(n') \leq \kappa_1 n' + \kappa_2 \lg n' + \kappa_3$.
+\end{gram}
+
+\begin{gram}
+\textbf{Inductive Step.}
+We want to show that $W(n) \leq \kappa_1 n + \kappa_2 \lg n + \kappa_3$.
+
+We substitute an upper bound for $W(n/2)$ from our Inductive Hypothesis, yielding
+\begin{align*}
+W(n) \;& \leq \; 2 W(n/2) + k\lg n\\
+  \;& \leq \; 2 \left(\kappa_1 \frac{n}{2} + \kappa_2 \lg \frac{n}{2} + \kappa_3 \right) + k \lg n\\
+  \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(\kappa_2 \lg n - 2 \kappa_2 + \kappa_3 + k \lg n \right) \\
+  \;& = \; \left(\kappa_1 n + \kappa_2 \lg n + \kappa_3 \right) + \left(\kappa_2 \lg n + k \lg n - 2 \kappa_2 + \kappa_3 \right) \\
+\end{align*}
+\end{gram}
+
+\begin{note}
+It's worth noting that we break up the terms into exactly what we're trying to prove
+and everything else in the second to last step. Then, all we have to do is show
+that everything else is $\leq 0$. For this reason, we add
+$\left(\kappa_2 \lg n + k \lg n - 2 \kappa_2 + \kappa_3 \right) \leq 0$
+to our list of constraints.
+
+We can assume that $n \geq 2$ for the inductive step,
+since otherwise we would apply the base case. Thus, the above constraint only needs
+to be satisfied for $n \geq 2$.
+\end{note}
+
+\begin{gram}
+We have accumulated the following constraints:
+\begin{enumerate}
+\item The work must always be positive, i.e. $\forall n \geq 1, \; \kappa_1 n + \kappa_2 \lg n + \kappa_3 > 0$
+\item $k \leq \kappa_1 + \kappa_3$
+\item $\forall n \geq 2, \; \kappa_2 \lg n + k \lg n - 2 \kappa_2 + \kappa_3 \leq 0$
+\end{enumerate}
+\end{gram}
+
+\begin{flex}
+\begin{gram}
+Let's begin by analyzing constraint 3. If we set $\kappa_2 = -k$, then the $\kappa_2 \lg n$ term cancels out the
+$k \lg n$ term. Then, we note that we have a $-2 \kappa_2 = 2k$ term, so we can
+set $\kappa_3 = -2k$ to cancel out this term.
+
+Now we must ensure constraint 1 is satisfied. To ensure the work is always
+positive, we need a large $\kappa_1$. Noting that $kn \geq k \lg n$ and $kn \geq k$
+when $n \geq 1$, setting $\kappa_1 = 3k$ is sufficient to cancel out the
+$\kappa_2 \lg n + \kappa_3$ terms and ensure $\kappa_1 n + \kappa_2 \lg n + \kappa_3 > 0$.
+
+Finally, we must ensure that constraint 2 is satisfied. Indeed,
+$k \leq \kappa_1 + \kappa_3 = k$.
+\end{gram}
+
+\begin{note}
+These are certainly not the only possible values for the above constants that
+would be correct. In fact, there are an infinite number of possible values
+for these constants.
+\end{note}
+\end{flex}
+
+\section{Conclusion}
+\begin{important}
+This technique can be tricky to use: it is easy to start on the wrong
+foot with a poor guess and then derive an incorrect proof, by for example,
+making a small mistake.
+%
+To minimize errors, you can follow the following tips:
+\begin{enumerate}
+\item Spell out the constants---do not use asymptotic notation such as
+  big-$O$.  The problem with asymptotic notation is that it makes it
+  super easy to overlook constant factors, which need to be carefully
+  accounted for.
+
+\item Be careful that the induction goes in the right direction.
+
+\item Add additional lower-order terms, if necessary, to make the
+  induction work.
+\end{enumerate}
+\end{important}
+
+\begin{gram}
+The following are two final examples of the substitution method. It's worth noting that
+we are less explicit about the steps of induction, but this proof format
+would nevertheless be sufficient for any assignments in this course.
+\end{gram}
+
+\begin{example}
+Consider the recurrence
+$$
+W(n) = 2W(n/2) + O(n).
+$$
+%
+%
+By the definition of asymptotic complexity, we
+can establish that
+\begin{eqnarray*}
+  W(n) &\leq& 2W(n/2) + c_1\cdot n + c_2,
+\end{eqnarray*}
+where $c_1$ and $c_2$ are constants.  
+
+
+
+We will prove the following theorem using strong induction on $n$.
+
+
+\textbf{Theorem.}
+  Let a constant $k > 0$ be given.  If $W(n) \leq 2 W(n/2) + k \cdot n$ for $n >
+  1$ and $W(n) \leq k$ for $n \leq 1$, then we can find constants $\kappa_1$ and
+  $\kappa_2$ such that \[ W(n) \;\leq\; \kappa_1 \cdot n \lg n + \kappa_2.\]
+
+\textbf{Proof.}
+  Let $\kappa_1 = 2k$ and $\kappa_2 = k$.  For the base case ($n=1$), we check
+  that $W(1) \leq k \leq \kappa_2$.  For the inductive step ($n>1$), we assume that
+  \[
+  W(n/2) \leq \kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2,
+  \]
+  And we'll show that $W(n) \leq \kappa_1 \cdot n \lg n + \kappa_2$.  To show
+  this, we substitute an upper bound for $W(n/2)$ from our assumption into the
+  recurrence, yielding
+  \begin{align*}
+    W(n) \;&\leq\; 2W(n/2) + k \cdot n  \\
+    \;&\leq\; 2(\kappa_1 \cdot \tfrac{n}2 \lg (\tfrac{n}2) + \kappa_2) + k \cdot n\\
+    \;&=\; \kappa_1 n (\lg n - 1) + 2 \kappa_2 + k \cdot n\\
+    \;&=\; \kappa_1 n \lg n + \kappa_2 + (k \cdot n + \kappa_2 - \kappa_1 \cdot n)\\
+    \;&\leq\; \kappa_1 n \lg n + \kappa_2,
+  \end{align*}
+  where the final step follows because $k \cdot n + \kappa_2 - \kappa_1 \cdot n \leq
+  0$ as long as $n > 1$.
+
+\end{example}
+
+\begin{gram}
+Variants of the recurrence considered in our last example arise
+commonly in algorithms.  Next, we establish a theorem that shows that
+the same bound holds for a more general class of recurrences. 
+\end{gram}
+
+\begin{flex}
+\begin{theorem}[Superlinear Recurrence]
+\label{thm:analysis::recurrences::linear-plus::copy}
+Let $\vareps > 0$ be a
+constant and consider  the recurrence
+\begin{align*}
+  W(n) & = 2W(n/2) + k\cdot n^{1+\vareps}.
+\end{align*}
+
+  %
+  If $W(n) \leq 2 W(n/2) + k \cdot n^{1+\vareps}$ for $n > 1$ and $W(n) \leq k$ for $n \leq
+  1$, then for some constant $\kappa$, \[ W(n) \;\leq\;
+  \kappa \cdot n^{1+\vareps}. \]
+\end{theorem}
+
+\begin{proof}
+  Let $\kappa = \frac1{1-1/2^{\vareps}} \cdot k$. The base case is easy: $W(1) =
+  k \leq \kappa_1$ as $\frac1{1 - 1/2^{\vareps}} \geq 1$.  For the inductive
+  step, we substitute the inductive hypothesis into the recurrence and obtain
+  \begin{eqnarray*}
+    W(n) &\leq& 2W(n/2) + k \cdot n^{1+\vareps}\\
+    &\leq& 2 \kappa\left(\frac{n}2 \right)^{1+\vareps} + k \cdot n^{1+\vareps}\\
+    &=& \kappa \cdot n^{1+\vareps} + \left(2 \kappa\left(\frac{n}2 \right)^{1+\vareps} +
+      k \cdot n^{1+\vareps} - \kappa \cdot n^{1+\vareps}\right)\\
+    &\leq& \kappa \cdot n^{1+\vareps},
+  \end{eqnarray*}
+  where in the final step, we use the fact  that for any $\delta > 1$:
+
+  \begin{eqnarray*}
+    2 \kappa\left(\frac{n}2 \right)^{\delta} +
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta}
+    &=& \kappa \cdot 2^{-\vareps} \cdot n^{\delta}  +
+    k \cdot n^{\delta} - \kappa \cdot n^{\delta} \\
+    &=& \kappa \cdot 2^{-\vareps} \cdot n^{\delta}  +
+    (1 - 2^{-\vareps})\kappa\cdot n^{\delta} - \kappa \cdot n^{\delta} \\
+    &\leq& 0.
+  \end{eqnarray*}
+
+%% Case I: Equally heavy
+%% Case II: Leaf heavy
+%%
+
+An alternative way to prove the same theorem is to use the tree method
+and evaluate the sum directly. The recursion tree here has depth $\lg
+n$ and at level $i$ (again, the root is at level $0$), we have $2^i$
+nodes, each costing $k\cdot (n/2^i)^{1+\vareps}$.  Thus, the total
+cost is
+  \begin{eqnarray*}
+    \sum_{i=0}^{\lg n} k\cdot 2^i \cdot \pparen{\frac{n}{2^i}}^{1+\vareps}
+%    &=&  k \sum_{i=0}^{\lg n}  2^{i - i - \vareps \cdot i} \cdot n^{1+\vareps} \\
+    &=&  k\cdot n^{1+\vareps} \cdot \sum_{i=0}^{\lg n} 2^{-i\cdot\vareps} \\
+    &\leq& k\cdot n^{1+\vareps} \cdot \sum_{i=0}^{\infty} 2^{-i\cdot\vareps}.
+  \end{eqnarray*}
+  But the infinite sum $\sum_{i=0}^{\infty} 2^{-i\cdot\vareps}$ is at most
+  $\frac1{1 - 1/2^{\vareps}}$. Hence, we conclude $W(n) \in O(n^{1+\vareps})$.
+
+\end{proof}
+\end{flex}

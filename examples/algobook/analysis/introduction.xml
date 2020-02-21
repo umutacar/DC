@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Introduction
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:analysis::introduction
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:analysis::introduction::algorithm-analysis
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Algorithm Analysis
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Algorithm Analysis
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:analysis::introduction::algorithm-analysis
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The term  <strong><em>algorithm analysis</em></strong> refers to mathematical analysis of algorithms with the purpose of determining their consumption of resources such as the amount of total work they perform, the energy they consume, the time to execute, and the memory or storage space that they require.</p>
+<p>When analyzing algorithms, it is important to be <em>precise</em> so that we can compare different algorithms and assess their suitability for our purposes. It is also equally important to be <em>abstract</em> because we don’t want to worry about details of compilers and computer architectures, and because we want our analysis to remain valid even as these details change over time.</p>
+<p>To find the right balance between precision and abstraction, we rely on two levels of abstraction: asymptotic analysis and cost models.</p>
+<ul>
+<li><p>Asymptotic analysis enables abstracting from small factors such as the exact time a particular operation may require. Chapter <a href="#ch:analysis::asymptotics" data-reference-type="ref" data-reference="ch:analysis::asymptotics">[ch:analysis::asymptotics]</a> describes the basics of asymptotic analysis.</p></li>
+<li><p>Cost models specify the cost of operations available in a computational model, usually only up to the precision of the asymptotic analysis. Chapter <a href="#ch:analysis::models" data-reference-type="ref" data-reference="ch:analysis::models">[ch:analysis::models]</a> describes machine-based and language-based cost models.</p></li>
+</ul>
+<p>Many algorithms in computer science are naturally recursive. Analyses of such algorithms typically lead us to recurrences, which are recursive mathematical relations. Solving such recurrences is a basic skill for every computer scientist. Chapter <a href="#ch:analysis::recurrences" data-reference-type="ref" data-reference="ch:analysis::recurrences">[ch:analysis::recurrences]</a> covers recurrences and the basic techniques for solving them.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The term~\defn{algorithm analysis} refers to mathematical analysis of
+algorithms with the purpose of determining their consumption of
+resources such as the amount of total work they perform, the energy
+they consume, the time to execute, and the memory or storage space
+that they require.
+
+When analyzing algorithms, it is important to be \emph{precise} so
+that we can compare different algorithms and assess their suitability for
+our purposes.
+It is also equally important to be \emph{abstract} because we don't
+want to worry about details of compilers and computer architectures,
+and because we want our analysis to remain valid even as these details
+change over time.
+
+To find the right balance between precision and abstraction, we rely
+on two levels of abstraction: asymptotic analysis and cost models.
+\begin{itemize}
+\item Asymptotic analysis enables abstracting from small factors such as the
+exact time a particular operation may require. 
+\chref{analysis::asymptotics} describes the basics of asymptotic
+analysis.
+
+\item Cost models specify the cost of operations available in a
+  computational model, usually only up to the precision of the
+  asymptotic analysis.  \chref{analysis::models} describes
+  machine-based and language-based cost models.
+\end{itemize}
+
+Many algorithms in computer science are naturally recursive.  
+Analyses of such algorithms typically lead us to recurrences, which
+are recursive mathematical relations.
+Solving such recurrences is a basic skill for every computer
+scientist.
+\chref{analysis::recurrences} covers recurrences and the basic
+techniques for solving them.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- chapter -->

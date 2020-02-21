@@ -1,0 +1,3485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+The SPARC Language
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+The SPARC Language
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:sparc
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:sparc::presents
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:sparc::presents
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter presents SPARC: a parallel and functional language used throughout the book for specifying algorithms.</p>
+<p>SPARC is a “strict” functional language similar to the ML class of languages such as Standard ML or SML, Caml, and F#. In pseudo code, we sometimes use mathematical notation, and even English descriptions in addition to SPARC syntax. This chapter describes the basic syntax and semantics of SPARC; we introduce additional syntax as needed in the rest of the book.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter presents \pml{}: a parallel and functional language used
+throughout the book for specifying algorithms.
+
+\pml is a ``strict'' functional language similar to the ML class of
+languages such as Standard ML or SML, Caml, and F\#.
+In pseudo code, we sometimes use mathematical notation, and even
+English descriptions in addition to \pml{} syntax.
+This chapter describes the basic syntax and semantics of \pml{}; we
+introduce additional syntax as needed in the rest of the book.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Syntax and Semantics of SPARC
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Syntax and Semantics of \pml{}
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:sparc::syntax-and-semantics-of
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::describes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This section describes the syntax and the semantics of the core subset of the SPARC language. The term  <strong><em>syntax</em></strong>  refers to the structure of the program itself, whereas the term  <strong><em>semantics</em></strong>  refers to what the program computes. Since we wish to analyze the cost of algorithms, we are interested in not just what algorithms compute, but how they compute. Semantics that capture how algorithms compute are called  <strong><em>operational semantics</em></strong> , and when augmented with specific costs,  <strong><em>cost semantics</em></strong> . Here we describe the syntax of SPARC and present an informal description of its operational semantics. We will cover the cost semantics of SPARC in Chapter <a href="#ch:analysis::models" data-reference-type="ref" data-reference="ch:analysis::models">[ch:analysis::models]</a>. While we focus primarily on the core subset of SPARC, we also describe some  <strong><em>syntactic sugar</em></strong>  that makes it easier to read or write code without adding any real power. Even though SPARC is a strongly typed language, for our purposes in this book, we use types primarily as a means of describing and specifying the behavior of our algorithms. We therefore do not present careful account of SPARC’s type system.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This section describes the syntax and the semantics of the core subset
+of the \pml{} language.  The term~\defn{syntax}~refers to the
+structure of the program itself, whereas the
+term~\defn{semantics}~refers to what the program computes.
+Since we wish to analyze the cost of algorithms, we are interested in
+not just what algorithms compute, but how they compute.
+Semantics that capture how algorithms compute are
+called~\defn{operational semantics}, and when augmented with specific
+costs,~\defn{cost semantics}.
+Here we describe the syntax of \pml{} and present an informal
+description of its operational semantics. 
+We will cover the cost semantics of \pml in \chref{analysis::models}.
+While we focus primarily on the core subset of \pml, we also describe
+some~\defn{syntactic sugar}~that makes it easier to read or write code
+without adding any real power.
+Even though \pml is a strongly typed language, for our purposes in
+this book, we use types primarily as a means of describing and
+specifying the behavior of our algorithms.
+We therefore do not present careful account of \pml's type system.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::shows
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::shows
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The definition below shows the syntax of SPARC. A SPARC program is an expression, whose syntax, describe the computations that can be expressed in SPARC. When evaluated an expression yield a value. Informally speaking, evaluation of an expression proceeds involves evaluating its sub-expressions to values and then combining these values to compute the value of the expression. SPARC is a strongly typed language, where every closed expression, which have no undefined (free) variables, evaluates to a value or runs forever.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The definition below shows the syntax of \pml{}.
+A \pml{} program is an expression, whose syntax,
+ describe the computations that can be expressed in \pml{}.
+When evaluated an expression yield a value.
+Informally speaking, evaluation of an expression proceeds involves
+evaluating its sub-expressions to values and then combining these
+values  to compute the value of the expression.
+\pml{} is a strongly typed language, where every closed expression,
+which have no undefined (free) variables, evaluates to a value or runs
+forever.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:sparc::syntax
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+SPARC expressions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+\pml{} expressions
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:sparc::syntax
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Identifier</td>
+<td style="text-align: left;"><span class="math inline">\(id\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(\ldots\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Variables</td>
+<td style="text-align: left;"><span class="math inline">\(x\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(id\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Type Constructors</td>
+<td style="text-align: left;"><span class="math inline">\(tycon\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(id\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Data Constructors</td>
+<td style="text-align: left;"><span class="math inline">\(dcon\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(id\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Patterns</td>
+<td style="text-align: left;"><span class="math inline">\(p\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;">x</td>
+<td style="text-align: left;">variable</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(( p )\)</span></td>
+<td style="text-align: left;">parenthesis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(p_1, p_2\)</span></td>
+<td style="text-align: left;">pair</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(dcon~( p )\)</span></td>
+<td style="text-align: left;">data pattern</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Types</td>
+<td style="text-align: left;"><span class="math inline">\(\tau\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(\mathbb{Z}\)</span></td>
+<td style="text-align: left;">integers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\mathbb{B}\)</span></td>
+<td style="text-align: left;">booleans</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\tau\)</span> <span class="math inline">\([ * \tau ]^+\)</span></td>
+<td style="text-align: left;">products</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\tau \rightarrow\tau\)</span></td>
+<td style="text-align: left;">functions</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(tycon\)</span></td>
+<td style="text-align: left;">type constructors</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(dty\)</span></td>
+<td style="text-align: left;">data types</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Data Types</td>
+<td style="text-align: left;"><span class="math inline">\(dty\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(dcon~[\texttt{of}~\tau]\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(dcon~[ \texttt{of}~\tau ]~\texttt{|}~dty\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Values</td>
+<td style="text-align: left;"><span class="math inline">\(v\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(0  \mid  1  \mid  \ldots\)</span></td>
+<td style="text-align: left;">integers</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(-1  \mid -2  \mid \ldots\)</span></td>
+<td style="text-align: left;">integers</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{true}{} \mid  \texttt{false}{}\)</span></td>
+<td style="text-align: left;">booleans</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{not}  \mid \ldots\)</span></td>
+<td style="text-align: left;">unary operations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{and}\mid  \texttt{plus}  \mid  \ldots\)</span></td>
+<td style="text-align: left;">binary operations</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(v_1, v_2\)</span></td>
+<td style="text-align: left;">pairs</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(( v )\)</span></td>
+<td style="text-align: left;">parenthesis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(dcon~( v )\)</span></td>
+<td style="text-align: left;">constructed data</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{lambda}~{p}\,.\,e\)</span></td>
+<td style="text-align: left;">lambda functions</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Expression</td>
+<td style="text-align: left;"><span class="math inline">\(e\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(x\)</span></td>
+<td style="text-align: left;">variables</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(v\)</span></td>
+<td style="text-align: left;">values</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(e_1\)</span> op <span class="math inline">\(e_2\)</span></td>
+<td style="text-align: left;">infix operations</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(e_1, e_2\)</span></td>
+<td style="text-align: left;">sequential pair</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(e_1 \texttt{||} e_2\)</span></td>
+<td style="text-align: left;">parallel pair</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(( e )\)</span></td>
+<td style="text-align: left;">parenthesis</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{case}~e_1~[\texttt{|}~p~\texttt{=&gt;}~e_2]^+\)</span></td>
+<td style="text-align: left;">case</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{if}~e_1~\texttt{then}~e_2~\texttt{else}~e_3\)</span></td>
+<td style="text-align: left;">conditionals</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(e_1~e_2\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{let}~b^+~\texttt{in}~e~\texttt{end}\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Operations</td>
+<td style="text-align: left;"><span class="math inline">\(op\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(+ \mid - \mid * \mid - \ldots\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Bindings</td>
+<td style="text-align: left;"><span class="math inline">\(b\)</span></td>
+<td style="text-align: center;">:=</td>
+<td style="text-align: left;"><span class="math inline">\(x ( p )\)</span> = <span class="math inline">\(e\)</span></td>
+<td style="text-align: left;">bind function</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(p = e\)</span></td>
+<td style="text-align: left;">bind pattern</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{type}\xspace~tycon = \tau\)</span></td>
+<td style="text-align: left;">bind type</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: center;"><span class="math inline">\(\mid\)</span></td>
+<td style="text-align: left;"><span class="math inline">\(\texttt{type}\xspace~tycon = dty\)</span></td>
+<td style="text-align: left;">bind datatype</td>
+</tr>
+</tbody>
+</table>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:sparc::syntax}
+\setlength{\tabcolsep}{20mm}
+\begin{tabular}{llcll}
+Identifier
+& $id$ & := & $\ldots$
+\\
+
+Variables
+& $x$ & := & $id$
+\\
+
+Type Constructors 
+& $tycon$ & := & $id$
+\\
+
+Data Constructors 
+& $dcon$ & := & $id$
+\\
+
+Patterns & $p$ 
+& := & x & variable
+\\
+& & $\mid$  & $( p )$ & parenthesis
+\\
+& & $\mid$  & $p_1, p_2$ & pair
+\\
+& & $\mid$  & $dcon~( p )$ & data pattern
+\\
+
+Types & $\tau$ &  := & $\tyint$  & integers
+\\
+& &  $\mid$ &   $\tybool$  & booleans
+\\
+& &  $\mid$  & $\tau$ $[ * \tau ]^+$  & products
+\\
+& &  $\mid$  & $\tau \ra \tau$ & functions
+\\
+& & $\mid$ & $tycon$         &  type constructors
+\\
+& & $\mid$ & $dty$ & data types
+\\
+
+Data Types & $dty$
+& := &   $dcon~[\cd{of}~\tau]$ 
+\\
+&  & $\mid$ &  $dcon~[ \cd{of}~\tau ]~\cd{|}~dty$
+\\
+
+Values & $v$
+& := & $0  \mid  1  \mid  \ldots$ &  integers
+\\
+& & $\mid$ &  $-1  \mid -2  \mid \ldots$ &  integers
+\\
+& & $\mid$ & $\ctrue{} \mid  \cfalse{}$ & booleans
+\\
+& & $\mid$ & $\cd{not}  \mid \ldots$ & unary operations
+\\
+& & $\mid$ & $\cand  \mid  \cd{plus}  \mid  \ldots$ & binary operations
+\\
+& & $\mid$ & $v_1, v_2$  & pairs
+\\
+& & $\mid$ & $( v )$   & parenthesis
+\\
+& & $\mid$ & $dcon~( v )$  & constructed data
+\\
+& & $\mid$ & $\cfn{p}{e}$ & lambda functions
+\\
+
+Expression  & $e$ 
+& := & $x$ & variables
+\\
+& & $\mid$ & $v$ & values
+\\
+& & $\mid$ & $e_1$ op $e_2$ & infix operations
+\\
+& & $\mid$ & $e_1, e_2$ & sequential pair
+\\
+& & $\mid$ & $e_1 \cd{||} e_2$ & parallel pair
+\\
+& & $\mid$ & $( e )$ & parenthesis
+\\
+& & $\mid$ & $\ccase~e_1~[\cd{|}~p~\cdra~e_2]^+$  & case
+\\
+& & $\mid$ & $\cif~e_1~\cthen~e_2~\celse~e_3$  & conditionals
+\\
+& & $\mid$ & $e_1~e_2$ & \mbox{function application}
+\\
+& & $\mid$ & $\clet~b^+~\cin~e~\cend$ & \mbox{local bindings}
+\\
+
+Operations & $op$ & := & $+ \mid - \mid * \mid - \ldots$
+\\
+
+Bindings &  $b$ & := & 
+$x ( p )$ = $e$ & bind function
+\\
+&  & $\mid$ & $p = e$ & bind pattern
+\\
+&  & $\mid$ & $\ctype~tycon = \tau$ & bind type 
+\\
+&  & $\mid$ & $\ctype~tycon = dty$ & bind datatype
+\\
+
+\end{tabular}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::identifiers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Identifiers
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Identifiers
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::identifiers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In SPARC, variables, type constructors, and data constructors are given a name, or an  <strong><em>identifier</em></strong> . An identifier consist of only alphabetic and numeric characters (a-z, A-Z, 0-9), the underscore character (“_”), and optionally end with some number of “primes”. Example identifiers include, <span class="math inline">\(x&#39;\)</span>, <span class="math inline">\(x_1\)</span>, <span class="math inline">\(x_l\)</span>, <span class="math inline">\(\mathit{myVar}\)</span>, <span class="math inline">\(\mathit{myType}\)</span>, <span class="math inline">\(\mathit{myData}\)</span>, and <span class="math inline">\(\mathit{my\_data}\)</span>.</p>
+<p>Program  <strong><em>variables</em></strong> ,  <strong><em>type constructors</em></strong> , and  <strong><em>data constructors</em></strong>  are all instances of identifiers. During evaluation of a SPARC expression, variables are bound to values, which may then be used in a computation later. In SPARC, variable are  <strong><em>bound</em></strong>  during function application, as part of matching the formal arguments to a function to those specified by the application, and also by <span class="math inline">\(\texttt{let}\)</span> expressions. If, however, a variable appears in an expression but it is not bound by the expression, then it is  <strong><em>free</em></strong>  in the expression. We say that an expression is  <strong><em>closed</em></strong>  if it has no free variables.</p>
+<p>Types constructors give names to types. For example, the type of binary trees may be given the type constructor <span class="math inline">\(\mathit{btree}\)</span>. Since for the purposes of simplicity, we rely on mathematical rather than formal specifications, we usually name our types behind mathematical conventions. For example, we denote the type of natural numbers by <span class="math inline">\(\mathbb{N}\)</span>, the type of integers by <span class="math inline">\(\mathbb{Z}\)</span>, and the type of booleans by <span class="math inline">\(\mathbb{B}\)</span>.</p>
+<p>Data constructors serve the purpose of making complex data structures. By convention, we will capitalize data constructors, while starting variables always with lowercase letters.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In \pml, variables, type constructors, and data constructors are given
+a name, or an~\defn{identifier}.  
+An identifier consist of only alphabetic and numeric characters (a-z,
+A-Z, 0-9), the underscore character (``\_''), and optionally end with
+some number of ``primes''.  
+Example identifiers include, $x'$, $x_1$, $x_l$, $\cdvar{myVar}$,
+$\cdvar{myType}$, $\cdvar{myData}$, and $\cdvar{my\_data}$.
+
+
+
+Program~\defn{variables},~\defn{type constructors}, and~\defn{data
+  constructors}~are all instances of identifiers.
+During evaluation of a \pml expression, variables are bound to values,
+which may then be used in  a computation later.  
+In \pml, variable are~\defn{bound}~during function application, as part
+of matching the formal arguments to a function to those specified by
+the application, and also by $\cd{let}$ expressions.
+If, however, a variable appears in an expression but it is not bound
+by the expression, then it is~\defn{free}~in the expression.
+We say that an expression is~\defn{closed}~if it
+has no free variables.
+
+
+Types constructors give names to types.  For example, the type of
+binary trees may be given the type constructor $\cdvar{btree}$.
+Since for the purposes of simplicity, we rely on mathematical rather
+than formal specifications, we usually name our types behind
+mathematical conventions.
+For example, we denote the type of natural numbers by $\tynat$, the type
+of integers by $\tyint$, and the type of booleans by $\tybool$.
+
+
+Data constructors serve the purpose of making complex data structures.
+By convention, we will capitalize data constructors, while starting
+variables always with lowercase letters.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::patterns
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Patterns
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Patterns
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::patterns
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In SPARC, variables and data constructors can be used to construct more complex  <strong><em>patterns</em></strong>  over data. For example, a pattern can be a pair <span class="math inline">\((x,y)\)</span>, or a triple of variables <span class="math inline">\((x,y,z)\)</span>, or it can consist of a data constructor followed by a pattern, e.g., <span class="math inline">\(\mathit{Cons}(x)\)</span> or <span class="math inline">\(\mathit{Cons}(x,y).\)</span> Patterns thus enable a convenient and concise way to pattern match over the data structures in SPARC.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In \pml, variables and data constructors can be used to construct more
+complex~\defn{patterns}~over data.
+For example, a pattern can be a pair $(x,y)$, or a triple of
+variables $(x,y,z)$, or it can consist of a data constructor
+followed by a pattern, e.g., $\cdvar{Cons}(x)$ or $\cdvar{Cons}(x,y).$
+Patterns thus enable a convenient and concise way to pattern match
+over the data structures in \pml.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::built-in-types
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Built-in Types
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Built-in Types
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::built-in-types
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Types of SPARC include base types such as integers <span class="math inline">\(\mathbb{Z}\)</span>, booleans <span class="math inline">\(\mathbb{B}\)</span>, product types such as <span class="math inline">\(\tau_1 * \tau_2 \ldots \tau_n\)</span>, function types <span class="math inline">\(\tau_1 \rightarrow\tau_2\)</span> with domain <span class="math inline">\(\tau_1\)</span> and range <span class="math inline">\(\tau_2\)</span>, as well as user defined data types.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Types of \pml include base types such as integers $\tyint$, booleans
+$\tybool$, product types such as $\tau_1 * \tau_2 \ldots \tau_n$,
+function types $\tau_1 \ra \tau_2$ with domain $\tau_1$ and range
+$\tau_2$, as well as user defined data types.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::data-types
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Data Types
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Data Types
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::data-types
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In addition to built-in types, a program can define new  <strong><em>data types</em></strong>  as a union of tagged types, also called variants, by “unioning” them via distinct  <strong><em>data constructors</em></strong> . For example, the following data type defines a point as a two-dimensional or a three-dimensional coordinate of integers. <span class="math display">\[\begin{array}{lcl}  
+\texttt{type}~\mathit{point} &amp; = &amp; \mathit{PointTwo}~\texttt{of}~\mathbb{Z}* \mathbb{Z}
+\\  
+           &amp; | &amp; \mathit{Point3D}~\texttt{of}~\mathbb{Z}* \mathbb{Z}* \mathbb{Z}
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In addition to built-in types, a program can define new~\defn{data types}~as a
+union of tagged types, also called variants, by ``unioning'' them via
+distinct~\defn{data constructors}.
+For example, the following data type defines a point as a
+two-dimensional or a three-dimensional coordinate of integers.
+\[
+\begin{array}{lcl}
+\cd{type}~\cdvar{point} & = & \cdvar{PointTwo}~\cd{of}~\tyint * \tyint
+\\
+           & | & \cdvar{Point3D}~\cd{of}~\tyint * \tyint * \tyint
+\end{array} 
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::recursive-data-types
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Recursive Data Types
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Recursive Data Types
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::recursive-data-types
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In SPARC recursive data types are relatively easy to define and compute with. For example, we can define a point list data type as follows <span class="math display">\[\begin{array}{l}  
+\texttt{type}~\mathit{plist} = \mathit{Nil}~|~\mathit{Cons}~\texttt{of}~\mathit{point} * \mathit{plist}.  
+\end{array}\]</span> Based on this definition the list <span class="math display">\[\begin{array}{l}  
+\mathit{Cons}(\mathit{PointTwo} (0,0),    
+\\  
+~~~~~~~~~~\mathit{Cons}(\mathit{PointTwo} (0,1),   
+\\  
+~~~~~~~~~~~~~~~~~~~~\mathit{Cons}(\mathit{PointTwo}(0,2), \mathit{Nil})))    
+\end{array}\]</span> defines a list consisting of three points.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In \pml recursive data types are relatively easy to define and compute
+with. For example, we can define a point list data type as follows
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{plist} = \cdvar{Nil}~|~\cdvar{Cons}~\cd{of}~\cdvar{point} * \cdvar{plist}.
+\end{array}
+\] 
+Based on this definition the list 
+\[
+\begin{array}{l}
+\cdvar{Cons}(\cdvar{PointTwo} (0,0),  
+\\
+~~~~~~~~~~\cdvar{Cons}(\cdvar{PointTwo} (0,1), 
+\\
+~~~~~~~~~~~~~~~~~~~~\cdvar{Cons}(\cdvar{PointTwo}(0,2), \cdvar{Nil})))  
+\end{array} 
+\]
+defines a list consisting of three points.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xrcs:sparc::booleans
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='exercise'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Booleans
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Booleans
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xrcs:sparc::booleans
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Some built-in types such as booleans, <span class="math inline">\(\mathbb{B}\)</span>, are in fact syntactic sugar and can be defined by using union types as follows. Describe how you can define booleans using data types of SPARC.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Some built-in types such as booleans, $\tybool$, are in fact syntactic
+sugar and can be defined by using union types as follows.
+Describe how you can define booleans using data types of \pml{}.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- exercise -->
+
+<atom name='solution'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+sol:sparc::booleans
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Booleans can be defined as follows.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\texttt{type}~\mathit{myBool} = \mathit{myTrue}~|~\mathit{myFalse}   
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Booleans can be defined as follows.
+
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{myBool} = \cdvar{myTrue}~|~\cdvar{myFalse} 
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- solution -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::option-type
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Option Type
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Option Type
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::option-type
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Throughout the book, we use  <strong><em>option</em></strong>  types quite frequently. Option types for natural numbers can be defined as follows. <span class="math display">\[\begin{array}{l}  
+\texttt{type}~\mathit{option} = \mathit{None} ~|~ \mathit{Some}~\texttt{of}~\mathbb{N}
+\end{array}\]</span> Similarly, we can define option types for integers. <span class="math display">\[\begin{array}{l}  
+\texttt{type}~\mathit{intOption} = \mathit{INone} ~|~ \mathit{ISome}~\texttt{of}~\mathbb{Z}
+\end{array}\]</span> Note that we used a different data constructor for naturals. This is necessary for type inference and type checking. Since, however, types are secondary for our purposes in this book, we are sometimes sloppy in our use of types for the sake of simplicity. For example, we use throughout <span class="math inline">\(\mathit{None}\)</span> and <span class="math inline">\(\mathit{Some}\)</span> for option types regardless of the type of the contents.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Throughout the book, we use~\defn{option}~types quite frequently.
+Option types for natural numbers can be defined as follows.
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{option} = \cdvar{None} ~|~ \cdvar{Some}~\cd{of}~\tynat
+\end{array}
+\]
+Similarly, we can define option types for integers.
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{intOption} = \cdvar{INone} ~|~ \cdvar{ISome}~\cd{of}~\tyint
+\end{array}
+\]
+Note that we used a different data constructor for naturals.  
+This is necessary for type inference and type checking.
+Since, however, types are secondary for our purposes in this book, we
+are sometimes sloppy in our use of types for the sake of simplicity.
+For example, we use throughout $\cdvar{None}$ and $\cdvar{Some}$ for option
+types regardless of the type of the contents.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:tch:sparc::todo
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='teachnote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tch:sparc::todo
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>TODO: SEQUENCES etc.SETS.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+TODO: SEQUENCES etc.SETS.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- teachnote -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::values
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Values
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Values
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::values
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Values of SPARC, which are the irreducible units of computation include natural numbers, integers, Boolean values <span class="math inline">\(\texttt{true}\)</span> and <span class="math inline">\(\texttt{false}\)</span>, unary primitive operations, such as boolean negation <span class="math inline">\(\texttt{not}\)</span>, arithmetic negation <span class="math inline">\(\texttt{-}\)</span>, as well as binary operations such as logical and <span class="math inline">\(\texttt{and}\)</span> and arithmetic operations such as <span class="math inline">\(\texttt{+}\)</span>. Values also include constant-length tuples, which correspond to product types, whose components are values. Example tuples used commonly through the book include binary tuples or pairs, and ternary tuples or triples. Similarly, data constructors applied to values, which correspond to sum types, are also values.</p>
+<p>As a functional language, SPARC treats all function as values. The anonymous function <span class="math inline">\(\texttt{lambda}~p.~e\)</span> is a function whose arguments are specified by the pattern <span class="math inline">\(p\)</span>, and whose body is the expression <span class="math inline">\(e\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Values of \pml, which are the irreducible units of computation
+include natural numbers, integers, Boolean values $\ctrue$ and $\cfalse$,
+unary primitive operations, such as boolean negation $\cd{not}$,
+arithmetic negation $\cminus$, as well as binary operations such as
+logical and $\cand$ and arithmetic operations such as $\cplus$.
+Values also include constant-length tuples, which correspond to
+product types, whose components are values.
+Example tuples used commonly through the book include binary tuples or
+pairs, and ternary tuples or triples.
+Similarly, data constructors applied to values, which correspond to
+sum types, are also values.
+
+As a functional language, \pml treats all function as values. 
+The anonymous function
+$\cd{lambda}~p.~e$
+is a function whose arguments are specified by the pattern $p$, and
+whose body is the expression $e$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<ul>
+<li><p>The function <span class="math inline">\(\texttt{lambda}~x. x + 1\)</span> takes a single variable as an argument and adds one to it.</p></li>
+<li><p>The function <span class="math inline">\(\texttt{lambda}~(x,y).~x\)</span> takes a pairs as an argument and returns the first component of the pair.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{itemize}
+
+\item
+
+The function 
+$\cd{lambda}~x. x + 1$ takes a single variable as an argument and
+adds one to it.
+
+\item
+The function 
+$\cd{lambda}~(x,y).~x$ takes a pairs as an argument and
+returns the first component of the pair.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Expressions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Expressions
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Expressions, denoted by <span class="math inline">\(e\)</span> and variants (with subscript, superscript, prime), are defined inductively, because in many cases, an expression contains other expressions. Expressions describe the computations that can be expressed in SPARC. Evaluating an expression via the operational semantics of SPARC produce the value for that expression.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Expressions, denoted by $e$ and variants (with subscript, superscript,
+prime), are defined inductively, because in many cases, an expression
+contains other expressions.
+Expressions describe the computations that can be expressed in \pml. 
+Evaluating an expression via the operational semantics of \pml
+produce the value for that expression.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::infix-expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Infix Expressions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Infix Expressions
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::infix-expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>An  <strong><em>infix expression</em></strong> , <span class="math inline">\(e_1~\mathit{op}~e_2\)</span>, involve two expressions and an infix operator <span class="math inline">\(\mathit{op}\)</span>. The infix operators include <span class="math inline">\(+\)</span> (plus), <span class="math inline">\(-\)</span> (minus), <span class="math inline">\(*\)</span> (multiply), <span class="math inline">\(/\)</span> (divide), <span class="math inline">\(&lt;\)</span> (less), <span class="math inline">\(&gt;\)</span> (greater), <span class="math inline">\(\texttt{or}\)</span>, and <span class="math inline">\(\texttt{and}.\)</span> For all these operators the infix expression <span class="math inline">\(e_1~\mathit{op}~e_2\)</span> is just syntactic sugar for <span class="math inline">\(f(e_1, e_2)\)</span> where <span class="math inline">\(f\)</span> is the function corresponding to the operator <span class="math inline">\(\mathit{op}\)</span> (see parenthesized names that follow each operator above).</p>
+<p>We use standard precedence rules on the operators to indicate their parsing. For example in the expression <span class="math display">\[\texttt{3 + 4 * 5}\]</span> the <span class="math inline">\(*\)</span> has a higher precedence than <span class="math inline">\(+\)</span> and therefore the expression is equivalent to <span class="math inline">\(3 + (4 * 5)\)</span>.</p>
+<p>Furthermore all operators are left associative unless stated otherwise, i.e., that is to say that <span class="math inline">\(a~\mathit{op}_1~b~\mathit{op}_2~c =  
+(a~\mathit{op}_1~b)~\mathit{op}_2~c\)</span> if <span class="math inline">\(\mathit{op}_1\)</span> and <span class="math inline">\(\mathit{op}_2\)</span> have the same precedence.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+An~\defn{infix expression}, $e_1~\cdvar{op}~e_2$, involve two expressions
+and an infix operator $\cdvar{op}$.  The infix operators include $+$
+(plus), $-$ (minus), $*$ (multiply), $/$ (divide),
+$<$ (less), $>$ (greater), $\cd{or}$, and $\cd{and}.$
+For all these operators the infix expression
+$e_1~\cdvar{op}~e_2$ is just syntactic sugar for $f(e_1, e_2)$ where
+$f$ is the function corresponding to the operator $\cdvar{op}$ (see
+parenthesized names that follow each operator above).  
+
+We use standard precedence rules on the operators to indicate their
+parsing.  For example in the expression
+\[
+\cd{3 + 4 * 5}
+\]
+the $*$ has a higher precedence than $+$ and therefore the
+expression is equivalent to $3 + (4 * 5)$. 
+
+Furthermore all operators are left associative unless stated
+otherwise, i.e., that is to say that $a~\cdvar{op}_1~b~\cdvar{op}_2~c =
+(a~\cdvar{op}_1~b)~\cdvar{op}_2~c$ if $\cdvar{op}_1$ and $\cdvar{op}_2$ have the
+same precedence.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The expressions <span class="math inline">\(5 - 4 + 2\)</span> evaluates to <span class="math inline">\((5-4) + 2 = 3\)</span> not <span class="math inline">\(5 - (4 + 2) = -1\)</span>, because <span class="math inline">\(-\)</span> and <span class="math inline">\(+\)</span> have the same precedence.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The expressions $5 - 4 + 2$ evaluates to $(5-4) + 2 = 3$ not
+$5 - (4 + 2) = -1$, because $-$ and $+$ have the same
+precedence.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::sequential-and-parallel-composition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Sequential and Parallel Composition
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Sequential and Parallel Composition
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::sequential-and-parallel-composition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Expressions include two special infix operators: “<span class="math inline">\(,\)</span>” and <span class="math inline">\(||\)</span>, for generating ordered pairs, or tuples, either sequentially or in parallel.</p>
+<p>The  <strong><em>comma</em></strong> operator or  <strong><em>sequential composition</em></strong>  as in the infix expression <span class="math inline">\((e_1, e_2)\)</span>, evaluates <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_2\)</span> sequentially, one after the other, and returns the ordered pair consisting of the two resulting values. Parenthesis delimit tuples.</p>
+<p>The  <strong><em>parallel</em></strong> operator or  <strong><em>parallel composition</em></strong>  “<span class="math inline">\(||\)</span>”, as in the infix expression <span class="math inline">\((e_1~||~e_2)\)</span>, evaluates <span class="math inline">\(e_1\)</span> and <span class="math inline">\(e_2\)</span> in parallel, at the same time, and returns the ordered pair consisting of the two resulting values.</p>
+<p>The two operators are identical in terms of their return values. However, we will see later, their cost semantics differ: one is sequential and the other parallel. The comma and parallel operators have the weakest, and equal, precedence.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Expressions include two special infix operators: ``$,$'' and
+$||$, for generating ordered pairs, or tuples, either
+sequentially or in parallel.
+
+The~\defn{comma} operator or~\defn{sequential composition}~as in the
+infix expression $(e_1, e_2)$, evaluates $e_1$ and
+$e_2$ sequentially, one after the other, and returns the ordered pair
+consisting of the two resulting values.
+Parenthesis delimit  tuples.
+
+The~\defn{parallel} operator or~\defn{parallel composition}~``$||$'',
+as in the infix expression
+$(e_1~||~e_2)$,
+evaluates $e_1$ and $e_2$ in parallel, at the same time, and
+returns the ordered pair consisting of the two resulting values.
+
+
+The two operators are identical in terms of their return values.
+However, we will see later, their cost semantics differ: one is
+sequential and the other parallel.  The comma and parallel operators
+have the weakest, and equal, precedence.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:tch:sparc::cost
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='teachnote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+tch:sparc::cost
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Cost model pointer.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Cost model pointer.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- teachnote -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::expression
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::expression
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<ul>
+<li><p>The expression <span class="math display">\[\begin{array}{l}  
+\texttt{lambda}~(x, y).~(x * x, y * y)  
+\end{array}\]</span> is a function that take two arguments <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> and returns a pair consisting of the squares <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p></li>
+<li><p>The expression <span class="math display">\[\begin{array}{l}  
+\texttt{lambda}~(x, y).~(x * x~||~y * y)  
+\end{array}\]</span> is a function that take two arguments <span class="math inline">\(\texttt{x}\)</span> and <span class="math inline">\(\texttt{y}\)</span> and returns a pair consisting of the squares <span class="math inline">\(\texttt{x}\)</span> and <span class="math inline">\(\texttt{y}\)</span> by squaring each of <span class="math inline">\(\texttt{x}\)</span> and <span class="math inline">\(\texttt{y}\)</span> in parallel.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{itemize}
+
+\item
+
+The expression 
+\[
+\begin{array}{l}
+\cd{lambda}~(x, y).~(x * x, y * y)
+\end{array}
+\]
+is a function that take two arguments $x$ and $y$ and returns a
+pair consisting of the squares $x$ and $y$.
+
+\item
+The expression
+\[
+\begin{array}{l}
+\cd{lambda}~(x, y).~(x * x~||~y * y)
+\end{array}
+\]
+is a function that take two arguments $\cd{x}$ and $\cd{y}$ and returns a
+pair consisting of the squares $\cd{x}$ and $\cd{y}$ by squaring each of
+$\cd{x}$ and $\cd{y}$ in parallel.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::case-expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Case Expressions
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Case Expressions
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::case-expressions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>case expression</em></strong>  such as <span class="math display">\[\begin{array}{l}  
+\texttt{case}~e_1 \\  
+\texttt{| Nil}\Rightarrow e_2 \\   
+\texttt{| Cons}~(x,y)\Rightarrow e_3 \\  
+\end{array}\]</span> first evaluates the expression <span class="math inline">\(e_1\)</span> to a value <span class="math inline">\(v_1\)</span>, which must return data type. It then matches <span class="math inline">\(v_1\)</span> to one of the patterns, <span class="math inline">\(\mathit{Nil}\)</span> or <span class="math inline">\(\mathit{Cons}~(x,y)\)</span> in our example, binds the variable if any in the pattern to the respective sub-values of <span class="math inline">\(v_1\)</span>, and evaluates the “right hand side” of the matched pattern, i.e., the expression <span class="math inline">\(e_2\)</span> or <span class="math inline">\(e_3\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{case expression}~such as 
+\[
+\begin{array}{l}
+\cd{case}~e_1 \\
+\cd{| Nil}\dra e_2 \\ 
+\cd{| Cons}~(x,y)\dra e_3 \\
+\end{array}
+\]
+first evaluates the expression $e_1$ to a value $v_1$, which must
+return data type.
+It then matches $v_1$ to one of the patterns, $\cdvar{Nil}$ or
+$\cdvar{Cons}~(x,y)$ in our example, binds the variable if any in the
+pattern to the respective sub-values of $v_1$, and evaluates the
+``right hand side'' of the matched pattern, i.e., the expression $e_2$
+or $e_3$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::conditionals
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Conditionals
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Conditionals
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::conditionals
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A conditional or an  <strong><em>if-then-else expression</em></strong> , <span class="math inline">\(\texttt{if}~e_1~\texttt{then}~e_2~\texttt{else}~e_3\)</span>, evaluates the expression <span class="math inline">\(e_1\)</span>, which must return a Boolean. If the value of <span class="math inline">\(e_1\)</span> is true then the result of the if-then-else expression is the result of evaluating <span class="math inline">\(e_2\)</span>, otherwise it is the result of evaluating <span class="math inline">\(e_3\)</span>. This allows for conditional evaluation of expressions.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A conditional or an~\defn{if-then-else expression},
+$\cd{if}~e_1~\cd{then}~e_2~\cd{else}~e_3$, evaluates the expression $e_1$,
+which must return a Boolean.
+If the value of $e_1$ is true then the result of the if-then-else
+expression is the result of evaluating $e_2$, otherwise it is the
+result of evaluating $e_3$.  
+This allows for conditional evaluation of expressions.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::function-application
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Function Application
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Function Application
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::function-application
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A  <strong><em>function application</em></strong> , <span class="math inline">\(e_1~e_2\)</span>, applies the function generated by evaluating <span class="math inline">\(e_1\)</span> to the value generated by evaluating <span class="math inline">\(e_2\)</span>. For example, lets say that <span class="math inline">\(e_1\)</span> evaluates to the function <span class="math inline">\(f\)</span> and <span class="math inline">\(e_2\)</span> evaluates to the value <span class="math inline">\(v\)</span>, then we apply <span class="math inline">\(f\)</span> to <span class="math inline">\(v\)</span> by first matching <span class="math inline">\(v\)</span> to the argument of <span class="math inline">\(f\)</span>, which is pattern, to determine the values of each variable in the pattern. We then substitute in the body of <span class="math inline">\(f\)</span> the value of each variable for the variable. To  <strong><em>substitute</em></strong>  a value in place of a variable <span class="math inline">\(x\)</span> in an expression <span class="math inline">\(e\)</span>, we replace each instance of <span class="math inline">\(x\)</span> with <span class="math inline">\(v\)</span>.</p>
+<p>For example if function <span class="math inline">\(\texttt{lambda}~(x,y).~e\)</span> is applied to the pair <span class="math inline">\(\texttt{(2,3)}\)</span> then <span class="math inline">\(x\)</span> is given value <span class="math inline">\(\texttt{2}\)</span> and <span class="math inline">\(y\)</span> is given value <span class="math inline">\(\texttt{3}\)</span>. Any free occurrences of the variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> in the expression <span class="math inline">\(e\)</span> will now be bound to the values <span class="math inline">\(\texttt{2}\)</span> and <span class="math inline">\(\texttt{3}\)</span> respectively. We can think of function application as substituting the argument (or its parts) into the free occurrences of the variables in its body <span class="math inline">\(e\)</span>. The treatment of function application is why we call SPARC a  <strong><em>strict</em></strong>  language. In strict or call-by-value languages, the argument to the function is always evaluated to a value before applying the function. In contrast non-strict languages wait to see if the argument will be used before evaluating it to a value.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A~\defn{function application}, $e_1~e_2$, applies the function
+generated by evaluating~$e_1$ to the value generated by
+evaluating~$e_2$.  
+For example, lets say that~$e_1$ evaluates to the function~$f$
+and~$e_2$ evaluates to the value~$v$, then we apply~$f$ to~$v$ by
+first matching~$v$ to the argument of $f$, which is pattern, to
+determine the values of each variable in the pattern.
+We then substitute in the body of~$f$ the value of each variable for
+the variable.  To~\defn{substitute}~a value in place of a variable~$x$
+in an expression~$e$, we replace each instance of~$x$ with~$v$.
+
+For example if function $\cd{lambda}~(x,y).~e$ is applied to the pair
+$\cd{(2,3)}$ then $x$ is given value $\cd{2}$ and $y$ is given value
+$\cd{3}$. 
+Any free occurrences of the variables $x$ and $y$ in the
+expression $e$ will now be bound to the values $\cd{2}$ and $\cd{3}$
+respectively.  
+We can think of function application as substituting
+the argument (or its parts) into the free occurrences of the variables
+in its body $e$.
+The treatment of function application is why we call \pml{} a~\defn{strict}~language. 
+In strict or call-by-value languages, the argument to the function is
+always evaluated to a value before applying the function.
+In contrast non-strict languages wait to see if the argument will be
+used before evaluating it to a value.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::lambda
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::lambda
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<ul>
+<li><p>The expression <span class="math display">\[(\texttt{lambda}~(x,y).~x / y)~(8,2)\]</span><br />
+evaluates to <span class="math inline">\(4\)</span> since <span class="math inline">\(8\)</span> and <span class="math inline">\(2\)</span> are bound to <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>, respectively, and then divided.</p></li>
+<li><p>The expression <span class="math display">\[(\texttt{lambda}~(f,x).~f(x,x))~(\mathit{plus},3)\]</span> evaluates to <span class="math inline">\(6\)</span> because <span class="math inline">\(f\)</span> is bound to the function <span class="math inline">\(\mathit{plus}\)</span>, <span class="math inline">\(x\)</span> is bound to <span class="math inline">\(3\)</span>, and then <span class="math inline">\(\mathit{plus}\)</span> is applied to the pair <span class="math inline">\((3,3)\)</span>.</p></li>
+<li><p>The expression <span class="math display">\[(\texttt{lambda}~x.~(\texttt{lambda}~y .~x + y ) )~3\]</span><br />
+evaluates to a function that adds <span class="math inline">\(3\)</span> to any integer.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{itemize}
+
+\item
+The expression
+\[
+(\cd{lambda}~(x,y).~x / y)~(8,2)
+\]
+\\
+evaluates to $4$ since $8$ and 
+$2$ are bound to $x$ and $y$, respectively, and then divided.
+
+\item
+The expression 
+\[
+(\cd{lambda}~(f,x).~f(x,x))~(\cdvar{plus},3)
+\] 
+evaluates to $6$ because $f$ is bound to the function
+$\cdvar{plus}$, $x$ is bound to $3$, and then $\cdvar{plus}$ is applied
+to the pair $(3,3)$.
+
+\item
+The expression
+\[
+(\cd{lambda}~x.~(\cd{lambda}~y .~x + y ) )~3
+\]
+\\
+evaluates to a function that adds $3$ to any integer.
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:sparc::bindings
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Bindings
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Bindings
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:sparc::bindings
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The  <strong><em>let expression</em></strong> , <span class="math display">\[\texttt{let}~b^+\texttt{in}~e~\texttt{end},\]</span> consists of a sequence of bindings <span class="math inline">\(b^+\)</span>, which define local variables and types, followed by an expression <span class="math inline">\(e\)</span>, in which those bindings are visible. In the syntax for the bindings, the superscript <span class="math inline">\(+\)</span> means that <span class="math inline">\(b\)</span> is repeated one or more times. Each binding <span class="math inline">\(b\)</span> is either a variable binding, a function binding, or a type binding. The let expression evaluates to the result of evaluating <span class="math inline">\(e\)</span> given the variable bindings defined in <span class="math inline">\(b\)</span>.</p>
+<p>A  <strong><em>function binding</em></strong> , <span class="math inline">\(x (p) = e\)</span>, consists of a function name, <span class="math inline">\(x\)</span> (technically a variable), the arguments for the function, <span class="math inline">\(p\)</span>, which are themselves a pattern, and the body of the function, <span class="math inline">\(e\)</span>.</p>
+<p>Each  <strong><em>type binding</em></strong>  equates a type to a base type or a data type.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The~\defn{let expression}, 
+\[
+\cd{let}~b^+\cd{in}~e~\cd{end},
+\] 
+consists of a sequence of bindings $b^+$, which define local variables
+and types, followed by an expression $e$, in which those bindings are
+visible.  In the syntax for the bindings, the superscript $+$ means
+that $b$ is repeated one or more times.  Each binding $b$ is either a
+variable binding, a function binding, or a type binding.
+The let expression evaluates to the result of evaluating $e$ given the
+variable bindings defined in $b$.
+
+A~\defn{function binding}, $x (p) = e$, consists of a function
+name, $x$ (technically a variable), the arguments for the function,
+$p$, which are themselves a pattern, and the body of the function,
+$e$. 
+
+
+Each~\defn{type binding}~equates a type to a base type or a data type.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the following let expression. <span class="math display">\[\begin{array}{l}  
+\texttt{let}\\   
+~~~~x = 2 + 3\\  
+~~~~f (w) = (w * 4, w - 2)\\  
+~~~~(y,z) = f(x-1)\\  
+\texttt{in}\\   
+~~~~x + y + z\\  
+\texttt{end}   
+\end{array}\]</span></p>
+<p>The first binding the variable <span class="math inline">\(x\)</span> to <span class="math inline">\(\texttt{2 + 3 = 5}\)</span>; The second binding defines a function <span class="math inline">\(f(w)\)</span> which returns a pair; The third binding applies the function <span class="math inline">\(f\)</span> to <span class="math inline">\(x - 1 = 4\)</span> returning the pair <span class="math inline">\((4 * 4, 4 -2) = (16, 2)\)</span>, which <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span> are bound to, respectively (i.e., <span class="math inline">\(y = 16\)</span> and <span class="math inline">\(z = 2\)</span>. Finally the let expressions adds <span class="math inline">\(x, y, z\)</span> and yields <span class="math inline">\(5 + 16 + 2\)</span>. The result of the expression is therefore <span class="math inline">\(23\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the following let expression.
+\[
+\begin{array}{l}
+\cd{let}\\ 
+~~~~x = 2 + 3\\
+~~~~f (w) = (w * 4, w - 2)\\
+~~~~(y,z) = f(x-1)\\
+\cd{in}\\ 
+~~~~x + y + z\\
+\cd{end} 
+\end{array}
+\]
+
+The first  binding the variable $x$ to $\cd{2 + 3 = 5}$;
+The second binding defines a function $f(w)$ which returns a pair;
+The third binding applies the function $f$ to $x - 1 = 4$
+returning the pair $(4 * 4, 4 -2) = (16, 2)$, which
+  $y$ and $z$ are bound to, respectively (i.e., $y = 16$ and
+  $z = 2$.
+Finally the let expressions adds $x, y, z$ and yields $5 + 16 + 2$.
+The result of the expression is therefore $23$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:nt:sparc::careful
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='note'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+nt:sparc::careful
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Be careful about defining which variables each binding can see, as this is important in being able to define recursive functions. In SPARC the expression on the right of each binding in a <span class="math inline">\(\texttt{let}\)</span> can see all the variables defined in previous variable bindings, and can see the function name variables of all binding (including itself) within the <span class="math inline">\(\texttt{let}\)</span>. Therefore the function binding <span class="math display">\[\texttt{x}(p) = e\]</span> is not equivalent to the variable binding <span class="math display">\[\texttt{x} = \texttt{lambda}~p.e,\]</span> because in the prior <span class="math inline">\(x\)</span> can be used in <span class="math inline">\(e\)</span> and in the later it cannot. Function bindings therefore allow for the definition of recursive functions. Indeed they allow for mutually recursive functions since the body of function bindings within the same <span class="math inline">\(\texttt{let}\)</span> can reference each other.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Be careful about defining which variables each binding can see, as
+this is important in being able to define recursive functions.  In
+\pml{} the expression on the right of each binding in a $\cd{let}$ can
+see all the variables defined in previous variable bindings, and can
+see the function name variables of all binding (including itself)
+within the $\cd{let}$.
+Therefore the function binding
+\[
+\cd{x}(p) = e
+\]
+is not equivalent to the variable binding
+\[
+\cd{x} = \cd{lambda}~p.e,
+\]
+because in the prior $x$ can be used
+in $e$ and in the later it cannot.
+Function bindings therefore allow for the definition of
+recursive functions.  
+Indeed they allow for mutually recursive functions since the body of
+function bindings within the same $\cd{let}$ can reference each other.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- note -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::else
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::else
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The expression <span class="math display">\[\begin{array}{l}  
+\texttt{let}\\  
+~~~~f(i) = \texttt{if} ~(i &lt; 2) ~\texttt{then}~ i ~\texttt{else}~ i  *   
+f(i - 1) \\  
+\texttt{in} \\   
+~~~~f(5) \\  
+\texttt{end}   
+\end{array}\]</span> will evaluate to the factorial of <span class="math inline">\(5\)</span>, i.e., <span class="math inline">\(5 * 4 * 3 * 2  
+* 1\)</span>, which is <span class="math inline">\(120\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The expression
+\[
+\begin{array}{l}
+\cd{let}\\
+~~~~f(i) = \cd{if} ~(i < 2) ~\cd{then}~ i ~\cd{else}~ i  * 
+f(i - 1) \\
+\cd{in} \\ 
+~~~~f(5) \\
+\cd{end} 
+\end{array}
+\]
+will evaluate to the factorial of $5$, i.e., $5 * 4 * 3 * 2
+* 1$, which is $120$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::piece
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::piece
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The piece of code below illustrates an example use of data types and higher-order functions. <span class="math display">\[\begin{array}{l}  
+\texttt{let}  
+\\   
+~~~~\texttt{type}~\mathit{point} = \mathit{PointTwo}~\texttt{of}~\mathbb{Z}* \mathbb{Z}
+\\   
+~~~~~~~~~~~~~~~~~~~~~~~~|~~\mathit{PointThree}~\texttt{of}~ \mathbb{Z}* \mathbb{Z}* \mathbb{Z}
+\\  
+~~~~\mathit{injectThree}~(\mathit{PointTwo}~(x, y)) = \mathit{PointThree}~(x, y, 0)  
+\\    
+~~~~\mathit{projectTwo}~(\mathit{PointThree}~(x, y, z)) = \mathit{PointTwo}~(x, y)  
+\\   
+~~~~\mathit{compose}~f~g = f~g    
+\\  
+~~~~p0 = \mathit{PointTwo}~(0,0)  
+\\  
+~~~~q0 = \mathit{injectThree}~p0  
+\\  
+~~~~p1 = (\mathit{compose}~\mathit{projectTwo}~\mathit{injectThree})~p0  
+\\  
+\texttt{in}   
+\\  
+~~~~(p0, q0)  
+\\  
+\texttt{end}  
+\end{array}\]</span></p>
+<p>The example code above defines a <span class="math inline">\(\mathit{point}\)</span> as a two (consisting of <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> axes) or three dimensional (consisting of <span class="math inline">\(x\)</span>, <span class="math inline">\(y\)</span>, and <span class="math inline">\(z\)</span> axes) point in space. The function <span class="math inline">\(\mathit{injectThree}\)</span> takes a 2D point and transforms it to a 3D point by mapping it to a point on the <span class="math inline">\(z=0\)</span> plane. The function <span class="math inline">\(\mathit{projectTwo}\)</span> takes a 3D point and transforms it to a 2D point by dropping its <span class="math inline">\(z\)</span> coordinate. The function <span class="math inline">\(\mathit{compose}\)</span> takes two functions <span class="math inline">\(f\)</span> and <span class="math inline">\(g\)</span> and composes them. The function <span class="math inline">\(\mathit{compose}\)</span> is a higher-order function, since id operates on functions.</p>
+<p>The point <span class="math inline">\(p0\)</span> is the origin in 2D. The point <span class="math inline">\(q0\)</span> is then computed as the origin in 3D. The point <span class="math inline">\(p1\)</span> is computed by injecting <span class="math inline">\(p0\)</span> to 3D and then projecting it back to 2D by dropping the <span class="math inline">\(z\)</span> components, which yields again <span class="math inline">\(p0\)</span>. In the end we thus have <span class="math inline">\(p0 = p1 = (0,0)\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The piece of code below illustrates an example use of data types and
+higher-order functions.
+\[
+\begin{array}{l}
+\cd{let}
+\\ 
+~~~~\cd{type}~\cdvar{point} = \cdvar{PointTwo}~\cd{of}~\tyint * \tyint
+\\ 
+~~~~~~~~~~~~~~~~~~~~~~~~|~~\cdvar{PointThree}~\cd{of}~ \tyint * \tyint * \tyint
+\\
+~~~~\cdvar{injectThree}~(\cdvar{PointTwo}~(x, y)) = \cdvar{PointThree}~(x, y, 0)
+\\  
+~~~~\cdvar{projectTwo}~(\cdvar{PointThree}~(x, y, z)) = \cdvar{PointTwo}~(x, y)
+\\ 
+~~~~\cdvar{compose}~f~g = f~g  
+\\
+~~~~p0 = \cdvar{PointTwo}~(0,0)
+\\
+~~~~q0 = \cdvar{injectThree}~p0
+\\
+~~~~p1 = (\cdvar{compose}~\cdvar{projectTwo}~\cdvar{injectThree})~p0
+\\
+\cd{in} 
+\\
+~~~~(p0, q0)
+\\
+\cd{end}
+\end{array}
+\]
+
+The example code above defines a $\cdvar{point}$ as a two (consisting of
+$x$ and $y$ axes) or three dimensional (consisting of $x$, $y$, and
+$z$ axes) point in space.
+The function $\cdvar{injectThree}$ takes a 2D point and transforms it to a 3D
+point by mapping it to a point on the $z=0$ plane. 
+The function $\cdvar{projectTwo}$ takes a 3D point and transforms it to a 2D
+point by dropping its $z$ coordinate.
+The function $\cdvar{compose}$ takes two functions $f$ and $g$ and composes
+them.
+The function $\cdvar{compose}$ is a higher-order function, since id operates
+on functions.
+
+The point $p0$ is the origin in 2D.  The point $q0$ is then computed
+as the origin in 3D.  The point $p1$ is computed by injecting $p0$ to
+3D and then projecting it back to 2D by dropping the $z$ components,
+which yields again $p0$.  
+In the end we thus have $p0 = p1 = (0,0)$.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:xmpl:sparc::defines
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:sparc::defines
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The following SPARC code, which defines a binary tree whose leaves and internal nodes holds keys of integer type. The function <span class="math inline">\(\mathit{find}\)</span> performs a lookup in a given binary-search tree <span class="math inline">\(t\)</span>, by recursively comparing the key <span class="math inline">\(x\)</span> to the keys along a path in the tree.</p>
+<p><span class="math display">\[\begin{array}{l}  
+\texttt{type}~\mathit{tree} = \mathit{Leaf}~\texttt{of}~\mathbb{Z}~|~\mathit{Node}~\texttt{of}~(\mathit{tree}, \mathbb{Z}, \mathit{tree})  
+\\  
+\mathit{find}~(t, x) =   
+\\  
+~~~~\texttt{case}~t  
+\\   
+~~~~|~\mathit{Leaf}~y \Rightarrow x = y   
+\\  
+~~~~|~\mathit{Node}~(\mathit{left}, y, \mathit{right}) \Rightarrow
+\\  
+~~~~~~~~~\texttt{if}~x = y~\texttt{then}   
+\\  
+~~~~~~~~~~~~~\texttt{return}~\texttt{true}  
+\\  
+~~~~~~~~~\texttt{else}~\texttt{if}~x &lt; y~\texttt{then}   
+\\  
+~~~~~~~~~~~~~\mathit{find}~(\mathit{left}, x)  
+\\  
+~~~~~~~~~\texttt{else}  
+\\  
+~~~~~~~~~~~~~\mathit{find}~(\mathit{right}, x)  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The following \pml code, which defines a binary tree whose leaves and
+internal nodes holds keys of integer type.
+The function $\cdvar{find}$ performs a lookup in a given binary-search tree
+$t$, by recursively comparing the key $x$ to the keys along a path in
+the tree.
+
+\[
+\begin{array}{l}
+\cd{type}~\cdvar{tree} = \cdvar{Leaf}~\cd{of}~\tyint~|~\cdvar{Node}~\cd{of}~(\cdvar{tree}, \tyint, \cdvar{tree})
+\\
+\cdvar{find}~(t, x) = 
+\\
+~~~~\cd{case}~t
+\\ 
+~~~~|~\cdvar{Leaf}~y \dra x = y 
+\\
+~~~~|~\cdvar{Node}~(\cdvar{left}, y, \cdvar{right}) \dra
+\\
+~~~~~~~~~\cd{if}~x = y~\cd{then} 
+\\
+~~~~~~~~~~~~~\cd{return}~\cd{true}
+\\
+~~~~~~~~~\cd{else}~\cd{if}~x < y~\cd{then} 
+\\
+~~~~~~~~~~~~~\cdvar{find}~(\cdvar{left}, x)
+\\
+~~~~~~~~~\cd{else}
+\\
+~~~~~~~~~~~~~\cdvar{find}~(\cdvar{right}, x)
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:sparc::takes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:sparc::takes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> <br />
+The definition <span class="math display">\[\texttt{lambda}~{x}\,.\,(\texttt{lambda}~{y}\,.\,f(x,y))\]</span> takes a function <span class="math inline">\(f\)</span> of a pair of arguments and converts it into a function that takes one of the arguments and returns a function which takes the second argument. This technique can be generalized to functions with multiple arguments and is often referred to as  <strong><em>currying</em></strong> , named after Haskell Curry (1900-1982), who developed the idea. It has nothing to do with the popular dish from Southern Asia, although that might be an easy way to remember the term.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+~\\
+The definition
+\[
+\cfn{x}{(\cfn{y}{f(x,y)})}
+\]
+  takes a function $f$ of a pair of arguments and converts it
+  into a function that takes one of the arguments and returns a
+  function which takes the second argument.  This technique can be
+  generalized to functions with multiple arguments and is often
+  referred to as~\defn{currying}, named after Haskell Curry
+  (1900-1982), who developed the idea.  It has nothing to do with the
+  popular dish from Southern Asia, although that might be an easy way
+  to remember the term.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

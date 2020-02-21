@@ -1,0 +1,19 @@
+\input{templates/preamble}
+
+%% Pandoc doesn't know about quad
+\renewcommand{\quad}{~~~~}
+\renewcommand{\qquad}{\quad\quad}
+
+\renewcommand{\xmark}{\unicode{10008}}
+
+%% Definitions
+\renewcommand{\defn}[1]
+{
+\textbf{\emph{#1}}
+}
+
+\renewcommand{\company}[1]{\textsf{\textbf{#1}\textsuperscript{\tiny \textregistered}}}
+\renewcommand{\symappend}{+\!\!+}
+
+\renewcommand{\argmax}[2]{\mathbf{arg\,max\,}_{#1} \left( {#2} \right)}\\newcommand{\str}[1]{\unicode{8216}\,{#1}\,\unicode{8217}}
+\renewcommand{\means}[1]{\bar{#1}}

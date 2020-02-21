@@ -1,0 +1,48 @@
+\chapter{Introduction}
+\label{ch:analysis::introduction}
+
+\begin{gram}[Algorithm Analysis]
+The term~\defn{algorithm analysis} refers to mathematical analysis of
+algorithms with the purpose of determining their consumption of
+resources such as the amount of total work they perform, the energy
+they consume, the time to execute, and the memory or storage space
+that they require.
+%
+
+When analyzing algorithms, it is important to be \emph{precise} so
+that we can compare different algorithms and assess their suitability for
+our purposes.
+%
+It is also equally important to be \emph{abstract} because we don't
+want to worry about details of compilers and computer architectures,
+and because we want our analysis to remain valid even as these details
+change over time.
+
+To find the right balance between precision and abstraction, we rely
+on two levels of abstraction: asymptotic analysis and cost models.
+%
+\begin{itemize}
+\item Asymptotic analysis enables abstracting from small factors such as the
+exact time a particular operation may require. 
+%
+\chref{analysis::asymptotics} describes the basics of asymptotic
+analysis.
+
+\item Cost models specify the cost of operations available in a
+  computational model, usually only up to the precision of the
+  asymptotic analysis.  \chref{analysis::models} describes
+  machine-based and language-based cost models.
+\end{itemize}
+
+Many algorithms in computer science are naturally recursive.  
+%
+Analyses of such algorithms typically lead us to recurrences, which
+are recursive mathematical relations.
+%
+Solving such recurrences is a basic skill for every computer
+scientist.
+%
+\chref{analysis::recurrences} covers recurrences and the basic
+techniques for solving them.
+
+\end{gram}

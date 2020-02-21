@@ -1,0 +1,2132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Random Variables
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Random Variables
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:probability::randvar
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:probability::randvar::introduces
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:probability::randvar::introduces
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>This chapter introduces the random variables and their use in probability theory.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+This chapter introduces the random variables and their use in probability theory.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:probability::rv
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Random Variable
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Random Variable
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:probability::rv
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p> A <strong><em>random variable</em></strong> <span class="math inline">\(X\)</span> is a real-valued function on the outcomes of an experiment, i.e., <span class="math inline">\(X : \Omega\to \mathbb{R}\)</span>, i.e., it assigns a real number to each outcome. For a given probability space there can be many random variables, each keeping track of different quantities. We typically denote random variables by capital letters from the end of the alphabet, e.g. <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, and <span class="math inline">\(Z\)</span>. We say that a random variable is <strong><em>discrete</em></strong> if its range is finite or countable infinite. Throughout this book, we only consider discrete random variables.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\label{def:probability::rv}
+A \defn{random variable} $X$ is a real-valued function on the outcomes
+of an experiment, i.e., $X : \SSpace \to \R$, i.e., it assigns a real
+number to each outcome.
+For a given probability space there can be many random variables, each keeping
+track of different quantities.
+We typically denote random variables by capital letters from
+the end of the alphabet, e.g. $X$, $Y$, and $Z$.
+We say that a random variable is \defn{discrete} if its range is
+finite or countable infinite.  Throughout this book, we only consider
+discrete random variables.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:probability::randvar::throwing
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For throwing two dice, we can define random variable as the sum of the two dice <span class="math display">\[X(d_1,d_2) = d_1+d_2~,\]</span> the product of two dice <span class="math display">\[Y(d_1,d_2) = d_1 \times d_2~,\]</span> or the value of the first dice the two dice: <span class="math display">\[Z(d_1,d_2) = d_1~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For throwing two dice, we can define random variable as the sum of
+the two dice
+\[
+X(d_1,d_2) = d_1+d_2~,
+\]
+the product of two dice
+\[
+Y(d_1,d_2) = d_1 \times d_2~,
+\]
+or the value of the first dice
+the two dice:
+\[
+Z(d_1,d_2) = d_1~.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::indicator
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::indicator
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A random variable is called an <strong><em>indicator random variable</em></strong> if it takes on the value <span class="math inline">\(1\)</span> when some condition is true and <span class="math inline">\(0\)</span> otherwise.</p>
+<p>For throwing two dice, we can define indicator random variable as getting doubles <span class="math display">\[Y(d_1,d_2) =  
+\left\{  
+\begin{array}{ll}  
+1 &amp; \mbox{if}~d_1 = d_2  
+\\  
+0 &amp; \mbox{if}~d_1 \not= d_2 ~.  
+\end{array}  
+\right.\]</span> Using our shorthand, the event <span class="math inline">\(\{X =4\}\)</span> corresponds to the event “the dice sum to 4”.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{definition}[Indicator Random Variable]
+A random variable is called an \defn{indicator random variable} if it
+takes on the value~$1$ when some condition is true and~$0$
+otherwise.
+\end{definition}
+\begin{example}
+  For throwing two dice, we can define indicator random variable
+  as getting doubles
+\[
+Y(d_1,d_2) =
+\left\{
+\begin{array}{ll}
+1 & \mbox{if}~d_1 = d_2
+\\
+0 & \mbox{if}~d_1 \not= d_2 ~.
+\end{array}
+\right.
+\]
+Using our shorthand, the event $\event{X}{4}$ corresponds
+to the event ``the dice sum to 4''.
+\end{example}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- flex -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::notation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Notation
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Notation
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::notation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For a random variable <span class="math inline">\(X\)</span> and a value <span class="math inline">\(x \in \mathbb{R}\)</span>, we use the following shorthand for the event corresponding to <span class="math inline">\(X\)</span> equaling <span class="math inline">\(x\)</span>: <span class="math display">\[\{X =x\} \equiv \left\{ y \in \Omega \;|\; X(y)  = x \right\}~,\]</span> and when applying the probability measure we use the further shorthand <span class="math display">\[\mathbf{P}\left[{X = x}\right] \equiv \mathbf{P}\left[{\{X =x\}}\right]~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For a random variable $X$ and a value $x \in \R$, we use the following
+shorthand for the event corresponding to $X$ equaling $x$:
+\[\event{X}{x} \equiv \csetf{y \in \SSpace}{X(y)  = x}~,\]
+and when applying the probability measure we use the further
+shorthand
+\[\prob{X = x} \equiv \prob{\event{X}{x}}~.\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:probability::randvar::dice
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For throwing two dice, and <span class="math inline">\(X\)</span> being a random variable representing the sum of the two dice, <span class="math inline">\(\{X =4\}\)</span> corresponds to the event “the dice sum to 4”, i.e. the set <span class="math display">\[\{y \in \Omega~|~X(y) = 4\} = \{(1,3),(2,2),(3,1)\}~.\]</span></p>
+<p>Assuming unbiased coins, we have that <span class="math display">\[\mathbf{P}\left[{X = 4}\right] = 1/12~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For throwing two dice, and $X$ being a random variable representing
+  the sum of the two dice, $\event{X}{4}$ corresponds to the
+  event ``the dice sum to 4'', i.e. the set
+  \[\{y \in \SSpace~|~X(y) = 4\} = \{(1,3),(2,2),(3,1)\}~.\]
+
+  Assuming unbiased coins, we have that
+  \[\prob{X = 4} = 1/12~.\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:rmrk:probability::randvar::term
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='remark'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+rmrk:probability::randvar::term
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The term random variable might seem counter-intuitive because it is actually a function not a variable. As such, a random variable is not really random, because it is a well defined deterministic function on the sample space. However, when thought in conjunction with the random experiment that selects the events, a random variable takes on its value based on a random process.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The term random variable might seem counter-intuitive
+because it is actually a function not a variable.
+As such, a random variable is not really random, because it is a well
+defined deterministic function on the sample space.  
+However, when thought in conjunction with the random experiment that
+selects the events, a random variable takes on its value based on a
+random process.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- remark -->
+
+</segment> <!-- cluster -->
+
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Probability Mass Function
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Probability Mass Function
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:probability::randvar::pmf
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:def:probability::randvar::probability-mass-function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='definition'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Probability Mass Function
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Probability Mass Function
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+def:probability::randvar::probability-mass-function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For a discrete random variable <span class="math inline">\(X\)</span>, we define its <strong><em>probability mass function</em></strong> or <strong><em>PMF</em></strong> , written <span class="math inline">\(\mathbf{P}_{X}(\cdot)\)</span>, for short as a function mapping each element <span class="math inline">\(x\)</span> in the range of the random variable to the probability of the event <span class="math inline">\(\{X =x\}\)</span>, i.e., <span class="math display">\[\mathbf{P}_{X}(x) = \mathbf{P}\left[{X = x}\right].\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For a discrete random variable $X$, we define its \defn{probability
+  mass function} or \defn{PMF}, written $\pmf{X}(\cdot)$, for short as
+a function mapping each element $x$ in the range of the random
+variable to the probability of the event $\event{X}{x}$, i.e.,
+\[
+\pmf{X}(x) = \prob{X = x}.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- definition -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:probability::randvar::probability
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The probability mass function for the indicator random variable <span class="math inline">\(X\)</span> indicating whether the outcome of a roll of dice is comes up even is <span class="math display">\[\begin{array}{lll}  
+\mathbf{P}_{X}(0) = \mathbf{P}\left[{\{X =0\}}\right] = \mathbf{P}\left[{\{1, 3, 5\}}\right] =  
+1/2,~\mbox{and}  
+\\  
+\mathbf{P}_{X}(1) = \mathbf{P}\left[{\{X =1\}}\right] = \mathbf{P}\left[{\{2, 4, 6\}}\right] =  
+1/2.  
+\end{array}\]</span></p>
+<p>The probability mass function for the random variable <span class="math inline">\(X\)</span> that maps each outcome in a roll of dice to the smallest Mersenne prime number no less than the outcome is <span class="math display">\[\begin{array}{lll}  
+\mathbf{P}_{X}(3) = \mathbf{P}\left[{\{X =3\}}\right] = \mathbf{P}\left[{\{1, 2, 3\}}\right] =  
+1/2,~\mbox{and}  
+\\  
+\mathbf{P}_{X}(7) = \mathbf{P}\left[{\{X =7\}}\right] = \mathbf{P}\left[{\{4, 5, 6\}}\right] =  
+1/2.  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The probability mass function for the indicator random variable $X$
+indicating whether the outcome of a roll of dice is comes up even is 
+\[
+\begin{array}{lll}
+\pmf{X}(0) = \prob{\event{X}{0}} = \prob{\{1, 3, 5\}} =
+1/2,~\mbox{and}
+\\
+\pmf{X}(1) = \prob{\event{X}{1}} = \prob{\{2, 4, 6\}} =
+1/2.
+\end{array}
+\]
+
+The probability mass function for the random variable $X$
+that maps each outcome in a roll of dice to the smallest Mersenne
+prime number no less than the outcome is
+\[
+\begin{array}{lll}
+\pmf{X}(3) = \prob{\event{X}{3}} = \prob{\{1, 2, 3\}} =
+1/2,~\mbox{and}
+\\
+\pmf{X}(7) = \prob{\event{X}{7}} = \prob{\{4, 5, 6\}} =
+1/2.
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::probability
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::probability
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Note that much like a probability measure, a probability mass function is a non-negative function. It is also additive in a similar sense: for any distinct <span class="math inline">\(x\)</span> and <span class="math inline">\(x&#39;\)</span>, the events <span class="math inline">\(\{X =x\}\)</span> and <span class="math inline">\(\{X =x&#39;\}\)</span> are disjoint. Thus for any set <span class="math inline">\(\bar{x}\)</span> of values of <span class="math inline">\(X\)</span>, we have <span class="math display">\[\mathbf{P}\left[{X \in \bar{x}}\right] = \sum_{x \in \bar{x}}{\mathbf{P}_{X}(x)}.\]</span> Furthermore, since <span class="math inline">\(X\)</span> is a function on the sample space, the events corresponding to the different values of <span class="math inline">\(X\)</span> partition the sample space, and we have <span class="math display">\[\sum_{x}{\mathbf{P}_{X}(x)} = 1.\]</span> These are the important properties of probability mass functions: they are non-negative, normalizing, and are additive in a certain sense.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Note that much like a probability measure, a probability mass function is
+a non-negative function.
+It is also additive in a similar sense: for any distinct $x$ and $x'$, the
+events $\event{X}{x}$ and $\event{X}{x'}$ are disjoint.
+Thus for any set $\bar{x}$ of values of $X$, we have 
+\[
+\prob{X \in \bar{x}} = \sum_{x \in \bar{x}}{\pmf{X}(x)}.
+\]
+Furthermore, since $X$ is a function on the sample space, the events
+corresponding to the different values of $X$ partition the sample
+space, and we have
+\[
+\sum_{x}{\pmf{X}(x)} = 1.
+\]
+These are the important properties of probability mass functions: they
+are non-negative, normalizing, and are additive in a certain sense.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::compute
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::compute
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>We can also compute the probability mass function for multiple random variables defined for the same probability space. For example, the <strong><em>joint probability mass function</em></strong> for two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, written <span class="math inline">\(\mathbf{P}_{X,Y}(x,y)\)</span> denotes the probability of the event <span class="math inline">\(\{X =x\} \cap \{Y =y\}\)</span>, i.e., <span class="math display">\[\mathbf{P}_{X,Y}(x,y) = \mathbf{P}\left[{\{X =x\} \cap \{Y =y\}}\right] = \mathbf{P}\left[{X = x, Y = y}\right].\]</span> Here <span class="math inline">\(\mathbf{P}\left[{X = x, Y = y}\right]\)</span> is shorthand for <span class="math inline">\(\mathbf{P}\left[{\{X =x\} \cap \{Y =y\}}\right]\)</span>.</p>
+<p>In our analysis or randomized algorithms, we shall repeatedly encounter a number of well-known random variables and create new ones from existing ones by composition.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+We can also compute the probability mass function for multiple random
+variables defined for the same probability space.
+For example, the \defn{joint probability mass function} for two random
+variables $X$ and $Y$, written $\pmf{X,Y}(x,y)$ denotes the
+probability of the event $\event{X}{x} \cap \event{Y}{y}$, i.e.,
+\[
+\pmf{X,Y}(x,y) = \prob{\event{X}{x} \cap \event{Y}{y}} = \prob{X = x, Y = y}.
+\]
+Here
+ $\prob{X = x, Y = y}$ is shorthand for   $\prob{\event{X}{x} \cap \event{Y}{y}}$.
+
+
+In our analysis or randomized algorithms, we shall repeatedly
+encounter a number of well-known random variables and create new ones
+from existing ones by composition.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Bernoulli, Binomial, and Geometric RVs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Bernoulli, Binomial, and Geometric RVs
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:probability::randvar::standards
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::bernoulli-random-variable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Bernoulli Random Variable
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Bernoulli Random Variable
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::bernoulli-random-variable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Suppose that we toss a coin that comes up a head with probability <span class="math inline">\(p\)</span> and a tail with probability <span class="math inline">\(1-p\)</span>. The <strong><em>Bernoulli random variable</em></strong> takes the value <span class="math inline">\(1\)</span> if the coin comes up heads and <span class="math inline">\(0\)</span> if it comes up tails. In other words, it is an indicator random variable indicating heads. Its probability mass function is <span class="math display">\[\mathbf{P}_{X}(x) =   
+\left\{  
+\begin{array}{ll}  
+p &amp; \mbox{if}~x = 1  
+\\  
+1-p &amp; \mbox{if}~x = 0.  
+\end{array}  
+\right.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Suppose that we toss a  coin that comes up a head with probability $p$
+and a tail with probability $1-p$.
+The \defn{Bernoulli random variable} takes the value $1$ if the coin
+comes up heads and $0$ if it comes up tails.
+In other words, it is an indicator random variable indicating heads.
+Its probability mass function is 
+\[
+\pmf{X}(x) = 
+\left\{
+\begin{array}{ll}
+p & \mbox{if}~x = 1
+\\
+1-p & \mbox{if}~x = 0.
+\end{array}
+\right.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::binomial-random-variable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Binomial Random Variable
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Binomial Random Variable
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::binomial-random-variable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider <span class="math inline">\(n\)</span> Bernoulli trials with probability <span class="math inline">\(p\)</span>. We call the random variable <span class="math inline">\(X\)</span> denoting the number of heads in the <span class="math inline">\(n\)</span> trials as the <strong><em>Binomial random variable</em></strong> . Its probability mass function for any <span class="math inline">\(0 \le x \le n\)</span> is <span class="math display">\[\mathbf{P}_{X}(x) = {n \choose x}\,p^x\,(1-p)^{n-x}.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider $n$ Bernoulli trials with probability $p$.  We call the
+random variable $X$ denoting the number of heads in the $n$ trials as
+the \defn{Binomial random variable}.
+Its probability mass function for any $0 \le x \le n$ is 
+\[
+\pmf{X}(x) = {n \choose x}\,p^x\,(1-p)^{n-x}.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::geometric-random-variable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Geometric Random Variable
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Geometric Random Variable
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::geometric-random-variable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider performing Bernoulli trials with probability <span class="math inline">\(p\)</span> until the coin comes up heads and <span class="math inline">\(X\)</span> denote the number of trials needed to observe the first head. The random variable <span class="math inline">\(X\)</span> is called the <strong><em>geometric random variable</em></strong> . Its probability mass function for any <span class="math inline">\(0 \le x\)</span> is <span class="math display">\[\mathbf{P}_{X}(x) = (1-p)^{x-1} p.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider performing Bernoulli trials with probability $p$ until the
+coin comes up heads and  $X$ denote the number of trials needed to
+observe the first head. 
+The random variable $X$ is called the \defn{geometric random variable}.
+Its probability mass function for any $0 \le x$ is 
+\[
+\pmf{X}(x) = (1-p)^{x-1} p.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Functions of Random Variables
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Functions of Random Variables
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:probability::randvar::functionsof
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::often
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::often
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>It is often useful to “apply” a function to one or more random variables to generate a new random variable. Specifically if we have a function <span class="math inline">\(f : \mathbb{R} \rightarrow \mathbb{R}\)</span> and a random variable <span class="math inline">\(X\)</span> we can compose the two giving a new random variable: <span class="math display">\[Y(x) = f(X(x))\]</span> We often write this shorthand as <span class="math inline">\(Y = f(X)\)</span>. Similarly for two random variables <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> we write <span class="math inline">\(Z = X + Y\)</span> as shorthand for <span class="math display">\[Z(x) = X(x) + Y(x)\]</span> or equivalently <span class="math display">\[Z = \lambda x . (X(x) + Y(x))\]</span></p>
+<p>The probability mass function for the new variable can be computed by “massing” the probabilities for each value. For example, for a function of a random variable <span class="math inline">\(Y = f(X)\)</span>, we can write the probability mass function as <span class="math display">\[\mathbf{P}_{Y}(y) = \mathbf{P}\left[{Y = y}\right] = \sum_{x ~\mid~f(x) = y}{\mathbf{P}_{X}(x)}~.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+It is often useful to ``apply'' a function to one or more random
+    variables to generate a new random variable.   Specifically if we
+    have a
+    function $f : \mathbb{R} \rightarrow \mathbb{R}$ and
+    a random variable $X$ we can compose the two giving a new
+    random variable:
+    \[Y(x) = f(X(x)) \]
+    We often write this shorthand as $Y = f(X)$.
+    Similarly for two random variables $X$ and $Y$
+    we write $Z = X + Y$ as shorthand for 
+        \[Z(x) = X(x) + Y(x) \]
+    or equivalently
+        \[Z = \lambda x . (X(x) + Y(x)) \]
+
+The probability mass function for the new variable can be computed by
+``massing'' the probabilities for each value.
+For example, for a function of a random variable $Y = f(X)$, we can
+write the probability mass function as 
+\[
+\pmf{Y}(y) = \prob{Y = y} = \sum_{x \sucht f(x) = y}{\pmf{X}(x)}~.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:probability::randvar::bernoulli
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Let <span class="math inline">\(X\)</span> be a Bernoulli random variable with parameter <span class="math inline">\(p\)</span>. We can define a new random variable <span class="math inline">\(Y\)</span> as a transformation of <span class="math inline">\(X\)</span> by a function <span class="math inline">\(f(\cdot)\)</span>. For example, <span class="math inline">\(Y = f(X) = 9X + 3\)</span> is random variable that transforms <span class="math inline">\(X\)</span>, e.g., <span class="math inline">\(X = 1\)</span> would be transformed to <span class="math inline">\(Y  
+= 12\)</span>. The probability mass function for <span class="math inline">\(Y\)</span> reflects that of <span class="math inline">\(X\)</span>, Its probability mass function is <span class="math display">\[\mathbf{P}_{Y}(y) =   
+\left\{  
+\begin{array}{ll}  
+p &amp; \mbox{if}~y = 12  
+\\  
+1-p &amp; \mbox{if}~y = 3.  
+\end{array}  
+\right.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Let $X$ be a Bernoulli random variable with parameter $p$.  We can
+define a new random variable $Y$ as a transformation of $X$ by a
+function $f(\cdot)$.  For example, $Y = f(X) = 9X + 3$ is random
+variable that transforms $X$, e.g., $X = 1$ would be transformed to $Y
+= 12$.
+The probability mass function for $Y$ reflects that of $X$,
+Its probability mass function is 
+\[
+\pmf{Y}(y) = 
+\left\{
+\begin{array}{ll}
+p & \mbox{if}~y = 12
+\\
+1-p & \mbox{if}~y = 3.
+\end{array}
+\right.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:probability::randvar::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the random variable <span class="math inline">\(X\)</span> with the probability mass function <span class="math display">\[\mathbf{P}_{X}(x) =   
+\left\{  
+\begin{array}{lll}  
+0.25  &amp; \mbox{if} &amp; x = -2  
+\\  
+0.25  &amp; \mbox{if} &amp; x = -1  
+\\  
+0.25  &amp; \mbox{if} &amp; x = 0  
+\\  
+0.25  &amp; \mbox{if} &amp; x = 1  
+\end{array}  
+\right.\]</span></p>
+<p>We can calculate the probability mass function for the random variable <span class="math inline">\(Y = X^2\)</span> as follows <span class="math inline">\(\mathbf{P}_{Y}(y) = \sum_{x ~\mid~x^2 =  
+  y}\mathbf{P}_{X}(x)\)</span>. This yields <span class="math display">\[\mathbf{P}_{Y}(y) =   
+\left\{  
+\begin{array}{lll}  
+0.25  &amp; \mbox{if} &amp; y = 0  
+\\  
+0.5  &amp; \mbox{if} &amp; y = 1  
+\\  
+0.25  &amp; \mbox{if} &amp; y = 4.  
+\end{array}  
+\right.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the random variable $X$ with the probability mass function 
+\[
+\pmf{X}(x) = 
+\left\{
+\begin{array}{lll}
+0.25  & \mbox{if} & x = -2
+\\
+0.25  & \mbox{if} & x = -1
+\\
+0.25  & \mbox{if} & x = 0
+\\
+0.25  & \mbox{if} & x = 1
+\end{array}
+\right.
+\]
+
+We can calculate the probability mass function for the random variable
+$Y = X^2$ as follows $\pmf{Y}(y) = \sum_{x \sucht x^2 =
+  y}\pmf{X}(x)$.
+This yields
+\[
+\pmf{Y}(y) = 
+\left\{
+\begin{array}{lll}
+0.25  & \mbox{if} & y = 0
+\\
+0.5  & \mbox{if} & y = 1
+\\
+0.25  & \mbox{if} & y = 4.
+\end{array}
+\right.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Conditioning
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Conditioning
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:probability::randvar::conditioning
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='flex'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::condition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::condition
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In the same way that we can condition an event on another, we can also condition a random variable on an event or on another random variable. Consider a random variable <span class="math inline">\(X\)</span> and an event <span class="math inline">\(A\)</span> in the same probability space, we define the <strong><em>conditional probability mass function</em></strong> of <span class="math inline">\(X\)</span> conditioned on <span class="math inline">\(A\)</span> as <span class="math display">\[\mathbf{P}_{X {\:\mid\:}A} = \mathbf{P}\left[{X = x {\:\mid\:}A}\right] = \frac{\mathbf{P}\left[{\{X =x\} \cap A}\right]}{\mathbf{P}\left[{A}\right]}.\]</span> Since for different values of <span class="math inline">\(x\)</span>, <span class="math inline">\(\{X =x\} \cap A\)</span>’s are disjoint and since <span class="math inline">\(X\)</span> is a function over the sample space, conditional probability mass functions are normalizing just like ordinary probability mass functions, i.e., <span class="math inline">\(\sum_{x \in X}{\mathbf{P}_{X {\:\mid\:}A}(x)} = 1\)</span>. Thus just as we can treat conditional probabilities as ordinary probabilities, we can treat conditional probability mass functions also as ordinary probability mass functions.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In the same way that we can condition an event on another, we can also
+condition a random variable on an event or on another random variable.
+Consider a random variable $X$ and an event $A$ in the same probability
+space, we define the \defn{conditional probability mass function} of
+$X$ conditioned on  $A$ as 
+\[
+\pmf{X \given A} = \prob{X = x \given A} = \frac{\prob{\event{X}{x} \cap A}}{\prob{A}}.
+\]
+Since for different values of $x$, $\event{X}{x} \cap A$'s are
+disjoint and since $X$ is a function over the sample space,
+conditional probability mass functions are normalizing just like
+ordinary probability mass functions, i.e., $\sum_{x \in X}{\pmf{X \given A}(x)} = 1$.
+Thus just as we can treat conditional probabilities as ordinary
+probabilities, we can treat conditional probability  mass functions
+also as ordinary probability mass functions.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+<atom name='example'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+xmpl:probability::randvar::roll
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Roll a pair of dice and let <span class="math inline">\(X\)</span> be the sum of the face values. Let <span class="math inline">\(A\)</span> be the event that the second roll came up <span class="math inline">\(6\)</span>. We can find the conditional probability mass function <span class="math display">\[\begin{array}{lll}  
+\mathbf{P}_{X {\:\mid\:}A}(x) &amp; = &amp; \frac{\mathbf{P}\left[{\{X =x\} \cap A}\right]}{\mathbf{P}\left[{A}\right]}  
+\\  
+&amp; = &amp;   
+\left\{  
+\begin{array}{ll}  
+\frac{1/36}{1/6} = 1/6 &amp; \mbox{if}~x = 7,  \ldots, 12.  
+\\  
+0 &amp; \mbox{otherwise}  
+\end{array}  
+\right.  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Roll a pair of dice and let $X$ be the sum of the face values.  Let
+$A$ be the event that the second roll came up $6$.
+We can find the conditional probability mass function 
+\[
+\begin{array}{lll}
+\pmf{X \given A}(x) & = & \frac{\prob{\event{X}{x} \cap A}}{\prob{A}}
+\\
+& = & 
+\left\{
+\begin{array}{ll}
+\frac{1/36}{1/6} = 1/6 & \mbox{if}~x = 7,  \ldots, 12.
+\\
+0 & \mbox{otherwise}
+\end{array}
+\right.
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- example -->
+
+</segment> <!-- flex -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::conditional-probability-mass-function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Conditional Probability Mass Function
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Conditional Probability Mass Function
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::conditional-probability-mass-function
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Since random variables closely correspond with events, we can condition a random variable on another. More precisely, let <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> be two random variables defined on the same probability space. We define the <strong><em>conditional probability mass function</em></strong> of <span class="math inline">\(X\)</span> with respect to <span class="math inline">\(Y\)</span> as <span class="math display">\[\begin{array}{l}  
+\mathbf{P}_{X {\:\mid\:}Y}(x {\:\mid\:}y) = \mathbf{P}\left[{X = x {\:\mid\:}Y = y}\right].  
+\end{array}\]</span></p>
+<p>We can rewrite this as <span class="math display">\[\begin{array}{lll}  
+\mathbf{P}_{X {\:\mid\:}{} Y}(x {\:\mid\:}{} y)   
+&amp; = &amp; \mathbf{P}\left[{X = x {\:\mid\:}{} Y = y}\right]  
+\\[2mm]  
+&amp; = &amp; \frac{\mathbf{P}\left[{X = x, Y = y}\right]}{\mathbf{P}\left[{Y = y}\right]}  
+\\[2mm]  
+&amp; = &amp; \frac{\mathbf{P}_{X,Y}(x,y)}{\mathbf{P}_{Y}{y}}.  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Since random variables closely correspond with events, we can
+condition a random variable on another.
+More precisely, let $X$ and $Y$ be two random variables defined on the
+same probability space.
+We define the \defn{conditional probability mass function} of $X$ with
+respect to $Y$ as 
+\[
+\begin{array}{l}
+\pmf{X \given Y}(x \given y) = \prob{X = x \given Y = y}.
+\end{array}
+\] 
+
+We can rewrite this as 
+\[
+\begin{array}{lll}
+\pmf{X \given{} Y}(x \given{} y) 
+& = & \prob{X = x \given{} Y = y}
+\\[2mm]
+& = & \frac{\prob{X = x, Y = y}}{\prob{Y = y}}
+\\[2mm]
+& = & \frac{\pmf{X,Y}(x,y)}{\pmf{Y}{y}}.
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::conditional-pmfs-are-pmfs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Conditional PMFs are PMFs
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Conditional PMFs are PMFs
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::conditional-pmfs-are-pmfs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>Consider the function <span class="math inline">\(\mathbf{P}_{X {\:\mid\:}Y}(x {\:\mid\:}y)\)</span> for a fixed value of <span class="math inline">\(y\)</span>. This is a non-negative function of <span class="math inline">\(x\)</span>, the event corresponding to different values of <span class="math inline">\(x\)</span> are disjoint, and they partition the sample space, the conditional mass functions are normalizing <span class="math display">\[\sum_{x}{\mathbf{P}_{X {\:\mid\:}Y}(x {\:\mid\:}y)} = 1.\]</span> Conditional probability mass functions thus share the same properties as probability mass functions.</p>
+<p>By direct implication of its definition, we can use conditional probability mass functions to calculate joint probability mass functions as follows <span class="math display">\[\begin{array}{lll}  
+\mathbf{P}_{X,Y}(x,y) = \mathbf{P}_{X}(x) \mathbf{P}_{Y {\:\mid\:}X}(y {\:\mid\:}x)  
+\\  
+\mathbf{P}_{X,Y}(x,y) = \mathbf{P}_{Y}(y) \mathbf{P}_{X {\:\mid\:}Y}(x {\:\mid\:}y).  
+\end{array}\]</span></p>
+<p>As we can compute total probabilities from conditional ones as we saw earlier in this section, we can calculate marginal probability mass functions from conditional ones: <span class="math display">\[\mathbf{P}_{X}(x) = \sum_{y}{\mathbf{P}_{X,Y}(x,y)} = \sum_{y}{\mathbf{P}_{Y}(y)\mathbf{P}_{X {\:\mid\:}Y}(x {\:\mid\:}y)}.\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider the function $\pmf{X \given Y}(x \given y)$ for a fixed value
+of $y$.  This is a non-negative function of $x$, the event
+corresponding to different values of $x$ are disjoint, and they
+partition the sample space, the conditional mass functions are
+normalizing
+\[
+\sum_{x}{\pmf{X \given Y}(x \given y)} = 1. 
+\]
+Conditional probability mass functions thus share the same properties
+as probability mass functions.
+
+By direct implication of its definition, we can use conditional
+probability mass functions to calculate joint probability mass
+functions as follows
+\[
+\begin{array}{lll}
+\pmf{X,Y}(x,y) = \pmf{X}(x) \pmf{Y \given X}(y \given x)
+\\
+\pmf{X,Y}(x,y) = \pmf{Y}(y) \pmf{X \given Y}(x \given y).
+\end{array}
+\]
+
+As we can compute total probabilities from conditional ones as we saw
+earlier in this section, we can calculate marginal probability
+mass functions from conditional ones:
+\[
+\pmf{X}(x) = \sum_{y}{\pmf{X,Y}(x,y)} = \sum_{y}{\pmf{Y}(y)\pmf{X \given Y}(x \given y)}.
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Independence
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Independence
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:probability::randvar::independence
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:probability::randvar::notion
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:probability::randvar::notion
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>As with the notion of independence between events, we can also define independence between random variables and events. We say that a random variable <span class="math inline">\(X\)</span> is <strong><em>independent of an event</em></strong></p>
+<p><span class="math inline">\(A\)</span>, if <span class="math display">\[\mbox{for all}~x: \mathbf{P}\left[{\{X =x\} \cap A}\right] = \mathbf{P}\left[{X = x}\right] \cdot \mathbf{P}\left[{A}\right]~.\]</span> When <span class="math inline">\(\mathbf{P}\left[{A}\right]\)</span> is positive, this is equivalent to <span class="math display">\[\mathbf{P}_{X {\:\mid\:}A} (x) = \mathbf{P}_{X}(x).\]</span></p>
+<p>Generalizing this to a pair of random variables, we say a random variable <span class="math inline">\(X\)</span> is <strong><em>independent of a random variable</em></strong> <span class="math inline">\(Y\)</span> if <span class="math display">\[\mbox{for all}~x, y: \mathbf{P}\left[{X = x, Y = y}\right] = \mathbf{P}\left[{X = x}\right] \cdot \mathbf{P}\left[{Y = y}\right]\]</span> or equivalently <span class="math display">\[\mbox{for all}~x, y: \mathbf{P}_{X,Y}(x,y) = \mathbf{P}_{X}(x) \cdot \mathbf{P}_{Y}(y).\]</span></p>
+<p>In our two dice example, a random variable <span class="math inline">\(X\)</span> representing the value of the first dice and a random variable <span class="math inline">\(Y\)</span> representing the value of the second dice are independent. However <span class="math inline">\(X\)</span> is not independent of a random variable <span class="math inline">\(Z\)</span> representing the sum of the values of the two dice.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+As with the notion of independence between events, we can also define
+independence between random variables and events.
+We say that a random variable $X$ is \defn{independent of an event}
+$A$, if 
+\[
+\mbox{for all}~x: \prob{\event{X}{x} \cap A} = \prob{X = x} \cdot \prob{A}~.
+\] 
+When $\prob{A}$ is positive, this is equivalent to 
+\[
+\pmf{X \given A} (x) = \pmf{X}(x).
+\]
+
+Generalizing this to a pair of random variables, we say a random variable
+$X$ is \defn{independent of a random variable} $Y$ if 
+\[
+\mbox{for all}~x, y: \prob{X = x, Y = y} = \prob{X = x} \cdot \prob{Y = y}
+\]
+or equivalently
+\[
+\mbox{for all}~x, y: \pmf{X,Y}(x,y) = \pmf{X}(x) \cdot \pmf{Y}(y).
+\]
+
+In our two dice
+example, a random variable $X$ representing the value of the first
+dice and a random variable $Y$ representing the value of the second
+dice are independent. 
+However $X$ is not independent of a random variable $Z$ representing
+the sum of the values of the two dice.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+</segment> <!-- chapter -->

@@ -1,0 +1,105 @@
+\section{Analysis of Shortest-Superstring Algorithms}
+
+As examples of how to use our cost model we will analyze a couple of
+the algorithms we described for the shortest superstring problem: the
+brute force algorithm and the greedy algorithm.
+
+\subsection{The Brute Force Shortest Superstring Algorithm}
+
+Recall that the idea of the brute force algorithm for the SS problem
+is to try all permutations of the input strings and for each
+permutation to determine the maximal overlap between adjacent strings
+and remove them.  We then pick whichever remaining string is shortest,
+if there is a tie we pick any of the shortest.  We can calculate
+the overlap between all pairs of strings in a preprocessing phase.  
+Let $n$ be the size of the input $S$ and $m$ be the total number of characters
+across all strings in $S$, i.e.,
+\[ m \;=\; \sum_{s \in S} |s|. \] Note that $n \leq m$.  The
+preprocessing step can be done in $O(m^2)$ work and $O(\log n)$ span
+(see analysis below).  This is a low order term compared to the other
+work, as we will see, so we can ignore it.
+
+Now to calculate the length of a given permutation of the strings with
+overlaps removed we can look at adjacent pairs and look up their
+overlap in the precomputed table.  Since there are $n$ strings and
+each lookup takes constant work, this requires $O(n)$ work.  Since all
+lookups can be done in parallel, it will require only $O(1)$ span.
+Finally we have to sum up the overlaps and subtract it from $m$.  The
+summing can be done with a \textbf{reduce} in $O(n)$ work and $O(\log
+n)$ span.  Therefore the total cost is $O(n)$ work and $O(\log n)$
+span.
+
+As discussed in \chref{genome} the total number of permutations is
+$n!$, each of which we have to check for the length.  Therefore the
+total work is $O(n n!) = O((n+1)!)$.  What about the span?  Well we
+can run all the tests in parallel, but we first have to generate the
+permutations.  One simple way is to start by picking in parallel each
+string as the first string, and then for each of these picking in
+parallel another string as the second, and so forth.  The pseudo code
+looks something like this:
+
+%% For each element s
+%%   Find all permutations that start s.
+\begin{lstlisting}[numbers=none]
+permutations$(S)$ =
+  if $|S| = 1$ then $\cset{S}$
+  else flatten($\{$append$(\cseq{s}, p)$ : $s \in S$, $p \in$ permutations$(S \setminus s) \}$)
+             
+\end{lstlisting}
+
+What is the span of this code?
+
+%\newcommand{\fjoin}{\texttt{join}\xspace} 
+%\newcommand{\fovlp}{\texttt{overlap}\xspace}
+
+\subsection{The Greedy Shortest Superstring Algorithm}
+
+We'll consider a straightforward implementation, although the analysis
+is a little tricky since the strings can vary in length.  First we
+note that calculating $\fovlp(s_1,s_2)$ and $\fjoin(s_1,s_2)$ can be
+done in $O(|s_1| |s_2|)$ work and $O(\log (|s_1|+|s_2|))$ span.  This
+is simply by trying all overlap positions between the two strings,
+seeing which ones match, and picking the largest.  The logarithmic
+span is needed for picking the largest matching overlap using a
+reduce.
+
+Let $W_{ov}$ and $S_{ov}$ be the work and span for calculating
+all pairs of overlaps (the line
+\{(\fovlp\!\!$(s_i, s_j), s_i, s_j) : s_i \in S, s_j \in S, s_i \neq s_j$\}),
+and for our set of input snipets $S$ recall that $m =  \sum_{x \in S} |x|$.
+
+We have
+\begin{eqnarray*}
+W_{ov} & \leq & \sum_{i=1}^{n}\sum_{j=1}^{n} W(\fovlp(s_i,s_j)))\\
+  & = & \sum_{i=1}^{n}\sum_{j=1}^{n} O(|s_i| |s_j|)\\
+  & \leq & \sum_{i=1}^{n}\sum_{j=1}^{n} (k_1 + k_2 |s_i| |s_j|)\\
+  & =    & k_1 n^2 + k_2 \sum_{i=1}^{n}\sum_{j=1}^{n} (|s_i| |s_j|)\\
+  & =    & k_1 n^2 + k_2 \sum_{i=1}^{n} \left(|s_i| \sum_{j=1}^{n} |s_j|\right)\\
+  & =    & k_1 n^2 + k_2 \sum_{i=1}^{n} (|s_i| m) \\
+  & =    & k_1 n^2 + k_2 m \sum_{i=1}^{n} |s_i| \\
+  & =    & k_1 n^2 + k_2 m^2\\
+  & \in  & O(m^2)  \mbox{~~~~~~~~~~~since } m \geq n.
+\end{eqnarray*}
+and since all pairs can be done in parallel,
+\begin{eqnarray*}
+S_{ov} & \leq & \max_{i=1}^{n}\max_{j=1}^{n} S(\fovlp(s_i,s_j)))\\
+    & \in  & O(\log m)
+\end{eqnarray*}
+The $\argmax$ for finding the maximum overlap 
+can be computed in $O(m^2)$ work and $O(\log m)$
+span using a simple reduce.  The other steps have less work
+and span.  Therefore, not including the recursive
+call each call to \texttt{greedyApproxSS} costs $O(m^2)$
+work and $O(\log m)$ span.
+
+Finally, we observe that each call to \texttt{greedyApproxSS} creates $S'$ with
+one fewer element than $S$, so there are at most $n$ calls to
+\texttt{greedyApproxSS}.  These calls are inherently sequential because one call
+must complete before the next call can take place.  Hence, the total
+cost for the algorithm is $O(n m^2)$ work and $O(n \log m)$ span,
+which is highly parallel.
+
+
+\begin{exercise}
+Come up with a more efficient way of implementing the greedy method.
+\end{exercise}
