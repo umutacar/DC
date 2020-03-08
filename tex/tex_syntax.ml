@@ -101,6 +101,7 @@ let kw_short_answer = "\\shortanswer"
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
 let kw_part = "\\part"
+let kw_refsol = "\\sol"
 
 (* END: Keywords *)
 
@@ -295,6 +296,7 @@ let prompt_kinds =
    kw_choice, ();
    kw_choice_correct, ();
    kw_part, ()
+   kw_refsol, ()
   ]
 
 let cookie_kinds = 
