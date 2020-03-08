@@ -6,9 +6,6 @@ open Utils
 
 (* Turn off all prints *)
 
-let d_printf args = 
-    ifprintf stdout args
-
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax
@@ -209,13 +206,13 @@ struct
 		  heading ^ " " ^ l ^ 
 		  body 
 
-  let to_md prompt = 
-		let {kind; point_val; title; label; body} = prompt in
+  let to_md cookie = 
+		let {kind; point_val; title; label; body} = cookie in
 		let point_val = normalize_point_val point_val in
 		let point_val = Md.mk_point_val point_val in
 		let heading = Md.mk_command kind point_val in
 		let l = 
-			if label_is_given prompt then	""
+			if label_is_given cookie then	""
 			else Md.mk_label label 
 
 		in
