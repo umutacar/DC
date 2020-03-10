@@ -102,11 +102,11 @@ let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
 let kw_part = "\\part"
 
-let kw_cookie_refsol = "\\sol"
 let kw_cookie_explain = "\\explain"
 let kw_cookie_hint = "\\hint"
 let kw_cookie_notes = "\\notes"
-let  kw_cookie_rubric = "\\rubric"
+let kw_cookie_refsol = "\\sol"
+let kw_cookie_rubric = "\\rubric"
 
 (* END: Keywords *)
 
@@ -186,14 +186,14 @@ let label_prefix_one_choice = "prt-one-choice"
 let label_prefix_any_choice = "prt-any-choice"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
-let label_prefix_cookie_refsol = "cki-sol"
+let label_prefix_choice = "prt-choice"
+let label_prefix_choice_correct = "prt-choice"
 let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
 let label_prefix_cookie_notes = "cki-notes"
+let label_prefix_cookie_refsol = "cki-sol"
 let label_prefix_cookie_rubric = "cki-rubric"
 
-let label_prefix_choice = "chc"
-let label_prefix_choice_correct = "chc"
 
 let label_prefix_of_kind = 
   [
