@@ -262,7 +262,7 @@ struct
      r
 end
 
-type cookie = Cookie.t
+type t_cookie = Cookie.t
 
 module Prompt  = 
 struct
@@ -273,7 +273,7 @@ struct
 				mutable label: string option; 
 				depend: string list option;
 				body: string;
-				cookies: cookie list;
+				cookies: t_cookie list;
 				label_is_given: bool
 			} 
   let kind p = p.kind
@@ -383,7 +383,7 @@ struct
      r
 end
 
-type prompt = Prompt.t
+type t_prompt = Prompt.t
 
 (* A problem consist of the standard fields, plus
  * a list of cookies (hints, explanations, etc), 
@@ -399,8 +399,8 @@ struct
 				mutable label: string option; 
 				depend: string list option;
 				body: string;
-				cookies: cookie list;
-				prompts: prompt list
+				cookies: t_cookie list;
+				prompts: t_prompt list
 			} 
 
   let kind p = p.kind
@@ -520,7 +520,7 @@ struct
 
 end
 
-type problem = Problem.t
+type t_problem = Problem.t
 
 (* An Atom.
  * An atom consist of usual fields, plus an optional problem.
@@ -539,7 +539,7 @@ struct
 				depend: string list option;
 				body: string;
 				caption: string option;
-        problem: problem option; 
+        problem: t_problem option; 
 				label_is_given: bool
 			} 
   let kind a = a.kind
@@ -1379,10 +1379,13 @@ let validate ast =
  
 (* Create a problem from items *)
 
+(* An item is a kind * point value * body 
+ * all are strings.
+ *)
 type t_item = (string * string option * string)
 
 (* Create a cookie from an item *)
-let cookie_of_item (item: t_item): cookie = 
+let cookie_of_item (item: t_item): t_cookie = 
 	let (kind, point_val, body) = item in
 	if Tex.is_cookie kind then
 		Cookie.make ~point_val kind body 
@@ -1392,7 +1395,7 @@ let cookie_of_item (item: t_item): cookie =
 (* Create a prompt from an item list that starts with a prompt and 
  * continues with the cookies of that prompt.
  *)
-let prompt_of_items (items: t_item list): prompt = 
+let prompt_of_items (items: t_item list): t_prompt = 
 	match items with 
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
@@ -1418,7 +1421,7 @@ let problem_of_items (items: t_item list) =
    * current prompt is a list of items.
    * current prompts is a list of prompts.
    *)
-  let collect (current: (t_item list) * ((t_item list) list)) item = 
+  let collect (current: (t_item list) * ((t_item list) list)) (item: t_item) = 
 		let (cp, prompts) = current in
 		let  (kind, point_val, body) = item in
 		let _ = d_printf "ast.collect: kind = %s\n" kind in
