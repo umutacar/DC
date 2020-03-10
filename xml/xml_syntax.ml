@@ -445,6 +445,8 @@ let mk_problem ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~cookies ~promp
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
+  let body_xml = mk_body body_xml in
+  let body_src = mk_body_src body_src in
   let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_src; body_xml; cookies; prompts] in
     mk_segment_generic kind fields
 
