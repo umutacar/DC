@@ -385,143 +385,6 @@ end
 
 type t_prompt = Prompt.t
 
-(* A problem consist of the standard fields, plus
- * a list of cookies (hints, explanations, etc), 
- * and a list of prompts (problem parts).
- * Prompts serve as problem parts.
- *)
-module Problem =
-struct
-	type t = 
-			{	kind: string;
-				mutable point_val: string option;
-				title: string option;
-				mutable label: string option; 
-				depend: string list option;
-				body: string;
-				cookies: t_cookie list;
-				prompts: t_prompt list
-			} 
-
-  let kind p = p.kind
-  let point_val p = p.point_val
-  let title p = p.title
-	let label p = p.label
-	let depend p = p.depend
-	let body p = p.body
-	let cookies p = p.cookies
-	let prompts p = p.prompts
-
-	let make  
-			?kind: (kind = Tex.kw_cluster) 
-			?point_val: (point_val = None) 
-			?title: (title = None) 
-			?label: (label = None) 
-			?depend: (depend = None)
-			body 
-			cookies
-			prompts = 
-		
-				{ kind; point_val; title; label; depend; 
-					body=body; cookies = cookies; prompts=prompts }
-
-  (* Traverse (pre-order) problem by applying f to its fields *) 
-  let traverse problem state f = 
-		let {kind; point_val; title; label; depend; body; cookies; prompts} = problem in
-		let f_tr_cookie state prompt = Cookie.traverse prompt state f in
-		let f_tr_prompt state prompt = Prompt.traverse prompt state f in
-  
-		let _ = d_printf "Problem.traverse: %s\n" kind in
-		let s = f Ast_problem state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
-		let s = List.fold_left cookies ~init:s ~f:f_tr_cookie in
-		List.fold_left prompts ~init:s ~f:f_tr_prompt
-
-(*
-    let _ = d_printf_optstr "label " label in
-*)
-		  
-
-  let to_tex problem = 
-		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
-		let point_val = normalize_point_val_int point_val in
-		let point_val = Tex.mk_point_val point_val in
-		let title = Tex.mk_title title in
-		let heading = Tex.mk_command kind point_val in
-		let l = Tex.mk_label label in
-		let d = Tex.mk_depend depend in
-		let cookies = map_concat_with newline Cookie.to_tex cookies in
-		let prompts = map_concat_with newline Prompt.to_tex prompts in
-		  heading ^ " " ^ l ^  d ^ 
-      body ^ cookies ^ prompts
-
-  let to_md problem = 
-		let { kind; point_val; title; label; depend; body; cookies; prompts} = problem in
-		let point_val = normalize_point_val point_val in
-		let point_val = Md.mk_point_val point_val in
-		let title = Md.mk_title title in
-		let heading = Md.mk_command kind point_val in
-		let l = Md.mk_label label in
-		let d = Md.mk_depend depend in
-		let cookies = map_concat_with newline Cookie.to_md cookies in
-		let prompts = map_concat_with newline Prompt.to_md prompts in
-		  heading ^ " " ^ l ^  d ^ 
-      body ^ cookies ^ prompts
-
-  (* If problem doesn't have a label, then
-	 * assign fresh label to_tex problem prompt (unique wrt label_set).
-   * Return title and body tokens
-	 * To assign label use words from title and body.  
-	*)
-	let assign_label prefix label_set problem = 		
-    let _ =d_printf "Problem.assign_label\n" in
-		let t_c = List.map problem.cookies ~f:(Cookie.assign_label prefix label_set) in
-		let t_p = List.map problem.prompts ~f:(Prompt.assign_label prefix label_set) in
-		let (tt_c, tb_c) = collect_labels t_p in
-		let (tt_p, tb_p) = collect_labels t_p in
-		let (tt, tb) = tokenize_title_body (title problem) (Some (body problem)) in
-		let tt_all = tt @ tt_c @ tt_p in
-		let tb_all = tb @ tb_c @ tb_p in
-		let t_all = tt_all @ tb_all in
-		let _ = 
-			match  problem.label with 
-			| None ->
-					let lk = Tex_syntax.mk_label_prefix_from_kind problem.kind in
-					let l = Labels.mk_label_force label_set lk prefix t_all in
-					problem.label <- Some l
-		| Some _ -> ()
-		in
-		(tt_all, tb_all)
-
-  let body_to_xml translator problem =
-		let _ = d_printf "problem.body_to_xml: problem = %s\n" problem.kind in
-		translator Xml.body problem.body
-
-  let to_xml translator problem = 
-		let {kind; point_val; title; label; depend; body; cookies; prompts} = problem in
-		let point_val = normalize_point_val point_val in
-    let titles = str_opt_to_xml translator Xml.title title in
-    let depend = depend_to_xml depend in
-    let body_xml = body_to_xml translator problem in
-		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
-		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
-		let r = 
-			Xml.mk_problem 
-				~kind:kind 
-        ~pval:point_val
-        ~topt:titles
-        ~lopt:label
-				~dopt:depend 
-        ~body_src:body
-        ~body_xml
-        ~cookies
-        ~prompts
-   in
-     r
-
-end
-
-type t_problem = Problem.t
-
 (* An Atom.
  * An atom consist of usual fields, plus an optional problem.
  *)
@@ -539,7 +402,7 @@ struct
 				depend: string list option;
 				body: string;
 				caption: string option;
-        problem: t_problem option; 
+				prompts: t_prompt list;
 				label_is_given: bool
 			} 
   let kind a = a.kind
@@ -549,8 +412,9 @@ struct
 	let label a = a.label
 	let depend a = a.depend
 	let body a = a.body
-	let problem a = a.problem
+	let prompts a = a.prompts
 	let label_is_given a = a.label_is_given
+
 
   let make   
 			?pl: (pl = None) 
@@ -562,33 +426,31 @@ struct
 			?label: (label = None) 
 			?depend: (depend = None)
       ?caption: (caption = None)
-			?problem: (problem = None)
+			?prompts: (prompts = [])
 			kind
 			body = 
-
 		match label with 
 		| None -> 
-				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; prompts; body=body; 
 					label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; problem; body=body; 
+				{kind; point_val; pl; pl_version; title; cover; sound; label; depend; caption; prompts; body=body; 
 					label_is_given=true}
 
   (* Traverse atom by applying f to its fields *) 
   let traverse atom state f = 
-		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let {kind; point_val; title; label; depend; prompts; body} = atom in
 		let _ = d_printf "Atom.traverse: kind = %s \n" kind in
 (*		let _ = d_printf "Atom.traverse: body = %s \n" body in *)
 (*
     let _ = d_printf_optstr "label " label in
 *)
-    let s = f Ast_atom state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in
-	  match problem with 
-		| None -> s
-		| Some p -> Problem.traverse p s f 
+    let s = f Ast_atom state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:(Some body) in    
+		let f_tr_prompt state prompt = Prompt.traverse prompt state f in
+		List.fold_left prompts ~init:s ~f:f_tr_prompt
 
   let to_tex atom = 
-		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; problem; body} = atom in
+		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; prompts; body} = atom in
 		let _ = d_printf "Atom.to_tex kind = %s \n" kind in
 		let point_val = normalize_point_val_int point_val in
 		let point_val = Tex.mk_point_val point_val in
@@ -597,11 +459,7 @@ struct
     let kw_args = Tex.mk_kw_args kw_args in
     let _ = d_printf "title = %s kw_args = %s\n" title kw_args in
     let caption = Tex.mk_caption caption in
-		let problem = 
-			match problem with 
-			| None -> ""
-			| Some problem -> Problem.to_tex problem 
-		in
+		let prompts = map_concat_with newline Prompt.to_tex prompts in
 
 		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
     let _ = d_printf "h_begin = %s\n" h_begin in
@@ -623,19 +481,15 @@ struct
 				h_begin ^
 				l ^ 
 				d ^ 
-				body ^ newline ^ problem ^ newline ^
+				body ^ newline ^ prompts ^ newline ^
 				h_end		
 
   let to_md atom = 
-		let {kind; point_val; title; label; depend; problem; body} = atom in
+		let {kind; point_val; title; label; depend; prompts; body} = atom in
 		let point_val = normalize_point_val point_val in
 		let point_val = Md.mk_point_val point_val in
 		let title = Md.mk_title title in
-		let problem = 
-			match problem with 
-			| None -> ""
-			| Some problem -> Problem.to_md problem 
-		in
+		let prompts = map_concat_with newline Prompt.to_md prompts in
 		let h_begin = Md.mk_begin kind point_val title in
 		let h_end = Md.mk_end kind in
 		let l = 
@@ -648,7 +502,7 @@ struct
 		  h_begin ^
 		  l ^ 
 		  d ^ 
-		  body ^ newline ^ problem ^ newline ^
+		  body ^ newline ^ prompts ^ newline ^
       h_end		
     in
       (String.strip ~drop:is_vert_space a) ^ newline
@@ -661,10 +515,8 @@ struct
 	*)
 	let assign_label prefix label_set atom = 		
     let _ = d_printf "Atom.assign_label\n" in 
-		let (tt_p, tb_p) = 
-			match atom.problem with
-			| None -> ([], [])
-			| Some p -> Problem.assign_label prefix label_set p in
+		let t_p = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize_title_body (title atom) (Some (body atom)) in
 		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
 		let _ = 
@@ -706,16 +558,12 @@ struct
 		(* Translate body to xml *)
 		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
-		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; problem; body; caption} = atom in
+		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
+		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
     let captions = str_opt_to_xml translator Xml.caption caption in
-		let problem_xml:string = 
-			match problem with 
-			| None -> ""
-			| Some problem -> Problem.to_xml translator problem 
-		in
 		let r = 
 			Xml.mk_atom 
 				~kind:kind 
@@ -730,12 +578,7 @@ struct
         ~body_src:body
         ~body_xml:body_xml
         ~capopt:captions
-        ~problem_xml
-        ~ilist_opt:None
-        ~hints_opt:None
-        ~refsols_opt:None
-        ~explains_opt:None
-        ~rubric_opt:None
+        ~prompts
    in
      r
 end
@@ -1408,11 +1251,11 @@ let prompt_of_items (items: t_item list): t_prompt =
 			(printf "Parse Error: I was expecting a prompt here.";
 			 exit 1)
 
-(* Create a problem from an item list.
+(* Create a prompt list from an item list.
  * The item list must start with the problem.
  *)
-let problem_of_items (items: t_item list) =
-  (* Given current prompt, prompts pair and an item, 
+let prompts_of_items (items: t_item list) =
+  (* Given a pair `current` of prompt and prompts, and an item, 
 	 * this function looks at the item.
    * If the item's kind is a prompt kind, then it starts a new prompt 
    * and pushes the current prompt on to the prompts.
@@ -1420,11 +1263,16 @@ let problem_of_items (items: t_item list) =
    *
    * current prompt is a list of items.
    * current prompts is a list of prompts.
+   * example:
+   *     prompts = [ [prompt0, cookie00, cookie01], [prompt1, cookie10, cookie11]]
+   *     current prompt = [prompt2, cookie20, cookie21],
+   *     where prompt and cookie are both items.         
    *)
   let collect (current: (t_item list) * ((t_item list) list)) (item: t_item) = 
 		let (cp, prompts) = current in
 		let  (kind, point_val, body) = item in
 		let _ = d_printf "ast.collect: kind = %s\n" kind in
+
 		if Tex.is_prompt kind then
       (* item is a prompt *)
 			let prompt = [item] in
@@ -1437,29 +1285,17 @@ let problem_of_items (items: t_item list) =
 			let _ = printf "Parse Error: I was expecting a 'prompt' or a 'cookie'.\n" in
 			exit 1
 	in
-  (* Now we have all the prompts.  Construct the problems. *)
 	begin
 		match items with 
-		| [ ] -> None
+		| [ ] -> []
 		| item::items_rest ->
 				let (kind, point_val, body) = item in
-				if Tex.is_problem kind then
+				if Tex.is_primary_prompt kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
 					let prompts = prompts @ [prompt] in
-					match prompts with 
-					| problem::[ ] -> 
-							(* The problem has no parts *)
-							let cookies = List.map (List.drop problem 1) ~f:cookie_of_item  in
-							let p = Problem.make ~kind:kind ~point_val:point_val body cookies [] in
-							Some p
-					| problem::parts ->
-							(* The problem has parts *)
-							let cookies = List.map (List.drop problem 1) ~f:cookie_of_item  in
-							let parts = List.map parts ~f:prompt_of_items in
-							let p = Problem.make ~kind:kind ~point_val:point_val body cookies parts in
-							Some p
+            List.map prompts ~f:prompt_of_items
 				else
-					(printf "Parse Error: I was expecting a problem here.\n";
+					(printf "Parse Error: I was expecting a primary prompt here.\n";
 					 exit 1)
 	end

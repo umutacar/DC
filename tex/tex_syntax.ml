@@ -306,7 +306,7 @@ let atom_kinds =
   ]
 
 
-let problem_kinds = 
+let primary_prompt_kinds = 
   [
    kw_one_choice, ();
    kw_any_choice, ();
@@ -315,6 +315,7 @@ let problem_kinds =
   ]
 
 let prompt_kinds = 
+  primary_prompt_kinds @
   [
    kw_choice, ();
    kw_choice_correct, ();
@@ -572,8 +573,8 @@ let is_atom kind =
 					 None
 
 
-let is_problem kind = 
-   match List.Assoc.find problem_kinds ~equal: String.equal kind with 
+let is_primary_prompt kind = 
+   match List.Assoc.find primary_prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
 
