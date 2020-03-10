@@ -370,6 +370,7 @@ struct
 		let point_val = normalize_point_val point_val in
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml translator Xml.title title in
+		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
 		let r = 
 			Xml.mk_prompt 
 				~kind:kind 
@@ -379,6 +380,7 @@ struct
 				~dopt:depend 
         ~body_src:body
         ~body_xml:body_xml
+        ~cookies
    in
      r
 end
@@ -1287,7 +1289,7 @@ let prompts_of_items (items: t_item list) =
 	in
 	begin
 		match items with 
-		| [ ] -> []
+		| [ ] -> [ ]
 		| item::items_rest ->
 				let (kind, point_val, body) = item in
 				if Tex.is_primary_prompt kind then
