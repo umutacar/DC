@@ -95,8 +95,8 @@ let kw_theorem = "theorem"
 
 let kw_one_choice = "\\onechoice"
 let kw_any_choice = "\\anychoice"
-let kw_free_response = "\\freeresponse"
-let kw_short_answer = "\\shortanswer"
+let kw_free_response = "\\answer"
+let kw_short_answer = "\\ans"
 
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
