@@ -102,6 +102,12 @@ let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
 let kw_part = "\\part"
 
+let kw_cookie_refsol = "\\sol"
+let kw_cookie_explain = "\\explain"
+let kw_cookie_hint = "\\hint"
+let kw_cookie_notes = "\\notes"
+let  kw_cookie_rubric = "\\rubric"
+
 (* END: Keywords *)
 
 (* BEGIN: lstlisting arguments *)
@@ -176,10 +182,15 @@ let label_prefix_task = "tsk"
 let label_prefix_teachask = "tch"
 let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
-let label_prefix_one_choice = "prb"
-let label_prefix_any_choice = "prb"
-let label_prefix_short_answer = "prb"
-let label_prefix_free_response = "prb"
+let label_prefix_one_choice = "prt-one-choice"
+let label_prefix_any_choice = "prt-any-choice"
+let label_prefix_short_answer = "prt-ans"
+let label_prefix_free_response = "prt-answer"
+let label_prefix_cookie_refsol = "cki-sol"
+let label_prefix_cookie_explain = "cki-explain"
+let label_prefix_cookie_hint = "cki-hint"
+let label_prefix_cookie_notes = "cki-notes"
+let label_prefix_cookie_rubric = "cki-rubric"
 
 let label_prefix_choice = "chc"
 let label_prefix_choice_correct = "chc"
@@ -234,7 +245,11 @@ let label_prefix_of_kind =
    kw_task, label_prefix_task;
    kw_teachask, label_prefix_teachask;
    kw_teachnote, label_prefix_teachnote;
-   kw_theorem, label_prefix_theorem;
+   kw_theorem, label_prefix_theorem
+  ] 
+  @
+  (* Prompts *)
+  [
    kw_one_choice, label_prefix_one_choice;
    kw_any_choice, label_prefix_any_choice;
    kw_free_response, label_prefix_free_response;
@@ -242,6 +257,15 @@ let label_prefix_of_kind =
    kw_choice, label_prefix_choice;
    kw_choice_correct, label_prefix_choice_correct
   ]
+  @
+  (* Cookies *)
+  [
+   kw_cookie_refsol, label_prefix_cookie_refsol;
+   kw_cookie_explain, label_prefix_cookie_explain;
+   kw_cookie_hint, label_prefix_cookie_hint;
+   kw_cookie_notes, label_prefix_cookie_notes;
+   kw_cookie_rubric, label_prefix_cookie_rubric
+]
 
 let atom_kinds = 
   [kw_algorithm, ();
