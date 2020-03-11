@@ -286,7 +286,7 @@ atom:
 			 ~title:None
 			 ~label:None  
 			 ~caption:None
-			 ~problem:None
+			 ~prompts:[]
 			 Tex.kw_gram
 			 body
 	 in

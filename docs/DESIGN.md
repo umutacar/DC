@@ -64,6 +64,19 @@ The atom-level parser ...
 
   An atom is a preamble text followed by \begin{atom}...\end{atom}
 
+## Point System
+Note: I seemed to have done some work on developing a point system for Diderot but I have not documented it carefully.  What exists in the PRs is somewhat outdated.  I am starting to create some documentation here by inspecting the code.
+
+It is possible to assign points to atoms like this
+
+\begin{problem}[4p][Title]
+...
+\end{problem}
+
+\begin{problem}[4pts][Title]
+...
+\end{problem}
+
 ## Problems, Prompts, Cookies
 
   Each atom can be followed by a problem. The user writes the problem as a sequence of command-body pairs of the form

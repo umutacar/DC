@@ -226,8 +226,8 @@ let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 (* end: environments *)
 
 let p_caption = "\\caption"
-let p_short_answer = "\\shortanswer"
-let p_free_response = "\\freeresponse"
+let p_short_answer = "\\ans"
+let p_free_response = "\\answer"
 let p_one_choice  = "\\onechoice"
 let p_any_choice = "\\anychoice"
 
