@@ -27,7 +27,7 @@
 
 \section{Short Answers}
 
-\begin{problem}[4p][Classes]
+\begin{problem}[4p][Classes]  --> ATOM
 
 \used{Fall 14, Final}
 
@@ -35,7 +35,9 @@
 Lets say you are given a table that maps every student to the set of
 classes they take. 
 
-\answer
+NOTE: AFTER THIS THERE IS an ANSWER PROMPT.  THIS IS CURRENTLY MISSING FROM THE CHAPTER VIEW.
+
+\answer --> PROMPT
 Fill in the algorithm below that returns all classes,
 assuming there is at least one student in each class.  Your algorithm
 must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
@@ -49,7 +51,12 @@ fun allClasses($T$ : classSet studentTable) : classSet =
 @\vspace{.5in}@
 \end{lstlisting}
 
-\sol
+\explain
+
+\hint 
+here is a hint
+
+\sol --> COOKIE
 \begin{lstlisting}[numbers=none]
 fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
 \end{lstlisting}
@@ -62,6 +69,8 @@ fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
 
 \begin{problem}[10pts][Shortest Weighted]
 \used{Fall 14, Practice Exam II}
+
+NOTE: AFTER THIS THERE IS an ANSWER PROMPT.  THIS IS CURRENTLY MISSING FROM THE CHAPTER VIEW.
 
 \answer
 
@@ -82,6 +91,7 @@ BFS?
 %% \input{../../../setstables/bingled}
 \section{(Sets and Tables) Bingled}
 
+
 After forming your company Bingle to index the web allowing word
 searches based on logical combination of terms (e.g. ``big'' and
 ``small''), you discover that there are already a couple companies out
@@ -90,6 +100,7 @@ You therefore decide to extend yours with additional features.  In
 particular you want to support phrase queries: e.g. find all
 documents where ``fun algorithms'' appears.
 
+\begin{gram}
 You decide the right way to represent the index is as a table of sets
 where the keys of the table are strings (i.e. the words) and the
 elements of the sets are pairs of values consisting of a document
@@ -100,22 +111,23 @@ with integer document identifiers:
 \begin{quote}
 \begin{tabbing}
  $\langle$
-  \=(1, \ctext{``the big dog''}), \\
-  \>(2, \ctext{``a big dog ate a hat''}),\\
-  \>(3, \ctext{``i read a big book''}) $\rangle$
+  \=(1, \text{``the big dog''}), \\
+  \>(2, \text{``a big dog ate a hat''}),\\
+  \>(3, \text{``i read a big book''}) $\rangle$
 \end{tabbing}
 \end{quote}
+\end{gram}
 
-the document index would be represented as
-\begin{lstlisting}[numbers=none]
-idx = $\{~\ctext{``a''} \mapsto \cset{(2,0),(2,4),(3,2)},$
-        $\ctext{``big''} \mapsto \cset{(1,1),(2,1),(3,3)},$
-        $\ctext{``dog''} \mapsto \cset{(1,2),(2,2)},$
-        $\ldots~\}$
-\end{lstlisting}
-
+The document index would be represented as
+\[
+idx = \{~\text{``a''} \mapsto \set{(2,0),(2,4),(3,2)},
+        \text{``big''} \mapsto \set{(1,1),(2,1),(3,3)},
+        \text{``dog''} \mapsto \set{(1,2),(2,2)},
+        \ldots~\}
+\]
+%
 In particular you want to support the following interface
-\begin{lstlisting} [numbers=none]
+\begin{lstlisting}[numbers=none]
 signature INDEX = sig
   type word = string
   type docId = int
@@ -142,9 +154,10 @@ would return a sequence of identifiers of documents
 where the phrase ``Umut loves climbing'' appears.
 
  
-\begin{mproblem}
 
 \begin{problem}[8pts]
+
+NOTE: AFTER THIS THERE IS an ANSWER PROMPT.  THIS IS CURRENTLY MISSING FROM THE CHAPTER VIEW.
 \answer
 Show SML code to generate the index from the sequence of documents.
 It should not be more than 8 lines of code and assuming all words have
@@ -177,11 +190,11 @@ in
     Table.map Set.fromSeq wordTable
 end
 \end{lstlisting}
-
 \end{problem}
 
 
 \begin{problem}
+NOTE: AFTER THIS THERE IS an ANSWER PROMPT.  THIS IS CURRENTLY MISSING FROM THE CHAPTER VIEW.
 \answer
 % Show code for a function \texttt{adj(docList1, docList2)} that given
 % two docLists returns a docList in which those two words
@@ -225,7 +238,7 @@ fun find idx word =
 \end{lstlisting}
 \end{problem}
    
-\end{mproblem}
+
 
 %% \newpage
 %% \input{../../../shortest-paths/dijkstra-astar}
