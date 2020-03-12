@@ -1,0 +1,1386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<segment name='chapter'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+Practice Exam II
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Practice Exam II
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+ch:::practice-exam-ii
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prmbl:practice-exam-ii::questions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='preamble'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prmbl:practice-exam-ii::questions
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<ul>
+<li><p>There are 5 questions worth a total of points. The last few pages are an appendix with costs of sequence, set and table operations.</p></li>
+<li><p>You have 80 minutes to complete this examination.</p></li>
+<li><p>Please answer all questions in the space provided with the question. Clearly indicate your answers.</p></li>
+<li><p>You may refer to your one double-sided <span class="math inline">\(8\frac{1}{2} \times 11\)</span>in sheet of paper with notes, but to no other person or source, during the examination.</p></li>
+<li><p>Your answers for this exam must be written in blue or black ink.</p></li>
+</ul>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\newcommand{\numquestions}{5}
+
+\begin{itemize}
+\item There are \numquestions{} questions worth a total of \numpoints{} points.
+  The last few pages are an appendix with costs of sequence,
+  set and table operations.
+\item You have 80 minutes to complete this examination.
+\item Please answer all questions in the space provided with the
+  question.  Clearly indicate your answers.
+\item You may refer to your one double-sided $8\frac{1}{2} \times 11$in
+  sheet of paper with notes, but to no other person or source, during the
+  examination.
+
+\item Your answers for this exam must be written in blue or black ink.
+
+\end{itemize}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- preamble -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:practice-exam-ii::answers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:practice-exam-ii::answers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\titledquestion{Short Answers}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:practice-exam-ii::classes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Classes
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Classes
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:practice-exam-ii::classes
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+4.
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p><strong>Used: Fall 14, Final</strong></p>
+<p>Lets say you are given a table that maps every student to the set of classes they take.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\used{Fall 14, Final}
+
+
+Lets say you are given a table that maps every student to the set of
+classes they take.
+]]>
+</field> <!-- body_src -->
+<segment name='\freeresponse'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prb:practice-exam-ii::fill
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+Fill in the algorithm below that returns all classes,
+assuming there is at least one student in each class.  Your algorithm
+must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
+$n$ is the number of students and $m$ is the sum of the number of
+classes taken across all students.    Note, our solution is one line.
+
+
+\vspace{.3in}
+\begin{lstlisting}[numbers=none]
+fun allClasses($T$ : classSet studentTable) : classSet = 
+@\vspace{.5in}@
+\end{lstlisting}
+
+
+<p>Fill in the algorithm below that returns all classes, assuming there is at least one student in each class. Your algorithm must run in <span class="math inline">\(O(m \log n)\)</span> work and <span class="math inline">\(O((\log m)(\log n))\)</span> span, where <span class="math inline">\(n\)</span> is the number of students and <span class="math inline">\(m\)</span> is the sum of the number of classes taken across all students. Note, our solution is one line.</p>
+<pre data-numbers="none"><code>fun allClasses($T$ : classSet studentTable) : classSet =   
+@\vspace{.5in}@  </code></pre>
+
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+\sol:practice-exam-ii::numbers
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<pre data-numbers="none"><code>fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{lstlisting}[numbers=none]
+fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+
+</segment> <!-- \freeresponse -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:practice-exam-ii::shortest-weighted
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+Shortest Weighted
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+Shortest Weighted
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:practice-exam-ii::shortest-weighted
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+10.
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p><strong>Used: Fall 14, Practice Exam II</strong></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\used{Fall 14, Practice Exam II}
+]]>
+</field> <!-- body_src -->
+<segment name='\freeresponse'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prb:practice-exam-ii::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+
+Given a graph with integer edge weights between $1$ and $5$
+(inclusive), you want to find the shortest \emph{weighted} path
+between a pair of vertices.  How would you reduce this problem to the
+shortest \emph{unweighted} path problem, which can be solved using
+BFS?
+
+
+<p>Given a graph with integer edge weights between <span class="math inline">\(1\)</span> and <span class="math inline">\(5\)</span> (inclusive), you want to find the shortest <em>weighted</em> path between a pair of vertices. How would you reduce this problem to the shortest <em>unweighted</em> path problem, which can be solved using BFS?</p>
+
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+\sol:practice-exam-ii::replace
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Replace each edge with weight <span class="math inline">\(i\)</span> with a simple path of <span class="math inline">\(i\)</span> edges each with weight <span class="math inline">\(1\)</span>. Then solve with BFS.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Replace each edge with weight $i$ with a simple path of $i$ edges
+  each with weight $1$. Then solve with BFS.
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+
+</segment> <!-- \freeresponse -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:practice-exam-ii::sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:practice-exam-ii::sets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\titledquestion{(Sets and Tables) Bingled}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:practice-exam-ii::forming
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:practice-exam-ii::forming
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>After forming your company Bingle to index the web allowing word searches based on logical combination of terms (e.g. “big” and “small”), you discover that there are already a couple companies out there that do it....and lo-and-behold, they even have similar names. You therefore decide to extend yours with additional features. In particular you want to support phrase queries: e.g. find all documents where “fun algorithms” appears.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+After forming your company Bingle to index the web allowing word
+searches based on logical combination of terms (e.g. ``big'' and
+``small''), you discover that there are already a couple companies out
+there that do it....and lo-and-behold, they even have similar names.
+You therefore decide to extend yours with additional features.  In
+particular you want to support phrase queries: e.g. find all
+documents where ``fun algorithms'' appears.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:practice-exam-ii::decide
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:practice-exam-ii::decide
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>You decide the right way to represent the index is as a table of sets where the keys of the table are strings (i.e. the words) and the elements of the sets are pairs of values consisting of a document identifier and an integer location in the document where the string appears. So, for example the following collection of three documents with integer document identifiers:</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+You decide the right way to represent the index is as a table of sets
+where the keys of the table are strings (i.e. the words) and the
+elements of the sets are pairs of values consisting of a document
+identifier and an integer location in the document where the string
+appears.  So, for example the following collection of three documents
+with integer document identifiers:
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:qut:practice-exam-ii::read
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='quote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+qut:practice-exam-ii::read
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p><span class="math inline">\(\langle\)</span> (̄1, ),<br />
+(2, ),<br />
+(3, ) <span class="math inline">\(\rangle\)</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{tabbing}
+ $\langle$
+  \=(1, \ctext{``the big dog''}), \\
+  \>(2, \ctext{``a big dog ate a hat''}),\\
+  \>(3, \ctext{``i read a big book''}) $\rangle$
+\end{tabbing}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- quote -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:practice-exam-ii::document
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:practice-exam-ii::document
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>the document index would be represented as</p>
+<pre data-numbers="none"><code>idx = $\{~\ctext{``a&#39;&#39;} \mapsto \cset{(2,0),(2,4),(3,2)},$  
+        $\ctext{``big&#39;&#39;} \mapsto \cset{(1,1),(2,1),(3,3)},$  
+        $\ctext{``dog&#39;&#39;} \mapsto \cset{(1,2),(2,2)},$  
+        $\ldots~\}$  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+the document index would be represented as
+\begin{lstlisting}[numbers=none]
+idx = $\{~\ctext{``a''} \mapsto \cset{(2,0),(2,4),(3,2)},$
+        $\ctext{``big''} \mapsto \cset{(1,1),(2,1),(3,3)},$
+        $\ctext{``dog''} \mapsto \cset{(1,2),(2,2)},$
+        $\ldots~\}$
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:practice-exam-ii::particular
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:practice-exam-ii::particular
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In particular you want to support the following interface</p>
+<pre><code> [numbers=none]  
+signature INDEX = sig  
+  type word = string  
+  type docId = int  
+  type index = docIdIntSet wordTable  
+    
+  (* represents all documents and all locations where a phrase appears *)  
+  type docList  
+  
+  val makeIndex : (docId * string) seq -&gt; index      
+  val find : index -&gt; word -&gt; docList  
+  val adj : docList * docList -&gt; docList  
+  val toSeq : docList -&gt; docId seq   
+end  </code></pre>
+<p>where, given an index <code>I</code>, <code>toSeq (adj (find I "210", find I "rocks"))</code> would return a sequence of identifiers of documents where “210” appears immediately before “rocks”, and<br />
+<code>toSeq (adj (find I "Umut", adj (find I "loves", find I "climbing")))</code><br />
+would return a sequence of identifiers of documents where the phrase “Umut loves climbing” appears.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In particular you want to support the following interface
+\begin{lstlisting} [numbers=none]
+signature INDEX = sig
+  type word = string
+  type docId = int
+  type index = docIdIntSet wordTable
+  
+  (* represents all documents and all locations where a phrase appears *)
+  type docList
+
+  val makeIndex : (docId * string) seq -> index    
+  val find : index -> word -> docList
+  val adj : docList * docList -> docList
+  val toSeq : docList -> docId seq 
+end
+\end{lstlisting}
+where, given an index \sml{I},
+\texttt{toSeq (adj (find I "210", find I "rocks"))} would return a sequence of
+identifiers of documents
+where ``210'' appears immediately before ``rocks'', and \\
+\sml{toSeq (adj (find I "Umut", adj (find I "loves", find I "climbing")))}\\
+would return a sequence of identifiers of documents
+where the phrase ``Umut loves climbing'' appears.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='mproblem'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:practice-exam-ii::generate
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:practice-exam-ii::generate
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+8.
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+<segment name='\freeresponse'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prb:practice-exam-ii::show
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+Show SML code to generate the index from the sequence of documents.
+It should not be more than 8 lines of code and assuming all words have
+length less than some constant, must run in $O(n \log n)$ work and
+$O(\log^2 n)$ span, where $n$ is the total number of words across all
+documents.    You can use a function
+\begin{quote}
+\sml{val toWords~:~string -> string seq}
+\end{quote}
+that breaks a text string into a sequence of words.
+
+\begin{lstlisting}[numbers=none]
+type index = docIdIntSet wordTable
+
+fun makeIndex (docs : (docId  * string) seq) : index =
+  let
+\end{lstlisting}
+
+
+<p>Show SML code to generate the index from the sequence of documents. It should not be more than 8 lines of code and assuming all words have length less than some constant, must run in <span class="math inline">\(O(n \log n)\)</span> work and <span class="math inline">\(O(\log^2 n)\)</span> span, where <span class="math inline">\(n\)</span> is the total number of words across all documents. You can use a function</p>
+<blockquote>
+<p><code>val toWords : string -&gt; string seq</code></p>
+</blockquote>
+<p>that breaks a text string into a sequence of words.</p>
+<pre data-numbers="none"><code>type index = docIdIntSet wordTable  
+  
+fun makeIndex (docs : (docId  * string) seq) : index =  
+  let  </code></pre>
+
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+\sol:practice-exam-ii::none
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<pre><code> [numbers=none]  
+  fun tagWords (id,doc) =   
+      let val words = toWords doc  
+      in  Seq.tabulate (fn i = (nth i words, (id, i)) (length words)   
+      end  
+  
+  val allPairs = Seq.flatten (Seq.map tagWords docs)  
+  
+  val wordTable = Table.collect allPairs  
+in  
+    Table.map Set.fromSeq wordTable  
+end  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{lstlisting} [numbers=none]
+  fun tagWords (id,doc) = 
+      let val words = toWords doc
+      in  Seq.tabulate (fn i = (nth i words, (id, i)) (length words) 
+      end
+
+  val allPairs = Seq.flatten (Seq.map tagWords docs)
+
+  val wordTable = Table.collect allPairs
+in
+    Table.map Set.fromSeq wordTable
+end
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+
+</segment> <!-- \freeresponse -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:practice-exam-ii::doclist
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+<segment name='\freeresponse'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prb:practice-exam-ii::define
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+Define the \sml{docList} type and implement the function \sml{adj} as defined above.
+You might find the function \sml{setmap} useful. The solution should
+only be a few lines of code.
+\begin{lstlisting}[numbers=none]
+fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s)) 
+\end{lstlisting}
+
+\begin{lstlisting}[numbers=none]
+
+type docList = 
+
+fun adj (                ,               ) : docList =
+\end{lstlisting}
+
+
+<p>Define the <code>docList</code> type and implement the function <code>adj</code> as defined above. You might find the function <code>setmap</code> useful. The solution should only be a few lines of code.</p>
+<pre data-numbers="none"><code>fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s))   </code></pre>
+<pre data-numbers="none"><code>  
+type docList =   
+  
+fun adj (                ,               ) : docList =  </code></pre>
+
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+\sol:practice-exam-ii::type
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<pre data-numbers="none"><code>type docList = (docIdIntSet)*int  
+  
+fun adj ((d1,l1), (d2,l2)) =   
+  let   
+      val d2&#39; = setmap (fn (d,i) = (d, i-l1)) d2  
+  in    
+      (Set.intersection (d1,d2&#39;), l1+l2)  
+  end  
+  
+(* FYI: not part of exam *)  
+fun find idx word =   
+  case Table.find idx word =&gt;  
+    NONE =&gt; (Set.empty(), 1)  
+  | SOME d =&gt; (d, 1)  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{lstlisting}[numbers=none]
+type docList = (docIdIntSet)*int
+
+fun adj ((d1,l1), (d2,l2)) = 
+  let 
+      val d2' = setmap (fn (d,i) = (d, i-l1)) d2
+  in  
+      (Set.intersection (d1,d2'), l1+l2)
+  end
+
+(* FYI: not part of exam *)
+fun find idx word = 
+  case Table.find idx word =>
+    NONE => (Set.empty(), 1)
+  | SOME d => (d, 1)
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+
+</segment> <!-- \freeresponse -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- mproblem -->
+
+
+</segment> <!-- chapter -->

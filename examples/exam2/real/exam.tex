@@ -1,0 +1,200 @@
+\documentclass[11pt,addpoints]{exam}
+
+
+
+\usepackage{amsmath,proof,amsthm,amssymb,stmaryrd}
+\usepackage{graphicx}
+\usepackage{enumitem}
+\usepackage{verbatim}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{environ}   % A better command for defining environments, used
+
+
+\usepackage{../../../latex/pseudocode}
+\usepackage{../../../latex/defs}
+\renewcommand{\used}[1]{}
+
+\graphicspath{{../../../}}
+
+\ANS
+
+\newcommand{\kw}[1]{\texttt{\textbf{#1}}}
+\newenvironment{mlcodea}{
+\begingroup
+\ttfamily
+\small
+\begin{tabbing}
+==\===\===\===\===\===\===\
+\kill}
+{\end{tabbing}
+\endgroup}
+
+
+
+\newenvironment{mlcodeb}{
+\begin{quote}\begin{mlcodea}}
+{\end{mlcodea}\end{quote}}
+
+
+%\newcommand{\fillin}[1]{\makebox[#1][l]{\strut\hrulefill}}
+
+\title{
+\vspace*{-2cm}
+{ \large \bf
+  Full Name: \enspace\hrulefill \\
+  Andrew ID: \enspace\hrulefill
+  \quad
+  Section: \enspace\hrulefill 
+}\\
+\vspace{0.5in}
+15--210: Parallel and Sequential Data Structures and Algorithms}
+\ifprintanswers
+\author{\textsc{Exam II (Solutions)}}
+\else
+\author{\textsc{Exam II}}
+\fi
+\date{8 April 2015}
+
+\pagestyle{foot}
+\footer{15--210 Exam II}{\thepage\ of\ \numpages}{April 2015}
+
+\begin{document}
+
+\maketitle{}
+\thispagestyle{foot}
+
+\begin{itemize}
+\item \textbf{Verify:} There are \numpages{} pages in this
+  examination, comprising \numquestions{} questions worth a total of
+  \numpoints{} points.  The last 2 pages are an appendix with costs of
+  sequence, set and table operations.
+
+\item \textbf{Verify: } Your answers for this exam must be written in blue or black ink.
+
+\item \textbf{Time:} You have 80 minutes to complete this examination.
+
+%% \item \textbf{Before you ask:} We believe questions are clear and
+%%   there is no need to ask further questions.  If you don't understand
+%%   something and it was not clarified, then you can make an assumption
+%%   and write clearly what you are assuming.  Your point of view will be
+%%   taken it into account.
+
+\item \textbf{Goes without saying:} Please answer all questions in the
+  space provided with the question.  Clearly indicate your answers.
+%% \item There are scratch pages at the end of the exam for your use. In no
+%%   circumstance will anything you write on these pages count for or against
+%%   your score on this exam.
+
+\item \textbf{Beware:} You may refer to your one double-sided $8\frac{1}{2} \times 11$in
+  sheet of paper with notes, but to no other person or source, during the
+  examination.
+
+\item \textbf{Primitives:} In your algorithms you can use any of the
+  primitives that we have covered in the lecture.  A reasonably
+  comprehensive list is provided at the end.
+
+\item \textbf{Code:} When writing your algorithms, you can use ML
+  syntax but you don't have to.  You can use the pseudocode notation
+  used in the notes or in class.  For example you can use the syntax
+  that you have learned in class.  In fact, in the questions, we use
+  the pseudo rather than the ML notation.
+
+% \textbf{When writing code, you may use the following mathematical
+%   primitives:}
+%   \begin{itemize}
+%   \item \sml{val min : int * int -> int}
+%   \item \sml{val max : int * int -> int}
+%   \item \sml{val isEven : int -> bool}
+%   \item \sml{val isOdd : int -> bool}
+%   \end{itemize}
+
+\end{itemize}
+
+\begin{center}
+ % \textbf{Circle the letter of the recitation that you attend.}
+ \vspace{0.3in}
+
+ \begin{tabular}{c c l}
+  \hline \\ [-1.5ex]
+  \multicolumn{3}{c}{ \bf Sections }\\ [1ex]
+  \hline \\ [-1ex]
+
+  \textbf{A} & 9:30am - 10:20am & Sam W./Terence\\
+  \textbf{B} & 10:30am - 11:20am & Sonya/Patrick\\
+  \textbf{C} & 12:30pm - 1:20pm & Ivan/Ram\\
+  \textbf{D} & 12:30pm - 1:20pm & Kevin/Roger\\
+  \textbf{E} & 1:30pm - 2:20pm & Emily/Alekhya\\
+  \textbf{F} & 1:30pm - 2:20pm & Matt/Yongshan\\
+  \textbf{G} & 3:30pm - 4:20pm & Oliver/Sam E.\\
+
+  \hline
+  \end{tabular}
+\end{center}
+
+\newpage
+
+\vspace*{1in}
+\begin{center}
+  \gradetable[v][questions]
+\end{center}
+
+\newpage
+
+%\bracketedpoints{}
+%\qformat{\large{\textbf{Question \thequestion{} [\totalpoints]: \thequestiontitle{}\hfill}}}
+
+\qformat{
+  {\bf \large Question \thequestion: \thequestiontitle} \quad (\pointsofquestion{\arabic{question}} \points)\hfill}
+
+
+\begin{questions}
+
+
+\newpage
+\input{true-false}
+
+\newpage
+\input{../../../setstables/graph-representation}
+
+\newpage
+\input{../../../dfs/dfs-numbers-1}
+
+\newpage
+\input{../../../shortest-paths/shortest-paths-basics}
+
+\newpage
+\input{../../../shortest-paths/neighborhoods}
+
+\newpage
+\input{../../../graph-contraction/tree-contraction-2}
+
+
+\end{questions}
+
+\newpage
+\large{\textbf{Scratch Work:}}
+
+\vspace*{\fill}
+
+
+\newpage
+\section*{Appendix: Library Functions}
+\input{../../../latex/libfuncs}
+
+%% this depends on if you want single sided or scratch at the back
+%%
+ \newpage
+ \large{\textbf{Scratch Work:}}
+
+%% \vspace*{\fill}
+
+\newpage
+\large{\textbf{Scratch Work:}}
+
+\vspace*{\fill}
+
+
+
+\end{document}

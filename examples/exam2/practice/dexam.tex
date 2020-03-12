@@ -1,0 +1,239 @@
+\chapter{Practice Exam II}
+
+\begin{preamble}
+\newcommand{\numquestions}{5}
+
+\begin{itemize}
+\item There are \numquestions{} questions worth a total of \numpoints{} points.
+  The last few pages are an appendix with costs of sequence,
+  set and table operations.
+\item You have 80 minutes to complete this examination.
+\item Please answer all questions in the space provided with the
+  question.  Clearly indicate your answers.
+%% \item There are scratch pages at the end of the exam for your use. In no
+%%   circumstance will anything you write on these pages count for or against
+%%   your score on this exam.
+\item You may refer to your one double-sided $8\frac{1}{2} \times 11$in
+  sheet of paper with notes, but to no other person or source, during the
+  examination.
+
+\item Your answers for this exam must be written in blue or black ink.
+
+\end{itemize}
+\end{preamble}
+
+
+\section{Short Answers}
+
+\begin{problem}[4p][Classes]
+
+\used{Fall 14, Final}
+
+
+Lets say you are given a table that maps every student to the set of
+classes they take. 
+
+\answer
+Fill in the algorithm below that returns all classes,
+assuming there is at least one student in each class.  Your algorithm
+must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
+$n$ is the number of students and $m$ is the sum of the number of
+classes taken across all students.    Note, our solution is one line.
+
+
+\vspace{.3in}
+\begin{lstlisting}[numbers=none]
+fun allClasses($T$ : classSet studentTable) : classSet = 
+@\vspace{.5in}@
+\end{lstlisting}
+
+\sol
+\begin{lstlisting}[numbers=none]
+fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
+\end{lstlisting}
+
+\end{problem}
+
+
+%% \newpage
+%% \input{../../../bfs/shortest-weighted}
+
+\begin{problem}[10pts][Shortest Weighted]
+\used{Fall 14, Practice Exam II}
+
+\answer
+
+Given a graph with integer edge weights between $1$ and $5$
+(inclusive), you want to find the shortest \emph{weighted} path
+between a pair of vertices.  How would you reduce this problem to the
+shortest \emph{unweighted} path problem, which can be solved using
+BFS?
+
+\sol
+  Replace each edge with weight $i$ with a simple path of $i$ edges
+  each with weight $1$. Then solve with BFS.
+\end{problem}
+
+
+
+%% \newpage
+%% \input{../../../setstables/bingled}
+\section{(Sets and Tables) Bingled}
+
+After forming your company Bingle to index the web allowing word
+searches based on logical combination of terms (e.g. ``big'' and
+``small''), you discover that there are already a couple companies out
+there that do it....and lo-and-behold, they even have similar names.
+You therefore decide to extend yours with additional features.  In
+particular you want to support phrase queries: e.g. find all
+documents where ``fun algorithms'' appears.
+
+You decide the right way to represent the index is as a table of sets
+where the keys of the table are strings (i.e. the words) and the
+elements of the sets are pairs of values consisting of a document
+identifier and an integer location in the document where the string
+appears.  So, for example the following collection of three documents
+with integer document identifiers:
+
+\begin{quote}
+\begin{tabbing}
+ $\langle$
+  \=(1, \ctext{``the big dog''}), \\
+  \>(2, \ctext{``a big dog ate a hat''}),\\
+  \>(3, \ctext{``i read a big book''}) $\rangle$
+\end{tabbing}
+\end{quote}
+
+the document index would be represented as
+\begin{lstlisting}[numbers=none]
+idx = $\{~\ctext{``a''} \mapsto \cset{(2,0),(2,4),(3,2)},$
+        $\ctext{``big''} \mapsto \cset{(1,1),(2,1),(3,3)},$
+        $\ctext{``dog''} \mapsto \cset{(1,2),(2,2)},$
+        $\ldots~\}$
+\end{lstlisting}
+
+In particular you want to support the following interface
+\begin{lstlisting} [numbers=none]
+signature INDEX = sig
+  type word = string
+  type docId = int
+  type index = docIdIntSet wordTable
+  
+  (* represents all documents and all locations where a phrase appears *)
+  type docList
+
+  val makeIndex : (docId * string) seq -> index    
+  val find : index -> word -> docList
+  val adj : docList * docList -> docList
+  val toSeq : docList -> docId seq 
+end
+\end{lstlisting}
+%
+where, given an index \sml{I},
+\texttt{toSeq (adj (find I "210", find I "rocks"))} would return a sequence of
+identifiers of documents
+where ``210'' appears immediately before ``rocks'', and \\
+%
+\sml{toSeq (adj (find I "Umut", adj (find I "loves", find I "climbing")))}\\
+%
+would return a sequence of identifiers of documents
+where the phrase ``Umut loves climbing'' appears.
+
+ 
+
+\begin{problem}[8pts]
+\answer
+Show SML code to generate the index from the sequence of documents.
+It should not be more than 8 lines of code and assuming all words have
+length less than some constant, must run in $O(n \log n)$ work and
+$O(\log^2 n)$ span, where $n$ is the total number of words across all
+documents.    You can use a function
+\begin{quote}
+\sml{val toWords~:~string -> string seq}
+\end{quote}
+that breaks a text string into a sequence of words.
+
+\begin{lstlisting}[numbers=none]
+type index = docIdIntSet wordTable
+
+fun makeIndex (docs : (docId  * string) seq) : index =
+  let
+\end{lstlisting}
+
+\sol
+\begin{lstlisting} [numbers=none]
+  fun tagWords (id,doc) = 
+      let val words = toWords doc
+      in  Seq.tabulate (fn i = (nth i words, (id, i)) (length words) 
+      end
+
+  val allPairs = Seq.flatten (Seq.map tagWords docs)
+
+  val wordTable = Table.collect allPairs
+in
+    Table.map Set.fromSeq wordTable
+end
+\end{lstlisting}
+
+\end{problem}
+
+
+\begin{problem}
+\answer
+% Show code for a function \texttt{adj(docList1, docList2)} that given
+% two docLists returns a docList in which those two words
+% are adjacent.  For example for the index generated from the documents
+% above, 
+% \begin{quote}
+% \texttt{toSeq(adj(find idx "a", find idx "big"))} 
+% \end{quote}
+% would return
+% $\cseq{2, 3}$.  For full credit \texttt{adj} must be an associative operator.
+Define the \sml{docList} type and implement the function \sml{adj} as defined above.
+You might find the function \sml{setmap} useful. The solution should
+only be a few lines of code.
+\begin{lstlisting}[numbers=none]
+fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s)) 
+\end{lstlisting}
+
+\begin{lstlisting}[numbers=none]
+
+type docList = 
+
+fun adj (                ,               ) : docList =
+\end{lstlisting}
+
+\sol
+\begin{lstlisting}[numbers=none]
+type docList = (docIdIntSet)*int
+
+fun adj ((d1,l1), (d2,l2)) = 
+  let 
+      val d2' = setmap (fn (d,i) = (d, i-l1)) d2
+  in  
+      (Set.intersection (d1,d2'), l1+l2)
+  end
+
+(* FYI: not part of exam *)
+fun find idx word = 
+  case Table.find idx word =>
+    NONE => (Set.empty(), 1)
+  | SOME d => (d, 1)
+\end{lstlisting}
+\end{problem}
+   
+
+%% \newpage
+%% \input{../../../shortest-paths/dijkstra-astar}
+
+%% \newpage
+%% \input{../../../shortest-paths/wormholes}
+
+%% \newpage
+%% \input{../../../graphs/scc2}
+
+%% \end{questions}
+
+%% \newpage\section*{Appendix: Library Functions}
+%% \input{../../../latex/libfuncs}
+
