@@ -228,7 +228,7 @@ classes they take.
 
 <segment name='\ask'>
 <field name='point_value'>
-0.0
+4.
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
@@ -374,6 +374,8 @@ prb:examii-practice::shortest-weighted
 <field name='body'>
 <![CDATA[
 <p>Given a graph with integer edge weights between <span class="math inline">\(1\)</span> and <span class="math inline">\(5\)</span> (inclusive), you want to find the shortest <em>weighted</em> path between a pair of vertices.</p>
+<p>How would you reduce this problem to the shortest <em>unweighted</em> path problem, which can be solved using BFS?</p>
+<p>Replace each edge with weight <span class="math inline">\(i\)</span> with a simple path of <span class="math inline">\(i\)</span> edges each with weight <span class="math inline">\(1\)</span>. Then solve with BFS.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -382,77 +384,18 @@ prb:examii-practice::shortest-weighted
 
 Given a graph with integer edge weights between $1$ and $5$
 (inclusive), you want to find the shortest \emph{weighted} path
-between a pair of vertices.
-]]>
-</field> <!-- body_src -->
+between a pair of vertices. 
 
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::would
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>How would you reduce this problem to the shortest <em>unweighted</em> path problem, which can be solved using BFS?</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\ask
 How would you reduce this problem to the
 shortest \emph{unweighted} path problem, which can be solved using
 BFS?
-]]>
-</field> <!-- body_src -->
 
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::replace
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>Replace each edge with weight <span class="math inline">\(i\)</span> with a simple path of <span class="math inline">\(i\)</span> edges each with weight <span class="math inline">\(1\)</span>. Then solve with BFS.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\sol
 Replace each edge with weight $i$ with a simple path of $i$ edges
 each with weight $1$. Then solve with BFS.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -483,7 +426,7 @@ each with weight $1$. Then solve with BFS.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::5
+grp:prb:examii-practice::enter-and-exit
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -498,12 +441,12 @@ grp:prb:examii-practice::5
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-5
+Enter and Exit
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-5
+Enter and Exit
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -513,17 +456,16 @@ grp:prb:examii-practice::5
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::5
+prb:examii-practice::enter-and-exit
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-0.0
+5.
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>[Enter and Exit]</p>
 <p>Recall the implementation of DFS shown in class using the <code>enter</code> and <code>exit</code> functions. Circle the correct answer for each of the following statements, assuming DFS starts at <span class="math inline">\(A\)</span>:</p>
 <p><embed src="dfs/dfs-graph1.pdf" /></p>
 <table>
@@ -565,8 +507,7 @@ prb:examii-practice::5
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-[Enter and Exit]
- \used{Fall 14, Practice Exam II}
+\used{Fall 14, Practice Exam II}
 
 Recall the implementation of DFS shown in class using the \sml{enter}
 and \sml{exit} functions. Circle the correct answer for each of the
@@ -635,12 +576,12 @@ grp:prb:examii-practice::fall
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-5
+...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-5
+...NOT.PROVIDED.TITLE...
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -656,11 +597,17 @@ prb:examii-practice::fall
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-0.0
+5.
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
 <p>A new startup <em>FastRoute</em> wants to route information along a path in a communication network, represented as a graph. Each vertex represents a router and each edge a wire between routers. The wires are weighted by the maximum bandwidth they can support. <em>FastRoute</em> comes to you and asks you to develop an algorithm to find the path with maximum bandwidth from any source <span class="math inline">\(s\)</span> to any destination <span class="math inline">\(t\)</span>. As you would expect, the <em>bandwidth</em> of a path is the minimum of the bandwidths of the edges on that path; the minimum edge is the <em>bottleneck</em>.</p>
+<p>Explain how to modify Dijkstra’s algorithm to do this. In particular, how would you change the priority queue and the following relax step?</p>
+<blockquote>
+<p><code>fun relax (Q, (u,v,w)) = PQ.insert (d(u) + w, v) Q</code></p>
+</blockquote>
+<p>Justify your answer.</p>
+<p>We’ll use a max priority queue instead of a min priority queue used in Dijkstra’s. We will also modify the relax step to insert into the priority queue <span class="math inline">\(\min(d(u), w)\)</span> because the quality of a path is the minimum of the edge weights. These changes don’t affect the correctness of Dijkstra’s, so we could explore the vertices like in Dijkstra’s.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -676,40 +623,8 @@ algorithm to find the path with maximum bandwidth from any source $s$
 to any destination $t$. As you would expect, the \emph{bandwidth} of a
 path is the minimum of the bandwidths of the edges on that path; the
 minimum edge is the \emph{bottleneck}.
-]]>
-</field> <!-- body_src -->
 
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::explain
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>Explain how to modify Dijkstra’s algorithm to do this. In particular, how would you change the priority queue and the following relax step?</p>
-<blockquote>
-<p><code>fun relax (Q, (u,v,w)) = PQ.insert (d(u) + w, v) Q</code></p>
-</blockquote>
-<p>Justify your answer.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\ask
 Explain how to modify Dijkstra's algorithm to do this. In particular, how would
 you change the priority queue and the following relax step?
 
@@ -718,37 +633,9 @@ you change the priority queue and the following relax step?
 \end{quote}
 
 Justify your answer.
-]]>
-</field> <!-- body_src -->
 
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::priority
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>We’ll use a max priority queue instead of a min priority queue used in Dijkstra’s. We will also modify the relax step to insert into the priority queue <span class="math inline">\(\min(d(u), w)\)</span> because the quality of a path is the minimum of the edge weights. These changes don’t affect the correctness of Dijkstra’s, so we could explore the vertices like in Dijkstra’s.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-We'll use a max priority queue instead of a min priority queue used
+\sol
+  We'll use a max priority queue instead of a min priority queue used
   in Dijkstra's. We will also modify the relax step to insert into the
   priority queue $\min(d(u), w)$ because the quality of a path is the
   minimum of the edge weights. These changes don't affect the
@@ -756,9 +643,6 @@ We'll use a max priority queue instead of a min priority queue used
   Dijkstra's.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -789,7 +673,7 @@ We'll use a max priority queue instead of a min priority queue used
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::4
+grp:prb:examii-practice::parallel-cycle-detection
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -804,12 +688,12 @@ grp:prb:examii-practice::4
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-4
+Parallel Cycle Detection
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-4
+Parallel Cycle Detection
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -819,79 +703,17 @@ grp:prb:examii-practice::4
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::4
+prb:examii-practice::parallel-cycle-detection
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-0.0
+4.
 </field> <!-- point_value -->
-<field name='body'>
-<![CDATA[
-<p>[Parallel Cycle Detection]</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-[Parallel Cycle Detection]
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::describe
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
 <field name='body'>
 <![CDATA[
 <p>Describe in words how you would as part of star contraction efficiently detect that an undirected graph has a cycle. <strong>No more than two sentences.</strong></p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-Describe in words how you would as part of star contraction 
-efficiently detect that an undirected graph has a cycle.  \textbf{No more than two sentences.}
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::star
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>If during star contraction we find any self edges not involved in contraction itself then there is a cycle. However, we need to be careful not to remove duplicate edges, and only to contract along a single duplicate edge.</p>
 <p>-4 if claim detecting duplicate edges is sufficient. It is not sufficient because you can contract duplicate edges at the same time<br />
 -2 if say detect self edge, but do not point out issue with duplicates.<br />
@@ -900,6 +722,11 @@ cki-sol:examii-practice::star
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
+Describe in words how you would as part of star contraction 
+efficiently detect that an undirected graph has a cycle.  \textbf{No more than two sentences.}
+
+\sol
 If during star contraction we find any self edges not involved in
 contraction itself then there is a cycle.   However,
 we need to be careful not to remove duplicate edges, and only to
@@ -910,9 +737,6 @@ contract along a single duplicate edge.
 0 for DFS, BFS, etc.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -943,7 +767,7 @@ contract along a single duplicate edge.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::6
+grp:prb:examii-practice::star-contraction
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -958,12 +782,12 @@ grp:prb:examii-practice::6
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-6
+Star Contraction
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-6
+Star Contraction
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -973,45 +797,14 @@ grp:prb:examii-practice::6
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::6
+prb:examii-practice::star-contraction
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-0.0
+6.
 </field> <!-- point_value -->
-<field name='body'>
-<![CDATA[
-<p>[Star Contraction]</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-[Star Contraction]
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::circle
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
 <field name='body'>
 <![CDATA[
 <p>Circle <strong>every</strong> type of graph listed below for which star contraction will reduce the number of <strong>edges</strong> by a constant factor in expectation in every round until fully reduced (and hence imply <span class="math inline">\(O(|E|)\)</span> total work). You can assume redundant edges between vertices are removed.<br />
@@ -1021,11 +814,12 @@ prt-ask:examii-practice::circle
 (d) a graph containing a single cycle (i.e. a forest with one additional edge)<br />
 (e) the complete graph (i.e. an edge between every pair of vertices)<br />
 (f) any graph (still circle others if relevant)<br />
-</p>
+a, d, e</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
 Circle \textbf{every} type of graph listed below for which star
 contraction will reduce the number of \textbf{edges} by a constant
 factor in expectation in every round until fully reduced (and hence
@@ -1038,42 +832,11 @@ vertices are removed.\\
 (d) a graph containing a single cycle (i.e. a forest with one additional edge)\\
 (e) the complete graph (i.e. an edge between every pair of vertices)\\
 (f) any graph (still circle others if relevant)\\
-]]>
-</field> <!-- body_src -->
 
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::_1_
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>a, d, e</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\sol
 a, d, e
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -1158,7 +921,7 @@ a depth first search (DFS): \textbf{tree edges}, \textbf{back edges},
 
 <segment name='\ask'>
 <field name='point_value'>
-0.0
+3.
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
@@ -1178,12 +941,11 @@ prt-ask:examii-practice::kind
 </field> <!-- depend -->
 <field name='body'>
 <![CDATA[
-<p>[3] What kind of edges can a <strong>bridge</strong>, as defined in AbridgedLab, be</p>
+<p>What kind of edges can a <strong>bridge</strong>, as defined in AbridgedLab, be</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-[3]
 What kind of edges can a \textbf{bridge}, as defined in AbridgedLab, be
 ]]>
 </field> <!-- body_src -->
@@ -1358,7 +1120,7 @@ from $v$ to $u$.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::_2_
+cki-sol:examii-practice::_1_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1941,37 +1703,6 @@ prb:examii-practice::show
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::show
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>Show SML code to generate the index from the sequence of documents. It should not be more than 8 lines of code and assuming all words have length less than some constant, must run in <span class="math inline">\(O(n \log n)\)</span> work and <span class="math inline">\(O(\log^2 n)\)</span> span, where <span class="math inline">\(n\)</span> is the total number of words across all documents. You can use a function</p>
 <pre><code>val toWords~:~string -&gt; string seq  </code></pre>
 <p>that breaks a text string into a sequence of words.</p>
@@ -1979,51 +1710,6 @@ prt-ask:examii-practice::show
   
 fun makeIndex (docs : (docId  * string) seq) : index =  
   let  </code></pre>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-Show SML code to generate the index from the sequence of documents.
-It should not be more than 8 lines of code and assuming all words have
-length less than some constant, must run in $O(n \log n)$ work and
-$O(\log^2 n)$ span, where $n$ is the total number of words across all
-documents.    You can use a function
-\begin{lstlisting}
-val toWords~:~string -> string seq
-\end{lstlisting}
-that breaks a text string into a sequence of words.
-
-\begin{lstlisting}[numbers=none]
-type index = docIdIntSet wordTable
-
-fun makeIndex (docs : (docId  * string) seq) : index =
-  let
-\end{lstlisting}
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::none
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <pre><code> [numbers=none]  
   fun tagWords (id,doc) =   
       let val words = toWords doc  
@@ -2040,6 +1726,26 @@ end  </code></pre>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
+Show SML code to generate the index from the sequence of documents.
+It should not be more than 8 lines of code and assuming all words have
+length less than some constant, must run in $O(n \log n)$ work and
+$O(\log^2 n)$ span, where $n$ is the total number of words across all
+documents.    You can use a function
+\begin{lstlisting}
+val toWords~:~string -> string seq
+\end{lstlisting}
+that breaks a text string into a sequence of words.
+
+\begin{lstlisting}[numbers=none]
+type index = docIdIntSet wordTable
+
+fun makeIndex (docs : (docId  * string) seq) : index =
+  let
+\end{lstlisting}
+
+\sol
+
 \begin{lstlisting} [numbers=none]
   fun tagWords (id,doc) = 
       let val words = toWords doc
@@ -2055,9 +1761,6 @@ end
 \end{lstlisting}
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -2128,37 +1831,6 @@ prb:examii-practice::define
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::define
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>Define the <code>docList</code> type and implement the function <code>adj</code> as defined above. You might find the function <code>setmap</code> useful. The solution should only be a few lines of code.</p>
 <pre data-numbers="none"><code>fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s))   </code></pre>
 <pre data-numbers="none"><code>  
@@ -2166,50 +1838,6 @@ type docList =
   
 fun adj (                ,               ) : docList =  
   </code></pre>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-Define the \sml{docList} type and implement the function \sml{adj} as defined above.
-You might find the function \sml{setmap} useful. The solution should
-only be a few lines of code.
-\begin{lstlisting}[numbers=none]
-fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s)) 
-\end{lstlisting}
-
-
-\begin{lstlisting}[numbers=none]
-
-type docList = 
-
-fun adj (                ,               ) : docList =
-
-\end{lstlisting}
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::type
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <pre data-numbers="none"><code>type docList = (docIdIntSet)*int  
   
 fun adj ((d1,l1), (d2,l2)) =   
@@ -2228,6 +1856,25 @@ fun find idx word =
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
+Define the \sml{docList} type and implement the function \sml{adj} as defined above.
+You might find the function \sml{setmap} useful. The solution should
+only be a few lines of code.
+\begin{lstlisting}[numbers=none]
+fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s)) 
+\end{lstlisting}
+
+
+\begin{lstlisting}[numbers=none]
+
+type docList = 
+
+fun adj (                ,               ) : docList =
+
+\end{lstlisting}
+
+
+\sol
 \begin{lstlisting}[numbers=none]
 type docList = (docIdIntSet)*int
 
@@ -2246,9 +1893,6 @@ fun find idx word =
 \end{lstlisting}
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -2423,6 +2067,9 @@ prb:examii-practice::consider
 <![CDATA[
 <p>Consider the graph shown below, where the edge weights appear next to the edges and the heuristic distances to vertex <span class="math inline">\(G\)</span> are in parenthesis next to the vertices.</p>
 <p><embed src="shortest-paths/graph.pdf" /></p>
+<p>Show the order in which vertices are visited by Dijkstra when the source vertex is <span class="math inline">\(A\)</span>. A C B E F D G</p>
+<p>Show an order in which vertices are visited by <span class="math inline">\(A^*\)</span> when the source vertex is <span class="math inline">\(A\)</span> and the destination vertex is <span class="math inline">\(G\)</span>.</p>
+<p>A C F G</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -2433,111 +2080,21 @@ next to the vertices.
 \begin{center}
   \includegraphics[scale=.75]{shortest-paths/graph.pdf}
 \end{center}
-]]>
-</field> <!-- body_src -->
 
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::order
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>Show the order in which vertices are visited by Dijkstra when the source vertex is <span class="math inline">\(A\)</span>.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\ask
 Show the order in which vertices are visited by Dijkstra when the source
 vertex is $A$.
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::show
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>A C B E F D G</p>
-<p>Show an order in which vertices are visited by <span class="math inline">\(A^*\)</span> when the source vertex is <span class="math inline">\(A\)</span> and the destination vertex is <span class="math inline">\(G\)</span>.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\sol
 A C B E F D G
 
 
 \ask Show an order in which vertices are visited by $A^*$ when
 the source vertex is $A$ and the destination vertex is $G$.
-]]>
-</field> <!-- body_src -->
-</segment> <!-- \sol -->
 
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::_3_
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>A C F G</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\sol
 A C F G
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -2608,82 +2165,22 @@ prb:examii-practice::reason
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::reason
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>What is the key reason you would choose to use <span class="math inline">\(A^*\)</span> instead of Dijkstra’s algorithm?</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-What is the key reason you would choose to use $A^*$ instead of
-Dijkstra's algorithm?
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::want
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>You can use <span class="math inline">\(A^*\)</span> if you want the shortest path to only a single goal vertex, and not all shortest paths. <span class="math inline">\(A^*\)</span> can be much more efficient, as it tries to move toward the goal more directly, skipping many more vertices.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
+What is the key reason you would choose to use $A^*$ instead of
+Dijkstra's algorithm?
+
+\sol
 You can use $A^*$ if you want the shortest path to only a single goal vertex,
 and not all shortest paths. $A^*$ can be much more efficient, as it tries to
 move toward the goal more directly, skipping many more vertices.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -2754,69 +2251,7 @@ prb:examii-practice::-vertex
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::-vertex
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>Show a <span class="math inline">\(3\)</span>-vertex example of a graph on which Dijkstra’s algorithm always fails. Please clearly identify which vertex is the source.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-Show a $3$-vertex example of a graph on which Dijkstra's algorithm always
-fails. Please clearly identify which vertex is the source.
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::guarantees
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <pre><code>         A   
         / \  
    x=4 /   \ y=-2   x+y &lt; z &lt; x guarantees failure  
@@ -2827,6 +2262,11 @@ cki-sol:examii-practice::guarantees
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
+Show a $3$-vertex example of a graph on which Dijkstra's algorithm always
+fails. Please clearly identify which vertex is the source.
+
+\sol
 \begin{verbatim}
          A 
         / \
@@ -2837,9 +2277,6 @@ cki-sol:examii-practice::guarantees
 \end{verbatim}
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -3099,6 +2536,8 @@ prb:examii-practice::wormhole
 <field name='body'>
 <![CDATA[
 <p>The wormhole problem is therefore the weighted shortest path problem (assuming non-negative edge weights) with the additional constraint that (1) some edges are specially marked, and (2) a path can take at most two of those edges.</p>
+<p>You still have your Dijkstra code from 210. You don’t want to change your code—after all you forgot how ML works—so you just want to preprocess your graph so that a call to your code <code>SP</code><span class="math inline">\((s,t)\)</span> returns the correct solution to the wormhole problem. Explain how to do this. <strong>At most 5 sentences.</strong></p>
+<p>Create three copies of the graph without the wormhole edges: copy 0, copy 1, and copy 2. Connect copy 0 with copy 1 with the wormhole edges, with weight 0. Likewise connect copy 1 with copy 2 with wormhole edges with weight 0. Now find the shortest path from <code>SP</code><span class="math inline">\((s,d)\)</span> by starting at <span class="math inline">\(s\)</span> in copy 0 and finding the shortest path to <span class="math inline">\(d\)</span> in any of the three copies.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -3107,71 +2546,15 @@ The wormhole problem is therefore the weighted shortest path problem
 (assuming non-negative edge weights) with the additional constraint
 that (1) some edges are specially marked, and (2) a path can take at
 most two of those edges.
-]]>
-</field> <!-- body_src -->
 
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::dijkstra
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>You still have your Dijkstra code from 210. You don’t want to change your code—after all you forgot how ML works—so you just want to preprocess your graph so that a call to your code <code>SP</code><span class="math inline">\((s,t)\)</span> returns the correct solution to the wormhole problem. Explain how to do this. <strong>At most 5 sentences.</strong></p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\ask
 You still have your Dijkstra code from 210.  You don't want to change
 your code---after all you forgot how ML works---so you just want to
 preprocess your graph so that a call to your code \sml{SP}$(s,t)$
 returns the correct solution to the wormhole problem.  Explain how to
 do this. \textbf{At most 5 sentences.}
-]]>
-</field> <!-- body_src -->
 
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::create
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>Create three copies of the graph without the wormhole edges: copy 0, copy 1, and copy 2. Connect copy 0 with copy 1 with the wormhole edges, with weight 0. Likewise connect copy 1 with copy 2 with wormhole edges with weight 0. Now find the shortest path from <code>SP</code><span class="math inline">\((s,d)\)</span> by starting at <span class="math inline">\(s\)</span> in copy 0 and finding the shortest path to <span class="math inline">\(d\)</span> in any of the three copies.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+\sol
 Create three copies of the graph without the wormhole edges: copy 0,
 copy 1, and copy 2.  Connect copy 0 with copy 1 with the wormhole
 edges, with weight 0.  Likewise connect copy 1 with copy 2 with
@@ -3180,9 +2563,6 @@ wormhole edges with weight 0.  Now find the shortest path from
 path to $d$ in any of the three copies.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -3437,37 +2817,6 @@ prb:examii-practice::implement
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::implement
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
 <p>Implement the function:</p>
 <pre><code>val scc~:~graph * vertex -&gt; vertexSet  </code></pre>
 <p>such that <code>scc(G,v)</code> returns the strongly connected component containing <span class="math inline">\(v\)</span>. You may assume the existence of a function:</p>
@@ -3481,10 +2830,14 @@ prt-ask:examii-practice::implement
 <pre data-numbers="none"><code>fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@  
       @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@@\vspace{.2in}@  
       @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@  </code></pre>
+<pre data-numbers="none"><code>fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@  
+    @\underline{vertexSet.intersection(reachable(G,v),~~~~~~~~~~~~~}@@\vspace{.2in}@  
+    @\underline{~~~~~~~~~~~~~~~~~~~~~~~reachable(transpose(G,v)))}@  </code></pre>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
+\ask
 Implement the function:
 \begin{lstlisting}
 val scc~:~graph * vertex -> vertexSet
@@ -3515,38 +2868,9 @@ fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
       @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@@\vspace{.2in}@
       @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@
 \end{lstlisting}
-]]>
-</field> <!-- body_src -->
 
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::graph
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<pre data-numbers="none"><code>fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@  
-    @\underline{vertexSet.intersection(reachable(G,v),~~~~~~~~~~~~~}@@\vspace{.2in}@  
-    @\underline{~~~~~~~~~~~~~~~~~~~~~~~reachable(transpose(G,v)))}@  </code></pre>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
+
+\sol
 \begin{lstlisting}[numbers=none]
 fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
     @\underline{vertexSet.intersection(reachable(G,v),~~~~~~~~~~~~~}@@\vspace{.2in}@
@@ -3554,9 +2878,6 @@ fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
 \end{lstlisting}
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[

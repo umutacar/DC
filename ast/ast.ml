@@ -292,7 +292,7 @@ struct
 			body
 			cookies = 
 		match label with 
-		| None -> 
+		| None ->          
 				{kind; point_val; title; label; depend; body; cookies; label_is_given=false}
 		| Some _ -> 
 				{kind; point_val; title; label; depend; body; cookies; label_is_given=true}
@@ -368,6 +368,7 @@ struct
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator prompt in
 		let point_val = normalize_point_val point_val in
+    let _ = d_printf "ast.prompt.to_xml: point_val = %s\n" (str_of_pval_opt point_val) in
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml translator Xml.title title in
 		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
@@ -1246,6 +1247,7 @@ let prompt_of_items (items: t_item list): t_prompt =
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
 			let  (kind, point_val, body) = item in
+      let _ = printf "prompt_of_items: point_val = %s.\n" (str_of_pval_opt point_val) in
 			if Tex.is_prompt kind then
 				let cookies = List.map rest_items ~f:cookie_of_item in
 				Prompt.make ~point_val kind body cookies 
