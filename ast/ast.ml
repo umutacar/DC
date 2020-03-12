@@ -3,9 +3,9 @@
  **********************************************************************)
 open Core
 open Utils
-
+(*
 let d_printf args = printf args
-
+*)
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax

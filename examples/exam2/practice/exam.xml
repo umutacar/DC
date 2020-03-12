@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <segment name='chapter'>
 <field name='point_value'>
-0.0
+100.
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[

@@ -10,13 +10,13 @@ open Tex_atom_parser
 module Tex = Tex_syntax
 
 (* Turn off prints *)
-
+(*
 let d_printf args = 
     ifprintf stdout args
 
 
 let d_printf args = printf args 
-
+*)
 let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
