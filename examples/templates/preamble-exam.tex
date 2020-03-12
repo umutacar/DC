@@ -1,0 +1,145 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BEGIN: latex/defs.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{tabularx}
+
+%% Rubric
+\newenvironment{rubric}
+{
+\paragraph{Rubric.}
+}
+{
+}
+
+\newenvironment{fep}
+{
+\paragraph{Frequently Encountered Problems.}
+}
+{
+}
+
+\newcommand{\thetasol}[1]{\begin{solution}[\fill] $\Theta(#1)$ \end{solution}}
+%\newcommand{\fillin}[1]{\makebox[#1][l]{\strut\hrulefill}}
+\newcommand{\ours}[1]{{[Our solution: {#1}]}}
+
+\newcommand{\trueorfalse}{\part[2]\textbf{TRUE} or \textbf{FALSE}: }
+\newcommand{\atrue}{\begin{solution}[.1in] TRUE \end{solution}}
+\newcommand{\afalse}{\begin{solution}[.1in] FALSE \end{solution}}
+\newcommand{\atruefalse}{\begin{solution}[.1in] TRUE \& FALSE \end{solution}}
+
+\newcommand{\defn}[1]{\textbf{\emph{#1}}}
+\newcommand{\used}[1]{\textbf{Used: #1}}
+
+\newcommand{\ttt}[1]{\texttt{#1}}
+\newcommand{\set}[1]{\{ {#1} \}}
+
+\newcommand{\sml}[1]{\texttt{#1}}
+\newcommand{\smlp}[1]{\texttt{({#1})}}
+\newcommand{\nats}{\mathbb{N}}
+
+\newcommand{\mksome}[1]{~\mathit{Some(#1)}}
+\newcommand{\mknone}{~\mathit{None}}
+
+\newcommand{\prob}[2][\mbox{}]{\ensuremath{\mathop{\text{\normalfont {\textbf{Pr}}}}_{#1}\left[#2\right]}}
+%\newcommand{\expct}[1]{\mathbb{E}\left[#1\right]}
+\newcommand{\expct}[2][\mbox{}]{\ensuremath{\mathop{\text{\normalfont {\textbf{E}}}}_{#1}\left[#2\right]}}
+\newcommand{\given}{{\ensuremath{\:\mid\:}}}
+\newcommand{\pmf}[1]{\mathbf{P}_{#1}}
+
+\newcommand{\ctext}[1]{\mbox{\rm\em #1}}
+\newcommand{\com}[1]{\mbox{\bf #1}}
+\newcommand{\clseq}{\left\langle}
+\newcommand{\crseq}{\right\rangle}
+\newcommand{\cseq}[1]{\left\langle\, {#1} \,\right\rangle}
+\newcommand{\cseqf}[2]{\left\langle\, #1 \;|\; #2 \,\right\rangle}
+\newcommand{\cidx}[2]{\cseq{#1,\ldots,#2}}
+\newcommand{\cset}[1]{\left\{ #1 \right\}}
+\newcommand{\csetf}[2]{\left\{ #1 \;|\; #2 \right\}}
+\newcommand{\cval}{\com{val}}
+\newcommand{\cfn}[2]{\com{fn}\; #1 \Rightarrow #2}
+\newcommand{\cname}[1]{{\normalfont\texttt{\emph{#1}}}}
+\newcommand{\cd}[1]{\texttt{#1}}
+\newcommand{\cdvar}[1]{\mathit{#1}}
+\newcommand{\ra}{\rightarrow}
+\newcommand{\dra}{\Rightarrow}
+
+%% 
+\newcommand{\recprob}[3]{
+$#1$
+\begin{solution}[\fill] $\Theta(#2)$,  #3\end{solution}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% END: latex/defs.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BEGIN: latex/pseudocode.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
+
+\newdimen\zzsize
+\zzsize=11pt
+\newdimen\kwsize
+\kwsize=11pt
+
+\newcommand{\basicstyle}{\fontsize{\zzsize}{1.1\zzsize}\ttfamily}
+\newcommand{\keywordstyle}{\fontsize{\kwsize}{1.1\kwsize}\normalfont\bf}
+\newlength{\zzlstwidth}
+\settowidth{\zzlstwidth}{{\basicstyle~}}
+\newcommand{\lcm}{}
+
+\lstset{
+  xleftmargin=5.0ex,
+  basewidth=\zzlstwidth,
+  basicstyle=\basicstyle,
+  captionpos=b,
+  numbers=left, numberstyle=\small, numbersep=8pt,
+  keywordstyle=\keywordstyle,
+  keywords={signature,sig,structure,struct,function,fun,case,of,type,datatype,let,val,fn,in,end,as,functor,alloc,if,then,else,while,with,and},
+  commentstyle=\rmfamily\slshape,
+  morecomment=[l]{\%},
+  lineskip={1.5pt},
+  columns=[l]fullflexible,
+  keepspaces=true,
+  mathescape=true,
+  escapeinside={@}{@},
+% NOTE: need TWO sets of braces around each definition below!
+  literate={requires}{{$\lcm\text{\keywordstyle \% requires}$}}6
+           {returns}{{$\lcm\text{\keywordstyle \% returns}$}}6
+           {=}{{$\lcm=$}}2 
+           {(}{{$($}}2
+           {)}{{$)$}}2 
+           {**}{{$\lcm\times$}}2 
+           {||}{{$\lcm\Vert$}}2 
+           {=>}{{$\lcm\boldsymbol\Rightarrow$}}2 
+           {->}{{$\lcm\rightarrow$}}2 
+           {<-}{{$\lcm\leftarrow$}}2 
+}
+
+%\newcommand{\cd}[1]{\lstinline[mathescape]!#1!}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% END: latex/pseudocode.tex
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\renewcommand{\used}[1]{}
+\newcommand{\kw}[1]{\texttt{\textbf{#1}}}
+\newenvironment{mlcodea}{
+\begingroup
+\ttfamily
+\small
+\begin{tabbing}
+==\===\===\===\===\===\===\
+\kill}
+{\end{tabbing}
+\endgroup}
+
+\newenvironment{mlcodeb}{
+\begin{quote}\begin{mlcodea}}
+{\end{mlcodea}\end{quote}}
+
+\newcommand{\fillin}[1]{\makebox[#1][l]{\strut\hrulefill}}
