@@ -166,7 +166,6 @@ let p_com_end = '\\' "end" p_ws
 let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_skip = p_com_lstinline
 
-let p_com_ask = '\\' "ask"
 let p_com_choice = '\\' "choice"
 let p_com_choice_correct = '\\' "choice*"
 let p_com_explain = '\\' "explain"
@@ -192,7 +191,6 @@ let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
 let p_item = 
-	(p_com_ask as kind) |
 	(p_com_choice as kind) |
 	(p_com_choice_correct as kind) |
 	(p_com_explain as kind) |
