@@ -226,12 +226,14 @@ let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 (* end: environments *)
 
 let p_caption = "\\caption"
+let p_ask = "\\ask"
 let p_short_answer = "\\ans"
 let p_free_response = "\\answer"
 let p_one_choice  = "\\onechoice"
 let p_any_choice = "\\anychoice"
 
 let p_begin_list = 
+	(p_ask as kind) | 
 	(p_short_answer as kind) | 
 	(p_free_response as kind) | 
 	(p_one_choice as kind) | 

@@ -97,6 +97,7 @@ let kw_one_choice = "\\onechoice"
 let kw_any_choice = "\\anychoice"
 let kw_free_response = "\\answer"
 let kw_short_answer = "\\ans"
+let kw_ask = "\\ask"
 
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
@@ -184,6 +185,7 @@ let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
 let label_prefix_one_choice = "prt-one-choice"
 let label_prefix_any_choice = "prt-any-choice"
+let label_prefix_ask = "prt-ask"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
 let label_prefix_choice = "prt-choice"
@@ -253,6 +255,7 @@ let label_prefix_of_kind =
    kw_one_choice, label_prefix_one_choice;
    kw_any_choice, label_prefix_any_choice;
    kw_free_response, label_prefix_free_response;
+   kw_ask, label_prefix_ask;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
    kw_choice_correct, label_prefix_choice_correct
@@ -310,6 +313,7 @@ let primary_prompt_kinds =
   [
    kw_one_choice, ();
    kw_any_choice, ();
+   kw_ask, ();
    kw_short_answer, ();
    kw_free_response, ()
   ]
