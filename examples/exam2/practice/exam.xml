@@ -1422,6 +1422,879 @@ sec:examii-practice::problem-3-sets-and-tables
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
+(Sets and Tables) Bingled
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+(Sets and Tables) Bingled
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:examii-practice::sets-and-tables-bingled
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::forming
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::forming
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>After forming your company Bingle to index the web allowing word searches based on logical combination of terms (e.g. “big” and “small”), you discover that there are already a couple companies out there that do it....and lo-and-behold, they even have similar names. You therefore decide to extend yours with additional features. In particular you want to support phrase queries: e.g. find all documents where “fun algorithms” appears.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+After forming your company Bingle to index the web allowing word
+searches based on logical combination of terms (e.g. ``big'' and
+``small''), you discover that there are already a couple companies out
+there that do it....and lo-and-behold, they even have similar names.
+You therefore decide to extend yours with additional features.  In
+particular you want to support phrase queries: e.g. find all
+documents where ``fun algorithms'' appears.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::decide
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::decide
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>You decide the right way to represent the index is as a table of sets where the keys of the table are strings (i.e. the words) and the elements of the sets are pairs of values consisting of a document identifier and an integer location in the document where the string appears. So, for example the following collection of three documents with integer document identifiers:</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+You decide the right way to represent the index is as a table of sets
+where the keys of the table are strings (i.e. the words) and the
+elements of the sets are pairs of values consisting of a document
+identifier and an integer location in the document where the string
+appears.  So, for example the following collection of three documents
+with integer document identifiers:
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:qut:examii-practice::read
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='quote'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+qut:examii-practice::read
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p><span class="math inline">\(\langle\)</span> (̄1, ),<br />
+(2, ),<br />
+(3, ) <span class="math inline">\(\rangle\)</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{tabbing}
+ $\langle$
+  \=(1, \ctext{``the big dog''}), \\
+  \>(2, \ctext{``a big dog ate a hat''}),\\
+  \>(3, \ctext{``i read a big book''}) $\rangle$
+\end{tabbing}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- quote -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::document
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::document
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>the document index would be represented as <span class="math display">\[\begin{array}{ll}  
+\text{idx} = \{ &amp; \mbox{\rm\em ``a&#39;&#39;} \mapsto \left\{ (2,0),(2,4),(3,2) \right\}  
+\\  
+                &amp;  \mbox{\rm\em ``big&#39;&#39;} \mapsto \left\{ (1,1),(2,1),(3,3) \right\},  
+\\  
+                &amp; \mbox{\rm\em ``dog&#39;&#39;} \mapsto \left\{ (1,2),(2,2) \right\},  
+\\  
+                &amp; \ldots  
+\\  
+             \} &amp;  
+\end{array}\]</span></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+the document index would be represented as
+\[
+\begin{array}{ll}
+\text{idx} = \{ & \ctext{``a''} \mapsto \cset{(2,0),(2,4),(3,2)}
+\\
+                &  \ctext{``big''} \mapsto \cset{(1,1),(2,1),(3,3)},
+\\
+                & \ctext{``dog''} \mapsto \cset{(1,2),(2,2)},
+\\
+                & \ldots
+\\
+             \} &
+\end{array}
+\]
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::particular
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::particular
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In particular you want to support the following interface</p>
+<pre data-numbers="none"><code>signature INDEX = sig  
+  type word = string  
+  type docId = int  
+  type index = docIdIntSet wordTable  
+    
+  (* represents all documents and all locations where a phrase appears *)  
+  type docList  
+  
+  val makeIndex : (docId * string) seq -&gt; index      
+  val find : index -&gt; word -&gt; docList  
+  val adj : docList * docList -&gt; docList  
+  val toSeq : docList -&gt; docId seq   
+end  </code></pre>
+<p>where, given an index <code>I</code>, <code>toSeq (adj (find I "210", find I "rocks"))</code> would return a sequence of identifiers of documents where “210” appears immediately before “rocks”, and<br />
+<code>toSeq (adj (find I "Umut", adj (find I "loves", find I "climbing")))</code><br />
+would return a sequence of identifiers of documents where the phrase “Umut loves climbing” appears.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In particular you want to support the following interface
+\begin{lstlisting}[numbers=none]
+signature INDEX = sig
+  type word = string
+  type docId = int
+  type index = docIdIntSet wordTable
+  
+  (* represents all documents and all locations where a phrase appears *)
+  type docList
+
+  val makeIndex : (docId * string) seq -> index    
+  val find : index -> word -> docList
+  val adj : docList * docList -> docList
+  val toSeq : docList -> docId seq 
+end
+\end{lstlisting}
+where, given an index \sml{I},
+\texttt{toSeq (adj (find I "210", find I "rocks"))} would return a sequence of
+identifiers of documents
+where ``210'' appears immediately before ``rocks'', and 
+\\
+\sml{toSeq (adj (find I "Umut", adj (find I "loves", find I "climbing")))}
+\\
+would return a sequence of identifiers of documents
+where the phrase ``Umut loves climbing'' appears.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:examii-practice::show
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:examii-practice::show
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+8.
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::show
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Show SML code to generate the index from the sequence of documents. It should not be more than 8 lines of code and assuming all words have length less than some constant, must run in <span class="math inline">\(O(n \log n)\)</span> work and <span class="math inline">\(O(\log^2 n)\)</span> span, where <span class="math inline">\(n\)</span> is the total number of words across all documents. You can use a function</p>
+<pre><code>val toWords~:~string -&gt; string seq  </code></pre>
+<p>that breaks a text string into a sequence of words.</p>
+<pre data-numbers="none"><code>type index = docIdIntSet wordTable  
+  
+fun makeIndex (docs : (docId  * string) seq) : index =  
+  let  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Show SML code to generate the index from the sequence of documents.
+It should not be more than 8 lines of code and assuming all words have
+length less than some constant, must run in $O(n \log n)$ work and
+$O(\log^2 n)$ span, where $n$ is the total number of words across all
+documents.    You can use a function
+\begin{lstlisting}
+val toWords~:~string -> string seq
+\end{lstlisting}
+that breaks a text string into a sequence of words.
+
+\begin{lstlisting}[numbers=none]
+type index = docIdIntSet wordTable
+
+fun makeIndex (docs : (docId  * string) seq) : index =
+  let
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::none
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<pre><code> [numbers=none]  
+  fun tagWords (id,doc) =   
+      let val words = toWords doc  
+      in  Seq.tabulate (fn i = (nth i words, (id, i)) (length words)   
+      end  
+  
+  val allPairs = Seq.flatten (Seq.map tagWords docs)  
+  
+  val wordTable = Table.collect allPairs  
+in  
+    Table.map Set.fromSeq wordTable  
+end  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{lstlisting} [numbers=none]
+  fun tagWords (id,doc) = 
+      let val words = toWords doc
+      in  Seq.tabulate (fn i = (nth i words, (id, i)) (length words) 
+      end
+
+  val allPairs = Seq.flatten (Seq.map tagWords docs)
+
+  val wordTable = Table.collect allPairs
+in
+    Table.map Set.fromSeq wordTable
+end
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:examii-practice::define
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:examii-practice::define
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+8.
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::define
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Define the <code>docList</code> type and implement the function <code>adj</code> as defined above. You might find the function <code>setmap</code> useful. The solution should only be a few lines of code.</p>
+<pre data-numbers="none"><code>fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s))   </code></pre>
+<pre data-numbers="none"><code>  
+type docList =   
+  
+fun adj (                ,               ) : docList =  
+  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Define the \sml{docList} type and implement the function \sml{adj} as defined above.
+You might find the function \sml{setmap} useful. The solution should
+only be a few lines of code.
+\begin{lstlisting}[numbers=none]
+fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s)) 
+\end{lstlisting}
+
+
+\begin{lstlisting}[numbers=none]
+
+type docList = 
+
+fun adj (                ,               ) : docList =
+
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::type
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<pre data-numbers="none"><code>type docList = (docIdIntSet)*int  
+  
+fun adj ((d1,l1), (d2,l2)) =   
+  let   
+      val d2&#39; = setmap (fn (d,i) = (d, i-l1)) d2  
+  in    
+      (Set.intersection (d1,d2&#39;), l1+l2)  
+  end  
+  
+(* FYI: not part of exam *)  
+fun find idx word =   
+  case Table.find idx word =&gt;  
+    NONE =&gt; (Set.empty(), 1)  
+  | SOME d =&gt; (d, 1)  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{lstlisting}[numbers=none]
+type docList = (docIdIntSet)*int
+
+fun adj ((d1,l1), (d2,l2)) = 
+  let 
+      val d2' = setmap (fn (d,i) = (d, i-l1)) d2
+  in  
+      (Set.intersection (d1,d2'), l1+l2)
+  end
+
+(* FYI: not part of exam *)
+fun find idx word = 
+  case Table.find idx word =>
+    NONE => (Set.empty(), 1)
+  | SOME d => (d, 1)
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
 (Shortest Paths) Dijkstra and A*
 ]]>
 </field> <!-- title -->
@@ -1571,7 +2444,7 @@ prb:examii-practice::consider
 <field name='body'>
 <![CDATA[
 <p>Consider the graph shown below, where the edge weights appear next to the edges and the heuristic distances to vertex <span class="math inline">\(G\)</span> are in parenthesis next to the vertices.</p>
-<p><img src="shortest-paths/graph" alt="image" /></p>
+<p><embed src="shortest-paths/graph.pdf" /></p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -1580,7 +2453,7 @@ Consider the graph shown below, where the edge weights appear next to
 the edges and the heuristic distances to vertex $G$ are in parenthesis
 next to the vertices.
 \begin{center}
-  \includegraphics[scale=.75]{shortest-paths/graph}
+  \includegraphics[scale=.75]{shortest-paths/graph.pdf}
 \end{center}
 ]]>
 </field> <!-- body_src -->
@@ -1600,7 +2473,7 @@ next to the vertices.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-prt-ask:examii-practice::show
+prt-ask:examii-practice::order
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1863,7 +2736,7 @@ move toward the goal more directly, skipping many more vertices.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::show
+grp:prb:examii-practice::-vertex
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1893,7 +2766,7 @@ grp:prb:examii-practice::show
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::show
+prb:examii-practice::-vertex
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1928,6 +2801,777 @@ fails. Please clearly identify which vertex is the source.
 \end{verbatim}
 ]]>
 </field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::12pts
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::12pts
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<h1 id="shortest-paths-wormholes">(Shortest Paths) Wormholes</h1>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\section[12pts]{(Shortest Paths) Wormholes}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::untested
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::untested
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\used{Fall 14, Untested, needs some work}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::secret
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::secret
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>In your new job for a secret Government agency you have been told about the existence of wormholes (also known as Einstein-Rosen bridges) that connect various locations in the country. You have been tasked with designing an algorithm for finding the shortest path using a combination of roads and wormholes between a pair of locations. Traveling through a wormhole is instantaneous, for all practical purposes, but it turns out that on a given trip someone can only go through two wormholes otherwise they risk rearrangement of their atomic structure.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In your new job for a secret Government agency you have been told
+about the existence of wormholes (also known as Einstein-Rosen
+bridges) that connect various locations in the country.  You have been
+tasked with designing an algorithm for finding the shortest path using
+a combination of roads and wormholes between a pair of locations.
+Traveling through a wormhole is instantaneous, for all practical
+purposes, but it turns out that on a given trip someone can only go
+through two wormholes otherwise they risk rearrangement of their
+atomic structure.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:examii-practice::wormhole
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:examii-practice::wormhole
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>The wormhole problem is therefore the weighted shortest path problem (assuming non-negative edge weights) with the additional constraint that (1) some edges are specially marked, and (2) a path can take at most two of those edges.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+The wormhole problem is therefore the weighted shortest path problem
+(assuming non-negative edge weights) with the additional constraint
+that (1) some edges are specially marked, and (2) a path can take at
+most two of those edges.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::dijkstra
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>You still have your Dijkstra code from 210. You don’t want to change your code—after all you forgot how ML works—so you just want to preprocess your graph so that a call to your code <code>SP</code><span class="math inline">\((s,t)\)</span> returns the correct solution to the wormhole problem. Explain how to do this. <strong>At most 5 sentences.</strong></p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+You still have your Dijkstra code from 210.  You don't want to change
+your code---after all you forgot how ML works---so you just want to
+preprocess your graph so that a call to your code \sml{SP}$(s,t)$
+returns the correct solution to the wormhole problem.  Explain how to
+do this. \textbf{At most 5 sentences.}
+]]>
+</field> <!-- body_src -->
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::create
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Create three copies of the graph without the wormhole edges: copy 0, copy 1, and copy 2. Connect copy 0 with copy 1 with the wormhole edges, with weight 0. Likewise connect copy 1 with copy 2 with wormhole edges with weight 0. Now find the shortest path from <code>SP</code><span class="math inline">\((s,d)\)</span> by starting at <span class="math inline">\(s\)</span> in copy 0 and finding the shortest path to <span class="math inline">\(d\)</span> in any of the three copies.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Create three copies of the graph without the wormhole edges: copy 0,
+copy 1, and copy 2.  Connect copy 0 with copy 1 with the wormhole
+edges, with weight 0.  Likewise connect copy 1 with copy 2 with
+wormhole edges with weight 0.  Now find the shortest path from
+\sml{SP}$(s,d)$ by starting at $s$ in copy 0 and finding the shortest
+path to $d$ in any of the three copies.
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+
+</segment> <!-- section -->
+
+<segment name='section'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+(Graphs) Strongly Connected Components
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+(Graphs) Strongly Connected Components
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+sec:examii-practice::graphs-strongly-connected-components
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::practice
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::practice
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\used{Fall 14, Practice Exam II}
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:grm:examii-practice::strongly
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='gram'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+grm:examii-practice::strongly
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>A <em>strongly connected component</em> of a directed graph <span class="math inline">\(G = (V,E)\)</span> is a subset <span class="math inline">\(S\)</span> of <span class="math inline">\(V\)</span> such that every vertex <span class="math inline">\(u \in S\)</span> can reach every other vertex <span class="math inline">\(v \in S\)</span> (i.e., there is a directed path from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>), and such that no other vertex in <span class="math inline">\(V\)</span> can be added to <span class="math inline">\(S\)</span> without violating this condition. Every vertex belongs to exactly one strongly connected component in a graph.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A \emph{strongly connected component} of a directed graph $G = (V,E)$ is a subset $S$ of $V$ such
+that every vertex $u \in S$ can reach every other vertex $v \in S$ (i.e.,
+there is a directed path from $u$ to $v$), and such that no other vertex in
+$V$ can be added to $S$ without violating this condition. Every vertex
+belongs to exactly one strongly connected component in a graph.
+]]>
+</field> <!-- body_src -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- gram -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:examii-practice::implement
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:examii-practice::implement
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::implement
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Implement the function:</p>
+<pre><code>val scc~:~graph * vertex -&gt; vertexSet  </code></pre>
+<p>such that <code>scc(G,v)</code> returns the strongly connected component containing <span class="math inline">\(v\)</span>. You may assume the existence of a function:</p>
+<pre><code>val reachable~:~graph * vertex -&gt; vertexSet  </code></pre>
+<p>such that <code>reachable(G,v)</code> returns all the vertices reachable from <span class="math inline">\(v\)</span> in <span class="math inline">\(G\)</span>, and</p>
+<pre><code>val transpose~:~graph -&gt; graph  </code></pre>
+<p>That takes every edge in a directed graph and reverses its direction. You may assume the following representation of graphs:</p>
+<pre><code>type graph = vertexSet vertexTable  </code></pre>
+<p>with key comparisons taking <span class="math inline">\(O(1)\)</span> work.</p>
+<p>Assuming that <code>reachable</code> and <code>transpose</code> use <span class="math inline">\(O(|E|\log|V|)\)</span> work and <span class="math inline">\(O(\log^2 |V|)\)</span> span, your algorithm must also have <span class="math inline">\(O(|E|\log|V|)\)</span> work and <span class="math inline">\(O(\log^2 |V|)\)</span> span.</p>
+<pre data-numbers="none"><code>fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@  
+      @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@@\vspace{.2in}@  
+      @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Implement the function:
+\begin{lstlisting}
+val scc~:~graph * vertex -> vertexSet
+\end{lstlisting}
+such that \sml{scc(G,v)} returns the strongly connected component containing $v$. You may assume
+the existence of a function:
+\begin{lstlisting}
+val reachable~:~graph * vertex -> vertexSet
+\end{lstlisting}
+such that \sml{reachable(G,v)} returns all the vertices reachable from $v$
+in $G$, and 
+\begin{lstlisting}
+val transpose~:~graph -> graph
+\end{lstlisting}
+That takes every edge in a directed graph and reverses its direction.
+You may assume the following representation of graphs:
+\begin{lstlisting}
+type graph = vertexSet vertexTable
+\end{lstlisting}
+with key comparisons taking $O(1)$ work.
+
+Assuming that \texttt{reachable} and \texttt{transpose} use
+$O(|E|\log|V|)$ work and $O(\log^2 |V|)$ span, your algorithm
+must also have $O(|E|\log|V|)$ work and $O(\log^2 |V|)$ span.
+
+\begin{lstlisting}[numbers=none]
+fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
+      @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@@\vspace{.2in}@
+      @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<pre data-numbers="none"><code>fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@  
+    @\underline{vertexSet.intersection(reachable(G,v),~~~~~~~~~~~~~}@@\vspace{.2in}@  
+    @\underline{~~~~~~~~~~~~~~~~~~~~~~~reachable(transpose(G,v)))}@  </code></pre>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+\begin{lstlisting}[numbers=none]
+fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
+    @\underline{vertexSet.intersection(reachable(G,v),~~~~~~~~~~~~~}@@\vspace{.2in}@
+    @\underline{~~~~~~~~~~~~~~~~~~~~~~~reachable(transpose(G,v)))}@
+\end{lstlisting}
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
