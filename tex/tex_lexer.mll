@@ -9,11 +9,13 @@ open Utils
 open Tex_parser
 
 (* Turn off prints *)
+(*
 let d_printf args = 
     ifprintf stdout args 
-(*
-let d_printf args = printf args
 *)
+
+(* let d_printf args = printf args *)
+
 let kw_curly_open = "{"
 let kw_curly_close = "}"
 let kw_sq_open = "["
@@ -232,7 +234,8 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (p_c_sq as c_sq)
+let points = 'p' | "pts"
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points)? p_ws (p_c_sq as c_sq)
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
@@ -364,6 +367,7 @@ parse
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
+        let _ = d_printf "!lexer matched segment all: %s, points = %s." kind point_val in 
        KW_HEADING(kind, arg, Some point_val)
     }		
 

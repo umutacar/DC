@@ -1,4 +1,4 @@
-\chapter{Exam II (Practice)}
+\chapter[100]{Exam II (Practice)}
 \label{ch:examii-practice}
 
 \begin{preamble}
@@ -19,22 +19,22 @@
 \end{preamble}
 
 
-\section{Problem 1: True or False}
+\section[10]{True or False}
 %\newpage
 %\input{truefalse}
 
 
 
-\section{Problem 2: Short Answers}
+\section{Short Answers}
 
 %\input{../../../setstables/classes}
-\begin{problem}[4pts][Classes]
+\begin{problem}[4p][Classes]
 \used{Fall 14, Final}
 
 Lets say you are given a table that maps every student to the set of
 classes they take.  
 
-\ask
+\ask[4]
 Fill in the algorithm below that returns all classes,
 assuming there is at least one student in each class.  Your algorithm
 must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
@@ -54,7 +54,7 @@ fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
 
 %\input{../../../bfs/shortest-weighted}
 
-\begin{problem}[5pts][Shortest Weighted]
+\begin{problem}[5p][Shortest Weighted]
 \used{Fall 14, Practice Exam II}
 
 Given a graph with integer edge weights between $1$ and $5$
@@ -69,11 +69,12 @@ BFS?
 \sol
 Replace each edge with weight $i$ with a simple path of $i$ edges
 each with weight $1$. Then solve with BFS.
+
 \end{problem}
 
 %\newpage
 %\input{../../../dfs/enterExit}
-\begin{problem}[5pts][Enter and Exit]
+\begin{problem}[5p][Enter and Exit]
  \used{Fall 14, Practice Exam II}
 
 Recall the implementation of DFS shown in class using the \sml{enter}
@@ -100,7 +101,7 @@ following statements, assuming DFS starts at $A$:
 
 %\input{../../../shortest-paths/fastroute}
 
-\begin{problem}[5pts]
+\begin{problem}[5p]
 \used{Fall 14, Practice Exam II}
 
 A new startup \emph{FastRoute} wants to route information along a path
@@ -136,7 +137,7 @@ Justify your answer.
 %\newpage
 %\input{../../../graph-contraction/cycleDetect}
 
-\begin{problem}[4pts][Parallel Cycle Detection]
+\begin{problem}[4p][Parallel Cycle Detection]
 \ask
 Describe in words how you would as part of star contraction 
 efficiently detect that an undirected graph has a cycle.  \textbf{No more than two sentences.}
@@ -157,7 +158,7 @@ contract along a single duplicate edge.
 
 %\input{../../../graph-contraction/starContract}
 %
-\begin{problem}[6pts][Star Contraction]
+\begin{problem}[6p][Star Contraction]
 \ask
 Circle \textbf{every} type of graph listed below for which star
 contraction will reduce the number of \textbf{edges} by a constant
@@ -187,19 +188,19 @@ a depth first search (DFS): \textbf{tree edges}, \textbf{back edges},
 \textbf{all} types of edges that apply.
 
 
-\ask [3]
+\ask[3]
 What kind of edges can a \textbf{bridge}, as defined in AbridgedLab, be
 \sol
 tree edge
 
-\ask [3]
+\ask[3]
 Assume we enter $u$ before entering $v$ during the DFS, what kind of
 edge can the edge $(u,v)$ (directed from $u$ to $v$) be?
 \sol
 forward edge, tree edge
 
 
-\ask [3]
+\ask[3]
 What kind of edges can appear in DFS for a directed graph in which
 every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 \in E$).
@@ -207,14 +208,14 @@ every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 tree edges, forward edges, backward edges
 
 
-\ask [3] Lets say that in a directed graph $u$ and $v$ are in two
+\ask[3] Lets say that in a directed graph $u$ and $v$ are in two
 different strongly connected components (in a strongly connected
 component all vertices can reach all others).  What kind of edges can
 be between $u$ and $v$.
 \sol
 tree edges, forward edges, cross edges
 
-\ask [3]
+\ask[3]
 In the topological sorting algorithm for directed acyclic graph we
 described in class and the notes, lets say a vertex $u$ appears
 after a vertex $v$.  What kind of edges can be in a path
@@ -225,7 +226,6 @@ tree edges, forward edges, cross edges
 \end{problem}
 
 
-\section{Problem 3: Sets and Tables}
 
 
 %\newpage
@@ -395,7 +395,7 @@ fun find idx word =
 
 \used{Fall 14, Practice Exam II}
 
-\begin{problem}[6pts]
+\begin{problem}[6p]
 
 Consider the graph shown below, where the edge weights appear next to
 the edges and the heuristic distances to vertex $G$ are in parenthesis
@@ -419,7 +419,7 @@ A C F G
 
 \end{problem}
 
-\begin{problem}[4pts]
+\begin{problem}[4p]
 
 \ask
 What is the key reason you would choose to use $A^*$ instead of
@@ -431,7 +431,7 @@ and not all shortest paths. $A^*$ can be much more efficient, as it tries to
 move toward the goal more directly, skipping many more vertices.
 \end{problem}
 
-\begin{problem}[5pts]
+\begin{problem}[5p]
 \ask
 Show a $3$-vertex example of a graph on which Dijkstra's algorithm always
 fails. Please clearly identify which vertex is the source.
@@ -490,7 +490,7 @@ path to $d$ in any of the three copies.
 
 
 
-\section[10]{(Graphs) Strongly Connected Components}
+\section{(Graphs) Strongly Connected Components}
 \used{Fall 14, Practice Exam II}
 
 %\newpage
@@ -502,7 +502,7 @@ there is a directed path from $u$ to $v$), and such that no other vertex in
 $V$ can be added to $S$ without violating this condition. Every vertex
 belongs to exactly one strongly connected component in a graph.
 
-\begin{problem}
+\begin{problem}[10p]
 \ask
 Implement the function:
 \begin{lstlisting}

@@ -8,7 +8,7 @@ let str_of_char x = String.make 1 x
 let str_of_pval_opt x = 
   match x with 
   | None -> "None"
-  | Some x -> "Some" ^ x
+  | Some x -> "Some " ^ x
 
 
 (* is C vertical space *)

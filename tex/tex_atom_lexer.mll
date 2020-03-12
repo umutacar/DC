@@ -10,11 +10,11 @@ open Tex_atom_parser
 module Tex = Tex_syntax
 
 (* Turn off prints *)
-
+(*
 let d_printf args = 
     ifprintf stdout args
 
-(*
+
 let d_printf args = printf args 
 *)
 let kw_curly_open = "{"
@@ -176,8 +176,17 @@ let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
+let p_ask = "\\ask"
+let p_short_answer = "\\ans"
+let p_free_response = "\\answer"
+let p_one_choice  = "\\onechoice"
+let p_any_choice = "\\anychoice"
+
+
 let points = 'p' | "pts"
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points) p_ws (p_c_sq as c_sq)
+(* item point values can be floating point *)
+let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (points)? p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -200,8 +209,19 @@ let p_item =
   (p_com_refsol as kind) |
   (p_com_rubric as kind) 
 
-let p_item_arg = 
-  p_item p_ws  (p_o_sq as o_sq) (p_float as point_val) (p_c_sq as c_sq) 
+let p_item_arg =  p_item p_ws  p_item_point_val
+
+let p_primary_item = 
+	(p_ask as kind) | 
+	(p_short_answer as kind) | 
+	(p_free_response as kind) | 
+	(p_one_choice as kind) | 
+	(p_any_choice as kind) 
+
+let p_primary_item_arg =  p_primary_item p_ws  p_item_point_val
+
+let p_begin_list = p_primary_item | p_primary_item_arg
+let p_end_list = "mambo"
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -224,20 +244,6 @@ let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim
 (* end: environments *)
 
 let p_caption = "\\caption"
-let p_ask = "\\ask"
-let p_short_answer = "\\ans"
-let p_free_response = "\\answer"
-let p_one_choice  = "\\onechoice"
-let p_any_choice = "\\anychoice"
-
-let p_begin_list = 
-	(p_ask as kind) | 
-	(p_short_answer as kind) | 
-	(p_free_response as kind) | 
-	(p_one_choice as kind) | 
-	(p_any_choice as kind) 
-
-let p_end_list = "mambo"
 
 (** END PATTERNS *)			
 
@@ -359,19 +365,32 @@ and take_env =
        (lopt, s ^ rest, capopt, items, h_e)
     }
 
-	| p_begin_list as x
+	| p_primary_item_arg as x
 			{
 		   (* This should be at the top level, not nested within other env's.         
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let kind_of_list = kind in
-        let _ = d_printf "* lexer: begin choices kind = %s.\n" kind_of_list in
+        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
-				let items = (kind_of_list, None, body)::items in 
+				let items = (kind, Some point_val, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
+
+	| p_item_arg as x
+			{
+		   (* This should be at the top level, not nested within other env's.         
+        * It should also be at the tail of an environment.
+        * TODO: check for these and return an error if not satisfied.
+        *) 
+        let _ = d_printf "* lexer: secondary item kind = %s.\n" kind in
+        let (body, items, h_e) = take_list lexbuf in
+				let items = (kind, None, body)::items in 
+          (* Drop items from body *)
+ 	        (None, "", None, items, h_e)
+      }
+
   | p_begin_env as x
         {
             let _ = d_printf "!atom lexer: begin latex env: %s\n" x in 
