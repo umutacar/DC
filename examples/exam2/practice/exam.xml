@@ -116,20 +116,20 @@ prmbl:examii-practice::minutes
 
 <segment name='section'>
 <field name='point_value'>
-0.0
+10.
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
-Problem 1: True or False
+True or False
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-Problem 1: True or False
+True or False
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-sec:examii-practice::problem-1-true-or-false
+sec:examii-practice::true-or-false
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -144,16 +144,16 @@ sec:examii-practice::problem-1-true-or-false
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
-Problem 2: Short Answers
+Short Answers
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-Problem 2: Short Answers
+Short Answers
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-sec:examii-practice::problem-2-short-answers
+sec:examii-practice::short-answers
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -483,7 +483,7 @@ each with weight $1$. Then solve with BFS.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::enter-and-exit
+grp:prb:examii-practice::5
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -498,12 +498,12 @@ grp:prb:examii-practice::enter-and-exit
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-Enter and Exit
+5
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-Enter and Exit
+5
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -513,16 +513,17 @@ Enter and Exit
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::enter-and-exit
+prb:examii-practice::5
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-5.
+0.0
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
+<p>[Enter and Exit]</p>
 <p>Recall the implementation of DFS shown in class using the <code>enter</code> and <code>exit</code> functions. Circle the correct answer for each of the following statements, assuming DFS starts at <span class="math inline">\(A\)</span>:</p>
 <p><embed src="dfs/dfs-graph1.pdf" /></p>
 <table>
@@ -564,7 +565,8 @@ prb:examii-practice::enter-and-exit
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-\used{Fall 14, Practice Exam II}
+[Enter and Exit]
+ \used{Fall 14, Practice Exam II}
 
 Recall the implementation of DFS shown in class using the \sml{enter}
 and \sml{exit} functions. Circle the correct answer for each of the
@@ -633,12 +635,12 @@ grp:prb:examii-practice::fall
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+5
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-...NOT.PROVIDED.TITLE...
+5
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -654,7 +656,7 @@ prb:examii-practice::fall
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-5.
+0.0
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
@@ -787,7 +789,7 @@ We'll use a max priority queue instead of a min priority queue used
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::parallel-cycle-detection
+grp:prb:examii-practice::4
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -802,12 +804,12 @@ grp:prb:examii-practice::parallel-cycle-detection
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-Parallel Cycle Detection
+4
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-Parallel Cycle Detection
+4
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -817,22 +819,22 @@ Parallel Cycle Detection
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::parallel-cycle-detection
+prb:examii-practice::4
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-4.
+0.0
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
+<p>[Parallel Cycle Detection]</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-
+[Parallel Cycle Detection]
 ]]>
 </field> <!-- body_src -->
 
@@ -941,7 +943,7 @@ contract along a single duplicate edge.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-grp:prb:examii-practice::star-contraction
+grp:prb:examii-practice::6
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -956,12 +958,12 @@ grp:prb:examii-practice::star-contraction
 </field> <!-- pl_version -->
 <field name='title'>
 <![CDATA[
-Star Contraction
+6
 ]]>
 </field> <!-- title -->
 <field name='title_src'>
 <![CDATA[
-Star Contraction
+6
 ]]>
 </field> <!-- title_src -->
 <field name='cover'>
@@ -971,22 +973,22 @@ Star Contraction
 ...NOT.PROVIDED.SOUND...
 </field> <!-- sound -->
 <field name='label'>
-prb:examii-practice::star-contraction
+prb:examii-practice::6
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-6.
+0.0
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-
+<p>[Star Contraction]</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-
+[Star Contraction]
 ]]>
 </field> <!-- body_src -->
 
@@ -1169,19 +1171,19 @@ a depth first search (DFS): \textbf{tree edges}, \textbf{back edges},
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-prt-ask:examii-practice::3pts
+prt-ask:examii-practice::kind
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='body'>
 <![CDATA[
-<p>[3pts] What kind of edges can a <strong>bridge</strong>, as defined in AbridgedLab, be</p>
+<p>[3] What kind of edges can a <strong>bridge</strong>, as defined in AbridgedLab, be</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-[3pts]
+[3]
 What kind of edges can a \textbf{bridge}, as defined in AbridgedLab, be
 ]]>
 </field> <!-- body_src -->
@@ -1216,7 +1218,7 @@ cki-sol:examii-practice::tree
 <![CDATA[
 tree edge
 
-\ask[3pts]
+\ask[3]
 Assume we enter $u$ before entering $v$ during the DFS, what kind of
 edge can the edge $(u,v)$ (directed from $u$ to $v$) be?
 ]]>
@@ -1255,7 +1257,7 @@ cki-sol:examii-practice::forward
 forward edge, tree edge
 
 
-\ask[3pts]
+\ask[3]
 What kind of edges can appear in DFS for a directed graph in which
 every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 \in E$).
@@ -1294,7 +1296,7 @@ cki-sol:examii-practice::edges
 tree edges, forward edges, backward edges
 
 
-\ask[3pts] Lets say that in a directed graph $u$ and $v$ are in two
+\ask[3] Lets say that in a directed graph $u$ and $v$ are in two
 different strongly connected components (in a strongly connected
 component all vertices can reach all others).  What kind of edges can
 be between $u$ and $v$.
@@ -1332,7 +1334,7 @@ cki-sol:examii-practice::cross
 <![CDATA[
 tree edges, forward edges, cross edges
 
-\ask[3pts]
+\ask[3]
 In the topological sorting algorithm for directed acyclic graph we
 described in class and the notes, lets say a vertex $u$ appears
 after a vertex $v$.  What kind of edges can be in a path
@@ -1388,30 +1390,6 @@ tree edges, forward edges, cross edges
 </atom> <!-- problem -->
 
 </segment> <!-- cluster -->
-
-
-</segment> <!-- section -->
-
-<segment name='section'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-Problem 3: Sets and Tables
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-Problem 3: Sets and Tables
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-sec:examii-practice::problem-3-sets-and-tables
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
 
 
 </segment> <!-- section -->
@@ -2776,7 +2754,69 @@ prb:examii-practice::-vertex
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::-vertex
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
 <p>Show a <span class="math inline">\(3\)</span>-vertex example of a graph on which Dijkstra’s algorithm always fails. Please clearly identify which vertex is the source.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Show a $3$-vertex example of a graph on which Dijkstra's algorithm always
+fails. Please clearly identify which vertex is the source.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\sol'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::guarantees
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
 <pre><code>         A   
         / \  
    x=4 /   \ y=-2   x+y &lt; z &lt; x guarantees failure  
@@ -2787,10 +2827,6 @@ prb:examii-practice::-vertex
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-Show a $3$-vertex example of a graph on which Dijkstra's algorithm always
-fails. Please clearly identify which vertex is the source.
-
-\sol
 \begin{verbatim}
          A 
         / \
@@ -2801,6 +2837,9 @@ fails. Please clearly identify which vertex is the source.
 \end{verbatim}
 ]]>
 </field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
 
 <field name='caption'>
 <![CDATA[
@@ -2821,7 +2860,7 @@ fails. Please clearly identify which vertex is the source.
 
 <segment name='section'>
 <field name='point_value'>
-0.0
+12.
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
@@ -3394,7 +3433,7 @@ prb:examii-practice::implement
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-0.0
+10.
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[

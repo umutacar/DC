@@ -4,7 +4,7 @@
 open Core
 open Utils
 
-(* Turn off all prints *)
+let d_printf args = printf args
 
 module Labels = Tex_labels
 module Md = Md_syntax
@@ -1042,6 +1042,7 @@ struct
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
     let _ = d_printf "ast.segment.to_xml: title = %s\n" title in
 		let point_val = normalize_point_val point_val in
+    let _ = d_printf "ast.segment.to_xml: point_val = %s\n" (str_of_pval_opt point_val) in
     let titles = str_opt_to_xml translator Xml.title (Some title) in
     let depend = depend_to_xml depend in
 		let block =  Block.to_xml translator block in
