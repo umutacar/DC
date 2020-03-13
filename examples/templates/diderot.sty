@@ -61,7 +61,7 @@
 
 \theoremstyle{definition}
 \newtheorem{exercise}{Exercise}[chapter]
-\newtheorem{problem}[exercise]{Problem}
+\newtheorem{amsproblem}[exercise]{Problem}
 \newtheorem*{solution}{Solution}
 \newtheorem*{task}{Task}
 
@@ -226,16 +226,24 @@
 { 
 }
 
-%% \NewDocumentEnvironment{problem}{o}
-%% {
-%% \IfNoValueTF{#1}
-%% {\paragraph*{Problem.}}
-%% {\paragraph*{Problem [#1].}}
-
-%% }
-%% { 
-
-%% }
+\NewDocumentEnvironment{problem}{oo}
+{
+\IfNoValueTF{#1}
+{\begin{amsproblem}}
+{\IfNoValueTF{#2}
+ {\begin{amsproblem}[#1]
+  \begin{description}
+  \item[]
+ }
+ {\begin{amsproblem}[(#1)~{#2}]
+  \begin{description}}
+  \item[]
+ }
+}
+{
+\end{description}
+\end{amsproblem} 
+}
 
 \NewDocumentEnvironment{proposition}{o}
 {
