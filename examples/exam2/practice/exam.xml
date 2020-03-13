@@ -943,189 +943,6 @@ cki-sol:examii-practice::_11_
 
 </segment> <!-- cluster -->
 
-
-</segment> <!-- section -->
-
-<segment name='section'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-Short Answers
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-Short Answers
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-sec:examii-practice::short-answers
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-
-<segment name='cluster'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-grp:prb:examii-practice::classes
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-
-<atom name='problem'>
-<field name='pl'>
-...NOT.PROVIDED.PL...
-</field> <!-- pl -->
-<field name='pl_version'>
-...NOT.PROVIDED.PL_VERSION...
-</field> <!-- pl_version -->
-<field name='title'>
-<![CDATA[
-Classes
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-Classes
-]]>
-</field> <!-- title_src -->
-<field name='cover'>
-...NOT.PROVIDED.COVER...
-</field> <!-- cover -->
-<field name='sound'>
-...NOT.PROVIDED.SOUND...
-</field> <!-- sound -->
-<field name='label'>
-prb:examii-practice::classes
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='point_value'>
-4.
-</field> <!-- point_value -->
-<field name='body'>
-<![CDATA[
-<p>Lets say you are given a table that maps every student to the set of classes they take.</p>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-\used{Fall 14, Final}
-
-Lets say you are given a table that maps every student to the set of
-classes they take.
-]]>
-</field> <!-- body_src -->
-
-<segment name='\ask'>
-<field name='point_value'>
-4.
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-prt-ask:examii-practice::fill
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<p>Fill in the algorithm below that returns all classes, assuming there is at least one student in each class. Your algorithm must run in <span class="math inline">\(O(m \log n)\)</span> work and <span class="math inline">\(O((\log m)(\log n))\)</span> span, where <span class="math inline">\(n\)</span> is the number of students and <span class="math inline">\(m\)</span> is the sum of the number of classes taken across all students. Note, our solution is one line.</p>
-<pre data-numbers="none"><code>fun allClasses($T$ : classSet studentTable) : classSet =   
-@\vspace{.5in}@  </code></pre>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-Fill in the algorithm below that returns all classes,
-assuming there is at least one student in each class.  Your algorithm
-must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
-$n$ is the number of students and $m$ is the sum of the number of
-classes taken across all students.    Note, our solution is one line.
-
-\begin{lstlisting}[numbers=none]
-fun allClasses($T$ : classSet studentTable) : classSet = 
-@\vspace{.5in}@
-\end{lstlisting}
-]]>
-</field> <!-- body_src -->
-
-<segment name='\sol'>
-<field name='point_value'>
-0.0
-</field> <!-- point_value -->
-<field name='title'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title -->
-<field name='title_src'>
-<![CDATA[
-...NOT.PROVIDED.TITLE...
-]]>
-</field> <!-- title_src -->
-<field name='label'>
-cki-sol:examii-practice::numbers
-</field> <!-- label -->
-<field name='depend'>
-...NOT.PROVIDED.DEPEND...
-</field> <!-- depend -->
-<field name='body'>
-<![CDATA[
-<pre data-numbers="none"><code>fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$  </code></pre>
-]]>
-</field> <!-- body -->
-<field name='body_src'>
-<![CDATA[
-\begin{lstlisting}[numbers=none]
-fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
-\end{lstlisting}
-]]>
-</field> <!-- body_src -->
-</segment> <!-- \sol -->
-
-</segment> <!-- \ask -->
-
-<field name='caption'>
-<![CDATA[
-...NOT.PROVIDED.CAPTION...
-]]>
-</field> <!-- caption -->
-<field name='caption_src'>
-<![CDATA[
-...NOT.PROVIDED.CAPTION...
-]]>
-</field> <!-- caption_src -->
-</atom> <!-- problem -->
-
-</segment> <!-- cluster -->
-
 <segment name='cluster'>
 <field name='point_value'>
 0.0
@@ -2937,7 +2754,7 @@ fun makeIndex (docs : (docId  * string) seq) : index =
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::none
+cki-sol:examii-practice::numbers
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -3123,7 +2940,7 @@ fun adj (                ,               ) : docList =
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::type
+cki-sol:examii-practice::none
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...

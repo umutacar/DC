@@ -184,10 +184,10 @@ let label_prefix_theorem = "thm"
 let label_prefix_one_choice = "prt-one-choice"
 let label_prefix_any_choice = "prt-any-choice"
 let label_prefix_ask = "prt-ask"
+let label_prefix_ask_true_false = "prt-asktf"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
 let label_prefix_choice = "prt-choice"
-let label_prefix_choice_correct = "prt-choice"
 let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
 let label_prefix_cookie_notes = "cki-notes"
@@ -254,9 +254,10 @@ let label_prefix_of_kind =
    kw_any_choice, label_prefix_any_choice;
    kw_free_response, label_prefix_free_response;
    kw_ask, label_prefix_ask;
+   kw_asktf, label_prefix_asktf;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
-   kw_choice_correct, label_prefix_choice_correct
+   kw_choice, label_prefix_choice
   ]
   @
   (* Cookies *)
