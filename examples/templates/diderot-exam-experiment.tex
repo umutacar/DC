@@ -1,33 +1,56 @@
-\usepackage{xparse}    % used to deal with optional arguments
 \usepackage{environ}   % A better command for defining environments, used
                        % to drop contents when needed.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% BEGIN: DIDEROT COMMANDS
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% For pdf/latex we only use hyperref[label][reference text]
-%% format.  
-\renewcommand{\href}[2]{
-\hyperref[#1]{#2}
-}
+\usepackage{xparse} % Supplies NewDocumentEnvironment
+\usepackage{xstring} % Supplies \IfInteger
 
-% For PDF generation, this is identity function
-\newcommand{\htmlmath}[1]{{#1}}
+% detect inside cluster
+\newif\ifinsideproblemcluster
 
-% For PDF, we delegate download and attach to href.
-\newcommand{\download}[2]{\href{#2}{#1}}
-\newcommand{\attach}[2]{\href{#2}{#1}}
+% problem is reset at chapter
+\newcounter{problem}[chapter]
+
+% problempart is reset at cluster beginning.
+\newcounter{problempart}[problem]
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% END: DIDEROT COMMANDS
+%% BEGIN: Diderot Commands
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\depend}[1]
+{}
+\newcommand{\solution}
+{\noindent\paragraph{Solution.}}
 
+\newcommand{\help}
+{\noindent\paragraph{Hint.}}
 
+\newcommand{\explain}
+{\noindent\paragraph{Explanation.}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% END: Diderot Commands
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% BEGIN: Diderot Environments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% wrap inside \[ and \] if targethtml is on
+% this seems to work in pandoc even if \targethtml is not defined
+% very odd behaviour but it might be because pandoc does not
+% handle \ifdefined properly.
+\newcommand{\htmlmath}[1]
+{
+\ifdefined\targethtml
+\[
+{#1}
+\]
+\else
+{#1}
+\fi
+}
 
 \NewDocumentEnvironment{diderotfig}{o}
 {
@@ -45,25 +68,24 @@
 
 
 \theoremstyle{definition}
-\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}[theorem]{Corollary}
 \newtheorem{lemma}[theorem]{Lemma}
 
-\newtheorem{definition}{Definition}[chapter]
+\newtheorem{definition}{Definition}[section]
 \newtheorem{algorithm}[definition]{Algorithm}
 \newtheorem{code}[definition]{Pseudo Code}
 \newtheorem{costspec}[definition]{Cost Specification}
 \newtheorem{datatype}[definition]{Data Type}
 \newtheorem{datastr}[definition]{Data Structure}
-\newtheorem{example}{Example}[chapter]
+\newtheorem{example}{Example}[section]
 \newtheorem{syntax}[definition]{Syntax}
 
 
 \theoremstyle{definition}
-\newtheorem{exercise}{Exercise}[chapter]
-\newtheorem{amsproblem}[exercise]{Problem}
-\newtheorem*{solution}{Solution}
-\newtheorem*{task}{Task}
+\newtheorem{exercise}{Exercise}[section]
+%\newtheorem{problem}[exercise]{Problem}
+
 
 \theoremstyle{remark}
 \newtheorem*{assumption}{Assumption}
@@ -149,6 +171,102 @@
 %% { 
 %% }
 
+%% BEGIN: Cluster
+%% This environment accepts two optional arguments
+%% one is a number one is a title
+%% number is taken to be points.
+%%
+%% If there are no arguments, then it produces nothing
+%% If there are arguments, then it produces a heading
+%% and it separates points and title.
+\NewDocumentEnvironment{cluster}{o}
+{ 
+  \IfNoValueTF{#1}
+  {}
+  {\paragraph*{#1}}
+}
+{
+}
+%% END: cluster
+
+%% BEGIN: mproblem
+%% This environment accepts two optional arguments
+%% one is a number one is a title
+%% number is taken to be points.
+%% This is how problem environment should be written as 
+%%
+%% If there are no arguments, then it produces nothing
+%% If there are arguments, then it produces a heading
+%% and it separates points and title.
+\NewDocumentEnvironment{mproblem}{oo}
+{ 
+  \insideproblemclustertrue
+
+  \stepcounter{problem}
+
+  \IfNoValueTF{#2}
+  {
+    \IfNoValueTF{#1}
+    {}
+    {\IfInteger{#1}
+               {\noindent\textbf{Problem \theproblem} (#1 Points)}            
+               {\noindent\textbf{Problem \theproblem: #1}}
+    }
+  }
+  {
+   \IfInteger{#1}
+             {\noindent\textbf{Problem \theproblem: #2} (#1 Points)}
+             {\noindent\textbf{Problem \theproblem: #1} (#2 Points)}
+  }
+
+}
+{
+  %% remember that we are inside a cluster 
+  \insideproblemclusterfalse
+
+
+}
+%% END: mproblem
+
+%% BEGIN: xchoice list
+
+\newlist{xchoice}{enumerate}{1}
+\setlist[xchoice]{label*=\alph*)~,ref=\alph*,leftmargin=2em}
+
+%\makeatletter %% We are in .sty, not needed 
+\newcommand\rawchoice{%
+    \item\relax
+}
+\newcommand\rawchoicestar{%
+    \item\relax
+}
+%\makeatother %% We are in .sty, not needed 
+
+
+\NewDocumentCommand\choice{s}{%
+  \IfBooleanTF#1%
+    {\rawchoice}% If a star is seen
+    {\rawchoicestar}%     If no star is seen
+}
+%% END: xchoice list
+
+%% TODO Finish
+\NewDocumentEnvironment{pickany}{}
+{
+}
+{ 
+}
+
+
+\NewDocumentEnvironment{gram}{o}
+{
+\IfNoValueTF{#1}
+{}
+{\paragraph*{#1.}}
+}
+{ 
+}
+
 
 \NewDocumentEnvironment{flex}{o}
 {
@@ -167,24 +285,52 @@
 {\medskip}
 }
 
-
-\NewDocumentEnvironment{answer}{o}
+%% 
+%% This environment accepts two optional arguments
+%% one is a number one is a title
+%% number is taken to be points.
+%% This is how problem environment should be written as 
+\NewDocumentEnvironment{problem}{oo}
 {
-\IfNoValueTF{#1}
-{\paragraph*{Answer.}}
-{\paragraph*{Answer [#1].}}
-}
-{ 
-}
+  %% Step the counter
+  %% problem if not within cluster
+  %% problempart otherwise
 
-
-\NewDocumentEnvironment{gram}{o}
-{
-\IfNoValueTF{#1}
-{}
-{\paragraph*{#1.}}
+  \ifinsideproblemcluster
+    \stepcounter{problempart}   
+    \IfNoValueTF{#2}
+    {
+      \IfNoValueTF{#1}
+      {}
+      {\IfInteger{#1}
+                 {\paragraph{Problem \theproblem.\theproblempart: (#1 Points)}}            
+                 {\paragraph{Problem \theproblem.\theproblempart: #1}}
+      }
+    }
+    {
+     \IfInteger{#1}
+               {\paragraph{Problem \theproblem.\theproblempart: #2 (#1 Points)}}
+               {\paragraph{Problem \theproblem.\theproblempart: #1 (#2 Points)}}
+    }
+  \else
+    \stepcounter{problem}  
+    \IfNoValueTF{#2}
+    {
+      \IfNoValueTF{#1}
+      {}
+      {\IfInteger{#1}
+                 {\paragraph{Problem \theproblem: (#1 Points)}}            
+                 {\paragraph{Problem \theproblem: #1}}
+      }
+    }
+    {
+     \IfInteger{#1}
+               {\paragraph{Problem \theproblem: #2 (#1 Points)}}
+               {\paragraph{Problem \theproblem: #1 (#2 Points)}}
+    }
+  \fi
 }
-{ 
+{     
 }
 %% \NewDocumentEnvironment{important}{o}
 %% {
@@ -226,42 +372,17 @@
 { 
 }
 
-\NewDocumentEnvironment{problem}{oo}
-{
-\IfNoValueTF{#1}
-{\begin{amsproblem}}
-{\IfNoValueTF{#2}
- {\begin{amsproblem}[#1]
-  \begin{description}
-  \item[]
- }
- {\begin{amsproblem}[(#1)~{#2}]
-  \begin{description}}
-  \item[]
- }
-}
-{
-\end{description}
-\end{amsproblem} 
-}
-
 \NewDocumentEnvironment{proposition}{o}
 {
 \IfNoValueTF{#1}
 {\paragraph*{Proposition.}}
 {\paragraph*{Proposition [#1].}}
+
 }
 { 
+
 }
 
-\NewDocumentEnvironment{question}{o}
-{
-\IfNoValueTF{#1}
-{\paragraph*{Question.}}
-{\paragraph*{Question [#1].}}
-}
-{ 
-}
 
 %% \NewDocumentEnvironment{remark}{o}
 %% {

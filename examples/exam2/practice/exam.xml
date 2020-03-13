@@ -1208,19 +1208,48 @@ cki-sol:examii-practice::tree
 <field name='body'>
 <![CDATA[
 <p>tree edge</p>
-<p>Assume we enter <span class="math inline">\(u\)</span> before entering <span class="math inline">\(v\)</span> during the DFS, what kind of edge can the edge <span class="math inline">\((u,v)\)</span> (directed from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>) be?</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 tree edge
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
 
-\ask[3]
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::assume
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Assume we enter <span class="math inline">\(u\)</span> before entering <span class="math inline">\(v\)</span> during the DFS, what kind of edge can the edge <span class="math inline">\((u,v)\)</span> (directed from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>) be?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
 Assume we enter $u$ before entering $v$ during the DFS, what kind of
 edge can the edge $(u,v)$ (directed from $u$ to $v$) be?
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1245,22 +1274,50 @@ cki-sol:examii-practice::forward
 <field name='body'>
 <![CDATA[
 <p>forward edge, tree edge</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+forward edge, tree edge
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::edges
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
 <p>What kind of edges can appear in DFS for a directed graph in which every edge appears in both directions (i.e. if <span class="math inline">\((u,v) \in E\)</span> then <span class="math inline">\((v,u)  
 \in E\)</span>).</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-forward edge, tree edge
-
-
-\ask[3]
 What kind of edges can appear in DFS for a directed graph in which
 every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 \in E$).
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1285,21 +1342,50 @@ cki-sol:examii-practice::edges
 <field name='body'>
 <![CDATA[
 <p>tree edges, forward edges, backward edges</p>
-<p>Lets say that in a directed graph <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are in two different strongly connected components (in a strongly connected component all vertices can reach all others). What kind of edges can be between <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 tree edges, forward edges, backward edges
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
 
+</segment> <!-- \ask -->
 
-\ask[3] Lets say that in a directed graph $u$ and $v$ are in two
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::lets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Lets say that in a directed graph <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are in two different strongly connected components (in a strongly connected component all vertices can reach all others). What kind of edges can be between <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Lets say that in a directed graph $u$ and $v$ are in two
 different strongly connected components (in a strongly connected
 component all vertices can reach all others).  What kind of edges can
 be between $u$ and $v$.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1324,21 +1410,50 @@ cki-sol:examii-practice::cross
 <field name='body'>
 <![CDATA[
 <p>tree edges, forward edges, cross edges</p>
-<p>In the topological sorting algorithm for directed acyclic graph we described in class and the notes, lets say a vertex <span class="math inline">\(u\)</span> appears after a vertex <span class="math inline">\(v\)</span>. What kind of edges can be in a path from <span class="math inline">\(v\)</span> to <span class="math inline">\(u\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 tree edges, forward edges, cross edges
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
 
-\ask[3]
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::topological
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>In the topological sorting algorithm for directed acyclic graph we described in class and the notes, lets say a vertex <span class="math inline">\(u\)</span> appears after a vertex <span class="math inline">\(v\)</span>. What kind of edges can be in a path from <span class="math inline">\(v\)</span> to <span class="math inline">\(u\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
 In the topological sorting algorithm for directed acyclic graph we
 described in class and the notes, lets say a vertex $u$ appears
 after a vertex $v$.  What kind of edges can be in a path
 from $v$ to $u$.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -2480,7 +2595,7 @@ vertex is $A$.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::show
+cki-sol:examii-practice::_3_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2488,19 +2603,48 @@ cki-sol:examii-practice::show
 <field name='body'>
 <![CDATA[
 <p>A C B E F D G</p>
-<p>Show an order in which vertices are visited by <span class="math inline">\(A^*\)</span> when the source vertex is <span class="math inline">\(A\)</span> and the destination vertex is <span class="math inline">\(G\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 A C B E F D G
-
-
-\ask Show an order in which vertices are visited by $A^*$ when
-the source vertex is $A$ and the destination vertex is $G$.
 ]]>
 </field> <!-- body_src -->
 </segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::vertices
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Show an order in which vertices are visited by <span class="math inline">\(A^*\)</span> when the source vertex is <span class="math inline">\(A\)</span> and the destination vertex is <span class="math inline">\(G\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Show an order in which vertices are visited by $A^*$ when
+the source vertex is $A$ and the destination vertex is $G$.
+]]>
+</field> <!-- body_src -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -2517,7 +2661,7 @@ the source vertex is $A$ and the destination vertex is $G$.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::_3_
+cki-sol:examii-practice::_4_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
