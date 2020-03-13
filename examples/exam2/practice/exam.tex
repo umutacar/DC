@@ -19,10 +19,108 @@
 \end{preamble}
 
 
-\section[10]{True or False}
 %\newpage
-%\input{truefalse}
 
+\section[10]{True or False}
+
+\begin{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+Consider taking the union of two sets with $n$ elements in total
+(summed over both sets).  In the worst case, the union operation
+performs the most work when the two sets contain an equal number of
+elements and less work when one set contains significantly more
+elements that the other.
+
+\solt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+On an undirected graph if  BFS visits a vertex $v$ at round $r$ (round
+start at $0$) then the shortest path from $v$ to the source vertex has
+length $r$.
+
+\solt
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+When BFS visits a vertex $v$, it adds all of its neighbors to the
+frontier, which is to be visited in the next round.
+
+\solf
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+BFS is a natural algorithm for computing topological sort in a directed graph.
+
+\solf
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+A back-edge is an edge of the DFS-tree that connects a descendant to
+an ancestor.
+\solf
+% a back-edge is a non-tree edge.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf 
+
+In a DFS of a graph, for any edge $(u,v)$ in the graph, the discovery
+time of $u$ is less than the discovery time of $v$.  
+
+\solf
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf 
+For any DFS-tree edge $(u,v)$ in a graph, the finish time of $v$ is
+less than the finish time of $u$.  
+\solt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf 
+Given a graph and the DFS numbers, we can determine the
+forward, back, and cross edges by inspecting DFS numbers only.  
+\solt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+If a graph has negative edge weights, the unmodified Dijkstra's
+algorithm for shortest path may loop forever.
+
+\solf
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+If we run Bellman-Ford on a graph with a negative-weight cycle, then
+the algorithm will terminate and indicate that it has found a
+negative-weight cycle.
+
+\solf
+% It can be unreachable from the source.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf 
+
+A round of graph contraction with star partitioning (star contraction)
+eliminates a constant fraction of vertices and edges.
+
+\solf
+
+% not that of edges.
+
+\end{problem}
 
 
 \section{Short Answers}
