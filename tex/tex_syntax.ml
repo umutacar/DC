@@ -254,7 +254,7 @@ let label_prefix_of_kind =
    kw_any_choice, label_prefix_any_choice;
    kw_free_response, label_prefix_free_response;
    kw_ask, label_prefix_ask;
-   kw_asktf, label_prefix_asktf;
+   kw_ask_true_false, label_prefix_ask_true_false;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
    kw_choice, label_prefix_choice

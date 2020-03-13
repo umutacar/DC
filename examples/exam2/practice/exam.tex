@@ -22,18 +22,8 @@
 
 \section[10]{True or False}
 
-\begin{problem}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\asktf
-
-Consider taking the union of two sets with $n$ elements in total
-(summed over both sets).  In the worst case, the union operation
-performs the most work when the two sets contain an equal number of
-elements and less work when one set contains significantly more
-elements that the other.
-
-\solt
+\begin{problem}[BFS and DFS]
+For each questions below, please select True or False.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -88,13 +78,25 @@ Given a graph and the DFS numbers, we can determine the
 forward, back, and cross edges by inspecting DFS numbers only.  
 \solt
 
+\end{problem}
+
+
+\begin{problem}[True/False Miscellaneous]
+
+for each questions below, please select True or False.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
 
-If a graph has negative edge weights, the unmodified Dijkstra's
-algorithm for shortest path may loop forever.
+Consider taking the union of two sets with $n$ elements in total
+(summed over both sets).  In the worst case, the union operation
+performs the most work when the two sets contain an equal number of
+elements and less work when one set contains significantly more
+elements that the other.
 
-\solf
+\solt
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -104,7 +106,7 @@ the algorithm will terminate and indicate that it has found a
 negative-weight cycle.
 
 \solf
-% It can be unreachable from the source.
+It can be unreachable from the source.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -114,45 +116,51 @@ A round of graph contraction with star partitioning (star contraction)
 eliminates a constant fraction of vertices and edges.
 
 \solf
+not that of edges.
 
-% not that of edges.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+If a graph has negative edge weights, the unmodified Dijkstra's
+algorithm for shortest path may loop forever.
+
+\solf
 
 \end{problem}
 
 
-%% \section{Short Answers}
+\section{Short Answers}
 
-%% %\input{../../../setstables/classes}
+%\input{../../../setstables/classes}
 
-%% \begin{problem}[20p][Classes]
-%% \used{Fall 14, Final}
+\begin{problem}[20p][Classes]
+\used{Fall 14, Final}
 
+Lets say you are given a table that maps every student to the set of
+classes they take.  
+Fill in the algorithm below that returns all classes,
+assuming there is at least one student in each class.  Your algorithm
+must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
+$n$ is the number of students and $m$ is the sum of the number of
+classes taken across all students.    Note, our solution is one line.
 
-%% Lets say you are given a table that maps every student to the set of
-%% classes they take.  
-%% Fill in the algorithm below that returns all classes,
-%% assuming there is at least one student in each class.  Your algorithm
-%% must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
-%% $n$ is the number of students and $m$ is the sum of the number of
-%% classes taken across all students.    Note, our solution is one line.
+\ask[0.5] 
 
-%% \ask[0.5] 
+\begin{lstlisting}[numbers=none]
+fun allClasses($T$ : classSet studentTable) : classSet = 
+@\vspace{.5in}@
+\end{lstlisting}
 
-%% \begin{lstlisting}[numbers=none]
-%% fun allClasses($T$ : classSet studentTable) : classSet = 
-%% @\vspace{.5in}@
-%% \end{lstlisting}
+\explain[1] Some explanation 
 
-%% \explain[1] 
+\sol[4]
+\begin{lstlisting}[numbers=none]
+fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
+\end{lstlisting}
 
-%% \sol[4]
-%% \begin{lstlisting}[numbers=none]
-%% fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
-%% \end{lstlisting}
+\hint[2] This is a hint
 
-%% \hint[2] This is a hint
-
-%% \end{problem}
+\end{problem}
 
 %\input{../../../bfs/shortest-weighted}
 
