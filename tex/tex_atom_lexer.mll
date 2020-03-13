@@ -176,11 +176,11 @@ let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 
-let p_ask = "\\ask"
-let p_short_answer = "\\ans"
-let p_free_response = "\\answer"
-let p_one_choice  = "\\onechoice"
-let p_any_choice = "\\anychoice"
+let p_com_ask = "\\ask"
+let p_com_short_answer = "\\ans"
+let p_com_free_response = "\\answer"
+let p_com_one_choice  = "\\onechoice"
+let p_com_any_choice = "\\anychoice"
 
 
 let points = 'p' | "pts"
@@ -199,7 +199,15 @@ let p_begin_verbatim = p_com_begin p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
+let p_primary_item = 
+	(p_com_ask as kind) | 
+	(p_com_short_answer as kind) | 
+	(p_com_free_response as kind) | 
+	(p_com_one_choice as kind) | 
+	(p_com_any_choice as kind) 
+
 let p_item = 
+  (p_primary_item as kind) | 
 	(p_com_choice as kind) |
 	(p_com_choice_correct as kind) |
 	(p_com_explain as kind) |
@@ -209,19 +217,8 @@ let p_item =
   (p_com_refsol as kind) |
   (p_com_rubric as kind) 
 
-let p_item_arg =  p_item p_ws  p_item_point_val
-
-let p_primary_item = 
-	(p_ask as kind) | 
-	(p_short_answer as kind) | 
-	(p_free_response as kind) | 
-	(p_one_choice as kind) | 
-	(p_any_choice as kind) 
-
-let p_primary_item_arg =  p_primary_item p_ws  p_item_point_val
-
-let p_begin_list = p_primary_item | p_primary_item_arg
-let p_end_list = "mambo"
+let p_item_points =  p_item p_ws  p_item_point_val
+let p_primary_item_points =  p_primary_item p_ws  p_item_point_val
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -365,9 +362,9 @@ and take_env =
        (lopt, s ^ rest, capopt, items, h_e)
     }
 
-	| p_primary_item_arg as x
+	| p_primary_item_points as x
 			{
-		   (* This should be at the top level, not nested within other env's.         
+		   (* This case is not allowed occur within nested env's.         
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
@@ -378,13 +375,13 @@ and take_env =
  	        (None, "", None, items, h_e)
       }
 
-	| p_item_arg as x
+	| p_primary_item as x
 			{
-		   (* This should be at the top level, not nested within other env's.         
+		   (* This case is not allowed occur within nested env's.         
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: secondary item kind = %s.\n" kind in
+        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind, None, body)::items in 
           (* Drop items from body *)
@@ -573,7 +570,7 @@ and take_kw_args depth =
 
 and take_list =
 	 parse
-	 | p_item_arg as x 
+	 | p_item_points as x 
 	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
 	   let items = (kind, Some point_val, body)::items in
