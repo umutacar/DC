@@ -1251,10 +1251,10 @@ let prompt_of_items (items: t_item list): t_prompt =
 			if Tex.is_prompt kind then
 				let cookies = List.map rest_items ~f:cookie_of_item in
 				Prompt.make ~point_val kind body cookies 
-		else
-      (* item is a field for the current prompt *)
-			(printf "Parse Error: I was expecting a prompt here.";
-			 exit 1)
+  		else
+        (* item is a field for the current prompt *)
+  			(printf "Parse Error: I was expecting a prompt here but saw kind = %s." kind;
+	  		 exit 1)
 
 (* Create a prompt list from an item list.
  * The item list must start with the problem.
@@ -1287,7 +1287,7 @@ let prompts_of_items (items: t_item list) =
 			let cookie = [item] in
         (cp @ cookie, prompts)
 		else
-			let _ = printf "Parse Error: I was expecting a 'prompt' or a 'cookie'.\n" in
+			let _ = printf "Parse Error: I was expecting a 'prompt' or a 'cookie' but saw kind = %s.\n" kind in
 			exit 1
 	in
 	begin

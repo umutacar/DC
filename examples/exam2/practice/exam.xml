@@ -135,6 +135,892 @@ sec:examii-practice::true-or-false
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:examii-practice::bfs-and-dfs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+BFS and DFS
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+BFS and DFS
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:examii-practice::bfs-and-dfs
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>For each questions below, please select True or False.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For each questions below, please select True or False.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::undirected
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>On an undirected graph if BFS visits a vertex <span class="math inline">\(v\)</span> at round <span class="math inline">\(r\)</span> (round start at <span class="math inline">\(0\)</span>) then the shortest path from <span class="math inline">\(v\)</span> to the source vertex has length <span class="math inline">\(r\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+On an undirected graph if  BFS visits a vertex $v$ at round $r$ (round
+start at $0$) then the shortest path from $v$ to the source vertex has
+length $r$.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solt'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_1_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solt -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::visits
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>When BFS visits a vertex <span class="math inline">\(v\)</span>, it adds all of its neighbors to the frontier, which is to be visited in the next round.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+When BFS visits a vertex $v$, it adds all of its neighbors to the
+frontier, which is to be visited in the next round.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_2_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::natural
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>BFS is a natural algorithm for computing topological sort in a directed graph.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+BFS is a natural algorithm for computing topological sort in a directed graph.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_3_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::back-edge
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>A back-edge is an edge of the DFS-tree that connects a descendant to an ancestor.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A back-edge is an edge of the DFS-tree that connects a descendant to
+an ancestor.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_4_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::graph
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>In a DFS of a graph, for any edge <span class="math inline">\((u,v)\)</span> in the graph, the discovery time of <span class="math inline">\(u\)</span> is less than the discovery time of <span class="math inline">\(v\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+In a DFS of a graph, for any edge $(u,v)$ in the graph, the discovery
+time of $u$ is less than the discovery time of $v$.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_5_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::dfs-tree
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>For any DFS-tree edge <span class="math inline">\((u,v)\)</span> in a graph, the finish time of <span class="math inline">\(v\)</span> is less than the finish time of <span class="math inline">\(u\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+For any DFS-tree edge $(u,v)$ in a graph, the finish time of $v$ is
+less than the finish time of $u$.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solt'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_6_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solt -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::given
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Given a graph and the DFS numbers, we can determine the forward, back, and cross edges by inspecting DFS numbers only.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Given a graph and the DFS numbers, we can determine the
+forward, back, and cross edges by inspecting DFS numbers only.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solt'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_7_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solt -->
+
+</segment> <!-- \asktf -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
+<segment name='cluster'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+grp:prb:examii-practice::true-false-miscellaneous
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+
+<atom name='problem'>
+<field name='pl'>
+...NOT.PROVIDED.PL...
+</field> <!-- pl -->
+<field name='pl_version'>
+...NOT.PROVIDED.PL_VERSION...
+</field> <!-- pl_version -->
+<field name='title'>
+<![CDATA[
+True/False Miscellaneous
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+True/False Miscellaneous
+]]>
+</field> <!-- title_src -->
+<field name='cover'>
+...NOT.PROVIDED.COVER...
+</field> <!-- cover -->
+<field name='sound'>
+...NOT.PROVIDED.SOUND...
+</field> <!-- sound -->
+<field name='label'>
+prb:examii-practice::true-false-miscellaneous
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='body'>
+<![CDATA[
+<p>for each questions below, please select True or False.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+for each questions below, please select True or False.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::consider
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Consider taking the union of two sets with <span class="math inline">\(n\)</span> elements in total (summed over both sets). In the worst case, the union operation performs the most work when the two sets contain an equal number of elements and less work when one set contains significantly more elements that the other.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Consider taking the union of two sets with $n$ elements in total
+(summed over both sets).  In the worst case, the union operation
+performs the most work when the two sets contain an equal number of
+elements and less work when one set contains significantly more
+elements that the other.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solt'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_8_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solt -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::bellman-ford
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>If we run Bellman-Ford on a graph with a negative-weight cycle, then the algorithm will terminate and indicate that it has found a negative-weight cycle.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+If we run Bellman-Ford on a graph with a negative-weight cycle, then
+the algorithm will terminate and indicate that it has found a
+negative-weight cycle.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::unreachable
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>It can be unreachable from the source.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+It can be unreachable from the source.
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::round
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>A round of graph contraction with star partitioning (star contraction) eliminates a constant fraction of vertices and edges.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+A round of graph contraction with star partitioning (star contraction)
+eliminates a constant fraction of vertices and edges.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::edges
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>not that of edges.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+not that of edges.
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<segment name='\asktf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-asktf:examii-practice::negative
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>If a graph has negative edge weights, the unmodified Dijkstra’s algorithm for shortest path may loop forever.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+If a graph has negative edge weights, the unmodified Dijkstra's
+algorithm for shortest path may loop forever.
+]]>
+</field> <!-- body_src -->
+
+<segment name='\solf'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-sol:examii-practice::_9_
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \solf -->
+
+</segment> <!-- \asktf -->
+
+<field name='caption'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption -->
+<field name='caption_src'>
+<![CDATA[
+...NOT.PROVIDED.CAPTION...
+]]>
+</field> <!-- caption_src -->
+</atom> <!-- problem -->
+
+</segment> <!-- cluster -->
+
 
 </segment> <!-- section -->
 
@@ -210,11 +1096,11 @@ prb:examii-practice::classes
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='point_value'>
-4.
+20.
 </field> <!-- point_value -->
 <field name='body'>
 <![CDATA[
-<p>Lets say you are given a table that maps every student to the set of classes they take.</p>
+<p>Lets say you are given a table that maps every student to the set of classes they take. Fill in the algorithm below that returns all classes, assuming there is at least one student in each class. Your algorithm must run in <span class="math inline">\(O(m \log n)\)</span> work and <span class="math inline">\(O((\log m)(\log n))\)</span> span, where <span class="math inline">\(n\)</span> is the number of students and <span class="math inline">\(m\)</span> is the sum of the number of classes taken across all students. Note, our solution is one line.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -222,13 +1108,18 @@ prb:examii-practice::classes
 \used{Fall 14, Final}
 
 Lets say you are given a table that maps every student to the set of
-classes they take.
+classes they take.  
+Fill in the algorithm below that returns all classes,
+assuming there is at least one student in each class.  Your algorithm
+must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
+$n$ is the number of students and $m$ is the sum of the number of
+classes taken across all students.    Note, our solution is one line.
 ]]>
 </field> <!-- body_src -->
 
 <segment name='\ask'>
 <field name='point_value'>
-4.
+0.5
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
@@ -241,26 +1132,19 @@ classes they take.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-prt-ask:examii-practice::fill
+prt-ask:examii-practice::numbers
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
 </field> <!-- depend -->
 <field name='body'>
 <![CDATA[
-<p>Fill in the algorithm below that returns all classes, assuming there is at least one student in each class. Your algorithm must run in <span class="math inline">\(O(m \log n)\)</span> work and <span class="math inline">\(O((\log m)(\log n))\)</span> span, where <span class="math inline">\(n\)</span> is the number of students and <span class="math inline">\(m\)</span> is the sum of the number of classes taken across all students. Note, our solution is one line.</p>
 <pre data-numbers="none"><code>fun allClasses($T$ : classSet studentTable) : classSet =   
 @\vspace{.5in}@  </code></pre>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-Fill in the algorithm below that returns all classes,
-assuming there is at least one student in each class.  Your algorithm
-must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
-$n$ is the number of students and $m$ is the sum of the number of
-classes taken across all students.    Note, our solution is one line.
-
 \begin{lstlisting}[numbers=none]
 fun allClasses($T$ : classSet studentTable) : classSet = 
 @\vspace{.5in}@
@@ -268,9 +1152,41 @@ fun allClasses($T$ : classSet studentTable) : classSet =
 ]]>
 </field> <!-- body_src -->
 
+<segment name='\explain'>
+<field name='point_value'>
+1.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+cki-explain:examii-practice::explanation
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Some explanation</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Some explanation
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \explain -->
+
 <segment name='\sol'>
 <field name='point_value'>
-0.0
+4.
 </field> <!-- point_value -->
 <field name='title'>
 <![CDATA[
@@ -291,6 +1207,7 @@ cki-sol:examii-practice::numbers
 <field name='body'>
 <![CDATA[
 <pre data-numbers="none"><code>fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$  </code></pre>
+<p>This is a hint</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
@@ -298,6 +1215,8 @@ cki-sol:examii-practice::numbers
 \begin{lstlisting}[numbers=none]
 fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
 \end{lstlisting}
+
+\hint[2] This is a hint
 ]]>
 </field> <!-- body_src -->
 </segment> <!-- \sol -->
@@ -1054,7 +1973,7 @@ vertices are removed.\\
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::_1_
+cki-sol:examii-practice::_10_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1208,19 +2127,48 @@ cki-sol:examii-practice::tree
 <field name='body'>
 <![CDATA[
 <p>tree edge</p>
-<p>Assume we enter <span class="math inline">\(u\)</span> before entering <span class="math inline">\(v\)</span> during the DFS, what kind of edge can the edge <span class="math inline">\((u,v)\)</span> (directed from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>) be?</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 tree edge
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
 
-\ask[3]
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::assume
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Assume we enter <span class="math inline">\(u\)</span> before entering <span class="math inline">\(v\)</span> during the DFS, what kind of edge can the edge <span class="math inline">\((u,v)\)</span> (directed from <span class="math inline">\(u\)</span> to <span class="math inline">\(v\)</span>) be?</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
 Assume we enter $u$ before entering $v$ during the DFS, what kind of
 edge can the edge $(u,v)$ (directed from $u$ to $v$) be?
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1245,22 +2193,50 @@ cki-sol:examii-practice::forward
 <field name='body'>
 <![CDATA[
 <p>forward edge, tree edge</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+forward edge, tree edge
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::edges
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
 <p>What kind of edges can appear in DFS for a directed graph in which every edge appears in both directions (i.e. if <span class="math inline">\((u,v) \in E\)</span> then <span class="math inline">\((v,u)  
 \in E\)</span>).</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
-forward edge, tree edge
-
-
-\ask[3]
 What kind of edges can appear in DFS for a directed graph in which
 every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 \in E$).
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1277,7 +2253,7 @@ every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::edges
+cki-sol:examii-practice::backward
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -1285,21 +2261,50 @@ cki-sol:examii-practice::edges
 <field name='body'>
 <![CDATA[
 <p>tree edges, forward edges, backward edges</p>
-<p>Lets say that in a directed graph <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are in two different strongly connected components (in a strongly connected component all vertices can reach all others). What kind of edges can be between <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 tree edges, forward edges, backward edges
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
 
+</segment> <!-- \ask -->
 
-\ask[3] Lets say that in a directed graph $u$ and $v$ are in two
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::lets
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Lets say that in a directed graph <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span> are in two different strongly connected components (in a strongly connected component all vertices can reach all others). What kind of edges can be between <span class="math inline">\(u\)</span> and <span class="math inline">\(v\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Lets say that in a directed graph $u$ and $v$ are in two
 different strongly connected components (in a strongly connected
 component all vertices can reach all others).  What kind of edges can
 be between $u$ and $v$.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1324,21 +2329,50 @@ cki-sol:examii-practice::cross
 <field name='body'>
 <![CDATA[
 <p>tree edges, forward edges, cross edges</p>
-<p>In the topological sorting algorithm for directed acyclic graph we described in class and the notes, lets say a vertex <span class="math inline">\(u\)</span> appears after a vertex <span class="math inline">\(v\)</span>. What kind of edges can be in a path from <span class="math inline">\(v\)</span> to <span class="math inline">\(u\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 tree edges, forward edges, cross edges
+]]>
+</field> <!-- body_src -->
+</segment> <!-- \sol -->
 
-\ask[3]
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+3.
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::topological
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>In the topological sorting algorithm for directed acyclic graph we described in class and the notes, lets say a vertex <span class="math inline">\(u\)</span> appears after a vertex <span class="math inline">\(v\)</span>. What kind of edges can be in a path from <span class="math inline">\(v\)</span> to <span class="math inline">\(u\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
 In the topological sorting algorithm for directed acyclic graph we
 described in class and the notes, lets say a vertex $u$ appears
 after a vertex $v$.  What kind of edges can be in a path
 from $v$ to $u$.
 ]]>
 </field> <!-- body_src -->
-</segment> <!-- \sol -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -1355,7 +2389,7 @@ from $v$ to $u$.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::_2_
+cki-sol:examii-practice::_11_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2480,7 +3514,7 @@ vertex is $A$.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::show
+cki-sol:examii-practice::_12_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...
@@ -2488,19 +3522,48 @@ cki-sol:examii-practice::show
 <field name='body'>
 <![CDATA[
 <p>A C B E F D G</p>
-<p>Show an order in which vertices are visited by <span class="math inline">\(A^*\)</span> when the source vertex is <span class="math inline">\(A\)</span> and the destination vertex is <span class="math inline">\(G\)</span>.</p>
 ]]>
 </field> <!-- body -->
 <field name='body_src'>
 <![CDATA[
 A C B E F D G
-
-
-\ask Show an order in which vertices are visited by $A^*$ when
-the source vertex is $A$ and the destination vertex is $G$.
 ]]>
 </field> <!-- body_src -->
 </segment> <!-- \sol -->
+
+</segment> <!-- \ask -->
+
+<segment name='\ask'>
+<field name='point_value'>
+0.0
+</field> <!-- point_value -->
+<field name='title'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title -->
+<field name='title_src'>
+<![CDATA[
+...NOT.PROVIDED.TITLE...
+]]>
+</field> <!-- title_src -->
+<field name='label'>
+prt-ask:examii-practice::vertices
+</field> <!-- label -->
+<field name='depend'>
+...NOT.PROVIDED.DEPEND...
+</field> <!-- depend -->
+<field name='body'>
+<![CDATA[
+<p>Show an order in which vertices are visited by <span class="math inline">\(A^*\)</span> when the source vertex is <span class="math inline">\(A\)</span> and the destination vertex is <span class="math inline">\(G\)</span>.</p>
+]]>
+</field> <!-- body -->
+<field name='body_src'>
+<![CDATA[
+Show an order in which vertices are visited by $A^*$ when
+the source vertex is $A$ and the destination vertex is $G$.
+]]>
+</field> <!-- body_src -->
 
 <segment name='\sol'>
 <field name='point_value'>
@@ -2517,7 +3580,7 @@ the source vertex is $A$ and the destination vertex is $G$.
 ]]>
 </field> <!-- title_src -->
 <field name='label'>
-cki-sol:examii-practice::_3_
+cki-sol:examii-practice::_13_
 </field> <!-- label -->
 <field name='depend'>
 ...NOT.PROVIDED.DEPEND...

@@ -175,8 +175,11 @@ let p_com_notes = '\\' "notes"
 let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
+let p_com_refsol_false = '\\' "solf"
+let p_com_refsol_true = '\\' "solt"
 
 let p_com_ask = "\\ask"
+let p_com_ask_true_false = "\\asktf"
 let p_com_short_answer = "\\ans"
 let p_com_free_response = "\\answer"
 let p_com_one_choice  = "\\onechoice"
@@ -204,7 +207,8 @@ let p_primary_item =
 	(p_com_short_answer as kind) | 
 	(p_com_free_response as kind) | 
 	(p_com_one_choice as kind) | 
-	(p_com_any_choice as kind) 
+	(p_com_any_choice as kind) |
+	(p_com_ask_true_false as kind) 
 
 let p_item = 
   (p_primary_item as kind) | 
@@ -215,6 +219,8 @@ let p_item =
   (p_com_notes as kind) |
   (p_com_part as kind) |
   (p_com_refsol as kind) |
+  (p_com_refsol_false as kind) |
+  (p_com_refsol_true as kind) |
   (p_com_rubric as kind) 
 
 let p_item_points =  p_item p_ws  p_item_point_val

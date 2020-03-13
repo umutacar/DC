@@ -37,12 +37,7 @@ let pattern_caption = "\\\\caption"
 
 (* BEGIN: Keywords *)
 let com_depend = "\\depend"
-let com_explain = "\\explain"
-let com_hint = "\\help"
 let com_label = "\\label"
-let com_notes = "\\notes"
-let com_rubric = "\\rubric"
-let com_solution = "\\sol"
 
 
 let kw_title = "title"
@@ -98,6 +93,7 @@ let kw_any_choice = "\\anychoice"
 let kw_free_response = "\\answer"
 let kw_short_answer = "\\ans"
 let kw_ask = "\\ask"
+let kw_ask_true_false = "\\asktf"
 
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
@@ -107,6 +103,8 @@ let kw_cookie_explain = "\\explain"
 let kw_cookie_hint = "\\hint"
 let kw_cookie_notes = "\\notes"
 let kw_cookie_refsol = "\\sol"
+let kw_cookie_refsol_false = "\\solf"
+let kw_cookie_refsol_true = "\\solt"
 let kw_cookie_rubric = "\\rubric"
 
 (* END: Keywords *)
@@ -186,10 +184,10 @@ let label_prefix_theorem = "thm"
 let label_prefix_one_choice = "prt-one-choice"
 let label_prefix_any_choice = "prt-any-choice"
 let label_prefix_ask = "prt-ask"
+let label_prefix_ask_true_false = "prt-asktf"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
 let label_prefix_choice = "prt-choice"
-let label_prefix_choice_correct = "prt-choice"
 let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
 let label_prefix_cookie_notes = "cki-notes"
@@ -256,14 +254,17 @@ let label_prefix_of_kind =
    kw_any_choice, label_prefix_any_choice;
    kw_free_response, label_prefix_free_response;
    kw_ask, label_prefix_ask;
+   kw_ask_true_false, label_prefix_ask_true_false;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
-   kw_choice_correct, label_prefix_choice_correct
+   kw_choice, label_prefix_choice
   ]
   @
   (* Cookies *)
   [
    kw_cookie_refsol, label_prefix_cookie_refsol;
+   kw_cookie_refsol_true, label_prefix_cookie_refsol;
+   kw_cookie_refsol_false, label_prefix_cookie_refsol;
    kw_cookie_explain, label_prefix_cookie_explain;
    kw_cookie_hint, label_prefix_cookie_hint;
    kw_cookie_notes, label_prefix_cookie_notes;
@@ -314,6 +315,7 @@ let primary_prompt_kinds =
    kw_one_choice, ();
    kw_any_choice, ();
    kw_ask, ();
+   kw_ask_true_false, ();
    kw_short_answer, ();
    kw_free_response, ()
   ]
@@ -328,11 +330,13 @@ let prompt_kinds =
 
 let cookie_kinds = 
   [
-   com_explain, ();
-   com_hint, ();
-   com_notes, ();
-   com_rubric, ();
-   com_solution, ()
+   kw_cookie_explain, ();
+   kw_cookie_hint, ();
+   kw_cookie_notes, ();
+   kw_cookie_rubric, ();
+   kw_cookie_refsol, ();
+   kw_cookie_refsol_false, ();
+   kw_cookie_refsol_true, ()
   ]
 
 (* Given a segment kind, assign a label prefix, e.g.,
@@ -410,28 +414,28 @@ let mk_explain e =
   match e with 
   |  None -> ""
   |  Some x ->
-			let l = com_explain ^ newline ^ x in
+			let l = kw_cookie_explain ^ newline ^ x in
 			l ^ newline
 
 let mk_hint e = 
   match e with 
   |  None -> ""
   |  Some x ->
-			let l = com_hint ^ newline ^ x in
+			let l = kw_cookie_hint ^ newline ^ x in
 			l ^ newline
 
 let mk_notes e = 
   match e with 
   |  None -> ""
   |  Some x ->
-			let l = com_notes ^ newline ^ x in
+			let l = kw_cookie_notes ^ newline ^ x in
 			l ^ newline
 
 let mk_rubric e = 
   match e with 
   |  None -> ""
   |  Some x ->
-			let l = com_rubric ^ newline ^ x in
+			let l = kw_cookie_rubric ^ newline ^ x in
 			l ^ newline
 
 let mk_title topt = 
@@ -465,25 +469,25 @@ let mk_end kind =
 
 
 let mk_hint_opt hint_opt = 
-  let heading = com_hint in
+  let heading = kw_cookie_hint in
   match hint_opt with 
   |  None -> ""
   |  Some x -> heading ^ "\n" ^ x  
 
 let mk_exp_opt exp_opt = 
-  let heading = com_explain in
+  let heading = kw_cookie_explain in
   match exp_opt with 
   |  None -> ""
   |  Some x -> heading ^ "\n" ^ x  
 
 let refsol_opt refsol_opt = 
-  let heading = com_solution in
+  let heading = kw_cookie_refsol in
   match refsol_opt with 
   |  None -> ""
   |  Some x -> heading ^ "\n" ^ x  
 
 let rubric_opt rubric_opt = 
-  let heading = com_rubric in
+  let heading = kw_cookie_rubric in
   match rubric_opt with 
   |  None -> ""
   |  Some x -> 
