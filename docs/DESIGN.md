@@ -16,7 +16,7 @@ The grammar is primarily designed to avoid conflicts in the parser.
 
 For example,  plural items, such as sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
 
-The parsing infrastructure is separated into three stages.  
+The parsing infrastructure is separated into three stages.  The implementation converged to this structure after various experiments.  The relevant PR where this structure is described is PR #124 in the DC repo.
 
 The stage-1 lexer (`tex_comment_lexer`) removes comments from the input.
 
