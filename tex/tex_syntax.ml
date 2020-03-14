@@ -257,7 +257,7 @@ let label_prefix_of_kind =
    kw_ask_true_false, label_prefix_ask_true_false;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
-   kw_choice, label_prefix_choice
+   kw_choice_correct, label_prefix_choice
   ]
   @
   (* Cookies *)
