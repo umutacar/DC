@@ -40,6 +40,29 @@ let fmt_lstlisting_nopl =
  ** BEGIN: Utilities
  **********************************************************************)
 
+let force_float_string (points:string option) = 
+	match points with
+	| None -> "0.0"
+	| Some p -> p
+
+let multiply_points (points:string) (multiplier: string) = 
+	let points = float_of_string points in
+	let multiplier = float_of_string multiplier in
+  let points = points *. multiplier in
+	Float.to_string points
+
+let divide_points (points:string)  (divisor: string) = 
+	let points = float_of_string points in
+	let divisor = float_of_string divisor in
+  let points = points /. divisor in
+	Float.to_string points
+
+let add_points (x: string) (y: string) = 
+	let x = float_of_string x in
+	let y = float_of_string y in
+	  Float.to_string (x +. y)
+
+
 (* if points (po) is None or 0.0 then
    empty string else the points *)
 let normalize_point_val po = 
@@ -60,6 +83,7 @@ let normalize_point_val_int po =
 			if pts = 0.0 then None
       else 
 				Some (string_of_int (Float.to_int pts))
+
 
 (* Tokenize title:
    Given Some "this is a title" it "sort of" returns 
@@ -242,6 +266,18 @@ struct
 		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
 		translator Xml.body cookie.body
 
+  let infer_point_value multiplier cookie = 
+		let {kind; point_val; title; label; body} = cookie in
+		let _ = d_printf "Cookie.infer_point_value %s\n" kind in
+    match point_val with
+    | None -> 
+				let default_point_value = Some "0.0" in
+				let _ = cookie.point_val <- default_point_value in
+				()
+    | Some points -> 
+				let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
+				()
+
   let to_xml translator cookie = 
 		let {kind; point_val; title; label; depend; body} = cookie in
 		(* Translate body to xml *)
@@ -307,6 +343,35 @@ struct
     let s = f Ast_prompt state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body) in
 		let f_tr_cookie state cookie = Cookie.traverse cookie state f in
 		  List.fold_left cookies ~init:s ~f:f_tr_cookie 
+
+  (* If point_value is set, then it becomes the factor.
+   * Otherwise, factor and point_value is 1.
+   *)
+  let infer_factors prompt = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let _ = d_printf "Prompt.infer_factors %s\n" kind in
+    match point_val with
+    | None -> 
+        let default_point_val = "1.0" in
+				let point_val = Some default_point_val in
+				default_point_val
+    | Some p -> p
+
+
+  (* If point_value is set, then it becomes the factor.
+   * Otherwise, factor and point_value is 1.
+   *)
+  let infer_point_value multiplier prompt = 
+		let {kind; point_val; title; label; body; cookies} = prompt in
+		let _ = d_printf "Prompt.infer_factors %s\n" kind in
+    match point_val with
+    | None -> 
+				let err = "Fatal Error: Expecting point value None found" in
+				raise (Constants.Fatal_Error err)
+    | Some points -> 
+				let _ = prompt.point_val <- Some (multiply_points points multiplier) in
+        let _ = List.map cookies ~f:(Cookie.infer_point_value multiplier) in
+				prompt.point_val
 
   let to_tex prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
@@ -557,6 +622,25 @@ struct
     let _ = d_printf "body sanitized:\n %s" body in
 		translator Xml.body body
 
+  let infer_point_value atom = 
+		let {kind; point_val; title; label; depend; prompts; body} = atom in
+		let _ = d_printf "Atom.infer_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
+    let factors = List.map prompts ~f:Prompt.infer_factors in
+    let sum_opt = List.reduce factors ~f:add_points in
+      match point_val with 
+			| None -> 
+        let _ = atom.point_val <- sum_opt in 
+				force_float_string (sum_opt)
+			| Some points ->
+        match sum_opt with 
+				| None -> 
+						let _ = atom.point_val <- None in
+						force_float_string atom.point_val
+        | Some sum ->
+						let points_per_factor = divide_points points sum in
+						let _ = List.map prompts ~f:(Prompt.infer_point_value points_per_factor) in
+						points
+
   let to_xml translator atom = 
 		(* Translate body to xml *)
 		let body_xml = body_to_xml translator atom in
@@ -695,6 +779,14 @@ struct
 		in
 		(tt_all, tb_all)
 
+  let infer_point_value group = 
+		let {kind; point_val; title; label; depend; atoms} = group in
+		let _ = d_printf "Group.infer_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
+		let points = List.map atoms ~f:Atom.infer_point_value in
+    let sum = List.reduce points ~f:add_points in
+    let _ = group.point_val <- sum in
+		force_float_string sum
+
   let to_xml translator group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
@@ -773,6 +865,15 @@ struct
 				Element_group g				
 		| Element_group g ->
 				Element_group g
+
+  let infer_point_value element = 
+ 		match element with
+		| Element_atom a -> 
+        let err = "Fatal Error: infer_point_value experts a normalized AST.\n"  in
+        let _ = printf "%s" err in
+						raise (Constants.Fatal_Error err)
+		| Element_group g -> 
+				Group.infer_point_value g 
 					
 	let to_xml translator e = 
 		match e with
@@ -830,6 +931,14 @@ struct
 		let {point_val; label; elements} = block in
 		let elements = List.map elements ~f:Element.normalize in
 		  block.elements <- elements
+
+  let infer_point_value block = 
+		let {point_val; label; elements} = block in
+		let _ = d_printf "Block.infer_point_value: label = %s\n" (str_of_str_opt label) in
+		let points_elements = List.map elements ~f:Element.infer_point_value in
+    let points_sum = List.reduce (points_elements) ~f:add_points in
+    let _ = block.point_val <- points_sum in
+		points_sum
 
   let to_xml translator block = 
 		let {point_val; label; elements} = block in
@@ -905,6 +1014,20 @@ struct
 		let state_b = Block.traverse block state f in
 		let state_s = List.fold_left subsegments ~init:state_b ~f:subsegment_tr_f in
 		state_s
+
+
+  let rec infer_point_value segment = 
+		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let _ = d_printf "Segment.infer_point_value %s title = %s\n" kind title in
+(*
+    let _ = d_printf_optstr "label " label in
+*)
+		let points_block = Block.infer_point_value block in
+		let points_subsegments = List.map subsegments ~f:infer_point_value in
+    let points_sum = List.reduce (points_block::points_subsegments) ~f:add_points in
+    let _ = segment.point_val <- points_sum in
+		points_sum
+
 
   (* Convert to string with levels.
    * Used for debugging only.
@@ -1200,7 +1323,10 @@ let assign_labels ast =
       let _ = d_printf "chapter prefix label = %s" prefix in
       Segment.assign_label prefix label_set ast 
 
-
+(* Put the AST into normal form.
+ * If an atom does not have an enclosing group/cluster, 
+ * then insert one.
+ *)
 let normalize ast = 
 	Segment.normalize ast
 
@@ -1224,6 +1350,9 @@ let validate ast =
 		(printf "ast.ast: Fatal Error: Ast validation failed. Terminating.\n";
 		 exit 1)
  
+let infer_point_values ast = 
+  Segment.infer_point_value ast
+
 (* Create a problem from items *)
 
 (* An item is a kind * point value * body 
