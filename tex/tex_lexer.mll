@@ -25,6 +25,13 @@ let kw_math_close = " \\]"
 let kw_lstlisting = "lstlisting"
 let kw_verbatim = "verbatim"
 
+(* Keywords  for prompt and cookie rewrites .
+ * The lexer rewrites "true false questions" as multiple choice
+ * questions.
+ *)
+let kw_one_choice = "\\onechoice"
+let kw_sol_true = "\choice* True \choice False"
+let kw_sol_false = "\choice True \choice* False"
 
 (** BEGIN: State Machine **)
 type t_lexer_state = 
@@ -245,7 +252,10 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_verb = '\\' ("verb" as kind) p_ws
 let p_com_skip = p_com_lstinline | p_com_verb
 let p_com_caption = "\\caption"
-
+let p_com_ask_true_false = "\asktf"
+let p_com_sol_true = "\solt"
+let p_com_sol_false = "\solf"
+    
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
 let p_com_download = "\\" ("download" as kind) p_ws
@@ -398,7 +408,6 @@ parse
        KW_END_GROUP(kind, x)
     }		
 
-
 | (p_begin_env_skip as x)
     {
      let _ = d_printf "!lexer matched begin skip env kind = %s." kind in 
@@ -473,8 +482,8 @@ parse
      let all = x ^ arg ^ c_c in
      let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
        CHUNK(all, None)
-
   }
+
 | p_o_curly as x
   {
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
@@ -563,6 +572,30 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let b = take_arg_infer lexbuf in
      let rest = take_env depth lexbuf in
      x ^ a ^ b ^ rest
+    }
+
+  (* Rewrite \asktf --> \onechoice *)
+  | (p_com_ask_true_false as h) 
+		{
+     let _ = d_printf "!lexer found: true-false-prompt." in 
+     let rest = take_env depth lexbuf in
+     kw_one_choice ^ rest
+    }
+
+  (* Rewrite \solt --> \choice* True \choice False *)
+  | (p_com_sol_true as h) 
+		{
+     let _ = d_printf "!lexer found: cookie: solution=true." in 
+     let rest = take_env depth lexbuf in
+     kw_sol_true ^ rest
+    }
+
+  (* Rewrite \solf --> \choice True \choice* False *)
+  | (p_com_sol_false as h) 
+		{
+     let _ = d_printf "!lexer found: cookie: solution=true." in 
+     let rest = take_env depth lexbuf in
+     kw_sol_false ^ rest
     }
 
   | p_begin_env_math as x
