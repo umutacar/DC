@@ -8,7 +8,7 @@ The compiler has two front-ends one for LaTeX and one for Markdown.  These are t
 
 ## Markdown Grammar
 
-Markdows is pretty straightforward, for now, probably because we don't handle the full markdown.  
+Markdown is pretty straightforward, for now, probably because we don't handle the full markdown.  
 
 ## LaTeX Grammar
 
@@ -24,6 +24,12 @@ The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) 
 * headings and commands such as section names, groups, group commands (fold etc).
 
 Crucially, the top level lexer eliminates all comments to streamline the subsequent phases of the compilation.
+
+The top level lexer also does some rewriting.  For example
+* It places various math commands into math mode so that they  are passed directly to MathJax rather than pandoc trying to handle them.
+* It supports \infer command by rewriting it as a math array
+* It eliminates true-false questions by rewriting them into multiple-choice questions
+* It handles special diderot commands.
 
 Because latex has quite a flexible structure, and allows regions of text to be skipped completely and don't obey the laws of the language, e.g., with  "verbatim/comment/lstinline" commands, at the top level, we have to be quite careful about these.  To this end, we define two kinds of lexing/parsing mechanisms.  
 * The "skip" mechanism does not care about comments and all and simply skips regions of text until an enclosing command is found.  This "skip_env" is what we use for comment/verbatim/lstinline environments. Note that this does not allow for nesting.
