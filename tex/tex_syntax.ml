@@ -93,6 +93,8 @@ let kw_any_choice = "\\anychoice"
 let kw_free_response = "\\answer"
 let kw_short_answer = "\\ans"
 let kw_ask = "\\ask"
+let kw_refsol = "\\sol"
+
 
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
@@ -101,7 +103,6 @@ let kw_part = "\\part"
 let kw_cookie_explain = "\\explain"
 let kw_cookie_hint = "\\hint"
 let kw_cookie_notes = "\\notes"
-let kw_cookie_refsol = "\\sol"
 let kw_cookie_rubric = "\\rubric"
 
 (* END: Keywords *)
@@ -183,11 +184,11 @@ let label_prefix_any_choice = "prt-any-choice"
 let label_prefix_ask = "prt-ask"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
+let label_prefix_refsol = "prt-sol"
 let label_prefix_choice = "prt-choice"
 let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
 let label_prefix_cookie_notes = "cki-notes"
-let label_prefix_cookie_refsol = "cki-sol"
 let label_prefix_cookie_rubric = "cki-rubric"
 
 
@@ -252,12 +253,13 @@ let label_prefix_of_kind =
    kw_ask, label_prefix_ask;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
-   kw_choice_correct, label_prefix_choice
+   kw_choice_correct, label_prefix_choice;
+   kw_refsol, label_prefix_refsol;
+
   ]
   @
   (* Cookies *)
   [
-   kw_cookie_refsol, label_prefix_cookie_refsol;
    kw_cookie_explain, label_prefix_cookie_explain;
    kw_cookie_hint, label_prefix_cookie_hint;
    kw_cookie_notes, label_prefix_cookie_notes;
@@ -302,14 +304,30 @@ let atom_kinds =
    kw_theorem, ()
   ]
 
-
-let primary_prompt_kinds = 
+let primary_choice_prompt_kinds = 
   [
    kw_one_choice, ();
-   kw_any_choice, ();
+   kw_any_choice, ()
+  ]
+
+let correct_choice_prompt_kinds = 
+  [
+   kw_choice_correct, ();
+  ]
+
+let primary_prompt_kinds = 
+	primary_choice_prompt_kinds
+	@
+  [
    kw_ask, ();
    kw_short_answer, ();
    kw_free_response, ()
+  ]
+
+let scorable_prompt_kinds = 
+  [
+   kw_choice_correct, ();
+   kw_refsol, ();
   ]
 
 let prompt_kinds = 
@@ -317,7 +335,8 @@ let prompt_kinds =
   [
    kw_choice, ();
    kw_choice_correct, ();
-   kw_part, ()
+   kw_part, ();
+   kw_refsol, ();
   ]
 
 let cookie_kinds = 
@@ -326,8 +345,33 @@ let cookie_kinds =
    kw_cookie_hint, ();
    kw_cookie_notes, ();
    kw_cookie_rubric, ();
-   kw_cookie_refsol, ();
   ]
+
+let cookie_cost_ratio = 
+  [
+   kw_cookie_explain, Constants.cookie_cost_explain;
+   kw_cookie_hint, Constants.cookie_cost_hint;
+   kw_cookie_notes, Constants.zero_cost;
+   kw_cookie_rubric, Constants.zero_cost;
+  ]
+
+let point_value_of_prompt_kind = 
+  [
+   kw_ask, "1";
+   kw_short_answer, "1";
+   kw_free_response, "1";
+   kw_one_choice, "0";
+   kw_any_choice, "0";
+   kw_choice, "0";
+   kw_choice_correct, "1";
+  ]
+
+let point_value_of_prompt kind =
+   match List.Assoc.find point_value_of_prompt_kind ~equal:String.equal kind with 
+   | Some x -> x
+   | None -> 
+			 let err = "Fatal Error: Encountered unknown prompt" in
+			 raise (Constants.Fatal_Error err) 
 
 (* Given a segment kind, assign a label prefix, e.g.,
  * section -> sec
@@ -471,7 +515,7 @@ let mk_exp_opt exp_opt =
   |  Some x -> heading ^ "\n" ^ x  
 
 let refsol_opt refsol_opt = 
-  let heading = kw_cookie_refsol in
+  let heading = kw_refsol in
   match refsol_opt with 
   |  None -> ""
   |  Some x -> heading ^ "\n" ^ x  
@@ -571,10 +615,27 @@ let is_atom kind =
 					 None
 
 
+
 let is_primary_prompt kind = 
    match List.Assoc.find primary_prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let is_primary_choice_prompt kind = 
+   match List.Assoc.find primary_choice_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_correct_choice_prompt kind = 
+   match List.Assoc.find correct_choice_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_scorable_prompt kind = 
+   match List.Assoc.find scorable_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 
 let is_prompt kind = 
    match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
@@ -585,6 +646,11 @@ let is_cookie kind =
    match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let get_cookie_cost_ratio kind = 
+   match List.Assoc.find cookie_cost_ratio ~equal: String.equal kind with 
+   | Some r -> r
+   | None -> Constants.zero_cost
 
 (* Meant for figure and table titles such as [h] [ht] [ht!] *)
 let title_is_significant title = 

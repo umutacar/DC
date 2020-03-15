@@ -16,16 +16,20 @@ The grammar is primarily designed to avoid conflicts in the parser.
 
 For example,  plural items, such as sections, atoms, etc can be tricky.   If a plural item can be empty and it is wrapped by an option, it will lead to conflicts.  I therefore avoid options and allow all plurals to be empty.
 
-The parsing infrastructure is separated into two stages.  First, we use a "top-level"pparser to parse latex into "atoms" and then we use a separate atom lexer and parser atom/atom_lexer and atom/atom_parser) to parse each atom.  The motivation is to reduce complexity. 
+The parsing infrastructure is separated into three stages.  The implementation converged to this structure after various experiments.  The relevant PR where this structure is described is PR #124 in the DC repo.
 
-The top level parser itself is skinny but relies on a lexer (tex/tex_lexer.mll) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  The basic idea of the top level lexer is to tokenize the input at the level of 
+The stage-1 lexer (`tex_comment_lexer`) removes comments from the input.
+
+The stage-2 lexer and parser takes the output of the first stage and divides it into "atoms" and a tree structure mirroring that of the document.
+
+The third stage uses a separate atom lexer and parser (`tex_atom_lexer` and `tex_atom_parser`) to parse each atom. 
+
+Stage-2 is relatively skinny but relies on a lexer (`tex/tex_lexer.mll`) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  The basic idea of the stage-2 lexer is to tokenize the input at the level of 
 * chunks: which are non-space fragments of text that could (optionally come with a label),
 * spaces: such as horizontal and vertical
 * headings and commands such as section names, groups, group commands (fold etc).
 
-Crucially, the top level lexer eliminates all comments to streamline the subsequent phases of the compilation.
-
-The top level lexer also does some rewriting.  For example
+The stage-2 lexer also does some rewriting.  For example
 * It places various math commands into math mode so that they  are passed directly to MathJax rather than pandoc trying to handle them.
 * It supports \infer command by rewriting it as a math array
 * It eliminates true-false questions by rewriting them into multiple-choice questions
@@ -69,6 +73,10 @@ The atom-level parser ...
   Note that the tailtext belong to the sequence of atoms.
 
   An atom is a preamble text followed by \begin{atom}...\end{atom}
+
+## Normal Form and Normalization
+
+Diderot requires a "normal form" where each atom be nested inside of a cluster, such as a group, a flex, etc. The AST module provides a function to ensure that an AST is in normal form my inserting clusters around atoms as needed. 
 
 ## Point System
 Note: I seemed to have done some work on developing a point system for Diderot but I have not documented it carefully.  What exists in the PRs is somewhat outdated.  I am starting to create some documentation here by inspecting the code.
