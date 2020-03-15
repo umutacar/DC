@@ -14,6 +14,11 @@ module Xml = Xml_syntax
 
 type ast_member = Ast_cookie | Ast_prompt | Ast_problem | Ast_atom | Ast_group | Ast_element | Ast_block | Ast_segment
 
+(* An item is a kind * point value * body 
+ * all are strings.
+ *)
+type t_item = (string * string option * string)
+
 (**********************************************************************
  ** BEGIN: Constants
  *********************************************************************)
@@ -39,6 +44,42 @@ let fmt_lstlisting_nopl =
 (**********************************************************************
  ** BEGIN: Utilities
  **********************************************************************)
+
+let count_correct_choice_prompts prompts = 
+  let is_correct_choice prompt =
+		let item = List.nth_exn prompt 0 in
+    let (kind, _, _) = item in
+		if Tex.is_correct_choice_prompt kind then
+			1
+		else
+			0
+	in
+	let counts = List.map prompts ~f:is_correct_choice in
+	let n = List.reduce_exn counts ~f:(fun x y -> x+y) in
+	  Float.to_string (float_of_int n)
+
+(* prompts is of the form
+ * [ [prompt_item, cookie_item, cookie_item], 
+ *   [prompt_item, cookie_item, cookie_item], ...
+ * ]
+ *)
+let assign_points_to_question_prompts (points: string) (prompts: (t_item list) list)
+	 : (t_item list) list 
+	 = 
+  let assign prompt =
+    match prompt with 
+		| [ ] -> 
+				let err = "Fatal Error: Expecting a promp None found" in
+				raise (Constants.Fatal_Error err)
+		| p::cookies ->
+				 let (kind, pval, body) = p in
+	       if Tex.is_scorable_prompt kind then
+	         (kind, Some points, body)::cookies
+         else
+	         (kind, Some Constants.zero_points_per_question, body)::cookies
+	in
+	List.map prompts ~f:assign
+
 
 let force_float_string (points:string option) = 
 	match points with
@@ -1357,11 +1398,6 @@ let infer_point_values ast =
 
 (* Create a problem from items *)
 
-(* An item is a kind * point value * body 
- * all are strings.
- *)
-type t_item = (string * string option * string)
-
 (* Create a cookie from an item *)
 let cookie_of_item (item: t_item): t_cookie = 
 	let (kind, point_val, body) = item in
@@ -1387,6 +1423,81 @@ let prompt_of_items (items: t_item list): t_prompt =
   			(printf "Parse Error: I was expecting a prompt here but saw kind = %s." kind;
 	  		 exit 1)
 
+(* Algorithm
+ * - Take prompts and separate them into questions.
+ *   Each question has the form [primary_prompt, secondary_prompt, secondary_prompt ...]
+ *
+ * - Assign each question a point value.
+ *)
+let assign_points_to_prompts prompts = 
+  let _ =  printf "Start: assign_points_to_prompts\n" in
+
+  let rec take_secondary_prompts prompts = 
+    match prompts with 
+		| [ ] -> ([ ], prompts)
+		| h::t -> 
+      (* Find the head item *) 
+	    let head_item = List.nth_exn h 0 in
+      let (kind, pval, body) = head_item in 
+      let _ =  printf "take_next_question: kind = %s" kind in 
+			if Tex.is_primary_prompt kind then
+        (* head item is primary, so start a new question *)
+  			([ ], prompts)
+	  	else            	      
+		    let (q, t_prompts) = take_secondary_prompts t in
+     	 (h::q, t_prompts)
+	 in
+   let rec take_next_question prompts = 
+     match prompts with 
+  	 | [ ] -> ([ ], prompts)
+  	 | h::t -> 
+        (* Find the head item *) 
+				let head_item = List.nth_exn h 0 in
+        let (kind, pval, body) = head_item in 
+        let _ =  printf "take_next_question: kind = %s" kind in 
+				if Tex.is_primary_prompt kind then
+          (* head item is primary, so start a new question *)
+	        let (rest, t_prompts)  = take_secondary_prompts t in
+					(h::rest, t_prompts)
+				else            	      
+				let err = "Fatal Error: Expecting a primary prompt None found" in
+				raise (Constants.Fatal_Error err)
+  in
+  let rec take_all_questions prompts = 
+    match prompts with 
+		| [ ] -> [ ]
+		| _ ->
+				let (q, t_prompts) = take_next_question prompts in
+				let questions = take_all_questions t_prompts in
+				q::questions
+  in
+  let assign_points_to_question question = 
+    let _ = printf ("assign_points_to_question\n") in
+    let head_prompt = List.nth_exn question 0 in
+		let head_item = List.nth_exn head_prompt 0 in
+    let (kind, pval, body) = head_item in      	 
+      if Tex.is_primary_choice_prompt kind then
+				match pval with
+				| None ->
+						let n_factors = count_correct_choice_prompts question in
+						let points_per_factor = divide_points Constants.default_points_per_question n_factors in
+						let question = assign_points_to_question_prompts points_per_factor question in 
+						  question
+				| Some pts ->
+						let n_factors = count_correct_choice_prompts question in
+						let points_per_factor = divide_points pts n_factors in
+						let question = assign_points_to_question_prompts points_per_factor question in 
+						  question
+      else
+				match pval with 
+				| None -> assign_points_to_question_prompts Constants.default_points_per_question question
+        | _ -> question
+	 in
+	 let _ = printf ("Taking all questions") in 
+	 let questions = take_all_questions prompts in
+	 let questions = List.map questions ~f:assign_points_to_question in
+   List.concat questions	
+  
 (* Create a prompt list from an item list.
  * The item list must start with the problem.
  *)
@@ -1429,7 +1540,8 @@ let prompts_of_items (items: t_item list) =
 				if Tex.is_primary_prompt kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
-					let prompts = prompts @ [prompt] in
+					let prompts = prompts @ [prompt] in         
+					let prompts = assign_points_to_prompts prompts in
             List.map prompts ~f:prompt_of_items
 				else
 					(printf "Parse Error: I was expecting a primary prompt here.\n";

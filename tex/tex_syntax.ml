@@ -302,14 +302,29 @@ let atom_kinds =
    kw_theorem, ()
   ]
 
-
-let primary_prompt_kinds = 
+let primary_choice_prompt_kinds = 
   [
    kw_one_choice, ();
-   kw_any_choice, ();
+   kw_any_choice, ()
+  ]
+
+let correct_choice_prompt_kinds = 
+  [
+   kw_choice_correct, ();
+  ]
+
+let primary_prompt_kinds = 
+	primary_choice_prompt_kinds
+	@
+  [
    kw_ask, ();
    kw_short_answer, ();
    kw_free_response, ()
+  ]
+
+let scorable_prompt_kinds = 
+  [
+   kw_choice_correct, ();
   ]
 
 let prompt_kinds = 
@@ -589,10 +604,27 @@ let is_atom kind =
 					 None
 
 
+
 let is_primary_prompt kind = 
    match List.Assoc.find primary_prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let is_primary_choice_prompt kind = 
+   match List.Assoc.find primary_choice_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_correct_choice_prompt kind = 
+   match List.Assoc.find correct_choice_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
+let is_scorable_prompt kind = 
+   match List.Assoc.find scorable_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 
 let is_prompt kind = 
    match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
