@@ -1502,7 +1502,8 @@ let assign_points_to_prompts prompts =
   	   | Some p -> p in
      let points_per_factor = divide_points points n_factors in
      let _ = printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
-     let head_prompt = (kind, Some points, body)::t_head_prompt in
+     (* For the result, primary prompts have no points *)
+     let head_prompt = (kind, Some Constants.zero_points, body)::t_head_prompt in
      (* Scale prompts now. *)
      let prompts = assign_points_to_question_prompts points_per_factor prompts in 
  	   let question = head_prompt::prompts in
