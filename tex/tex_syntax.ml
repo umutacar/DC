@@ -347,6 +347,14 @@ let cookie_kinds =
    kw_cookie_rubric, ();
   ]
 
+let cookie_cost_ratio = 
+  [
+   kw_cookie_explain, "0.1";
+   kw_cookie_hint, "0.2";
+   kw_cookie_notes, "0.0";
+   kw_cookie_rubric, "0.0"
+  ]
+
 let point_value_of_prompt_kind = 
   [
    kw_ask, "1";
@@ -638,6 +646,11 @@ let is_cookie kind =
    match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let get_cookie_cost_ratio kind = 
+   match List.Assoc.find cookie_cost_ratio ~equal: String.equal kind with 
+   | Some r -> r
+   | None -> Constants.zero_cost
 
 (* Meant for figure and table titles such as [h] [ht] [ht!] *)
 let title_is_significant title = 

@@ -45,47 +45,6 @@ let fmt_lstlisting_nopl =
  ** BEGIN: Utilities
  **********************************************************************)
 
-(* In a question = list of prompts, 
- * a factor is a correct choice or a solution field
- *)
-let count_factors prompts = 
-  let is_correct_choice prompt =
-		let item = List.nth_exn prompt 0 in
-    let (kind, _, _) = item in
-		if Tex.is_scorable_prompt kind then
-			1
-		else
-			0
-	in
-	let counts = List.map prompts ~f:is_correct_choice in
-	let n = List.reduce_exn counts ~f:(fun x y -> x+y) in
-	  Float.to_string (float_of_int n)
-
-(* prompts is of the form
- * [ [prompt_item, cookie_item, cookie_item], 
- *   [prompt_item, cookie_item, cookie_item], ...
- * ]
- *)
-let assign_points_to_question_prompts (points: string) (prompts: (t_item list) list)
-	 : (t_item list) list 
-	 = 
-  let assign prompt =
-    match prompt with 
-		| [ ] -> 
-				let err = "Fatal Error: Expecting a promp None found" in
-				raise (Constants.Fatal_Error err)
-		| p::cookies ->
-				 let (kind, pval, body) = p in
-	       if Tex.is_scorable_prompt kind then
-        	 let _ = printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
-        	 (kind, Some points, body)::cookies
-         else
-        	 let _ = printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
-	         (kind, Some Constants.zero_points_per_question, body)::cookies
-	in
-	List.map prompts ~f:assign
-
-
 let force_float_string (points:string option) = 
 	match points with
 	| None -> "0.0"
@@ -129,6 +88,57 @@ let normalize_point_val_int po =
 			if pts = 0.0 then None
       else 
 				Some (string_of_int (Float.to_int pts))
+
+(* In a question = list of prompts, 
+ * a factor is a correct choice or a solution field
+ *)
+let count_factors prompts = 
+  let is_correct_choice prompt =
+		let item = List.nth_exn prompt 0 in
+    let (kind, _, _) = item in
+		if Tex.is_scorable_prompt kind then
+			1
+		else
+			0
+	in
+	let counts = List.map prompts ~f:is_correct_choice in
+	let n = List.reduce_exn counts ~f:(fun x y -> x+y) in
+	  Float.to_string (float_of_int n)
+
+(* prompts is of the form
+ * [ [prompt_item, cookie_item, cookie_item], 
+ *   [prompt_item, cookie_item, cookie_item], ...
+ * ]
+ *)
+let assign_points_to_question_prompts (points: string) (prompts: (t_item list) list)
+	 : (t_item list) list 
+	 = 
+
+  let assign_points_to_cookie cookie = 
+    let (kind, pval, body) = cookie in
+    let r = Tex.get_cookie_cost_ratio kind in
+    let _ = printf "set_cookies_points kind = %s has ration r = %s\n" kind r in
+    let p = multiply_points points r in
+    (kind, Some r, body)
+  in
+  let assign prompt =
+    match prompt with 
+		| [ ] -> 
+				let err = "Fatal Error: Expecting a promp None found" in
+				raise (Constants.Fatal_Error err)
+		| p::cookies ->
+         let cookies = List.map cookies ~f:assign_points_to_cookie in
+				 let (kind, pval, body) = p in
+	       if Tex.is_scorable_prompt kind then
+        	 let _ = printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
+        	 (kind, Some points, body)::cookies
+         else
+        	 let _ = printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
+	         (kind, Some Constants.zero_points, body)::cookies
+	in
+	List.map prompts ~f:assign
+
+
 
 
 (* Tokenize title:
