@@ -241,8 +241,7 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let points = 'p' | "pts"
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points)? p_ws (p_c_sq as c_sq)
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' p_ws (p_c_sq as c_sq)
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
@@ -267,15 +266,12 @@ let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_na
 
 let p_kw_chapter = ("chapter" as kind) ['*']? 
 let p_chapter = p_kw_chapter
-let p_chapter_with_points = p_kw_chapter p_ws (p_point_val as points)
 
 let p_kw_section = ("section" as kind) ['*']? 
 let p_section = p_kw_section p_ws
-let p_section_with_points = p_kw_section p_ws (p_point_val as points)
 
 let p_kw_subsection = ("subsection" as kind) ['*']? 
 let p_subsection = p_kw_subsection p_ws 
-let p_subsection_with_points = p_kw_subsection p_ws (p_point_val as points)
 
 let p_kw_subsubsection = ("subsubsection" as kind) ['*']? 
 let p_subsubsection = p_kw_subsubsection p_ws 
