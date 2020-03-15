@@ -350,21 +350,15 @@ struct
   let infer_factors prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
 		let _ = d_printf "Prompt.infer_factors %s\n" kind in
-    let default_point_val = "1.0" in
     match point_val with
     | None -> 
-				let _ = prompt.point_val <- Some default_point_val in
-        let _ = printf "Prompt.infer_factors %s, point_val = %s.\n" kind (str_of_str_opt prompt.point_val) in
-				default_point_val
+				let points = Tex.point_value_of_prompt kind in
+				let _ = prompt.point_val <- Some points in
+				let _ = printf "Prompt.infer_factors %s, point_val = %s.\n" kind (str_of_str_opt prompt.point_val) in
+				points				
     | Some p -> 
-				let _ = 
-					if p == "" then
-						prompt.point_val <- Some default_point_val
-					else
-						()
-				in
-				let _ = printf "Prompt.infer_factors %s, point_val=%s.\n" kind (str_of_str_opt prompt.point_val) in
-				force_float_string (prompt.point_val)
+				let _ = printf "Prompt.infer_factors %s, point_val=%s.\n" kind p in
+				p
 
 
   (* If point_value is set, then it becomes the factor.
