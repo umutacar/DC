@@ -13,6 +13,8 @@ let space = " "
 let default_points_per_question = "1.0" 
 let zero_points = "0.0" 
 let zero_cost = "0.0" 
+let cookie_cost_explain = "0.2"
+let cookie_cost_hint = "0.4"
 
 exception Fatal_Error of string
 exception Input_File_Not_Found of string

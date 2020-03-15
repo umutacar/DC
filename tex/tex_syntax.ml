@@ -349,10 +349,10 @@ let cookie_kinds =
 
 let cookie_cost_ratio = 
   [
-   kw_cookie_explain, "0.1";
-   kw_cookie_hint, "0.2";
-   kw_cookie_notes, "0.0";
-   kw_cookie_rubric, "0.0"
+   kw_cookie_explain, Constants.cookie_cost_explain;
+   kw_cookie_hint, Constants.cookie_cost_hint;
+   kw_cookie_notes, Constants.zero_cost;
+   kw_cookie_rubric, Constants.zero_cost;
   ]
 
 let point_value_of_prompt_kind = 
