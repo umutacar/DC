@@ -142,8 +142,7 @@ let p_nonemptyline = [' ' '\t']* [^ ' ' '\t' 'r' '\n']+ [^ '\r' '\n']*  ['r']? '
 let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
 let p_frac = '.' p_digit*
-let p_exp = ['e' 'E'] ['-' '+']? p_digit+
-let p_float = p_digit* p_frac? p_exp?
+let p_float = p_digit* p_frac?
 
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
@@ -186,10 +185,9 @@ let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
 
-let points = 'p' | "pts"
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points) p_ws (p_c_sq as c_sq)
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (points)? p_ws (p_c_sq as c_sq)
+let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							

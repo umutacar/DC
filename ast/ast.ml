@@ -78,47 +78,38 @@ let normalize_point_val po =
 			if pts = 0.0 then None
       else Some (Float.to_string pts)
 
-(* if points (po) is None or 0.0 then
-   empty string, else the points *)
-let normalize_point_val_int po = 
-	match po with 
-  | None -> None
-  | Some p -> 
-			let pts = float_of_string p in
-			if pts = 0.0 then None
-      else 
-				Some (string_of_int (Float.to_int pts))
 
 (* In a question = list of prompts, 
  * a factor is a correct choice or a solution field
  *)
-let count_factors prompts = 
-  let is_correct_choice prompt =
+let sum_factors prompts = 
+  let factor_of_prompt prompt =
 		let item = List.nth_exn prompt 0 in
-    let (kind, _, _) = item in
-		if Tex.is_scorable_prompt kind then
-			1
-		else
-			0
+    let (kind, pval, _) = item in
+ 		if Tex.is_scorable_prompt kind then 
+      match pval with 
+			| None -> Tex.point_value_of_prompt kind
+			| Some pts -> pts 
+		else Constants.zero_points
 	in
-	let counts = List.map prompts ~f:is_correct_choice in
-	let n = List.reduce_exn counts ~f:(fun x y -> x+y) in
-	  Float.to_string (float_of_int n)
+	let counts = List.map prompts ~f:factor_of_prompt in
+	List.reduce_exn counts ~f:add_points
+
 
 (* prompts is of the form
  * [ [prompt_item, cookie_item, cookie_item], 
  *   [prompt_item, cookie_item, cookie_item], ...
  * ]
  *)
-let assign_points_to_question_prompts (points: string) (prompts: (t_item list) list)
+let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item list) list)
 	 : (t_item list) list 
 	 = 
 
   let assign_points_to_cookie cookie = 
-    let (kind, pval, body) = cookie in
+    let (kind, pval, body) = cookie in    
     let r = Tex.get_cookie_cost_ratio kind in
     let _ = printf "set_cookies_points kind = %s has ration r = %s\n" kind r in
-    let p = multiply_points points r in
+    let p = multiply_points multiplier r in
     (kind, Some r, body)
   in
   let assign prompt =
@@ -131,7 +122,12 @@ let assign_points_to_question_prompts (points: string) (prompts: (t_item list) l
 				 let (kind, pval, body) = p in
 	       if Tex.is_scorable_prompt kind then
         	 let _ = printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
-        	 (kind, Some points, body)::cookies
+           let points = 
+             match pval with 
+          	 | None -> Tex.point_value_of_prompt kind 
+          	 | Some points -> points in
+           let points = multiply_points multiplier points in
+           (kind, Some points, body)::cookies
          else
         	 let _ = printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
 	         (kind, Some Constants.zero_points, body)::cookies
@@ -406,7 +402,7 @@ struct
 		let {kind; point_val; title; label; body; cookies} = prompt in
     match point_val with
     | None -> 
-			let err = "Fatal Error: Prompt.get_points: Expecting point value of zero None found" in
+			let err = Printf.sprintf "Fatal Error: Expecting point value of zero but None found, prompt = %s" kind in
 			raise (Constants.Fatal_Error err)
     | Some p -> 
 			let _ = printf "Prompt.get_points %s, point_val=%s.\n" kind p in
@@ -417,7 +413,7 @@ struct
 		let _ = d_printf "Prompt.propagate_factors %s\n" kind in
     match point_val with
     | None -> 
-				let err = "Fatal Error: Expecting point value None found" in
+				let err = Printf.sprintf "Fatal Error: Expecting point value None found, prompt = %s" kind in
 				raise (Constants.Fatal_Error err)
     | Some points -> 
 				let _ = prompt.point_val <- Some (multiply_points points multiplier) in
@@ -571,7 +567,7 @@ struct
   let to_tex atom = 
 		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; prompts; body} = atom in
 		let _ = d_printf "Atom.to_tex kind = %s \n" kind in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
     let kw_args = ["version", pl_version; "cover", cover; "sound", sound] in
@@ -771,7 +767,7 @@ struct
 
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
@@ -1086,7 +1082,7 @@ struct
    *)
   let rec to_tex_level level segment = 		
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let level_str = string_of_int level in
 		let h_begin = Tex.mk_segment_header (level_str ^ kind) point_val title in
@@ -1103,7 +1099,7 @@ struct
 
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let h_begin = Tex.mk_segment_header kind point_val title in
 		let h_end = Tex.mk_end kind in
@@ -1482,17 +1478,26 @@ let assign_points_to_prompts prompts =
   in
   let assign_points_to_question question = 
     let _ = printf ("assign_points_to_question\n") in
-    let head_prompt = List.nth_exn question 0 in
-		let head_item = List.nth_exn head_prompt 0 in
-    let (kind, pval, body) = head_item in      	 
-		let n_factors = count_factors question in
-    let points_per_factor = 
-   	  match pval with
-	   | None -> divide_points Constants.default_points_per_question n_factors
-  	 | Some pts -> divide_points pts n_factors 
-    in
-    let question = assign_points_to_question_prompts points_per_factor question in 
- 	  question
+    match question with 
+	  | [ ] ->
+				let err = "Fatal Error: Expecting a primary prompt but None found!" in
+				raise (Constants.Fatal_Error err)
+	 | head_prompt::prompts ->
+     let head_item::t_head_prompt = head_prompt in
+     let (kind, pval, body) = head_item in      	 
+     let n_factors = sum_factors prompts in
+     let points = 
+       match pval with
+    	 | None -> Constants.default_points_per_question
+  	   | Some p -> p in
+     let points_per_factor = divide_points points n_factors in
+     let _ = printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
+     (* For the result, primary prompts have no points *)
+     let head_prompt = (kind, Some Constants.zero_points, body)::t_head_prompt in
+     (* Scale prompts now. *)
+     let prompts = assign_points_to_question_prompts points_per_factor prompts in 
+ 	   let question = head_prompt::prompts in
+	   question
   in
 	let _ = printf ("Taking all questions") in 
 	let questions = take_all_questions prompts in

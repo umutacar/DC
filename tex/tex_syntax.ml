@@ -326,6 +326,7 @@ let primary_prompt_kinds =
 
 let scorable_prompt_kinds = 
   [
+   kw_choice, ();
    kw_choice_correct, ();
    kw_refsol, ();
   ]
@@ -357,20 +358,16 @@ let cookie_cost_ratio =
 
 let point_value_of_prompt_kind = 
   [
-   kw_ask, "1";
-   kw_short_answer, "1";
-   kw_free_response, "1";
-   kw_one_choice, "0";
-   kw_any_choice, "0";
-   kw_choice, "0";
-   kw_choice_correct, "1";
+   kw_refsol, "1.0";
+   kw_choice, "0.0";
+   kw_choice_correct, "1.0";
   ]
 
 let point_value_of_prompt kind =
    match List.Assoc.find point_value_of_prompt_kind ~equal:String.equal kind with 
    | Some x -> x
    | None -> 
-			 let err = "Fatal Error: Encountered unknown prompt" in
+			 let err = Printf.sprintf "Fatal Error: Encountered unknown prompt: %s\n"  kind in
 			 raise (Constants.Fatal_Error err) 
 
 (* Given a segment kind, assign a label prefix, e.g.,

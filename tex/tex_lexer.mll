@@ -241,8 +241,7 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let points = 'p' | "pts"
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points)? p_ws (p_c_sq as c_sq)
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
@@ -252,9 +251,9 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_verb = '\\' ("verb" as kind) p_ws
 let p_com_skip = p_com_lstinline | p_com_verb
 let p_com_caption = "\\caption"
-let p_com_ask_true_false = "\asktf"
-let p_com_sol_true = "\solt"
-let p_com_sol_false = "\solf"
+let p_com_ask_true_false = "\\asktf"
+let p_com_sol_true = "\\solt"
+let p_com_sol_false = "\\solf"
     
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
