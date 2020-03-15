@@ -219,7 +219,7 @@ struct
   let to_tex cookie = 
 		let {kind; point_val; title; label; body} = cookie in
     (* Use int value for point for idempotence in tex to tex translation *)
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let heading = Tex.mk_command kind point_val in
 		let l = 
@@ -350,12 +350,21 @@ struct
   let infer_factors prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
 		let _ = d_printf "Prompt.infer_factors %s\n" kind in
+    let default_point_val = "1.0" in
     match point_val with
     | None -> 
-        let default_point_val = "1.0" in
-				let point_val = Some default_point_val in
+				let _ = prompt.point_val <- Some default_point_val in
+        let _ = printf "Prompt.infer_factors %s, point_val = %s.\n" kind (str_of_str_opt prompt.point_val) in
 				default_point_val
-    | Some p -> p
+    | Some p -> 
+				let _ = 
+					if p == "" then
+						prompt.point_val <- Some default_point_val
+					else
+						()
+				in
+				let _ = printf "Prompt.infer_factors %s, point_val=%s.\n" kind (str_of_str_opt prompt.point_val) in
+				force_float_string (prompt.point_val)
 
 
   (* If point_value is set, then it becomes the factor.
@@ -375,7 +384,7 @@ struct
 
   let to_tex prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let heading = Tex.mk_command kind point_val in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
@@ -598,8 +607,9 @@ struct
     let atom_label = 
 			match label atom with 
 			| None -> 
-					let _ = printf "Fatal Error: ast.ml: expecting atom label to exist.\n" in
-					exit 0;
+					let err = "Fatal Error: ast.ml: expecting atom label to exist.\n" in
+					let _ = printf "%s" err in
+						raise (Constants.Fatal_Error err);
 			| Some l -> l
 		in 
       (* Add atom label so that it can be used by the group. *)
@@ -869,9 +879,7 @@ struct
   let infer_point_value element = 
  		match element with
 		| Element_atom a -> 
-        let err = "Fatal Error: infer_point_value experts a normalized AST.\n"  in
-        let _ = printf "%s" err in
-						raise (Constants.Fatal_Error err)
+				Atom.infer_point_value a 
 		| Element_group g -> 
 				Group.infer_point_value g 
 					
@@ -938,7 +946,7 @@ struct
 		let points_elements = List.map elements ~f:Element.infer_point_value in
     let points_sum = List.reduce (points_elements) ~f:add_points in
     let _ = block.point_val <- points_sum in
-		points_sum
+		force_float_string points_sum
 
   let to_xml translator block = 
 		let {point_val; label; elements} = block in
@@ -1016,7 +1024,7 @@ struct
 		state_s
 
 
-  let rec infer_point_value segment = 
+  let rec infer_point_value segment : string = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
 		let _ = d_printf "Segment.infer_point_value %s title = %s\n" kind title in
 (*
@@ -1024,9 +1032,9 @@ struct
 *)
 		let points_block = Block.infer_point_value block in
 		let points_subsegments = List.map subsegments ~f:infer_point_value in
-    let points_sum = List.reduce (points_block::points_subsegments) ~f:add_points in
-    let _ = segment.point_val <- points_sum in
-		points_sum
+    let points_sum_opt = List.reduce (points_block::points_subsegments) ~f:add_points in
+    let _ = segment.point_val <- points_sum_opt in
+		force_float_string points_sum_opt
 
 
   (* Convert to string with levels.

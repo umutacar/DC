@@ -55,6 +55,9 @@ let tex2tex do_inline infile =
   (* Make AST *)
 	let ast = tex2ast infile_inlined in
 
+  (* Infer points *)
+	let _ = Ast.infer_point_values ast in
+
   (* Translate to Tex *)
   let tex = Ast.to_tex ast in
     tex

@@ -94,6 +94,7 @@ let ast_from_string (lex, parse) contents =
 	let _ = Ast.validate ast in
   let _ = Ast.normalize ast in
   let _ = Ast.assign_labels ast in
+  let _ = Ast.infer_point_values ast in
 		ast
 
 let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile preamble_file = 
