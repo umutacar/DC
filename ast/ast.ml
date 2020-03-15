@@ -78,16 +78,6 @@ let normalize_point_val po =
 			if pts = 0.0 then None
       else Some (Float.to_string pts)
 
-(* if points (po) is None or 0.0 then
-   empty string, else the points *)
-let normalize_point_val_int po = 
-	match po with 
-  | None -> None
-  | Some p -> 
-			let pts = float_of_string p in
-			if pts = 0.0 then None
-      else 
-				Some (string_of_int (Float.to_int pts))
 
 (* In a question = list of prompts, 
  * a factor is a correct choice or a solution field
@@ -577,7 +567,7 @@ struct
   let to_tex atom = 
 		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; prompts; body} = atom in
 		let _ = d_printf "Atom.to_tex kind = %s \n" kind in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
     let kw_args = ["version", pl_version; "cover", cover; "sound", sound] in
@@ -777,7 +767,7 @@ struct
 
   let to_tex group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
 		let h_begin = Tex.mk_begin kind point_val title in
@@ -1092,7 +1082,7 @@ struct
    *)
   let rec to_tex_level level segment = 		
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let level_str = string_of_int level in
 		let h_begin = Tex.mk_segment_header (level_str ^ kind) point_val title in
@@ -1109,7 +1099,7 @@ struct
 
   let rec to_tex segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let point_val = normalize_point_val_int point_val in
+		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let h_begin = Tex.mk_segment_header kind point_val title in
 		let h_end = Tex.mk_end kind in

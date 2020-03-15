@@ -251,9 +251,9 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_verb = '\\' ("verb" as kind) p_ws
 let p_com_skip = p_com_lstinline | p_com_verb
 let p_com_caption = "\\caption"
-let p_com_ask_true_false = "\asktf"
-let p_com_sol_true = "\solt"
-let p_com_sol_false = "\solf"
+let p_com_ask_true_false = "\\asktf"
+let p_com_sol_true = "\\solt"
+let p_com_sol_false = "\\solf"
     
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
@@ -266,12 +266,15 @@ let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_na
 
 let p_kw_chapter = ("chapter" as kind) ['*']? 
 let p_chapter = p_kw_chapter
+let p_chapter_with_points = p_kw_chapter p_ws (p_point_val as points)
 
 let p_kw_section = ("section" as kind) ['*']? 
 let p_section = p_kw_section p_ws
+let p_section_with_points = p_kw_section p_ws (p_point_val as points)
 
 let p_kw_subsection = ("subsection" as kind) ['*']? 
 let p_subsection = p_kw_subsection p_ws 
+let p_subsection_with_points = p_kw_subsection p_ws (p_point_val as points)
 
 let p_kw_subsubsection = ("subsubsection" as kind) ['*']? 
 let p_subsubsection = p_kw_subsubsection p_ws 
