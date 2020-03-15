@@ -185,10 +185,9 @@ let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
 
-let points = '.'
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws (points) p_ws (p_c_sq as c_sq)
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (points)? p_ws (p_c_sq as c_sq)
+let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							

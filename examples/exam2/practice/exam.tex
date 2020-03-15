@@ -22,7 +22,7 @@
 
 \section{True or False}
 
-\begin{problem}[14p][BFS and DFS]
+\begin{problem}[14.][BFS and DFS]
 For each questions below, please select True or False.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -80,7 +80,7 @@ forward, back, and cross edges by inspecting DFS numbers only.
 \end{problem}
 
 
-\begin{problem}[True/False Miscellaneous]
+\begin{problem}[10.][True/False Miscellaneous]
 
 for each questions below, please select True or False.
 
@@ -145,7 +145,7 @@ solution in terms of $\Theta$ for the following recurrences.  Also, state
 whether the recurrence is dominated at the root, the leaves, or
 equally at all levels of the recurrence tree.
 
-\ask[9]
+\ask[9.]
 Give closed form for  
 $f(n) = 5f(n/5) + \Theta(n)$
 
@@ -156,13 +156,13 @@ $\Theta (n \lg n)$, balanced.
 \sol[1.0]
 $\Theta (n \lg n)$, balanced.
 
-\onechoice[8]
+\onechoice[8.]
 
 \choice* Balanced
 \choice[0.4] Leaves Dominated
 \choice[0.6] Root dominated
 
-\ask[2]
+\ask[2.]
 Give closed form for  
 $f(n) = 3f(n/2) + \Theta(n^2)$
 
@@ -174,7 +174,7 @@ $\Theta(n^2)$
 \choice Leaves Dominated
 \choice* Root dominated
 
-\ask[2]
+\ask[2.]
 $f(n) = f(n/2) + \Theta(\lg n)$
 
 \sol
@@ -204,7 +204,7 @@ $\Theta(n^{\lg_8 5})$ (roughly $\Theta(n^{0.77})$) leaves.
 
 %\input{../../../setstables/classes}
 
-\begin{problem}[20p][Classes]
+\begin{problem}[20.][Classes]
 \used{Fall 14, Final}
 
 Lets say you are given a table that maps every student to the set of
@@ -222,14 +222,14 @@ fun allClasses($T$ : classSet studentTable) : classSet =
 @\vspace{.5in}@
 \end{lstlisting}
 
-\explain[1] Some explanation 
+\explain[1.] Some explanation 
 
-\sol[4]
+\sol[4.]
 \begin{lstlisting}[numbers=none]
 fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
 \end{lstlisting}
 
-\hint[2] This is a hint
+\hint[2.] This is a hint
 
 \end{problem}
 
@@ -369,19 +369,19 @@ a depth first search (DFS): \textbf{tree edges}, \textbf{back edges},
 \textbf{all} types of edges that apply.
 
 
-\ask[3]
+\ask[3.]
 What kind of edges can a \textbf{bridge}, as defined in AbridgedLab, be
 \sol
 tree edge
 
-\ask[3]
+\ask[3.]
 Assume we enter $u$ before entering $v$ during the DFS, what kind of
 edge can the edge $(u,v)$ (directed from $u$ to $v$) be?
 \sol
 forward edge, tree edge
 
 
-\ask[3]
+\ask[3.]
 What kind of edges can appear in DFS for a directed graph in which
 every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 \in E$).
@@ -389,14 +389,14 @@ every edge appears in both directions (i.e. if $(u,v) \in E$ then $(v,u)
 tree edges, forward edges, backward edges
 
 
-\ask[3] Lets say that in a directed graph $u$ and $v$ are in two
+\ask[3.] Lets say that in a directed graph $u$ and $v$ are in two
 different strongly connected components (in a strongly connected
 component all vertices can reach all others).  What kind of edges can
 be between $u$ and $v$.
 \sol
 tree edges, forward edges, cross edges
 
-\ask[3]
+\ask[3.]
 In the topological sorting algorithm for directed acyclic graph we
 described in class and the notes, lets say a vertex $u$ appears
 after a vertex $v$.  What kind of edges can be in a path
