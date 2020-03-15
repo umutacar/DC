@@ -312,12 +312,12 @@ struct
 		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
 		translator Xml.body cookie.body
 
-  let infer_point_value multiplier cookie = 
+  let propagate_point_value multiplier cookie = 
 		let {kind; point_val; title; label; body} = cookie in
-		let _ = d_printf "Cookie.infer_point_value %s\n" kind in
+		let _ = d_printf "Cookie.propagate_point_value %s\n" kind in
     match point_val with
     | None -> 
-			let err = "Fatal Error: Cookie.infer_point_value: Expecting point value of zero None found" in
+			let err = "Fatal Error: Cookie.propagate_point_value: Expecting point value of zero None found" in
 			raise (Constants.Fatal_Error err)
     | Some points -> 
 	    let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
@@ -402,16 +402,16 @@ struct
 			let _ = printf "Prompt.get_points %s, point_val=%s.\n" kind p in
 			p
 
-  let infer_point_value multiplier prompt = 
+  let propagate_point_value multiplier prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let _ = d_printf "Prompt.infer_factors %s\n" kind in
+		let _ = d_printf "Prompt.propagate_factors %s\n" kind in
     match point_val with
     | None -> 
 				let err = "Fatal Error: Expecting point value None found" in
 				raise (Constants.Fatal_Error err)
     | Some points -> 
 				let _ = prompt.point_val <- Some (multiply_points points multiplier) in
-        let _ = List.map cookies ~f:(Cookie.infer_point_value multiplier) in
+        let _ = List.map cookies ~f:(Cookie.propagate_point_value multiplier) in
 				prompt.point_val
 
   let to_tex prompt = 
@@ -664,9 +664,9 @@ struct
     let _ = d_printf "body sanitized:\n %s" body in
 		translator Xml.body body
 
-  let infer_point_value atom = 
+  let propagate_point_value atom = 
 		let {kind; point_val; title; label; depend; prompts; body} = atom in
-		let _ = d_printf "Atom.infer_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
+		let _ = d_printf "Atom.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
     let prompt_points = List.map prompts ~f:Prompt.get_points in
     let sum_opt = List.reduce prompt_points ~f:add_points in
       match point_val with 
@@ -680,7 +680,7 @@ struct
 						force_float_string atom.point_val
         | Some sum ->
 						let multiplier = divide_points points sum in
-						let _ = List.map prompts ~f:(Prompt.infer_point_value multiplier) in
+						let _ = List.map prompts ~f:(Prompt.propagate_point_value multiplier) in
 						points
 
   let to_xml translator atom = 
@@ -821,10 +821,10 @@ struct
 		in
 		(tt_all, tb_all)
 
-  let infer_point_value group = 
+  let propagate_point_value group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
-		let _ = d_printf "Group.infer_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
-		let points = List.map atoms ~f:Atom.infer_point_value in
+		let _ = d_printf "Group.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
+		let points = List.map atoms ~f:Atom.propagate_point_value in
     let sum = List.reduce points ~f:add_points in
     let _ = group.point_val <- sum in
 		force_float_string sum
@@ -908,12 +908,12 @@ struct
 		| Element_group g ->
 				Element_group g
 
-  let infer_point_value element = 
+  let propagate_point_value element = 
  		match element with
 		| Element_atom a -> 
-				Atom.infer_point_value a 
+				Atom.propagate_point_value a 
 		| Element_group g -> 
-				Group.infer_point_value g 
+				Group.propagate_point_value g 
 					
 	let to_xml translator e = 
 		match e with
@@ -972,10 +972,10 @@ struct
 		let elements = List.map elements ~f:Element.normalize in
 		  block.elements <- elements
 
-  let infer_point_value block = 
+  let propagate_point_value block = 
 		let {point_val; label; elements} = block in
-		let _ = d_printf "Block.infer_point_value: label = %s\n" (str_of_str_opt label) in
-		let points_elements = List.map elements ~f:Element.infer_point_value in
+		let _ = d_printf "Block.propagate_point_value: label = %s\n" (str_of_str_opt label) in
+		let points_elements = List.map elements ~f:Element.propagate_point_value in
     let points_sum = List.reduce (points_elements) ~f:add_points in
     let _ = block.point_val <- points_sum in
 		force_float_string points_sum
@@ -1056,14 +1056,14 @@ struct
 		state_s
 
 
-  let rec infer_point_value segment : string = 
+  let rec propagate_point_value segment : string = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
-		let _ = d_printf "Segment.infer_point_value %s title = %s\n" kind title in
+		let _ = d_printf "Segment.propagate_point_value %s title = %s\n" kind title in
 (*
     let _ = d_printf_optstr "label " label in
 *)
-		let points_block = Block.infer_point_value block in
-		let points_subsegments = List.map subsegments ~f:infer_point_value in
+		let points_block = Block.propagate_point_value block in
+		let points_subsegments = List.map subsegments ~f:propagate_point_value in
     let points_sum_opt = List.reduce (points_block::points_subsegments) ~f:add_points in
     let _ = segment.point_val <- points_sum_opt in
 		force_float_string points_sum_opt
@@ -1390,8 +1390,8 @@ let validate ast =
 		(printf "ast.ast: Fatal Error: Ast validation failed. Terminating.\n";
 		 exit 1)
  
-let infer_point_values ast = 
-  Segment.infer_point_value ast
+let propagate_point_values ast = 
+  Segment.propagate_point_value ast
 
 (* Create a problem from items *)
 
