@@ -679,6 +679,7 @@ struct
 		let _ = d_printf "Atom.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
     let prompt_points = List.map prompts ~f:Prompt.get_points in
     let sum_opt = List.reduce prompt_points ~f:add_points in
+    let _ = printf "Atom.propagate_point_value: sum over prompts = %s \n" (str_of_str_opt sum_opt) in
       match point_val with 
 			| None -> 
         let _ = atom.point_val <- sum_opt in 
@@ -700,6 +701,7 @@ struct
 		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
+		let _ = printf "Atom.to_xml: point_val = %s" (str_of_str_opt point_val) in
     let titles = str_opt_to_xml translator Xml.title title in
 		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
     let captions = str_opt_to_xml translator Xml.caption caption in
