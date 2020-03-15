@@ -241,7 +241,7 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' p_ws (p_c_sq as c_sq)
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 

@@ -185,7 +185,7 @@ let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
 
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' p_ws (p_c_sq as c_sq)
+let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
 let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (p_c_sq as c_sq)
 
