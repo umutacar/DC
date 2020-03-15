@@ -45,11 +45,14 @@ let fmt_lstlisting_nopl =
  ** BEGIN: Utilities
  **********************************************************************)
 
-let count_correct_choice_prompts prompts = 
+(* In a question = list of prompts, 
+ * a factor is a correct choice or a solution field
+ *)
+let count_factors prompts = 
   let is_correct_choice prompt =
 		let item = List.nth_exn prompt 0 in
     let (kind, _, _) = item in
-		if Tex.is_correct_choice_prompt kind then
+		if Tex.is_scorable_prompt kind then
 			1
 		else
 			0
@@ -74,8 +77,10 @@ let assign_points_to_question_prompts (points: string) (prompts: (t_item list) l
 		| p::cookies ->
 				 let (kind, pval, body) = p in
 	       if Tex.is_scorable_prompt kind then
-	         (kind, Some points, body)::cookies
+        	 let _ = printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
+        	 (kind, Some points, body)::cookies
          else
+        	 let _ = printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
 	         (kind, Some Constants.zero_points_per_question, body)::cookies
 	in
 	List.map prompts ~f:assign
@@ -312,12 +317,11 @@ struct
 		let _ = d_printf "Cookie.infer_point_value %s\n" kind in
     match point_val with
     | None -> 
-				let default_point_value = Some "0.0" in
-				let _ = cookie.point_val <- default_point_value in
-				()
+			let err = "Fatal Error: Cookie.infer_point_value: Expecting point value of zero None found" in
+			raise (Constants.Fatal_Error err)
     | Some points -> 
-				let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
-				()
+	    let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
+			()
 
   let to_xml translator cookie = 
 		let {kind; point_val; title; label; depend; body} = cookie in
@@ -388,23 +392,16 @@ struct
   (* If point_value is set, then it becomes the factor.
    * Otherwise, factor and point_value is 1.
    *)
-  let infer_factors prompt = 
+  let get_points prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let _ = d_printf "Prompt.infer_factors %s\n" kind in
     match point_val with
     | None -> 
-				let points = Tex.point_value_of_prompt kind in
-				let _ = prompt.point_val <- Some points in
-				let _ = printf "Prompt.infer_factors %s, point_val = %s.\n" kind (str_of_str_opt prompt.point_val) in
-				points				
+			let err = "Fatal Error: Prompt.get_points: Expecting point value of zero None found" in
+			raise (Constants.Fatal_Error err)
     | Some p -> 
-				let _ = printf "Prompt.infer_factors %s, point_val=%s.\n" kind p in
-				p
+			let _ = printf "Prompt.get_points %s, point_val=%s.\n" kind p in
+			p
 
-
-  (* If point_value is set, then it becomes the factor.
-   * Otherwise, factor and point_value is 1.
-   *)
   let infer_point_value multiplier prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
 		let _ = d_printf "Prompt.infer_factors %s\n" kind in
@@ -670,8 +667,8 @@ struct
   let infer_point_value atom = 
 		let {kind; point_val; title; label; depend; prompts; body} = atom in
 		let _ = d_printf "Atom.infer_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
-    let factors = List.map prompts ~f:Prompt.infer_factors in
-    let sum_opt = List.reduce factors ~f:add_points in
+    let prompt_points = List.map prompts ~f:Prompt.get_points in
+    let sum_opt = List.reduce prompt_points ~f:add_points in
       match point_val with 
 			| None -> 
         let _ = atom.point_val <- sum_opt in 
@@ -682,8 +679,8 @@ struct
 						let _ = atom.point_val <- None in
 						force_float_string atom.point_val
         | Some sum ->
-						let points_per_factor = divide_points points sum in
-						let _ = List.map prompts ~f:(Prompt.infer_point_value points_per_factor) in
+						let multiplier = divide_points points sum in
+						let _ = List.map prompts ~f:(Prompt.infer_point_value multiplier) in
 						points
 
   let to_xml translator atom = 
@@ -1476,27 +1473,19 @@ let assign_points_to_prompts prompts =
     let head_prompt = List.nth_exn question 0 in
 		let head_item = List.nth_exn head_prompt 0 in
     let (kind, pval, body) = head_item in      	 
-      if Tex.is_primary_choice_prompt kind then
-				match pval with
-				| None ->
-						let n_factors = count_correct_choice_prompts question in
-						let points_per_factor = divide_points Constants.default_points_per_question n_factors in
-						let question = assign_points_to_question_prompts points_per_factor question in 
-						  question
-				| Some pts ->
-						let n_factors = count_correct_choice_prompts question in
-						let points_per_factor = divide_points pts n_factors in
-						let question = assign_points_to_question_prompts points_per_factor question in 
-						  question
-      else
-				match pval with 
-				| None -> assign_points_to_question_prompts Constants.default_points_per_question question
-        | _ -> question
-	 in
-	 let _ = printf ("Taking all questions") in 
-	 let questions = take_all_questions prompts in
-	 let questions = List.map questions ~f:assign_points_to_question in
-   List.concat questions	
+		let n_factors = count_factors question in
+    let points_per_factor = 
+   	  match pval with
+	   | None -> divide_points Constants.default_points_per_question n_factors
+  	 | Some pts -> divide_points pts n_factors 
+    in
+    let question = assign_points_to_question_prompts points_per_factor question in 
+ 	  question
+  in
+	let _ = printf ("Taking all questions") in 
+	let questions = take_all_questions prompts in
+	let questions = List.map questions ~f:assign_points_to_question in
+  List.concat questions	
   
 (* Create a prompt list from an item list.
  * The item list must start with the problem.

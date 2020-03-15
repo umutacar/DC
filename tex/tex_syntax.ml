@@ -93,6 +93,8 @@ let kw_any_choice = "\\anychoice"
 let kw_free_response = "\\answer"
 let kw_short_answer = "\\ans"
 let kw_ask = "\\ask"
+let kw_refsol = "\\sol"
+
 
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
@@ -101,7 +103,6 @@ let kw_part = "\\part"
 let kw_cookie_explain = "\\explain"
 let kw_cookie_hint = "\\hint"
 let kw_cookie_notes = "\\notes"
-let kw_cookie_refsol = "\\sol"
 let kw_cookie_rubric = "\\rubric"
 
 (* END: Keywords *)
@@ -183,11 +184,11 @@ let label_prefix_any_choice = "prt-any-choice"
 let label_prefix_ask = "prt-ask"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
+let label_prefix_refsol = "prt-sol"
 let label_prefix_choice = "prt-choice"
 let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
 let label_prefix_cookie_notes = "cki-notes"
-let label_prefix_cookie_refsol = "cki-sol"
 let label_prefix_cookie_rubric = "cki-rubric"
 
 
@@ -252,12 +253,13 @@ let label_prefix_of_kind =
    kw_ask, label_prefix_ask;
    kw_short_answer, label_prefix_short_answer;
    kw_choice, label_prefix_choice;
-   kw_choice_correct, label_prefix_choice
+   kw_choice_correct, label_prefix_choice;
+   kw_refsol, label_prefix_refsol;
+
   ]
   @
   (* Cookies *)
   [
-   kw_cookie_refsol, label_prefix_cookie_refsol;
    kw_cookie_explain, label_prefix_cookie_explain;
    kw_cookie_hint, label_prefix_cookie_hint;
    kw_cookie_notes, label_prefix_cookie_notes;
@@ -325,6 +327,7 @@ let primary_prompt_kinds =
 let scorable_prompt_kinds = 
   [
    kw_choice_correct, ();
+   kw_refsol, ();
   ]
 
 let prompt_kinds = 
@@ -332,7 +335,8 @@ let prompt_kinds =
   [
    kw_choice, ();
    kw_choice_correct, ();
-   kw_part, ()
+   kw_part, ();
+   kw_refsol, ();
   ]
 
 let cookie_kinds = 
@@ -341,7 +345,6 @@ let cookie_kinds =
    kw_cookie_hint, ();
    kw_cookie_notes, ();
    kw_cookie_rubric, ();
-   kw_cookie_refsol, ();
   ]
 
 let point_value_of_prompt_kind = 
@@ -504,7 +507,7 @@ let mk_exp_opt exp_opt =
   |  Some x -> heading ^ "\n" ^ x  
 
 let refsol_opt refsol_opt = 
-  let heading = kw_cookie_refsol in
+  let heading = kw_refsol in
   match refsol_opt with 
   |  None -> ""
   |  Some x -> heading ^ "\n" ^ x  
