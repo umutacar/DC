@@ -458,13 +458,14 @@ struct
   (* If prompt doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
    * Return title and body tokens
-	 * To assign label use words from title and body.  
+	 * To assign label use words from title and body, but
+   * nest them within the outer label provided (by the atom).
 	*)
-	let assign_label prefix atom_label label_set prompt = 		
+	let assign_label prefix label_set outer_label prompt = 		
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
     let t_all  = tt @ tb in
-    let t_all = List.map t_all ~f:(Labels.nest_label_in atom_label) in
+    let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
     (* Assign a label to prompt *)
 		let _ = 
 			match prompt.label with 
@@ -669,8 +670,9 @@ struct
 						raise (Constants.Fatal_Error err);
 			| Some l -> l
 		in 
-    (* Now assign labels to prompts *)
-		let _ = List.map atom.prompts ~f:(Prompt.assign_label prefix l_raw label_set) in
+    (* Make a nesting label for each prompt, of the form atom-label::0, atom-label::1, ... *)
+    let nesting_labels = List.init (List.length atom.prompts) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
+		let _ = List.map2  nesting_labels atom.prompts ~f:(Prompt.assign_label prefix label_set) in
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
