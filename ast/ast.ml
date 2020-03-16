@@ -95,7 +95,7 @@ let sum_factors prompts =
 	let counts = List.map prompts ~f:factor_of_prompt in
 	match List.reduce counts ~f:add_points with 
 	| None -> 
-		let err = "Syntax Error: expecting a solution prompt (\sol, \choice, \choice) but found none.\n" in
+		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice) but found none.\n" in
 		raise (Constants.Syntax_Error err)
 	| Some c -> 	c
 
