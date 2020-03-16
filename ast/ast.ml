@@ -304,12 +304,17 @@ struct
 	 * assign fresh label to prompt (unique wrt label_set).
    * Return nothing.
    * 
-	 * To assign label use words from 1) title, 2) body, 3) tokens passed in.
+   * outer_label is unique for this prompt.
 	*)
-	let assign_label prefix label_set tokens cookie = 		
-    let _ = d_printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
+	let assign_label prefix label_set outer_label cookie = 		
 		let (tt, tb) = tokenize_title_body cookie.title (Some (cookie.body)) in
-    let t_all  = tt @ tb  @ tokens in
+    let t_all  = tt @ tb in
+    let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
+    (* Place outer label first, because it will be unique 
+     * The rest is probably not needed but don't have time to think 
+     * through it now.
+     *)
+    let t_all  = [outer_label] @ t_all in
 		let _ = 
 			match cookie.label with 
 			| None ->
@@ -460,23 +465,32 @@ struct
    * Return title and body tokens
 	 * To assign label use words from title and body, but
    * nest them within the outer label provided (by the atom).
+   * outer_label is unique for this prompt, within the atom.
 	*)
 	let assign_label prefix label_set outer_label prompt = 		
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
+
     let t_all  = tt @ tb in
     let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
+    (* Place outer label first, because it will be unique 
+     * The rest is probably not needed but don't have time to think 
+     * through it now.
+     *)
+    let t_all  = [outer_label] @ t_all in
+
     (* Assign a label to prompt *)
-		let _ = 
+		let l_raw = 
 			match prompt.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
-					let l = Labels.mk_label_force label_set lk prefix (t_all) in
-					prompt.label <- Some l
-		| Some _ -> ()
+					let (l, l_raw) = Labels.mk_label_force_raw label_set lk prefix (t_all) in
+					prompt.label <- Some l; l_raw
+		| Some l -> l
 		in
-    (* Now recur over cookies, pass in tokens *) 
-		let _ = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set t_all) in
+    (* Now recur over cookies, after making a unique nesting label for each *)
+    let nesting_labels = List.init (List.length prompt.cookies) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
+		let _ = List.map2  nesting_labels prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
     	()
 
 
