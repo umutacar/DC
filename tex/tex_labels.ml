@@ -110,7 +110,7 @@ let mk_label table kind prefix_opt candidates =
         let _ = d_printf "Label_set.mk_label: trying label = %s\n" ls in
         if add table ls then 
           let _ = d_printf "Label_set.add: Label = %s added to  the table.\n" ls in
-          Some ls
+          Some (ls, h)
         else
           let _ = d_printf "Label_set.add: Label = %s found in the table.\n" ls in
           find rest
@@ -121,15 +121,15 @@ let mk_label_force table kind prefix candidates =
   match candidates with 
   | [ ] -> 
     (* Generate based on numbers *)
-    let ls = mk_label_from_number table in 
-    let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ ls in
+    let raw_ls = mk_label_from_number table in 
+    let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
     let _ = d_printf "Label_set.mk_label_force label = %s\n" ls in
-      ls
+      (ls, raw_ls)
   | _ ->
     match mk_label table kind (Some prefix) candidates with 
     | None ->
-      let ls = mk_label_from_number table in 
-      let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ ls in
+      let raw_ls = mk_label_from_number table in 
+      let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
       let _ = d_printf "Label_set.forceCreateLabel: label = %s\n" ls in
-			  ls
-    | Some ls -> ls 
+			  (ls, raw_ls)
+    | Some (ls, raw_ls) -> (ls, raw_ls) 

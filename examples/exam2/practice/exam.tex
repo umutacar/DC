@@ -75,6 +75,7 @@ less than the finish time of $u$.
 \asktf 
 Given a graph and the DFS numbers, we can determine the
 forward, back, and cross edges by inspecting DFS numbers only.  
+
 \solt
 
 \end{problem}
@@ -123,7 +124,7 @@ not that of edges.
 If a graph has negative edge weights, the unmodified Dijkstra's
 algorithm for shortest path may loop forever.
 
-%\solf
+\solf
 
 \end{problem}
 
@@ -151,7 +152,6 @@ $f(n) = 5f(n/5) + \Theta(n)$
 
 \sol[0.5]
 $\Theta (n \lg n)$, balanced.
-
 
 \sol[1.0]
 $\Theta (n \lg n)$, balanced.
@@ -195,7 +195,7 @@ $\Theta(n^{\lg_8 5})$ (roughly $\Theta(n^{0.77})$) leaves.
 \onechoice
 \choice Balanced
 \choice* Leaves Dominated
-\choice Root dominated
+%\choice Root dominated
 
 \end{problem}
 
@@ -235,7 +235,7 @@ fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
 
 %\input{../../../bfs/shortest-weighted}
 
-\begin{problem}[5p][Shortest Weighted]
+\begin{problem}[5.][Shortest Weighted]
 \used{Fall 14, Practice Exam II}
 
 Given a graph with integer edge weights between $1$ and $5$
@@ -255,7 +255,7 @@ each with weight $1$. Then solve with BFS.
 
 %\newpage
 %\input{../../../dfs/enterExit}
-\begin{problem}[5p][Enter and Exit]
+\begin{problem}[5.][Enter and Exit]
  \used{Fall 14, Practice Exam II}
 
 Recall the implementation of DFS shown in class using the \sml{enter}
@@ -282,7 +282,7 @@ following statements, assuming DFS starts at $A$:
 
 %\input{../../../shortest-paths/fastroute}
 
-\begin{problem}[5p]
+\begin{problem}[5.]
 \used{Fall 14, Practice Exam II}
 
 A new startup \emph{FastRoute} wants to route information along a path
@@ -318,7 +318,7 @@ Justify your answer.
 %\newpage
 %\input{../../../graph-contraction/cycleDetect}
 
-\begin{problem}[4p][Parallel Cycle Detection]
+\begin{problem}[4.][Parallel Cycle Detection]
 \ask
 Describe in words how you would as part of star contraction 
 efficiently detect that an undirected graph has a cycle.  \textbf{No more than two sentences.}
@@ -339,7 +339,7 @@ contract along a single duplicate edge.
 
 %\input{../../../graph-contraction/starContract}
 %
-\begin{problem}[6p][Star Contraction]
+\begin{problem}[6.][Star Contraction]
 \ask
 Circle \textbf{every} type of graph listed below for which star
 contraction will reduce the number of \textbf{edges} by a constant
@@ -482,7 +482,7 @@ would return a sequence of identifiers of documents
 where the phrase ``Umut loves climbing'' appears.
 
 
-\begin{problem}[8p]
+\begin{problem}[8.]
 \ask
 Show SML code to generate the index from the sequence of documents.
 It should not be more than 8 lines of code and assuming all words have
@@ -518,7 +518,7 @@ end
 \end{lstlisting}
 \end{problem}
 
-\begin{problem}[8p]
+\begin{problem}[8.]
 
 % Show code for a function \texttt{adj(docList1, docList2)} that given
 % two docLists returns a docList in which those two words
@@ -576,7 +576,7 @@ fun find idx word =
 
 \used{Fall 14, Practice Exam II}
 
-\begin{problem}[6p]
+\begin{problem}[6.]
 
 Consider the graph shown below, where the edge weights appear next to
 the edges and the heuristic distances to vertex $G$ are in parenthesis
@@ -600,7 +600,7 @@ A C F G
 
 \end{problem}
 
-\begin{problem}[4p]
+\begin{problem}[4.]
 
 \ask
 What is the key reason you would choose to use $A^*$ instead of
@@ -612,7 +612,7 @@ and not all shortest paths. $A^*$ can be much more efficient, as it tries to
 move toward the goal more directly, skipping many more vertices.
 \end{problem}
 
-\begin{problem}[5p]
+\begin{problem}[5.]
 \ask
 Show a $3$-vertex example of a graph on which Dijkstra's algorithm always
 fails. Please clearly identify which vertex is the source.
@@ -683,7 +683,7 @@ there is a directed path from $u$ to $v$), and such that no other vertex in
 $V$ can be added to $S$ without violating this condition. Every vertex
 belongs to exactly one strongly connected component in a graph.
 
-\begin{problem}[10p]
+\begin{problem}[10.]
 \ask
 Implement the function:
 \begin{lstlisting}

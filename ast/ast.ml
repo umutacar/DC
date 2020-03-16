@@ -95,7 +95,7 @@ let sum_factors prompts =
 	let counts = List.map prompts ~f:factor_of_prompt in
 	match List.reduce counts ~f:add_points with 
 	| None -> 
-		let err = "Syntax Error: expecting a solution prompt (\sol, \choice, \choice) but found none.\n" in
+		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice) but found none.\n" in
 		raise (Constants.Syntax_Error err)
 	| Some c -> 	c
 
@@ -312,7 +312,7 @@ struct
 			match cookie.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind cookie.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					let (l, _) = Labels.mk_label_force label_set lk prefix (tt @ tb) in
 					cookie.label <- Some l
 		| Some _ -> ()
 		in
@@ -468,7 +468,7 @@ struct
 			match prompt.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
+					let (l, _) = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
 					prompt.label <- Some l
 		| Some _ -> ()
 		in
@@ -634,17 +634,15 @@ struct
 	*)
 	let assign_label prefix label_set atom = 		
     let _ = d_printf "Atom.assign_label\n" in 
-		let t_p = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
-		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize_title_body (title atom) (Some (body atom)) in
-		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
-		let _ = 
+		let (tt_all, tb_all) = (tt, tb) in
+		let label_raw = 
 			match (label atom) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
-					atom.label <- Some l
-		| Some _ -> ()
+					let (l, l_raw) = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
+					atom.label <- Some l; l_raw
+		| Some l -> l
 		in
     let atom_label = 
 			match label atom with 
@@ -654,6 +652,10 @@ struct
 						raise (Constants.Fatal_Error err);
 			| Some l -> l
 		in 
+    (* Use atom prefix for prompts within *)
+    let prefix =  prefix ^ Tex.label_nestor ^ label_raw in
+		let t_p = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+      (* Throw away  tokens from prompts and choices *)
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
@@ -821,11 +823,16 @@ struct
           let lopt = 
 						match atom_labels with 
 						| [ ] -> None
-						| _ -> Labels.mk_label label_set lk None atom_labels
+						| _ -> 
+              match Labels.mk_label label_set lk None atom_labels with 
+              | None -> None
+              | Some (l, _)  -> Some l
 					in
 					let l = 
 						match lopt with 
-						| None -> Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) 
+						| None -> 
+              let (l, _) = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
+							l
 						| Some l -> l
 					in
 	  				group.label <- Some l
@@ -1195,15 +1202,15 @@ struct
 			match Labels.mk_label label_set lk (Some prefix) tt_s with
 			| None -> 
 	      let tokens = tt_s @ t_b in
-        let l = Labels.mk_label_force label_set lk prefix tokens in
+        let (l, _) = Labels.mk_label_force label_set lk prefix tokens in
       	segment.label <- Some l
-    	| Some l -> segment.label <- Some l
+    	| Some (l, _) -> segment.label <- Some l
 
   let assign_label_force segment label_set kind = 
 		let tokens = tokenize_title (Some (title segment)) in			
     (* label kind *)
     let lk = Tex.mk_label_prefix_from_kind kind in
-		let l = Labels.mk_label_force label_set lk "" tokens in
+		let (l, _) = Labels.mk_label_force label_set lk "" tokens in
     let _ = d_printf "Segment.mk_label_force label = %s\n" l in
     let _ = segment.label <- Some l in
     l
