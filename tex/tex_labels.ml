@@ -59,6 +59,10 @@ let rec mk_label_from_number table =
    return label_name
  *)
 
+let nest_label_in outer inner =
+  outer ^ Tex.label_nestor ^ inner
+
+
 (* If label has the form 
  * Examples: chapter:this -> this, ch:this-> this ch::this -> this.
  *

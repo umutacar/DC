@@ -460,10 +460,11 @@ struct
    * Return title and body tokens
 	 * To assign label use words from title and body.  
 	*)
-	let assign_label prefix label_set prompt = 		
+	let assign_label prefix atom_label label_set prompt = 		
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
     let t_all  = tt @ tb in
+    let t_all = List.map t_all ~f:(Labels.nest_label_in atom_label) in
     (* Assign a label to prompt *)
 		let _ = 
 			match prompt.label with 
@@ -652,13 +653,13 @@ struct
 		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize_title_body (title atom) (Some (body atom)) in
 		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
-		let _ = 
+		let l_raw = 
 			match (label atom) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
-					atom.label <- Some l
-		| Some _ -> ()
+					let (l, l_raw) = Labels.mk_label_force_raw label_set lk prefix (tt_all @ tb_all) in
+					atom.label <- Some l; l_raw
+		| Some l -> l
 		in
     let atom_label = 
 			match label atom with 
@@ -669,7 +670,7 @@ struct
 			| Some l -> l
 		in 
     (* Now assign labels to prompts *)
-		let _ = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+		let _ = List.map atom.prompts ~f:(Prompt.assign_label prefix l_raw label_set) in
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
