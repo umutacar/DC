@@ -302,21 +302,23 @@ struct
 
   (* If cookie doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
-   * Return title and body tokens
-	 * To assign label use words from title and body.  
+   * Return nothing.
+   * 
+	 * To assign label use words from 1) title, 2) body, 3) tokens passed in.
 	*)
-	let assign_label prefix label_set cookie = 		
+	let assign_label prefix label_set tokens cookie = 		
     let _ = d_printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
 		let (tt, tb) = tokenize_title_body cookie.title (Some (cookie.body)) in
+    let t_all  = tt @ tb  @ tokens in
 		let _ = 
 			match cookie.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind cookie.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					let l = Labels.mk_label_force label_set lk prefix (t_all) in
 					cookie.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt, tb)
+    	()
 
   let body_to_xml translator cookie =
 		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
@@ -460,19 +462,26 @@ struct
 	*)
 	let assign_label prefix label_set prompt = 		
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
-		let t_i = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
-		let (tt_i, tb_i) = collect_labels t_i in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
-    let (tt_all, tb_all) = (tt @ tt_i, tb @ tb_i) in
+    let t_all  = tt @ tb in
+    (* Assign a label to prompt *)
 		let _ = 
 			match prompt.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
+					let l = Labels.mk_label_force label_set lk prefix (t_all) in
 					prompt.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt_all, tb_all)
+    (* Now recur over cookies, pass in tokens *) 
+		let _ = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set t_all) in
+    	()
+
+
+  (* tokenize the content	*)
+	let tokenize prompt = 		
+		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
+    	(tt, tb)
 
   let body_to_xml translator prompt =
 		let _ = d_printf "prompt.body_to_xml: prompt = %s\n" prompt.kind in
@@ -631,10 +640,15 @@ struct
 	 * assign fresh label to atom (unique wrt label_set).
    * Return title and body tokens.
 	 * To assign label use words from title and body.  
+   * 
+   * Because problem atoms may have a lot of their content in 
+   * their prompts, first tokenize the prompts and  use 
+   * these.  
+   * 
 	*)
 	let assign_label prefix label_set atom = 		
     let _ = d_printf "Atom.assign_label\n" in 
-		let t_p = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+		let t_p = List.map atom.prompts ~f:(Prompt.tokenize) in
 		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize_title_body (title atom) (Some (body atom)) in
 		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
@@ -654,6 +668,8 @@ struct
 						raise (Constants.Fatal_Error err);
 			| Some l -> l
 		in 
+    (* Now assign labels to prompts *)
+		let _ = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
