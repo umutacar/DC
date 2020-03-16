@@ -93,7 +93,11 @@ let sum_factors prompts =
 		else Constants.zero_points
 	in
 	let counts = List.map prompts ~f:factor_of_prompt in
-	List.reduce_exn counts ~f:add_points
+	match List.reduce counts ~f:add_points with 
+	| None -> 
+		let err = "Syntax Error: expecting a solution prompt (\sol, \choice, \choice) but found none.\n" in
+		raise (Constants.Syntax_Error err)
+	| Some c -> 	c
 
 
 (* prompts is of the form
@@ -1485,7 +1489,13 @@ let assign_points_to_prompts prompts =
 	 | head_prompt::prompts ->
      let head_item::t_head_prompt = head_prompt in
      let (kind, pval, body) = head_item in      	 
-     let n_factors = sum_factors prompts in
+     let n_factors = 
+			 try sum_factors prompts with
+				 Constants.Syntax_Error s -> 
+					 let err = Printf.sprintf "%s\nContext: Question prompt: %s" s body in
+           let _ = printf "%s\n" err in
+					 raise (Constants.Syntax_Error "Syntax Error")					 
+		 in
      let points = 
        match pval with
     	 | None -> Constants.default_points_per_question
