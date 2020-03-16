@@ -17,6 +17,7 @@ type t = (String.t, unit) Hashtbl.t
 
 (** BEGIN: Globals **)
 let label_counter = ref 0
+let label_counter_atom = ref 0
 (** END: Globals **)
 
 let empty:unit -> t = fun () -> Hashtbl.create ~size:1024 (module String) 
@@ -53,6 +54,21 @@ let rec mk_label_from_number table =
 		else
 			(* try again *)
 			mk_label_from_number table 
+
+(* Create a new atom label from counter *)
+let rec mk_atom_label_from_number table = 
+  let _ = label_counter_atom := !label_counter_atom + 1 in
+  let label = 
+		Tex.label_prefix_auto_pre ^ "atom" ^
+    (Int.to_string !label_counter_atom) ^ 
+    Tex.label_prefix_auto_pre  
+	in
+	  if add table label then
+			(* succeeded. *)
+			label
+		else
+			(* try again *)
+			mk_atom_label_from_number table 
 
 (* Assuming that the label has of the form 
    (prefix as e.g., [ch | sec | cl ]) (separator as [:_]) label_name
@@ -129,6 +145,23 @@ let mk_label_force table kind prefix candidates =
     match mk_label table kind (Some prefix) candidates with 
     | None ->
       let raw_ls = mk_label_from_number table in 
+      let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
+      let _ = d_printf "Label_set.forceCreateLabel: label = %s\n" ls in
+			  (ls, raw_ls)
+    | Some (ls, raw_ls) -> (ls, raw_ls) 
+
+let mk_atom_label_force table kind prefix candidates = 
+  match candidates with 
+  | [ ] -> 
+    (* Generate based on numbers *)
+    let raw_ls = mk_atom_label_from_number table in 
+    let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
+    let _ = d_printf "Label_set.mk_label_force label = %s\n" ls in
+      (ls, raw_ls)
+  | _ ->
+    match mk_label table kind (Some prefix) candidates with 
+    | None ->
+      let raw_ls = mk_atom_label_from_number table in 
       let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
       let _ = d_printf "Label_set.forceCreateLabel: label = %s\n" ls in
 			  (ls, raw_ls)

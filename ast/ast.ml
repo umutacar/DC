@@ -640,7 +640,7 @@ struct
 			match (label atom) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
-					let (l, l_raw) = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
+					let (l, l_raw) = Labels.mk_atom_label_force label_set lk prefix (tt_all @ tb_all) in
 					atom.label <- Some l; l_raw
 		| Some l -> l
 		in
