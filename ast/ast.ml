@@ -95,7 +95,7 @@ let sum_factors prompts =
 	let counts = List.map prompts ~f:factor_of_prompt in
 	match List.reduce counts ~f:add_points with 
 	| None -> 
-		let err = "Syntax Error: expecting a solution prompt (\sol, \choice, \choice) but found none.\n" in
+		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice) but found none.\n" in
 		raise (Constants.Syntax_Error err)
 	| Some c -> 	c
 
@@ -302,21 +302,28 @@ struct
 
   (* If cookie doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
-   * Return title and body tokens
-	 * To assign label use words from title and body.  
+   * Return nothing.
+   * 
+   * outer_label is unique for this prompt.
 	*)
-	let assign_label prefix label_set cookie = 		
-    let _ = d_printf "Cookie.label, is_given = %B\n" cookie.label_is_given in
+	let assign_label prefix label_set outer_label cookie = 		
 		let (tt, tb) = tokenize_title_body cookie.title (Some (cookie.body)) in
+    let t_all  = tt @ tb in
+    let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
+    (* Place outer label first, because it will be unique 
+     * The rest is probably not needed but don't have time to think 
+     * through it now.
+     *)
+    let t_all  = [outer_label] @ t_all in
 		let _ = 
 			match cookie.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind cookie.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt @ tb) in
+					let l = Labels.mk_label_force label_set lk prefix (t_all) in
 					cookie.label <- Some l
 		| Some _ -> ()
 		in
-    	(tt, tb)
+    	()
 
   let body_to_xml translator cookie =
 		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
@@ -456,23 +463,41 @@ struct
   (* If prompt doesn't have a label, then
 	 * assign fresh label to prompt (unique wrt label_set).
    * Return title and body tokens
-	 * To assign label use words from title and body.  
+	 * To assign label use words from title and body, but
+   * nest them within the outer label provided (by the atom).
+   * outer_label is unique for this prompt, within the atom.
 	*)
-	let assign_label prefix label_set prompt = 		
+	let assign_label prefix label_set outer_label prompt = 		
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
-		let t_i = List.map prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
-		let (tt_i, tb_i) = collect_labels t_i in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
-    let (tt_all, tb_all) = (tt @ tt_i, tb @ tb_i) in
-		let _ = 
+
+    let t_all  = tt @ tb in
+    let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
+    (* Place outer label first, because it will be unique 
+     * The rest is probably not needed but don't have time to think 
+     * through it now.
+     *)
+    let t_all  = [outer_label] @ t_all in
+
+    (* Assign a label to prompt *)
+		let l_raw = 
 			match prompt.label with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind prompt.kind in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
-					prompt.label <- Some l
-		| Some _ -> ()
+					let (l, l_raw) = Labels.mk_label_force_raw label_set lk prefix (t_all) in
+					prompt.label <- Some l; l_raw
+		| Some l -> l
 		in
-    	(tt_all, tb_all)
+    (* Now recur over cookies, after making a unique nesting label for each *)
+    let nesting_labels = List.init (List.length prompt.cookies) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
+		let _ = List.map2  nesting_labels prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
+    	()
+
+
+  (* tokenize the content	*)
+	let tokenize prompt = 		
+		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
+    	(tt, tb)
 
   let body_to_xml translator prompt =
 		let _ = d_printf "prompt.body_to_xml: prompt = %s\n" prompt.kind in
@@ -631,20 +656,25 @@ struct
 	 * assign fresh label to atom (unique wrt label_set).
    * Return title and body tokens.
 	 * To assign label use words from title and body.  
+   * 
+   * Because problem atoms may have a lot of their content in 
+   * their prompts, first tokenize the prompts and  use 
+   * these.  
+   * 
 	*)
 	let assign_label prefix label_set atom = 		
     let _ = d_printf "Atom.assign_label\n" in 
-		let t_p = List.map atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+		let t_p = List.map atom.prompts ~f:(Prompt.tokenize) in
 		let (tt_p, tb_p) = collect_labels t_p in
 		let (tt, tb) = tokenize_title_body (title atom) (Some (body atom)) in
 		let (tt_all, tb_all) = (tt @ tt_p, tb @ tb_p) in
-		let _ = 
+		let l_raw = 
 			match (label atom) with 
 			| None ->
 					let lk = Tex_syntax.mk_label_prefix_from_kind (kind atom) in
-					let l = Labels.mk_label_force label_set lk prefix (tt_all @ tb_all) in
-					atom.label <- Some l
-		| Some _ -> ()
+					let (l, l_raw) = Labels.mk_label_force_raw label_set lk prefix (tt_all @ tb_all) in
+					atom.label <- Some l; l_raw
+		| Some l -> l
 		in
     let atom_label = 
 			match label atom with 
@@ -654,6 +684,9 @@ struct
 						raise (Constants.Fatal_Error err);
 			| Some l -> l
 		in 
+    (* Make a nesting label for each prompt, of the form atom-label::0, atom-label::1, ... *)
+    let nesting_labels = List.init (List.length atom.prompts) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
+		let _ = List.map2  nesting_labels atom.prompts ~f:(Prompt.assign_label prefix label_set) in
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
