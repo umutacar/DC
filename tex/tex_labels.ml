@@ -94,7 +94,7 @@ let drop_label_prefix label =
 (* Take kind, e.g., sec, gr, and prefix and a string list candidates make
    kind:prefix::s, for some s in candidates
  *)
-let mk_label table kind prefix_opt candidates = 
+let mk_label_raw table kind prefix_opt candidates = 
 	let rec find candidates = 
 		let _ = d_printf_strlist "Label_set.mk_label: candidates = %s\n" candidates in
     match candidates with 
@@ -110,26 +110,35 @@ let mk_label table kind prefix_opt candidates =
         let _ = d_printf "Label_set.mk_label: trying label = %s\n" ls in
         if add table ls then 
           let _ = d_printf "Label_set.add: Label = %s added to  the table.\n" ls in
-          Some ls
+          Some (ls, h)
         else
           let _ = d_printf "Label_set.add: Label = %s found in the table.\n" ls in
           find rest
   in
   find candidates
 
-let mk_label_force table kind prefix candidates = 
+let mk_label table kind prefix_opt candidates = 
+  match mk_label_raw table kind prefix_opt candidates with 
+	| None -> None
+  | Some (l, l_raw) -> Some l 
+
+let mk_label_force_raw table kind prefix candidates = 
   match candidates with 
   | [ ] -> 
     (* Generate based on numbers *)
-    let ls = mk_label_from_number table in 
-    let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ ls in
+    let raw_ls = mk_label_from_number table in 
+    let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
     let _ = d_printf "Label_set.mk_label_force label = %s\n" ls in
-      ls
+      (ls, raw_ls)
   | _ ->
-    match mk_label table kind (Some prefix) candidates with 
+    match mk_label_raw table kind (Some prefix) candidates with 
     | None ->
-      let ls = mk_label_from_number table in 
-      let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ ls in
+      let raw_ls = mk_label_from_number table in 
+      let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
       let _ = d_printf "Label_set.forceCreateLabel: label = %s\n" ls in
-			  ls
-    | Some ls -> ls 
+			  (ls, raw_ls)
+    | Some (ls, raw_ls) -> (ls, raw_ls) 
+
+let mk_label_force table kind prefix candidates = 
+  let (l, raw_l) = mk_label_force_raw  table kind prefix candidates in
+    l
