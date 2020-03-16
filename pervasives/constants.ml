@@ -17,4 +17,5 @@ let cookie_cost_explain = "0.2"
 let cookie_cost_hint = "0.4"
 
 exception Fatal_Error of string
+exception Syntax_Error of string
 exception Input_File_Not_Found of string
