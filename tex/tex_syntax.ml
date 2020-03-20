@@ -315,6 +315,13 @@ let correct_choice_prompt_kinds =
    kw_choice_correct, ();
   ]
 
+let secondary_choice_prompt_kinds = 
+  [
+   kw_choice, ();
+   kw_choice_correct, ();
+  ]
+
+
 let primary_prompt_kinds = 
 	primary_choice_prompt_kinds
 	@
@@ -627,6 +634,12 @@ let is_correct_choice_prompt kind =
    match List.Assoc.find correct_choice_prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let is_secondary_choice_prompt kind = 
+   match List.Assoc.find secondary_choice_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 
 let is_scorable_prompt kind = 
    match List.Assoc.find scorable_prompt_kinds ~equal: String.equal kind with 
