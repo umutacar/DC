@@ -1525,7 +1525,7 @@ let assign_points_to_prompts prompts =
      let n_factors = 
 			 try sum_factors prompts with
 				 Constants.Syntax_Error s -> 
-					 let err = Printf.sprintf "%s\nContext: Question prompt: %s" s body in
+					 let err = Printf.sprintf "\n%s\nContext: Question prompt:\n>%s>\n" s body in
            let _ = printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
 		 in
