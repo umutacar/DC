@@ -150,11 +150,7 @@ Give closed form for
 $f(n) = 5f(n/5) + \Theta(n)$
 
 \sol[0.5]
-$\Theta (n \lg n)$, balanced.
-
-
-\sol[1.0]
-$\Theta (n \lg n)$, balanced.
+$\Theta (n \lg n)$.
 
 \onechoice[8.]
 
@@ -259,25 +255,35 @@ each with weight $1$. Then solve with BFS.
  \used{Fall 14, Practice Exam II}
 
 Recall the implementation of DFS shown in class using the \sml{enter}
-and \sml{exit} functions. Circle the correct answer for each of the
+and \sml{exit} functions. Select the correct answer for each of the
 following statements, assuming DFS starts at $A$:
 
 \begin{center}
   \includegraphics[scale=.7]{dfs/dfs-graph1.pdf}
 \end{center}
 
-\bigskip
-  \begin{tabular}{lp{1.3in}cc}
-    \texttt{enter D} could be called before \texttt{enter E}:& &
-    \textsf{True} & \textsf{False}\\[1.5 ex]
-    \texttt{enter E} could be called before \texttt{enter D}:& & \textsf{True} & \textsf{False}\\[1.5 ex]
-    \texttt{enter D} could be called before \texttt{enter C}:& & \textsf{True} & \textsf{False}\\[1.5 ex]
-    \texttt{exit A} could be called before \texttt{exit B}: & & \textsf{True} & \textsf{False}\\[1.5 ex]
-    \texttt{exit D} could be called before \texttt{enter B}:&  & \textsf{True} & \textsf{False}
-  \end{tabular}
+\asktf
+\texttt{enter D} could be called before \texttt{enter E}
 
-\sol
-    True, True, True, False, True
+\solt
+
+
+\asktf
+\texttt{enter E} could be called before \texttt{enter D}:
+\solt
+
+\asktf
+\texttt{enter D} could be called before \texttt{enter C}
+\solt
+
+\asktf 
+\texttt{exit A} could be called before \texttt{exit B}
+\solf
+
+\asktf
+\texttt{exit D} could be called before \texttt{enter B}
+\solt
+
 \end{problem}
 
 %\input{../../../shortest-paths/fastroute}
