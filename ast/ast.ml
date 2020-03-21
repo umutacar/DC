@@ -406,28 +406,35 @@ struct
 		let f_tr_cookie state cookie = Cookie.traverse cookie state f in
 		  List.fold_left cookies ~init:s ~f:f_tr_cookie 
 
-  (* If point_value is set, then it becomes the factor.
-   * Otherwise, factor and point_value is 1.
+
+  (* If this is a primary prompt, then
+   * point value is treated as zero.
+   * Otherwise, if the point_value is set, then it becomes the factor.
+   *            if not set, then factor and point_value is 1.
    *)
-  let get_points prompt = 
+  let get_secondary_points prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
     match point_val with
     | None -> 
 			let err = Printf.sprintf "Fatal Error: Expecting point value of zero but None found, prompt = %s" kind in
 			raise (Constants.Fatal_Error err)
     | Some p -> 
-			let _ = printf "Prompt.get_points %s, point_val=%s.\n" kind p in
-			p
+      if Tex.is_primary_prompt kind then
+        Constants.zero_points 
+      else 
+  			let _ = d_printf "Prompt.get_points %s, point_val=%s.\n" kind p in
+	  		p
 
   let propagate_point_value multiplier prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let _ = d_printf "Prompt.propagate_factors %s\n" kind in
     match point_val with
     | None -> 
 				let err = Printf.sprintf "Fatal Error: Expecting point value None found, prompt = %s" kind in
 				raise (Constants.Fatal_Error err)
     | Some points -> 
-				let _ = prompt.point_val <- Some (multiply_points points multiplier) in
+        let points = multiply_points points multiplier in
+				let _ = prompt.point_val <- Some points in
+    		let _ = printf "Prompt.propagate_point_value kind = %s, point = %s\n" kind points in
         let _ = List.map cookies ~f:(Cookie.propagate_point_value multiplier) in
 				prompt.point_val
 
@@ -512,7 +519,7 @@ struct
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator prompt in
 		let point_val = normalize_point_val point_val in
-    let _ = d_printf "ast.prompt.to_xml: point_val = %s\n" (str_of_pval_opt point_val) in
+    let _ = printf "ast.prompt.to_xml: kind %s, point_val = %s\n" kind (str_of_pval_opt point_val) in
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml translator Xml.title title in
 		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
@@ -713,7 +720,7 @@ struct
   let propagate_point_value atom = 
 		let {kind; point_val; title; label; depend; prompts; body} = atom in
 		let _ = d_printf "Atom.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
-    let prompt_points = List.map prompts ~f:Prompt.get_points in
+    let prompt_points = List.map prompts ~f:Prompt.get_secondary_points in
     let sum_opt = List.reduce prompt_points ~f:add_points in
     let _ = printf "Atom.propagate_point_value: sum over prompts = %s \n" (str_of_str_opt sum_opt) in
       match point_val with 
@@ -726,6 +733,7 @@ struct
 						let _ = atom.point_val <- None in
 						force_float_string atom.point_val
         | Some sum ->
+            (* Divide sum as  a factor *)
 						let multiplier = divide_points points sum in
 						let _ = List.map prompts ~f:(Prompt.propagate_point_value multiplier) in
 						points
@@ -1532,14 +1540,16 @@ let assign_points_to_prompts prompts =
            let _ = printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
 		 in
+     (* Take the point value of the question prompt (head item) *)
      let points = 
        match pval with
     	 | None -> Constants.default_points_per_question
   	   | Some p -> p in
      let points_per_factor = divide_points points n_factors in
      let _ = printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
-     (* For the result, primary prompts have no points *)
-     let head_prompt = (kind, Some Constants.zero_points, body)::t_head_prompt in
+     (* Update question prompt point value *)
+     let head_prompt = (kind, Some points, body)::t_head_prompt in
+
      (* Scale prompts now. *)
      let prompts = assign_points_to_question_prompts points_per_factor prompts in 
  	   let question = head_prompt::prompts in
