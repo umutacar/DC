@@ -11,6 +11,12 @@ let str_of_pval_opt x =
   | Some x -> "Some " ^ x
 
 
+let str_of_opt_arg x = 
+  match x with 
+  | None -> ""
+  | Some x -> "[" ^ x ^ "]"
+
+
 (* is C vertical space *)
 let is_vert_space c = 
   c = '\n' || c = '\r' 
@@ -47,11 +53,11 @@ let str_of_str2_list (xs: (string * string) list): string =
 
 
 
-let str_of_items (xs: (string * string option * string) list): string = 
-  let str_of_item (kind, pvalopt, body) = 
-		match pvalopt with 
-		| None -> kind ^ "\n" ^ body ^ "\n"
-		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ body ^ "\n"
+let str_of_items (xs: (string * string option * string option * string) list): string = 
+  let str_of_item (kind, pvalopt, keyopt, body) = 
+    let str_pvalopt = str_of_opt_arg pvalopt in
+    let str_keyopt = str_of_opt_arg keyopt in
+    kind ^ str_pvalopt ^ str_keyopt ^ "\n" ^ body ^ "\n"
 	in
 	let l = List.map xs ~f:str_of_item in
   String.concat ~sep:", " l

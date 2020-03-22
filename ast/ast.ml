@@ -17,7 +17,7 @@ type ast_member = Ast_cookie | Ast_prompt | Ast_problem | Ast_atom | Ast_group |
 (* An item is a kind * point value * body 
  * all are strings.
  *)
-type t_item = (string * string option * string)
+type t_item = (string * string option * string option * string)
 
 (**********************************************************************
  ** BEGIN: Constants
@@ -85,7 +85,7 @@ let normalize_point_val po =
 let sum_factors prompts = 
   let factor_of_prompt prompt =
 		let item = List.nth_exn prompt 0 in
-    let (kind, pval, _) = item in
+    let (kind, pval, _, _) = item in
  		if Tex.is_scorable_prompt kind then 
       match pval with 
 			| None -> Tex.point_value_of_prompt kind
@@ -110,11 +110,11 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
 	 = 
 
   let assign_points_to_cookie cookie = 
-    let (kind, pval, body) = cookie in    
+    let (kind, pval, key, body) = cookie in    
     let r = Tex.get_cookie_cost_ratio kind in
     let _ = printf "set_cookies_points kind = %s has ration r = %s\n" kind r in
     let p = multiply_points multiplier r in
-    (kind, Some r, body)
+    (kind, Some r, key, body)
   in
   let assign prompt =
     match prompt with 
@@ -123,7 +123,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
 				raise (Constants.Fatal_Error err)
 		| p::cookies ->
          let cookies = List.map cookies ~f:assign_points_to_cookie in
-				 let (kind, pval, body) = p in
+				 let (kind, pval, key, body) = p in
 	       if Tex.is_scorable_prompt kind then
         	 let _ = printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
            let points = 
@@ -131,10 +131,10 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
           	 | None -> Tex.point_value_of_prompt kind 
           	 | Some points -> points in
            let points = multiply_points multiplier points in
-           (kind, Some points, body)::cookies
+           (kind, Some points, key, body)::cookies
          else
         	 let _ = printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
-	         (kind, Some Constants.zero_points, body)::cookies
+	         (kind, Some Constants.zero_points, key, body)::cookies
 	in
 	List.map prompts ~f:assign
 
@@ -1453,7 +1453,7 @@ let propagate_point_values ast =
 
 (* Create a cookie from an item *)
 let cookie_of_item (item: t_item): t_cookie = 
-	let (kind, point_val, body) = item in
+	let (kind, point_val, key, body) = item in
 	if Tex.is_cookie kind then
 		Cookie.make ~point_val kind body 
 	else
@@ -1466,7 +1466,7 @@ let prompt_of_items (items: t_item list): t_prompt =
 	match items with 
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
-			let  (kind, point_val, body) = item in
+			let  (kind, point_val, key, body) = item in
       let _ = printf "prompt_of_items: point_val = %s.\n" (str_of_pval_opt point_val) in
 			if Tex.is_prompt kind then
 				let cookies = List.map rest_items ~f:cookie_of_item in
@@ -1491,7 +1491,7 @@ let assign_points_to_prompts prompts =
 		| h::t -> 
       (* Find the head item *) 
 	    let head_item = List.nth_exn h 0 in
-      let (kind, pval, body) = head_item in 
+      let (kind, pval, key, body) = head_item in 
       let _ =  printf "take_next_question: kind = %s" kind in 
 			if Tex.is_primary_prompt kind then
         (* head item is primary, so start a new question *)
@@ -1506,7 +1506,7 @@ let assign_points_to_prompts prompts =
   	 | h::t -> 
         (* Find the head item *) 
 				let head_item = List.nth_exn h 0 in
-        let (kind, pval, body) = head_item in 
+        let (kind, pval, key, body) = head_item in 
         let _ =  printf "take_next_question: kind = %s" kind in 
 				if Tex.is_primary_prompt kind then
           (* head item is primary, so start a new question *)
@@ -1532,7 +1532,7 @@ let assign_points_to_prompts prompts =
 				raise (Constants.Fatal_Error err)
 	 | head_prompt::prompts ->
      let head_item::t_head_prompt = head_prompt in
-     let (kind, pval, body) = head_item in      	 
+     let (kind, pval, key, body) = head_item in      	 
      let n_factors = 
 			 try sum_factors prompts with
 				 Constants.Syntax_Error s -> 
@@ -1548,7 +1548,7 @@ let assign_points_to_prompts prompts =
      let points_per_factor = divide_points points n_factors in
      let _ = printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
      (* Update question prompt point value *)
-     let head_prompt = (kind, Some points, body)::t_head_prompt in
+     let head_prompt = (kind, Some points, key, body)::t_head_prompt in
 
      (* Scale prompts now. *)
      let prompts = assign_points_to_question_prompts points_per_factor prompts in 
@@ -1579,7 +1579,7 @@ let prompts_of_items (items: t_item list) =
    *)
   let collect (current: (t_item list) * ((t_item list) list)) (item: t_item) = 
 		let (cp, prompts) = current in
-		let  (kind, point_val, body) = item in
+		let  (kind, point_val, key, body) = item in
 		let _ = d_printf "ast.collect: kind = %s\n" kind in
 
 		if Tex.is_prompt kind then
@@ -1598,7 +1598,7 @@ let prompts_of_items (items: t_item list) =
 		match items with 
 		| [ ] -> [ ]
 		| item::items_rest ->
-				let (kind, point_val, body) = item in
+				let (kind, point_val, key, body) = item in
 				if Tex.is_primary_prompt kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in

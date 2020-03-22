@@ -68,13 +68,13 @@ let normalize_env (kind, title, kw_args) =
 
   (* Drop final star if env name has one. *)
   let kind = 
-		if kind = "table*" or kind = "figure*" then
+		if kind = "table*" || kind = "figure*" then
 			Utils.drop_final_char kind
 		else
 			kind
 	in
 	let _ = d_printf "kind = %s title = %s\n" kind title in
-  if kind = "table" or kind = "figure" then
+  if kind = "table" || kind = "figure" then
     if Tex.title_is_significant title then
       (kind, Some title, ("title", title)::kw_args)
 		else
@@ -381,7 +381,7 @@ and take_env =
         *) 
         let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
-				let items = (kind, Some point_val, body)::items in 
+				let items = (kind, Some point_val, None, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
@@ -394,7 +394,7 @@ and take_env =
         *) 
         let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
-				let items = (kind, None, body)::items in 
+				let items = (kind, None, None, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
@@ -584,19 +584,19 @@ and take_list =
 	 | p_item_points_key as x 
 	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
-	   let items = (kind, Some point_val, body)::items in
+	   let items = (kind, Some point_val, None, body)::items in
 	     ("", items, h_e)	 	 
 	 }
 	 | p_item_points as x 
 	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
-	   let items = (kind, Some point_val, body)::items in
+	   let items = (kind, Some point_val, None, body)::items in
 	     ("", items, h_e)	 	 
 	 }
 	 | p_item as x 
 	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
-	   let items = (kind, None, body)::items in
+	   let items = (kind, None, None, body)::items in
 	     ("", items, h_e)	 	 
 	 }
 
