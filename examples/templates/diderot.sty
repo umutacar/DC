@@ -61,7 +61,7 @@
 
 \theoremstyle{definition}
 \newtheorem{exercise}{Exercise}[chapter]
-\newtheorem{problem}[exercise]{Problem}
+%\newtheorem{problem}[exercise]{Problem}
 \newtheorem*{solution}{Solution}
 \newtheorem*{task}{Task}
 
@@ -226,16 +226,19 @@
 { 
 }
 
-%% \NewDocumentEnvironment{problem}{o}
-%% {
-%% \IfNoValueTF{#1}
-%% {\paragraph*{Problem.}}
-%% {\paragraph*{Problem [#1].}}
-
-%% }
-%% { 
-
-%% }
+\NewDocumentEnvironment{problem}{oo}
+{
+\IfNoValueTF{#1}
+{\noindent\textbf{Problem.}}
+{\IfNoValueTF{#2}
+  {\noindent\textbf{Problem (#1 Points).}}
+  {{\noindent\textbf{Problem (#1 Points)~~{#2}.}}}
+}
+{
+}
+}
+{
+}
 
 \NewDocumentEnvironment{proposition}{o}
 {
@@ -249,8 +252,8 @@
 \NewDocumentEnvironment{question}{o}
 {
 \IfNoValueTF{#1}
-{\paragraph*{Question.}}
-{\paragraph*{Question [#1].}}
+{\noindent\textbf{Question.}}
+{\noindent\textbf{Question [#1].}}
 }
 { 
 }
@@ -329,12 +332,23 @@
 %% True False
 \newcommand{\asktf}[1][]{\paragraph{True or False?}}
 \newcommand{\solt}[1][]{}
-\newcommand{\solf}[1]{}
+\newcommand{\solf}[1][]{}
 
 
 %% Free Response
-\newcommand{\ask}[1][]{\paragraph{Question.}}
-\newcommand{\sol}[1][]{\paragraph{Solution.}}
+\NewDocumentCommand{\ask}{o}{
+    \IfNoValueTF{#1}
+    {\medskip\noindent\textbf{Question.}}             % No points
+    {\medskip\noindent\textbf{Question (#1 Points).}}  % Points
+}
+
+\NewDocumentCommand{\sol}{o}{
+    \IfNoValueTF{#1}
+    {\noindent\textbf{Solution.}}             % No points
+    {\noindent\textbf{Solution (#1 Factors).}}  % Points
+}
+
+
 
 
 %% True False

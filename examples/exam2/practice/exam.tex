@@ -152,7 +152,7 @@ $f(n) = 5f(n/5) + \Theta(n)$
 \sol[0.5]
 $\Theta (n \lg n)$.
 
-\onechoice[8.]
+\onechoice[8.] According to brick method, the recurrence is
 
 \choice* Balanced
 \choice[0.4] Leaves Dominated
@@ -165,7 +165,7 @@ $f(n) = 3f(n/2) + \Theta(n^2)$
 \sol
 $\Theta(n^2)$
 
-\onechoice
+\onechoice  According to brick method, the recurrence is
 \choice Balanced
 \choice Leaves Dominated
 \choice* Root dominated
@@ -176,7 +176,7 @@ $f(n) = f(n/2) + \Theta(\lg n)$
 \sol
 $\Theta (\lg^2 n)$
 
-\onechoice
+\onechoice  According to brick method, the recurrence is
 \choice* Balanced
 \choice Leaves Dominated
 \choice Root dominated
@@ -188,7 +188,7 @@ $f(n) = 5f(n/8) +\Theta(n^{2/3})$
 \sol
 $\Theta(n^{\lg_8 5})$ (roughly $\Theta(n^{0.77})$) leaves.
 
-\onechoice
+\onechoice  According to brick method, the recurrence is
 \choice Balanced
 \choice* Leaves Dominated
 \choice Root dominated
@@ -414,7 +414,6 @@ tree edges, forward edges, cross edges
 
 
 
-
 %\newpage
 \section{(Sets and Tables) Bingled}
 
@@ -488,7 +487,8 @@ would return a sequence of identifiers of documents
 where the phrase ``Umut loves climbing'' appears.
 
 
-\begin{problem}[8.]
+\begin{problem}%[8.]
+
 \ask
 Show SML code to generate the index from the sequence of documents.
 It should not be more than 8 lines of code and assuming all words have
@@ -509,7 +509,7 @@ fun makeIndex (docs : (docId  * string) seq) : index =
 
 \sol
 
-\begin{lstlisting} [numbers=none]
+\begin{lstlisting}[numbers=none]
   fun tagWords (id,doc) = 
       let val words = toWords doc
       in  Seq.tabulate (fn i = (nth i words, (id, i)) (length words) 
@@ -524,17 +524,17 @@ end
 \end{lstlisting}
 \end{problem}
 
-\begin{problem}[8.]
+\begin{problem}%[8.]
 
-% Show code for a function \texttt{adj(docList1, docList2)} that given
-% two docLists returns a docList in which those two words
-% are adjacent.  For example for the index generated from the documents
-% above, 
-% \begin{quote}
-% \texttt{toSeq(adj(find idx "a", find idx "big"))} 
-% \end{quote}
-% would return
-% $\cseq{2, 3}$.  For full credit \texttt{adj} must be an associative operator.
+Show code for a function \texttt{adj(docList1, docList2)} that given
+two docLists returns a docList in which those two words
+are adjacent.  For example for the index generated from the documents
+above, 
+\begin{quote}
+\texttt{toSeq(adj(find idx "a", find idx "big"))} 
+\end{quote}
+would return
+$\cseq{2, 3}$.  For full credit \texttt{adj} must be an associative operator.
 
 \ask
 Define the \sml{docList} type and implement the function \sml{adj} as defined above.
@@ -575,7 +575,7 @@ fun find idx word =
 \end{problem}
 
 
-
+\end{document}
 %\newpage
 \section{(Shortest Paths) Dijkstra and A*}
 %\input{../../../shortest-paths/dijkstra-astar}
