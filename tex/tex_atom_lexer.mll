@@ -148,7 +148,7 @@ let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 let p_keyword = p_alpha+
 (* alphanemuric string with whitespace *)
-let p_key = (p_alpha | p_ws | p_digit)* 
+let p_key = p_alpha (p_alpha | p_ws | p_digit)* 
 
 (* No white space after backslash *)
 let p_backslash = '\\'
