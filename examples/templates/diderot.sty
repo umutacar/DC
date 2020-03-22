@@ -318,3 +318,33 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% END: Diderot Environments
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% BEGIN: Diderot Exams
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\explain}{\paragraph{Explanation.}}
+
+%% True False
+\newcommand{\asktf}[1][]{\paragraph{True or False?}}
+\newcommand{\solt}[1][]{}
+\newcommand{\solf}[1]{}
+
+
+%% Free Response
+\newcommand{\ask}[1][]{\paragraph{Question.}}
+\newcommand{\sol}[1][]{\paragraph{Solution.}}
+
+
+%% True False
+\newcommand{\onechoice}[1][]{\paragraph{Select one:}}
+\NewDocumentCommand{\choice}{so}{
+  \IfBooleanTF#1
+    {\par --}% Star 
+    {\par --}% No star
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% END: Diderot Exams
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
