@@ -147,6 +147,8 @@ let p_float = p_digit* p_frac?
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
 let p_keyword = p_alpha+
+(* alphanemuric string with whitespace *)
+let p_key = (p_alpha | p_ws | p_digit)* 
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -157,6 +159,7 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 let p_o_sq_and_kw = '[' p_ws (p_keyword as keyword) p_ws '=' 
+let p_key_opt_arg = (p_o_sq as o_sq) p_ws (p_key as key) p_ws (p_c_sq as c_sq)
 
 let p_special_percent = p_backslash p_percent
 
@@ -187,7 +190,8 @@ let p_com_any_choice = "\\anychoice"
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (p_c_sq as c_sq)
+let p_item_point_val = (p_o_sq as o_sq) p_ws (p_float as point_val) p_ws (p_c_sq as c_sq)
+
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -222,6 +226,9 @@ let p_item =
   (p_com_rubric as kind) 
 
 let p_item_points =  p_item p_ws  p_item_point_val
+
+let p_item_points_key =  p_item p_ws  p_item_point_val p_ws p_key_opt_arg
+
 let p_primary_item_points =  p_primary_item p_ws  p_item_point_val
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
@@ -574,6 +581,12 @@ and take_kw_args depth =
 
 and take_list =
 	 parse
+	 | p_item_points_key as x 
+	 { let (body, items, h_e) = take_list lexbuf in
+     let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
+	   let items = (kind, Some point_val, body)::items in
+	     ("", items, h_e)	 	 
+	 }
 	 | p_item_points as x 
 	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
