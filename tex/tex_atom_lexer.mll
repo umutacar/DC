@@ -188,9 +188,9 @@ let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
 
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
+let p_intpoint_opt_arg = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) p_ws (p_float as point_val) p_ws (p_c_sq as c_sq)
+let p_fpoint_opt_arg = (p_o_sq as o_sq) p_ws (p_float as point_val) p_ws (p_c_sq as c_sq)
 
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
@@ -225,11 +225,12 @@ let p_item =
   (p_com_refsol_true as kind) |
   (p_com_rubric as kind) 
 
-let p_item_points =  p_item p_ws  p_item_point_val
 
-let p_item_points_key =  p_item p_ws  p_item_point_val p_ws p_key_opt_arg
+let p_item_points_key =  p_item p_ws p_fpoint_opt_arg p_ws p_key_opt_arg
+let p_item_points =  p_item p_ws  p_fpoint_opt_arg
+let p_item_key =  p_item p_ws p_key_opt_arg
 
-let p_primary_item_points =  p_primary_item p_ws  p_item_point_val
+let p_primary_item_points =  p_primary_item p_ws  p_fpoint_opt_arg
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
 
@@ -241,7 +242,7 @@ let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env as kind) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_point_val as points)
+let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env as kind) (p_c_curly) p_ws (p_intpoint_opt_arg as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
@@ -593,6 +594,13 @@ and take_list =
 	   let items = (kind, Some point_val, None, body)::items in
 	     ("", items, h_e)	 	 
 	 }
+	 | p_item_key as x 
+	 { let (body, items, h_e) = take_list lexbuf in
+     let _ = d_printf "* lexer: item kind %s points = None key = %s body = %s\n" kind key body in
+	   let items = (kind, None, None, body)::items in
+	     ("", items, h_e)	 	 
+	 }
+
 	 | p_item as x 
 	 { let (body, items, h_e) = take_list lexbuf in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
