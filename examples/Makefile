@@ -17,7 +17,7 @@ LABEL_TEXTBOOK="EXAMS"
 GUIDE_DIR = ../../diderot/diderot-guide
 DIDEROT_ADMIN = ../../diderot/diderot-cli/diderot_admin
 DIDEROT_ADMIN = ../../diderot/diderot-cli/diderot_admin --url http://dev-umut33.bryy7bqk8b.us-east-1.elasticbeanstalk.com
-DIDEROT_ADMIN = ../../diderot/diderot-cli/diderot_admin --url https://staging.diderot.dev
+#DIDEROT_ADMIN = ../../diderot/diderot-cli/diderot_admin --url https://staging.diderot.dev
 # DIDEROT_ADMIN = ../../diderot/diderot-cli/diderot_admin --url http://127.0.0.1:8000/
 
 
