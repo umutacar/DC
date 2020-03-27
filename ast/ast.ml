@@ -36,7 +36,6 @@ let fmt_lstlisting_nopl =
 	Printf.sprintf "\\begin{lstlisting}[numbers=left]\n%s\\end{lstlisting}"
 
 
-
 (**********************************************************************
  ** END: Constants
  **********************************************************************)
@@ -738,34 +737,51 @@ struct
 						let _ = List.map prompts ~f:(Prompt.propagate_point_value multiplier) in
 						points
 
+
+  (* An atom is empty  if its body_xml is empty or whitespace
+   * and all of other properties are also empty
+   *)
+  let is_empty atom body_xml =
+		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in 
+    if (Base.String.is_empty (Base.String.strip body_xml)) then
+      match (title, cover, sound, prompts, caption) with 
+      | (None, None, None, [], None) -> true
+      | _ -> false
+    else
+      false
+
+
   let to_xml translator atom = 
 		(* Translate body to xml *)
 		let body_xml = body_to_xml translator atom in
 		(* Atom has changed, reload *)
 		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
-    let depend = depend_to_xml depend in
-		let point_val = normalize_point_val point_val in
-		let _ = printf "Atom.to_xml: point_val = %s" (str_of_str_opt point_val) in
-    let titles = str_opt_to_xml translator Xml.title title in
-		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
-    let captions = str_opt_to_xml translator Xml.caption caption in
-		let r = 
-			Xml.mk_atom 
-				~kind:kind 
-        ~pl:pl
-        ~pl_version:pl_version
-        ~pval:point_val
-        ~topt:titles
-        ~copt:cover
-        ~sopt:sound
-        ~lopt:label
-				~dopt:depend 
-        ~body_src:body
-        ~body_xml:body_xml
-        ~capopt:captions
-        ~prompts
-   in
-     r
+    if is_empty atom body_xml then
+      ""
+    else
+      let depend = depend_to_xml depend in
+  		let point_val = normalize_point_val point_val in
+  		let _ = printf "Atom.to_xml: point_val = %s" (str_of_str_opt point_val) in
+      let titles = str_opt_to_xml translator Xml.title title in
+   		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
+      let captions = str_opt_to_xml translator Xml.caption caption in
+  		let r = 
+   			Xml.mk_atom 
+  				~kind:kind 
+          ~pl:pl
+          ~pl_version:pl_version
+          ~pval:point_val
+          ~topt:titles
+          ~copt:cover
+          ~sopt:sound
+          ~lopt:label
+		  		~dopt:depend 
+          ~body_src:body
+          ~body_xml:body_xml
+          ~capopt:captions
+          ~prompts
+     in
+       r
 end
 
 type atom = Atom.t
