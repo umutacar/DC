@@ -1,6 +1,11 @@
 \chapter{Exam II}
 
+
+\section{Miscellaneous}
+
 \begin{problem}[True/False]
+
+Select for each question below whether is it True or False.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,6 +28,11 @@ length $r$.
 
 \solt
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+We can use BFS to find the topological sort of a rooted binary tree.
+
+\solt
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -32,21 +42,6 @@ frontier, which is to be visited in the next round.
 
 \solf
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\asktf
-
-BFS is a natural algorithm for computing topological sort in a directed graph.
-
-\solf
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\asktf
-A back-edge is an edge of the DFS-tree that connects a descendant to
-an ancestor.
-\solf
-% a back-edge is a non-tree edge.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf 
@@ -105,9 +100,6 @@ eliminates a constant fraction of vertices and edges.
 \used{S15 exam2, F16}
 %uses new set comprehension syntax
 
-
-
-
 \begin{problem}[Adjacency Tables]
 
 Assume for this problem that we represent a directed graph using an
@@ -122,7 +114,7 @@ representation using the notation for sets and tables that you have
 learned in class.
 
 \begin{center}
-\includegraphics[width=2in]{setstables/digraph-1}
+\includegraphics[width=2in]{media/digraph-1.jpg}
 \end{center}
 
 \sol
@@ -139,18 +131,19 @@ in the input graph is also in the output graph, and in addition for
 any pair of edges of the form $(u,v),(v,w)$ in the input graph $G$,
 there is an additional edge $(u,w)$ in the output.
 
+In the code below, you only need to fill in the underlined line. 
+
 \begin{lstlisting}[numbers=none]
 fun shortcut(G) = 
   let 
 
 
-    fun f (N,G) = $\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}$
-
+    fun f (N,G) = ________________________________________________
 
 
   in   
 
-    $\{u \mapsto f(N,G): (u \mapsto N) \in G\}$
+    {u <- f(N,G): (u <- N) in G }
 
   end
 
@@ -208,8 +201,8 @@ last visited (exit) the counter is incremented.  The discovery time
 corresponds to the counter when it is first entered, and the finishing
 time corresponds to the counter when it last visited.
 
-\begin{problem}
-\ask[8]
+
+
 Run depth-first search on the directed graph below, starting at vertex
 A. Whenever there is a choice in the order to explore vertices, use
 the vertices in alphabetical order.
@@ -218,77 +211,106 @@ table with the discovery and finishing
 times for that vertex. For example, at the root node $A$, the
 counter is $1$ when it is first visited and $12$ when it is finally exited.
 
+
+
 \vspace{.1in}
 \noindent
 \begin{minipage}{.45\textwidth}
 \begin{center}
-  \includegraphics[scale=.45]{dfs/dfs}\\[.2in]
+  \includegraphics[scale=.45]{media/dfs-numbers.jpg}\\[.2in]
 \end{center}
 \end{minipage}
 
-
-\begin{minipage}{.45\textwidth}
-  \large
-  \begin{center}
-    \begin{tabular}{c|c|c}
-      Vertex & discovery & finishing\\
-      & time & time \\
-      \hline \hline
-      A & 1 & 12 \\
-      \hline
-      B & & \\
-      \hline
-      C & & \\
-      \hline
-      D & & \\
-      \hline
-      E & & \\
-      \hline
-      F & & \\
-      \hline
-    \end{tabular}
-  \end{center}
-\end{minipage}
-
-\sol
-\begin{minipage}{.45\textwidth}
-  \begin{center}
-    \begin{tabular}{c|c|c}
-       Vertex & discovery & finishing\\
-      & time & time \\
-      \hline \hline
-      A & 1 & 12 \\
-      \hline
-      B & 2 & 7 \\
-      \hline
-      C & 3 & 6\\
-      \hline
-      D & 4 & 5\\
-      \hline
-      E & 8& 11\\
-      \hline
-      F & 9& 10\\
-
-    \end{tabular}
-  \end{center}
-\end{minipage}
+\begin{problem}
+For each vertex, write its discovery, and finish time
 
 
-\ask[8] On the graph, write next to any edge that is  \textbf{not} a tree edge with
-``forward'', ``back'', or ``cross'' depending on whether it is a
-forward edge, back edge or cross edge.
+\ask vertex A discovery and  finish: \sol 1~~ \sol 12~~ 
+\\
+\ask vertex B  discovery and  finish \sol 2~~  \sol 7~~ 
+\\
+\ask vertex C discovery and finish   \sol 3~~ \sol 6~~ 
+\\
+\ask vertex D discovery and finish \sol 4~~  \sol 5~~
+\\
+\ask vertex E discovery and finish \sol 18~ \sol 11~~ 
+\\
+\ask vertex F discovery and finish \sol 9~~ \sol 10~~ 
+\end{problem}
 
 
-\sol
-Edges (E, C) and (F, C) are cross edges. Edge (D, B) is a back edge.
+\begin{problem}[9.]
 
+For each edge indicate whether it is a tree edge or is a
+forward', back, or cross
 
+\anychoice
+(A, B)
+\choice* tree
+\choice back
+\choice cross
+\choice forward
 
-\asktf[4] Is it possible to find a topological order of the vertices
-for the above graph? Justify your answer.
+\anychoice
+(A, B) 
+\choice* tree
+\choice back
+\choice cross
+\choice forward
+
+\anychoice (B, C)
+\choice* tree
+\choice back
+\choice cross
+\choice forward
+
+\anychoice (C, D)
+\choice* tree
+\choice back
+\choice cross
+\choice forward
+
+\anychoice (D, B)
+\choice* tree
+\choice back
+\choice cross
+\choice forward
+
+\anychoice (A, E) 
+\choice* tree
+\choice back
+\choice cross
+\choice forward
+
+\anychoice (E, C) 
+\choice tree
+\choice back
+\choice* cross
+\choice forward
+
+\anychoice (E, F)
+\choice* tree
+\choice back
+\choice cross
+\choice forward
+
+\anychoice (F, C) 
+\choice tree
+\choice back
+\choice* cross
+\choice forward
+\end{problem}
+
+\begin{problem}[4]
+
+\asktf Is it possible to find a topological order of the vertices
+for the above graph?
 
 \solf
 
+
+\ask 
+Justify your answer.
 \sol
 The graph must be a directed acyclic graph in order to
 topological sort the vertices.
@@ -305,12 +327,16 @@ This problem concerns several basic properties of shortest paths and
 shortest path algorithms that we saw in class, Dijkstra's and
 Bellman-Ford.
 
-Throughout assume that the graphs contain no negative edges and are
+\begin{assumption}
+Assume that the graphs contain no negative edges and are
 represented using adjacency sequences,  which map each
 vertex to the sequence of out-neighbors and edge weights.
 
 Use $n$ for the number of vertices in the graph and $m$ for the number
 of edges.
+\end{assumption}
+
+
 
 \begin{problem}[Work and Span]
 
@@ -384,19 +410,18 @@ answer the shortest path queries.
     else $\bot$}) : v \in V \big\rangle
   \]
 
-%  For each source vertex in the source set, perform Dijkstra, all in
-%  parallel.  Create a graph that contains all the vertices of the
-%  original graph and a $k(n-1)$ edges from each source to all other
-%  vertices, where each edge has a weight that is equal to the shortest
-%  path that it represents.
-%
-%
-%  Grading rubric: Using Bellman-Ford is overkill. No more than 1
-%  points for that. Instead of the graph, we can also create a table
-%  mapping sources do distances (this is the same things as the
-%  graph). For efficiency though the table should be represented as a
-%  sequence of sequences.  If this is not mentioned, then take out
-%  $-1$.
+ For each source vertex in the source set, perform Dijkstra, all in
+ parallel.  Create a graph that contains all the vertices of the
+ original graph and a $k(n-1)$ edges from each source to all other
+ vertices, where each edge has a weight that is equal to the shortest
+ path that it represents.
+
+
+\rubric Using Bellman-Ford is overkill. No more than 1 points for
+that. Instead of the graph, we can also create a table mapping sources
+do distances (this is the same things as the graph). For efficiency
+though the table should be represented as a sequence of sequences.  If
+this is not mentioned, then take out $-1$.
 
 \notes
 \textbf{Common Mistakes:}
@@ -409,22 +434,25 @@ answer the shortest path queries.
 \end{itemize}
 
 
-\ask[4]
-State the work and span of your algorithm.
+\ask[2]
+State the work of your algorithm
 
+\sol Work: $O(n + km\log n)$
 
-Work: 
-\sol $O(n + km\log n)$
-
-Span:
-\sol $O(m\ log n)$
-
+\ask[2]
+State the span of your algorithm
+\sol Span: $O(m\ log n)$
 
 \ask[5]
 Describe how to use the data structure resulting from the
 preprocessing algorithm to answer quickly and efficiently single-pair
 shortest path queries originating at one of the special sources (no
 restrictions on the destination)
+
+\sol
+If $D$ is the result of the preprocessing step and we are looking for a path
+$(s, t)$, then simply perform a lookup: $D[s][t]$.
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \notes
 \textbf{Common Mistakes:}
@@ -441,15 +469,12 @@ restrictions on the destination)
   sufficient, and we get constant-time lookup.
 \end{itemize}
 
-\sol
-If $D$ is the result of the preprocessing step and we are looking for a path
-$(s, t)$, then simply perform a lookup: $D[s][t]$.
 
+\ask What is the work of your algorithm Work: 
+\sol $O(1)$
 
-\ask What is the work of your algorithm
-Work: \sol $O(1)$
-
-\ask Span: \sol$O(1)$
+\ask What is the span of your algorithm Work:
+\sol $O(1)$
 
 
 \end{problem}

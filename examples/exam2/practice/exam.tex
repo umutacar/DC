@@ -139,24 +139,33 @@ if $f(n) \in O(g(n))$ and $g(n) \in O(f(n))$.
 You do not have to show your work, but it might help you get partial credit.
 \end{note}
 
-\begin{problem}
+\begin{problem}[40.]
 Give a closed-form
 solution in terms of $\Theta$ for the following recurrences.  Also, state
 whether the recurrence is dominated at the root, the leaves, or
 equally at all levels of the recurrence tree.
 
-\ask[9.]
+
+\ask[10.0]
 Give closed form for  
 $f(n) = 5f(n/5) + \Theta(n)$
 
-\sol[0.5]
+%\hint[0.2] Here is a hint
+%\explain[0.1] Some explanation.  Recall that Theta means big oh + omeca.
+
+\sol[0.5] 
 $\Theta (n \lg n)$.
 
-\onechoice[8.] According to brick method, the recurrence is
+\sol[1.5]
+another solution
 
-\choice* Balanced
+\onechoice[8.] 
+
+\choice[1.0] Balanced
 \choice[0.4] Leaves Dominated
-\choice[0.6] Root dominated
+\choice[0.6] Root dominated 
+
+
 
 \ask[2.]
 Give closed form for  
@@ -176,11 +185,10 @@ $f(n) = f(n/2) + \Theta(\lg n)$
 \sol
 $\Theta (\lg^2 n)$
 
-\onechoice  According to brick method, the recurrence is
-\choice* Balanced
-\choice Leaves Dominated
+\onechoice[10]  According to brick method, the recurrence is
+\choice*[1.0] Balanced
+\choice[0.2] Leaves Dominated
 \choice Root dominated
-
 
 \ask[2]
 $f(n) = 5f(n/8) +\Theta(n^{2/3})$
@@ -188,7 +196,7 @@ $f(n) = 5f(n/8) +\Theta(n^{2/3})$
 \sol
 $\Theta(n^{\lg_8 5})$ (roughly $\Theta(n^{0.77})$) leaves.
 
-\onechoice  According to brick method, the recurrence is
+\onechoicesec  According to brick method, the recurrence is
 \choice Balanced
 \choice* Leaves Dominated
 \choice Root dominated
@@ -575,7 +583,6 @@ fun find idx word =
 \end{problem}
 
 
-\end{document}
 %\newpage
 \section{(Shortest Paths) Dijkstra and A*}
 %\input{../../../shortest-paths/dijkstra-astar}
