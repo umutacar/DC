@@ -328,6 +328,7 @@
 
 
 \newcommand{\explain}{\paragraph{Explanation.}}
+\newcommand{\notes}{\paragraph{Notes.}}
 
 %% True False
 \newcommand{\asktf}[1][]{\paragraph{True or False?}}
@@ -351,13 +352,18 @@
 
 
 
-%% True False
+%% Multiple choire
 \newcommand{\onechoice}[1][]{\paragraph{Select one:}}
+
+%% Multiple answer
+\newcommand{\anychoice}[1][]{\paragraph{Select any:}}
 \NewDocumentCommand{\choice}{so}{
   \IfBooleanTF#1
     {\par --}% Star 
     {\par --}% No star
 }
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% END: Diderot Exams
