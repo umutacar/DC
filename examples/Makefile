@@ -142,7 +142,7 @@ upload_exam2_practice: ATTACH=exam2/practice/media/*
 upload_exam2_practice: exam2/practice/exam.xml upload_xml_attach
 
 
-upload_exam2_real: NO=2
+upload_exam2_real: NO=3
 upload_exam2_real: FILE=exam2/real/exam
 upload_exam2_real: ATTACH=exam2/real/media/*
 upload_exam2_real: exam2/real/exam.xml upload_xml_attach

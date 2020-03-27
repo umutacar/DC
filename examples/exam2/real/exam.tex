@@ -1,5 +1,5 @@
 \chapter{Exam II}
-
+\label{ch:exam2}
 
 \section{Miscellaneous}
 
@@ -344,17 +344,13 @@ Let $G$ be a graph and a source vertex $s$ such that all vertices in
 the graph are connected via a shortest path to $s$ that contains $k$
 or fewer edges.
 
-
+\ask
 What is the work and span of an execution of Dijkstra's algorithm on
 $G$ and $s$?
 
-\ask  Work:
-\sol $O(m\log{n})$
+\sol Work: $O(m\log{n})$
 
-\ask Span:
-\sol $O(m\log{n})$
-
-
+\sol Span: $O(m\log{n})$
 
 \ask
 What is the work and span of an execution of Bellman-Ford algorithm on
@@ -485,8 +481,85 @@ $(s, t)$, then simply perform a lookup: $D[s][t]$.
 %% \newpage
 %% \input{../../../shortest-paths/neighborhoods}
 
-%% \newpage
-%% \input{../../../graph-contraction/tree-contraction-2}
+%% AUTHOR: Umut A. Acar
+\section{(Shortest Paths) Bounded Hops}
+
+In many real-world road networks, the shortest paths between points of
+interest include a small number of edges.  This is because if there
+are too many edges on a route, we build a highway that enables
+shortcutting past them.  
+
+Suppose you are given a weighted graph $G$ in which the shortest path
+between any two vertices has $t$ or fewer edges and answer the
+following questions.  The graph can contain negative edges.
+
+For cost bounds you can assume that the vertices are labeled as $0
+\ldots n-1$, where $n$ is the number of vertices; $m$ denotes the
+number of edges.
+
+\begin{problem}[6.]
+
+\ask
+Describe an algorithm for solving the single-source shortest %
+path problem for such a graph.  Your algorithm should be efficient
+with a work bound that depends on $t$ (and other graph parameters).
+
+\sol
+You can use Bellman-Ford algorithm as given in class, which stops
+after $t$ iterations by detecting no changes in distances, or use a
+version that stops after $t$ iterations without further checking.
+
+\ask
+Argue that your algorithm is correct.
+
+\sol
+  The algoritm is correct because at iteration $i$, we know that
+  Bellman-Ford finds all shortest path with $i$ or less hops.  It will
+  therefore stop after $t$ iterations.
+\end{problem}
+
+
+\begin{problem}[2.]
+
+Describe the cost specifications that you would use (e.g., array sequences, treap tables, etc) to implement your algorithm,
+and its work and  span.
+
+\ask Cost specifications
+\sol Array sequences~~~~~~~~~~~
+
+\ask Work 
+\sol  work is $O(tm)$ and 
+\ask Span 
+\sol  span is $O(t\log{n})$.
+\end{problem}
+
+
+\begin{problem}[4.]
+
+You are now concerned only with graphs with positive edge
+weights. 
+
+\ask[2.]
+Describe an algorithm that solves the single-source shortest
+paths problem by performing no more than $\min ( \log{n}, \, {t} )
+\cdot {m}$ work.  \vspace{1in}
+
+\sol
+  If $t$ is less that $lg n$ then run (the modified) Bellman-Ford
+  algorithm.  If not, then just use Dijkstra's algorithm.
+
+
+\ask[2.]
+Argue why your algorithm satisfies the given work bound.
+
+\sol
+  The algorithm satisfies the work bound trivially because it reverts
+  to Dijkstra for cases when the hop count exceed $\log n$.
+
+\end{problem}
+
+
+%% \input{../../../graph-contraction/edge-contraction-on-binary-trees.tex}
 
 \section{Tree Contraction via Edge Contraction}
 
