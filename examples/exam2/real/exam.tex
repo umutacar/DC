@@ -480,37 +480,170 @@ $(s, t)$, then simply perform a lookup: $D[s][t]$.
 \end{problem}
 
 
+
+
 %% \newpage
 %% \input{../../../shortest-paths/neighborhoods}
 
 %% \newpage
 %% \input{../../../graph-contraction/tree-contraction-2}
 
+\section{Tree Contraction via Edge Contraction}
 
-%% \end{questions}
+In class you have seen that graph contraction with edge partitions is
+not efficient because it can fail to eliminate a constant fraction of
+the vertices in a round.  
+%
+In this question, you will explore whether edge contraction would work
+for (rooted) binary trees.
 
-%% \newpage
-%% \large{\textbf{Scratch Work:}}
-
-%% \vspace*{\fill}
-
-
-%% \newpage
-%% \section*{Appendix: Library Functions}
-%% \input{../../../latex/libfuncs}
-
-%% %% this depends on if you want single sided or scratch at the back
-%% %%
-%%  \newpage
-%%  \large{\textbf{Scratch Work:}}
-
-%% %% \vspace*{\fill}
-
-%% \newpage
-%% \large{\textbf{Scratch Work:}}
-
-%% \vspace*{\fill}
+Let's start with a basic definition. 
+%
+In a (rooted) binary tree, each node has zero, one or two children. 
+%
+We say that
+a node is {\em binary} if it has two children, {\em unary} if it has
+one child, and {\em leaf} if it has no children.  
+%
 
 
+Throughout use the following notation for a given binary tree:
+%
+{
+\flushleft
+\begin{minipage}[b]{4in}
+\begin{itemize}
+\item $n$ is the number of nodes in the tree,
+\item $\ell$ is the number of leaves in the tree, 
+\item $n_u$ is the number of unary nodes in the tree, and 
+\item $n_b$ is the number of binary nodes in the tree.
+\end{itemize}
+\end{minipage}
+\begin{minipage}{2in}
+\begin{center}
+\includegraphics[width=1.7in]{media/binary-tree.jpg}
+\end{center}
+\end{minipage}
+}
 
-%% \end{document}
+
+\subsection{Leaves and Binary Nodes}
+
+\begin{problem}
+The number of leaves in a binary tree  is equal to some function $\mathit{leaves}(n_b)$
+of the number of binary nodes in this tree.
+%
+
+\ask[4]
+State this function.
+%
+\[
+\mathit{leaves}(n_b) = 
+\]
+
+\sol
+\[
+\mathit{leaves}(n_b) = \underline{n_b + 1}
+\]
+\end{problem}
+
+\begin{problem}
+Prove the property by structural induction.
+
+\ask IH: 
+\sol 
+We shall prove by induction that in a binary tree the number of
+leaves is at most $n_b + 1$, where $n_b$ is the number of binary nodes.
+
+\ask Base case (a leaf)
+
+\sol
+In the base case we have a single leaf and $n_b = 0$.
+
+\ask Inductive case:
+
+\sol
+
+Now consider a binary tree with greater than one node. 
+
+\begin{itemize}
+\item Case I:  The root is a binary node. Let $l_1$ and $l_2$ the number of leaves
+and let $b_1$ and $b_2$ be the number of binary nodes in the two
+subtrees.  We know, by induction, that $l_1 = b_1 + 1$ and $l_2 = b_2
++ 1$ and thus we have $l_1 + l_2 = b_1 + b_2 + 2$, which is one more
+than the number of binary nodes in the tree ($b_1 + b_2 + 1$).
+
+\item Case II: The root is a unary node.  Let $l$ be the number of
+leaves in the subtree rooted at the child of the root. By induction we
+know that $l = b + 1$, where $b$ is the number of binary nodes in the
+tree. The lemma holds trivially for the tree, because $l$ and $b$ are
+the same.
+\end{itemize}
+\end{problem}
+
+
+\subsection{Edge Contraction}
+You will now apply the randomized edge contraction to binary trees.
+
+\begin{problem}
+\ask[2.]
+Describe the randomized edge partition technique that you have seen in
+the lecture (also available in your notes). 
+
+\sol
+Flip a coin for each edge. If it comes up heads and all the edges
+incident on the two endpoints come up tails, then select the edge.
+
+
+\ask[5.]
+Out of the edges incident on leaves, give a lower bound on the
+fraction that will be selected, in expectation.
+
+\sol
+Let $v$ be a leaf and $u$ be its parent. If $u$ is unary, then the
+edge will be selected with probability at least $1/4$.  If $u$ is
+binary, then it will be selected with probability at least $1/8$.
+Therefore at least $1/8$ of all the edges will be selected.
+
+
+
+
+\ask[5.]
+Out of the edges from a unary node to its parent, give a lower bound
+on the fraction that will be selected, in expectation.
+
+\sol
+\begin{itemize}
+\item Case I: If the parent is unary, then the probability is $1/8$.
+The edges that must agree are to the child, to the parent, to the
+grandparent from the parent.
+\item Case II: If the parent is binary, then the probability is
+$1/16$. The edges that must agree are like above but we have one more
+edge between the parent and our sibling.
+\end{itemize}
+
+Note that if the parent doesn't have 
+
+Thus the lower bound is $1/16$.
+
+
+\end{problem}
+
+\begin{problem}[4.]{Extra credit}
+\ask
+Can you combine the your solutions to the two parts above to argue
+that a binary tree can be contracted efficiently and in parallel.
+
+\sol
+Yes, we will ignore edges from a binary node to its parent but we will
+apple edge contraction to the edges that are between leaves and unary
+nodes and their parents.  The key observation is that if we apply edge
+contraction to these than we can recur, because the resulting
+tree remains to be binary.
+
+As shown above each of these are deleted by a constant fraction.  The
+question is can the unary and the leaves constitute a constant
+fraction of all the edges.  The answer is yes, because we know that we
+have at most $\ell$ binary nodes.  
+\end{problem}
+
