@@ -21,7 +21,11 @@ let start = Lexing.lexeme_start
 let kw_sq_open = "["
 let kw_sq_close = "]"
 
-
+let texify filename = 
+  if String.equal "" (Filename.extension filename) then
+    filename ^ ".tex"
+  else
+    filename
 }
 (** END: HEADER **)
 
@@ -81,12 +85,18 @@ let p_end_env = p_com_end p_o_curly (p_env as kind) p_c_curly
 (* Takes is_empty, the emptiness status of the current line *)
 rule initial is_empty = 
 parse
-| p_com_include
+| p_com_include | p_com_input
     {
 	   let _ = printf "! comment_lexer: include filename %s\n" filename in
-
+     let filename = texify filename in
      (* Recursively handle the input file *)
-    	let ic = open_in filename in
+     let ic = 
+       try
+         open_in filename
+       with e -> 
+         (printf "Fatal Error: File not found %s\n" filename;
+          exit(1))
+      in
       let lexbuf_include = Lexing.from_channel ic in
       (* Remove comments *)
   		let contents = initial false lexbuf_include in
