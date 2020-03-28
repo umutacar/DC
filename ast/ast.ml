@@ -112,7 +112,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
   let assign_points_to_cookie cookie = 
     let (kind, pval, body) = cookie in    
     let r = Tex.get_cookie_cost_ratio kind in
-    let _ = printf "set_cookies_points kind = %s has ration r = %s\n" kind r in
+    let _ = d_printf "set_cookies_points kind = %s has ration r = %s\n" kind r in
     let p = multiply_points multiplier r in
     (kind, Some r, body)
   in
@@ -125,7 +125,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
          let cookies = List.map cookies ~f:assign_points_to_cookie in
 				 let (kind, pval, body) = p in
 	       if Tex.is_scorable_prompt kind then
-        	 let _ = printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
+        	 let _ = d_printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
            let points = 
              match pval with 
           	 | None -> Tex.point_value_of_prompt kind 
@@ -133,7 +133,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
            let points = multiply_points multiplier points in
            (kind, Some points, body)::cookies
          else
-        	 let _ = printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
+        	 let _ = d_printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
 	         (kind, Some Constants.zero_points, body)::cookies
 	in
 	List.map prompts ~f:assign
@@ -434,7 +434,7 @@ struct
     | Some points -> 
         let points = multiply_points points multiplier in
 				let _ = prompt.point_val <- Some points in
-    		let _ = printf "Prompt.propagate_point_value kind = %s, point = %s\n" kind points in
+    		let _ = d_printf "Prompt.propagate_point_value kind = %s, point = %s\n" kind points in
         let _ = List.map cookies ~f:(Cookie.propagate_point_value multiplier) in
 				prompt.point_val
 
@@ -519,7 +519,7 @@ struct
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator prompt in
 		let point_val = normalize_point_val point_val in
-    let _ = printf "ast.prompt.to_xml: kind %s, point_val = %s\n" kind (str_of_pval_opt point_val) in
+    let _ = d_printf "ast.prompt.to_xml: kind %s, point_val = %s\n" kind (str_of_pval_opt point_val) in
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml translator Xml.title title in
 		let cookies = map_concat_with newline (Cookie.to_xml translator) cookies in
@@ -722,7 +722,7 @@ struct
 		let _ = d_printf "Atom.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
     let prompt_points = List.map prompts ~f:Prompt.get_secondary_points in
     let sum_opt = List.reduce prompt_points ~f:add_points in
-    let _ = printf "Atom.propagate_point_value: sum over prompts = %s \n" (str_of_str_opt sum_opt) in
+    let _ = d_printf "Atom.propagate_point_value: sum over prompts = %s \n" (str_of_str_opt sum_opt) in
       match point_val with 
 			| None -> 
         let _ = atom.point_val <- sum_opt in 
@@ -745,7 +745,7 @@ struct
 		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
     let depend = depend_to_xml depend in
 		let point_val = normalize_point_val point_val in
-		let _ = printf "Atom.to_xml: point_val = %s" (str_of_str_opt point_val) in
+		let _ = d_printf "Atom.to_xml: point_val = %s" (str_of_str_opt point_val) in
     let titles = str_opt_to_xml translator Xml.title title in
 		let prompts = map_concat_with newline (Prompt.to_xml translator) prompts in
     let captions = str_opt_to_xml translator Xml.caption caption in
@@ -1467,7 +1467,7 @@ let prompt_of_items (items: t_item list): t_prompt =
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
 			let  (kind, point_val, body) = item in
-      let _ = printf "prompt_of_items: point_val = %s.\n" (str_of_pval_opt point_val) in
+      let _ = d_printf "prompt_of_items: point_val = %s.\n" (str_of_pval_opt point_val) in
 			if Tex.is_prompt kind then
 				let cookies = List.map rest_items ~f:cookie_of_item in
 				Prompt.make ~point_val kind body cookies 
@@ -1483,7 +1483,7 @@ let prompt_of_items (items: t_item list): t_prompt =
  * - Assign each question a point value.
  *)
 let assign_points_to_prompts prompts = 
-  let _ =  printf "Start: assign_points_to_prompts\n" in
+  let _ =  d_printf "Start: assign_points_to_prompts\n" in
 
   let rec take_secondary_prompts prompts = 
     match prompts with 
@@ -1492,7 +1492,7 @@ let assign_points_to_prompts prompts =
       (* Find the head item *) 
 	    let head_item = List.nth_exn h 0 in
       let (kind, pval, body) = head_item in 
-      let _ =  printf "take_next_question: kind = %s" kind in 
+      let _ =  d_printf "take_next_question: kind = %s" kind in 
 			if Tex.is_primary_prompt kind then
         (* head item is primary, so start a new question *)
   			([ ], prompts)
@@ -1507,7 +1507,7 @@ let assign_points_to_prompts prompts =
         (* Find the head item *) 
 				let head_item = List.nth_exn h 0 in
         let (kind, pval, body) = head_item in 
-        let _ =  printf "take_next_question: kind = %s" kind in 
+        let _ =  d_printf "take_next_question: kind = %s" kind in 
 				if Tex.is_primary_prompt kind then
           (* head item is primary, so start a new question *)
 	        let (rest, t_prompts)  = take_secondary_prompts t in
@@ -1525,7 +1525,7 @@ let assign_points_to_prompts prompts =
 				q::questions
   in
   let assign_points_to_question question = 
-    let _ = printf ("assign_points_to_question\n") in
+    let _ = d_printf ("assign_points_to_question\n") in
     match question with 
 	  | [ ] ->
 				let err = "Fatal Error: Expecting a primary prompt but None found!" in
@@ -1537,7 +1537,7 @@ let assign_points_to_prompts prompts =
 			 try sum_factors prompts with
 				 Constants.Syntax_Error s -> 
 					 let err = Printf.sprintf "\n%s\nContext: Question prompt:\n>%s>\n" s body in
-           let _ = printf "%s\n" err in
+           let _ = d_printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
 		 in
      (* Take the point value of the question prompt (head item) *)
@@ -1546,7 +1546,7 @@ let assign_points_to_prompts prompts =
     	 | None -> Constants.default_points_per_question
   	   | Some p -> p in
      let points_per_factor = divide_points points n_factors in
-     let _ = printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
+     let _ = d_printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
      (* Update question prompt point value *)
      let head_prompt = (kind, Some points, body)::t_head_prompt in
 
@@ -1555,7 +1555,7 @@ let assign_points_to_prompts prompts =
  	   let question = head_prompt::prompts in
 	   question
   in
-	let _ = printf ("Taking all questions") in 
+	let _ = d_printf ("Taking all questions") in 
 	let questions = take_all_questions prompts in
 	let questions = List.map questions ~f:assign_points_to_question in
   List.concat questions	
@@ -1591,7 +1591,7 @@ let prompts_of_items (items: t_item list) =
 			let cookie = [item] in
         (cp @ cookie, prompts)
 		else
-			let _ = printf "Parse Error: I was expecting a 'prompt' or a 'cookie' but saw kind = %s.\n" kind in
+			let _ = d_printf "Parse Error: I was expecting a 'prompt' or a 'cookie' but saw kind = %s.\n" kind in
 			exit 1
 	in
 	begin

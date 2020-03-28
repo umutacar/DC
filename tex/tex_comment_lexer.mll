@@ -21,7 +21,11 @@ let start = Lexing.lexeme_start
 let kw_sq_open = "["
 let kw_sq_close = "]"
 
-
+let texify filename = 
+  if String.equal "" (Filename.extension filename) then
+    filename ^ ".tex"
+  else
+    filename
 }
 (** END: HEADER **)
 
@@ -60,6 +64,9 @@ let p_com_lstinline = '\\' ("lstinline" as kind)
 let p_com_verb = '\\' ("verb" as kind)
 let p_com_skip = p_com_href | p_com_lstinline | p_com_verb
 
+let p_com_include = '\\' "include" p_ws '{' p_ws ([^ '}']* as filename) p_ws '}'
+let p_com_input = '\\' "input" p_ws '{' p_ws ([^ '}']* as filename) p_ws '}'
+
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws ("comment" as kind) p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws ("comment") p_ws p_c_curly
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) ("lstlisting" as kind) p_ws (p_c_curly) 
@@ -78,6 +85,26 @@ let p_end_env = p_com_end p_o_curly (p_env as kind) p_c_curly
 (* Takes is_empty, the emptiness status of the current line *)
 rule initial is_empty = 
 parse
+| p_com_include | p_com_input
+    {
+	   let _ = printf "include: filename %s\n" filename in
+     let filename = texify filename in
+     (* Recursively handle the input file *)
+     let ic = 
+       try
+         open_in filename
+       with e -> 
+         (printf "Fatal Error: File not found %s\n" filename;
+          exit(1))
+      in
+      let lexbuf_include = Lexing.from_channel ic in
+      (* Remove comments from the file *)
+  		let contents = initial true lexbuf_include in
+      (* Continue onto the rest, the line is not empty *)
+      let rest = initial false lexbuf in
+   		  contents ^ "\n" ^ rest
+    } 
+
 | (p_begin_env_skip as x)
     {
 	   let _ = d_printf "! comment_lexer: skip env %s\n" x in
