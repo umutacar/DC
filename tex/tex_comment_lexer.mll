@@ -60,6 +60,9 @@ let p_com_lstinline = '\\' ("lstinline" as kind)
 let p_com_verb = '\\' ("verb" as kind)
 let p_com_skip = p_com_href | p_com_lstinline | p_com_verb
 
+let p_com_include = '\\' "include" p_ws '{' p_ws ([^ '}'] as filename) p_ws '}'
+let p_com_input = '\\' "input" p_ws '{' p_ws ([^ '}'] as filename) p_ws '}'
+
 let p_begin_env_comment = p_com_begin p_ws p_o_curly p_ws ("comment" as kind) p_ws p_c_curly
 let p_end_env_comment = p_com_end p_ws p_o_curly p_ws ("comment") p_ws p_c_curly
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) ("lstlisting" as kind) p_ws (p_c_curly) 
@@ -78,6 +81,7 @@ let p_end_env = p_com_end p_o_curly (p_env as kind) p_c_curly
 (* Takes is_empty, the emptiness status of the current line *)
 rule initial is_empty = 
 parse
+
 | (p_begin_env_skip as x)
     {
 	   let _ = d_printf "! comment_lexer: skip env %s\n" x in
@@ -253,7 +257,7 @@ parse
      let (arg, c_sq) = take_arg 1 false kw_sq_open kw_sq_close lexbuf in
      let h = x ^ arg ^ c_sq in
      let i = skip_inline lexbuf in
-     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf in
+     let (rest, h_e) = take_arg depth false delimiter_open delimiter_close lexbuf inb
 		 (h ^ i ^ rest, h_e)
     }
 | p_esc_percent as x 
