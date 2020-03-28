@@ -87,7 +87,7 @@ rule initial is_empty =
 parse
 | p_com_include | p_com_input
     {
-	   let _ = printf "! comment_lexer: include filename %s\n" filename in
+	   let _ = printf "include: filename %s\n" filename in
      let filename = texify filename in
      (* Recursively handle the input file *)
      let ic = 
@@ -98,9 +98,10 @@ parse
           exit(1))
       in
       let lexbuf_include = Lexing.from_channel ic in
-      (* Remove comments *)
-  		let contents = initial false lexbuf_include in
-      let rest = initial is_empty lexbuf in
+      (* Remove comments from the file *)
+  		let contents = initial true lexbuf_include in
+      (* Continue onto the rest, the line is not empty *)
+      let rest = initial false lexbuf in
    		  contents ^ "\n" ^ rest
     } 
 
