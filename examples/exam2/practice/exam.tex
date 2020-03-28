@@ -22,7 +22,7 @@
 
 \section{True or False}
 
-\begin{problem}[14.][BFS and DFS]
+\begin{problem}[14.][BFS]
 For each questions below, please select True or False.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -49,6 +49,10 @@ BFS is a natural algorithm for computing topological sort in a directed graph.
 
 \solf
 
+\end{problem}
+
+\begin{problem}[DFS]
+True or False? 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -80,9 +84,9 @@ forward, back, and cross edges by inspecting DFS numbers only.
 \end{problem}
 
 
-\begin{problem}[10.][True/False Miscellaneous]
+\begin{problem}[10.][Miscellaneous]
 
-for each questions below, please select True or False.
+For each questions below, please select True or False.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -107,6 +111,13 @@ negative-weight cycle.
 \solf
 It can be unreachable from the source.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\asktf
+
+If a graph has negative edge weights, the unmodified Dijkstra's
+algorithm for shortest path may loop forever.
+
+\solf
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf 
@@ -116,14 +127,6 @@ eliminates a constant fraction of vertices and edges.
 
 \solf
 not that of edges.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\asktf
-
-If a graph has negative edge weights, the unmodified Dijkstra's
-algorithm for shortest path may loop forever.
-
-\solf
 
 \end{problem}
 
@@ -219,21 +222,20 @@ must run in $O(m \log n)$ work and $O((\log m)(\log n))$ span, where
 $n$ is the number of students and $m$ is the sum of the number of
 classes taken across all students.    Note, our solution is one line.
 
-\ask[0.5] 
+\ask
 
 \begin{lstlisting}[numbers=none]
-fun allClasses($T$ : classSet studentTable) : classSet = 
-@\vspace{.5in}@
+fun allClasses(T : classSet studentTable) : classSet = 
+
+
 \end{lstlisting}
 
-\explain[1.] Some explanation 
 
-\sol[4.]
+\sol
 \begin{lstlisting}[numbers=none]
-fun allClasses($T$) = Table.reduce Set.union $\emptyset$ $T$
+fun allClasses(T : classSet studentTable) : classSet = 
+ Table.reduce Set.union $\emptyset$ $T$
 \end{lstlisting}
-
-\hint[2.] This is a hint
 
 \end{problem}
 
@@ -267,7 +269,7 @@ and \sml{exit} functions. Select the correct answer for each of the
 following statements, assuming DFS starts at $A$:
 
 \begin{center}
-  \includegraphics[scale=.7]{dfs/dfs-graph1.pdf}
+  \includegraphics[scale=.7]{media/dfs-graph1.jpg}
 \end{center}
 
 \asktf
@@ -314,7 +316,7 @@ Explain how to modify Dijkstra's algorithm to do this. In particular, how would
 you change the priority queue and the following relax step?
 
 \begin{quote}
-\sml{fun relax (Q, (u,v,w)) = PQ.insert (d(u) + w, v) Q}
+\texttt{fun relax (Q, (u,v,w)) = PQ.insert (d(u) + w, v) Q}
 \end{quote}
 
 Justify your answer.
@@ -442,33 +444,40 @@ elements of the sets are pairs of values consisting of a document
 identifier and an integer location in the document where the string
 appears.  So, for example the following collection of three documents
 with integer document identifiers:
-
+%
 \begin{quote}
-\begin{tabbing}
- $\langle$
-  \=(1, \ctext{``the big dog''}), \\
-  \>(2, \ctext{``a big dog ate a hat''}),\\
-  \>(3, \ctext{``i read a big book''}) $\rangle$
-\end{tabbing}
-\end{quote}
-
-the document index would be represented as
 \[
 \begin{array}{ll}
-\text{idx} = \{ & \ctext{``a''} \mapsto \cset{(2,0),(2,4),(3,2)}
+\langle 
+& (1, \cdm{``the~big~dog''}), 
 \\
-                &  \ctext{``big''} \mapsto \cset{(1,1),(2,1),(3,3)},
+& (2, \cdm{``a~big~dog~ate~a~hat''}),
 \\
-                & \ctext{``dog''} \mapsto \cset{(1,2),(2,2)},
+& (3, \cdm{``i~read~a~big~book''})
 \\
-                & \ldots
+\rangle
+\end{array}
+\]
+\end{quote}
 \\
-             \} &
+the document index would be represented as
+\[
+\begin{array}{lll}
+\cdm{idx} = & \{ & \cdm{``a''} \mapsto \cset{(2,0),(2,4),(3,2)}
+\\
+            &    &  \cdm{``big''} \mapsto \cset{(1,1),(2,1),(3,3)},
+\\
+            &   & \cdm{``dog''} \mapsto \cset{(1,2),(2,2)},
+\\
+            &   & \ldots
+\\
+            & \} &
 \end{array}
 \]
 
 In particular you want to support the following interface
-\begin{lstlisting}[numbers=none]
+%
+\begin{lstlisting}[language=ocaml,numbers=none]
 signature INDEX = sig
   type word = string
   type docId = int
@@ -484,35 +493,47 @@ signature INDEX = sig
 end
 \end{lstlisting}
 %
-where, given an index \sml{I},
-\texttt{toSeq (adj (find I "210", find I "rocks"))} would return a sequence of
-identifiers of documents
+where, given an index \cd{idx},
+%
+\begin{lstlisting}[language=ocaml,numbers=none]
+toSeq (adj (find idx "210", find idx "rocks"))
+\end{lstlisting}
+%
+would return a sequence of identifiers of documents
 where ``210'' appears immediately before ``rocks'', and 
 \\
-\sml{toSeq (adj (find I "Umut", adj (find I "loves", find I "climbing")))}
+\begin{lstlisting}[language=ocaml,numbers=none]
+toSeq (adj (find idx "Umut", adj (find idx "loves", find idx "climbing")))
+\end{lstlisting}
 \\
 would return a sequence of identifiers of documents
 where the phrase ``Umut loves climbing'' appears.
 
-
 \begin{problem}%[8.]
+XXXX
 
 \ask
-Show SML code to generate the index from the sequence of documents.
+Show the pseudocode for generating the index from the sequence of documents.
 It should not be more than 8 lines of code and assuming all words have
 length less than some constant, must run in $O(n \log n)$ work and
 $O(\log^2 n)$ span, where $n$ is the total number of words across all
-documents.    You can use a function
-\begin{lstlisting}
-val toWords~:~string -> string seq
+documents.    
+%
+You can use the function
+%
+\begin{lstlisting}[language=ocaml,numbers=none]
+toWords~:~string -> string seq
 \end{lstlisting}
+%
 that breaks a text string into a sequence of words.
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[language=ocaml, numbers=none]
 type index = docIdIntSet wordTable
 
 fun makeIndex (docs : (docId  * string) seq) : index =
   let
+
+
 \end{lstlisting}
 
 \sol
@@ -538,9 +559,9 @@ Show code for a function \texttt{adj(docList1, docList2)} that given
 two docLists returns a docList in which those two words
 are adjacent.  For example for the index generated from the documents
 above, 
-\begin{quote}
-\texttt{toSeq(adj(find idx "a", find idx "big"))} 
-\end{quote}
+\begin{lstlisting}[language=ocaml,numbers=none]
+toSeq(adj(find idx "a", find idx "big")) 
+\end{lstlisting}
 would return
 $\cseq{2, 3}$.  For full credit \texttt{adj} must be an associative operator.
 
@@ -553,7 +574,7 @@ fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s))
 \end{lstlisting}
 
 
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[language=ocaml,numbers=none]
 
 type docList = 
 
@@ -563,7 +584,7 @@ fun adj (                ,               ) : docList =
 
 
 \sol
-\begin{lstlisting}[numbers=none]
+\begin{lstlisting}[language=ocaml,numbers=none]
 type docList = (docIdIntSet)*int
 
 fun adj ((d1,l1), (d2,l2)) = 
@@ -595,7 +616,7 @@ Consider the graph shown below, where the edge weights appear next to
 the edges and the heuristic distances to vertex $G$ are in parenthesis
 next to the vertices.
 \begin{center}
-  \includegraphics[scale=.75]{shortest-paths/graph.pdf}
+  \includegraphics[scale=.75]{shortest-paths/graph.jpg}
 \end{center}
 
 \ask
@@ -684,57 +705,103 @@ path to $d$ in any of the three copies.
 
 
 
-\section{(Graphs) Strongly Connected Components}
-\used{Fall 14, Practice Exam II}
+
 
 %\newpage
-%\input{../../../graphs/scc2}
+%\input{../../../graphs/scc}
 
+\section{(Graphs) Strongly Connected Components}
+
+\used{Fall 14, Practice Exam II}
+
+In this question, you will write 2 functions on directed graphs.
+We assume that key comparisons take $O(1)$ work  and  that graphs are represented as:
+\begin{lstlisting}[language=ocaml, numbers=none]
+type graph = vertexSet vertexTable
+\end{lstlisting}
+
+
+\begin{problem}[10.]
+Given a directed graph $G = (V,E)$, its transpose $G^T$ is
+another directed graph on the same vertices, with every edge flipped.
+More formally, $G^T = (V,E')$, where
+$$E' = \{(b,a)~|~(a,b) \in E \}.$$
+
+Here is a skeleton of an SML definition for \cd{transpose} that computes
+the transpose of a graph. Fill in the blanks to complete the implementation.
+Your implementation must have $O(|E| \log |V|)$ work and $O(\log^2 |V|)$
+span.
+
+\ask
+\begin{lstlisting}[numbers=none]
+function transpose (G : graph) : graph = 
+let
+  val S = vertexTable.toSeq(G)    returns (vertex ** vertexSet) seq 
+
+  function flip(u,nbrs) = 
+      Seq.map ________________________ (vertexSet.toSeq nbrs)
+
+  val ET = Seq.flatten(Seq.map flip S)
+
+  val T = vertexTable.__________________________ ET
+in
+  vertexTable.map _________________________________________ T
+end
+\end{lstlisting} 
+
+\sol
+\begin{lstlisting}[language=ocaml,numbers=none]
+function transpose (G : graph) : graph = 
+let
+  val S = vertexTable.toSeq(G)    returns (vertex ** vertexSet) seq 
+
+  function flip(u,nbrs) = Seq.map 
+       (fn v.(v,u) (vertexSet.toSeq nbrs)
+
+  val ET = Seq.flatten(Seq.map flip S
+  val T = vertexTable.collect ET
+in
+  vertexTable.map vertexSet.fromSeq T
+end
+\end{lstlisting} 
+\end{problem}
+\newpage
+
+\begin{problem}[10.]
 A \emph{strongly connected component} of a directed graph $G = (V,E)$ is a subset $S$ of $V$ such
 that every vertex $u \in S$ can reach every other vertex $v \in S$ (i.e.,
 there is a directed path from $u$ to $v$), and such that no other vertex in
 $V$ can be added to $S$ without violating this condition. Every vertex
-belongs to exactly one strongly connected component in a graph.
+belongs to exactly one strongly connected component{} in a graph.
 
-\begin{problem}[10.]
 \ask
 Implement the function:
-\begin{lstlisting}
+\begin{lstlisting}[language=ocaml,numbers=none]
 val scc~:~graph * vertex -> vertexSet
 \end{lstlisting}
-such that \sml{scc(G,v)} returns the strongly connected component containing $v$. You may assume
+such that \cd{scc(G,v)} returns the strongly connected component{} containing $v$. You may assume
 the existence of a function:
-\begin{lstlisting}
-val reachable~:~graph * vertex -> vertexSet
+\begin{lstlisting}[language=ocaml,numbers=none]
+val reachable: graph * vertex -> vertexSet
 \end{lstlisting}
-such that \sml{reachable(G,v)} returns all the vertices reachable from $v$
-in $G$, and 
-\begin{lstlisting}
-val transpose~:~graph -> graph
-\end{lstlisting}
-That takes every edge in a directed graph and reverses its direction.
-You may assume the following representation of graphs:
-\begin{lstlisting}
-type graph = vertexSet vertexTable
-\end{lstlisting}
-with key comparisons taking $O(1)$ work.
+such that \cd{reachable(G,v)} returns all the vertices reachable from $v$
+in $G$. Not including the cost of \cd{reachable}, your algorithm must
+have $O(|E|\log|V|)$ work and $O(\log^2 |V|)$ span.  You might find
+\cd{transpose} useful and can assume the given time bounds.
 
-Assuming that \texttt{reachable} and \texttt{transpose} use
-$O(|E|\log|V|)$ work and $O(\log^2 |V|)$ span, your algorithm
-must also have $O(|E|\log|V|)$ work and $O(\log^2 |V|)$ span.
 
 \begin{lstlisting}[numbers=none]
-fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
-      @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@@\vspace{.2in}@
-      @\underline{~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~}@
-\end{lstlisting}
+fun scc (G : graph, v : vertex) : vertexSet = 
+      ______________________________________________
 
+      ______________________________________________
+\end{lstlisting}
 
 \sol
-\begin{lstlisting}[numbers=none]
-fun scc ($G$ : graph, v : vertex) : vertexSet = @\vspace{.2in}@
-    @\underline{vertexSet.intersection(reachable(G,v),~~~~~~~~~~~~~}@@\vspace{.2in}@
-    @\underline{~~~~~~~~~~~~~~~~~~~~~~~reachable(transpose(G,v)))}@
+\begin{lstlisting}[language=ocaml,numbers=none]
+fun scc ($G$ : graph, v : vertex) : vertexSet = 
+    vertexSet.intersection(reachable(G,v),}
+    reachable(transpose(G,v)))}
 \end{lstlisting}
 
 \end{problem}
