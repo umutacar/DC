@@ -30,10 +30,10 @@ let points_correct = 1.0
 let points_incorrect = 0.0
 
 let fmt_lstlisting_pl = 
-	Printf.sprintf "\\begin{lstlisting}[language=%s,numbers=left]\n%s\n\\end{lstlisting}"
+	sprintf "\\begin{lstlisting}[language=%s,numbers=left]\n%s\n\\end{lstlisting}"
 
 let fmt_lstlisting_nopl = 
-	Printf.sprintf "\\begin{lstlisting}[numbers=left]\n%s\\end{lstlisting}"
+	sprintf "\\begin{lstlisting}[numbers=left]\n%s\\end{lstlisting}"
 
 
 
@@ -86,7 +86,7 @@ let sum_factors prompts =
   let factor_of_prompt prompt =
 		let item = List.nth_exn prompt 0 in
     let (kind, pval, _) = item in
- 		let _ = printf "factor_of_prompt: kind = %s\n" kind in
+ 		let _ = d_printf "factor_of_prompt: kind = %s\n" kind in
  		if Tex.is_scorable_prompt kind then 
       match pval with 
 			| None -> Tex.point_value_of_prompt kind
@@ -97,7 +97,7 @@ let sum_factors prompts =
 	match List.reduce counts ~f:add_points with 
 	| None -> 
 		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice*) but found none.\n" in
-    let _ = Printf.printf "%s\n" err in
+    let _ = printf "%s\n" err in
 		raise (Constants.Syntax_Error err)
 	| Some c -> 	c
 
@@ -122,7 +122,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
     match prompt with 
 		| [ ] -> 
 				let err = "Fatal Error: Expecting a prompt None found" in
-  			let _ = Printf.printf "%s\n" err in
+  			let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
 		| p::cookies ->
          let cookies = List.map cookies ~f:assign_points_to_cookie in
@@ -338,7 +338,7 @@ struct
     match point_val with
     | None -> 
 			let err = "Fatal Error: Cookie.propagate_point_value: Expecting point value of zero None found" in
-			let _ = Printf.printf "%s\n" err in
+			let _ = printf "%s\n" err in
 			raise (Constants.Fatal_Error err)
     | Some points -> 
 	    let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
@@ -420,8 +420,8 @@ struct
 		let {kind; point_val; title; label; body; cookies} = prompt in
     match point_val with
     | None -> 
-			let err = Printf.sprintf "Fatal Error: Expecting point value of zero but None found, prompt = %s" kind in
-			let _ = Printf.printf "%s\n" err in
+			let err = sprintf "Fatal Error: Expecting point value of zero but None found, prompt = %s" kind in
+			let _ = printf "%s\n" err in
 			raise (Constants.Fatal_Error err)
     | Some p -> 
       if Tex.is_primary_prompt kind then
@@ -434,8 +434,8 @@ struct
 		let {kind; point_val; title; label; body; cookies} = prompt in
     match point_val with
     | None -> 
-				let err = Printf.sprintf "Fatal Error: Expecting point value None found, prompt = %s" kind in
-  			let _ = Printf.printf "%s\n" err in
+				let err = sprintf "Fatal Error: Expecting point value None found, prompt = %s" kind in
+  			let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
     | Some points -> 
         let points = multiply_points points multiplier in
@@ -1498,7 +1498,7 @@ let assign_points_to_prompts prompts =
       (* Find the head item *) 
 	    let head_item = List.nth_exn h 0 in
       let (kind, pval, body) = head_item in 
-      let _ =  d_printf "take_next_question: kind = %s" kind in 
+      let _ =  d_printf "take_next_question: kind = %s pval = %s \n" kind (str_of_pval_opt pval) in 
 			if Tex.is_primary_prompt kind then
         (* head item is primary, so start a new question *)
   			([ ], prompts)
@@ -1513,14 +1513,14 @@ let assign_points_to_prompts prompts =
         (* Find the head item *) 
 				let head_item = List.nth_exn h 0 in
         let (kind, pval, body) = head_item in 
-        let _ =  d_printf "take_next_question: kind = %s" kind in 
+        let _ =  d_printf "take_next_question: kind = %s pval = %s\n" kind (str_of_pval_opt pval) in 
 				if Tex.is_primary_prompt kind then
           (* head item is primary, so start a new question *)
 	        let (rest, t_prompts)  = take_secondary_prompts t in
 					(h::rest, t_prompts)
 				else            	      
 				let err = "Fatal Error: Expecting a primary prompt None found" in
-				let _ = Printf.printf "%s\n" err in
+				let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
   in
   let rec take_all_questions prompts = 
@@ -1536,7 +1536,7 @@ let assign_points_to_prompts prompts =
     match question with 
 	  | [ ] ->
 				let err = "Fatal Error: Expecting a primary prompt but None found!" in
-				let _ = Printf.printf "%s\n" err in
+				let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
 	 | head_prompt::prompts ->
      let head_item::t_head_prompt = head_prompt in
@@ -1544,9 +1544,21 @@ let assign_points_to_prompts prompts =
      let n_factors = 
 			 try sum_factors prompts with
 				 Constants.Syntax_Error s -> 
-					 let err = Printf.sprintf "\n%s\nContext: Question prompt:\n>%s>\n" s body in
+					 let err = sprintf "\n%s\nContext: Question prompt:\n>%s>\n" s body in
            let _ = printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
+		 in
+     (* Check that at least one solution was specified
+      * Otherwise raise error.
+      *)
+
+     let _ = 
+        if (float_of_string n_factors) > 0.0 then
+					()
+        else
+  				let err = sprintf"Fatal Error: A question must have at least on solution or correct-choice prompt!  I have found none.\n  Total factors = %s \n Context: %s\n" n_factors body in 
+	   			let _ = printf "%s\n" err in
+  		  		raise (Constants.Fatal_Error err)
 		 in
      (* Take the point value of the question prompt (head item) *)
      let points = 
