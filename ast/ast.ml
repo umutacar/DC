@@ -1498,7 +1498,7 @@ let assign_points_to_prompts prompts =
       (* Find the head item *) 
 	    let head_item = List.nth_exn h 0 in
       let (kind, pval, body) = head_item in 
-      let _ =  d_printf "take_next_question: kind = %s" kind in 
+      let _ =  d_printf "take_next_question: kind = %s pval = %s \n" kind (str_of_pval_opt pval) in 
 			if Tex.is_primary_prompt kind then
         (* head item is primary, so start a new question *)
   			([ ], prompts)
@@ -1513,7 +1513,7 @@ let assign_points_to_prompts prompts =
         (* Find the head item *) 
 				let head_item = List.nth_exn h 0 in
         let (kind, pval, body) = head_item in 
-        let _ =  d_printf "take_next_question: kind = %s" kind in 
+        let _ =  d_printf "take_next_question: kind = %s pval = %s\n" kind (str_of_pval_opt pval) in 
 				if Tex.is_primary_prompt kind then
           (* head item is primary, so start a new question *)
 	        let (rest, t_prompts)  = take_secondary_prompts t in
@@ -1547,6 +1547,18 @@ let assign_points_to_prompts prompts =
 					 let err = Printf.sprintf "\n%s\nContext: Question prompt:\n>%s>\n" s body in
            let _ = printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
+		 in
+     (* Check that at least one solution was specified
+      * Otherwise raise error.
+      *)
+
+     let _ = 
+        if (float_of_string n_factors) > 0.0 then
+					()
+        else
+  				let err = sprintf"Fatal Error: A question must have at least on solution or correct-choice prompt!  I have found none.\n  Total factors = %s \n Context: %s\n" n_factors body in 
+	   			let _ = printf "%s\n" err in
+  		  		raise (Constants.Fatal_Error err)
 		 in
      (* Take the point value of the question prompt (head item) *)
      let points = 
