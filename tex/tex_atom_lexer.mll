@@ -179,8 +179,7 @@ let p_com_refsol_true = '\\' "solt"
 
 let p_com_ask = "\\ask"
 let p_com_ask_true_false = "\\asktf"
-let p_com_short_answer = "\\ans"
-let p_com_free_response = "\\answer"
+let p_com_short_answer = "\\asks"
 let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
@@ -203,7 +202,6 @@ let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 let p_primary_item = 
 	(p_com_ask as kind) | 
 	(p_com_short_answer as kind) | 
-	(p_com_free_response as kind) | 
 	(p_com_one_choice as kind) | 
 	(p_com_any_choice as kind) |
 	(p_com_ask_true_false as kind) 
