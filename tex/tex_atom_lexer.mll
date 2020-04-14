@@ -174,6 +174,7 @@ let p_com_notes = '\\' "notes"
 let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
+let p_com_refsol_show = '\\' "sols"
 let p_com_refsol_false = '\\' "solf"
 let p_com_refsol_true = '\\' "solt"
 
@@ -183,8 +184,9 @@ let p_com_short_answer = "\\asks"
 let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
-
+(* Atoms can have integer points *)
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
+
 (* item point values can be floating point *)
 let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (p_c_sq as c_sq)
 
@@ -215,6 +217,7 @@ let p_item =
   (p_com_notes as kind) |
   (p_com_part as kind) |
   (p_com_refsol as kind) |
+  (p_com_refsol_show as kind) |
   (p_com_refsol_false as kind) |
   (p_com_refsol_true as kind) |
   (p_com_rubric as kind) 

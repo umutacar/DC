@@ -1611,7 +1611,7 @@ let prompts_of_items (items: t_item list) =
 			let cookie = [item] in
         (cp @ cookie, prompts)
 		else
-			let _ = d_printf "Parse Error: I was expecting a 'prompt' or a 'cookie' but saw kind = %s.\n" kind in
+			let _ = printf "Parse Error: I was expecting a 'prompt' or a 'cookie' but saw kind = %s.\n" kind in
 			exit 1
 	in
 	begin
