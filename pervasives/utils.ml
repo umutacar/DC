@@ -11,6 +11,15 @@ let str_of_pval_opt x =
   | Some x -> "Some " ^ x
 
 
+(* Given x, return a string that has three underscores for each 
+ * character of x.
+ *)
+let replace_with_underscores x = 
+  let target_per_char = "\_\_\_" in 
+  let l = String.length x in
+  let lu = List.init l ~f:(fun i -> target_per_char) in
+  String.concat ~sep:"" lu
+
 (* is C vertical space *)
 let is_vert_space c = 
   c = '\n' || c = '\r' 
@@ -260,6 +269,22 @@ let rm_comments body =
   let body_nocomment = Str.global_replace re_comment "" body_nopercent in
   let body_clean = Str.global_replace re_diderot_percent "\\%" body_nocomment in
     body_clean
+
+
+(* This is dangerous.  If the body has things line "\fin{...}" 
+ *  0' then it is going to be treated as comment
+ *)
+let rm_fillin body = 
+  let diderot_percent = "__diderotpercentsign__" in
+  let re_percent = Str.regexp "\\\\%" in
+  let re_diderot_percent = Str.regexp diderot_percent in
+  let re_comment = Str.regexp "[ \t]*%.*\n" in
+
+  let body_nopercent = Str.global_replace re_percent diderot_percent body in
+  let body_nocomment = Str.global_replace re_comment "" body_nopercent in
+  let body_clean = Str.global_replace re_diderot_percent "\\%" body_nocomment in
+    body_clean
+
 
 (* Takes an atom body that has occurrences of the form 
    \begin{lstlisting}[language = my_language ...] 

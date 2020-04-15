@@ -254,6 +254,7 @@ let p_com_caption = "\\caption"
 let p_com_ask_true_false = "\\asktf"
 let p_com_sol_true = "\\solt"
 let p_com_sol_false = "\\solf"
+let p_com_fillin = "\\fin"
     
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
@@ -596,6 +597,17 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      let rest = take_env depth lexbuf in
      kw_sol_false ^ rest
     }
+
+  (* Rewrite \fin{argument} --> \_\_\_\_...\_ *)
+  | (p_com_fillin p_ws p_o_curly) 
+		{
+     let _ = d_printf "!lexer found: fillin" in
+     let (arg, _) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+     let underscores = Utils.replace_with_underscores arg in
+     let rest = take_env depth lexbuf in
+     underscores ^ rest
+    }
+
 
   | p_begin_env_math as x
     {

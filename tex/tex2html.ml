@@ -271,7 +271,6 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 		| _ -> error_out languages
 	in
   let latex_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ latex_extension in
-  let preamble = extend_preamble preamble in
   let _ = mk_tex_document latex_file_name preamble contents in
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
