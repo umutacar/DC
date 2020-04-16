@@ -230,21 +230,21 @@ counter is $1$ when it is first visited and $12$ when it is finally exited.
 \end{center}
 \end{minipage}
 
-\begin{problem}
-For each vertex, write its discovery, and finish time
+%% \begin{problem}
+%% For each vertex, write its discovery, and finish time
 
-\ask vertex A discovery and  finish: \sol 1~~ \sol 12~~ 
-\\
-\ask vertex B  discovery and  finish \sol 2~~  \sol 7~~ 
-\\
-\ask vertex C discovery and finish   \sol 3~~ \sol 6~~ 
-\\
-\ask vertex D discovery and finish \sol 4~~  \sol 5~~
-\\
-\ask vertex E discovery and finish \sol 18~ \sol 11~~ 
-\\
-\ask vertex F discovery and finish \sol 9~~ \sol 10~~ 
-\end{problem}
+%% \ask vertex A discovery and  finish: \sol 1~~ \sol 12~~ 
+%% \\
+%% \ask vertex B  discovery and  finish \sol 2~~  \sol 7~~ 
+%% \\
+%% \ask vertex C discovery and finish   \sol 3~~ \sol 6~~ 
+%% \\
+%% \ask vertex D discovery and finish \sol 4~~  \sol 5~~
+%% \\
+%% \ask vertex E discovery and finish \sol 18~ \sol 11~~ 
+%% \\
+%% \ask vertex F discovery and finish \sol 9~~ \sol 10~~ 
+%% \end{problem}
 
 \begin{problem}
 For each vertex, write its discovery, and finish time
@@ -265,65 +265,39 @@ For each vertex, write its discovery, and finish time
 
 \begin{problem}[9.]
 
-For each edge indicate whether it is a tree edge or is a
+For each edge, write down whether it is a tree edge or is a
 forward', back, or cross
 
-\anychoice
+\ask
 (A, B)
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\sols \fin{tree}
 
-\anychoice
+\ask
 (A, B) 
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\sols \fin{tree}
 
-\anychoice (B, C)
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\ask (B, C)
+\sols \fin{tree}
 
-\anychoice (C, D)
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\ask (C, D)
+\sols \fin{tree}
 
-\anychoice (D, B)
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\ask (D, B)
+\sols \fin{tree}
 
-\anychoice (A, E) 
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\ask (A, E) 
+\sols \fin{tree}
 
-\anychoice (E, C) 
-\choice tree
-\choice back
-\choice* cross
-\choice forward
+\ask (E, C) 
+\sols \fin{cross}
 
-\anychoice (E, F)
-\choice* tree
-\choice back
-\choice cross
-\choice forward
+\ask (E, F)
+\sols \fin{tree}
 
-\anychoice (F, C) 
-\choice tree
-\choice back
-\choice* cross
-\choice forward
+\ask (F, C) 
+\sols \fin{cross}
 \end{problem}
+
 
 \begin{problem}[4]
 
@@ -372,19 +346,17 @@ or fewer edges.
 What is the work and span of an execution of Dijkstra's algorithm on
 $G$ and $s$?
 
-\sol Work: $O(m\log{n})$
-
-\sol Span: $O(m\log{n})$
+\sols 
+Work: \fin{$O(m\log{n})$}
+Span: \fin{$O(m\log{n})$}
 
 \ask
 What is the work and span of an execution of Bellman-Ford algorithm on
 $G$ and $s$?
 
-\sol
-Work: $O(km)$
-
-\sol
-Span : $O(k\log{n})$
+\sols
+Work: \fin{$O(km)$}
+Span :  \fin{$O(k\log{n})$}
 
 \notes
 \textbf{Common Mistakes:}
@@ -454,14 +426,12 @@ this is not mentioned, then take out $-1$.
 \end{itemize}
 
 
-\ask[2]
-State the work of your algorithm
+\ask[4]
+State the work and span of your algorithm
 
-\sol Work: $O(n + km\log n)$
-
-\ask[2]
-State the span of your algorithm
-\sol Span: $O(m\ log n)$
+\sols 
+Work: \fin{$O(n + km\log n)$}
+Span: \fin{$O(m\ log n)$}
 
 \ask[5]
 Describe how to use the data structure resulting from the
@@ -490,11 +460,10 @@ $(s, t)$, then simply perform a lookup: $D[s][t]$.
 \end{itemize}
 
 
-\ask What is the work of your algorithm Work: 
-\sol $O(1)$
-
-\ask What is the span of your algorithm Work:
-\sol $O(1)$
+\ask What is the work and span of your algorithm Work: 
+\sols 
+Work:  \fin{$O(1)$} 
+Span: \fin{$O(1)$} 
 
 
 \end{problem}
