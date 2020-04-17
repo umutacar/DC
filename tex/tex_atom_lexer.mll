@@ -102,12 +102,15 @@ let rewrite_prompt_body (body: string) =
 		let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
 		body
 
-let rewrite_prompt (kind: string) (body: string) = 
+let rewrite_prompt (kind: string) (point_val_opt: string option) (body: string) = 
   if Tex.is_prompt_refsol_fillin kind then          
-    let body = rewrite_prompt_body body in
-    (Tex.kw_refsol_fillin_ask, body)
+    let body_ask = rewrite_prompt_body body in
+    let prompt_ask = (Tex.kw_refsol_fillin_ask, point_val_opt, body_ask) in
+    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, body) in
+      [prompt_ask; prompt_sol]
   else
-    (kind, body)
+    let prompt = (kind, point_val_opt, body) in
+		[prompt]
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
@@ -597,16 +600,16 @@ and take_list =
 	 { let (body, items, h_e) = take_list lexbuf in
 
      (* If this is a fillin prompt, then rewrite body *) 
-     let (kind, body) =  rewrite_prompt kind body in
+     let prompt_items =  rewrite_prompt kind (Some point_val)  body in
      let _ = d_printf "* atom_lexer: item kind %s points = %s body = %s\n" kind point_val body in
-	   let items = (kind, Some point_val, body)::items in     
+	   let items = prompt_items @ items in     
 	   ("", items, h_e)	 	 
 	 }
 	 | (p_item as x) p_ws_hard
 	 { let (body, items, h_e) = take_list lexbuf in
-     let (kind, body) =  rewrite_prompt kind body in
+     let prompt_items =  rewrite_prompt kind None body in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
-	   let items = (kind, None, body)::items in
+	   let items = prompt_items @ items in     
 	     ("", items, h_e)	 	 
 	 }
 
