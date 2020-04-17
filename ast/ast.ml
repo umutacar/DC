@@ -515,12 +515,12 @@ struct
   let body_to_xml translator prompt =
 		let _ = d_printf "prompt.body_to_xml: prompt = %s\n" prompt.kind in
     if Tex.is_secondary_choice_prompt prompt.kind then      
+    	translator Xml.choice prompt.body
+		else
       if Tex.is_prompt_refsol_fillin_ask prompt.kind then
         translator Xml.refsol_fillin_ask prompt.body
 			else
-    		translator Xml.choice prompt.body
-		else
-  		translator Xml.body prompt.body
+  			translator Xml.body prompt.body
 
   (* TODO incorporate cookies. *)
   let to_xml translator prompt = 

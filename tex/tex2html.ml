@@ -8,9 +8,10 @@ open Core
 open Utils
 
 (* Turn off all prints *)
+(*
 let d_printf args = 
     ifprintf stdout args
-
+*)
 module Xml = Xml_syntax
 module Tex = Tex_syntax
 
@@ -37,25 +38,18 @@ let mk_unique () =
  *  "true" means that this was a single paragraph and the
  * <p> </p> annotations must be removed.
  *) 
-let body_is_single_par =  false
-(* caption can be multiple paragraphs but usually is one *)
-let caption_is_single_par =  false 
-let choice_is_single_par =  true
-let explain_is_single_par =  false
-let hint_is_single_par =  false
-let refsol_is_single_par =  false
-let rubric_is_single_par =  false
-let title_is_single_par =  true
 
 let single_paragraph_status_of_kind = 
-  [ Xml.body, body_is_single_par;
-    Xml.choice, choice_is_single_par;
-    Xml.caption, body_is_single_par;
-		Xml.explain, explain_is_single_par;
-		Xml.hint, hint_is_single_par;
-		Xml.refsol, refsol_is_single_par;
-		Xml.rubric, rubric_is_single_par;
-		Xml.title, title_is_single_par;		
+  [ Xml.body, false;
+    Xml.choice, true;
+    Xml.caption, false;
+		Xml.explain, false;
+		Xml.hint, false;
+		Xml.refsol, false;
+    Xml.refsol_fillin_ask, false;
+    Xml.refsol_fillin_sol, false;
+		Xml.rubric, false;
+		Xml.title, true;		
   ]
 
 let get_single_paragraph_status kind = 
@@ -370,7 +364,7 @@ let tex_to_text be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
   let _ = mk_tex_document latex_file_name preamble contents in
 
   (** translate to text **)
-  let text_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
+  let text_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ text_extension in
   let command = (choose_pandoc be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ text_file_name  in
   let () = latex_file_to_target command (latex_file_name, text_file_name) in
   let contents = In_channel.read_all text_file_name in
@@ -419,7 +413,8 @@ let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents =
  **
  **)
 let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preamble contents options = 
-  let (target_is_text, target_is_single_paragraph)  = options in
+  let (target_is_text, target_is_single_paragraph) = options in
+  let  _  = d_printf "contents_to_html:  target is text: %b\n" target_is_text in
     if target_is_text then
 			tex_to_text 
 				be_verbose tmp_dir meta_dir lang_opt_default 
@@ -443,6 +438,7 @@ let mk_translator be_verbose tmp_dir meta_dir  lang_opt (preamble: string) =
    let translate kind contents = 
      let contents = text_prep contents in 
 		 let unique = mk_unique () in
+     let _ = d_printf "translate: kind = %s\n" kind in
      let options = (is_target_language_text kind, get_single_paragraph_status kind) in
        contents_to_html be_verbose tmp_dir  meta_dir lang_opt unique preamble contents options
    in
