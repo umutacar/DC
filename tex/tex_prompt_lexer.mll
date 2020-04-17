@@ -7,7 +7,7 @@
 {
 open Printf
 open Utils
-
+open Constants
 (* Turn off prints *)
 (*
 let d_printf args = 
@@ -131,24 +131,28 @@ let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_run_star | p_begin_e
 (** END PATTERNS *)			
 
 (* Takes is_empty, the emptiness status of the current line *)
-rule initial = 
+rule initial rewriter_mode = 
 parse
-
 (* Rewrite \fin{argument} --> \_\_\_\_...\_ *)
 | (p_com_fillin p_ws p_o_curly as  x)
 		{
      let _ = d_printf "!prompt_lexer found: fillin" in
-     let (arg, _) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
-     let underscores = Utils.replace_with_underscores arg in
-     let rest = initial lexbuf in
-     underscores ^ rest
+     let (arg, y) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+     match rewriter_mode  with 
+		 | Prompt_Mode_Question -> 
+       let underscores = Utils.replace_with_underscores arg in
+       let rest = initial rewriter_mode lexbuf in
+       underscores ^ rest
+		 | Prompt_Mode_Solution ->
+       let rest = initial rewriter_mode lexbuf in
+       x ^ arg ^ y ^ rest
     }
 
 | eof
 		{""}
 
 | _ as x
-    {let rest = initial lexbuf in
+    {let rest = initial rewriter_mode lexbuf in
      (str_of_char x) ^ rest
 		}		
 
@@ -275,8 +279,8 @@ and skip_arg depth delimiter_open delimiter_close =
 
 (** BEGIN TRAILER **)
 {
-let lexer: Lexing.lexbuf -> string = 
-		initial
+let lexer (rewriter_mode: t_mode_prompt_rewriter): Lexing.lexbuf -> string = 
+		initial rewriter_mode
 }
 (** END TRAILER **)
 

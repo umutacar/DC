@@ -94,7 +94,7 @@ let normalize_env (kind, title, kw_args) =
 let rewrite_prompt (body: string) =
   let lexbuf = Lexing.from_string body in
   (* Rewrie body *)
-  let body_new = Prompt_lexer.lexer lexbuf in
+  let body_new = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
   if String.equal body body_new then
     body_new
 	else
