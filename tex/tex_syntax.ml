@@ -94,6 +94,8 @@ let kw_free_response = "\\answer"
 let kw_short_answer = "\\ans"
 let kw_ask = "\\ask"
 let kw_refsol = "\\sol"
+let kw_refsol_fillin = "\\solfin"
+
 
 
 let kw_choice = "\\choice"
@@ -255,7 +257,7 @@ let label_prefix_of_kind =
    kw_choice, label_prefix_choice;
    kw_choice_correct, label_prefix_choice;
    kw_refsol, label_prefix_refsol;
-
+   kw_refsol_fillin, label_prefix_refsol;
   ]
   @
   (* Cookies *)
@@ -336,6 +338,7 @@ let scorable_prompt_kinds =
    kw_choice, ();
    kw_choice_correct, ();
    kw_refsol, ();
+   kw_refsol_fillin, ();
   ]
 
 let prompt_kinds = 
@@ -345,6 +348,7 @@ let prompt_kinds =
    kw_choice_correct, ();
    kw_part, ();
    kw_refsol, ();
+   kw_refsol_fillin, ();
   ]
 
 let cookie_kinds = 
@@ -366,6 +370,7 @@ let cookie_cost_ratio =
 let point_value_of_prompt_kind = 
   [
    kw_refsol, "1.0";
+   kw_refsol_fillin, "1.0";
    kw_choice, "0.0";
    kw_choice_correct, "1.0";
   ]

@@ -94,7 +94,7 @@ let normalize_env (kind, title, kw_args) =
 let rewrite_prompt (body: string) =
   let lexbuf = Lexing.from_string body in
   (* Rewrie body *)
-  let body = Prompt_lexer.lexer lexbuf in
+  let body_new = Prompt_lexer.lexer lexbuf in
     body
 
 
@@ -138,6 +138,7 @@ let p_headerskip = ('\n' | p_comment_line | p_hspace)*
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
+let p_ws_hard = [' ' '\t' '\n' '\r']+	
 let p_skip = p_hs
 let p_par_break = '\n' p_ws '\n' p_hs
 
@@ -180,6 +181,7 @@ let p_com_notes = '\\' "notes"
 let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
+let p_com_refsol_fillin = '\\' "solfin"
 let p_com_refsol_false = '\\' "solf"
 let p_com_refsol_true = '\\' "solt"
 
@@ -221,6 +223,7 @@ let p_item =
   (p_com_notes as kind) |
   (p_com_part as kind) |
   (p_com_refsol as kind) |
+  (p_com_refsol_fillin as kind) |
   (p_com_refsol_false as kind) |
   (p_com_refsol_true as kind) |
   (p_com_rubric as kind) 
@@ -579,14 +582,14 @@ and take_kw_args depth =
 
 and take_list =
 	 parse
-	 | p_item_points as x 
+	 | (p_item_points as x) p_ws_hard 
 	 { let (body, items, h_e) = take_list lexbuf in
      let body = rewrite_prompt body in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
 	   let items = (kind, Some point_val, body)::items in     
 	     ("", items, h_e)	 	 
 	 }
-	 | p_item as x 
+	 | (p_item as x) p_ws_hard
 	 { let (body, items, h_e) = take_list lexbuf in
      let body = rewrite_prompt body in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
