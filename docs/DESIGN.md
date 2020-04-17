@@ -20,9 +20,9 @@ The parsing infrastructure is separated into three stages.  The implementation c
 
 The stage-1 lexer (`tex_comment_lexer`) removes comments from the input.
 
-The stage-2 lexer and parser takes the output of the first stage and divides it into "atoms" and a tree structure mirroring that of the document.
+The stage-2 lexer and parser, `tex_lexer.mll` and `tex_parser.mly`, take the output of the first stage and divides it into "atoms" and a tree structure mirroring that of the document.
 
-The third stage uses a separate atom lexer and parser (`tex_atom_lexer` and `tex_atom_parser`) to parse each atom. 
+The third stage uses a separate atom lexer and parser (`tex_atom_lexer` and `tex_atom_parser`) to parse each atom.  As part of this stage, a separate prompt lexer, `tex_prompt_lexer` is used to rewrite filli-in-the-blank type prompts.
 
 Stage-2 is relatively skinny but relies on a lexer (`tex/tex_lexer.mll`) that does some fancy look aheads.  The lexer maintains a state machine so that it can identify the beginning and the end of "paragraphs".  The basic idea of the stage-2 lexer is to tokenize the input at the level of 
 * chunks: which are non-space fragments of text that could (optionally come with a label),
@@ -46,6 +46,10 @@ Something
 ```
 
 The atom-level parser ...
+
+## Translation into xml
+
+Translation is governed by `tex2html.ml`.  Translation relies on pandoc.  Several diderot-specific commands and macros such as `\fin`, `download`, and `attach` are defined here as macros passed to the translation. 
 
 ## preambles and tailtexts
 
