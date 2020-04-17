@@ -8,6 +8,7 @@ open Printf
 open Utils
 open Tex_atom_parser
 module Tex = Tex_syntax
+module Prompt_lexer = Tex_prompt_lexer
 
 (* Turn off prints *)
 (*
@@ -90,7 +91,31 @@ let normalize_env (kind, title, kw_args) =
  ** END: latex env machinery 
  **********************************************************************)
 
+let rewrite_prompt_body (body: string) =
+  let lexbuf = Lexing.from_string body in
+  (* Rewrie body *)
+  let body_new = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
+	let _ = d_printf "\nrewrite_prompt: body_old: %s\n" body in
+	let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
+  body_new
 
+let rewrite_prompt (kind: string) (point_val_opt: string option) (body: string) = 
+  if Tex.is_prompt_refsol_fillin kind then          
+    (* Question version *) 
+		let lexbuf = Lexing.from_string body in
+		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
+    let prompt_ask = (Tex.kw_refsol_fillin_ask, point_val_opt, body_ask) in
+
+    (* Solution version *) 
+		let lexbuf = Lexing.from_string body in
+		let body_sol = Prompt_lexer.lexer Constants.Prompt_Mode_Solution lexbuf in
+
+    (* Include both *)
+    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, body_sol) in
+      [prompt_ask; prompt_sol]
+  else
+    let prompt = (kind, point_val_opt, body) in
+		[prompt]
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
@@ -132,6 +157,7 @@ let p_headerskip = ('\n' | p_comment_line | p_hspace)*
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
+let p_ws_hard = [' ' '\t' '\n' '\r']+	
 let p_skip = p_hs
 let p_par_break = '\n' p_ws '\n' p_hs
 
@@ -174,6 +200,7 @@ let p_com_notes = '\\' "notes"
 let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
+let p_com_refsol_fillin = '\\' "solfin"
 let p_com_refsol_false = '\\' "solf"
 let p_com_refsol_true = '\\' "solt"
 
@@ -215,6 +242,7 @@ let p_item =
   (p_com_notes as kind) |
   (p_com_part as kind) |
   (p_com_refsol as kind) |
+  (p_com_refsol_fillin as kind) |
   (p_com_refsol_false as kind) |
   (p_com_refsol_true as kind) |
   (p_com_rubric as kind) 
@@ -346,6 +374,7 @@ and take_env =
        let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
        (lopt, v ^ rest, capopt, items, h_e)          
       }   
+
   | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
@@ -572,16 +601,20 @@ and take_kw_args depth =
 
 and take_list =
 	 parse
-	 | p_item_points as x 
+	 | (p_item_points as x) p_ws_hard 
 	 { let (body, items, h_e) = take_list lexbuf in
-     let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
-	   let items = (kind, Some point_val, body)::items in
-	     ("", items, h_e)	 	 
+
+     (* If this is a fillin prompt, then rewrite body *) 
+     let prompt_items =  rewrite_prompt kind (Some point_val)  body in
+     let _ = d_printf "* atom_lexer: item kind %s points = %s body = %s\n" kind point_val body in
+	   let items = prompt_items @ items in     
+	   ("", items, h_e)	 	 
 	 }
-	 | p_item as x 
+	 | (p_item as x) p_ws_hard
 	 { let (body, items, h_e) = take_list lexbuf in
+     let prompt_items =  rewrite_prompt kind None body in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
-	   let items = (kind, None, body)::items in
+	   let items = prompt_items @ items in     
 	     ("", items, h_e)	 	 
 	 }
 

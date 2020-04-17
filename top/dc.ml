@@ -30,8 +30,9 @@ let mk_md_translator verbose tmp_dir meta_dir default_pl =
 		tmp_dir 
 		meta_dir
     default_pl
-		preamble 
+		preamble  
 
+(* Make Tex to XML/HTML translator *)
 let mk_tex_translator verbose tmp_dir meta_dir default_pl (preamble_file: string option) = 
   let preamble = 
     match preamble_file with 

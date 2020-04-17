@@ -30,8 +30,8 @@ let kw_verbatim = "verbatim"
  * questions.
  *)
 let kw_one_choice = "\\onechoice"
-let kw_sol_true = "\choice* True \choice False"
-let kw_sol_false = "\choice True \choice* False"
+let kw_sol_true = "\\choice* True \\choice False"
+let kw_sol_false = "\\choice True \\choice* False"
 
 (** BEGIN: State Machine **)
 type t_lexer_state = 
@@ -219,6 +219,7 @@ let p_newline = '\n' | ('\r' '\n')
 let p_tab = '\t'	
 let p_hs = [' ' '\t']*	
 let p_ws = [' ' '\t' '\n' '\r']*	
+let p_ws_hard = [' ' '\t' '\n' '\r']+	
 let p_skip = p_hs
 let p_par_break = '\n' p_ws '\n' p_hs
 
@@ -582,19 +583,19 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
     }
 
   (* Rewrite \solt --> \choice* True \choice False *)
-  | (p_com_sol_true as h) 
+  | (p_com_sol_true as h) (p_ws_hard as ws)
 		{
      let _ = d_printf "!lexer found: cookie: solution=true." in 
      let rest = take_env depth lexbuf in
-     kw_sol_true ^ rest
+     kw_sol_true ^ ws ^ rest
     }
 
   (* Rewrite \solf --> \choice True \choice* False *)
-  | (p_com_sol_false as h) 
+  | (p_com_sol_false as h) (p_ws_hard as ws)
 		{
      let _ = d_printf "!lexer found: cookie: solution=true." in 
      let rest = take_env depth lexbuf in
-     kw_sol_false ^ rest
+     kw_sol_false ^ ws ^ rest
     }
 
   | p_begin_env_math as x
