@@ -101,10 +101,16 @@ let rewrite_prompt_body (body: string) =
 
 let rewrite_prompt (kind: string) (point_val_opt: string option) (body: string) = 
   if Tex.is_prompt_refsol_fillin kind then          
+    (* Question version *) 
 		let lexbuf = Lexing.from_string body in
 		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
-		let body_sol = Prompt_lexer.lexer Constants.Prompt_Mode_Solution lexbuf in
     let prompt_ask = (Tex.kw_refsol_fillin_ask, point_val_opt, body_ask) in
+
+    (* Solution version *) 
+		let lexbuf = Lexing.from_string body in
+		let body_sol = Prompt_lexer.lexer Constants.Prompt_Mode_Solution lexbuf in
+
+    (* Include both *)
     let prompt_sol = (Tex.kw_refsol_fillin_sol, None, body_sol) in
       [prompt_ask; prompt_sol]
   else
