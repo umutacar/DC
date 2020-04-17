@@ -138,6 +138,9 @@ parse
 		{
      let _ = d_printf "!prompt_lexer found: fillin" in
      let (arg, y) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+     (* In question mode: drop the answer
+      * In solution mode: keep the command as is
+      *) 
      match rewriter_mode  with 
 		 | Prompt_Mode_Question -> 
        let underscores = Utils.replace_with_underscores arg in

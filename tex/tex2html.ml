@@ -66,6 +66,29 @@ let get_single_paragraph_status kind =
    | None -> (printf "tex2html: FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
               exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
 
+
+let target_language_of_kind_is_text = 
+  [ Xml.body, false;
+    Xml.choice, false;
+    Xml.caption, false;
+		Xml.explain, false;
+		Xml.hint, false;
+		Xml.refsol, false;
+    Xml.refsol_fillin_question, true;
+    Xml.refsol_fillin_answer, false;
+		Xml.rubric, false;
+		Xml.title, false;
+  ]
+
+let is_target_language_text kind = 
+   match 
+		 List.Assoc.find target_language_of_kind_is_text
+			 ~equal: String.equal kind 
+	 with 
+   | Some args -> args
+   | None -> (printf "tex2html: FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
+              exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
+
 (* END: Associative list for single par *)
 
 let latex_document_header = "\\documentclass{article}" 

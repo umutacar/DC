@@ -91,7 +91,7 @@ let normalize_env (kind, title, kw_args) =
  ** END: latex env machinery 
  **********************************************************************)
 
-let rewrite_prompt (body: string) =
+let rewrite_prompt_body (body: string) =
   let lexbuf = Lexing.from_string body in
   (* Rewrie body *)
   let body_new = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
@@ -102,6 +102,12 @@ let rewrite_prompt (body: string) =
 		let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
 		body
 
+let rewrite_prompt (kind: string) (body: string) = 
+  if Tex.is_prompt_refsol_fillin kind then          
+    let body = rewrite_prompt_body body in
+    (Tex.kw_refsol_fillin_question, body)
+  else
+    (kind, body)
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
 	 let items = str_of_items items in
@@ -589,14 +595,16 @@ and take_list =
 	 parse
 	 | (p_item_points as x) p_ws_hard 
 	 { let (body, items, h_e) = take_list lexbuf in
-     let body = rewrite_prompt body in
-     let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
+
+     (* If this is a fillin prompt, then rewrite body *) 
+     let (kind, body) =  rewrite_prompt kind body in
+     let _ = d_printf "* atom_lexer: item kind %s points = %s body = %s\n" kind point_val body in
 	   let items = (kind, Some point_val, body)::items in     
-	     ("", items, h_e)	 	 
+	   ("", items, h_e)	 	 
 	 }
 	 | (p_item as x) p_ws_hard
 	 { let (body, items, h_e) = take_list lexbuf in
-     let body = rewrite_prompt body in
+     let (kind, body) =  rewrite_prompt kind body in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
 	   let items = (kind, None, body)::items in
 	     ("", items, h_e)	 	 

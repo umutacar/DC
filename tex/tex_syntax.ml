@@ -95,6 +95,8 @@ let kw_short_answer = "\\ans"
 let kw_ask = "\\ask"
 let kw_refsol = "\\sol"
 let kw_refsol_fillin = "\\solfin"
+let kw_refsol_fillin_question = "\\solfin_question"
+let kw_refsol_fillin_answer = "\\solfin_answer"
 
 
 
@@ -257,7 +259,8 @@ let label_prefix_of_kind =
    kw_choice, label_prefix_choice;
    kw_choice_correct, label_prefix_choice;
    kw_refsol, label_prefix_refsol;
-   kw_refsol_fillin, label_prefix_refsol;
+   kw_refsol_fillin_question, label_prefix_refsol;
+   kw_refsol_fillin_answer, label_prefix_refsol;
   ]
   @
   (* Cookies *)
@@ -338,7 +341,7 @@ let scorable_prompt_kinds =
    kw_choice, ();
    kw_choice_correct, ();
    kw_refsol, ();
-   kw_refsol_fillin, ();
+   kw_refsol_fillin_question, ();
   ]
 
 let prompt_kinds = 
@@ -348,7 +351,8 @@ let prompt_kinds =
    kw_choice_correct, ();
    kw_part, ();
    kw_refsol, ();
-   kw_refsol_fillin, ();
+   kw_refsol_fillin_question, ();
+   kw_refsol_fillin_answer, ();
   ]
 
 let cookie_kinds = 
@@ -370,7 +374,7 @@ let cookie_cost_ratio =
 let point_value_of_prompt_kind = 
   [
    kw_refsol, "1.0";
-   kw_refsol_fillin, "1.0";
+   kw_refsol_fillin_question, "1.0";
    kw_choice, "0.0";
    kw_choice_correct, "1.0";
   ]
@@ -645,6 +649,11 @@ let is_secondary_choice_prompt kind =
    | Some _ -> true
    | None -> false
 
+let is_prompt_refsol_fillin kind =
+  String.equal kind kw_refsol_fillin
+
+let is_prompt_refsol_fillin_question kind =
+  String.equal kind kw_refsol_fillin_question
 
 let is_scorable_prompt kind = 
    match List.Assoc.find scorable_prompt_kinds ~equal: String.equal kind with 
