@@ -421,7 +421,7 @@ let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents =
 let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preamble contents options = 
   let (target_is_text, target_is_single_paragraph)  = options in
     if target_is_text then
-			tex_to_html 
+			tex_to_text 
 				be_verbose tmp_dir meta_dir lang_opt_default 
 				unique preamble contents target_is_single_paragraph
 		else
