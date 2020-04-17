@@ -95,18 +95,17 @@ let rewrite_prompt_body (body: string) =
   let lexbuf = Lexing.from_string body in
   (* Rewrie body *)
   let body_new = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
-  if String.equal body body_new then
-    body_new
-	else
-		let _ = d_printf "\nrewrite_prompt: body_old: %s\n" body in
-		let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
-		body
+	let _ = d_printf "\nrewrite_prompt: body_old: %s\n" body in
+	let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
+  body_new
 
 let rewrite_prompt (kind: string) (point_val_opt: string option) (body: string) = 
   if Tex.is_prompt_refsol_fillin kind then          
-    let body_ask = rewrite_prompt_body body in
+		let lexbuf = Lexing.from_string body in
+		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
+		let body_sol = Prompt_lexer.lexer Constants.Prompt_Mode_Solution lexbuf in
     let prompt_ask = (Tex.kw_refsol_fillin_ask, point_val_opt, body_ask) in
-    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, body) in
+    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, body_sol) in
       [prompt_ask; prompt_sol]
   else
     let prompt = (kind, point_val_opt, body) in
