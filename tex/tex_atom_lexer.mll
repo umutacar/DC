@@ -95,7 +95,12 @@ let rewrite_prompt (body: string) =
   let lexbuf = Lexing.from_string body in
   (* Rewrie body *)
   let body_new = Prompt_lexer.lexer lexbuf in
-    body
+  if String.equal body body_new then
+    body_new
+	else
+		let _ = d_printf "\nrewrite_prompt: body_old: %s\n" body in
+		let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
+		body
 
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
