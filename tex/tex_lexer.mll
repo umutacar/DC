@@ -30,8 +30,8 @@ let kw_verbatim = "verbatim"
  * questions.
  *)
 let kw_one_choice = "\\onechoice"
-let kw_sol_true = "\choice* True \choice False"
-let kw_sol_false = "\choice True \choice* False"
+let kw_sol_true = "\\choice* True \\choice False"
+let kw_sol_false = "\\choice True \\choice* False"
 
 (** BEGIN: State Machine **)
 type t_lexer_state = 

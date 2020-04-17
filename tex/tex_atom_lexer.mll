@@ -8,6 +8,7 @@ open Printf
 open Utils
 open Tex_atom_parser
 module Tex = Tex_syntax
+module Prompt_lexer = Tex_prompt_lexer
 
 (* Turn off prints *)
 (*
@@ -90,6 +91,11 @@ let normalize_env (kind, title, kw_args) =
  ** END: latex env machinery 
  **********************************************************************)
 
+let rewrite_prompt (body: string) =
+  let lexbuf = Lexing.from_string body in
+  (* Rewrie body *)
+  let body = Prompt_lexer.lexer lexbuf in
+    body
 
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
@@ -346,6 +352,7 @@ and take_env =
        let (lopt, rest, capopt, items, h_e) = take_env lexbuf in
        (lopt, v ^ rest, capopt, items, h_e)          
       }   
+
   | p_com_skip p_ws p_o_sq as x 
 		{
 (*     let _ = d_printf "!lexer found: percent char: %s." (str_of_char x) in *)
@@ -574,12 +581,14 @@ and take_list =
 	 parse
 	 | p_item_points as x 
 	 { let (body, items, h_e) = take_list lexbuf in
+     let body = rewrite_prompt body in
      let _ = d_printf "* lexer: item kind %s points = %s body = %s\n" kind point_val body in
-	   let items = (kind, Some point_val, body)::items in
+	   let items = (kind, Some point_val, body)::items in     
 	     ("", items, h_e)	 	 
 	 }
 	 | p_item as x 
 	 { let (body, items, h_e) = take_list lexbuf in
+     let body = rewrite_prompt body in
      let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
 	   let items = (kind, None, body)::items in
 	     ("", items, h_e)	 	 

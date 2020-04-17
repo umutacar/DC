@@ -7,7 +7,6 @@
 {
 open Printf
 open Utils
-open Tex_parser
 
 (* Turn off prints *)
 (*
@@ -31,8 +30,8 @@ let kw_verbatim = "verbatim"
  * questions.
  *)
 let kw_one_choice = "\\onechoice"
-let kw_sol_true = "\choice* True \choice False"
-let kw_sol_false = "\choice True \choice* False"
+let kw_sol_true = "\\choice* True \\choice False"
+let kw_sol_false = "\\choice True \\choice* False"
 
 
 (* Some Utilities *)
@@ -115,10 +114,6 @@ let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly)
 let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
-let p_begin_env_math = (p_com_begin p_ws) (p_o_curly) (p_env_math) p_ws (p_c_curly) 
-let p_end_env_math = (p_com_end p_ws) (p_o_curly) (p_env_math) p_ws (p_c_curly) 
-
-
 let p_begin_env_lstlisting = (p_com_begin p_ws) (p_o_curly) (p_env_lstlisting as kind) p_ws (p_c_curly) 
 let p_end_env_lstlisting = (p_com_end p_ws) (p_o_curly) (p_env_lstlisting) (p_c_curly)
 let p_begin_env_run_star = (p_com_begin p_ws) (p_o_curly) (p_env_run_star as kind) p_ws (p_c_curly) 
@@ -150,11 +145,11 @@ parse
     }
 
 | eof
-		{EOF}
+		{""}
 
 | _ as x
     {let rest = initial lexbuf in
-     x ^ rest
+     (str_of_char x) ^ rest
 		}		
 
 and skip_inline = 		
@@ -276,10 +271,11 @@ and skip_arg depth delimiter_open delimiter_close =
     }
 
 
+
+
 (** BEGIN TRAILER **)
 {
-(* This is the default lexer *)
-let lexer: Lexing.lexbuf -> token = 
+let lexer: Lexing.lexbuf -> string = 
 		initial
 }
 (** END TRAILER **)

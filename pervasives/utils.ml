@@ -45,8 +45,6 @@ let str_of_str2_list (xs: (string * string) list): string =
   str_of_str2_list_with " " ", " xs
 
 
-
-
 let str_of_items (xs: (string * string option * string) list): string = 
   let str_of_item (kind, pvalopt, body) = 
 		match pvalopt with 
@@ -364,3 +362,14 @@ let find_in_list  (l: (string * string) list) (key: string) =
 
 let drop_final_char s = 
   String.slice s 0 (String.length s - 1)
+
+
+(* Given x, return a string that has three underscores for each 
+ * character of x.
+ *)
+let replace_with_underscores x = 
+  let target_per_char = "\_\_\_" in 
+  let l = String.length x in
+  let lu = List.init l ~f:(fun i -> target_per_char) in
+  let lu = List.concat [["<\%\%"]; lu; ["\%\%>>"]] in 
+  String.concat ~sep:"" lu
