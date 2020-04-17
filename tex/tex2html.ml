@@ -93,10 +93,12 @@ let latex_diderot_commands =
 %% Redefine the commands to make sure that they are what we want.
 %% (Override existing definitions)
 %%
-%% Diderot command: download 
-\\renewcommand{\\download}[2]{\\download{#1}{#2}}
 %% Diderot command: attach 
 \\renewcommand{\\attach}[2]{\\attach{#1}{#2}}
+%% Diderot command: download 
+\\renewcommand{\\download}[2]{\\download{#1}{#2}}
+%% Diderot command: fin(fillin)
+\\newcommand{\\fin}[1]{#1}
 %% Diderot command: infer
 \\renewcommand{\infer}[2]{
 \\cfrac{#2}{#1}
