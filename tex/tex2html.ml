@@ -74,8 +74,8 @@ let target_language_of_kind_is_text =
 		Xml.explain, false;
 		Xml.hint, false;
 		Xml.refsol, false;
-    Xml.refsol_fillin_question, true;
-    Xml.refsol_fillin_answer, false;
+    Xml.refsol_fillin_ask, true;
+    Xml.refsol_fillin_sol, false;
 		Xml.rubric, false;
 		Xml.title, false;
   ]

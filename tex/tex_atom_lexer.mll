@@ -105,7 +105,7 @@ let rewrite_prompt_body (body: string) =
 let rewrite_prompt (kind: string) (body: string) = 
   if Tex.is_prompt_refsol_fillin kind then          
     let body = rewrite_prompt_body body in
-    (Tex.kw_refsol_fillin_question, body)
+    (Tex.kw_refsol_fillin_ask, body)
   else
     (kind, body)
 
