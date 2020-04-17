@@ -249,17 +249,17 @@ counter is $1$ when it is first visited and $12$ when it is finally exited.
 \begin{problem}
 For each vertex, write its discovery, and finish time
 
-\ask vertex A \sols discovery: \fin{1} and  finish: \fin{2}. 
+\ask vertex A \solfin discovery: \fin{1} and  finish: \fin{2}. 
 \\
-\ask vertex B \sols discovery: \fin{2}  and  finish: \fin{7}.
+\ask vertex B \solfin discovery: \fin{2}  and  finish: \fin{7}.
 \\
-\ask vertex C \sols discovery: \fin{3} and finish: \fin{6}.
+\ask vertex C \solfin discovery: \fin{3} and finish: \fin{6}.
 \\
-\ask vertex D \sols discovery: \fin{4} and finish:  \fin{5}.
+\ask vertex D \solfin discovery: \fin{4} and finish:  \fin{5}.
 \\
-\ask vertex E \sols discovery: \fin{18} and finish: \fin{11}.
+\ask vertex E \solfin discovery: \fin{18} and finish: \fin{11}.
 \\
-\ask vertex F \sols discovery:  \fin{9} and finish: \fin{10}.
+\ask vertex F \solfin discovery:  \fin{9} and finish: \fin{10}.
 \end{problem}
 
 
@@ -270,32 +270,32 @@ forward', back, or cross
 
 \ask
 (A, B)
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask
 (A, B) 
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask (B, C)
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask (C, D)
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask (D, B)
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask (A, E) 
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask (E, C) 
-\sols \fin{cross}
+\solfin \fin{cross}
 
 \ask (E, F)
-\sols \fin{tree}
+\solfin \fin{tree}
 
 \ask (F, C) 
-\sols \fin{cross}
+\solfin \fin{cross}
 \end{problem}
 
 
@@ -346,7 +346,7 @@ or fewer edges.
 What is the work and span of an execution of Dijkstra's algorithm on
 $G$ and $s$?
 
-\sols 
+\solfin 
 Work: \fin{$O(m\log{n})$}
 Span: \fin{$O(m\log{n})$}
 
@@ -354,7 +354,7 @@ Span: \fin{$O(m\log{n})$}
 What is the work and span of an execution of Bellman-Ford algorithm on
 $G$ and $s$?
 
-\sols
+\solfin
 Work: \fin{$O(km)$}
 Span :  \fin{$O(k\log{n})$}
 
@@ -429,7 +429,7 @@ this is not mentioned, then take out $-1$.
 \ask[4]
 State the work and span of your algorithm
 
-\sols 
+\solfin 
 Work: \fin{$O(n + km\log n)$}
 Span: \fin{$O(m\ log n)$}
 
@@ -461,7 +461,7 @@ $(s, t)$, then simply perform a lookup: $D[s][t]$.
 
 
 \ask What is the work and span of your algorithm Work: 
-\sols 
+\solfin 
 Work:  \fin{$O(1)$} 
 Span: \fin{$O(1)$} 
 
