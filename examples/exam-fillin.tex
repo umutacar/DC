@@ -262,6 +262,43 @@ $S(n) =  \fin{????????????}$
 
 \end{problem}
 
+\begin{problem}[8.] 
+Given the performance given in class for melding two leftift heaps
+\texttt{PQ.meld}, give the work and span of the following algorithms for
+building a heap from a sequence $S$ of $n$ keys:
+
+
+\ask
+\continue % we don't  need this here but are using to force \sol to stay the line
+\begin{lstlisting}[numbers=none]
+  Seq.reduce PQ.meld PQ.empty (Seq.map PQ.singleton S)
+\end{lstlisting}
+
+$W(n) =$
+\sol
+$O(n)??$
+
+\continue
+$S(n) =$
+\sol
+$O(n)??$
+
+\ask
+\continue 
+\begin{lstlisting}[numbers=none]
+  Seq.iterate PQ.meld PQ.empty (Seq.map PQ.singleton S)
+\end{lstlisting}
+
+$W(n) =$
+\sol
+$O(n)??$
+
+\continue
+$S(n) =$
+\sol
+$O(n)??$
+\end{problem}
+
 
 %% \newpage
 %% \input{../../../dfs/dfs-numbers-1}

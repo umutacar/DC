@@ -102,6 +102,7 @@ let kw_refsol_fillin_sol = "\\solfin_sol"
 
 let kw_choice = "\\choice"
 let kw_choice_correct = "\\choice*"
+let kw_continue = "\\continue"
 let kw_part = "\\part"
 
 let kw_cookie_explain = "\\explain"
@@ -349,6 +350,7 @@ let prompt_kinds =
   [
    kw_choice, ();
    kw_choice_correct, ();
+   kw_continue, ();
    kw_part, ();
    kw_refsol, ();
    kw_refsol_fillin_ask, ();
