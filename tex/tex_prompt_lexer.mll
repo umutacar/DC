@@ -76,7 +76,9 @@ let p_o_curly = '{' p_ws
 (* don't take newline with close *)
 let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
-let p_c_sq = ']' p_hs											
+let p_c_sq = ']' p_hs									
+
+let p_fillin_code = "____" ([^ '\n']* as answer) "____"
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 
@@ -133,23 +135,34 @@ let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_run_star | p_begin_e
 (* Takes is_empty, the emptiness status of the current line *)
 rule initial rewriter_mode = 
 parse
-(* Rewrite \fin{argument} --> \_\_\_\_...\_ *)
+
+(* Rewrite \fin{argument} --> fill-in-box(argumement) *)
 | (p_com_fillin p_ws p_o_curly as  x)
 		{
-     let _ = d_printf "!prompt_lexer found: fillin" in
+     let _ = d_printf "!prompt_lexer found: fillin\n" in
      let (arg, y) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      (* In question mode: drop the answer
       * In solution mode: keep the command as is
       *) 
      match rewriter_mode  with 
 		 | Prompt_Mode_Question -> 
-       let underscores = Utils.replace_with_underscores arg in
+       let box = Utils.mk_fill_in_box_latex arg in
        let rest = initial rewriter_mode lexbuf in
-       underscores ^ rest
+       box ^ rest
 		 | Prompt_Mode_Solution ->
        let rest = initial rewriter_mode lexbuf in
        x ^ arg ^ y ^ rest
     }
+
+| (p_begin_env_skip as x)
+    {
+     let _ = d_printf "!prompt lexer matched begin skip env kind = %s." kind in 
+     let (rest, h_e) = skip_env rewriter_mode kind lexbuf in
+   	 let all_env_skip = x ^ rest ^ h_e in
+		 let _ = d_printf "!prompt lexer matched skip env: %s.\n" all_env_skip in  
+     let rest = initial rewriter_mode lexbuf in
+		 all_env_skip ^ rest 
+}
 
 | eof
 		{""}
@@ -183,7 +196,7 @@ and skip_inline =
         all
     } 
 
-and skip_env stop_kind =
+and skip_env rewriter_mode stop_kind =
   (* Assumes non-nested environments *)
   parse
   | p_end_env as x
@@ -191,11 +204,26 @@ and skip_env stop_kind =
           if kind = stop_kind then
 						("", x)
           else 
-            let (y, h_e) = skip_env stop_kind lexbuf in
+            let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
 						(x ^ y, h_e)
       }
+ (* Rewrite ___ answer ___ -> fill-in-box(answer) *)
+ | (p_fillin_code as  x)
+		{
+     let _ = d_printf "!prompt_lexer found: fillin code = %s\n" x in
+     let _ = d_printf "!prompt_lexer found: fillin answer = %s\n" answer in
+     match rewriter_mode  with 
+		 | Prompt_Mode_Question -> 
+       let box = Utils.mk_fill_in_box_code answer in
+       let (rest, h_e) = skip_env rewriter_mode stop_kind lexbuf in
+       (box ^ rest, h_e)
+		 | Prompt_Mode_Solution ->
+       let (rest, h_e) = skip_env  rewriter_mode stop_kind lexbuf in
+       (answer ^ rest, h_e)
+    }
+
   | _  as x
-      { let (y, h_e) = skip_env stop_kind lexbuf in
+      { let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
 

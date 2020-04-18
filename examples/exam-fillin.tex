@@ -163,7 +163,7 @@ In the code below, you only need to fill in the underlined line.
 \begin{lstlisting}[numbers=none]
 fun shortcut(G) = 
   let 
-    fun f (N,G) = \fin{$N \cup \bigcup_{v \in N} \left(N': v \mapsto N' \in G\right)$}
+    fun f (N,G) = ____ N union (big_union_(v in N) G[v]) ____
   in   
     {u <- f(N,G): (u <- N) in G }
   end
@@ -171,15 +171,6 @@ fun shortcut(G) =
 
 
 \notes
-The following is an alternative solution
-\begin{lstlisting}[numbers=none]
-fun shortcut(G) = 
-  let 
-    fun f (N,G) = $N \cup \bigcup_{v \in N} G[v]$
-  in   
-    $\cset{u \mapsto f(N,G): (u \mapsto N) \in G}$
-  end
-\end{lstlisting}
 
 \textbf{Common Mistakes}: Forgetting to include N, the argument passed in into the solution. When writing set notation mixed with SML, forgetting that Table.find returns an option rather than the actual argument. Also, often students forgot to convert between a sequence and a set, which led to using functions such as map on sets.
 

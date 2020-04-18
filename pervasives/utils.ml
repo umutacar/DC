@@ -364,11 +364,17 @@ let drop_final_char s =
   String.slice s 0 (String.length s - 1)
 
 
-(* Given x, return a string that has three underscores for each 
- * character of x.
- *)
-let replace_with_underscores x = 
-  let target_per_char = "\_\_\_" in 
+(* Construct a fill-in-the-blanks box for latex source *)
+let mk_fill_in_box_latex x = 
+  let target_per_char = "\_\_" in 
+  let l = String.length x in
+  let lu = List.init l ~f:(fun i -> target_per_char) in
+  let lu = List.concat [["\#\#\%\%"]; lu; ["\%\%\#\#"]] in 
+  String.concat ~sep:"" lu
+
+(* Construct a fill-in-the-blanks box for code source *)
+let mk_fill_in_box_code x = 
+  let target_per_char = "__" in 
   let l = String.length x in
   let lu = List.init l ~f:(fun i -> target_per_char) in
   let lu = List.concat [["\#\#\%\%"]; lu; ["\%\%\#\#"]] in 
