@@ -123,7 +123,11 @@ let pandoc_standalone = "pandoc  --mathjax -s"
 let pandoc_minor = "pandoc --mathjax"
 let pandoc_verbose_minor = "pandoc --verbose --mathjax"
 let pandoc =  pandoc_minor
-let pandoc_text = "pandoc --mathjax"
+
+let pandoc_minor_text = "pandoc --mathjax --to plain"
+let pandoc_verbose_minor_text = "pandoc --verbose --mathjax --to plain"
+let pandoc_text =  pandoc_minor_text
+
 
 (* Returns the pandoc command to run by parameterizing 
  * 1) verbosity
@@ -134,7 +138,7 @@ let pandoc_text = "pandoc --mathjax"
  * This file should be in the "kate" directory specified.
  *)
    
-let choose_pandoc be_verbose meta_dir language = 
+let choose_pandoc is_target_text be_verbose meta_dir language = 
   let lang = 
 		match language with 
     | None -> ""
@@ -142,12 +146,18 @@ let choose_pandoc be_verbose meta_dir language =
   in
 	let filter = " --lua-filter " ^ 
 		           meta_dir ^ "/diderot.lua" ^
-               lang 
+                 lang 
 	in
-  if be_verbose then
-    pandoc_verbose_minor ^ filter
+  if is_target_text then
+    if be_verbose then
+			pandoc_verbose_minor_text ^ filter
+    else
+      pandoc_minor_text ^  filter
   else
-    pandoc_minor ^  filter
+    if be_verbose then
+      pandoc_verbose_minor ^ filter
+    else
+      pandoc_minor ^  filter
 		 
 (* Regular expressions *)
 let regexp_html_paragraph = Str.regexp "<p>\\(\\(.\\|\n\\)*\\)</p>\n*"
@@ -194,35 +204,6 @@ let mk_tex_document latex_file_name preamble contents =
  ** END: Utils
  **********************************************************************)
 
-
-
-(* Translate the contents of latex_file_name and write it into
- *  target_file_name
- * Ignores all but the first language
- *)
-let latex_file_to_text be_verbose meta_dir language_opt (latex_file_name, target_file_name) = 
-    (** Beware: pandoc converts everything to unicode
-     ** HTML is therefore unicode string.
-     ** This matters when printing to terminal which is ASCII
-     **)
-
-    let command = (choose_pandoc be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ target_file_name  in
-    let _ = printf "\n*latex_file_to_text: Executing command: %s\n" command in
-    let exit_code = Sys.command command in 
-      if exit_code <> 0 then
-        begin
-          printf "Error in html translation.\n";
-          printf "Command exited with code: %d\n" exit_code;
-          printf "Now exiting.";
-          exit exit_code
-        end
-      else
-        begin
-          printf "LaTex code is in file: %s\n" latex_file_name;
-          printf "HTML code is in file: %s\n" target_file_name
-        end
-
-
 (* Translate the contents of latex_file_name and write it into
  *  target_file_name
  * Ignores all but the first language
@@ -257,7 +238,7 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, target_file_name
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
-    let pandoc = choose_pandoc be_verbose meta_dir lang_opt in
+    let pandoc = choose_pandoc false be_verbose meta_dir lang_opt in
     let command = pandoc ^ " " ^ md_file_name ^  " -o " ^ target_file_name in
     let _ = printf "\n*md_file_to_html: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
@@ -309,7 +290,7 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
   let _ = mk_tex_document latex_file_name preamble contents in
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let command = (choose_pandoc be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
+  let command = (choose_pandoc false be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
   let () = latex_file_to_target command (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
 	if not match_single_paragraph then
@@ -367,7 +348,7 @@ let tex_to_text be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 
   (** translate to text **)
   let text_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ text_extension in
-  let command = (choose_pandoc be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ text_file_name  in
+  let command = (choose_pandoc true be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ text_file_name  in
   let () = latex_file_to_target command (latex_file_name, text_file_name) in
   let contents = In_channel.read_all text_file_name in
   contents
