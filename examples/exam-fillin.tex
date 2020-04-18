@@ -177,6 +177,91 @@ fun shortcut(G) =
 \end{problem}
 
 
+\begin{problem}[8.] 
+
+You are given a hash table $T$ with 13 buckets numbered from $0$ to $12$.
+
+\ask Show the contents of $T$ after inserting the keys
+$\cseq{16,6,18,5,9,8,5,7,2}$ using open addressing with linear
+probing.  The hash function is $h(i) = i \mod 13$.
+
+
+\solfin
+
+0: \fin{~~~~~~~~}\\
+1: \fin{~~~~~~~~}\\
+2: \fin{~~~~~~~~2}\\
+3: \fin{~~~~~~~~16}\\
+4: \fin{~~~~~~~~}\\
+5: \fin{~~~~~~~~18}\\
+6: \fin{~~~~~~~~6}\\
+7: \fin{~~~~~~~~5}\\
+8: \fin{~~~~~~~~8}\\
+9: \fin{~~~~~~~~9}\\
+10: \fin{~~~~~~~~7}\\
+11: \fin{~~~~~~~~}\\
+12: \fin{~~~~~~~~}\\
+\end{problem}
+
+\begin{problem}[8.] 
+
+You are given a hash table $T$ with 13 buckets numbered from $0$ to $12$.
+
+Show the contents of $T$ after inserting the keys
+$\cseq{16,6,18,5,9,8,5,7,2}$ using open addressing with linear
+probing.  The hash function is $h(i) = i \mod 13$.
+
+
+
+
+\ask 0: \sol ~~~
+\ask 1: \sol ~~~
+\ask 2: \sol ~~2
+\ask 3: \sol ~16
+\ask 4: \sol
+\ask 5: \sol ~18
+\ask 6: \sol ~~6
+\ask 7: \sol ~~5
+\ask 8: \sol ~~8
+\ask 9: \sol ~~9
+\ask 10: \sol ~~7
+\ask 11: \sol ~~~
+\ask 12: \sol ~~~
+\end{problem}
+
+\begin{problem}[8.] 
+Given the performance given in class for melding two leftift heaps
+\texttt{PQ.meld}, give the work and span of the following algorithms for
+building a heap from a sequence $S$ of $n$ keys:
+
+
+\ask
+ 
+\begin{lstlisting}[numbers=none]
+  Seq.reduce PQ.meld PQ.empty (Seq.map PQ.singleton S)
+\end{lstlisting}
+
+\solfin
+
+$W(n) =  \fin{????????????}$
+
+$S(n) =  \fin{????????????}$
+
+\ask
+
+\begin{lstlisting}[numbers=none]
+  Seq.iterate PQ.meld PQ.empty (Seq.map PQ.singleton S)
+\end{lstlisting}
+
+\solfin
+
+$W(n) =  \fin{????????????}$
+
+$S(n) =  \fin{????????????}$
+
+
+\end{problem}
+
 
 %% \newpage
 %% \input{../../../dfs/dfs-numbers-1}
@@ -222,22 +307,6 @@ counter is $1$ when it is first visited and $12$ when it is finally exited.
   \includegraphics[scale=.45]{media/dfs-numbers.jpg}\\[.2in]
 \end{center}
 \end{minipage}
-
-%% \begin{problem}
-%% For each vertex, write its discovery, and finish time
-
-%% \ask vertex A discovery and  finish: \sol 1~~ \sol 12~~ 
-%% \\
-%% \ask vertex B  discovery and  finish \sol 2~~  \sol 7~~ 
-%% \\
-%% \ask vertex C discovery and finish   \sol 3~~ \sol 6~~ 
-%% \\
-%% \ask vertex D discovery and finish \sol 4~~  \sol 5~~
-%% \\
-%% \ask vertex E discovery and finish \sol 18~ \sol 11~~ 
-%% \\
-%% \ask vertex F discovery and finish \sol 9~~ \sol 10~~ 
-%% \end{problem}
 
 \begin{problem}
 For each vertex, write its discovery, and finish time
