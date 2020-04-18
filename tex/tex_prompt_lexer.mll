@@ -154,20 +154,15 @@ parse
        x ^ arg ^ y ^ rest
     }
 
-(* Rewrite ___ answer ___ -> fill-in-box(answer) *)
-| (p_fillin_code as  x)
-		{
-     let _ = d_printf "!prompt_lexer found: fillin code = %s\n" x in
-     let _ = d_printf "!prompt_lexer found: fillin answer = %s\n" answer in
-     match rewriter_mode  with 
-		 | Prompt_Mode_Question -> 
-       let box = Utils.mk_fill_in_box_code answer in
-       let rest = initial rewriter_mode lexbuf in
-       box ^ rest
-		 | Prompt_Mode_Solution ->
-       let rest = initial rewriter_mode lexbuf in
-       answer ^ rest
-    }
+| (p_begin_env_skip as x)
+    {
+     let _ = d_printf "!prompt lexer matched begin skip env kind = %s." kind in 
+     let (rest, h_e) = skip_env rewriter_mode kind lexbuf in
+   	 let all_env_skip = x ^ rest ^ h_e in
+		 let _ = d_printf "!prompt lexer matched skip env: %s.\n" all_env_skip in  
+     let rest = initial rewriter_mode lexbuf in
+		 all_env_skip ^ rest 
+}
 
 | eof
 		{""}
@@ -201,7 +196,7 @@ and skip_inline =
         all
     } 
 
-and skip_env stop_kind =
+and skip_env rewriter_mode stop_kind =
   (* Assumes non-nested environments *)
   parse
   | p_end_env as x
@@ -209,11 +204,26 @@ and skip_env stop_kind =
           if kind = stop_kind then
 						("", x)
           else 
-            let (y, h_e) = skip_env stop_kind lexbuf in
+            let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
 						(x ^ y, h_e)
       }
+ (* Rewrite ___ answer ___ -> fill-in-box(answer) *)
+ | (p_fillin_code as  x)
+		{
+     let _ = d_printf "!prompt_lexer found: fillin code = %s\n" x in
+     let _ = d_printf "!prompt_lexer found: fillin answer = %s\n" answer in
+     match rewriter_mode  with 
+		 | Prompt_Mode_Question -> 
+       let box = Utils.mk_fill_in_box_code answer in
+       let (rest, h_e) = skip_env rewriter_mode stop_kind lexbuf in
+       (box ^ rest, h_e)
+		 | Prompt_Mode_Solution ->
+       let (rest, h_e) = skip_env  rewriter_mode stop_kind lexbuf in
+       (answer ^ rest, h_e)
+    }
+
   | _  as x
-      { let (y, h_e) = skip_env stop_kind lexbuf in
+      { let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
 
