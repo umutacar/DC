@@ -192,6 +192,7 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_skip = p_com_lstinline
 
 let p_com_choice = '\\' "choice"
+let p_com_continue = '\\' "continue"
 let p_com_choice_correct = '\\' "choice*"
 let p_com_explain = '\\' "explain"
 let p_com_fold = '\\' "fold"
@@ -237,6 +238,7 @@ let p_item =
   (p_primary_item as kind) | 
 	(p_com_choice as kind) |
 	(p_com_choice_correct as kind) |
+	(p_com_continue as kind) |
 	(p_com_explain as kind) |
   (p_com_hint as kind) |
   (p_com_notes as kind) |
