@@ -132,7 +132,6 @@ $\{a \mapsto \{b,d\}, b \mapsto \{c\}, c \mapsto \{e\}, d \mapsto \{c,e\}, e \ma
 \notes
 \textbf{Common Mistakes}: Forgetting to include $e \mapsto \{\}$. 
 
-
 \ask[12]
 Your goal now is to write a function that given a graph creates
 another graph where each pair of edges is shortcut.  That is any edge
@@ -141,23 +140,6 @@ any pair of edges of the form $(u,v),(v,w)$ in the input graph $G$,
 there is an additional edge $(u,w)$ in the output.
 
 In the code below, you only need to fill in the underlined line. 
-
-
-%% \begin{lstlisting}[numbers=none]
-%% fun shortcut(G) = 
-%%   let 
-
-
-%%     fun f (N,G) = ________________________________________________
-
-
-%%   in   
-
-%%     {u <- f(N,G): (u <- N) in G }
-
-%%   end
-
-%%\end{lstlisting}
 
 \solfin
 \begin{lstlisting}[numbers=none]
@@ -170,9 +152,9 @@ fun shortcut(G) =
 \end{lstlisting}
 
 
-\notes
+%% \notes
 
-\textbf{Common Mistakes}: Forgetting to include N, the argument passed in into the solution. When writing set notation mixed with SML, forgetting that Table.find returns an option rather than the actual argument. Also, often students forgot to convert between a sequence and a set, which led to using functions such as map on sets.
+%% \textbf{Common Mistakes}: Forgetting to include N, the argument passed in into the solution. When writing set notation mixed with SML, forgetting that Table.find returns an option rather than the actual argument. Also, often students forgot to convert between a sequence and a set, which led to using functions such as map on sets.
 
 \end{problem}
 
