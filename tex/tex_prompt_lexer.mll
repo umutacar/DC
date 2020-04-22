@@ -221,22 +221,6 @@ and skip_env rewriter_mode stop_kind =
        let (rest, h_e) = skip_env  rewriter_mode stop_kind lexbuf in
        (answer ^ rest, h_e)
     }
-(*
- (* Rewrite ___ answer ___ -> fill-in-box(answer) *)
- | (p_fillin_code as  x)
-		{
-     let _ = d_printf "!prompt_lexer found: fillin code = %s\n" x in
-     let _ = d_printf "!prompt_lexer found: fillin answer = %s\n" answer in
-     match rewriter_mode  with 
-		 | Prompt_Mode_Question -> 
-       let box = Utils.mk_fill_in_box_code answer in
-       let (rest, h_e) = skip_env rewriter_mode stop_kind lexbuf in
-       (box ^ rest, h_e)
-		 | Prompt_Mode_Solution ->
-       let (rest, h_e) = skip_env  rewriter_mode stop_kind lexbuf in
-       (answer ^ rest, h_e)
-    }
-*)
   | _  as x
       { let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
