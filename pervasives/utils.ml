@@ -369,11 +369,10 @@ let drop_final_char s =
 
 (* Construct a fill-in-the-blanks box for latex source *)
 let mk_fill_in_box_latex x = 
-  let target_per_char = "\\_" in 
   let l = String.length x in
-  (* Make 50% larger box *)
-  let ll = int_times_float l 1.5 in
-  let lu = List.init ll ~f:(fun i -> target_per_char) in
+  (* Make 50% larger box, of size at least 5 characters *)
+  let ll = max 5 (int_times_float l 1.5) in
+  let lu = List.init ll ~f:(fun i -> "\\_") in
   let lu = List.concat [["$\\lt$\\%\\%"]; lu; ["\\%\\%$\\gt$"]] in 
   String.concat ~sep:"" lu
 
