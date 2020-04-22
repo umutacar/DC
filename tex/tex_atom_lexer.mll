@@ -462,6 +462,13 @@ and take_env =
       (lopt, y, capopt, items, h_e)
     }
 
+  | eof  
+      {
+    	 let err = "Syntax Error: File ended unexpectedly while scanning a LaTeX environment.  An environment was not ended perhaps?" in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
+
   | _  as x
     { let (lopt, y, capopt, items, h_e) = take_env lexbuf in
       (lopt, (str_of_char x) ^ y, capopt, items, h_e)
@@ -479,6 +486,12 @@ and skip_env stop_kind =
         let (y, h_e) = skip_env stop_kind lexbuf in
 				(x ^ y, h_e)
       }
+  | eof 
+      {
+    	 let err = sprintf "Syntax Error: File ended while searching for: \\end{%s}." stop_kind in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _  as x
       { let _ = d_printf "!atom lexer: skip_env, stop = %s: %c \n" stop_kind x in
 		    let (y, h_e) = skip_env stop_kind lexbuf in
@@ -490,6 +503,12 @@ and skip_inline kind =
    * Note: kind unused.
    *)
   parse
+  | eof  
+      {
+    	 let err = "Syntax Error: File ended unexpectedly while scanning a skip-command such as a \\verb or \\lstinline." in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     { let x = str_of_char x in
 (*  		let _ = d_printf "skip_inline kind = %s delimiter %s\n" kind x in *)
@@ -510,6 +529,13 @@ and take_arg depth delimiter_open delimiter_close =
      let (rest, h_e) = take_arg depth delimiter_open delimiter_close lexbuf in
 		 (h ^ i ^ rest, h_e)
     }
+
+  | eof 
+      {
+    	 let err = sprintf "Syntax Error: File ended while searching for: %s." delimiter_close in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
 
   | _ as x
     {
@@ -563,6 +589,12 @@ and take_atom_args depth =
          let (arg, l) = take_atom_args depth lexbuf in 
            (x ^ arg, l)
     }
+  | eof  
+      {
+    	 let err = "Syntax Error: File ended unexpectedly while scanning the arguments for an atom." in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     {
      let (arg, l) = take_atom_args depth lexbuf in 
@@ -594,6 +626,12 @@ and take_kw_args depth =
      let (arg, l) = take_kw_args depth lexbuf in 
        (x ^ arg, l)
     }
+  | eof  
+      {
+    	 let err = "Syntax Error: File ended unexpectedly while scanning for keyword arguments of an atom." in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     {
 (*     let _ = d_printf "atom_lexer: take_kw_args: %s\n" (str_of_char x) in *)
@@ -631,7 +669,19 @@ and take_list =
 				 else
 					 let (body, items, h_e) = take_list lexbuf in
 					 (x ^ body, items, h_e)  
-  }      
+   }      
+   | eof  
+      {
+  		 match get_current_atom () with
+	  	 | None -> 
+			 	 let err = "Syntax Error: File ended unexpectedly while scanning the tail list of an (unknown) atom" in
+         let _ = printf "%s\n" err in
+  		   raise (Constants.Syntax_Error err)
+		   | Some atom ->
+			 	 let err = sprintf  "Syntax Error: File ended unexpectedly while scanning the tail list of an atom: %s." atom in
+         let _ = printf "%s\n" err in
+  		   raise (Constants.Syntax_Error err)
+      } 
 
 	 | _ as x 
 	 { let (body, items, h_e) = take_list lexbuf in
@@ -642,6 +692,12 @@ and take_list =
 and skip_arg depth delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
+  | eof 
+      {
+    	 let err = sprintf "Syntax Error: File ended while searching for: %s." delimiter_close in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     {
      let x = str_of_char x in

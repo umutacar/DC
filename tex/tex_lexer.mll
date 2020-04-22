@@ -676,7 +676,7 @@ and skip_inline =
     } 
   | eof  
       {
-    	 let err = "Syntax Error: File ended unexpectedly." in
+    	 let err = "Syntax Error: File ended unexpectedly while scanning a skip-command such as a \\verb or \\lstinline." in
        let _ = printf "%s\n" err in
 		   raise (Constants.Syntax_Error err)
       } 
