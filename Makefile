@@ -4,7 +4,7 @@
 
 OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
 OCB = ocamlbuild $(OCB_FLAGS)
-GUIDE_DIR = ~/diderot/guide
+GUIDE_DIR = ~/diderot/diderot-guide
 
 #  il/il_syntax.ml il/il_ast.ml \
 
