@@ -3,6 +3,9 @@ open Printf
 
 let debug = ref false
 
+let int_times_float i f = 
+  int_of_float(floor((float_of_int i) *. f))
+
 let str_of_char x = String.make 1 x
 
 let str_of_pval_opt x = 
@@ -366,15 +369,17 @@ let drop_final_char s =
 
 (* Construct a fill-in-the-blanks box for latex source *)
 let mk_fill_in_box_latex x = 
-  let target_per_char = "\\_\\_" in 
+  let target_per_char = "\\_" in 
   let l = String.length x in
-  let lu = List.init l ~f:(fun i -> target_per_char) in
-  let lu = List.concat [["$\lt$\\%\\%"]; lu; ["\\%\\%$\gt$"]] in 
+  (* Make 50% larger box *)
+  let ll = int_times_float l 1.5 in
+  let lu = List.init ll ~f:(fun i -> target_per_char) in
+  let lu = List.concat [["$\\lt$\\%\\%"]; lu; ["\\%\\%$\\gt$"]] in 
   String.concat ~sep:"" lu
 
 (* Construct a fill-in-the-blanks box for code source *)
 let mk_fill_in_box_code x = 
-  let target_per_char = "__" in 
+  let target_per_char = "_" in 
   let l = String.length x in
   let lu = List.init l ~f:(fun i -> target_per_char) in
   let lu = List.concat [["<%%"]; lu; ["%%>"]] in 

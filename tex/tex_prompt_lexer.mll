@@ -78,7 +78,8 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs									
 
-let p_fillin_code = "____" ([^ '\n']* as answer) "____"
+let p_fillin_fence_code = "____"
+let p_fillin_code = "____" ([^ '\n']*? as answer) "____"
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 
@@ -207,11 +208,10 @@ and skip_env rewriter_mode stop_kind =
             let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
 						(x ^ y, h_e)
       }
- (* Rewrite ___ answer ___ -> fill-in-box(answer) *)
- | (p_fillin_code as  x)
+ | (p_fillin_fence_code as  x)
 		{
-     let _ = d_printf "!prompt_lexer found: fillin code = %s\n" x in
-     let _ = d_printf "!prompt_lexer found: fillin answer = %s\n" answer in
+     let answer = take_fillin_body lexbuf in
+     let _ = d_printf "!prompt_lexer found: fillin code: answer = %s\n" answer in
      match rewriter_mode  with 
 		 | Prompt_Mode_Question -> 
        let box = Utils.mk_fill_in_box_code answer in
@@ -221,11 +221,22 @@ and skip_env rewriter_mode stop_kind =
        let (rest, h_e) = skip_env  rewriter_mode stop_kind lexbuf in
        (answer ^ rest, h_e)
     }
-
   | _  as x
       { let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
       }
+
+and take_fillin_body = 
+  parse
+  | p_fillin_fence_code as x   
+    {
+       ""
+    }
+  | _ as x
+    {
+     let y = take_fillin_body lexbuf in
+       (str_of_char x) ^ y
+    }   
 
 and take_arg_force =  
   (* Take argument of the form { ... }, skip whitespace at the start. *)
