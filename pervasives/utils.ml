@@ -374,7 +374,7 @@ let mk_fill_in_box_latex x =
   (* Make 50% larger box *)
   let ll = int_times_float l 1.5 in
   let lu = List.init ll ~f:(fun i -> target_per_char) in
-  let lu = List.concat [["$\lt$\\%\\%"]; lu; ["\\%\\%$\gt$"]] in 
+  let lu = List.concat [["$\\lt$\\%\\%"]; lu; ["\\%\\%$\\gt$"]] in 
   String.concat ~sep:"" lu
 
 (* Construct a fill-in-the-blanks box for code source *)
