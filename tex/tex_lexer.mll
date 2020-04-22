@@ -649,7 +649,12 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
      (* Drop capopt_, it would be another caption. *)
      caption ^ rest
     }
-
+  | eof  
+      {
+    	 let err = "Syntax Error: File ended unexpectedly while scanning a LaTeX environment.  An environment was not ended perhaps?" in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _  as x
     {let rest = take_env depth lexbuf in
      (str_of_char x) ^ rest
@@ -669,7 +674,12 @@ and skip_inline =
 (*			let _ = d_printf "skip_inline all = %s\n"  all in *)
         all
     } 
-
+  | eof  
+      {
+    	 let err = "Syntax Error: File ended unexpectedly while scanning a skip-command such as a \\verb or \\lstinline." in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     { let x = str_of_char x in
 (*  		let _ = printf "skip_inline kind = %s delimiter %s\n" kind x in *)
@@ -690,6 +700,12 @@ and skip_env stop_kind =
             let (y, h_e) = skip_env stop_kind lexbuf in
 						(x ^ y, h_e)
       }
+  | eof 
+      {
+    	 let err = sprintf "Syntax Error: File ended while searching for: \\end{%s}." stop_kind in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _  as x
       { let (y, h_e) = skip_env stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
@@ -719,7 +735,12 @@ and take_arg depth delimiter_open delimiter_close =
      let (rest, h_e) = take_arg depth delimiter_open delimiter_close lexbuf in
 		 (h ^ i ^ rest, h_e)
     }
-
+  | eof 
+      {
+    	 let err = sprintf "Syntax Error: File ended while searching for: %s." delimiter_close in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     {
      let x = str_of_char x in
@@ -748,6 +769,12 @@ and take_arg depth delimiter_open delimiter_close =
 and skip_arg depth delimiter_open delimiter_close = 
 	  (* this is like take_arg but does not skip over comments *)
   parse
+  | eof 
+      {
+    	 let err = sprintf "Syntax Error: File ended while searching for: %s." delimiter_close in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _ as x
     {
      let x = str_of_char x in
@@ -785,6 +812,12 @@ and take_arg_infer =
       let i = mk_infer_arg (x, a, max_width, y) in
       i
     }
+  | eof 
+      {
+    	 let err = "Syntax Error: File ended while searching for: }." in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
 
 
 and take_arg_array =  
