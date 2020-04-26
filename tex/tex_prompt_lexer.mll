@@ -82,6 +82,7 @@ let p_fillin_fence_code = "____"
 let p_fillin_code = "____" ([^ '\n']*? as answer) "____"
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
+let p_integer_opt_arg = (p_o_sq as o_sq) p_ws (p_integer as len) p_ws (p_c_sq as c_sq)
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
@@ -95,7 +96,7 @@ let p_com_ask_true_false = "\\asktf"
 let p_com_sol_true = "\\solt"
 let p_com_sol_false = "\\solf"
 let p_com_fillin = "\\fin"
-    
+let p_com_fillin_with_len = "\\fin" p_ws p_integer_opt_arg
 (* Diderot commands *)
 let p_com_attach = "\\" ("attach" as kind) p_ws
 let p_com_download = "\\" ("download" as kind) p_ws
@@ -138,21 +139,40 @@ rule initial rewriter_mode =
 parse
 
 (* Rewrite \fin{argument} --> fill-in-box(argumement) *)
-| (p_com_fillin p_ws p_o_curly as  x)
+
+| (p_com_fillin_with_len as x)
 		{
-     let _ = d_printf "!prompt_lexer found: fillin\n" in
-     let (arg, y) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
+     let _ = d_printf "!prompt_lexer found: fillin with length %s\n" len in
+     let arg = take_arg_force lexbuf in
+
      (* In question mode: drop the answer
       * In solution mode: keep the command as is
       *) 
      match rewriter_mode  with 
 		 | Prompt_Mode_Question -> 
-       let box = Utils.mk_fill_in_box_latex arg in
+       let box = Utils.mk_fill_in_box_latex (Some (int_of_string len)) arg in
        let rest = initial rewriter_mode lexbuf in
        box ^ rest
 		 | Prompt_Mode_Solution ->
        let rest = initial rewriter_mode lexbuf in
-       x ^ arg ^ y ^ rest
+       x ^ "{" ^ arg ^ "}" ^ rest
+    }
+
+| (p_com_fillin as x)
+		{
+     let _ = d_printf "!prompt_lexer found: fillin\n" in
+     let arg = take_arg_force lexbuf in
+     (* In question mode: drop the answer
+      * In solution mode: keep the command as is
+      *) 
+     match rewriter_mode  with 
+		 | Prompt_Mode_Question -> 
+       let box = Utils.mk_fill_in_box_latex None arg in
+       let rest = initial rewriter_mode lexbuf in
+       box ^ rest
+		 | Prompt_Mode_Solution ->
+       let rest = initial rewriter_mode lexbuf in
+       x ^ "{" ^ arg ^ "}" ^ rest
     }
 
 | (p_begin_env_skip as x)
