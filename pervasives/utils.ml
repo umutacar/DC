@@ -368,14 +368,21 @@ let drop_final_char s =
 
 
 (* Construct a fill-in-the-blanks box for latex source *)
-let mk_fill_in_box_latex x = 
-  let target_per_char = "~" in 
-  let l = String.length x in
-  (* Make 50% larger box, of size at least 5 characters *)
-  let ll = max 5 (int_times_float l 1.5) in
-  let lu = List.init ll ~f:(fun i -> target_per_char) in
-  let lu = List.concat [["$\\lt$\\%\\%"]; lu; ["\\%\\%$\\gt$"]] in 
-  String.concat ~sep:"" lu
+let mk_fill_in_box_latex len x =
+  let content  = 
+    match len with 
+    | None -> 
+			let target_per_char = "~" in 
+			let l = String.length x in
+      (* Make 50% larger box, of size at least 5 characters *)
+			let ll = max 5 (int_times_float l 1.5) in
+			List.init ll ~f:(fun i -> target_per_char) 
+  	| Some l ->
+	  		let target_per_char = "~" in 
+  			List.init l ~f:(fun i -> target_per_char)
+	in
+	let lu = List.concat [["$\\lt$\\%\\%"]; content; ["\\%\\%$\\gt$"]] in 
+	String.concat ~sep:"" lu
 
 (* Construct a fill-in-the-blanks box for code source *)
 let mk_fill_in_box_code x = 
