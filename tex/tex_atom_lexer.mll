@@ -431,11 +431,10 @@ and take_env =
         *) 
         let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
- 				let err = sprintf "Syntax Error: Encountered a solution prompt without a preceeding question prompt.\n Context:  %s." body in
+ 				let err = sprintf "Syntax Error: Encountered a \"%s\" solution prompt without a preceeding question prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
 				raise (Constants.Syntax_Error err)							
       }
-
 
   | p_begin_env as x
         {
