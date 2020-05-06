@@ -230,7 +230,16 @@ and skip_env rewriter_mode stop_kind =
       }
  | (p_fillin_fence_code as  x)
 		{
-     let answer = take_fillin_body lexbuf in
+     let (answer, err) = take_fillin_body lexbuf  in
+     (* Check for error inside  fill-in-the blanks *)
+     let _ = 
+        match err with 
+				| None -> ()
+				| Some s -> 
+    				let err = sprintf "Syntax Error: File ended while scanning for fill-in-the-blanks inside code.\n Context:{%s}." answer in
+						let _ = printf "%s\n" err in
+						raise (Constants.Syntax_Error err)							
+		 in
      let _ = d_printf "!prompt_lexer found: fillin code: answer = %s\n" answer in
      match rewriter_mode  with 
 		 | Prompt_Mode_Question -> 
@@ -250,12 +259,19 @@ and take_fillin_body =
   parse
   | p_fillin_fence_code as x   
     {
-       ""
+       ("", None)
     }
+
+  | eof  
+      {
+    	 let s = "Syntax Error: File ended unexpectedly while scanning for fill-in-the-blank inside code environment." in
+         ("", Some s)
+      } 
+
   | _ as x
     {
-     let y = take_fillin_body lexbuf in
-       (str_of_char x) ^ y
+     let (y, err) = take_fillin_body lexbuf in
+       ((str_of_char x) ^ y, err)
     }   
 
 and take_arg_force =  
