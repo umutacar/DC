@@ -299,6 +299,7 @@ rule initial = parse
      let _ = d_printf "!atom lexer matched skip environment\n %s." all in 
      ATOM(kind, None, [], None, body, None, [], all)
 }
+
 | (p_begin_env_with_points as x) (p_o_sq as a)
     {
      let _ = d_printf "!atom lexer: matched begin env %s." kind in 
@@ -362,11 +363,13 @@ rule initial = parse
 
 | eof
 		{EOF}
+
 | _
     {initial lexbuf}		
 
 and take_env =
   parse
+
   | p_begin_env_skip as x
       { 
 (*          let _ = d_printf "!atom lexer: entering verbatim\n" in *)
@@ -420,6 +423,19 @@ and take_env =
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
+
+	| p_item as x
+			{
+		   (* This case is not allowed occur at the top level.
+        * Raise Error.
+        *) 
+        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let (body, items, h_e) = take_list lexbuf in
+ 				let err = sprintf "Syntax Error: Encountered a solution prompt without a preceeding question prompt.\n Context:  %s." body in
+				let _ = printf "%s\n" err in
+				raise (Constants.Syntax_Error err)							
+      }
+
 
   | p_begin_env as x
         {
