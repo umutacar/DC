@@ -236,7 +236,7 @@ and skip_env rewriter_mode stop_kind =
         match err with 
 				| None -> ()
 				| Some s -> 
-    				let err = sprintf "Syntax Error: File ended while scanning for fill-in-the-blanks inside code.\n Context:{%s}." answer in
+    				let err = sprintf "Syntax Error: File ended while scanning for fill-in-the-blanks inside code.\n Context:  %s." answer in
 						let _ = printf "%s\n" err in
 						raise (Constants.Syntax_Error err)							
 		 in
@@ -261,6 +261,12 @@ and take_fillin_body =
     {
        ("", None)
     }
+
+  | '\n'
+      {
+    	 let s = "Syntax Error: Line ended unexpectedly while scanning for fill-in-the-blank inside code environment." in
+         ("", Some s)
+      } 
 
   | eof  
       {
