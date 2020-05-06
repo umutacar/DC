@@ -411,7 +411,7 @@ and take_env =
  	        (None, "", None, items, h_e)
       }
 
-	| p_primary_item as x
+	| (p_primary_item p_ws_hard) as x
 			{
 		   (* This case is not allowed occur within nested env's.         
         * It should also be at the tail of an environment.
@@ -424,7 +424,19 @@ and take_env =
  	        (None, "", None, items, h_e)
       }
 
-	| p_item as x
+  | (p_item_points as x) p_ws_hard 
+			{
+		   (* This case is not allowed occur at the top level.
+        * Raise Error.
+        *) 
+        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let (body, items, h_e) = take_list lexbuf in
+ 				let err = sprintf "Syntax Error: Encountered a \"%s\" solution prompt without a preceeding question prompt.\nContext:\n%s" kind (x ^ body) in
+				let _ = printf "%s\n" err in
+				raise (Constants.Syntax_Error err)							
+      }
+
+	| (p_item p_ws_hard) as x
 			{
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
