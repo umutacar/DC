@@ -17,18 +17,16 @@ Starting with no OCaml experience.
 3. Remaining steps copied from the OPAM section on the [OCaml website](https://ocaml.org/docs/install.html):
   - `opam init`
   - ``eval `opam env` ``
-  - `opam switch create 4.06.1`
+  - `opam switch create 4.07.1`
   - ``eval `opam env` ``
   - make sure it worked: `which ocaml` and `ocaml -version`
 
  ## Installing packages for MeTaL ##
 Assuming you got OPAM as described above:
-- `opam install core getopt menhir re2`
+- `opam install core.v0.11.3 getopt menhir re2 ocamlbuild ocamlnet`
+
 and add  -package ppx_fields_conv
 to the Makefile
-
-- `opam install ocamlnet`  (needed for netstring package)
-
 
 ## Ocaml interpreter
 Place the following in your root directory file .ocamlinit
