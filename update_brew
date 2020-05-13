@@ -1,0 +1,52 @@
+#!/bin/bash
+# update the homebrew tap for the diderot tools and put new binaries on S3
+
+# parse version from deployment file
+# if the layout of the deployment file changes this command will need to change to match
+VERSION="$(awk 'NR==3{print $4}' deployment.md)"
+
+ZIP="dc-macos-$VERSION.zip"
+BUCKET="diderot-dist"
+URL="https://$BUCKET.s3.amazonaws.com/$ZIP"
+
+# this assumes the homebrew repository is on disk at the same level as the dc directory
+FORMULA="../homebrew-diderot/Formula/diderot.rb"
+
+echo creating $ZIP
+cp dc.native dc
+cp texel.native texel
+zip  $ZIP dc texel
+SHA=$(sha256sum $ZIP | awk '{print $1}')
+echo SHA is $SHA
+
+echo uploading $ZIP to to S3 
+# this file is uploaded with public read access
+aws s3 cp $ZIP s3://$BUCKET/ --grants read=uri=http://acs.amazonaws.com/groups/global/AllUsers --quiet
+rm dc texel $ZIP
+
+# rewrite the brew formula with the new zipfile and matching sha
+awk -v url="$URL" -v sha="$SHA" -f <(cat - <<-'EOF'
+    /url/ {
+        printf("  url \"%s\"\n", url)
+        next
+    }
+
+    /sha256/ {
+        printf("  sha256 \"%s\"\n", sha)
+        next
+    }
+    {
+        print
+    }
+EOF
+) $FORMULA > $FORMULA.tmp
+
+mv $FORMULA.tmp $FORMULA
+
+echo
+echo brew packaging complete
+echo change to the ../homebrew-diderot directory and
+echo "  git commit . -m \"updated version to $VERSION\""
+echo "  git push"
+echo "  git tag -f $VERSION"
+echo "  git push origin master --tags"
