@@ -1,5 +1,9 @@
 #!/bin/bash
 # update the homebrew tap for the diderot tools and put new binaries on S3
+# Steps
+# 1) build the binaries for macos by running make guide_macos
+# 2) git clone https://github.com/diderot-edu/homebrew-diderot/ <destination_dir> where destination_dir is parallel to DC (same leve).
+# 3) run $ ./update_brew
 
 # parse version from deployment file
 # if the layout of the deployment file changes this command will need to change to match
