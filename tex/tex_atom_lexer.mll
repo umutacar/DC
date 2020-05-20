@@ -398,13 +398,14 @@ and take_env =
        (lopt, s ^ rest, capopt, items, h_e)
     }
 
-	| p_primary_item_points as x
+	| (p_primary_item_points p_ws_hard) as x
 			{
 		   (* This case is not allowed occur within nested env's.         
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = printf "* lexer: begin primary items kind = %s.\n" kind in
+        let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind, Some point_val, body)::items in 
           (* Drop items from body *)
@@ -417,14 +418,14 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind, None, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
 
-  | (p_item_points as x) p_ws_hard 
+  | (p_item_points p_ws_hard) as x 
 			{
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
