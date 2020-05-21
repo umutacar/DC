@@ -404,7 +404,6 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = printf "* lexer: begin primary items kind = %s.\n" kind in
         let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind, Some point_val, body)::items in 
