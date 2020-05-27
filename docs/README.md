@@ -4,6 +4,7 @@ is available online on github.
 
 
 # Executable Binaries
+
 Binaries are available for `MacOS` and `Ubuntu` (Linux) under the directory `bin`.  You can also generate these binaries by following the instructions below.
 
 # Building DC
@@ -30,15 +31,13 @@ $ make guide_ubuntu
 If you are running MacOS or Linux, you can use the provided binaries under the directory `bin`. But you can also build them yourself after you install OCaml see below.
 
 Running  `make` should make a number of executables
-0. `texml.native` translates latex to xml
-1.  Depracated but kept for backward compatibility `texml.native` translates latex to xml
+
+1. `dc.native` translates latex and markdown to xml
 2. `tex2tex.native` translates latex to latex (used for debugging)
-3. `texel.native` normalizes latex by "atomizing" contents and labeling the document
-4. `mdxml.native` translates markdown to xml
-5. `md2md.native` translates markdown to markdown (used for debugging).
+4. `md2md.native` translates markdown to markdown (used for debugging).
 
 
-The executables `tex2tex.native` and `md2md.native` are used for debugging purposes.  Thy parse LaTeX and Markdown (respectively), create an AST (Abstract Syntax Tree), and then write/return the AST back as code.  The output written/returned back should be the same as the source, modulo comments and some whitespace.  This idempotence helps debug the compiler.
+The executables `tex2tex.native` and `md2md.native` are used for debugging purposes.  They parse LaTeX and Markdown (respectively), create an AST (Abstract Syntax Tree), and then write/return the AST back as code.  The output written/returned back should be the same as the source, modulo comments and some whitespace.  This idempotence helps debug the compiler.
 
 
 ## Installation

@@ -6,7 +6,7 @@ OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I ast
 OCB = ocamlbuild $(OCB_FLAGS)
 
 ROOT_DIR = $(shell dirname $(CURDIR))
-GUIDE_DIR = $(ROOT_DIR)/diderot-guide
+GUIDE_DIR = $(ROOT_DIR)/diderot/diderot-guide
 
 #  il/il_syntax.ml il/il_ast.ml \
 
@@ -19,13 +19,13 @@ DEPEND = \
   top/dc.ml top/texel.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
-default: dc.native tex2tex.native texel.native 
+default: dc.native tex2tex.native 
+# texel.native 
 # cc.native 
-# texml.native 
 
 
-all: dc.native md2md.native \
-  tex2tex.native texel.native texml.native
+all: dc.native md2md.native tex2tex.native
+# texel.native
 
 clean:
 	$(OCB) -clean
@@ -56,7 +56,6 @@ tex2tex.profile: $(DEPEND) tex/tex2tex.ml
 
 tex2tex.debug: $(DEPEND) tex/tex2tex.ml
 	$(OCB) -tag debug tex2tex.byte
-
 
 # texel
 texel.native: $(DEPEND) top/texel.ml
@@ -104,7 +103,4 @@ guide: ./$(GUIDE_DIR)README.md
 
 guide_macos: all
 	cp dc.native $(GUIDE_DIR)/bin/macos/dc
-	cp texel.native $(GUIDE_DIR)/bin/macos/texel
-#	cp tex2tex.native $(GUIDE_DIR)/bin/macos/tex2tex
-#	cp texml.native $(GUIDE_DIR)/bin/macos/texml
 
