@@ -1,0 +1,7 @@
+Package: diderot
+Architecture: all
+Maintainer: diderot@diderot.one
+Priority: optional
+Version: 0.16.7
+Description: Content compiler for the Diderot project.
+Depends: pandoc
