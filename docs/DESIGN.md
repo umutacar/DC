@@ -87,13 +87,22 @@ Note: I seemed to have done some work on developing a point system for Diderot b
 
 It is possible to assign points to atoms like this
 
-\begin{problem}[4p][Title]
+\begin{problem}[4.][Title]
 ...
 \end{problem}
 
-\begin{problem}[4pts][Title]
+\begin{problem}[6.][Title]
 ...
 \end{problem}
+
+The prompts of a problem may also be assigned points.  There are two kinds of points.  
+1) Points values
+2) Factors
+
+Question and solution prompts are assigned factors.  For example,  correct choice is by defaul assigned a factor of 1.0 and an incorrect choice is by default assigned a factor of 0.0.  These factors may be determined by the author and can be assigned arbitrarily.
+
+Factor of a question prompt is distributed over all the solution
+prompts by treating the factors of prompts as weights.
 
 ## Problems, Prompts, Cookies
 
@@ -117,7 +126,10 @@ It is possible to assign points to atoms like this
   
   The optional costs are not always meaningful.  The idea is that if a student demants a hint, they will pay some cost and this could be specified.
   
-  For simplicity, the parser simply parses the list and then processes it to construct the parts.  
+  For simplicity, the parser simply parses the list and then processes it to construct the parts.
+
+
+  
 
 ## Automatic labeling
 
