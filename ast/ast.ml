@@ -101,6 +101,13 @@ let sum_factors prompts =
 		raise (Constants.Syntax_Error err)
 	| Some c -> 	c
 
+let assign_points_to_cookie multiplier cookie = 
+  let (kind, pval, body) = cookie in    
+  let r = Tex.get_cookie_cost_ratio kind in
+  let _ = d_printf "assign_points_to_cookie = %s has ratio r = %s\n" kind r in
+  let p = multiply_points multiplier r in
+  (kind, Some p, body)
+
 
 (* prompts is of the form
  * [ [prompt_item, cookie_item, cookie_item], 
@@ -110,14 +117,6 @@ let sum_factors prompts =
 let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item list) list)
 	 : (t_item list) list 
 	 = 
-
-  let assign_points_to_cookie cookie = 
-    let (kind, pval, body) = cookie in    
-    let r = Tex.get_cookie_cost_ratio kind in
-    let _ = d_printf "set_cookies_points kind = %s has ration r = %s\n" kind r in
-    let p = multiply_points multiplier r in
-    (kind, Some r, body)
-  in
   let assign prompt =
     match prompt with 
 		| [ ] -> 
@@ -125,7 +124,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
   			let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
 		| p::cookies ->
-         let cookies = List.map cookies ~f:assign_points_to_cookie in
+         let cookies = List.map cookies ~f:(assign_points_to_cookie multiplier) in
 				 let (kind, pval, body) = p in
 	       if Tex.is_scorable_prompt kind then
         	 let _ = d_printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
@@ -1463,6 +1462,7 @@ let propagate_point_values ast =
 (* Create a cookie from an item *)
 let cookie_of_item (item: t_item): t_cookie = 
 	let (kind, point_val, body) = item in
+  let _ = d_printf "cookie_of_item: kind %s, point_val %s, body %s\n" kind (str_of_pval_opt point_val) body in
 	if Tex.is_cookie kind then
 		Cookie.make ~point_val kind body 
 	else
@@ -1573,6 +1573,7 @@ let assign_points_to_prompts prompts =
      (* Update question prompt point value *)
      let head_prompt = (kind, Some points, body)::t_head_prompt in
 
+     (* TODO: Assign points to the cookies for this question *)
      (* Scale prompts now. *)
      let prompts = assign_points_to_question_prompts points_per_factor prompts in 
  	   let question = head_prompt::prompts in
