@@ -84,14 +84,36 @@ Diderot requires a "normal form" where each atom be nested inside of a cluster, 
 
 ## Point System
 
-* Each atom may be assigned an integer  point.  This has to be written witha  period at the end and it must the first argument of the atom.
+Many refinements + Fixes #376 + Fixes 340
+
+This PR implements several refinements over point value calculations.  In the current implementation, these were rushed to make them work:
+1) for  multiple choice and free-response questions, multi-select/answer was not considered
+2) didn't consider cookies.
+
+This PR eliminates these restrictions and refines the architecture a bit more.
+
+### Cookies
+
+Cookies have costs that are always relative and that satisfy `0.0 <= cost < 1`
+They lexer therefore insists on the syntax `[.xy]` or `[0.xy]`
+
+Cookie costs are always relate the prompt that they belong.  If the prompt has point value 10 and the cost is 0.25, then the cookie cost is 2.5 points.
+
+### Prompts
+Prompts have factors.  
+These are "added up" sometimes with "plus" sometimes with "max".  See #376 
+
+ 
+## Details
+
+* Each atom may be assigned an integer  point.  This has to be written with a  period at the end and it must the first argument of the atom.
 
 * Each prompt may be assigned a floating point "factor". If unassigned, the factor is 1.0 for correct choices and free-responses, and 0.0 for others (false choices).
 
 * Some cookies may be assigned a floating point "weight" >= 0.0 and < 1.0.  Such a weight must start with a period.  Cookies that may be assigned weight are: \explain and \hint.  If not specified, their weigts are 0.1 and 0.3.  Other cookies such as \notes and \rubric do not admit weights.
 
-Examples 
-
+Example
+```
 \begin{problem}[16.][Title]
 \ask[1.5]
 \hint[.4]
@@ -116,13 +138,14 @@ Examples
 \ask          % This gets the default factor of 1.0
 \sol          % This gets 1.0 factor --> 2 points
 \end{problem}
-
+```
 
 The algorithm for determining the point value of each prompt and cookie proceeds as follows. 
 
-#### Phase 1: Collection Phase
+### Phase 1: Collection Phase
 
 Each atom's list is partitioned into questions of the form 
+```
 [
  [question prompt 1, cookie 1, cookie 2],
  [solution prompt 1.1.1, cookie 1.1.1, cookie 1.1.2],
@@ -132,9 +155,9 @@ Each atom's list is partitioned into questions of the form
  [solution prompt 2.1, cookie 2.1.1, cookie 2.1.2],
  [solution prompt 2.2, cookie 2.2.1, cookie 2.2.2]
 ]
+```
 
-
-# Phase 2: factor assignment 
+### Phase 2: factor assignment 
 
 For each question, the algorithm calculates the total factor of the
 solution prompts.  This calculation is based on the kind of the question.
@@ -150,25 +173,20 @@ prompt is distributed over the solution factors.
 For cookies, the algorithm assigns a weight based on the weight given,
 or by a default, if not specified.
 
-# Phase 3: Point assignment
+## Phase 3: Point assignment
 
 In this final phase, the algorithm visits each atom.
 
-For each atom, it calculates the total sum of the factors 
-%% TODO: check that this handles max and sum kinds.
+For each atom, it calculates the total sum of the primary factors (factors of primary prompts).
 
 Then the algorithm checks if the atom has a point-value specified.
 If so, then it calculates a multiplier, which is points per factor.
 It then scales all factors by the multiplier.
 
-%% TODO: check how cookies are handled
-
 If the question does not have a point value, then the total sum of the
 factors is given to it as a value.  
 
-%% TODO: Check how cookies are assigned points
-
-
+As each prompt is assigned a point value, this value is passed down to cookies and a point value for each cookie is calculated.
 
 ## Problems, Prompts, Cookies
 
