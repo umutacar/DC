@@ -115,14 +115,6 @@ let sum_factors kind prompts =
     		raise (Constants.Syntax_Error err)
     	| Some c -> 	c
 
-(* TODO: unused *)
-let assign_points_to_cookie multiplier cookie = 
-  let (kind, pval, body) = cookie in    
-  let r = Tex.get_cookie_weight kind in
-  let _ = d_printf "assign_points_to_cookie = %s has ratio r = %s\n" kind r in
-  let p = multiply_points multiplier r in
-  (kind, Some p, body)
-
 
 (* prompts is of the form
  * [ [prompt_item, cookie_item, cookie_item], 
@@ -423,12 +415,11 @@ struct
 		  List.fold_left cookies ~init:s ~f:f_tr_cookie 
 
 
-  (* If this is a primary prompt, then
-   * point value is treated as zero.
-   * Otherwise, if the point_value is set, then it becomes the factor.
-   *            if not set, then factor and point_value is 1.
+  (* If this is a primary (question) prompt, then
+   * return point value
+   * otherwise point value is treated as zero.
    *)
-  let get_secondary_points prompt = 
+  let get_primary_points prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
     match point_val with
     | None -> 
@@ -437,10 +428,11 @@ struct
 			raise (Constants.Fatal_Error err)
     | Some p -> 
 				if Tex.is_primary_prompt kind then
-        Constants.zero_points 
-      else 
-  			let _ = d_printf "Prompt.get_points %s, point_val=%s.\n" kind p in
-	  		p
+    			let _ = d_printf "Prompt.get_points %s, point_val=%s.\n" kind p in
+	    		p
+        else 
+  		  	let _ = d_printf "Prompt.get_points %s, point_val=%s.\n" kind p in
+          Constants.zero_points 
 
   let propagate_point_value multiplier prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
@@ -741,7 +733,7 @@ struct
   let propagate_point_value atom = 
 		let {kind; point_val; title; label; depend; prompts; body} = atom in
 		let _ = d_printf "Atom.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
-    let prompt_points = List.map prompts ~f:Prompt.get_secondary_points in
+    let prompt_points = List.map prompts ~f:Prompt.get_primary_points in
     let sum_opt = List.reduce prompt_points ~f:add_points in
     let _ = d_printf "Atom.propagate_point_value: sum over prompts = %s \n" (str_of_str_opt sum_opt) in
       match point_val with 
