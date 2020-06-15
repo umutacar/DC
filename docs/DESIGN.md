@@ -83,17 +83,110 @@ Translation is governed by `tex2html.ml`.  Translation relies on pandoc.  Severa
 Diderot requires a "normal form" where each atom be nested inside of a cluster, such as a group, a flex, etc. The AST module provides a function to ensure that an AST is in normal form my inserting clusters around atoms as needed. 
 
 ## Point System
-Note: I seemed to have done some work on developing a point system for Diderot but I have not documented it carefully.  What exists in the PRs is somewhat outdated.  I am starting to create some documentation here by inspecting the code.
 
-It is possible to assign points to atoms like this
+Many refinements + Fixes #376 + Fixes 340
 
-\begin{problem}[4p][Title]
-...
+This PR implements several refinements over point value calculations.  In the current implementation, these were rushed to make them work:
+1) for  multiple choice and free-response questions, multi-select/answer was not considered
+2) didn't consider cookies.
+
+This PR eliminates these restrictions and refines the architecture a bit more.
+
+### Cookies
+
+Cookies have costs that are always relative and that satisfy `0.0 <= cost < 1`
+They lexer therefore insists on the syntax `[.xy]` or `[0.xy]`
+
+Cookie costs are always relate the prompt that they belong.  If the prompt has point value 10 and the cost is 0.25, then the cookie cost is 2.5 points.
+
+### Prompts
+Prompts have factors.  
+These are "added up" sometimes with "plus" sometimes with "max".  See #376 
+
+ 
+## Details
+
+* Each atom may be assigned an integer  point.  This has to be written with a  period at the end and it must the first argument of the atom.
+
+* Each prompt may be assigned a floating point "factor". If unassigned, the factor is 1.0 for correct choices and free-responses, and 0.0 for others (false choices).
+
+* Some cookies may be assigned a floating point "weight" >= 0.0 and < 1.0.  Such a weight must start with a period.  Cookies that may be assigned weight are: \explain and \hint.  If not specified, their weigts are 0.1 and 0.3.  Other cookies such as \notes and \rubric do not admit weights.
+
+Example
+```
+\begin{problem}[16.][Title]
+\ask[1.5]
+\hint[.4]
+\notes
+\sol[0.1]     % This gets 0.5 factor  --> 1 points
+\explain      % Default weight 0.1
+\hint         % Default weight 0.3
+\rubric        
+
+\sol[0.2]     % This gets 1.0 factor  --> 2 points
+
+\ask[0.5]   
+\sol          % This gets 0.5 factor --> 1 points
+
+\ask[5.0]
+\hint[0.4]    % Weight 0.4, amounts to  10*0.4 = 4 points.
+
+\sol[2.0]     % This gets 4.0 factors --> 8 points
+\note         % Weight of 0.0
+\sol[0.5]     %           1.0 factors --> 2 points
+
+\ask          % This gets the default factor of 1.0
+\sol          % This gets 1.0 factor --> 2 points
 \end{problem}
+```
 
-\begin{problem}[4pts][Title]
-...
-\end{problem}
+The algorithm for determining the point value of each prompt and cookie proceeds as follows. 
+
+### Phase 1: Collection Phase
+
+Each atom's list is partitioned into questions of the form 
+```
+[
+ [question prompt 1, cookie 1, cookie 2],
+ [solution prompt 1.1.1, cookie 1.1.1, cookie 1.1.2],
+ [solution prompt 1.1.2, cookie 1.2.1, cookie 1.2.2],
+ %
+ [question prompt 2, cookie 2.1, cookie 2.2],
+ [solution prompt 2.1, cookie 2.1.1, cookie 2.1.2],
+ [solution prompt 2.2, cookie 2.2.1, cookie 2.2.2]
+]
+```
+
+### Phase 2: factor assignment 
+
+For each question, the algorithm calculates the total factor of the
+solution prompts.  This calculation is based on the kind of the question.
+
+If this is a free response question or a any-cohice question, then
+factors are summed up.
+
+If this is a one-choice question, then the factor's are max'ed.
+
+Having determined the sum of the factors, the factor of the question
+prompt is distributed over the solution factors.
+
+For cookies, the algorithm assigns a weight based on the weight given,
+or by a default, if not specified.
+
+## Phase 3: Point assignment
+
+In this final phase, the algorithm visits each atom.
+
+For each atom, it calculates the total sum of the primary factors (factors of primary prompts).
+
+Then the algorithm checks if the atom has a point-value specified.
+If so, then it calculates a multiplier, which is points per factor.
+It then scales all factors by the multiplier.
+
+If the question does not have a point value, then the total sum of the
+factors is given to it as a value.  
+
+As each prompt is assigned a point value, this value is passed down to cookies and a point value for each cookie is calculated.
 
 ## Problems, Prompts, Cookies
 
@@ -117,7 +210,10 @@ It is possible to assign points to atoms like this
   
   The optional costs are not always meaningful.  The idea is that if a student demants a hint, they will pay some cost and this could be specified.
   
-  For simplicity, the parser simply parses the list and then processes it to construct the parts.  
+  For simplicity, the parser simply parses the list and then processes it to construct the parts.
+
+
+  
 
 ## Automatic labeling
 

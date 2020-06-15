@@ -345,6 +345,11 @@ let scorable_prompt_kinds =
    kw_refsol_fillin_ask, ();
   ]
 
+let max_scorable_prompt_kinds = 
+  [
+   kw_one_choice, ();
+  ]
+
 let prompt_kinds = 
   primary_prompt_kinds @
   [
@@ -365,12 +370,12 @@ let cookie_kinds =
    kw_cookie_rubric, ();
   ]
 
-let cookie_cost_ratio = 
+let cookie_weight = 
   [
-   kw_cookie_explain, Constants.cookie_cost_explain;
-   kw_cookie_hint, Constants.cookie_cost_hint;
-   kw_cookie_notes, Constants.zero_cost;
-   kw_cookie_rubric, Constants.zero_cost;
+   kw_cookie_explain, Constants.cookie_weight_explain;
+   kw_cookie_hint, Constants.cookie_weight_hint;
+   kw_cookie_notes, Constants.zero_weight;
+   kw_cookie_rubric, Constants.zero_weight;
   ]
 
 let point_value_of_prompt_kind = 
@@ -662,6 +667,11 @@ let is_scorable_prompt kind =
    | Some _ -> true
    | None -> false
 
+let is_max_scorable kind =
+   match List.Assoc.find max_scorable_prompt_kinds String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 
 let is_prompt kind = 
    match List.Assoc.find prompt_kinds ~equal: String.equal kind with 
@@ -673,10 +683,10 @@ let is_cookie kind =
    | Some _ -> true
    | None -> false
 
-let get_cookie_cost_ratio kind = 
-   match List.Assoc.find cookie_cost_ratio ~equal: String.equal kind with 
+let get_cookie_weight kind = 
+   match List.Assoc.find cookie_weight ~equal: String.equal kind with 
    | Some r -> r
-   | None -> Constants.zero_cost
+   | None -> Constants.zero_weight
 
 (* Meant for figure and table titles such as [h] [ht] [ht!] *)
 let title_is_significant title = 

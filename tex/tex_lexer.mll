@@ -585,7 +585,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
   (* Rewrite \solt --> \choice* True \choice False *)
   | (p_com_sol_true as h) (p_ws_hard as ws)
 		{
-     let _ = d_printf "!lexer found: cookie: solution=true." in 
+     let _ = d_printf "!lexer found: solution prompt, solution=true." in 
      let rest = take_env depth lexbuf in
      kw_sol_true ^ ws ^ rest
     }
@@ -593,7 +593,7 @@ and take_env depth =  (* not a skip environment, because we have to ignore neste
   (* Rewrite \solf --> \choice True \choice* False *)
   | (p_com_sol_false as h) (p_ws_hard as ws)
 		{
-     let _ = d_printf "!lexer found: cookie: solution=true." in 
+     let _ = d_printf "!lexer found: solution prompt, solution=true." in 
      let rest = take_env depth lexbuf in
      kw_sol_false ^ ws ^ rest
     }

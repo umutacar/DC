@@ -26,13 +26,21 @@
 For each questions below, please select True or False.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\asktf
+\asktf[2.0]
 
 On an undirected graph if  BFS visits a vertex $v$ at round $r$ (round
 start at $0$) then the shortest path from $v$ to the source vertex has
 length $r$.
 
+\hint
+Hint 1
+
+\explain 
+Explain  ask 1
+
 \solt
+
+\explain  sol 1
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -177,6 +185,13 @@ $f(n) = 3f(n/2) + \Theta(n^2)$
 \sol
 $\Theta(n^2)$
 
+\explain
+%\augras
+$n^2$ 1.
+$O(n^2)$ 1.
+$\Theta(n^2)$ 1.
+
+
 \onechoice  According to brick method, the recurrence is
 \choice Balanced
 \choice Leaves Dominated
@@ -199,7 +214,16 @@ $f(n) = 5f(n/8) +\Theta(n^{2/3})$
 \sol
 $\Theta(n^{\lg_8 5})$ (roughly $\Theta(n^{0.77})$) leaves.
 
-\onechoicesec  According to brick method, the recurrence is
+\explain
+%\augras
+$n^{\lg_8{5}}$ 1.
+$n^{\lg_8 5}$ 1.
+$n^{\lg_5 8}$ 0.2
+
+
+
+
+\onechoice  According to brick method, the recurrence is
 \choice Balanced
 \choice* Leaves Dominated
 \choice Root dominated
@@ -477,7 +501,7 @@ the document index would be represented as
 
 In particular you want to support the following interface
 %
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 signature INDEX = sig
   type word = string
   type docId = int
@@ -495,14 +519,14 @@ end
 %
 where, given an index \cd{idx},
 %
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 toSeq (adj (find idx "210", find idx "rocks"))
 \end{lstlisting}
 %
 would return a sequence of identifiers of documents
 where ``210'' appears immediately before ``rocks'', and 
 \\
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 toSeq (adj (find idx "Umut", adj (find idx "loves", find idx "climbing")))
 \end{lstlisting}
 \\
@@ -521,13 +545,13 @@ documents.
 %
 You can use the function
 %
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 toWords~:~string -> string seq
 \end{lstlisting}
 %
 that breaks a text string into a sequence of words.
 
-\begin{lstlisting}[language=ocaml, numbers=none]
+\begin{lstlisting}[language=caml, numbers=none]
 type index = docIdIntSet wordTable
 
 fun makeIndex (docs : (docId  * string) seq) : index =
@@ -559,7 +583,7 @@ Show code for a function \texttt{adj(docList1, docList2)} that given
 two docLists returns a docList in which those two words
 are adjacent.  For example for the index generated from the documents
 above, 
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 toSeq(adj(find idx "a", find idx "big")) 
 \end{lstlisting}
 would return
@@ -574,7 +598,7 @@ fun setmap f s = Set.fromSeq (Seq.map f (Set.toSeq s))
 \end{lstlisting}
 
 
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 
 type docList = 
 
@@ -584,7 +608,7 @@ fun adj (                ,               ) : docList =
 
 
 \sol
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 type docList = (docIdIntSet)*int
 
 fun adj ((d1,l1), (d2,l2)) = 
@@ -716,7 +740,7 @@ path to $d$ in any of the three copies.
 
 In this question, you will write 2 functions on directed graphs.
 We assume that key comparisons take $O(1)$ work  and  that graphs are represented as:
-\begin{lstlisting}[language=ocaml, numbers=none]
+\begin{lstlisting}[language=caml, numbers=none]
 type graph = vertexSet vertexTable
 \end{lstlisting}
 
@@ -751,7 +775,7 @@ end
 
 \sol
 
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 function transpose (G : graph) : graph = 
 let
   val S = vertexTable.toSeq(G)    returns (vertex ** vertexSet) seq 
@@ -777,12 +801,12 @@ belongs to exactly one strongly connected component{} in a graph.
 
 \ask
 Implement the function:
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 val scc~:~graph * vertex -> vertexSet
 \end{lstlisting}
 such that \cd{scc(G,v)} returns the strongly connected component{} containing $v$. You may assume
 the existence of a function:
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 val reachable: graph * vertex -> vertexSet
 \end{lstlisting}
 such that \cd{reachable(G,v)} returns all the vertices reachable from $v$
@@ -799,7 +823,7 @@ fun scc (G : graph, v : vertex) : vertexSet =
 \end{lstlisting}
 
 \sol
-\begin{lstlisting}[language=ocaml,numbers=none]
+\begin{lstlisting}[language=caml,numbers=none]
 fun scc ($G$ : graph, v : vertex) : vertexSet = 
     vertexSet.intersection(reachable(G,v),}
     reachable(transpose(G,v)))}
@@ -821,7 +845,7 @@ and each edge is labeled with a unique identifier ($\ell$). The
 weights of the edges do not need to be unique, and $m = |E|$ and $n =
 |V|$.
 
-\begin{lstlisting}[language=ocaml, numbers=none]
+\begin{lstlisting}[language=caml, numbers=none]
 (* returns the set of edges in the minimum  spanning tree of G *)
 
 MST (G = (V,E)) = 
@@ -904,6 +928,7 @@ previous answer.
 \end{problem}
 
 \begin{problem}[5.]
+\ask
 What is the expected work and span of the overall algorithm in terms of
 $m$ and $n$? Explain briefly. You can assume that calculating $F$ takes
 $O(m)$ work and $O(\log n)$ span.
