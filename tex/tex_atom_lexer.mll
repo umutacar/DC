@@ -255,8 +255,8 @@ let p_item_naked =
   (p_com_notes as kind) |
   (p_com_rubric as kind) 
 
-let p_item_points =  p_item p_ws  p_item_point_val
-let p_item_weight =  p_item_weighted p_ws  p_item_weight_val
+let p_item_and_points =  p_item p_ws  p_item_point_val
+let p_item_and_weight =  p_item_weighted p_ws  p_item_weight_val
 let p_primary_item_points =  p_primary_item p_ws  p_item_point_val
 
 let p_word = [^ '%' '\\' '{' '}' '[' ']']+ 
@@ -431,7 +431,7 @@ and take_env =
  	        (None, "", None, items, h_e)
       }
 
-  | (p_item_points p_ws_hard) as x 
+  | (p_item_and_points p_ws_hard) as x 
 			{
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
@@ -455,7 +455,19 @@ and take_env =
 				raise (Constants.Syntax_Error err)							
       }
 
-	| (p_item_weight p_ws_hard) as x
+	| (p_item_and_weight p_ws_hard) as x
+			{
+		   (* This case is not allowed occur at the top level.
+        * Raise Error.
+        *) 
+        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let (body, items, h_e) = take_list lexbuf in
+ 				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
+				let _ = printf "%s\n" err in
+				raise (Constants.Syntax_Error err)							
+      }
+
+	| (p_item_weighted p_ws_hard) as x
 			{
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
@@ -699,7 +711,7 @@ and take_kw_args depth =
 
 and take_list =
 	 parse
-	 | (p_item_points as x) p_ws_hard 
+	 | (p_item_and_points as x) p_ws_hard 
 	 { let (body, items, h_e) = take_list lexbuf in
 
      (* If this is a fillin prompt, then rewrite body *) 
@@ -715,7 +727,7 @@ and take_list =
 	   let items = prompt_items @ items in     
 	     ("", items, h_e)	 	 
 	 }
-	 | (p_item_weight as x) p_ws_hard 
+	 | (p_item_and_weight as x) p_ws_hard 
 	 { let (body, items, h_e) = take_list lexbuf in
      let cookie = (kind, Some weight , body) in
      let _ = d_printf "* atom_lexer: item kind %s weight = %s body = %s\n" kind weight body in
