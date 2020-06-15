@@ -83,26 +83,92 @@ Translation is governed by `tex2html.ml`.  Translation relies on pandoc.  Severa
 Diderot requires a "normal form" where each atom be nested inside of a cluster, such as a group, a flex, etc. The AST module provides a function to ensure that an AST is in normal form my inserting clusters around atoms as needed. 
 
 ## Point System
-Note: I seemed to have done some work on developing a point system for Diderot but I have not documented it carefully.  What exists in the PRs is somewhat outdated.  I am starting to create some documentation here by inspecting the code.
 
-It is possible to assign points to atoms like this
+* Each atom may be assigned an integer  point.  This has to be written witha  period at the end and it must the first argument of the atom.
 
-\begin{problem}[4.][Title]
-...
+* Each prompt may be assigned a floating point "factor". If unassigned, the factor is 1.0 for correct choices and free-responses, and 0.0 for others (false choices).
+
+* Some cookies may be assigned a floating point "weight" >= 0.0 and < 1.0.  Such a weight must start with a period.  Cookies that may be assigned weight are: \explain and \hint.  If not specified, their weigts are 0.1 and 0.3.  Other cookies such as \notes and \rubric do not admit weights.
+
+Examples 
+
+\begin{problem}[16.][Title]
+\ask[1.5]
+\hint[.4]
+\notes
+\sol[0.1]     % This gets 0.5 factor  --> 1 points
+\explain      % Default weight 0.1
+\hint         % Default weight 0.3
+\rubric        
+
+\sol[0.2]     % This gets 1.0 factor  --> 2 points
+
+\ask[0.5]   
+\sol          % This gets 0.5 factor --> 1 points
+
+\ask[5.0]
+\hint[0.4]    % Weight 0.4, amounts to  10*0.4 = 4 points.
+
+\sol[2.0]     % This gets 4.0 factors --> 8 points
+\note         % Weight of 0.0
+\sol[0.5]     %           1.0 factors --> 2 points
+
+\ask          % This gets the default factor of 1.0
+\sol          % This gets 1.0 factor --> 2 points
 \end{problem}
 
-\begin{problem}[6.][Title]
-...
-\end{problem}
 
-The prompts of a problem may also be assigned points.  There are two kinds of points.  
-1) Points values
-2) Factors
+The algorithm for determining the point value of each prompt and cookie proceeds as follows. 
 
-Question and solution prompts are assigned factors.  For example,  correct choice is by defaul assigned a factor of 1.0 and an incorrect choice is by default assigned a factor of 0.0.  These factors may be determined by the author and can be assigned arbitrarily.
+#### Phase 1: Collection Phase
 
-Factor of a question prompt is distributed over all the solution
-prompts by treating the factors of prompts as weights.
+Each atom's list is partitioned into questions of the form 
+[
+ [question prompt 1, cookie 1, cookie 2],
+ [solution prompt 1.1.1, cookie 1.1.1, cookie 1.1.2],
+ [solution prompt 1.1.2, cookie 1.2.1, cookie 1.2.2],
+ %
+ [question prompt 2, cookie 2.1, cookie 2.2],
+ [solution prompt 2.1, cookie 2.1.1, cookie 2.1.2],
+ [solution prompt 2.2, cookie 2.2.1, cookie 2.2.2]
+]
+
+
+# Phase 2: factor assignment 
+
+For each question, the algorithm calculates the total factor of the
+solution prompts.  This calculation is based on the kind of the question.
+
+If this is a free response question or a any-cohice question, then
+factors are summed up.
+
+If this is a one-choice question, then the factor's are max'ed.
+
+Having determined the sum of the factors, the factor of the question
+prompt is distributed over the solution factors.
+
+For cookies, the algorithm assigns a weight based on the weight given,
+or by a default, if not specified.
+
+# Phase 3: Point assignment
+
+In this final phase, the algorithm visits each atom.
+
+For each atom, it calculates the total sum of the factors 
+%% TODO: check that this handles max and sum kinds.
+
+Then the algorithm checks if the atom has a point-value specified.
+If so, then it calculates a multiplier, which is points per factor.
+It then scales all factors by the multiplier.
+
+%% TODO: check how cookies are handled
+
+If the question does not have a point value, then the total sum of the
+factors is given to it as a value.  
+
+%% TODO: Check how cookies are assigned points
+
+
 
 ## Problems, Prompts, Cookies
 

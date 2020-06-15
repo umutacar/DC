@@ -734,7 +734,7 @@ and take_list =
 	   let items =  cookie::items in     
 	   ("", items, h_e)	 	 
 	 }
-	 | (p_item as x) p_ws_hard
+	 | (p_item_weighted as x) p_ws_hard
 	 { let (body, items, h_e) = take_list lexbuf in
      let cookie = (kind, None , body) in
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in

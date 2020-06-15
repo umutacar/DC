@@ -67,6 +67,12 @@ let add_points (x: string) (y: string) =
 	let y = float_of_string y in
 	  Float.to_string (x +. y)
 
+let max_points (x: string) (y: string) = 
+	let x = float_of_string x in
+	let y = float_of_string y in
+  let max = if x > y then x else y in
+	  Float.to_string max
+
 
 (* if points (po) is None or 0.0 then
    empty string else the points *)
@@ -82,7 +88,7 @@ let normalize_point_val po =
 (* In a question = list of prompts, 
  * a factor is a correct choice or a solution field
  *)
-let sum_factors prompts = 
+let sum_factors kind prompts = 
   let factor_of_prompt prompt =
 		let item = List.nth_exn prompt 0 in
     let (kind, pval, _) = item in
@@ -94,16 +100,25 @@ let sum_factors prompts =
 		else Constants.zero_points
 	in
 	let counts = List.map prompts ~f:factor_of_prompt in
-	match List.reduce counts ~f:add_points with 
-	| None -> 
-		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice*) but found none.\n" in
-    let _ = printf "%s\n" err in
-		raise (Constants.Syntax_Error err)
-	| Some c -> 	c
+    if Tex.is_max_scorable kind then
+    	match List.reduce counts ~f:max_points with 
+    	| None -> 
+    		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice*) but found none.\n" in
+        let _ = printf "%s\n" err in
+    		raise (Constants.Syntax_Error err)
+    	| Some c -> 	c
+    else 
+    	match List.reduce counts ~f:add_points with 
+    	| None -> 
+    		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice*) but found none.\n" in
+        let _ = printf "%s\n" err in
+    		raise (Constants.Syntax_Error err)
+    	| Some c -> 	c
 
+(* TODO: unused *)
 let assign_points_to_cookie multiplier cookie = 
   let (kind, pval, body) = cookie in    
-  let r = Tex.get_cookie_cost_ratio kind in
+  let r = Tex.get_cookie_weight kind in
   let _ = d_printf "assign_points_to_cookie = %s has ratio r = %s\n" kind r in
   let p = multiply_points multiplier r in
   (kind, Some p, body)
@@ -124,7 +139,6 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
   			let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
 		| p::cookies ->
-         let cookies = List.map cookies ~f:(assign_points_to_cookie multiplier) in
 				 let (kind, pval, body) = p in
 	       if Tex.is_scorable_prompt kind then
         	 let _ = d_printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
@@ -139,7 +153,6 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
 	         (kind, Some Constants.zero_points, body)::cookies
 	in
 	List.map prompts ~f:assign
-
 
 
 
@@ -423,7 +436,7 @@ struct
 			let _ = printf "%s\n" err in
 			raise (Constants.Fatal_Error err)
     | Some p -> 
-      if Tex.is_primary_prompt kind then
+				if Tex.is_primary_prompt kind then
         Constants.zero_points 
       else 
   			let _ = d_printf "Prompt.get_points %s, point_val=%s.\n" kind p in
@@ -440,7 +453,7 @@ struct
         let points = multiply_points points multiplier in
 				let _ = prompt.point_val <- Some points in
     		let _ = d_printf "Prompt.propagate_point_value kind = %s, point = %s\n" kind points in
-        let _ = List.map cookies ~f:(Cookie.propagate_point_value multiplier) in
+        let _ = List.map cookies ~f:(Cookie.propagate_point_value points) in
 				prompt.point_val
 
   let to_tex prompt = 
@@ -1464,7 +1477,12 @@ let cookie_of_item (item: t_item): t_cookie =
 	let (kind, point_val, body) = item in
   let _ = d_printf "cookie_of_item: kind %s, point_val %s, body %s\n" kind (str_of_pval_opt point_val) body in
 	if Tex.is_cookie kind then
-		Cookie.make ~point_val kind body 
+    match point_val with 
+    | None ->
+      let point_val = Some (Tex.get_cookie_weight kind) in
+  		Cookie.make ~point_val kind body 
+    | Some _ ->
+  		Cookie.make ~point_val kind body 
 	else
 		(printf "Parse Error"; exit 1)
 
@@ -1545,7 +1563,7 @@ let assign_points_to_prompts prompts =
      let head_item::t_head_prompt = head_prompt in
      let (kind, pval, body) = head_item in      	 
      let n_factors = 
-			 try sum_factors prompts with
+			 try sum_factors kind prompts with
 				 Constants.Syntax_Error s -> 
 					 let err = sprintf "\n%s\nContext: Question prompt:\n>%s>\n" s body in
            let _ = printf "%s\n" err in
@@ -1573,7 +1591,6 @@ let assign_points_to_prompts prompts =
      (* Update question prompt point value *)
      let head_prompt = (kind, Some points, body)::t_head_prompt in
 
-     (* TODO: Assign points to the cookies for this question *)
      (* Scale prompts now. *)
      let prompts = assign_points_to_question_prompts points_per_factor prompts in 
  	   let question = head_prompt::prompts in
