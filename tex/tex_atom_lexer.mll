@@ -169,7 +169,7 @@ let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
 let p_frac = '.' p_digit*
 let p_float = p_digit* p_frac?
-let p_weight = '0'? '.' p_digit*
+let p_weight = '0'? '.' p_digit* | '1' '.' '0'?
 
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
