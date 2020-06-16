@@ -340,15 +340,15 @@ struct
 		translator Xml.body cookie.body
 
   let propagate_point_value multiplier cookie = 
-		let {kind; point_val; title; label; body} = cookie in
+		let {kind; point_val; weight; title; label; body} = cookie in
 		let _ = d_printf "Cookie.propagate_point_value %s\n" kind in
-    match point_val with
+    match weight with
     | None -> 
-			let err = "Fatal Error: Cookie.propagate_point_value: Expecting point value of zero None found" in
+			let err = "Fatal Error: Cookie.propagate_point_value: Expecting weight of zero None found" in
 			let _ = printf "%s\n" err in
 			raise (Constants.Fatal_Error err)
-    | Some points -> 
-	    let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
+    | Some w -> 
+	    let _ = cookie.point_val <- Some (multiply_points  w multiplier) in
 			()
 
   let to_xml translator cookie = 
