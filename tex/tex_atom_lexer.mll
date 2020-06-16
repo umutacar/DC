@@ -246,7 +246,6 @@ let p_item =
   (p_primary_item as kind) | 
 	(p_com_choice as kind) |
 	(p_com_choice_correct as kind) |
-	(p_com_score as kind) |
 	(p_com_continue as kind) |
   (p_com_part as kind) |
   (p_com_refsol as kind) |
@@ -256,7 +255,8 @@ let p_item =
 
 let p_item_weighted = 
 	(p_com_explain as kind) |
-  (p_com_hint as kind) 
+  (p_com_hint as kind) |
+	(p_com_score as kind) 
 
 let p_item_naked = 
   (p_com_notes as kind) |
