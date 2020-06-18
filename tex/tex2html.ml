@@ -225,7 +225,7 @@ let latex_file_to_target command (latex_file_name, target_file_name) =
         end
       else
         begin
-          printf "."
+          printf ".%!"
 (*
           printf "Translation with pandoc suceeded.   Source code is in file: %s\n" latex_file_name;
           printf "Target code is in file: %s\n" target_file_name
