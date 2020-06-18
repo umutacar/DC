@@ -1453,7 +1453,7 @@ let to_xml atom_translator ast =
 let validate ast = 
   let passed = check_preamble ast in
 	if passed then
-		(printf "ast.ast: Ast validation passed.\n";
+		( (* printf "ast.ast: Ast validation passed.\n"; *)
 		 ast)
 	else
 		(printf "ast.ast: Fatal Error: Ast validation failed. Terminating.\n";
