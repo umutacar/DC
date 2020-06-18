@@ -208,25 +208,28 @@ let mk_tex_document latex_file_name preamble contents =
  *  target_file_name
  * Ignores all but the first language
  *)
-let latex_file_to_target  command (latex_file_name, target_file_name) = 
+let latex_file_to_target command (latex_file_name, target_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
 
-    let _ = printf "\n*latex_file_to_target: Executing command: %s\n" command in
     let exit_code = Sys.command command in 
       if exit_code <> 0 then
         begin
-          printf "Error in pandoc translation.\n";
-          printf "Command exited with code: %d\n" exit_code;
+          printf "Error in LaTeX to html translation.\n";
+          printf "Executed command: %s\n" command ;
+          printf "Command exit code: %d\n" exit_code;
           printf "Now exiting.";
           exit exit_code
         end
       else
         begin
+          printf "."
+(*
           printf "Translation with pandoc suceeded.   Source code is in file: %s\n" latex_file_name;
           printf "Target code is in file: %s\n" target_file_name
+*)
         end
 
 

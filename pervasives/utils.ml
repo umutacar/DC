@@ -59,9 +59,14 @@ let str_of_items (xs: (string * string option * string) list): string =
 
 (* BEGIN: Debug Prints *) 
 
-
 let d_printf args = 
   if !debug then
+    fprintf stdout args
+  else 
+    ifprintf stdout args
+
+let v_printf be_verbose args = 
+  if be_verbose then
     fprintf stdout args
   else 
     ifprintf stdout args
