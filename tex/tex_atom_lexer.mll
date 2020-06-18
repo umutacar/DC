@@ -169,7 +169,7 @@ let p_digit = ['0'-'9']
 let p_integer = ['0'-'9']+
 let p_frac = '.' p_digit*
 let p_float = p_digit* p_frac?
-let p_weight = '0'? '.' p_digit*
+let p_weight = ['+' '-']? ('0'? '.' p_digit*) | ('1' '.' '0'?)
 
 let p_alpha = ['a'-'z' 'A'-'Z']
 let p_separator = [':' '.' '-' '_' '/']
@@ -192,6 +192,11 @@ let p_com_end = '\\' "end" p_ws
 let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_skip = p_com_lstinline
 
+let p_com_auto_grade_one = '\\' "agone"
+let p_com_auto_grade_any = '\\' "agany"
+let p_com_manu_grade_one = '\\' "gone"
+let p_com_manu_grade_any = '\\' "gany"
+
 let p_com_choice = '\\' "choice"
 let p_com_continue = '\\' "continue"
 let p_com_choice_correct = '\\' "choice*"
@@ -205,6 +210,7 @@ let p_com_refsol = '\\' "sol"
 let p_com_refsol_fillin = '\\' "solfin"
 let p_com_refsol_false = '\\' "solf"
 let p_com_refsol_true = '\\' "solt"
+let p_com_score = '\\' "sc"
 
 let p_com_ask = "\\ask"
 let p_com_ask_true_false = "\\asktf"
@@ -249,11 +255,16 @@ let p_item =
 
 let p_item_weighted = 
 	(p_com_explain as kind) |
-  (p_com_hint as kind) 
+  (p_com_hint as kind) |
+	(p_com_score as kind) 
 
 let p_item_naked = 
   (p_com_notes as kind) |
-  (p_com_rubric as kind) 
+  (p_com_rubric as kind) |
+  (p_com_auto_grade_one as kind) |
+  (p_com_auto_grade_any as kind) |
+  (p_com_manu_grade_one as kind) |
+  (p_com_manu_grade_any as kind) 
 
 let p_item_and_points =  p_item p_ws  p_item_point_val
 let p_item_and_weight =  p_item_weighted p_ws  p_item_weight_val

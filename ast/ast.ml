@@ -244,6 +244,7 @@ struct
 	type t = 
 			{	mutable kind: string;
 				mutable point_val: string option;
+				mutable weight: string option;
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
@@ -251,6 +252,7 @@ struct
 				label_is_given: bool
 			} 
   let kind cookie = cookie.kind
+  let weight cookie = cookie.weight
   let point_val cookie = cookie.point_val
 	let label cookie = cookie.label
 	let depend cookie = cookie.depend
@@ -258,17 +260,18 @@ struct
 	let label_is_given cookie = cookie.label_is_given
 
   let make   
-			?point_val: (point_val = None) 
+			?weight: (weight = None) 
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None) 
 			kind
 			body = 
+    (* When created, the point value of a  cookie is always None. *)
 		match label with 
 		| None -> 
-				{kind; point_val; title; label; depend; body; label_is_given=false}
+				{kind; point_val=None; weight; title; label; depend; body; label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; label; depend; body; label_is_given=true}
+				{kind; point_val=None; weight; title; label; depend; body; label_is_given=true}
 
   (* Traverse cookie by applying f to its fields *) 
   let traverse cookie state f = 
@@ -280,11 +283,11 @@ struct
       f Ast_cookie state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
 
   let to_tex cookie = 
-		let {kind; point_val; title; label; body} = cookie in
+		let {kind; point_val; weight; title; label; body} = cookie in
     (* Use int value for point for idempotence in tex to tex translation *)
-		let point_val = normalize_point_val point_val in
-		let point_val = Tex.mk_point_val point_val in
-		let heading = Tex.mk_command kind point_val in
+		let weight = normalize_point_val weight in
+		let weight = Tex.mk_point_val weight in
+		let heading = Tex.mk_command kind weight in
 		let l = 
 			if label_is_given cookie then	""
 			else Tex.mk_label label 
@@ -294,10 +297,10 @@ struct
 		  body 
 
   let to_md cookie = 
-		let {kind; point_val; title; label; body} = cookie in
-		let point_val = normalize_point_val point_val in
-		let point_val = Md.mk_point_val point_val in
-		let heading = Md.mk_command kind point_val in
+		let {kind; point_val; weight; title; label; body} = cookie in
+		let weight = normalize_point_val weight in
+		let weight = Md.mk_point_val weight in
+		let heading = Md.mk_command kind weight in
 		let l = 
 			if label_is_given cookie then	""
 			else Md.mk_label label 
@@ -337,15 +340,15 @@ struct
 		translator Xml.body cookie.body
 
   let propagate_point_value multiplier cookie = 
-		let {kind; point_val; title; label; body} = cookie in
+		let {kind; point_val; weight; title; label; body} = cookie in
 		let _ = d_printf "Cookie.propagate_point_value %s\n" kind in
-    match point_val with
+    match weight with
     | None -> 
-			let err = "Fatal Error: Cookie.propagate_point_value: Expecting point value of zero None found" in
+			let err = "Fatal Error: Cookie.propagate_point_value: Expecting weight of zero None found" in
 			let _ = printf "%s\n" err in
 			raise (Constants.Fatal_Error err)
-    | Some points -> 
-	    let _ = cookie.point_val <- Some (multiply_points  points multiplier) in
+    | Some w -> 
+	    let _ = cookie.point_val <- Some (multiply_points  w multiplier) in
 			()
 
   let to_xml translator cookie = 
@@ -1467,14 +1470,16 @@ let propagate_point_values ast =
 (* Create a cookie from an item *)
 let cookie_of_item (item: t_item): t_cookie = 
 	let (kind, point_val, body) = item in
+  (* For cookies, the point val of an item is a weight *)
+  let weight = point_val in
   let _ = d_printf "cookie_of_item: kind %s, point_val %s, body %s\n" kind (str_of_pval_opt point_val) body in
-	if Tex.is_cookie kind then
-    match point_val with 
+	if Tex.is_cookie kind then  
+    match weight with 
     | None ->
-      let point_val = Some (Tex.get_cookie_weight kind) in
-  		Cookie.make ~point_val kind body 
+      let weight = Some (Tex.get_cookie_weight kind) in
+  		Cookie.make ~weight kind body 
     | Some _ ->
-  		Cookie.make ~point_val kind body 
+  		Cookie.make ~weight kind body 
 	else
 		(printf "Parse Error"; exit 1)
 

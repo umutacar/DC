@@ -105,10 +105,18 @@ let kw_choice_correct = "\\choice*"
 let kw_continue = "\\continue"
 let kw_part = "\\part"
 
+(* Primary cookies *)
 let kw_cookie_explain = "\\explain"
 let kw_cookie_hint = "\\hint"
 let kw_cookie_notes = "\\notes"
 let kw_cookie_rubric = "\\rubric"
+let kw_cookie_auto_grade_one = "\\agone"
+let kw_cookie_auto_grade_any = "\\agany"
+let kw_cookie_manu_grade_one = "\\gone"
+let kw_cookie_manu_grade_any = "\\gany"
+
+(* Secondary cookies *)
+let kw_cookie_score = "\\sc"
 
 (* END: Keywords *)
 
@@ -195,6 +203,10 @@ let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
 let label_prefix_cookie_notes = "cki-notes"
 let label_prefix_cookie_rubric = "cki-rubric"
+let label_prefix_cookie_score = "cki-score"
+let label_prefix_cookie_auto_grade = "cki-auto-grade"
+let label_prefix_cookie_manu_grade = "cki-manual-grade"
+
 
 
 let label_prefix_of_kind = 
@@ -269,7 +281,12 @@ let label_prefix_of_kind =
    kw_cookie_explain, label_prefix_cookie_explain;
    kw_cookie_hint, label_prefix_cookie_hint;
    kw_cookie_notes, label_prefix_cookie_notes;
-   kw_cookie_rubric, label_prefix_cookie_rubric
+   kw_cookie_rubric, label_prefix_cookie_rubric;
+   kw_cookie_auto_grade_one, label_prefix_cookie_auto_grade;
+   kw_cookie_auto_grade_any, label_prefix_cookie_auto_grade;
+   kw_cookie_manu_grade_one, label_prefix_cookie_manu_grade;
+   kw_cookie_manu_grade_any, label_prefix_cookie_manu_grade;
+   kw_cookie_score, label_prefix_cookie_score
 ]
 
 let atom_kinds = 
@@ -368,6 +385,11 @@ let cookie_kinds =
    kw_cookie_hint, ();
    kw_cookie_notes, ();
    kw_cookie_rubric, ();
+   kw_cookie_score, ();
+   kw_cookie_auto_grade_one, ();
+   kw_cookie_auto_grade_any, ();
+   kw_cookie_manu_grade_one, ();
+   kw_cookie_manu_grade_any, ();
   ]
 
 let cookie_weight = 
@@ -376,6 +398,11 @@ let cookie_weight =
    kw_cookie_hint, Constants.cookie_weight_hint;
    kw_cookie_notes, Constants.zero_weight;
    kw_cookie_rubric, Constants.zero_weight;
+   kw_cookie_score, Constants.zero_weight;
+   kw_cookie_auto_grade_one, Constants.zero_weight;
+   kw_cookie_auto_grade_any, Constants.zero_weight;
+   kw_cookie_manu_grade_one, Constants.zero_weight;
+   kw_cookie_manu_grade_any, Constants.zero_weight;
   ]
 
 let point_value_of_prompt_kind = 

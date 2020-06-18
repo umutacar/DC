@@ -110,7 +110,7 @@ These are "added up" sometimes with "plus" sometimes with "max".  See #376
 
 * Each prompt may be assigned a floating point "factor". If unassigned, the factor is 1.0 for correct choices and free-responses, and 0.0 for others (false choices).
 
-* Some cookies may be assigned a floating point "weight" >= 0.0 and < 1.0.  Such a weight must start with a period.  Cookies that may be assigned weight are: \explain and \hint.  If not specified, their weigts are 0.1 and 0.3.  Other cookies such as \notes and \rubric do not admit weights.
+* Some cookies may be assigned a floating point "weight" >= 0.0 and <= 1.0.  Such a weight must start with a period.  Cookies that may be assigned weight are: \explain and \hint.  If not specified, their weigts are 0.1 and 0.3.  Other cookies such as \notes and \rubric do not admit weights.
 
 Example
 ```
