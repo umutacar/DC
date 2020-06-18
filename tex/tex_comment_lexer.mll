@@ -40,11 +40,12 @@ let p_hs = [' ' '\t' '\r']*
 (* non-space character *)
 let p_sigchar = [^ ' ' '\t' '%' '\n' '\r']
 let p_alpha = ['a'-'z' 'A'-'Z']
+let p_alpha_num = ['a'-'z' 'A'-'Z' '0'-'9']
 let p_percent = "%"	
 let p_esc_percent = "\\%"	
 
 
-let p_run_star = "run" p_alpha*
+let p_run_star = "run" p_alpha_num*
 
 (* begin end *)
 let p_com_begin = '\\' "begin" p_ws												 
@@ -78,7 +79,7 @@ let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws "verbatim" p_ws p_c_curly
 
 let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim | p_begin_env_comment | p_begin_env_runlang
 
-let p_env = (p_alpha)+('*')? p_ws
+let p_env = (p_alpha_num)+('*')? p_ws
 let p_end_env = p_com_end p_o_curly (p_env as kind) p_c_curly 
 
 (** END PATTERNS *)			
@@ -108,6 +109,7 @@ parse
 | (p_begin_env_skip as x)
     {
 	   let _ = d_printf "! comment_lexer: skip env %s\n" x in
+	   let _ = printf "! comment_lexer: skip env %s\n" x in
      let this_kind = kind in
      let env = skip_env kind lexbuf in
      let env = x ^ env in

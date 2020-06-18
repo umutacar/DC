@@ -230,6 +230,7 @@ let p_exp = ['e' 'E'] ['-' '+']? p_digit+
 let p_float = p_digit* p_frac? p_exp?
 
 let p_alpha = ['a'-'z' 'A'-'Z']
+let p_alpha_num = ['a'-'z' 'A'-'Z' '0'-'9']
 let p_separator = [':' '.' '-' '_' '/']
 
 (* No white space after backslash *)
@@ -289,10 +290,10 @@ let p_flex = "flex"
 let p_problem_cluster = "mproblem"
 
 (* Latex environment: alphabethical chars plus an optional star *)
-let p_env = (p_alpha)+('*')?
+let p_env = (p_alpha_num)+('*')?
 let p_env_lstlisting = "lstlisting"
 let p_env_verbatim = "verbatim"
-let p_env_run_star = "run" p_alpha*
+let p_env_run_star = "run" p_alpha_num+
 
 (* These environments will be rewritten so that they are inside math environment * \[ .. \] so that they can be passed to mathjax.
  *)
