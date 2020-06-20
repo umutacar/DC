@@ -250,6 +250,12 @@ and skip_env rewriter_mode stop_kind =
        let (rest, h_e) = skip_env  rewriter_mode stop_kind lexbuf in
        (answer ^ rest, h_e)
     }
+  | eof  
+      {
+    	 let err = sprintf "Syntax Error: File ended unexpectedly while scanning for %s environment inside a \"\\solfin\" block." stop_kind in
+       let _ = printf "%s\n" err in
+		   raise (Constants.Syntax_Error err)
+      } 
   | _  as x
       { let (y, h_e) = skip_env rewriter_mode stop_kind lexbuf in
         ((str_of_char x) ^ y, h_e)
