@@ -208,13 +208,14 @@ let mk_tex_document latex_file_name preamble contents =
  *  target_file_name
  * Ignores all but the first language
  *)
-let latex_file_to_target command (latex_file_name, target_file_name) = 
+let latex_file_to_target be_verbose command (latex_file_name, target_file_name) = 
     (** Beware: pandoc converts everything to unicode
      ** HTML is therefore unicode string.
      ** This matters when printing to terminal which is ASCII
      **)
 
-    let exit_code = Sys.command command in 
+    let _ = if be_verbose then printf "Executing command: %s\n" command in
+    let exit_code = Sys.command command  in
       if exit_code <> 0 then
         begin
           printf "Error in LaTeX to html translation.\n";
@@ -267,9 +268,9 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, target_file_name
  ** match specifies that what is expected is a single paragraph
  **)
 
-let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
+let tex_to_html be_verbose be_verbose_pandoc tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
 	let error_out languages = 
-		let _ = printf "Parse Error: MTL allows one programming language per atom.\n" in
+		let _ = printf "Parse Error: DC allows one programming language per atom.\n" in
 		let _ = printf "This atom has multiple, i.e., %s" (str_of_str_list languages) in
     let _ = printf "contents = \n%s" contents in
 		exit 1
@@ -293,8 +294,8 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
   let _ = mk_tex_document latex_file_name preamble contents in
   (** translate to html **)
   let html_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ html_extension in
-  let command = (choose_pandoc false be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
-  let () = latex_file_to_target command (latex_file_name, html_file_name) in
+  let command = (choose_pandoc false be_verbose_pandoc meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ html_file_name  in
+  let () = latex_file_to_target (be_verbose or be_verbose_pandoc) command (latex_file_name, html_file_name) in
   let html = In_channel.read_all html_file_name in
 	if not match_single_paragraph then
 (*      let _ = printf "html: %s" html in *)
@@ -324,9 +325,9 @@ let tex_to_html be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
  ** match specifies that what is expected is a single paragraph
  **)
 
-let tex_to_text be_verbose tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
+let tex_to_text be_verbose be_verbose_pandoc tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph = 
 	let error_out languages = 
-		let _ = printf "Parse Error: MTL allows one programming language per atom.\n" in
+		let _ = printf "Parse Error: DC allows one programming language per atom.\n" in
 		let _ = printf "This atom has multiple, i.e., %s" (str_of_str_list languages) in
     let _ = printf "contents = \n%s" contents in
 		exit 1
@@ -351,8 +352,8 @@ let tex_to_text be_verbose tmp_dir meta_dir default_lang_opt  unique preamble co
 
   (** translate to text **)
   let text_file_name = tmp_dir ^ "/" ^ unique ^ "." ^ text_extension in
-  let command = (choose_pandoc true be_verbose meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ text_file_name  in
-  let () = latex_file_to_target command (latex_file_name, text_file_name) in
+  let command = (choose_pandoc true be_verbose_pandoc meta_dir language_opt) ^ " " ^ latex_file_name ^  " -o " ^ text_file_name  in
+  let () = latex_file_to_target (be_verbose or be_verbose_pandoc) command (latex_file_name, text_file_name) in
   let contents = In_channel.read_all text_file_name in
   contents
 
@@ -398,16 +399,16 @@ let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents =
 (**
  **
  **)
-let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preamble contents options = 
+let contents_to_html be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default unique preamble contents options = 
   let (target_is_text, target_is_single_paragraph) = options in
   let  _  = d_printf "contents_to_html:  target is text: %b\n" target_is_text in
     if target_is_text then
 			tex_to_text 
-				be_verbose tmp_dir meta_dir lang_opt_default 
+				be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default 
 				unique preamble contents target_is_single_paragraph
 		else
 			tex_to_html 
-				be_verbose tmp_dir meta_dir lang_opt_default 
+				be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default 
 				unique preamble contents target_is_single_paragraph
 
 (**********************************************************************
@@ -415,7 +416,7 @@ let contents_to_html be_verbose tmp_dir meta_dir lang_opt_default unique preambl
  ** and returns it.  The returned translator function does 
  ** not require a unique string but generates it.
  **********************************************************************)
-let mk_translator be_verbose tmp_dir meta_dir  lang_opt (preamble: string) = 
+let mk_translator be_verbose be_verbose_pandoc tmp_dir meta_dir  lang_opt (preamble: string) = 
    (* Create tmp dir *) 
    let command = "mkdir " ^ tmp_dir in
    let _ = Sys.command command in  
@@ -426,7 +427,7 @@ let mk_translator be_verbose tmp_dir meta_dir  lang_opt (preamble: string) =
 		 let unique = mk_unique () in
      let _ = d_printf "translate: kind = %s\n" kind in
      let options = (is_target_language_text kind, get_single_paragraph_status kind) in
-       contents_to_html be_verbose tmp_dir  meta_dir lang_opt unique preamble contents options
+       contents_to_html be_verbose be_verbose_pandoc tmp_dir  meta_dir lang_opt unique preamble contents options
    in
      translate
 

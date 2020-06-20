@@ -13,6 +13,7 @@ module Tex_translator = Tex2html
 let file_extension_xml = ".xml"
 let arg_na = ref false   (* Non-atomic mode: don't dump atomized input. *)
 let arg_verbose = ref false
+let arg_verbose_pandoc = ref false
 
 (* Set string argument *)
 let set_str_arg r v = r := Some v
@@ -33,7 +34,7 @@ let mk_md_translator verbose tmp_dir meta_dir default_pl =
 		preamble  
 
 (* Make Tex to XML/HTML translator *)
-let mk_tex_translator verbose tmp_dir meta_dir default_pl (preamble_file: string option) = 
+let mk_tex_translator verbose verbose_pandoc tmp_dir meta_dir default_pl (preamble_file: string option) = 
   let preamble = 
     match preamble_file with 
     | None -> ""
@@ -41,6 +42,7 @@ let mk_tex_translator verbose tmp_dir meta_dir default_pl (preamble_file: string
   in
     Tex_translator.mk_translator 
 		verbose 
+		verbose_pandoc 
 		tmp_dir 
 		meta_dir
 		default_pl
@@ -68,12 +70,12 @@ let prep_input_md verbose tmp_dir meta_dir default_pl infile (preamble_file: str
 	(contents, translator)
 
 
-let prep_input_tex verbose tmp_dir meta_dir default_pl infile (preamble_file: string option) =
+let prep_input_tex verbose verbose_pandoc tmp_dir meta_dir default_pl infile (preamble_file: string option) =
 	let ic = In_channel.create infile in
   let lexbuf = Lexing.from_channel ic in
   (* Remove comments *)
   let contents = Comment_lexer.lexer lexbuf in
-  let translator = mk_tex_translator verbose tmp_dir meta_dir default_pl preamble_file in
+  let translator = mk_tex_translator verbose verbose_pandoc tmp_dir meta_dir default_pl preamble_file in
 	(contents, translator)
 
 
@@ -104,12 +106,12 @@ let ast_from_string (lex, parse) contents =
   let _ = printf "Done.%!" in
 		ast
 
-let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile preamble_file = 
+let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infile preamble_file = 
   let (contents, translator) = 
 		if is_md then
 			prep_input_md verbose tmp_dir meta_dir default_pl infile preamble_file 
 		else
-			prep_input_tex verbose tmp_dir meta_dir default_pl infile preamble_file 
+			prep_input_tex verbose verbose_pandoc tmp_dir meta_dir default_pl infile preamble_file 
 	in
   let _ = printf "Building the AST ...\n%!" in
   let ast = 
@@ -119,7 +121,7 @@ let input_to_xml is_md verbose tmp_dir meta_dir default_pl  infile preamble_file
 			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents 
 	in
   let _ = printf "\nDone.%!" in
-  let _ = printf "\nTranslating to LaTeX ... %!" in
+  let _ = printf "\nTranslating to atomic LaTeX ... %!" in
   let tex = Ast.to_tex ast in
   let _ = printf "Done%!" in
   let _ = printf "\nTranslating to XML %!" in
@@ -139,6 +141,7 @@ let main () =
 
   let spec = [
               ("-d", Arg.Set Utils.debug, "Enables debug mode; default is false.");
+              ("-vv", Arg.Set arg_verbose_pandoc, "Enables pandoc verbose mode; default is false.");
               ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
 		          ("-na", Arg.Set arg_na, "Turn off atomic mode; default is false.");
               ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
@@ -175,7 +178,7 @@ let main () =
   in
   let _ = printf "Translating %s\n" infile_name in
   let is_md = Utils.file_is_markdown infile_name in
-  let (tex, xml) = input_to_xml is_md !arg_verbose !arg_tmp_dir !arg_meta_dir !arg_default_pl 
+  let (tex, xml) = input_to_xml is_md !arg_verbose !arg_verbose_pandoc !arg_tmp_dir !arg_meta_dir !arg_default_pl 
                          infile_name !arg_preamble_file in       
 	let _ = 
 		if is_md then

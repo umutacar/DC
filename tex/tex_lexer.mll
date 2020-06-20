@@ -476,13 +476,14 @@ parse
      CHUNK(x, None)
     }
 
-| p_o_sq as x
-  {
-     let (arg, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in
-     let all = x ^ arg ^ c_c in
-     let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in 
-       CHUNK(all, None)
-  }
+(* No need to treat [ .. ] as a chunk. *)
+(* | p_o_sq as x *)
+(*   { *)
+(*      let (arg, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in *)
+(*      let all = x ^ arg ^ c_c in *)
+(*      let _ = d_printf "!lexer matched square-bracket chunk:\n%s.\n" all in  *)
+(*        CHUNK(all, None) *)
+(*   } *)
 
 | p_o_curly as x
   {
