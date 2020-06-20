@@ -121,7 +121,7 @@ let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infil
 			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents 
 	in
   let _ = printf "\nDone.%!" in
-  let _ = printf "\nTranslating to LaTeX ... %!" in
+  let _ = printf "\nTranslating to atomic LaTeX ... %!" in
   let tex = Ast.to_tex ast in
   let _ = printf "Done%!" in
   let _ = printf "\nTranslating to XML %!" in

@@ -476,6 +476,7 @@ parse
      CHUNK(x, None)
     }
 
+(* No need to treat [ .. ] as a chunk. *)
 (* | p_o_sq as x *)
 (*   { *)
 (*      let (arg, c_c) = take_arg 1 kw_sq_open kw_sq_close lexbuf in *)
