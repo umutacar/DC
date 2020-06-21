@@ -1,5 +1,6 @@
 | Date       |    Guide    |    Problem Bank    | Notes
 --------------------------------------------------------
+| 06/20/2020 |    0.17.9   |    0.16            | Deployed on guide: 0.17.0
 | 05/20/2020 |    0.16.7   |    0.16            | Deployed on guide: 0.16.7
 | 05/05/2020 |    0.16.6   |    0.16            | Deployed on guide: 0.16.6
 | 04/26/2020 |    0.16.5   |    0.16            | Deployed on guide: 0.16.5
