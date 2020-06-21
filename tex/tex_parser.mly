@@ -96,7 +96,8 @@ let str_of_kw_args kw_args =
 
 
 %token <string> KW_FOLD
-%token <string * string * string option> KW_HEADING
+(* KW_HEADING token has kind, argument, point value, strategy *)
+%token <string * string * string option * string option> KW_HEADING
 %token <string * string * string option> KW_BEGIN_GROUP
 %token <string * string> KW_END_GROUP
 
@@ -243,7 +244,7 @@ textpar_tail:
 
 heading:
   h = KW_HEADING 
-		{ let (kind, heading, pval_opt) = h in 
+		{ let (kind, heading, pval_opt, strategy_opt) = h in 
 (*  		let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in *)
 			(kind, heading, pval_opt) 
 		}

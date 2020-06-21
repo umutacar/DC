@@ -103,7 +103,7 @@ let token_to_str tk =
 	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
 	| KW_END_GROUP (x, _) -> "* lexer: token = end group " ^ x
 	| KW_FOLD (x) -> "* lexer: token = fold: " ^ x
-	| KW_HEADING (x, _, _) -> "* lexer: token = heading: " ^ x
+	| KW_HEADING (x, _, _, _) -> "* lexer: token = heading: " ^ x
   | EOF -> "* lexer: token = EOF.";
   | _ ->  "Fatal Error: token match not found!!!"
 
@@ -116,7 +116,7 @@ let token_to_dbg_str tk =
 	| KW_BEGIN_GROUP (kind, arg, _) -> sprintf "\\begin{%s}" kind 
 	| KW_END_GROUP (kind, _) -> sprintf "\\end{%s}" kind 
 	| KW_FOLD (x) -> x
-	| KW_HEADING (kind, title, _) -> sprintf "\\%s{%s}" kind title 
+	| KW_HEADING (kind, title, _, _) -> sprintf "\\%s{%s}" kind title 
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
@@ -399,7 +399,7 @@ parse
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-       KW_HEADING(kind, arg, None)
+       KW_HEADING(kind, arg, None, None)
     }		
 
 | (p_heading_with_attr as x) (p_o_curly as o_c)
@@ -413,7 +413,7 @@ parse
                          (Utils.str_of_str_opt point_val) 
                          (Utils.str_of_str_opt strategy) 
         in 
-				KW_HEADING(kind, arg, point_val)
+				KW_HEADING(kind, arg, point_val, strategy)
     }		
 
 | (p_err_heading_with_attr as x)
