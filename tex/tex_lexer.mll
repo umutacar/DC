@@ -245,7 +245,7 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let p_strategy = "ur"
+let p_strategy = "ur" 
 
 (* Examples: "50." "50.0" "50.0.ur" "50.ur" ".ur" *)
 (*let p_point_val =  *)
