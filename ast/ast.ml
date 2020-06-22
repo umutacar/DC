@@ -100,7 +100,7 @@ let sum_factors kind prompts =
 		else Constants.zero_points
 	in
 	let counts = List.map prompts ~f:factor_of_prompt in
-    if Tex.is_max_scorable kind then
+    if Tex.is_max_scorable kind thn
     	match List.reduce counts ~f:max_points with 
     	| None -> 
     		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice*) but found none.\n" in
@@ -794,6 +794,7 @@ struct
 	type t = 
 			{	kind: string;
 				mutable point_val: string option;
+				strategy: string option;
 				title: string option;
 				mutable label: string option; 
 				depend: string list option;
@@ -802,6 +803,7 @@ struct
 
   let kind g = g.kind
   let point_val g = g.point_val
+  let strategy g = g.strategy
   let title g = g.title
 	let label g = g.label
 	let depend g = g.depend
@@ -810,15 +812,16 @@ struct
 	let make  
 			?kind: (kind = Tex.kw_cluster) 
 			?point_val: (point_val = None) 
+			?strategy: (strategy = None) 
 			?title: (title = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
 			atoms = 
-				{kind; point_val; title; label; depend; atoms=atoms}
+				{kind; point_val; strategy; title; label; depend; atoms=atoms}
 
   (* Traverse (pre-order) group by applying f to its fields *) 
   let traverse group state f = 
-		let {kind; point_val; title; label; depend; atoms} = group in
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
 		let s = f Ast_group state ~kind:(Some kind) ~point_val ~title ~label ~depend ~contents:None in
 
 		let atom_tr_f state atom = Atom.traverse atom state f in
@@ -829,11 +832,11 @@ struct
 		  List.fold_left atoms ~init:s ~f:atom_tr_f
 
   let to_tex group = 
-		let {kind; point_val; title; label; depend; atoms} = group in
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
-		let point_val = Tex.mk_point_val point_val in
+    let descriptor = Tex.mk_segment_descriptor point_val strategy in
 		let title = Tex.mk_title title in
-		let h_begin = Tex.mk_begin kind point_val title in
+		let h_begin = Tex.mk_begin kind descriptor title in
 		let h_end = Tex.mk_end kind in
 		let l = Tex.mk_label label in
 		let d = Tex.mk_depend depend in
@@ -893,7 +896,7 @@ struct
 		(tt_all, tb_all)
 
   let propagate_point_value group = 
-		let {kind; point_val; title; label; depend; atoms} = group in
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
 		let _ = d_printf "Group.propagate_point_value: kind = %s title = %s\n" kind (str_of_str_opt title) in
 		let points = List.map atoms ~f:Atom.propagate_point_value in
     let sum = List.reduce points ~f:add_points in
@@ -901,7 +904,7 @@ struct
 		force_float_string sum
 
   let to_xml translator group = 
-		let {kind; point_val; title; label; depend; atoms} = group in
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
     let titles = str_opt_to_xml translator Xml.title title in
     let depend = depend_to_xml depend in
@@ -913,9 +916,16 @@ struct
      *)
 
 		let r = 
+<<<<<<< HEAD
 			Xml.mk_segment 
+||||||| merged common ancestors
+			Xml.mk_group 
+=======
+			Xml.mk_segment
+>>>>>>> extend groups with strategy: groups are also segments
 				~kind:kind 
         ~pval:point_val
+        ~strategy:strategy
         ~topt:titles
         ~lopt:label
 				~dopt:depend 
@@ -1303,7 +1313,6 @@ struct
         ~body:body
    in
      r
-
 end
 type segment = Segment.t
 
