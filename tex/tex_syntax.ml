@@ -519,6 +519,13 @@ let mk_rubric e =
 			let l = kw_cookie_rubric ^ newline ^ x in
 			l ^ newline
 
+let mk_segment_descriptor point_val strategy =
+  match (point_val, strategy) with 
+  | (None, None) -> ""
+  | (None, Some s) -> mk_opt_arg s
+  | (Some p, None) -> mk_opt_arg p
+  | (Some p, Some s) -> mk_opt_arg (p ^ s)
+
 let mk_title topt = 
   match topt with 
   |  None -> ""
@@ -527,9 +534,9 @@ let mk_title topt =
 let mk_command kind p = 
   kind ^ p
 
-let mk_segment_header kind p t = 
+let mk_segment_header kind descriptor t = 
   let b = "\\" ^ kind in
-    b ^ p ^ (mk_arg t) ^ "\n"
+    b ^ descriptor ^ (mk_arg t) ^ "\n"
 
 let mk_begin name p t = 
   let b = "\\begin" ^ (mk_arg name) in

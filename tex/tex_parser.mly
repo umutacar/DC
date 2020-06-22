@@ -96,7 +96,8 @@ let str_of_kw_args kw_args =
 
 
 %token <string> KW_FOLD
-%token <string * string * string option> KW_HEADING
+(* KW_HEADING token has kind, argument, point value, strategy *)
+%token <string * string * string option * string option> KW_HEADING
 %token <string * string * string option> KW_BEGIN_GROUP
 %token <string * string> KW_END_GROUP
 
@@ -243,9 +244,8 @@ textpar_tail:
 
 heading:
   h = KW_HEADING 
-		{ let (kind, heading, pval_opt) = h in 
-(*  		let (pval_f_opt, pval_opt_str) = mk_point_val_f_opt pval_opt in *)
-			(kind, heading, pval_opt) 
+		{ let (kind, heading, pval_opt, strategy_opt) = h in 
+		  (kind, heading, pval_opt, strategy_opt) 
 		}
 
 top:
@@ -264,9 +264,11 @@ segment:
   h = heading;
   b = block;
   {
-   let (kind, title, pval_opt) = h in
-(*   let _ = d_printf ("!parser: %s %s matched") kind title in *)
-     Ast.Segment.make ~kind:kind ~point_val:pval_opt title b []
+   let (kind, title, pval_opt, strategy_opt) = h in
+   (*
+   let _ = d_printf ("!parser: kind=%s, strategy = %s, title = %s matched\n") kind (str_of_str_opt strategy_opt) title in 
+   *)
+     Ast.Segment.make ~kind:kind ~point_val:pval_opt ~strategy:strategy_opt title b []
   }	  
 
 /* segments */

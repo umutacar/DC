@@ -103,6 +103,7 @@ let rubric = "rubric"
 let rubric_src = "rubric_src"
 let solution = "solution"
 let sound = "sound"
+let strategy = "quiz_strategy"
 let syntax = "syntax"
 let task = "task"
 let teach_ask = "teachask"
@@ -265,6 +266,11 @@ let mk_point_value_opt(x) =
   match x with
   | None -> mk_field_generic(point_value, C.no_point_value)
   | Some y -> mk_field_generic(point_value, y)
+
+let mk_strategy_opt(x) = 
+  match x with
+  | None -> mk_field_generic(strategy, C.no_strategy)
+  | Some y -> mk_field_generic(strategy, y)
 
 let mk_no(x) = 
   mk_field_generic(no, x)
@@ -457,12 +463,13 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
   let fields = [pl_xml; pl_version_xml] @ titles @ [cover_xml; sound_xml; label_xml; depend_xml; pval_xml; body_xml; body_src; prompts] @ captions in
     mk_segment_atom kind fields
 
-let mk_segment ~kind ~pval ~topt ~lopt ~dopt ~body = 
+let mk_segment ~kind ~pval ~topt ~strategy ~lopt ~dopt ~body = 
   let pval_xml = mk_point_value_opt pval in
+  let strategy_xml = mk_strategy_opt strategy in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
   let depend_xml = mk_depend_opt dopt in
-  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body] in
+  let fields = [pval_xml; strategy_xml] @ titles @ [label_xml; depend_xml; body] in
 	mk_segment_generic kind fields
 
 let mk_paragraph ~pval ~title ~title_xml ~lopt ~body = 

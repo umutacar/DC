@@ -103,7 +103,7 @@ let token_to_str tk =
 	| KW_BEGIN_GROUP (x, _, _) -> "* lexer: token = begin group " ^ x
 	| KW_END_GROUP (x, _) -> "* lexer: token = end group " ^ x
 	| KW_FOLD (x) -> "* lexer: token = fold: " ^ x
-	| KW_HEADING (x, _, _) -> "* lexer: token = heading: " ^ x
+	| KW_HEADING (x, _, _, _) -> "* lexer: token = heading: " ^ x
   | EOF -> "* lexer: token = EOF.";
   | _ ->  "Fatal Error: token match not found!!!"
 
@@ -116,7 +116,7 @@ let token_to_dbg_str tk =
 	| KW_BEGIN_GROUP (kind, arg, _) -> sprintf "\\begin{%s}" kind 
 	| KW_END_GROUP (kind, _) -> sprintf "\\end{%s}" kind 
 	| KW_FOLD (x) -> x
-	| KW_HEADING (kind, title, _) -> sprintf "\\%s{%s}" kind title 
+	| KW_HEADING (kind, title, _, _) -> sprintf "\\%s{%s}" kind title 
   | EOF -> "EOF\n"
   | _ ->  "Fatal Error: token match not found!!!"
 
@@ -230,7 +230,10 @@ let p_exp = ['e' 'E'] ['-' '+']? p_digit+
 let p_float = p_digit* p_frac? p_exp?
 
 let p_alpha = ['a'-'z' 'A'-'Z']
+let p_alpha_num = ['a'-'z' 'A'-'Z' '0'-'9']
 let p_separator = [':' '.' '-' '_' '/']
+
+let p_alpha_nums = p_alpha_num*
 
 (* No white space after backslash *)
 let p_backslash = '\\'
@@ -242,7 +245,23 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
+let p_strategy = "ur" | "all"
+
+(* Examples: "50." "50.0" "50.0.ur" "50.ur" ".ur" *)
+(*let p_point_val =  *)
+let p_seg_attr = 
+  (p_o_sq as o_sq)
+  (p_integer as point_val)? p_ws '.' 
+  ('0' | "0." (p_strategy as strategy) | (p_strategy as strategy))? 
+  p_ws (p_c_sq as c_sq)
+
+(* Examples: "50." "50.0" "50.0.ur" "50.ur" ".ur" *)
+(*let p_point_val =  *)
+let p_err_seg_attr = 
+  (p_o_sq as o_sq)
+  (p_alpha_nums as point_val) p_ws '.' 
+  (p_alpha_nums as strategy)
+  p_ws (p_c_sq as c_sq)
 
 let p_com_begin = '\\' "begin" p_ws												 
 let p_com_end = '\\' "end" p_ws												 
@@ -267,22 +286,27 @@ let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_na
 
 let p_kw_chapter = ("chapter" as kind) ['*']? 
 let p_chapter = p_kw_chapter
-let p_chapter_with_points = p_kw_chapter p_ws (p_point_val as points)
+let p_chapter_with_attr = p_kw_chapter p_ws p_seg_attr
+let p_err_chapter_with_attr = p_kw_chapter p_ws p_err_seg_attr
 
 let p_kw_section = ("section" as kind) ['*']? 
 let p_section = p_kw_section p_ws
-let p_section_with_points = p_kw_section p_ws (p_point_val as points)
+let p_section_with_attr = p_kw_section p_ws p_seg_attr
+let p_err_section_with_attr = p_kw_section p_ws p_err_seg_attr
 
 let p_kw_subsection = ("subsection" as kind) ['*']? 
 let p_subsection = p_kw_subsection p_ws 
-let p_subsection_with_points = p_kw_subsection p_ws (p_point_val as points)
+let p_subsection_with_attr = p_kw_subsection p_ws p_seg_attr
+let p_err_subsection_with_attr = p_kw_subsection p_ws p_err_seg_attr
 
 let p_kw_subsubsection = ("subsubsection" as kind) ['*']? 
 let p_subsubsection = p_kw_subsubsection p_ws 
-let p_subsubsection_with_points = p_kw_subsubsection p_ws (p_point_val as points)
+let p_subsubsection_with_attr = p_kw_subsubsection p_ws p_seg_attr
+let p_err_subsubsection_with_attr = p_kw_subsubsection p_ws p_err_seg_attr
 
 let p_paragraph = ("paragraph" as kind) p_ws												
-let p_paragraph_with_points = ("paragraph" as kind) p_ws (p_point_val as points)
+let p_paragraph_with_attr = ("paragraph" as kind) p_ws p_seg_attr
+let p_err_paragraph_with_attr = ("paragraph" as kind) p_ws p_err_seg_attr
 
 let p_cluster = "cluster"
 let p_flex = "flex"
@@ -309,7 +333,6 @@ let p_env_math =
 
 
 let p_begin_env = (p_com_begin p_ws) (p_o_curly) (p_env) p_ws (p_c_curly) 
-let p_begin_env_with_points = (p_com_begin p_ws) (p_o_curly) (p_env) (p_c_curly) p_ws (p_point_val as points)
 let p_end_env = (p_com_end p_ws) (p_o_curly) (p_env as kind) (p_c_curly) 
 
 let p_begin_env_math = (p_com_begin p_ws) (p_o_curly) (p_env_math) p_ws (p_c_curly) 
@@ -337,16 +360,24 @@ let p_segment =
   p_subsubsection |
   p_paragraph  
 
-let p_segment_with_points =
-	p_chapter_with_points | 
-  p_section_with_points | 
-  p_subsection_with_points | 
-  p_subsubsection_with_points | 
-  p_paragraph_with_points
+let p_segment_with_attr =
+	p_chapter_with_attr | 
+  p_section_with_attr | 
+  p_subsection_with_attr | 
+  p_subsubsection_with_attr | 
+  p_paragraph_with_attr
+
+let p_err_segment_with_attr =
+	p_err_chapter_with_attr | 
+  p_err_section_with_attr | 
+  p_err_subsection_with_attr | 
+  p_err_subsubsection_with_attr | 
+  p_err_paragraph_with_attr
 
 (* Headings *)
 let p_heading = '\\' p_segment
-let p_heading_with_points = '\\' p_segment_with_points
+let p_heading_with_attr = '\\' p_segment_with_attr
+let p_err_heading_with_attr = '\\' p_err_segment_with_attr
 
 let p_group = ((p_cluster as kind) p_ws as kindws) |
               ((p_flex as kind) p_ws as kindws) |
@@ -354,7 +385,7 @@ let p_group = ((p_cluster as kind) p_ws as kindws) |
 
 (* Groups *)
 let p_begin_group = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) 
-let p_begin_group_with_points = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
+let p_begin_group_with_attr = (p_com_begin p_ws as b) (p_o_curly as o) p_group (p_c_curly as c) (p_o_sq as o_sq) (p_integer as point_val) (p_c_sq as c_sq)
 let p_end_group = (p_com_end p_ws as e) (p_o_curly as o) p_group (p_c_curly as c) 
 
 
@@ -368,17 +399,36 @@ parse
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
      let h = x ^ o_c ^ arg ^ c_c in
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-       KW_HEADING(kind, arg, None)
+       KW_HEADING(kind, arg, None, None)
     }		
 
-| (p_heading_with_points as x) (p_o_curly as o_c)
+| (p_heading_with_attr as x) (p_o_curly as o_c)
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-        let _ = d_printf "!lexer matched segment all: %s, points = %s." kind point_val in 
-       KW_HEADING(kind, arg, Some point_val)
+(* 
+        let _ = d_printf "!lexer matched segment all: %s, points = %s, strategy=%s.\n" 
+                         kind 
+                         (Utils.str_of_str_opt point_val) 
+                         (Utils.str_of_str_opt strategy) 
+        in 
+*)
+				KW_HEADING(kind, arg, point_val, strategy)
+    }		
+
+| (p_err_heading_with_attr as x)
+    {
+(*     let _ = d_printf "!lexer matched segment: %s." kind in *)
+        let _ = printf "!lexer matched segment all: %s, points = %s, strategy=%s.\n" 
+                         kind 
+                         point_val
+                         strategy 
+        in
+     	  let err = sprintf "Syntax Error: heading %s has an ill-formed descriptor %s" kind x in
+        let _ = printf "%s\n" err in
+		    raise (Constants.Syntax_Error err)
     }		
 
 | (p_begin_group as x) (p_o_sq as a)
