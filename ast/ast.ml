@@ -100,7 +100,7 @@ let sum_factors kind prompts =
 		else Constants.zero_points
 	in
 	let counts = List.map prompts ~f:factor_of_prompt in
-    if Tex.is_max_scorable kind thn
+    if Tex.is_max_scorable kind then
     	match List.reduce counts ~f:max_points with 
     	| None -> 
     		let err = "Syntax Error: expecting a solution prompt (\\sol, \\choice, \\choice*) but found none.\n" in
