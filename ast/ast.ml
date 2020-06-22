@@ -193,7 +193,6 @@ let depend_to_xml dopt =
   |  None -> None
   |  Some ls -> Some (str_of_str_list ls)
 
-
 let collect_labels (labels: (string list * string list) list): string list * string list = 
 	let tt = List.map labels ~f:(fun (x, y) -> x) in
 	let tb = List.map labels ~f:(fun (x, y) -> y) in
@@ -1073,6 +1072,7 @@ struct
 	type t = 
 			{	kind: string;
 				mutable point_val: string option;
+				strategy: string option;
  				title: string;
 				mutable label: string option; 
 				depend: string list option;
@@ -1081,6 +1081,7 @@ struct
 			} 
   let kind s = s.kind
   let point_val s = s.point_val
+  let strategy s = s.strategy
   let title s = s.title
 	let label s = s.label
 	let depend g = g.depend
@@ -1090,6 +1091,7 @@ struct
 	let make  
 			?kind: (kind = Tex.kw_gram) 
 			?point_val: (point_val = None) 
+			?strategy: (strategy = None) 
 			?label: (label = None) 
 			?depend: (depend = None)
 			title
@@ -1112,14 +1114,14 @@ struct
 					end
 			| Some l -> Some l
 		in
-		{kind; point_val; title; label; depend; 
+		{kind; point_val; strategy; title; label; depend; 
 		 block = block; subsegments = subsegments}
 
 
   (* Traverse (pre-order) group by applying f to its fields *) 
   let rec traverse segment state f = 
 
-		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
 		let _ = d_printf "Segment.traverse: %s title = %s\n" kind title in
 (*
     let _ = d_printf_optstr "label " label in
@@ -1135,7 +1137,7 @@ struct
 
 
   let rec propagate_point_value segment : string = 
-		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
 		let _ = d_printf "Segment.propagate_point_value %s title = %s\n" kind title in
 (*
     let _ = d_printf_optstr "label " label in
@@ -1151,11 +1153,11 @@ struct
    * Used for debugging only.
    *)
   let rec to_tex_level level segment = 		
-		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
-		let point_val = Tex.mk_point_val point_val in
+    let descriptor = Tex.mk_segment_descriptor point_val strategy in
 		let level_str = string_of_int level in
-		let h_begin = Tex.mk_segment_header (level_str ^ kind) point_val title in
+		let h_begin = Tex.mk_segment_header (level_str ^ kind) descriptor title in
 		let h_end = Tex.mk_end kind in
 		let l_opt = Tex.mk_label label in
 		let d_opt = Tex.mk_depend depend in
@@ -1168,10 +1170,10 @@ struct
       subsegments
 
   let rec to_tex segment = 
-		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
 		let point_val = normalize_point_val point_val in
-		let point_val = Tex.mk_point_val point_val in
-		let h_begin = Tex.mk_segment_header kind point_val title in
+    let descriptor = Tex.mk_segment_descriptor point_val strategy in
+		let h_begin = Tex.mk_segment_header kind descriptor title in
 		let h_end = Tex.mk_end kind in
 		let l_opt = Tex.mk_label label in
 		let d_opt = Tex.mk_depend depend in
@@ -1281,7 +1283,7 @@ struct
 		()
 
   let rec to_xml translator segment = 
-		let {kind; point_val; title; label; depend; block; subsegments} = segment in
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
     let _ = d_printf "ast.segment.to_xml: title = %s\n" title in
 		let point_val = normalize_point_val point_val in
     let _ = d_printf "ast.segment.to_xml: point_val = %s\n" (str_of_pval_opt point_val) in
@@ -1291,9 +1293,10 @@ struct
 		let subsegments = map_concat_with newline (to_xml translator) subsegments in
 		let body = block ^ newline ^ subsegments in
 		let r = 
-			Xml.mk_segment 
+			Xml.mk_segment
 				~kind:kind 
         ~pval:point_val
+        ~strategy:strategy
         ~topt:titles
         ~lopt:label
 				~dopt:depend 

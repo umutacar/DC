@@ -8,7 +8,9 @@ let ext_tex = "tex"
 let ext_xml = "xml"
 let space = " " 
 
+
 let default_points_per_question = "1.0" 
+let default_strategy = "all" 
 let zero_points = "0.0" 
 let zero_weight = "0.0" 
 let cookie_weight_explain = "0.1"

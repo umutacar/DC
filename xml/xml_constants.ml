@@ -35,6 +35,7 @@ let no_prompt = not_provided ^ "PROMPT..."
 let no_rank = "0"  (* has to be a number still *) 
 let no_solution = not_provided ^ "UNKOWN.SOLUTION..." 
 let no_sound = not_provided ^ "SOUND..." 
+let no_strategy = Constants.default_strategy
 let no_title = not_provided ^ "TITLE..." 
 let no_topics = not_provided ^ "TOPICS..."
 let no_unique = "0"  (* has to be a number still *) 
