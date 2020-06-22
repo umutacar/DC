@@ -916,13 +916,7 @@ struct
      *)
 
 		let r = 
-<<<<<<< HEAD
 			Xml.mk_segment 
-||||||| merged common ancestors
-			Xml.mk_group 
-=======
-			Xml.mk_segment
->>>>>>> extend groups with strategy: groups are also segments
 				~kind:kind 
         ~pval:point_val
         ~strategy:strategy
