@@ -457,19 +457,6 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
   let fields = [pl_xml; pl_version_xml] @ titles @ [cover_xml; sound_xml; label_xml; depend_xml; pval_xml; body_xml; body_src; prompts] @ captions in
     mk_segment_atom kind fields
 
-let mk_group ~kind ~pval ~topt ~lopt ~dopt ~body = 
-  let pval_xml = mk_point_value_opt pval in
-  let titles = mk_title_opt topt in
-  let label_xml = mk_label_opt lopt in
-  let depend_xml = mk_depend_opt dopt in
-  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body] in
-
-(* We will use the kind of the group as a segment name.
-   Because these are unique this creates no ambiguity.
-   We know which segments are groups.
- *)
-    mk_segment_generic kind fields
-
 let mk_segment ~kind ~pval ~topt ~lopt ~dopt ~body = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
