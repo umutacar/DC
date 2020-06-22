@@ -907,8 +907,14 @@ struct
     let titles = str_opt_to_xml translator Xml.title title in
     let depend = depend_to_xml depend in
 		let atoms = map_concat_with newline (Atom.to_xml translator) atoms in
+
+    (* We will use the kind of the group as a segment name.
+       Because these are unique this creates no ambiguity.
+       We know which segments are groups.
+     *)
+
 		let r = 
-			Xml.mk_group 
+			Xml.mk_segment 
 				~kind:kind 
         ~pval:point_val
         ~topt:titles
@@ -1285,7 +1291,7 @@ struct
 		let subsegments = map_concat_with newline (to_xml translator) subsegments in
 		let body = block ^ newline ^ subsegments in
 		let r = 
-			Xml.mk_group 
+			Xml.mk_segment 
 				~kind:kind 
         ~pval:point_val
         ~topt:titles
