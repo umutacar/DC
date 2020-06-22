@@ -265,7 +265,9 @@ segment:
   b = block;
   {
    let (kind, title, pval_opt, strategy_opt) = h in
-   let _ = printf ("!parser: kind=%s, strategy = %s, title = %s matched\n") kind (str_of_str_opt strategy_opt) title in 
+   (*
+   let _ = d_printf ("!parser: kind=%s, strategy = %s, title = %s matched\n") kind (str_of_str_opt strategy_opt) title in 
+   *)
      Ast.Segment.make ~kind:kind ~point_val:pval_opt ~strategy:strategy_opt title b []
   }	  
 

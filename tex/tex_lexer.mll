@@ -245,7 +245,7 @@ let p_c_curly = '}' p_hs
 let p_o_sq = '[' p_ws
 let p_c_sq = ']' p_hs											
 
-let p_strategy = "ur" 
+let p_strategy = "ur" | "all"
 
 (* Examples: "50." "50.0" "50.0.ur" "50.ur" ".ur" *)
 (*let p_point_val =  *)
@@ -408,11 +408,13 @@ parse
      let (arg, c_c) = take_arg 1 kw_curly_open kw_curly_close lexbuf in
 (*     let h = x ^ o_c ^ arg ^ c_c in *)
 (*     let _ = d_printf "!lexer matched segment all: %s." h in *)
-        let _ = printf "!lexer matched segment all: %s, points = %s, strategy=%s.\n" 
+(* 
+        let _ = d_printf "!lexer matched segment all: %s, points = %s, strategy=%s.\n" 
                          kind 
                          (Utils.str_of_str_opt point_val) 
                          (Utils.str_of_str_opt strategy) 
         in 
+*)
 				KW_HEADING(kind, arg, point_val, strategy)
     }		
 
