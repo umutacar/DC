@@ -95,8 +95,8 @@ let kw_short_answer = "\\ans"
 let kw_ask = "\\ask"
 let kw_refsol = "\\sol"
 let kw_refsol_fillin = "\\solfin"
-let kw_refsol_fillin_ask = "\\solfin_ask"
-let kw_refsol_fillin_sol = "\\solfin_sol"
+let kw_refsol_fillin_ask = "\\solfinask"
+let kw_refsol_fillin_sol = "\\solfinsol"
 
 
 
