@@ -208,6 +208,8 @@ let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 let p_com_refsol_fillin = '\\' "solfin"
+let p_com_refsol_fillin_ask = '\\' "solfinask"
+let p_com_refsol_fillin_sol = '\\' "solfinsol"
 let p_com_refsol_false = '\\' "solf"
 let p_com_refsol_true = '\\' "solt"
 let p_com_score = '\\' "sc"
@@ -250,6 +252,8 @@ let p_item =
   (p_com_part as kind) |
   (p_com_refsol as kind) |
   (p_com_refsol_fillin as kind) |
+  (p_com_refsol_fillin_ask as kind) |
+  (p_com_refsol_fillin_sol as kind) |
   (p_com_refsol_false as kind) |
   (p_com_refsol_true as kind) 
 
