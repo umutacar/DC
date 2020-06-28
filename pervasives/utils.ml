@@ -48,11 +48,16 @@ let str_of_str2_list (xs: (string * string) list): string =
   str_of_str2_list_with " " ", " xs
 
 
-let str_of_items (xs: (string * string option * string) list): string = 
-  let str_of_item (kind, pvalopt, body) = 
+let str_of_items (xs: (string * string option * string option * string) list): string = 
+  let str_of_item (kind, pvalopt, lopt, body) = 
+    let label = 
+      match lopt with 
+			| None -> ""
+			| Some l -> "\\label{" ^ l ^ "}\n"
+		in
 		match pvalopt with 
-		| None -> kind ^ "\n" ^ body ^ "\n"
-		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ body ^ "\n"
+		| None -> kind ^ "\n" ^ label ^ body ^ "\n"
+		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ label ^ body ^ "\n"
 	in
 	let l = List.map xs ~f:str_of_item in
   String.concat ~sep:", " l
