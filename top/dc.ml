@@ -24,6 +24,15 @@ let get_str_arg r v =
   | None -> (printf "Fatal Error"; exit 1)
   | Some s -> s
 
+let write_to_file infile_name  derivative data = 
+	let (outfile_name) = Utils.mk_derivative_filename infile_name derivative in
+	let _ = Out_channel.write_all outfile_name ~data:data in
+  begin
+		printf "\n";
+		printf "Output written to %s.\n" outfile_name
+	end
+
+
 let mk_md_translator verbose tmp_dir meta_dir default_pl = 
   let preamble = "" in
   Md_translator.mk_translator 
@@ -96,10 +105,19 @@ let ast_from_string (lex, parse) contents =
     with End_of_file -> exit 0
 	in
   let _ = printf "Done.%!" in
+  let _ = printf "Printing AST." in
+  let tex = Ast.to_tex ast in
+  let _ = write_to_file "dump0" "tex" tex in
   let _ = printf "\n    Normalizing AST ... " in
 	let _ = Ast.validate ast in
+  let _ = printf "Printing AST." in
+  let tex = Ast.to_tex ast in
+  let _ = write_to_file "dump" "tex" tex in
   let _ = Ast.normalize ast in
   let _ = printf "Done.%!" in
+  let _ = printf "Printing Normalized AST." in
+  let tex = Ast.to_tex ast in
+  let _ = write_to_file "dump-normalize" "tex" tex in
   let _ = printf "\n    Assigning labels and points ... " in
   let _ = Ast.assign_labels ast in
   let _ = Ast.propagate_point_values ast in 

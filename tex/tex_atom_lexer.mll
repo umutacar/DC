@@ -426,7 +426,7 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin primary items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind, Some point_val, body)::items in 
           (* Drop items from body *)
@@ -439,7 +439,7 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin primary items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
 				let items = (kind, None, body)::items in 
           (* Drop items from body *)
@@ -451,7 +451,7 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" solution prompt without a preceeding question prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
@@ -463,7 +463,7 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" solution prompt without a preceeding question prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
@@ -475,7 +475,7 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
@@ -487,7 +487,7 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
@@ -499,7 +499,7 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
         let (body, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
@@ -738,7 +738,7 @@ and take_list =
 	 | (p_item as x) p_ws_hard
 	 { let (body, items, h_e) = take_list lexbuf in
      let prompt_items =  rewrite_prompt kind None body in
-     let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
+     let _ = d_printf "* atom lexer: item kind %s body = %s\n" kind body in
 	   let items = prompt_items @ items in     
 	     ("", items, h_e)	 	 
 	 }

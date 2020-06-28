@@ -198,6 +198,8 @@ let label_prefix_ask = "prt-ask"
 let label_prefix_short_answer = "prt-ans"
 let label_prefix_free_response = "prt-answer"
 let label_prefix_refsol = "prt-sol"
+let label_prefix_fillin_ask = "prt-fin-ask"
+let label_prefix_fillin_sol = "prt-fin-sol"
 let label_prefix_choice = "prt-choice"
 let label_prefix_cookie_explain = "cki-explain"
 let label_prefix_cookie_hint = "cki-hint"
@@ -272,8 +274,8 @@ let label_prefix_of_kind =
    kw_choice, label_prefix_choice;
    kw_choice_correct, label_prefix_choice;
    kw_refsol, label_prefix_refsol;
-   kw_refsol_fillin_ask, label_prefix_refsol;
-   kw_refsol_fillin_sol, label_prefix_refsol;
+   kw_refsol_fillin_ask, label_prefix_fillin_ask;
+   kw_refsol_fillin_sol, label_prefix_fillin_sol;
   ]
   @
   (* Cookies *)

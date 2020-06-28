@@ -1503,8 +1503,9 @@ let prompt_of_items (items: t_item list): t_prompt =
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
 			let  (kind, point_val, body) = item in
-      let _ = d_printf "prompt_of_items: point_val = %s.\n" (str_of_pval_opt point_val) in
+      let _ = d_printf "prompt_of_items: kind = %s point_val = %s.\n" kind (str_of_pval_opt point_val) in
 			if Tex.is_prompt kind then
+        let _ = d_printf "prompt_of_items: kind = %s is prompt.\n" kind in
 				let cookies = List.map rest_items ~f:cookie_of_item in
 				Prompt.make ~point_val kind body cookies 
   		else
@@ -1649,12 +1650,15 @@ let prompts_of_items (items: t_item list) =
 		| [ ] -> [ ]
 		| item::items_rest ->
 				let (kind, point_val, body) = item in
+    		let _ = d_printf "ast.prompt_of_items: top kind = %s\n" kind in
 				if Tex.is_primary_prompt kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
 					let prompts = prompts @ [prompt] in         
 					let prompts = assign_points_to_prompts prompts in
-            List.map prompts ~f:prompt_of_items
+          let result = List.map prompts ~f:prompt_of_items in
+          let _ = d_printf "prompts_of_items: made %d prompts" (List.length result) in
+					result
 				else
 					(printf "Parse Error: I was expecting a primary prompt here.\n";
 					 exit 1)

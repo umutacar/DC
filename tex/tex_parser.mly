@@ -316,6 +316,7 @@ atom:
   tp_all = textpar;
   {	 
 	 let (all, ell) = tp_all in
+   let _ = d_printf "tex_parser: atom all = %s \n"  all  in
    let a = parse_atom all in
 	 let (kind, popt, plopt, kw_args, lopt, body, capopt, prompts) = 
 	   match a with 
@@ -332,6 +333,7 @@ atom:
 	 in			 
 (*   let _ = d_printf "tex_parser: atom.kw_args = %s \n" (str_of_kw_args kw_args) in *)
 	 let body = String.strip ~drop:is_vert_space body in
+   let _ = d_printf "tex_parser: atom body = %s \n"  body  in
    let version_opt = find_in_list kw_args "version" in
    let topt = find_in_list kw_args "title" in
    let copt = find_in_list kw_args "cover" in
@@ -344,7 +346,7 @@ atom:
 			 None
 	 in
 
-	 if Tex.is_label_only body then
+	 if (Tex.is_label_only body) && (capopt==None) && (List.length(prompts)==0) then
 		 ([ ], ell)
 	 else
 		 let a = Ast.Atom.make 

@@ -108,6 +108,10 @@ let mk_atomic_filename tmp_dir filename =
   let atomic_name_uuid = Filename.concat tmp_dir atomic_basename_uuid in
     (atomic_name, atomic_name_uuid)
 													 
+let mk_derivative_filename filename derivative = 
+  let (filename_first, ext) = Filename.split_extension filename in
+    filename_first ^ "." ^ derivative
+
 let mk_xml_filename filename = 
   let (filename_first, ext) = Filename.split_extension filename in
     filename_first ^ "." ^ Constants.ext_xml
