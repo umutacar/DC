@@ -100,25 +100,27 @@ let rewrite_prompt_body (body: string) =
   body_new
 
 let rewrite_prompt (kind: string) 
+                   (tag: string option) 
                    (point_val_opt: string option) 
                    (lopt: string option) 
                    (body: string) = 
   if Tex.is_prompt_refsol_fillin kind then          
     (* Question version *) 
+    (* Use the supplied labels for the question version. *)
 		let lexbuf = Lexing.from_string body in
-		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
-    let prompt_ask = (Tex.kw_refsol_fillin_ask, point_val_opt, lopt, body_ask) in
+		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in 
+    let prompt_ask = (Tex.kw_refsol_fillin_ask, tag, point_val_opt, lopt, body_ask) in
 
-    (* TODO: THE LABEL SHOULD BE DIFFERENT *)
     (* Solution versionsion *) 
+    (* For this version, do not use the supplied labels *)
 		let lexbuf = Lexing.from_string body in
 		let body_sol = Prompt_lexer.lexer Constants.Prompt_Mode_Solution lexbuf in
-    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, lopt, body_sol) in
+    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, None, None, body_sol) in
 
     (* Include both *)
       [prompt_ask; prompt_sol]
   else
-    let prompt = (kind, point_val_opt, lopt, body) in
+    let prompt = (kind, tag, point_val_opt, lopt, body) in
 		[prompt]
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
@@ -228,8 +230,8 @@ let p_tag = (p_alpha | p_digit)+
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_float as point_val) p_ws (p_c_sq as c_sq)
-let p_item_weight_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_weight as weight) p_ws (p_c_sq as c_sq)
+let p_item_point_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_float as point_val)? p_ws (p_c_sq as c_sq)
+let p_item_weight_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_weight as weight)? p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -434,7 +436,7 @@ and take_env =
         *) 
         let _ = d_printf "* atom lexer: begin primary items kind = %s tag = %s.\n" kind (str_of_str_opt tag) in
         let (body, lopt, items, h_e) = take_list lexbuf in
-				let items = (kind, Some point_val, lopt, body)::items in 
+				let items = (kind, tag, point_val, lopt, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
@@ -447,7 +449,7 @@ and take_env =
         *) 
         let _ = d_printf "* atom lexer: begin primary items kind = %s.\n" kind in
         let (body, lopt, items, h_e) = take_list lexbuf in
-				let items = (kind, None, lopt, body)::items in 
+				let items = (kind, None, None, lopt, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
@@ -736,35 +738,35 @@ and take_list =
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
 
      (* If this is a fillin prompt, then rewrite body *) 
-     let prompt_items =  rewrite_prompt kind (Some point_val) lopt  body in
-     let _ = d_printf "* atom_lexer: item kind %s tag = %s points = %s body = %s\n" kind (str_of_str_opt tag) point_val body in
+     let prompt_items =  rewrite_prompt kind tag point_val lopt  body in
+     let _ = d_printf "* atom_lexer: item kind %s tag = %s points = %s body = %s\n" kind (str_of_str_opt tag) (str_of_str_opt point_val) body in
 	   let items = prompt_items @ items in     
 	   ("", None, items, h_e)	 	 
 	 }
 	 | (p_item as x) p_ws_hard
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
-     let prompt_items =  rewrite_prompt kind None lopt body in
+     let prompt_items =  rewrite_prompt kind None None lopt body in
      let _ = d_printf "* atom lexer: item kind %s body = %s\n" kind body in
 	   let items = prompt_items @ items in     
 	     ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_and_weight as x) p_ws_hard 
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
-     let cookie = (kind, Some weight, lopt, body) in
-     let _ = d_printf "* atom_lexer: item kind %s tag = %s weight = %s body = %s\n" kind (str_of_str_opt tag) weight body in
+     let cookie = (kind, tag, weight, lopt, body) in
+     let _ = d_printf "* atom_lexer: item kind %s tag = %s weight = %s body = %s\n" kind (str_of_str_opt tag) (str_of_str_opt weight) body in
 	   let items =  cookie::items in     
 	   ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_weighted as x) p_ws_hard
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
-     let cookie = (kind, None, lopt, body) in
+     let cookie = (kind, None, None, lopt, body) in
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
 	   let items = cookie::items in     
 	     ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_naked as x) p_ws_hard
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
-     let cookie = (kind, None, lopt, body) in
+     let cookie = (kind, None, None, lopt, body) in
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
 	   let items = cookie::items in     
 	     ("", None, items, h_e)	 	 

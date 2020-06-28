@@ -42,7 +42,7 @@ let mk_point_val_f_opt (s: string option) =
         string option *   (* label *)
         string *          (* body *)
         string option *   (* caption: body option *)
-        ((string * string option *  string option * string) list) *   (* items kind, point opt, label opt, body *)
+        ((string * string option * string option *  string option * string) list) *   (* items kind, tag opt, point opt, label opt, body *)
 	      string> ATOM       (* all *)
 
 %start top
@@ -53,7 +53,7 @@ let mk_point_val_f_opt (s: string option) =
         string option *   (* label *)
         string *          (* body *)
         string option *   (* caption *)
-        ((string * string option * string option * string) list)  (* items kind, point opt, label opt, body *)
+        ((string * string option * string option * string option * string) list)  (* items kind, tag opt, point opt, label opt, body *)
 	      ) option>  top  (* all *)
 
 /*  BEGIN RULES */
