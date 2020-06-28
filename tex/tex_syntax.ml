@@ -459,6 +459,24 @@ let mk_point_val popt =
   |  None -> ""
   |  Some pts -> mk_opt_arg pts
 
+let mk_tag tag = 
+	tag ^ ")"
+
+let mk_tagged_point_val tag popt = 
+  match popt with 
+  |  None -> 
+      begin
+				match tag with 
+				| None -> ""
+				| Some t -> mk_opt_arg (mk_tag t)
+			end
+  |  Some pts -> 
+			begin
+				match tag with 
+				| None -> mk_opt_arg pts
+				| Some t -> mk_opt_arg ((mk_tag t) ^ pts)
+			end
+
 let mk_kw_args l =   
   let l = List.filter l ~f:(fun (k, v) -> match v with | None -> false | Some _ -> true) in
   let mapper (k, v) = 
