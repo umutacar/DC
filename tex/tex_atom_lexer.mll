@@ -235,7 +235,6 @@ let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
 
 
-
 (* begin: verbatim 
  * we will treat verbatim as a "box"
  *)
@@ -433,7 +432,7 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* atom lexer: begin primary items kind = %s.\n" kind in
+        let _ = d_printf "* atom lexer: begin primary items kind = %s tag = %s.\n" kind (str_of_str_opt tag) in
         let (body, lopt, items, h_e) = take_list lexbuf in
 				let items = (kind, Some point_val, lopt, body)::items in 
           (* Drop items from body *)
@@ -738,7 +737,7 @@ and take_list =
 
      (* If this is a fillin prompt, then rewrite body *) 
      let prompt_items =  rewrite_prompt kind (Some point_val) lopt  body in
-     let _ = d_printf "* atom_lexer: item kind %s points = %s body = %s\n" kind point_val body in
+     let _ = d_printf "* atom_lexer: item kind %s tag = %s points = %s body = %s\n" kind (str_of_str_opt tag) point_val body in
 	   let items = prompt_items @ items in     
 	   ("", None, items, h_e)	 	 
 	 }
@@ -752,7 +751,7 @@ and take_list =
 	 | (p_item_and_weight as x) p_ws_hard 
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
      let cookie = (kind, Some weight, lopt, body) in
-     let _ = d_printf "* atom_lexer: item kind %s weight = %s body = %s\n" kind weight body in
+     let _ = d_printf "* atom_lexer: item kind %s tag = %s weight = %s body = %s\n" kind (str_of_str_opt tag) weight body in
 	   let items =  cookie::items in     
 	   ("", None, items, h_e)	 	 
 	 }
