@@ -316,14 +316,22 @@ struct
    * 
    * outer_label is unique for this prompt.
 	*)
-	let assign_label prefix label_set outer_label cookie = 		
+	let assign_label prefix label_set (outer_label, pos) cookie = 		
+		let {kind; tag} = cookie in
 		let (tt, tb) = tokenize_title_body cookie.title (Some (cookie.body)) in
     let t_all  = tt @ tb in
     let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
-    (* Place outer label first, because it will be unique 
-     * The rest is probably not needed but don't have time to think 
-     * through it now.
+
+    (* Place  outer label extended with tag & pos.
+     * This will be unique and the rest is probably not needed
+     * but don't have time to think through it now.
      *)
+    let outer_label = 
+			match tag with 
+			| None -> Labels.nest_label_in outer_label (string_of_int pos)
+			| Some t -> Labels.nest_label_in outer_label (Labels.mk_label_from_tag t) 
+		in
+
     let t_all  = [outer_label] @ t_all in
 		let _ = 
 			match cookie.label with 
@@ -489,16 +497,23 @@ struct
    * nest them within the outer label provided (by the atom).
    * outer_label is unique for this prompt, within the atom.
 	*)
-	let assign_label prefix label_set outer_label prompt = 		
+	let assign_label prefix label_set (outer_label, pos) prompt = 		
+    let {kind; tag} = prompt in
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
 
     let t_all  = tt @ tb in
     let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
-    (* Place outer label first, because it will be unique 
-     * The rest is probably not needed but don't have time to think 
-     * through it now.
+
+    (* Place  outer label extended with tag & pos.
+     * This will be unique and the rest is probably not needed
+     * but don't have time to think through it now.
      *)
+    let outer_label = 
+			match tag with 
+			| None -> Labels.nest_label_in outer_label (string_of_int pos)
+			| Some t -> Labels.nest_label_in outer_label (Labels.mk_label_from_tag t) 
+		in
     let t_all  = [outer_label] @ t_all in
 
     (* Assign a label to prompt *)
@@ -510,11 +525,11 @@ struct
 					prompt.label <- Some l; l_raw
 		| Some l -> l
 		in
-    (* Now recur over cookies, after making a unique nesting label for each *)
-    let nesting_labels = List.init (List.length prompt.cookies) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
-		let _ = List.map2  nesting_labels prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
-    	()
-
+    (* Make a nesting label for each prompt, of the form atom-label::0, atom-label::1, ... *)
+    let cookie_labels = List.init (List.length prompt.cookies) ~f:(fun i ->  (l_raw, i)) in
+		let _ = List.map2  cookie_labels prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
+      (* Add atom label so that it can be used by the group. *)
+		()
 
   (* tokenize the content	*)
 	let tokenize prompt = 		
@@ -713,8 +728,8 @@ struct
 			| Some l -> l
 		in 
     (* Make a nesting label for each prompt, of the form atom-label::0, atom-label::1, ... *)
-    let nesting_labels = List.init (List.length atom.prompts) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
-		let _ = List.map2  nesting_labels atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+    let prompt_labels = List.init (List.length atom.prompts) ~f:(fun i ->  (l_raw, i)) in
+		let _ = List.map2  prompt_labels atom.prompts ~f:(Prompt.assign_label prefix label_set) in
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
