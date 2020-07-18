@@ -330,6 +330,12 @@ let atom_kinds =
    kw_theorem, ()
   ]
 
+let primary_algo_prompt_kinds = 
+  [
+   kw_algo, ();
+  ]
+
+
 let primary_question_choice_prompt_kinds = 
   [
    kw_one_choice, ();
@@ -352,7 +358,6 @@ let primary_question_prompt_kinds =
 	primary_question_choice_prompt_kinds
 	@
   [
-   kw_algo, ();
    kw_ask, ();
    kw_short_answer, ();
    kw_free_response, ()
@@ -373,6 +378,7 @@ let max_scorable_prompt_kinds =
 
 let prompt_kinds = 
   primary_question_prompt_kinds @
+  primary_algo_prompt_kinds @
   [
    kw_choice, ();
    kw_choice_correct, ();
@@ -689,6 +695,12 @@ let is_atom kind =
        | None ->
 					 let _ = d_printf "Not an atom: %s\n" kind in
 					 None
+
+
+let is_primary_algo_prompt kind = 
+   match List.Assoc.find primary_algo_prompt_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
 
 
 

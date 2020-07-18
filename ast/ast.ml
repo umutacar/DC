@@ -1677,6 +1677,14 @@ let prompts_of_items (items: t_item list) =
           let result = List.map prompts ~f:prompt_of_items in
           let _ = d_printf "prompts_of_items: made %d prompts" (List.length result) in
 					result
+				else if Tex.is_primary_algo_prompt kind then
+					let prompt = [item] in
+					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
+					let prompts = prompts @ [prompt] in         
+(*					let prompts = assign_points_to_prompts prompts in *)
+          let result = List.map prompts ~f:prompt_of_items in
+          let _ = d_printf "prompts_of_items: made %d prompts" (List.length result) in
+					result
 				else
 					(printf "Parse Error: I was expecting a primary prompt here.\n";
 					 exit 1)
