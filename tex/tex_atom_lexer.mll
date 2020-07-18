@@ -69,13 +69,13 @@ let normalize_env (kind, title, kw_args) =
 
   (* Drop final star if env name has one. *)
   let kind = 
-		if kind = "table*" or kind = "figure*" then
+		if kind = "table*" || kind = "figure*" then
 			Utils.drop_final_char kind
 		else
 			kind
 	in
 	let _ = d_printf "kind = %s title = %s\n" kind title in
-  if kind = "table" or kind = "figure" then
+  if kind = "table" || kind = "figure" then
     if Tex.title_is_significant title then
       (kind, Some title, ("title", title)::kw_args)
 		else
@@ -99,22 +99,29 @@ let rewrite_prompt_body (body: string) =
 	let _ = d_printf "rewrite_prompt: body_new: %s\n" body_new in
   body_new
 
-let rewrite_prompt (kind: string) (point_val_opt: string option) (body: string) = 
+let rewrite_prompt (kind: string) 
+                   (tag: string option) 
+                   (point_val_opt: string option) 
+                   (lopt: string option) 
+                   (body: string) = 
+  let _ = d_printf "rewrite prompt kind = %s label = %s\n" kind (str_of_str_opt lopt) in
   if Tex.is_prompt_refsol_fillin kind then          
     (* Question version *) 
+    (* Use the supplied labels for the question version. *)
 		let lexbuf = Lexing.from_string body in
-		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in
-    let prompt_ask = (Tex.kw_refsol_fillin_ask, point_val_opt, body_ask) in
+		let body_ask = Prompt_lexer.lexer Constants.Prompt_Mode_Question lexbuf in 
+    let prompt_ask = (Tex.kw_refsol_fillin_ask, tag, point_val_opt, lopt, body_ask) in
 
-    (* Solution version *) 
+    (* Solution versionsion *) 
+    (* For this version, do not use the supplied labels *)
 		let lexbuf = Lexing.from_string body in
 		let body_sol = Prompt_lexer.lexer Constants.Prompt_Mode_Solution lexbuf in
+    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, None, None, body_sol) in
 
     (* Include both *)
-    let prompt_sol = (Tex.kw_refsol_fillin_sol, None, body_sol) in
       [prompt_ask; prompt_sol]
   else
-    let prompt = (kind, point_val_opt, body) in
+    let prompt = (kind, tag, point_val_opt, lopt, body) in
 		[prompt]
 
 let mk_atom_str (h_b, body, capopt, items, h_e) = 
@@ -172,7 +179,8 @@ let p_float = p_digit* p_frac?
 let p_weight = ['+' '-']? ('0'? '.' p_digit*) | ('1' '.' '0'?)
 
 let p_alpha = ['a'-'z' 'A'-'Z']
-let p_separator = [':' '.' '-' '_' '/']
+(* Parantheses are only allowable for Diderot LaTeX outputs*)
+let p_separator = [':' '.' '-' '_' '/' '(' ')']  
 let p_keyword = p_alpha+
 
 (* No white space after backslash *)
@@ -208,6 +216,8 @@ let p_com_part = '\\' "part"
 let p_com_rubric = '\\' "rubric"
 let p_com_refsol = '\\' "sol"
 let p_com_refsol_fillin = '\\' "solfin"
+let p_com_refsol_fillin_ask = '\\' "solfinask"
+let p_com_refsol_fillin_sol = '\\' "solfinsol"
 let p_com_refsol_false = '\\' "solf"
 let p_com_refsol_true = '\\' "solt"
 let p_com_score = '\\' "sc"
@@ -218,14 +228,16 @@ let p_com_short_answer = "\\asks"
 let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
+let p_tag = (p_alpha | p_digit)+
 
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) (p_float as point_val) p_ws (p_c_sq as c_sq)
-let p_item_weight_val = (p_o_sq as o_sq) (p_weight as weight) p_ws (p_c_sq as c_sq)
+let p_item_point_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_float as point_val)? p_ws (p_c_sq as c_sq)
+let p_item_weight_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_weight as weight)? p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
+
 
 (* begin: verbatim 
  * we will treat verbatim as a "box"
@@ -250,6 +262,8 @@ let p_item =
   (p_com_part as kind) |
   (p_com_refsol as kind) |
   (p_com_refsol_fillin as kind) |
+  (p_com_refsol_fillin_ask as kind) |
+  (p_com_refsol_fillin_sol as kind) |
   (p_com_refsol_false as kind) |
   (p_com_refsol_true as kind) 
 
@@ -422,9 +436,9 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
-				let items = (kind, Some point_val, body)::items in 
+        let _ = d_printf "* atom lexer: begin primary items kind = %s tag = %s.\n" kind (str_of_str_opt tag) in
+        let (body, lopt, items, h_e) = take_list lexbuf in
+				let items = (kind, tag, point_val, lopt, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
@@ -435,9 +449,9 @@ and take_env =
         * It should also be at the tail of an environment.
         * TODO: check for these and return an error if not satisfied.
         *) 
-        let _ = d_printf "* lexer: begin primary items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
-				let items = (kind, None, body)::items in 
+        let _ = d_printf "* atom lexer: begin primary items kind = %s.\n" kind in
+        let (body, lopt, items, h_e) = take_list lexbuf in
+				let items = (kind, None, None, lopt, body)::items in 
           (* Drop items from body *)
  	        (None, "", None, items, h_e)
       }
@@ -447,8 +461,8 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
+        let (body, lopt, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" solution prompt without a preceeding question prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
 				raise (Constants.Syntax_Error err)							
@@ -459,8 +473,8 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
+        let (body, lopt, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" solution prompt without a preceeding question prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
 				raise (Constants.Syntax_Error err)							
@@ -471,8 +485,8 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
+        let (body, lopt, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
 				raise (Constants.Syntax_Error err)							
@@ -483,8 +497,8 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
+        let (body, lopt, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
 				raise (Constants.Syntax_Error err)							
@@ -495,8 +509,8 @@ and take_env =
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
         *) 
-        let _ = d_printf "* lexer: begin items kind = %s.\n" kind in
-        let (body, items, h_e) = take_list lexbuf in
+        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
+        let (body, lopt, items, h_e) = take_list lexbuf in
  				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
 				let _ = printf "%s\n" err in
 				raise (Constants.Syntax_Error err)							
@@ -723,42 +737,58 @@ and take_kw_args depth =
 and take_list =
 	 parse
 	 | (p_item_and_points as x) p_ws_hard 
-	 { let (body, items, h_e) = take_list lexbuf in
-
+	 { let (body, lopt, items, h_e) = take_list lexbuf in
      (* If this is a fillin prompt, then rewrite body *) 
-     let prompt_items =  rewrite_prompt kind (Some point_val)  body in
-     let _ = d_printf "* atom_lexer: item kind %s points = %s body = %s\n" kind point_val body in
+     let prompt_items =  rewrite_prompt kind tag point_val lopt  body in
+     let _ = d_printf "* atom_lexer: item kind %s tag = %s points = %s body = %s\n" kind (str_of_str_opt tag) (str_of_str_opt point_val) body in
 	   let items = prompt_items @ items in     
-	   ("", items, h_e)	 	 
+	   ("", None, items, h_e)	 	 
 	 }
 	 | (p_item as x) p_ws_hard
-	 { let (body, items, h_e) = take_list lexbuf in
-     let prompt_items =  rewrite_prompt kind None body in
-     let _ = d_printf "* lexer: item kind %s body = %s\n" kind body in
+	 { let (body, lopt, items, h_e) = take_list lexbuf in
+     let prompt_items =  rewrite_prompt kind None None lopt body in
+     let _ = d_printf "* atom lexer: item kind %s body = %s\n" kind body in
 	   let items = prompt_items @ items in     
-	     ("", items, h_e)	 	 
+	     ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_and_weight as x) p_ws_hard 
-	 { let (body, items, h_e) = take_list lexbuf in
-     let cookie = (kind, Some weight , body) in
-     let _ = d_printf "* atom_lexer: item kind %s weight = %s body = %s\n" kind weight body in
+	 { let (body, lopt, items, h_e) = take_list lexbuf in
+     let cookie = (kind, tag, weight, lopt, body) in
+     let _ = d_printf "* atom_lexer: item kind %s tag = %s weight = %s body = %s\n" kind (str_of_str_opt tag) (str_of_str_opt weight) body in
 	   let items =  cookie::items in     
-	   ("", items, h_e)	 	 
+	   ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_weighted as x) p_ws_hard
-	 { let (body, items, h_e) = take_list lexbuf in
-     let cookie = (kind, None , body) in
+	 { let (body, lopt, items, h_e) = take_list lexbuf in
+     let cookie = (kind, None, None, lopt, body) in
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
 	   let items = cookie::items in     
-	     ("", items, h_e)	 	 
+	     ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_naked as x) p_ws_hard
-	 { let (body, items, h_e) = take_list lexbuf in
-     let cookie = (kind, None , body) in
+	 { let (body, lopt, items, h_e) = take_list lexbuf in
+     let cookie = (kind, None, None, lopt, body) in
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
 	   let items = cookie::items in     
-	     ("", items, h_e)	 	 
+	     ("", None, items, h_e)	 	 
 	 }
+   | p_label_and_name as x
+   { 
+	   let _ = d_printf "!atom lexer: take_list: matched label %s.\n" x in 
+	   let all = label_pre ^ label_name ^ label_post in
+     let (body, lopt, items, h_e) = take_list lexbuf in
+     let _ = 
+       match lopt with 
+			 | None -> ()
+			 | Some l -> 
+			 	 let err = sprintf "Syntax Error: This prompt/cookie defines multiple labels: %s and %s" label_name l in 
+  		   raise (Constants.Syntax_Error err)
+		 in
+	   let body =  all ^ body in
+     (* Important: Drop inner label lopt *)
+     (body, Some label_name, items, h_e)  
+   }		
+
    | p_end_env as x
    { 
 (*            let _ = d_printf "!atom lexer: end latex env: %s\n" x in *)
@@ -766,10 +796,10 @@ and take_list =
 		 | None -> (printf "Fatal Error occured in atom_lexer.  No atom."; exit 1)
 		 | Some atom ->
 				 if kind = atom then 
-					 ("", [], x)
+					 ("", None, [], x)
 				 else
-					 let (body, items, h_e) = take_list lexbuf in
-					 (x ^ body, items, h_e)  
+					 let (body, lopt, items, h_e) = take_list lexbuf in
+					 (x ^ body, lopt, items, h_e)  
    }      
    | eof  
       {
@@ -785,9 +815,9 @@ and take_list =
       } 
 
 	 | _ as x 
-	 { let (body, items, h_e) = take_list lexbuf in
+	 { let (body, lopt, items, h_e) = take_list lexbuf in
 	   let body =  (str_of_char x) ^ body in
-	     (body, items, h_e)
+	     (body, lopt, items, h_e)
 	 }
 
 and skip_arg depth delimiter_open delimiter_close = 

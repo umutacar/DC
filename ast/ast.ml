@@ -14,10 +14,10 @@ module Xml = Xml_syntax
 
 type ast_member = Ast_cookie | Ast_prompt | Ast_problem | Ast_atom | Ast_group | Ast_element | Ast_block | Ast_segment
 
-(* An item is a kind * point value * body 
+(* An item is a kind * tag option * point value option * label option * body 
  * all are strings.
  *)
-type t_item = (string * string option * string)
+type t_item = (string * string option * string option *  string option * string)
 
 (**********************************************************************
  ** BEGIN: Constants
@@ -91,7 +91,7 @@ let normalize_point_val po =
 let sum_factors kind prompts = 
   let factor_of_prompt prompt =
 		let item = List.nth_exn prompt 0 in
-    let (kind, pval, _) = item in
+    let (kind, tag, pval, lopt, _) = item in
  		let _ = d_printf "factor_of_prompt: kind = %s\n" kind in
  		if Tex.is_scorable_prompt kind then 
       match pval with 
@@ -131,7 +131,7 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
   			let _ = printf "%s\n" err in
 				raise (Constants.Fatal_Error err)
 		| p::cookies ->
-				 let (kind, pval, body) = p in
+				 let (kind, tag, pval, lopt, body) = p in
 	       if Tex.is_scorable_prompt kind then
         	 let _ = d_printf "assign_points_to_question_prompts: kind = %s is scoroable\n" kind in
            let points = 
@@ -139,13 +139,12 @@ let assign_points_to_question_prompts (multiplier: string) (prompts: (t_item lis
           	 | None -> Tex.point_value_of_prompt kind 
           	 | Some points -> points in
            let points = multiply_points multiplier points in
-           (kind, Some points, body)::cookies
+           (kind, tag, Some points, lopt, body)::cookies
          else
         	 let _ = d_printf "assign_points_to_question_prompts: kind = %s is not scoroable\n" kind in
-	         (kind, Some Constants.zero_points, body)::cookies
+	         (kind, tag, Some Constants.zero_points, lopt, body)::cookies
 	in
 	List.map prompts ~f:assign
-
 
 
 (* Tokenize title:
@@ -245,6 +244,7 @@ struct
 				mutable point_val: string option;
 				mutable weight: string option;
 				title: string option;
+				tag: string option; 
 				mutable label: string option; 
 				depend: string list option;
 				body: string;
@@ -259,6 +259,7 @@ struct
 	let label_is_given cookie = cookie.label_is_given
 
   let make   
+			?tag: (tag = None) 
 			?weight: (weight = None) 
 			?title: (title = None) 
 			?label: (label = None) 
@@ -268,9 +269,9 @@ struct
     (* When created, the point value of a  cookie is always None. *)
 		match label with 
 		| None -> 
-				{kind; point_val=None; weight; title; label; depend; body; label_is_given=false}
+				{kind; tag; point_val=None; weight; title; label; depend; body; label_is_given=false}
 		| Some _ -> 
-				{kind; point_val=None; weight; title; label; depend; body; label_is_given=true}
+				{kind; tag; point_val=None; weight; title; label; depend; body; label_is_given=true}
 
   (* Traverse cookie by applying f to its fields *) 
   let traverse cookie state f = 
@@ -282,11 +283,11 @@ struct
       f Ast_cookie state ~kind:(Some kind) ~point_val ~title:None ~label ~depend:None ~contents:(Some body)
 
   let to_tex cookie = 
-		let {kind; point_val; weight; title; label; body} = cookie in
+		let {kind; tag; point_val; weight; title; label; body} = cookie in
     (* Use int value for point for idempotence in tex to tex translation *)
 		let weight = normalize_point_val weight in
-		let weight = Tex.mk_point_val weight in
-		let heading = Tex.mk_command kind weight in
+		let optarg = Tex.mk_tagged_point_val tag weight in
+		let heading = Tex.mk_command kind optarg in
 		let l = 
 			if label_is_given cookie then	""
 			else Tex.mk_label label 
@@ -315,14 +316,22 @@ struct
    * 
    * outer_label is unique for this prompt.
 	*)
-	let assign_label prefix label_set outer_label cookie = 		
+	let assign_label prefix label_set (outer_label, pos) cookie = 		
+		let {kind; tag} = cookie in
 		let (tt, tb) = tokenize_title_body cookie.title (Some (cookie.body)) in
     let t_all  = tt @ tb in
     let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
-    (* Place outer label first, because it will be unique 
-     * The rest is probably not needed but don't have time to think 
-     * through it now.
+
+    (* Place  outer label extended with tag & pos.
+     * This will be unique and the rest is probably not needed
+     * but don't have time to think through it now.
      *)
+    let outer_label = 
+			match tag with 
+			| None -> Labels.nest_label_in outer_label (string_of_int pos)
+			| Some t -> Labels.nest_label_in outer_label (Labels.mk_label_from_tag t) 
+		in
+
     let t_all  = [outer_label] @ t_all in
 		let _ = 
 			match cookie.label with 
@@ -376,6 +385,7 @@ module Prompt  =
 struct
 	type t = 
 			{	mutable kind: string;
+				tag: string option; 
 				mutable point_val: string option;
 				title: string option;
 				mutable label: string option; 
@@ -392,6 +402,7 @@ struct
 	let label_is_given p = p.label_is_given
 
   let make   
+			?tag: (tag = None) 
 			?point_val: (point_val = None) 
 			?title: (title = None) 
 			?label: (label = None) 
@@ -401,9 +412,9 @@ struct
 			cookies = 
 		match label with 
 		| None ->          
-				{kind; point_val; title; label; depend; body; cookies; label_is_given=false}
+				{kind; tag; point_val; title; label; depend; body; cookies; label_is_given=false}
 		| Some _ -> 
-				{kind; point_val; title; label; depend; body; cookies; label_is_given=true}
+				{kind; tag; point_val; title; label; depend; body; cookies; label_is_given=true}
 
   (* Traverse prompt by applying f to its fields *) 
   let traverse prompt state f = 
@@ -451,10 +462,10 @@ struct
 				prompt.point_val
 
   let to_tex prompt = 
-		let {kind; point_val; title; label; body; cookies} = prompt in
+		let {kind; tag; point_val; title; label; body; cookies} = prompt in
 		let point_val = normalize_point_val point_val in
-		let point_val = Tex.mk_point_val point_val in
-		let heading = Tex.mk_command kind point_val in
+		let optarg = Tex.mk_tagged_point_val tag point_val in
+		let heading = Tex.mk_command kind optarg in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
 		let l = 
 			if label_is_given prompt then	""
@@ -486,16 +497,23 @@ struct
    * nest them within the outer label provided (by the atom).
    * outer_label is unique for this prompt, within the atom.
 	*)
-	let assign_label prefix label_set outer_label prompt = 		
+	let assign_label prefix label_set (outer_label, pos) prompt = 		
+    let {kind; tag} = prompt in
     let _ = d_printf "Prompt.label, is_given = %B\n" prompt.label_is_given in
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
 
     let t_all  = tt @ tb in
     let t_all = List.map t_all ~f:(Labels.nest_label_in outer_label) in
-    (* Place outer label first, because it will be unique 
-     * The rest is probably not needed but don't have time to think 
-     * through it now.
+
+    (* Place  outer label extended with tag & pos.
+     * This will be unique and the rest is probably not needed
+     * but don't have time to think through it now.
      *)
+    let outer_label = 
+			match tag with 
+			| None -> Labels.nest_label_in outer_label (string_of_int pos)
+			| Some t -> Labels.nest_label_in outer_label (Labels.mk_label_from_tag t) 
+		in
     let t_all  = [outer_label] @ t_all in
 
     (* Assign a label to prompt *)
@@ -507,11 +525,11 @@ struct
 					prompt.label <- Some l; l_raw
 		| Some l -> l
 		in
-    (* Now recur over cookies, after making a unique nesting label for each *)
-    let nesting_labels = List.init (List.length prompt.cookies) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
-		let _ = List.map2  nesting_labels prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
-    	()
-
+    (* Make a nesting label for each prompt, of the form atom-label::0, atom-label::1, ... *)
+    let cookie_labels = List.init (List.length prompt.cookies) ~f:(fun i ->  (l_raw, i)) in
+		let _ = List.map2  cookie_labels prompt.cookies ~f:(Cookie.assign_label prefix label_set) in
+      (* Add atom label so that it can be used by the group. *)
+		()
 
   (* tokenize the content	*)
 	let tokenize prompt = 		
@@ -710,8 +728,8 @@ struct
 			| Some l -> l
 		in 
     (* Make a nesting label for each prompt, of the form atom-label::0, atom-label::1, ... *)
-    let nesting_labels = List.init (List.length atom.prompts) ~f:(fun i -> Labels.nest_label_in l_raw (string_of_int i)) in
-		let _ = List.map2  nesting_labels atom.prompts ~f:(Prompt.assign_label prefix label_set) in
+    let prompt_labels = List.init (List.length atom.prompts) ~f:(fun i ->  (l_raw, i)) in
+		let _ = List.map2  prompt_labels atom.prompts ~f:(Prompt.assign_label prefix label_set) in
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
@@ -1481,17 +1499,17 @@ let propagate_point_values ast =
 
 (* Create a cookie from an item *)
 let cookie_of_item (item: t_item): t_cookie = 
-	let (kind, point_val, body) = item in
+	let (kind, tag, point_val, label, body) = item in
   (* For cookies, the point val of an item is a weight *)
   let weight = point_val in
-  let _ = d_printf "cookie_of_item: kind %s, point_val %s, body %s\n" kind (str_of_pval_opt point_val) body in
+  let _ = d_printf "cookie_of_item: kind %s, point_val %s, label = %s body %s\n" kind (str_of_pval_opt point_val) (str_of_str_opt label) body in
 	if Tex.is_cookie kind then  
     match weight with 
     | None ->
       let weight = Some (Tex.get_cookie_weight kind) in
-  		Cookie.make ~weight kind body 
+  		Cookie.make ~tag ~weight ~label kind body 
     | Some _ ->
-  		Cookie.make ~weight kind body 
+  		Cookie.make ~tag ~weight ~label kind body 
 	else
 		(printf "Parse Error"; exit 1)
 
@@ -1502,11 +1520,12 @@ let prompt_of_items (items: t_item list): t_prompt =
 	match items with 
 		[ ] -> (printf "Fatal Internal Error"; exit 1)
 	| item::rest_items ->
-			let  (kind, point_val, body) = item in
-      let _ = d_printf "prompt_of_items: point_val = %s.\n" (str_of_pval_opt point_val) in
+			let  (kind, tag, point_val, label, body) = item in
+      let _ = d_printf "prompt_of_items: kind = %s point_val = %s label = %s.\n" kind (str_of_pval_opt point_val) (str_of_str_opt label) in
 			if Tex.is_prompt kind then
+        let _ = d_printf "prompt_of_items: kind = %s is prompt.\n" kind in
 				let cookies = List.map rest_items ~f:cookie_of_item in
-				Prompt.make ~point_val kind body cookies 
+				Prompt.make ~tag ~point_val ~label kind body cookies 
   		else
         (* item is a field for the current prompt *)
   			(printf "Parse Error: I was expecting a prompt here but saw kind = %s." kind;
@@ -1527,8 +1546,8 @@ let assign_points_to_prompts prompts =
 		| h::t -> 
       (* Find the head item *) 
 	    let head_item = List.nth_exn h 0 in
-      let (kind, pval, body) = head_item in 
-      let _ =  d_printf "take_next_question: kind = %s pval = %s \n" kind (str_of_pval_opt pval) in 
+      let (kind, tag, pval, label, body) = head_item in 
+      let _ =  d_printf "take_next_question: kind = %s pval = %s label = %s\n" kind (str_of_pval_opt pval) (str_of_str_opt label) in 
 			if Tex.is_primary_prompt kind then
         (* head item is primary, so start a new question *)
   			([ ], prompts)
@@ -1542,8 +1561,8 @@ let assign_points_to_prompts prompts =
   	 | h::t -> 
         (* Find the head item *) 
 				let head_item = List.nth_exn h 0 in
-        let (kind, pval, body) = head_item in 
-        let _ =  d_printf "take_next_question: kind = %s pval = %s\n" kind (str_of_pval_opt pval) in 
+        let (kind, tag, pval, label, body) = head_item in 
+        let _ =  d_printf "take_next_question: kind = %s pval = %s label = %s\n" kind (str_of_pval_opt pval) (str_of_str_opt label) in 
 				if Tex.is_primary_prompt kind then
           (* head item is primary, so start a new question *)
 	        let (rest, t_prompts)  = take_secondary_prompts t in
@@ -1570,7 +1589,7 @@ let assign_points_to_prompts prompts =
 				raise (Constants.Fatal_Error err)
 	 | head_prompt::prompts ->
      let head_item::t_head_prompt = head_prompt in
-     let (kind, pval, body) = head_item in      	 
+     let (kind, tag, pval, label, body) = head_item in      	 
      let n_factors = 
 			 try sum_factors kind prompts with
 				 Constants.Syntax_Error s -> 
@@ -1598,7 +1617,7 @@ let assign_points_to_prompts prompts =
      let points_per_factor = divide_points points n_factors in
      let _ = d_printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
      (* Update question prompt point value *)
-     let head_prompt = (kind, Some points, body)::t_head_prompt in
+     let head_prompt = (kind, tag, Some points, label, body)::t_head_prompt in
 
      (* Scale prompts now. *)
      let prompts = assign_points_to_question_prompts points_per_factor prompts in 
@@ -1629,7 +1648,7 @@ let prompts_of_items (items: t_item list) =
    *)
   let collect (current: (t_item list) * ((t_item list) list)) (item: t_item) = 
 		let (cp, prompts) = current in
-		let  (kind, point_val, body) = item in
+		let  (kind, tag, point_val, label, body) = item in
 		let _ = d_printf "ast.collect: kind = %s\n" kind in
 
 		if Tex.is_prompt kind then
@@ -1648,13 +1667,16 @@ let prompts_of_items (items: t_item list) =
 		match items with 
 		| [ ] -> [ ]
 		| item::items_rest ->
-				let (kind, point_val, body) = item in
+				let (kind, tag, point_val, label, body) = item in
+    		let _ = d_printf "ast.prompt_of_items: top kind = %s\n" kind in
 				if Tex.is_primary_prompt kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
 					let prompts = prompts @ [prompt] in         
 					let prompts = assign_points_to_prompts prompts in
-            List.map prompts ~f:prompt_of_items
+          let result = List.map prompts ~f:prompt_of_items in
+          let _ = d_printf "prompts_of_items: made %d prompts" (List.length result) in
+					result
 				else
 					(printf "Parse Error: I was expecting a primary prompt here.\n";
 					 exit 1)

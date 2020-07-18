@@ -62,6 +62,9 @@ let rec mk_label_from_number table =
 let nest_label_in outer inner =
   outer ^ Tex.label_nestor ^ inner
 
+let mk_label_from_tag tag =
+  "(" ^ tag ^ ")"
+
 
 (* If label has the form 
  * Examples: chapter:this -> this, ch:this-> this ch::this -> this.
@@ -129,7 +132,7 @@ let mk_label table kind prefix_opt candidates =
 let mk_label_force_raw table kind prefix candidates = 
   match candidates with 
   | [ ] -> 
-    (* Generate based on numbers *)
+    (* Generate based on numbeaxrs *)
     let raw_ls = mk_label_from_number table in 
     let ls = kind ^ Tex.label_seperator ^ prefix ^ Tex.label_nestor ^ raw_ls in
     let _ = d_printf "Label_set.mk_label_force label = %s\n" ls in

@@ -48,11 +48,21 @@ let str_of_str2_list (xs: (string * string) list): string =
   str_of_str2_list_with " " ", " xs
 
 
-let str_of_items (xs: (string * string option * string) list): string = 
-  let str_of_item (kind, pvalopt, body) = 
+let str_of_items (xs: (string * string option * string option * string option * string) list): string = 
+  let str_of_item (kind, tag, pvalopt, lopt, body) = 
+    let label = 
+      match lopt with 
+			| None -> ""
+			| Some l -> "\\label{" ^ l ^ "}\n"
+		in
+    let tag = 
+      match tag with 
+			| None -> ""
+			| Some t -> t ^ ")"
+		in
 		match pvalopt with 
-		| None -> kind ^ "\n" ^ body ^ "\n"
-		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ body ^ "\n"
+		| None -> kind ^ "\n" ^ label ^ body ^ "\n"
+		| Some p -> kind ^ "[" ^ p ^ "]" ^ "\n" ^ label ^ body ^ "\n"
 	in
 	let l = List.map xs ~f:str_of_item in
   String.concat ~sep:", " l
@@ -88,7 +98,7 @@ let d_printf_strlist heading (xs: string list) =
 
 
 (* BEGIN: File names etc *) 
-let file_derivative filename deriv = 
+let file_base_derivative filename deriv = 
   let (filename_, ext) = Filename.split_extension filename in
     match ext with 
     | None -> filename_ ^ deriv
@@ -103,11 +113,15 @@ let mk_atomic_filename tmp_dir filename =
   let dirname = Filename.dirname filename in  
 
   let atomic_basename = Constants.diderot_atomic ^ basename in 
-  let atomic_basename_uuid = file_derivative atomic_basename ("-" ^ uuid) in
+  let atomic_basename_uuid = file_base_derivative atomic_basename ("-" ^ uuid) in
   let atomic_name =  Filename.concat dirname atomic_basename in
   let atomic_name_uuid = Filename.concat tmp_dir atomic_basename_uuid in
     (atomic_name, atomic_name_uuid)
 													 
+let mk_derivative_filename filename derivative = 
+  let (filename_first, ext) = Filename.split_extension filename in
+    filename_first ^ "." ^ derivative
+
 let mk_xml_filename filename = 
   let (filename_first, ext) = Filename.split_extension filename in
     filename_first ^ "." ^ Constants.ext_xml

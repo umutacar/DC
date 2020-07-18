@@ -42,7 +42,7 @@ let inline_file_to infile outfile  =
 let inline_file infile = 
   (* Preprocessing I: Inline *)
   let infile_base = Filename.basename infile in
-  let infile_inlined = Utils.file_derivative infile_base Constants.ext_core in
+  let infile_inlined = Utils.file_base_derivative infile_base Constants.ext_core in
   let infile_inlined = Constants.tmp_dir_name  ^ "/" ^ infile_inlined in
   let () = inline_file_to infile infile_inlined in
     infile_inlined

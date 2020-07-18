@@ -8,7 +8,6 @@ let ext_tex = "tex"
 let ext_xml = "xml"
 let space = " " 
 
-
 let default_points_per_question = "1.0" 
 let default_strategy = "all" 
 let zero_points = "0.0" 

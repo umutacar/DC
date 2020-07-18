@@ -24,6 +24,16 @@ let get_str_arg r v =
   | None -> (printf "Fatal Error"; exit 1)
   | Some s -> s
 
+let dump_ast ast infilename = 
+  if not !Utils.debug then
+    ()
+	else
+    let tex = Ast.to_tex ast in
+  	let ast_filename = Utils.file_base_derivative infilename "_ast" in
+    let _ = printf "Writing ast to %s.\n" ast_filename in
+		Out_channel.write_all ast_filename ~data:tex 
+
+
 let mk_md_translator verbose tmp_dir meta_dir default_pl = 
   let preamble = "" in
   Md_translator.mk_translator 
@@ -79,7 +89,7 @@ let prep_input_tex verbose verbose_pandoc tmp_dir meta_dir default_pl infile (pr
 	(contents, translator)
 
 
-let ast_from_string (lex, parse) contents = 
+let ast_from_string (lex, parse) contents infilename = 
 (*
   let _ = printf "**contents:\n%s" contents in 
   let _ = printf "**contents done\n" in 
@@ -95,7 +105,7 @@ let ast_from_string (lex, parse) contents =
 			| Some ast -> ast
     with End_of_file -> exit 0
 	in
-  let _ = printf "Done.%!" in
+  let _ = dump_ast ast infilename in
   let _ = printf "\n    Normalizing AST ... " in
 	let _ = Ast.validate ast in
   let _ = Ast.normalize ast in
@@ -106,19 +116,19 @@ let ast_from_string (lex, parse) contents =
   let _ = printf "Done.%!" in
 		ast
 
-let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infile preamble_file = 
+let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename preamble_file = 
   let (contents, translator) = 
 		if is_md then
-			prep_input_md verbose tmp_dir meta_dir default_pl infile preamble_file 
+			prep_input_md verbose tmp_dir meta_dir default_pl infilename preamble_file 
 		else
-			prep_input_tex verbose verbose_pandoc tmp_dir meta_dir default_pl infile preamble_file 
+			prep_input_tex verbose verbose_pandoc tmp_dir meta_dir default_pl infilename preamble_file 
 	in
   let _ = printf "Building the AST ...\n%!" in
   let ast = 
 		if is_md then
-			ast_from_string (Md_lexer.lexer, Md_parser.top) contents 
+			ast_from_string (Md_lexer.lexer, Md_parser.top) contents infilename
 		else
-			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents 
+			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents  infilename
 	in
   let _ = printf "\nDone.%!" in
   let _ = printf "\nTranslating to atomic LaTeX ... %!" in
