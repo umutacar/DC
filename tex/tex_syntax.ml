@@ -52,10 +52,10 @@ let kw_cluster = "cluster"
 let kw_problem_cluster = "mproblem"
 let kw_flex = "flex"
 
-let kw_code = "code"
 let kw_algorithm = "algorithm"
 let kw_answer = "answer"
 let kw_assumption = "assumption"
+let kw_code = "code"
 let kw_corollary = "corollary"
 let kw_costspec = "costspec"
 let kw_datastr = "datastr"
@@ -88,11 +88,12 @@ let kw_teachask = "teachask"
 let kw_teachnote = "teachnote"
 let kw_theorem = "theorem"
 
+let kw_algo = "\\algo"
+let kw_ask = "\\ask"
 let kw_one_choice = "\\onechoice"
 let kw_any_choice = "\\anychoice"
 let kw_free_response = "\\answer"
 let kw_short_answer = "\\ans"
-let kw_ask = "\\ask"
 let kw_refsol = "\\sol"
 let kw_refsol_fillin = "\\solfin"
 let kw_refsol_fillin_ask = "\\solfinask"
@@ -329,7 +330,7 @@ let atom_kinds =
    kw_theorem, ()
   ]
 
-let primary_choice_prompt_kinds = 
+let primary_question_choice_prompt_kinds = 
   [
    kw_one_choice, ();
    kw_any_choice, ()
@@ -347,10 +348,11 @@ let secondary_choice_prompt_kinds =
   ]
 
 
-let primary_prompt_kinds = 
-	primary_choice_prompt_kinds
+let primary_question_prompt_kinds = 
+	primary_question_choice_prompt_kinds
 	@
   [
+   kw_algo, ();
    kw_ask, ();
    kw_short_answer, ();
    kw_free_response, ()
@@ -370,7 +372,7 @@ let max_scorable_prompt_kinds =
   ]
 
 let prompt_kinds = 
-  primary_prompt_kinds @
+  primary_question_prompt_kinds @
   [
    kw_choice, ();
    kw_choice_correct, ();
@@ -690,13 +692,13 @@ let is_atom kind =
 
 
 
-let is_primary_prompt kind = 
-   match List.Assoc.find primary_prompt_kinds ~equal: String.equal kind with 
+let is_primary_question_prompt kind = 
+   match List.Assoc.find primary_question_prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
 
-let is_primary_choice_prompt kind = 
-   match List.Assoc.find primary_choice_prompt_kinds ~equal: String.equal kind with 
+let is_primary_question_choice_prompt kind = 
+   match List.Assoc.find primary_question_choice_prompt_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
 

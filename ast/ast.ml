@@ -440,7 +440,7 @@ struct
 			let _ = printf "%s\n" err in
 			raise (Constants.Fatal_Error err)
     | Some p -> 
-				if Tex.is_primary_prompt kind then
+				if Tex.is_primary_question_prompt kind then
     			let _ = d_printf "Prompt.get_points %s, point_val=%s.\n" kind p in
 	    		p
         else 
@@ -1548,7 +1548,7 @@ let assign_points_to_prompts prompts =
 	    let head_item = List.nth_exn h 0 in
       let (kind, tag, pval, label, body) = head_item in 
       let _ =  d_printf "take_next_question: kind = %s pval = %s label = %s\n" kind (str_of_pval_opt pval) (str_of_str_opt label) in 
-			if Tex.is_primary_prompt kind then
+			if Tex.is_primary_question_prompt kind then
         (* head item is primary, so start a new question *)
   			([ ], prompts)
 	  	else            	      
@@ -1563,7 +1563,7 @@ let assign_points_to_prompts prompts =
 				let head_item = List.nth_exn h 0 in
         let (kind, tag, pval, label, body) = head_item in 
         let _ =  d_printf "take_next_question: kind = %s pval = %s label = %s\n" kind (str_of_pval_opt pval) (str_of_str_opt label) in 
-				if Tex.is_primary_prompt kind then
+				if Tex.is_primary_question_prompt kind then
           (* head item is primary, so start a new question *)
 	        let (rest, t_prompts)  = take_secondary_prompts t in
 					(h::rest, t_prompts)
@@ -1669,7 +1669,7 @@ let prompts_of_items (items: t_item list) =
 		| item::items_rest ->
 				let (kind, tag, point_val, label, body) = item in
     		let _ = d_printf "ast.prompt_of_items: top kind = %s\n" kind in
-				if Tex.is_primary_prompt kind then
+				if Tex.is_primary_question_prompt kind then
 					let prompt = [item] in
 					let (prompt, prompts) = List.fold items_rest ~init:(prompt, []) ~f:collect in
 					let prompts = prompts @ [prompt] in         

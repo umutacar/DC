@@ -200,6 +200,7 @@ let p_com_end = '\\' "end" p_ws
 let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_skip = p_com_lstinline
 
+let p_com_algo = '\\' "algo"
 let p_com_auto_grade_one = '\\' "agone"
 let p_com_auto_grade_any = '\\' "agany"
 let p_com_manu_grade_one = '\\' "gone"
