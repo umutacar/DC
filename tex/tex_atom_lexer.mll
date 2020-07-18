@@ -248,6 +248,7 @@ let p_end_verbatim = p_com_end p_ws p_o_curly p_ws p_verbatim p_ws p_c_curly
 (* end: verbatim *)
 
 let p_primary_item = 
+	(p_com_algo as kind) | 
 	(p_com_ask as kind) | 
 	(p_com_short_answer as kind) | 
 	(p_com_one_choice as kind) | 
