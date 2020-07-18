@@ -206,6 +206,11 @@ let p_com_auto_grade_any = '\\' "agany"
 let p_com_manu_grade_one = '\\' "gone"
 let p_com_manu_grade_any = '\\' "gany"
 
+
+let p_com_algo_c = '\\' "algoc"
+let p_com_algo_ca = '\\' "algoca"
+let p_com_algo_g = '\\' "algog"
+let p_com_algo_ga = '\\' "algoga"
 let p_com_choice = '\\' "choice"
 let p_com_continue = '\\' "continue"
 let p_com_choice_correct = '\\' "choice*"
@@ -277,6 +282,10 @@ let p_item_weighted =
 let p_item_naked = 
   (p_com_notes as kind) |
   (p_com_rubric as kind) |
+  (p_com_algo_c as kind) |
+  (p_com_algo_g as kind) |
+  (p_com_algo_ca as kind) |
+  (p_com_algo_ga as kind) |
   (p_com_auto_grade_one as kind) |
   (p_com_auto_grade_any as kind) |
   (p_com_manu_grade_one as kind) |
