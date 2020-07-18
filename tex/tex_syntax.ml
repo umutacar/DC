@@ -113,8 +113,7 @@ let kw_cookie_notes = "\\notes"
 let kw_cookie_rubric = "\\rubric"
 let kw_cookie_algo_c = "\\algoc"
 let kw_cookie_algo_g = "\\algog"
-let kw_cookie_algo_ca = "\\algoca"
-let kw_cookie_algo_ga = "\\algoga"
+let kw_cookie_algo_p = "\\algop"
 let kw_cookie_auto_grade_one = "\\agone"
 let kw_cookie_auto_grade_any = "\\agany"
 let kw_cookie_manu_grade_one = "\\gone"
@@ -212,9 +211,8 @@ let label_prefix_cookie_notes = "cki-notes"
 let label_prefix_cookie_rubric = "cki-rubric"
 let label_prefix_cookie_score = "cki-score"
 let label_prefix_cookie_algo_c = "cki-algo-c"
-let label_prefix_cookie_algo_ca = "cki-algo-ca"
 let label_prefix_cookie_algo_g = "cki-algo-g"
-let label_prefix_cookie_algo_ga = "cki-algo-ga"
+let label_prefix_cookie_algo_p = "cki-algo-p"
 let label_prefix_cookie_manu_grade = "cki-manual-grade"
 let label_prefix_cookie_auto_grade = "cki-auto-grade"
 let label_prefix_cookie_manu_grade = "cki-manual-grade"
@@ -296,8 +294,7 @@ let label_prefix_of_kind =
    kw_cookie_rubric, label_prefix_cookie_rubric;
    kw_cookie_algo_c, label_prefix_cookie_algo_c;
    kw_cookie_algo_g, label_prefix_cookie_algo_g;
-   kw_cookie_algo_ca, label_prefix_cookie_algo_ca;
-   kw_cookie_algo_ga, label_prefix_cookie_algo_ga;
+   kw_cookie_algo_p, label_prefix_cookie_algo_p;
    kw_cookie_auto_grade_one, label_prefix_cookie_auto_grade;
    kw_cookie_auto_grade_any, label_prefix_cookie_auto_grade;
    kw_cookie_manu_grade_one, label_prefix_cookie_manu_grade;
@@ -411,8 +408,7 @@ let cookie_kinds =
    kw_cookie_score, ();
    kw_cookie_algo_c, ();
    kw_cookie_algo_g, ();
-   kw_cookie_algo_ca, ();
-   kw_cookie_algo_ga, ();
+   kw_cookie_algo_p, ();
    kw_cookie_auto_grade_one, ();
    kw_cookie_auto_grade_any, ();
    kw_cookie_manu_grade_one, ();
