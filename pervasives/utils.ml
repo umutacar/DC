@@ -98,7 +98,7 @@ let d_printf_strlist heading (xs: string list) =
 
 
 (* BEGIN: File names etc *) 
-let file_derivative filename deriv = 
+let file_base_derivative filename deriv = 
   let (filename_, ext) = Filename.split_extension filename in
     match ext with 
     | None -> filename_ ^ deriv
@@ -113,7 +113,7 @@ let mk_atomic_filename tmp_dir filename =
   let dirname = Filename.dirname filename in  
 
   let atomic_basename = Constants.diderot_atomic ^ basename in 
-  let atomic_basename_uuid = file_derivative atomic_basename ("-" ^ uuid) in
+  let atomic_basename_uuid = file_base_derivative atomic_basename ("-" ^ uuid) in
   let atomic_name =  Filename.concat dirname atomic_basename in
   let atomic_name_uuid = Filename.concat tmp_dir atomic_basename_uuid in
     (atomic_name, atomic_name_uuid)

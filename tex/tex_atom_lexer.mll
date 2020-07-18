@@ -104,6 +104,7 @@ let rewrite_prompt (kind: string)
                    (point_val_opt: string option) 
                    (lopt: string option) 
                    (body: string) = 
+  let _ = d_printf "rewrite prompt kind = %s label = %s\n" kind (str_of_str_opt lopt) in
   if Tex.is_prompt_refsol_fillin kind then          
     (* Question version *) 
     (* Use the supplied labels for the question version. *)
@@ -178,7 +179,8 @@ let p_float = p_digit* p_frac?
 let p_weight = ['+' '-']? ('0'? '.' p_digit*) | ('1' '.' '0'?)
 
 let p_alpha = ['a'-'z' 'A'-'Z']
-let p_separator = [':' '.' '-' '_' '/']
+(* Parantheses are only allowable for Diderot LaTeX outputs*)
+let p_separator = [':' '.' '-' '_' '/' '(' ')']  
 let p_keyword = p_alpha+
 
 (* No white space after backslash *)
@@ -736,7 +738,6 @@ and take_list =
 	 parse
 	 | (p_item_and_points as x) p_ws_hard 
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
-
      (* If this is a fillin prompt, then rewrite body *) 
      let prompt_items =  rewrite_prompt kind tag point_val lopt  body in
      let _ = d_printf "* atom_lexer: item kind %s tag = %s points = %s body = %s\n" kind (str_of_str_opt tag) (str_of_str_opt point_val) body in
@@ -773,7 +774,7 @@ and take_list =
 	 }
    | p_label_and_name as x
    { 
-(*	    let _ = d_printf "!atom lexer: matched label %s." x in *)
+	   let _ = d_printf "!atom lexer: take_list: matched label %s.\n" x in 
 	   let all = label_pre ^ label_name ^ label_post in
      let (body, lopt, items, h_e) = take_list lexbuf in
      let _ = 
