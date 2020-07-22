@@ -75,3 +75,63 @@ Place the following in your root directory file .ocamlinit
 #require "core.top";;
 #require "core.syntax";;
 ```
+
+## Build Installable Packages
+### MacOS
+To create a Homebrew 'tap' for installing DC run the followng commands:
+```
+# if it doesn't already exist, clone the homebrew-diderot repo
+#  at the same level as DC
+git clone https://github.com/diderot-edu/homebrew-diderot/
+
+make guide_macos
+./update_brew
+
+# update_brew will print a list of the following commands with $VERSION
+#  replaced with the correct version #
+# they should be copy pasted and executed to update the diderot tap repo
+
+cd ../homebrew-diderot
+git commit . -m "updated version to $VERSION"
+git push
+git tag -f $VERSION
+git push origin master --tags
+```
+
+This will do the following:
+* build DC
+* create a versioned zip file (and upload it the the `diderot-dist` S3 bucket
+* update the homebrew-diderot repo with the version # and sha hash of the new zip file
+* push the changes to github so that they can be found by the brew command
+
+### Ubuntu
+Unfortunately, we can't put DC into the main Ubuntu package directory. Because we are a private repo we can't upload source code to [Launchpad\](https://help.launchpad.net/Packaging/PPA) to create an installable PPA either. Hoever we can create a Debian package with appropriate reqirements for pandoc that can be downloaded by users and installed via the command line.
+```
+make
+make deb
+```
+
+This will perform the following:
+* build DC
+* create a versioned debian package (diderot-VERSION-amd64.deb)
+* upload the package to the `diderot-dist` S3 bucket.
+
+## Installing a Package
+### MacOS
+
+```
+brew install diderot-edu/diderot/diderot
+```
+
+Once the package is installed, it will be updated whenever a new version is found when running `brew update && brew upgrade`.
+
+
+### Ubuntu
+```
+wget https://diderot-dist.s3.amazonaws.com/diderot-VERSION-amd64.deb
+sudo apt install ./diderot-VERSION-amd64.deb
+```
+
+This will install DC and pandoc if it is not already present on the machine.
+
+Because we aren't in a packaging system, users will need to download and install updates manually whenever they are notified of new versions. Users will need to be provided with the name of the latest file to download.

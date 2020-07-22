@@ -2,8 +2,17 @@
 # - -use-ocamlfind is required to find packages (from Opam)
 # - _tags file introduces packages, bin_annot flag for tool chain
 
-OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
+OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I ast -I english -I md -I pervasives  -I tex -I top -I xml
 OCB = ocamlbuild $(OCB_FLAGS)
+
+UNAME := $(shell uname)
+ifeq ($(UNAME), Linux)
+	DEB_DIR=debian
+	DEB_BIN=$(DEB_DIR)/usr/bin
+	VERSION:=$(shell awk 'NR==3{print $$4}' deployment.md)
+	DEB:=diderot-$(VERSION)-$(shell dpkg --print-architecture).deb
+	BUCKET=diderot-dist
+endif
 
 ROOT_DIR = $(shell dirname $(CURDIR))
 GUIDE_DIR = $(ROOT_DIR)/diderot/diderot-guide
@@ -17,11 +26,11 @@ DEPEND = \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_atom_lexer.mll tex/tex_atom_parser.mly tex/tex_comment_lexer.mll tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex_prompt_lexer.mll tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   top/dc.ml top/texel.ml \
-  xml/xml_constants.ml xml/xml_syntax.ml 
+  xml/xml_constants.ml xml/xml_syntax.ml
 
-default: dc.native tex2tex.native 
-# texel.native 
-# cc.native 
+default: dc.native tex2tex.native
+# texel.native
+# cc.native
 
 
 all: dc.native md2md.native tex2tex.native
@@ -32,6 +41,8 @@ clean:
 	rm -f *.native
 	rm -f *.dbg
 	rm -f *.profile
+	rm -f *.deb
+	rm -rf debian/usr/bin/*
 
 cc.native: $(DEPEND) top/cc.ml
 	$(OCB) cc.native
@@ -94,6 +105,14 @@ bin_macos:
 bin_ubuntu:
 	cp tex2tex.native bin/ubuntu/tex2tex
 	cp texel.native bin/ubuntu/texel
+
+deb:
+	mkdir -p $(DEB_BIN)
+	sed -i -e 's/\(Version: \).*$$/\1'$(VERSION)'/' $(DEB_DIR)/DEBIAN/control
+	cp dc.native $(DEB_BIN)/dc
+	dpkg-deb --build $(DEB_DIR) diderot-$(VERSION)-$(shell dpkg --print-architecture).deb
+	aws s3 cp $(DEB) s3://$(BUCKET) --acl=public-read
+
 
 readme: ./README.md
 	pandoc README.md -o README.pdf
