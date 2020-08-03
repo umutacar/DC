@@ -48,6 +48,12 @@ Explain  ask 1
 When BFS visits a vertex $v$, it adds all of its neighbors to the
 frontier, which is to be visited in the next round.
 
+\hint
+Hint 2
+
+\explain 
+Explain  ask 2
+
 \solf
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -121,15 +127,15 @@ ans = sol
 
 
 
-%%%%
-\algo
+%% %%%%
+%% \algo
 
-\algoc 
-a != None and b != None and c != Node and d != None
+%% \algoc 
+%% a != None and b != None and c != Node and d != None
 
-\algog
+%% \algog
 
-a != None and b != None and c != Node and d != None
+%% a != None and b != None and c != Node and d != None
  
 
 \end{problem}
@@ -210,6 +216,18 @@ $f(n) = 5f(n/5) + \Theta(n)$
 \sol[0.5] 
 $\Theta (n \lg n)$.
 
+\algoc
+if ``Theta'' not in ans then
+  return ``your answer must contain the Theta notation''
+if ``n'' not in ans then
+  return ``note that your answer must be in terms of n''
+
+\algog
+  if ans = sol then
+    return 1.0
+  else if ans = ``Theta(n)'' then
+    return 0.2
+  else 0
 
 \sol[1.5]
 another solution
@@ -229,16 +247,29 @@ $f(n) = 3f(n/2) + \Theta(n^2)$
 \sol
 $\Theta(n^2)$
 
-\agone
-\sc[1.0] $n^2$
-\sc[1.0] $O(n^2)$
-\sc[1.0] $\Theta(n^2)$ 
+\algoc
+if ``Theta'' not in ans then
+  return ``your answer must contain the Theta notation''
+if ``n'' not in ans then
+  return ``note that your answer must be in terms of n''
 
-\gany
-\sc[-0.5] Wrong and close to $n$
-\sc[-0.5] Wrong and close to $n^3$
-\sc[-0.25] Wrong but close to $n^2$
-\sc[+0.25] Super correct.  Extra credit.
+\algog
+  if ans = sol then
+    return 1.0
+  else if ans = ``Theta(n\lg n)'' then
+    return 0.2
+  else 0
+
+%% \agone
+%% \sc[1.0] $n^2$
+%% \sc[1.0] $O(n^2)$
+%% \sc[1.0] $\Theta(n^2)$ 
+
+%% \gany
+%% \sc[-0.5] Wrong and close to $n$
+%% \sc[-0.5] Wrong and close to $n^3$
+%% \sc[-0.25] Wrong but close to $n^2$
+%% \sc[+0.25] Super correct.  Extra credit.
 
 
 \onechoice  According to brick method, the recurrence is
@@ -263,10 +294,10 @@ $f(n) = 5f(n/8) +\Theta(n^{2/3})$
 \sol
 $\Theta(n^{\lg_8 5})$ (roughly $\Theta(n^{0.77})$) leaves.
 
-\agone
-\sc[1.0] $n^{\lg_8{5}}$
-\sc[1.0] $n^{\lg_8 5}$
-\sc[0.2] $n^{\lg_5 8}$
+%% \agone
+%% \sc[1.0] $n^{\lg_8{5}}$
+%% \sc[1.0] $n^{\lg_8 5}$
+%% \sc[0.2] $n^{\lg_5 8}$
 
 
 
@@ -444,6 +475,19 @@ vertices are removed.\\
 
 \sol
 a, d, e
+
+\algoc
+
+\algog 
+if a, d, e in ans then
+    if b, c, f not in ans then
+        return 1.0
+    else 
+        return 0.5
+else if only two are in ans then
+    return 0.5
+else if only one are in ans then
+    return 0.25
 \end{problem}
 
 
@@ -461,6 +505,9 @@ a depth first search (DFS): \textbf{tree edges}, \textbf{back edges},
 What kind of edges can a \textbf{bridge}, as defined in AbridgedLab, be
 \sol
 tree edge
+
+\hint[0.7]
+In the DFS a bridge edge would cause a new vertex to be discovered
 
 \ask[3.]
 Assume we enter $u$ before entering $v$ during the DFS, what kind of
