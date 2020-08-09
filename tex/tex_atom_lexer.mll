@@ -201,6 +201,7 @@ let p_com_lstinline = '\\' ("lstinline" as kind) p_ws
 let p_com_skip = p_com_lstinline
 
 let p_com_algo = '\\' "algo"
+let p_com_auto = '\\' "auto"
 let p_com_auto_grade_one = '\\' "agone"
 let p_com_auto_grade_any = '\\' "agany"
 let p_com_manu_grade_one = '\\' "gone"
@@ -209,6 +210,7 @@ let p_com_manu_grade_any = '\\' "gany"
 
 let p_com_algo_c = '\\' "algoc"
 let p_com_algo_g = '\\' "algog"
+let p_com_auto_c = '\\' "autoc"
 let p_com_choice = '\\' "choice"
 let p_com_continue = '\\' "continue"
 let p_com_choice_correct = '\\' "choice*"
@@ -280,6 +282,7 @@ let p_item_weighted =
 let p_item_naked = 
   (p_com_notes as kind) |
   (p_com_rubric as kind) |
+  (p_com_auto_c as kind) |
   (p_com_algo_c as kind) |
   (p_com_algo_g as kind) |
   (p_com_auto_grade_one as kind) |
