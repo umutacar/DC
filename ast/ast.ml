@@ -345,6 +345,7 @@ struct
 
   let body_to_xml translator cookie =
 		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
+		let _ = printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
     if Tex.is_cookie_algo_kind cookie.kind then
       translator Xml.code cookie.body
 		else
