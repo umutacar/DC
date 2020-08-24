@@ -195,25 +195,36 @@ let label_prefix_task = "tsk"
 let label_prefix_teachask = "tch"
 let label_prefix_teachnote = "tch"
 let label_prefix_theorem = "thm"
-let label_prefix_one_choice = "prt-one-choice"
-let label_prefix_any_choice = "prt-any-choice"
+
+(* Labels for prompts, 
+   we distinguish coarsely,
+   because they are numbered sequentially
+ *)
+let label_prefix_one_choice = "prt-ask"
+let label_prefix_any_choice = "prt-ask"
 let label_prefix_ask = "prt-ask"
-let label_prefix_short_answer = "prt-ans"
-let label_prefix_free_response = "prt-answer"
+let label_prefix_short_answer = "prt-sol"
+let label_prefix_free_response = "prt-sol"
 let label_prefix_refsol = "prt-sol"
-let label_prefix_fillin_ask = "prt-fin-ask"
-let label_prefix_fillin_sol = "prt-fin-sol"
+let label_prefix_fillin_ask = "prt-sol"
+let label_prefix_fillin_sol = "prt-sol"
 let label_prefix_choice = "prt-choice"
-let label_prefix_cookie_explain = "cki-explain"
-let label_prefix_cookie_hint = "cki-hint"
-let label_prefix_cookie_notes = "cki-notes"
-let label_prefix_cookie_rubric = "cki-rubric"
-let label_prefix_cookie_score = "cki-score"
-let label_prefix_cookie_algo_c = "cki-algo-c"
-let label_prefix_cookie_algo_g = "cki-algo-g"
-let label_prefix_cookie_manu_grade = "cki-manual-grade"
-let label_prefix_cookie_auto_grade = "cki-auto-grade"
-let label_prefix_cookie_manu_grade = "cki-manual-grade"
+
+
+(* Label prefixes for cookies, 
+   they all get the same prefix,  
+   because they are numbered sequentially
+ *)
+let label_prefix_cookie_explain = "cki"
+let label_prefix_cookie_hint = "cki"
+let label_prefix_cookie_notes = "cki"
+let label_prefix_cookie_rubric = "cki"
+let label_prefix_cookie_score = "cki"
+let label_prefix_cookie_algo_c = "cki"
+let label_prefix_cookie_algo_g = "cki"
+let label_prefix_cookie_manu_grade = "cki"
+let label_prefix_cookie_auto_grade = "cki"
+let label_prefix_cookie_manu_grade = "cki"
 
 
 
@@ -409,6 +420,12 @@ let cookie_kinds =
    kw_cookie_auto_grade_any, ();
    kw_cookie_manu_grade_one, ();
    kw_cookie_manu_grade_any, ();
+  ]
+
+let cookie_algo_kinds = 
+  [
+   kw_cookie_algo_c, ();
+   kw_cookie_algo_g, ();
   ]
 
 let cookie_weight = 
@@ -759,6 +776,12 @@ let is_cookie kind =
    match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let is_cookie_algo_kind kind = 
+   match List.Assoc.find cookie_algo_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 
 let get_cookie_weight kind = 
    match List.Assoc.find cookie_weight ~equal: String.equal kind with 
