@@ -411,6 +411,12 @@ let cookie_kinds =
    kw_cookie_manu_grade_any, ();
   ]
 
+let cookie_algo_kinds = 
+  [
+   kw_cookie_algo_c, ();
+   kw_cookie_algo_g, ();
+  ]
+
 let cookie_weight = 
   [
    kw_cookie_explain, Constants.cookie_weight_explain;
@@ -759,6 +765,12 @@ let is_cookie kind =
    match List.Assoc.find cookie_kinds ~equal: String.equal kind with 
    | Some _ -> true
    | None -> false
+
+let is_cookie_algo_kind kind = 
+   match List.Assoc.find cookie_algo_kinds ~equal: String.equal kind with 
+   | Some _ -> true
+   | None -> false
+
 
 let get_cookie_weight kind = 
    match List.Assoc.find cookie_weight ~equal: String.equal kind with 

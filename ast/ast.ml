@@ -345,7 +345,10 @@ struct
 
   let body_to_xml translator cookie =
 		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
-		translator Xml.body cookie.body
+    if Tex.is_cookie_algo_kind cookie.kind then
+      translator Xml.code cookie.body
+		else
+			translator Xml.body cookie.body
 
   let propagate_point_value multiplier cookie = 
 		let {kind; point_val; weight; title; label; body} = cookie in

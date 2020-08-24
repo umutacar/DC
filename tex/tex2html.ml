@@ -62,10 +62,18 @@ let get_single_paragraph_status kind =
               exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
 
 
+(* 
+ will the target language for this kind is text? 
+
+ ast.ml controls this by sometimes changing the kind to make sure that
+ the translation is correct.  for example, for refsol_fillin_ask's body, the kind is forced to be text.
+
+*)
 let target_language_of_kind_is_text = 
   [ Xml.body, false;
-    Xml.choice, false;
     Xml.caption, false;
+    Xml.choice, false;
+    Xml.code, true;
 		Xml.explain, false;
 		Xml.hint, false;
 		Xml.refsol, false;
@@ -82,7 +90,7 @@ let is_target_language_text kind =
 	 with 
    | Some args -> args
    | None -> (printf "tex2html: FATAL ERROR: unknown kind encountered kind = %s.\n" kind;
-              exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
+              exit Error_code.parse_error_is_target_text_status_of_unknown_kind)
 
 (* END: Associative list for single par *)
 
