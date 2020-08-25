@@ -1618,24 +1618,27 @@ let assign_points_to_prompts prompts =
            let _ = printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
 		 in
-     (* Check that at least one solution was specified
-      * Otherwise raise error.
-      *)
-
-     let _ = 
-        if (float_of_string n_factors) > 0.0 then
-					()
-        else
-  				let err = sprintf"Fatal Error: A question must have at least on solution or correct-choice prompt!  I have found none.\n  Total factors = %s \n Context: %s\n" n_factors body in 
-	   			let _ = printf "%s\n" err in
-  		  		raise (Constants.Fatal_Error err)
-		 in
      (* Take the point value of the question prompt (head item) *)
      let points = 
        match pval with
     	 | None -> Constants.default_points_per_question
-  	   | Some p -> p in
-     let points_per_factor = divide_points points n_factors in
+  	   | Some p -> p 
+     in
+
+     (* Check that at least one solution was specified
+      * Otherwise raise error unless points is zero.
+      *)
+     let points_per_factor = 
+        if (float_of_string n_factors) > 0.0 then
+					divide_points points n_factors
+        else if (float_of_string points) > 0.0 then          
+  				let err = sprintf"Fatal Error: A question must have at least on solution or correct-choice prompt!  I have found none.\n  Total factors = %s \n Context: %s\n" n_factors body in 
+	   			let _ = printf "%s\n" err in
+  		  		raise (Constants.Fatal_Error err)
+        else 
+          (* both points and factors are zero *)
+          "0.0"
+		 in
      let _ = d_printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
      (* Update question prompt point value *)
      let head_prompt = (kind, tag, Some points, label, body)::t_head_prompt in

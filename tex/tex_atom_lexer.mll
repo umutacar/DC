@@ -275,9 +275,7 @@ let p_item =
 let p_item_weighted = 
 	(p_com_explain as kind) |
   (p_com_hint as kind) |
-	(p_com_score as kind) 
-
-let p_item_naked = 
+	(p_com_score as kind)| 
   (p_com_notes as kind) |
   (p_com_rubric as kind) |
   (p_com_algo_c as kind) |
@@ -500,18 +498,6 @@ and take_env =
       }
 
 	| (p_item_weighted p_ws_hard) as x
-			{
-		   (* This case is not allowed occur at the top level.
-        * Raise Error.
-        *) 
-        let _ = d_printf "* atom lexer: begin items kind = %s.\n" kind in
-        let (body, lopt, items, h_e) = take_list lexbuf in
- 				let err = sprintf "Syntax Error: Encountered a \"%s\" cookie without a preceeding prompt.\nContext:\n%s" kind (x ^ body) in
-				let _ = printf "%s\n" err in
-				raise (Constants.Syntax_Error err)							
-      }
-
-	| (p_item_naked p_ws_hard) as x
 			{
 		   (* This case is not allowed occur at the top level.
         * Raise Error.
@@ -766,13 +752,6 @@ and take_list =
 	   ("", None, items, h_e)	 	 
 	 }
 	 | (p_item_weighted as x) p_ws_hard
-	 { let (body, lopt, items, h_e) = take_list lexbuf in
-     let cookie = (kind, None, None, lopt, body) in
-     let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
-	   let items = cookie::items in     
-	     ("", None, items, h_e)	 	 
-	 }
-	 | (p_item_naked as x) p_ws_hard
 	 { let (body, lopt, items, h_e) = take_list lexbuf in
      let cookie = (kind, None, None, lopt, body) in
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
