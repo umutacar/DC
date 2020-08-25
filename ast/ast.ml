@@ -285,7 +285,10 @@ struct
   let to_tex cookie = 
 		let {kind; tag; point_val; weight; title; label; body} = cookie in
     (* Use int value for point for idempotence in tex to tex translation *)
-		let weight = normalize_point_val weight in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let weight = normalize_point_val weight in *)
 		let optarg = Tex.mk_tagged_point_val tag weight in
 		let heading = Tex.mk_command kind optarg in
 		let l = 
@@ -298,7 +301,10 @@ struct
 
   let to_md cookie = 
 		let {kind; point_val; weight; title; label; body} = cookie in
-		let weight = normalize_point_val weight in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let weight = normalize_point_val weight in *)
 		let weight = Md.mk_point_val weight in
 		let heading = Md.mk_command kind weight in
 		let l = 
@@ -366,7 +372,10 @@ struct
 		let {kind; point_val; title; label; depend; body} = cookie in
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator cookie in
-		let point_val = normalize_point_val point_val in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let point_val = normalize_point_val point_val in *)
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml translator Xml.title title in
 		let r = 
@@ -466,7 +475,10 @@ struct
 
   let to_tex prompt = 
 		let {kind; tag; point_val; title; label; body; cookies} = prompt in
-		let point_val = normalize_point_val point_val in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let point_val = normalize_point_val point_val in *)
 		let optarg = Tex.mk_tagged_point_val tag point_val in
 		let heading = Tex.mk_command kind optarg in
 		let cookies = map_concat_with newline Cookie.to_tex cookies in
@@ -480,7 +492,10 @@ struct
 
   let to_md prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
-		let point_val = normalize_point_val point_val in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let point_val = normalize_point_val point_val in *)
 		let point_val = Md.mk_point_val point_val in
 		let heading = Md.mk_command kind point_val in
 		let cookies = map_concat_with newline Cookie.to_md cookies in
@@ -554,7 +569,10 @@ struct
 		let {kind; point_val; title; label; depend; body; cookies} = prompt in
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator prompt in
-		let point_val = normalize_point_val point_val in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+    (* let point_val = normalize_point_val point_val in *)
     let _ = d_printf "ast.prompt.to_xml: kind %s, point_val = %s\n" kind (str_of_pval_opt point_val) in
     let depend = depend_to_xml depend in
     let titles = str_opt_to_xml translator Xml.title title in
@@ -1600,24 +1618,27 @@ let assign_points_to_prompts prompts =
            let _ = printf "%s\n" err in
 					 raise (Constants.Syntax_Error "Syntax Error")					 
 		 in
-     (* Check that at least one solution was specified
-      * Otherwise raise error.
-      *)
-
-     let _ = 
-        if (float_of_string n_factors) > 0.0 then
-					()
-        else
-  				let err = sprintf"Fatal Error: A question must have at least on solution or correct-choice prompt!  I have found none.\n  Total factors = %s \n Context: %s\n" n_factors body in 
-	   			let _ = printf "%s\n" err in
-  		  		raise (Constants.Fatal_Error err)
-		 in
      (* Take the point value of the question prompt (head item) *)
      let points = 
        match pval with
     	 | None -> Constants.default_points_per_question
-  	   | Some p -> p in
-     let points_per_factor = divide_points points n_factors in
+  	   | Some p -> p 
+     in
+
+     (* Check that at least one solution was specified
+      * Otherwise raise error unless points is zero.
+      *)
+     let points_per_factor = 
+        if (float_of_string n_factors) > 0.0 then
+					divide_points points n_factors
+        else if (float_of_string points) > 0.0 then          
+  				let err = sprintf"Fatal Error: A question must have at least on solution or correct-choice prompt!  I have found none.\n  Total factors = %s \n Context: %s\n" n_factors body in 
+	   			let _ = printf "%s\n" err in
+  		  		raise (Constants.Fatal_Error err)
+        else 
+          (* both points and factors are zero *)
+          "0.0"
+		 in
      let _ = d_printf  "assign_points_to_question: points_per_factor: %s, n_factors: %s\n" points_per_factor n_factors in
      (* Update question prompt point value *)
      let head_prompt = (kind, tag, Some points, label, body)::t_head_prompt in
