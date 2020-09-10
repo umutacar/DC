@@ -18,6 +18,7 @@ module Tex = Tex_syntax
 (**********************************************************************
  ** BEGIN: Globals
  **********************************************************************)
+type t_target_languages = Code | Html | Text
 
 type translation_options = bool
 
@@ -63,36 +64,36 @@ let get_single_paragraph_status kind =
               exit Error_code.parse_error_single_paragraph_status_of_unknown_kind)
 
 
+
 (* 
- will the target language for this kind is text? 
+ what is the target language for this kind
 
  ast.ml controls this by sometimes changing the kind to make sure that
  the translation is correct.  for example, for refsol_fillin_ask's
  body, the kind is forced to be text.
 
 *)
-let target_language_of_kind_is_text = 
-  [ Xml.body, false;
-    Xml.caption, false;
-    Xml.choice, false;
-    Xml.code, true;
-		Xml.explain, false;
-		Xml.hint, false;
-		Xml.refsol, false;
-    Xml.refsol_fillin_ask, true;
-    Xml.refsol_fillin_sol, false;
-		Xml.rubric, false;
-		Xml.title, false;
+let target_language_of_kind = 
+  [ Xml.body, Html;
+    Xml.caption, Html;
+    Xml.choice, Html;
+    Xml.code, Code;
+		Xml.explain, Html; 
+		Xml.hint, Html;
+		Xml.refsol, Html;
+    Xml.refsol_fillin_ask, Text;
+    Xml.refsol_fillin_sol, Html;
+		Xml.rubric, Html;
+		Xml.title, Html;
   ]
 
-let is_target_language_text kind = 
+let get_target_language kind = 
    match 
-		 List.Assoc.find target_language_of_kind_is_text
-			 ~equal: String.equal kind 
+		 List.Assoc.find target_language_of_kind ~equal: String.equal kind 
 	 with 
    | Some args -> args
-   | None -> (printf "tex2html: FATAL ERROR: target_language: unknown kind encountered kind = %s.\n" kind;
-              exit Error_code.parse_error_is_target_text_status_of_unknown_kind)
+   | None -> (printf "tex2html: FATAL ERROR: get_target_language: unknown kind encountered kind = %s.\n" kind;
+              exit Error_code.parse_error_target_language_of_unknown_kind)
 
 (* END: Associative list for single par *)
 
@@ -269,6 +270,9 @@ let md_file_to_html be_verbose meta_dir lang_opt (md_file_name, target_file_name
           printf "HTML code is in file: %s\n" target_file_name
         end
 
+let tex_to_code be_verbose be_verbose_pandoc tmp_dir meta_dir default_lang_opt  unique preamble contents match_single_paragraph =
+  contents 
+
 (**********************************************************************
  ** Translate latex (contents) to html
  ** tmp_dir is /tmp/ or similar
@@ -408,7 +412,7 @@ let code_to_html be_verbose tmp_dir meta_dir lang_opt unique arg_opt contents =
 
 (**
  **
- **)
+
 let contents_to_html be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default unique preamble contents options = 
   let (target_is_text, target_is_single_paragraph) = options in
   let  _  = d_printf "contents_to_html:  target is text: %b\n" target_is_text in
@@ -420,6 +424,24 @@ let contents_to_html be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_defa
 			tex_to_html 
 				be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default 
 				unique preamble contents target_is_single_paragraph
+
+ **)
+
+let contents_to_html be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default unique preamble contents options = 
+  let (target_language, target_is_single_paragraph) = options in
+    match target_language with 
+		| Code -> tex_to_code 
+        				be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default 
+        				unique preamble contents target_is_single_paragraph
+    | Html ->
+			tex_to_html 
+				be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default 
+				unique preamble contents target_is_single_paragraph
+		| Text ->
+			tex_to_text 
+				be_verbose be_verbose_pandoc tmp_dir meta_dir lang_opt_default 
+				unique preamble contents target_is_single_paragraph
+
 
 (**********************************************************************
  ** mk_translator makes a tex to html translator function 
@@ -436,7 +458,7 @@ let mk_translator be_verbose be_verbose_pandoc tmp_dir meta_dir  lang_opt (pream
      let contents = text_prep contents in 
 		 let unique = mk_unique () in
      let _ = d_printf "translate: kind = %s\n" kind in
-     let options = (is_target_language_text kind, get_single_paragraph_status kind) in
+     let options = (get_target_language kind, get_single_paragraph_status kind) in
        contents_to_html be_verbose be_verbose_pandoc tmp_dir  meta_dir lang_opt unique preamble contents options
    in
      translate
