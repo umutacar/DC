@@ -18,5 +18,8 @@ let parse_error_something_wrong = newParseError ()
 let parse_error_arg_expecting_key_value = newParseError ()
 let parse_error_arg_expecting_nonempty_string = newParseError ()
 let parse_error_multiple_titles = newParseError ()
+let parse_error_target_language_of_unknown_kind = newParseError ()
+let parse_error_target_text_status_of_unknown_kind = newParseError ()
 let parse_error_is_target_text_status_of_unknown_kind = newParseError ()
 let parse_error_single_paragraph_status_of_unknown_kind = newParseError ()
+
