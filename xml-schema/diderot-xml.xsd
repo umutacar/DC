@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+<xs:complexType name="fieldType">
+  <xs:simpleContent>
+    <xs:extension base="xs:string">
+      <xs:attribute name="name" type="xs:string" use="required"/>
+    </xs:extension>
+  </xs:simpleContent>
+</xs:complexType>
+
+<xs:complexType name="atomType">
+  <xs:choice minOccurs="0" maxOccurs="unbounded">
+    <xs:element name="field" type="fieldType" />
+    <xs:element name="segment" type="promptSegmentType" />
+  </xs:choice>
+  <xs:attribute name="name" type="xs:string" use="required" />
+</xs:complexType>
+
+<xs:complexType name="promptSegmentType">
+  <xs:sequence>
+    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="segment" type="cookieSegmentType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="name" use="required">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="\onechoice" />
+        <xs:enumeration value="\choice*" />
+        <xs:enumeration value="\choice" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+</xs:complexType>
+
+<xs:complexType name="cookieSegmentType">
+  <xs:sequence>
+    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="name" use="required">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="\hint" />
+        <xs:enumeration value="\explain" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+</xs:complexType>
+
+<xs:complexType name="contentSegmentType">
+  <xs:sequence>
+    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element name="atom" type="atomType" />
+      <xs:element name="segment" type="contentSegmentType" />
+    </xs:choice>
+  </xs:sequence>
+  <xs:attribute name="name" use="required">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="cluster" />
+        <xs:enumeration value="section" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+</xs:complexType>
+
+<xs:complexType name="chapterSegmentType">
+  <xs:sequence>
+    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="segment" type="contentSegmentType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:sequence>
+  <xs:attribute name="name" use="required">
+    <xs:simpleType>
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="chapter" />
+      </xs:restriction>
+    </xs:simpleType>
+  </xs:attribute>
+</xs:complexType>
+
+<xs:element name="segment" type="chapterSegmentType" />
+
+</xs:schema>
