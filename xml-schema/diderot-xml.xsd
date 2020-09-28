@@ -60,6 +60,9 @@
       <xs:restriction base="xs:string">
         <xs:enumeration value="cluster" />
         <xs:enumeration value="section" />
+        <xs:enumeration value="subsection" />
+        <xs:enumeration value="subsubsection" />
+        <xs:enumeration value="flex" />
       </xs:restriction>
     </xs:simpleType>
   </xs:attribute>

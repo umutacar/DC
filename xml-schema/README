@@ -1,0 +1,3 @@
+To check using the `xmllint` tool:
+$ xmllint --noout --schema diderot-xml.xsd FILE
+
