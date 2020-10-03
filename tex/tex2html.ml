@@ -110,6 +110,7 @@ let latex_diderot_commands =
 \\renewcommand{\\download}[2]{\\download{#1}{#2}}
 %% Diderot command: fin(fillin)
 \\newcommand{\\fin}[1]{#1}
+\\renewcommand{\\fin}[2][1]{#2}
 %% Diderot command: infer
 \\renewcommand{\infer}[2]{
 \\cfrac{#2}{#1}
