@@ -1,0 +1,5 @@
+#!/bin/sh
+
+ROOT=$(git rev-parse --show-toplevel)
+DIR=$ROOT/xml-schema
+python3 $DIR/checker.py $DIR/diderot-xml.xsd "$@"

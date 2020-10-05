@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.1">
 
-<xs:complexType name="fieldType">
+<xs:complexType name="stringFieldType">
   <xs:simpleContent>
     <xs:extension base="xs:string">
       <xs:attribute name="name" type="xs:string" use="required"/>
@@ -9,19 +9,38 @@
   </xs:simpleContent>
 </xs:complexType>
 
+
+<xs:complexType name="labelType">
+  <xs:simpleContent>
+    <xs:extension base="xs:string">
+      <xs:attribute name="name" type="xs:string" use="required" />
+    </xs:extension>
+  </xs:simpleContent>
+</xs:complexType>
+
+
 <xs:complexType name="atomType">
-  <xs:choice minOccurs="0" maxOccurs="unbounded">
-    <xs:element name="field" type="fieldType" />
-    <xs:element name="segment" type="promptSegmentType" />
-  </xs:choice>
+  <xs:all>
+    <xs:element name="field" maxOccurs="unbounded">
+      <xs:alternative test="@name='label'" type="labelType" />
+      <xs:alternative type="stringFieldType" />
+    </xs:element>
+    <xs:element name="segment" type="promptSegmentType" minOccurs="0" maxOccurs="unbounded" />
+  </xs:all>
+
   <xs:attribute name="name" type="xs:string" use="required" />
 </xs:complexType>
 
+
 <xs:complexType name="promptSegmentType">
-  <xs:sequence>
-    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+  <xs:all>
+    <xs:element name="field" maxOccurs="unbounded">
+      <xs:alternative test="@name='label'" type="labelType" />
+      <xs:alternative type="stringFieldType" />
+    </xs:element>
     <xs:element name="segment" type="cookieSegmentType" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
+  </xs:all>
+
   <xs:attribute name="name" use="required">
     <xs:simpleType>
       <xs:restriction base="xs:string">
@@ -33,10 +52,15 @@
   </xs:attribute>
 </xs:complexType>
 
+
 <xs:complexType name="cookieSegmentType">
-  <xs:sequence>
-    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
+  <xs:all>
+    <xs:element name="field" maxOccurs="unbounded">
+      <xs:alternative test="@name='label'" type="labelType" />
+      <xs:alternative type="stringFieldType" />
+    </xs:element>
+  </xs:all>
+
   <xs:attribute name="name" use="required">
     <xs:simpleType>
       <xs:restriction base="xs:string">
@@ -48,13 +72,11 @@
 </xs:complexType>
 
 <xs:complexType name="contentSegmentType">
-  <xs:sequence>
-    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:choice minOccurs="0" maxOccurs="unbounded">
-      <xs:element name="atom" type="atomType" />
-      <xs:element name="segment" type="contentSegmentType" />
-    </xs:choice>
-  </xs:sequence>
+  <xs:all>
+    <xs:element name="field" type="stringFieldType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="atom" type="atomType" minOccurs="0" maxOccurs="unbounded" />
+    <xs:element name="segment" type="contentSegmentType" minOccurs="0" maxOccurs="unbounded"/>
+  </xs:all>
   <xs:attribute name="name" use="required">
     <xs:simpleType>
       <xs:restriction base="xs:string">
@@ -68,11 +90,14 @@
   </xs:attribute>
 </xs:complexType>
 
+
 <xs:complexType name="chapterSegmentType">
-  <xs:sequence>
-    <xs:element name="field" type="fieldType" minOccurs="0" maxOccurs="unbounded"/>
+  <xs:all>
+    <xs:element name="field" type="stringFieldType" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="atom" type="atomType" minOccurs="0" maxOccurs="unbounded" />
     <xs:element name="segment" type="contentSegmentType" minOccurs="0" maxOccurs="unbounded"/>
-  </xs:sequence>
+  </xs:all>
+
   <xs:attribute name="name" use="required">
     <xs:simpleType>
       <xs:restriction base="xs:string">
@@ -82,6 +107,11 @@
   </xs:attribute>
 </xs:complexType>
 
-<xs:element name="segment" type="chapterSegmentType" />
+<xs:element name="segment" type="chapterSegmentType">
+  <!-- <xs:unique name="labelsUnique">
+    <xs:selector xpath="*" />
+    <xs:field xpath="field[@name='label']" />
+  </xs:unique> -->
+</xs:element>
 
 </xs:schema>
