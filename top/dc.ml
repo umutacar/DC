@@ -116,7 +116,7 @@ let ast_from_string (lex, parse) contents infilename =
   let _ = printf "Done.%!" in
 		ast
 
-let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename preamble_file = 
+let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename preamble_file make_exam_tex = 
   let (contents, translator) = 
 		if is_md then
 			prep_input_md verbose tmp_dir meta_dir default_pl infilename preamble_file 
@@ -137,7 +137,18 @@ let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infil
   let _ = printf "\nTranslating to XML %!" in
   let xml = Ast.to_xml translator ast in
   let _ = printf "Done\n%!" in
-    (tex, xml)
+  let exam_tex =
+    if not make_exam_tex then
+      ""
+    else
+      begin
+        printf "Generating LaTeX exam ... %!";
+        let xx = Ast.to_exam_tex ast in
+        printf "Done\n%!";
+        xx
+      end
+  in
+    (tex, xml, exam_tex)
 
 let main () = 
 	let arg_default_pl = ref None in
@@ -148,6 +159,7 @@ let main () =
 	let arg_preamble_file = ref None in
 	let arg_infile = ref None in
 	let arg_outfile = ref None in
+  let arg_exam_outfile = ref None in
 
   let spec = [
               ("-d", Arg.Set Utils.debug, "Enables debug mode; default is false.");
@@ -155,6 +167,7 @@ let main () =
               ("-v", Arg.Set arg_verbose, "Enables verbose mode; default is false.");
 		          ("-na", Arg.Set arg_na, "Turn off atomic mode; default is false.");
               ("-o", Arg.String (set_str_arg arg_outfile), "Sets output file");
+              ("-examo", Arg.String (set_str_arg arg_exam_outfile), "Sets exam output file");
               ("-meta", Arg.Set_string arg_meta_dir, "(Latex Only) Directory for meta information, e.g., highlighting definitions, lua filters, etc. Default = ./meta");
 (*  Don't support default language.
               ("-lang", Arg.String (set_str_arg arg_default_pl), "Sets the default programming language.");
@@ -188,8 +201,23 @@ let main () =
   in
   let _ = printf "Translating %s\n" infile_name in
   let is_md = Utils.file_is_markdown infile_name in
-  let (tex, xml) = input_to_xml is_md !arg_verbose !arg_verbose_pandoc !arg_tmp_dir !arg_meta_dir !arg_default_pl 
-                         infile_name !arg_preamble_file in       
+  let should_make_exam_tex =
+    match !arg_exam_outfile with
+    | None -> false
+    | Some _ -> true
+  in
+  let (tex, xml, exam_tex) =
+    input_to_xml
+      is_md
+      !arg_verbose
+      !arg_verbose_pandoc
+      !arg_tmp_dir
+      !arg_meta_dir
+      !arg_default_pl
+      infile_name
+      !arg_preamble_file
+      should_make_exam_tex
+  in
 	let _ = 
 		if is_md then
 			()
@@ -211,6 +239,18 @@ let main () =
 				printf "Atomized input is in %s.\nUUID's version is in %s\n" atomic_file_name atomic_file_name_uuid
 			end
 	in
+
+  (* Write out exam, if given *)
+  let _ =
+    match !arg_exam_outfile with
+    | None -> ()
+    | Some filename ->
+        begin
+          Out_channel.write_all filename ~data:exam_tex;
+          printf "Exam output written in %s\n" filename
+        end
+  in
+
   (* Write out xml output. *)
   let _ = Out_channel.write_all outfile_name ~data:xml in
   printf "Output written in %s\n" outfile_name 

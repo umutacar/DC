@@ -299,6 +299,25 @@ struct
 		  heading ^ " " ^ l ^ 
 		  body 
 
+
+  let to_exam_tex cookie =
+    let {kind; tag; point_val; weight; title; label; body} = cookie in
+    (* Use int value for point for idempotence in tex to tex translation *)
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let weight = normalize_point_val weight in *)
+		let optarg = Tex.mk_tagged_point_val tag weight in
+		let heading = Tex.mk_command kind optarg in
+		let l = 
+			if label_is_given cookie then	""
+			else Tex.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body
+
+
   let to_md cookie = 
 		let {kind; point_val; weight; title; label; body} = cookie in
     (* Update: do not normalize. 0.0 is important to keep. 
@@ -489,6 +508,25 @@ struct
 		in
 		  heading ^ " " ^ l ^ 
 		  body ^ cookies
+
+
+  let to_exam_tex prompt = 
+		let {kind; tag; point_val; title; label; body; cookies} = prompt in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let point_val = normalize_point_val point_val in *)
+		let optarg = Tex.mk_tagged_point_val tag point_val in
+		let heading = Tex.mk_command kind optarg in
+		let cookies = map_concat_with newline Cookie.to_exam_tex cookies in
+		let l = 
+			if label_is_given prompt then	""
+			else Tex.mk_label label 
+
+		in
+		  heading ^ " " ^ l ^ 
+		  body ^ cookies
+
 
   let to_md prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
@@ -690,7 +728,44 @@ struct
 				l ^ 
 				d ^ 
 				body ^ newline ^ prompts ^ newline ^
+				h_end  
+
+
+  let to_exam_tex atom = 
+		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; prompts; body} = atom in
+		let _ = d_printf "Atom.to_exam_tex kind = %s \n" kind in
+		let point_val = normalize_point_val point_val in
+		let point_val = Tex.mk_point_val point_val in
+		let title = Tex.mk_title title in
+    let kw_args = ["version", pl_version; "cover", cover; "sound", sound] in
+    let kw_args = Tex.mk_kw_args kw_args in
+    let _ = d_printf "title = %s kw_args = %s\n" title kw_args in
+    let caption = Tex.mk_caption caption in
+		let prompts = map_concat_with newline Prompt.to_exam_tex prompts in
+
+		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
+    let _ = d_printf "h_begin = %s\n" h_begin in
+		let h_end = Tex.mk_end kind in
+		let (l, l_figure) = 
+			let label = Tex.mk_label label in
+			if label_is_given atom then	("", label)
+			else (label, label)
+
+		in
+		let d = Tex.mk_depend depend in		
+      if kind = "figure" || kind = "table" then
+        (* Always include label in figure or table *)
+				h_begin ^
+				d ^ 
+				body ^ newline ^ caption ^ l_figure ^ newline ^
 				h_end		
+			else 
+				h_begin ^
+				l ^ 
+				d ^ 
+				body ^ newline ^ prompts ^ newline ^
+				h_end
+
 
   let to_md atom = 
 		let {kind; point_val; title; label; depend; prompts; body} = atom in
@@ -885,6 +960,23 @@ struct
 		  d ^ 
 		  atoms ^ h_end		
 
+
+  let to_exam_tex group = 
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+    let descriptor = Tex.mk_segment_descriptor point_val strategy in
+		let title = Tex.mk_title title in
+		let h_begin = Tex.mk_begin kind descriptor title in
+		let h_end = Tex.mk_end kind in
+		let l = Tex.mk_label label in
+		let d = Tex.mk_depend depend in
+		let atoms = map_concat_with newline Atom.to_exam_tex atoms in
+		  h_begin ^ 
+		  l ^ 
+		  d ^ 
+		  atoms ^ h_end		
+
+
   let to_md group = 
 		let {kind; point_val; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
@@ -998,6 +1090,15 @@ struct
 		| Element_group g ->
 				Group.to_tex g
 
+
+	let to_exam_tex e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_exam_tex a
+		| Element_group g ->
+				Group.to_exam_tex g
+
+
 	let to_md e = 
 		match e with
 		| Element_atom a ->
@@ -1075,6 +1176,9 @@ struct
 
 	let to_tex b = 
 		map_concat_with "\n" Element.to_tex (elements b)
+
+	let to_exam_tex b = 
+		map_concat_with "\n" Element.to_exam_tex (elements b)
 
 	let to_md b = 
 		map_concat_with "\n" Element.to_md (elements b)
@@ -1227,6 +1331,23 @@ struct
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
+
+  let rec to_exam_tex segment = 
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
+		let point_val = normalize_point_val point_val in
+    let descriptor = Tex.mk_segment_descriptor point_val strategy in
+		let h_begin = Tex.mk_segment_header kind descriptor title in
+		let h_end = Tex.mk_end kind in
+		let l_opt = Tex.mk_label label in
+		let d_opt = Tex.mk_depend depend in
+		let block = Block.to_exam_tex block in
+		let subsegments = map_concat_with "\n" to_exam_tex subsegments in
+		  h_begin ^ 
+		  l_opt ^ 
+		  d_opt ^ 
+		  block ^ newline ^ 
+      subsegments
+
 
   let rec to_md segment = 
 		let {kind; point_val; title; label; depend; block; subsegments} = segment in
@@ -1498,6 +1619,9 @@ let to_md ast =
 
 let to_tex ast = 
 	Segment.to_tex ast
+
+let to_exam_tex ast = 
+	Segment.to_exam_tex ast
 
 let to_xml atom_translator ast = 
 	let xml:string = Segment.to_xml atom_translator ast in
