@@ -9,6 +9,7 @@ let d_printf args = printf args
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax
+module ExamTex = Exam_tex_syntax
 module Words = English_words
 module Xml = Xml_syntax
 
@@ -518,15 +519,25 @@ struct
 		(* let point_val = normalize_point_val point_val in *)
 		let optarg = Tex.mk_tagged_point_val tag point_val in
 		let heading = Tex.mk_command kind optarg in
-		let cookies = map_concat_with newline Cookie.to_exam_tex cookies in
+		(* let cookies = map_concat_with newline Cookie.to_tex cookies in *)
 		let l = 
 			if label_is_given prompt then	""
 			else Tex.mk_label label 
 
 		in
-		  heading ^ " " ^ l ^ 
-		  body ^ cookies
+		  heading ^ " "
+      (* ^ l *)
+      ^ body
+      (* ^ cookies *)
 
+
+  (* Hacked for now; just return empty string. The commented-out stuff
+   * is "valid" except that I haven't done prompt handling correctly yet.
+   * First, really need to separate into main/second prompts... *)
+  let prompts_to_exam_tex (prompts: t list): string =
+    ""
+    (* map_concat_with newline to_exam_tex prompts *)
+  
 
   let to_md prompt = 
 		let {kind; point_val; title; label; body; cookies} = prompt in
@@ -741,9 +752,9 @@ struct
     let kw_args = Tex.mk_kw_args kw_args in
     let _ = d_printf "title = %s kw_args = %s\n" title kw_args in
     let caption = Tex.mk_caption caption in
-		let prompts = map_concat_with newline Prompt.to_exam_tex prompts in
+    let prompts = Prompt.prompts_to_exam_tex prompts in
 
-		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
+		let h_begin = ExamTex.mk_begin_atom kind point_val title kw_args in
     let _ = d_printf "h_begin = %s\n" h_begin in
 		let h_end = Tex.mk_end kind in
 		let (l, l_figure) = 
@@ -752,6 +763,10 @@ struct
 			else (label, label)
 
 		in
+
+    (* SAM_NOTE: a hack for now to ignore labels *)
+    let (l, l_figure) = ("", "") in
+
 		let d = Tex.mk_depend depend in		
       if kind = "figure" || kind = "table" then
         (* Always include label in figure or table *)
@@ -972,7 +987,7 @@ struct
 		let d = Tex.mk_depend depend in
 		let atoms = map_concat_with newline Atom.to_exam_tex atoms in
 		  h_begin ^ 
-		  l ^ 
+		  (* l ^  *)
 		  d ^ 
 		  atoms ^ h_end		
 
@@ -1343,7 +1358,7 @@ struct
 		let block = Block.to_exam_tex block in
 		let subsegments = map_concat_with "\n" to_exam_tex subsegments in
 		  h_begin ^ 
-		  l_opt ^ 
+		  (* l_opt ^  *)
 		  d_opt ^ 
 		  block ^ newline ^ 
       subsegments
@@ -1620,8 +1635,19 @@ let to_md ast =
 let to_tex ast = 
 	Segment.to_tex ast
 
-let to_exam_tex ast = 
-	Segment.to_exam_tex ast
+let to_exam_tex ast =
+  let title = "TODO: EXTRACT TITLE FROM CHAPTER" in
+  let contents = Segment.to_exam_tex ast in
+  let document =
+    String.concat ~sep:"\n"
+    [ ExamTex.top_stuff title
+    ; ""
+    ; contents
+    ; ""
+    ; ExamTex.bottom_stuff
+    ]
+	in
+  document
 
 let to_xml atom_translator ast = 
 	let xml:string = Segment.to_xml atom_translator ast in
