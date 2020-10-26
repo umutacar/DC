@@ -11,6 +11,8 @@
                        % to drop contents when needed.
 
 \usepackage{xparse}
+\usepackage{xifthen}
+\usepackage{graphicx}
 
 \newenvironment{cluster}[1][0.0]{}{}
 \newcommand{\chapter}[2][0.0]{}
@@ -63,6 +65,8 @@
 % \newtheorem{problem}[exercise]{Problem}
 % \newtheorem*{solution}{Solution}
 \newtheorem*{task}{Task}
+
+\newcounter{problem}[section]
 
 \theoremstyle{remark}
 \newtheorem*{assumption}{Assumption}
@@ -219,13 +223,13 @@
 
 \NewDocumentEnvironment{problem}{O{}O{}}
 {
-\refstepcounter{exercise}
-\IfNoValueTF{#2}
-{\paragraph*{Problem \theexercise.}}
-{\paragraph*{Problem \theexercise~[#2].}}
-\IfNoValueTF{#1}
+\refstepcounter{problem}
+\ifthenelse{\isempty{#2}}
+{\paragraph*{Problem \thesection.\theproblem.}}
+{\paragraph*{Problem \thesection.\theproblem~[#2].}}
+\ifthenelse{\isempty{#1}}
 {}
-{({#1} points)}
+{(#1 points)}
 }
 { 
 
