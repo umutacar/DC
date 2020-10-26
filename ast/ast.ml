@@ -568,17 +568,21 @@ struct
       | None -> ""
     in
     let qq = "\\question" ^ pv ^ "\n" ^ body primary in
+    let sols = map_concat_with newline secondary_to_exam_tex secondaries in
     match kind primary with
     | "\\onechoice" ->
         qq ^ "\n" ^ 
         "\\begin{oneparchoices}\n" ^
-        map_concat_with newline secondary_to_exam_tex secondaries ^
+        sols ^
         "\\end{oneparchoices}\n"
     | "\\anychoice" ->
         qq ^ "\n" ^ 
         "\\begin{checkboxes}\n" ^
-        map_concat_with newline secondary_to_exam_tex secondaries ^
+        sols ^
         "\\end{checkboxes}\n"
+    | "\\ask" ->
+        qq ^ "\n" ^
+        sols
     | other ->
         let _ = printf "Warning: ignoring %s prompt" other in
         qq ^ "\n" ^ "\\textbf{WARNING: unknown primary prompt} (\\verb!" ^ other ^ "!)" ^ "\n"
