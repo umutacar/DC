@@ -531,12 +531,73 @@ struct
       (* ^ cookies *)
 
 
+  let group_by_primary_prompt (prompts: t list): (t * (t list)) list =
+    let rec loop groups (primary, secondaries) prompts =
+      match prompts with
+      | [] -> List.rev ((primary, List.rev secondaries) :: groups)
+      | prompt :: rest ->
+        if Tex.is_primary_question_prompt (kind prompt) then
+          loop ((primary, List.rev secondaries) :: groups) (prompt, []) rest
+        else
+          loop groups (primary, prompt :: secondaries) rest
+    in
+    match prompts with
+    | [] -> []
+    | first :: rest ->
+      if Tex.is_primary_question_prompt (kind first) then
+        loop [] (first, []) rest
+      else
+        let err = "Fatal Error: Expecting a primary prompt" in
+        let _ = printf "%s\n" err in
+        raise (Constants.Fatal_Error err)
+
+
+  let secondary_to_exam_tex prompt: string =
+    match kind prompt with
+    | "\\choice" -> "\\choice " ^ body prompt
+    | "\\choice*" -> "\\choice " ^ body prompt
+    | other ->
+        let _ = printf "Warning: ignoring %s prompt" other in
+        "\\textbf{WARNING: unknown secondary prompt} (\\verb!" ^ other ^ "!)" ^ "\n"
+
+
+  let prompt_group_to_exam_tex (primary, secondaries): string =
+    let pv =
+      match point_val primary with
+      | Some xx -> "[" ^ xx ^ "]"
+      | None -> ""
+    in
+    let qq = "\\question" ^ pv ^ "\n" ^ body primary in
+    match kind primary with
+    | "\\onechoice" ->
+        qq ^ "\n" ^ 
+        "\\begin{oneparchoices}\n" ^
+        map_concat_with newline secondary_to_exam_tex secondaries ^
+        "\\end{oneparchoices}\n"
+    | "\\anychoice" ->
+        qq ^ "\n" ^ 
+        "\\begin{checkboxes}\n" ^
+        map_concat_with newline secondary_to_exam_tex secondaries ^
+        "\\end{checkboxes}\n"
+    | other ->
+        let _ = printf "Warning: ignoring %s prompt" other in
+        qq ^ "\n" ^ "\\textbf{WARNING: unknown primary prompt} (\\verb!" ^ other ^ "!)" ^ "\n"
+
+
   (* Hacked for now; just return empty string. The commented-out stuff
    * is "valid" except that I haven't done prompt handling correctly yet.
    * First, really need to separate into main/second prompts... *)
   let prompts_to_exam_tex (prompts: t list): string =
-    ""
-    (* map_concat_with newline to_exam_tex prompts *)
+    let groups = group_by_primary_prompt prompts in
+    let (beginstuff, endstuff) = 
+      if groups = [] then
+        ("", "")
+      else
+        ("\\begin{questions}\n", "\\end{questions}")
+    in
+    beginstuff ^
+    map_concat_with newline prompt_group_to_exam_tex groups ^
+    endstuff
   
 
   let to_md prompt = 
@@ -744,7 +805,7 @@ struct
 
   let to_exam_tex atom = 
 		let {kind; pl; pl_version; point_val; title; cover; sound; label; depend; caption; prompts; body} = atom in
-		let _ = d_printf "Atom.to_exam_tex kind = %s \n" kind in
+		let _ = d_printf "Atom.to_tex kind = %s \n" kind in
 		let point_val = normalize_point_val point_val in
 		let point_val = Tex.mk_point_val point_val in
 		let title = Tex.mk_title title in
@@ -752,9 +813,9 @@ struct
     let kw_args = Tex.mk_kw_args kw_args in
     let _ = d_printf "title = %s kw_args = %s\n" title kw_args in
     let caption = Tex.mk_caption caption in
-    let prompts = Prompt.prompts_to_exam_tex prompts in
+		let prompts = Prompt.prompts_to_exam_tex prompts in
 
-		let h_begin = ExamTex.mk_begin_atom kind point_val title kw_args in
+		let h_begin = Tex.mk_begin_atom kind point_val title kw_args in
     let _ = d_printf "h_begin = %s\n" h_begin in
 		let h_end = Tex.mk_end kind in
 		let (l, l_figure) = 
@@ -763,10 +824,6 @@ struct
 			else (label, label)
 
 		in
-
-    (* SAM_NOTE: a hack for now to ignore labels *)
-    let (l, l_figure) = ("", "") in
-
 		let d = Tex.mk_depend depend in		
       if kind = "figure" || kind = "table" then
         (* Always include label in figure or table *)
@@ -779,7 +836,7 @@ struct
 				l ^ 
 				d ^ 
 				body ^ newline ^ prompts ^ newline ^
-				h_end
+				h_end  
 
 
   let to_md atom = 
@@ -1701,6 +1758,8 @@ let prompt_of_items (items: t_item list): t_prompt =
         (* item is a field for the current prompt *)
   			(printf "Parse Error: I was expecting a prompt here but saw kind = %s." kind;
 	  		 exit 1)
+
+
 
 (* Algorithm
  * - Take prompts and separate them into questions.

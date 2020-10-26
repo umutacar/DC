@@ -28,12 +28,13 @@ let problem_environment =
 let top_stuff title =
   String.concat ~sep:"\n"
   [ "\\documentclass{exam}"
+  ; "\\usepackage{diderot_exam}"
   ; "\\title{" ^ title ^ "}"
-  ; ""
-  ; "\\newenvironment{preamble}{\\begin{framed}}{\\end{framed}}"
-  ; "\\newenvironment{cluster}[1][0.]{}{}"
-  ; problem_environment
-  ; "\\newcommand{\\chapter}[2][0.]{}"
+  (* ; "" *)
+  (* ; "\\newenvironment{preamble}{\\begin{framed}}{\\end{framed}}" *)
+  (* ; "\\newenvironment{cluster}[1][0.]{}{}" *)
+  (* ; problem_environment *)
+  (* ; "\\newcommand{\\chapter}[2][0.]{}" *)
   ; ""
   ; "\\begin{document}"
   ; "\\maketitle"
