@@ -5,6 +5,9 @@
 OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
 OCB = ocamlbuild $(OCB_FLAGS)
 
+OCBB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -package js_of_ocaml -package js_of_ocaml-ppx -I ast -I english -I md -I pervasives  -I tex -I top -I xml 
+OCBB = ocamlbuild $(OCBB_FLAGS)
+
 ROOT_DIR = $(shell dirname $(CURDIR))
 GUIDE_DIR = $(ROOT_DIR)/diderot/diderot-guide
 
@@ -38,6 +41,9 @@ cc.native: $(DEPEND) top/cc.ml
 
 dc.native: $(DEPEND) top/dc.ml
 	$(OCB) dc.native
+
+dc.byte: $(DEPEND) top/dc.ml
+	$(OCBB) dc.byte
 
 # md2md
 md2md.native: $(DEPEND) md/md2md.ml

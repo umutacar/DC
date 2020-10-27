@@ -33,12 +33,14 @@ start at $0$) then the shortest path from $v$ to the source vertex has
 length $r$.
 
 \hint
-Hint 1
+Hint  ask 1
 
 \explain 
 Explain  ask 1
 
 \solt
+\hint Hint sol 1
+\explain Explain Sol 1
 
 \explain  sol 1
 
@@ -49,12 +51,14 @@ When BFS visits a vertex $v$, it adds all of its neighbors to the
 frontier, which is to be visited in the next round.
 
 \hint
-Hint 2
+Hint ask 2
 
 \explain 
 Explain  ask 2
 
 \solf
+\hint sol 2
+\explain sol 2
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \asktf
@@ -216,18 +220,18 @@ $f(n) = 5f(n/5) + \Theta(n)$
 \sol[0.5] 
 $\Theta (n \lg n)$.
 
+\hint Sol hint
+\explain Sol explain
 \algoc
-if ``Theta'' not in ans then
-  return ``your answer must contain the Theta notation''
-if ``n'' not in ans then
-  return ``note that your answer must be in terms of n''
+if (ans==sol) {
+  ``Correct answer''
+}
+else {
+  ``Wrong answer''
+}
 
 \algog
-  if ans = sol then
-    return 1.0
-  else if ans = ``Theta(n)'' then
-    return 0.2
-  else 0
+  check_sol_as_fuzzy_set
 
 \sol[1.5]
 another solution
@@ -359,6 +363,12 @@ BFS?
 \sol
 Replace each edge with weight $i$ with a simple path of $i$ edges
 each with weight $1$. Then solve with BFS.
+
+\algo
+
+\algog
+some grading algorithm
+
 
 \end{problem}
 
