@@ -25,10 +25,12 @@ let problem_environment =
   ]
 
 
-let top_stuff title =
+let top_stuff title preamble =
   String.concat ~sep:"\n"
   [ "\\documentclass{exam}"
-  ; "\\usepackage{diderot_exam}"
+  ; "\\usepackage{diderot-packages}"
+  ; "\\usepackage{diderot-exam}"
+  ; (match preamble with None -> "" | Some x -> x)
   ; "\\title{" ^ title ^ "}"
   (* ; "" *)
   (* ; "\\newenvironment{preamble}{\\begin{framed}}{\\end{framed}}" *)

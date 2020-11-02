@@ -116,7 +116,7 @@ let ast_from_string (lex, parse) contents infilename =
   let _ = printf "Done.%!" in
 		ast
 
-let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename preamble_file make_exam_tex = 
+let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename (preamble_file: string option) make_exam_tex = 
   let (contents, translator) = 
 		if is_md then
 			prep_input_md verbose tmp_dir meta_dir default_pl infilename preamble_file 
@@ -143,7 +143,12 @@ let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infil
     else
       begin
         printf "Generating LaTeX exam ... %!";
-        let xx = Ast.to_exam_tex ast in
+        let xx =
+          Ast.to_exam_tex ast
+            (match preamble_file with
+             | Some path -> Some (In_channel.read_all path)
+             | None -> None)
+        in
         printf "Done\n%!";
         xx
       end

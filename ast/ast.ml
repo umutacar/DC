@@ -1696,12 +1696,12 @@ let to_md ast =
 let to_tex ast = 
 	Segment.to_tex ast
 
-let to_exam_tex ast =
-  let title = "TODO: EXTRACT TITLE FROM CHAPTER" in
+let to_exam_tex ast (preamble: string option) =
+  let title = Segment.title ast in
   let contents = Segment.to_exam_tex ast in
   let document =
     String.concat ~sep:"\n"
-    [ ExamTex.top_stuff title
+    [ ExamTex.top_stuff title preamble
     ; ""
     ; contents
     ; ""
