@@ -557,8 +557,8 @@ struct
     | "\\choice" -> "\\choice " ^ body prompt
     | "\\choice*" -> "\\choice " ^ body prompt
     | "\\sol" -> "\\fbox{\\parbox{5in}{\\rule{0pt}{1in}}}"
-    | "\\solfinask" -> "\\begin{framed}\n" ^ body prompt ^ "\n\\end{framed}"
-    (* | "\\solfinsol" -> "\\fbox{\\ifprintanswers\n" ^ body prompt ^ "\n\\fi}" *)
+    | "\\solfinask" -> ""
+    | "\\solfinsol" -> "\\begin{framed}\n" ^ body prompt ^ "\n\\end{framed}"
     | other ->
         let _ = printf "Warning: ignoring %s prompt" other in
         "\\textbf{WARNING: unknown secondary prompt} (\\verb!" ^ other ^ "!)" ^ "\n"
