@@ -73,6 +73,7 @@ let group = "group"
 let hint = "hint"
 let hint_src = "hint_src"
 let important = "important"
+let item_tag = "tag"
 let label = "label"
 let lemma = "lemma"
 let lstlisting = "lstlisting"
@@ -272,6 +273,12 @@ let mk_strategy_opt(x) =
   | None -> mk_field_generic(strategy, C.no_strategy)
   | Some y -> mk_field_generic(strategy, y)
 
+let mk_item_tag_opt(x) = 
+  match x with
+  | None -> mk_field_generic(item_tag, C.no_item_tag)
+  | Some y -> mk_field_generic(item_tag, y)
+
+
 let mk_no(x) = 
   mk_field_generic(no, x)
 
@@ -428,24 +435,26 @@ let mk_ilist ~kind ~pval ~body =
   let label_xml = mk_label_opt None in
     mk_segment_generic_with_kind ilist kind_xml [pval_xml; label_xml; body]
 
-let mk_cookie ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml = 
+let mk_cookie ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_xml = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
+  let tag_xml = mk_item_tag_opt tagopt in
   let depend_xml = mk_depend_opt dopt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
-  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_xml; body_src] in
+  let fields = [pval_xml] @ titles @ [label_xml; tag_xml; depend_xml; body_xml; body_src] in
     mk_segment_generic kind fields
 
-let mk_prompt ~kind ~pval ~topt ~lopt ~dopt ~body_src ~body_xml ~cookies = 
+let mk_prompt ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_xml ~cookies = 
   let pval_xml = mk_point_value_opt pval in
   let titles = mk_title_opt topt in
   let label_xml = mk_label_opt lopt in
+  let tag_xml = mk_item_tag_opt tagopt in
   let depend_xml = mk_depend_opt dopt in
   let body_xml = mk_body body_xml in
   let body_src = mk_body_src body_src in
-  let fields = [pval_xml] @ titles @ [label_xml; depend_xml; body_xml; body_src; cookies] in
+  let fields = [pval_xml] @ titles @ [label_xml; tag_xml; depend_xml; body_xml; body_src; cookies] in
     mk_segment_generic kind fields
 
 let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_xml ~capopt ~prompts = 

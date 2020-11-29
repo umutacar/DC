@@ -369,7 +369,7 @@ struct
 			()
 
   let to_xml translator cookie = 
-		let {kind; point_val; title; label; depend; body} = cookie in
+		let {kind; point_val; title; label; tag; depend; body} = cookie in
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator cookie in
     (* Update: do not normalize. 0.0 is important to keep. 
@@ -384,6 +384,7 @@ struct
         ~pval:point_val
         ~topt:titles
         ~lopt:label
+        ~tagopt:tag
 				~dopt:depend 
         ~body_src:body
         ~body_xml:body_xml
@@ -566,7 +567,7 @@ struct
 
   (* TODO incorporate cookies. *)
   let to_xml translator prompt = 
-		let {kind; point_val; title; label; depend; body; cookies} = prompt in
+		let {kind; point_val; title; label; tag; depend; body; cookies} = prompt in
 		(* Translate body to xml *)
     let body_xml = body_to_xml translator prompt in
     (* Update: do not normalize. 0.0 is important to keep. 
@@ -583,6 +584,7 @@ struct
         ~pval:point_val
         ~topt:titles
         ~lopt:label
+        ~tagopt:tag
 				~dopt:depend 
         ~body_src:body
         ~body_xml:body_xml

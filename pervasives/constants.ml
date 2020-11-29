@@ -1,5 +1,3 @@
-
-
 let tmp_dir_name = "/tmp"
 let diderot_atomic = "diderot_"
 let ext_core = "_core"

@@ -24,6 +24,7 @@ let no_explain = not_provided ^ "EXPLANATION..."
 let no_hint = not_provided ^ "HINT..." 
 let no_intro = not_provided ^ "INTRO..." 
 let no_info = not_provided ^ "INFO..."
+let no_item_tag = not_provided ^ "TAG..." 
 let no_label = not_provided ^ "LABEL..." 
 let no_no = "0"  (* has to be a number still *) 
 let no_parents = not_provided ^ "PARENTS..." 
