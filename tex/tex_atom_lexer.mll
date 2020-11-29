@@ -233,11 +233,11 @@ let p_com_one_choice  = "\\onechoice"
 let p_com_any_choice = "\\anychoice"
 
 let p_tag = (p_alpha | p_digit)+
-
+let p_tag_included = '(' p_hs (p_tag as tag) p_hs ')'
 let p_point_val = (p_o_sq as o_sq) (p_integer as point_val) p_ws '.' '0'? p_ws (p_c_sq as c_sq)
 (* item point values can be floating point *)
-let p_item_point_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_float as point_val)? p_ws (p_c_sq as c_sq)
-let p_item_weight_val = (p_o_sq as o_sq) ((p_tag as tag) p_hs ')' p_hs)? (p_weight as weight)? p_ws (p_c_sq as c_sq)
+let p_item_point_val = (p_o_sq as o_sq)  p_tag_included? (p_float as point_val)? p_ws (p_c_sq as c_sq)
+let p_item_weight_val = (p_o_sq as o_sq) p_tag_included? (p_weight as weight)? p_ws (p_c_sq as c_sq)
 
 let p_label_name = (p_alpha | p_digit | p_separator)*
 let p_label_and_name = (('\\' "label" p_ws  p_o_curly) as label_pre) (p_label_name as label_name) ((p_ws p_c_curly) as label_post)							
@@ -757,6 +757,11 @@ and take_list =
      let _ = d_printf "* atom_lexer: item kind %s body = %s\n" kind body in
 	   let items = cookie::items in     
 	     ("", None, items, h_e)	 	 
+	 }
+ 	 | (p_item as x)     (* Catch ill formed item *)
+   {
+  	let err = sprintf "Syntax Error: Encountered an ill-formed item, perhaps the points or the tag are not specified correctly?\n    Context: %s" x in 
+       raise (Constants.Syntax_Error err)
 	 }
    | p_label_and_name as x
    { 
