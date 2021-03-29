@@ -403,6 +403,17 @@ let mk_fill_in_box_latex len x =
 	let lu = List.concat [["$\\lt$\\%\\%"]; content; ["\\%\\%$\\gt$"]] in 
 	String.concat ~sep:"" lu
 
+(* Construct a fill-in-the-blanks solution for latex source *)
+let mk_fill_in_sol_latex len x =
+	let target_per_char = "~" in 
+    match len with 
+    | None -> x
+    | Some l ->
+			let ll = max 2 (l - (String.length x) / 2) in
+      let pad = String.concat ~sep:"" (List.init ll ~f:(fun i -> target_per_char)) in
+      let all = List.concat [[pad]; [x]; [pad]] in 
+      	String.concat ~sep:"" all
+
 (* Construct a fill-in-the-blanks box for code source *)
 let mk_fill_in_box_code x = 
   let target_per_char = " " in 
