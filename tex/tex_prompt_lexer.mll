@@ -138,41 +138,38 @@ let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_run_star | p_begin_e
 rule initial rewriter_mode = 
 parse
 
-(* Rewrite \fin{argument} --> fill-in-box(argumement) *)
+(* Rewrite \fin{argument} --> fill-in-box(argument) *)
 
 | (p_com_fillin_with_len as x)
 		{
      let _ = d_printf "!prompt_lexer found: fillin with length %s\n" len in
      let arg = take_arg_force lexbuf in
-
-     (* In question mode: drop the answer
-      * In solution mode: keep the command as is
-      *) 
-     match rewriter_mode  with 
-		 | Prompt_Mode_Question -> 
-       let box = Utils.mk_fill_in_box_latex (Some (int_of_string len)) arg in
-       let rest = initial rewriter_mode lexbuf in
+     let box = 
+       (* In question mode: drop the answer
+        * In solution mode: keep the command as is
+        *) 
+       match rewriter_mode  with 
+  		 | Prompt_Mode_Question -> Utils.mk_fill_in_box_latex (Some (int_of_string len)) arg 
+  		 | Prompt_Mode_Solution -> Utils.mk_fill_in_sol_latex (Some (int_of_string len)) arg
+     in
+     let rest = initial rewriter_mode lexbuf in
        box ^ rest
-		 | Prompt_Mode_Solution ->
-       let rest = initial rewriter_mode lexbuf in
-       x ^ "{" ^ arg ^ "}" ^ rest
     }
 
 | (p_com_fillin as x)
 		{
      let _ = d_printf "!prompt_lexer found: fillin\n" in
      let arg = take_arg_force lexbuf in
-     (* In question mode: drop the answer
-      * In solution mode: keep the command as is
-      *) 
-     match rewriter_mode  with 
-		 | Prompt_Mode_Question -> 
-       let box = Utils.mk_fill_in_box_latex None arg in
-       let rest = initial rewriter_mode lexbuf in
-       box ^ rest
-		 | Prompt_Mode_Solution ->
-       let rest = initial rewriter_mode lexbuf in
-       x ^ "{" ^ arg ^ "}" ^ rest
+     let box = 
+       (* In question mode: drop the answer
+        * In solution mode: keep the command as is
+        *) 
+       match rewriter_mode  with 
+  		 | Prompt_Mode_Question -> Utils.mk_fill_in_box_latex None arg 
+  		 | Prompt_Mode_Solution -> Utils.mk_fill_in_sol_latex None arg
+		 in
+     let rest = initial rewriter_mode lexbuf in
+         box ^ rest
     }
 
 | (p_begin_env_skip as x)
