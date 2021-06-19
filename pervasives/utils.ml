@@ -140,6 +140,22 @@ let file_is_markdown filename =
 				let _ = d_printf "file_is_markdown: %s\n" x in
 				x = Constants.ext_markdown
 
+let file_is_html filename =
+  let (filename_first, ext) = Filename.split_extension filename in
+    match ext with 
+    | None -> false
+    | Some x -> 
+				let _ = d_printf "file_is_html %s\n" x in
+				x = Constants.ext_html
+
+let file_is_xml filename =
+  let (filename_first, ext) = Filename.split_extension filename in
+    match ext with 
+    | None -> false
+    | Some x -> 
+				let _ = d_printf "file_is_xml: %s\n" x in
+				x = Constants.ext_xml
+
 (* END File names etc *) 
 
 (* BEGIN: Operations on string lists *)

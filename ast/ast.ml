@@ -6,6 +6,7 @@ open Utils
 (*
 let d_printf args = printf args
 *)
+module Html = Html_syntax
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax
@@ -187,7 +188,20 @@ let str_opt_to_xml translator kind source_opt =
 			 let source_xml = translator kind source  in
        Some (source_xml, source)
 
+(* Translate source string option to xml, return both *)
+let str_opt_to_html translator kind source_opt =
+   match source_opt with 
+   | None -> None 
+   | Some source -> 
+			 let source_html = translator kind source  in
+       Some (source_html, source)
+
 let depend_to_xml dopt = 
+	match dopt with 
+  |  None -> None
+  |  Some ls -> Some (str_of_str_list ls)
+
+let depend_to_html dopt = 
 	match dopt with 
   |  None -> None
   |  Some ls -> Some (str_of_str_list ls)
@@ -1327,6 +1341,28 @@ struct
 		let _ = List.map subsegments ~f:normalize in
 		()
 
+  let rec to_html translator segment = 
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
+    let _ = d_printf "ast.segment.to_html: title = %s\n" title in
+		let point_val = normalize_point_val point_val in
+    let _ = d_printf "ast.segment.to_html: point_val = %s\n" (str_of_pval_opt point_val) in
+    let titles = str_opt_to_html translator Html.title (Some title) in
+    let depend = depend_to_html depend in
+		let block = "" in (* Block.to_html translator block in *)
+		let subsegments = "" in (* map_concat_with newline (to_html translator) subsegments in *)
+		let body = block ^ newline ^ subsegments in
+		let r = 
+			Html.mk_segment
+				~kind:kind 
+        ~pval:point_val
+        ~strategy:strategy
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:body
+   in
+     r
+
   let rec to_xml translator segment = 
 		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
     let _ = d_printf "ast.segment.to_xml: title = %s\n" title in
@@ -1500,6 +1536,10 @@ let to_md ast =
 
 let to_tex ast = 
 	Segment.to_tex ast
+
+let to_html atom_translator ast = 
+	let html:string = Segment.to_html atom_translator ast in
+	Html.mk_standalone html  
 
 let to_xml atom_translator ast = 
 	let xml:string = Segment.to_xml atom_translator ast in
