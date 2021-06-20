@@ -17,7 +17,7 @@ DEPEND = \
   pervasives/utils.ml pervasives/error_code.ml \
   tex/tex_atom_lexer.mll tex/tex_atom_parser.mly tex/tex_comment_lexer.mll tex/tex_labels.ml tex/tex_lexer.mll tex/tex_parser.mly tex/tex_prompt_lexer.mll tex/tex2html.ml tex/tex_syntax.ml tex/preprocessor.ml \
   top/dc.ml top/texel.ml \
-  html/html_constants.ml html/html_syntax.ml \
+  html/html_syntax.ml \
   xml/xml_constants.ml xml/xml_syntax.ml 
 
 default: dc.native tex2tex.native 
