@@ -12,26 +12,45 @@ let d_printf args =
 
 module C = Html_constants
 
+
+let h1 = "h1"
+let h2 = "h2"
+let h3 = "h3"
+let h4 = "h4"
+let h5 = "h5"
+let h6 = "h6"
+
 (* Tags *) 
+
 
 let tag_html_version = ""
 (* These two are not used but for future reference. *) 
 let tag_body_begin = "<body>"
 let tag_body_end = "</body>"
 
-let tag_id = "id"
+
 let tag_item = "item"
-let tag_atom = "atom"
+let tag_atom = "div"
 let tag_group = "group"
 let tag_segment = "segment"
 let tag_field = "field"
 let tag_ilist = "ilist"
 
 (* Attributes *)
+let attr_class = "class"
 let attr_name = "name"
 let attr_kind = "kind"
+let attr_id = "id"
 
 (* Attribute values *)
+let level1 = "level1"
+let level2 = "level2"
+let level3 = "level3"
+let level4 = "level4"
+let level5 = "level5"
+let level6 = "level6"
+let level7 = "level7"
+
 let answer = "answer"
 let book = "book"
 let chapter = "chapter"
@@ -42,6 +61,7 @@ let subsection = "subsection"
 let subsubsection = "subsubsection"
 let ilist = "ilist"
 let item = "item"
+
 
 let algo = "algorithm"
 let algorithm = "algorithm"
@@ -73,7 +93,6 @@ let group = "group"
 let hint = "hint"
 let hint_src = "hint_src"
 let important = "important"
-let id = "id"
 let item_tag = "tag"
 let label = "label"
 let lemma = "lemma"
@@ -136,69 +155,20 @@ let mk_comment (s) =
 let mk_begin(tag) =
   "<" ^ tag ^ ">"
 
+let mk_tag_begin(name, attributes) =
+  match attributes with 
+	| None -> "<" ^ name ^ ">"  
+  | Some x -> "<" ^ name ^ C.space ^ x ^ C.space ^ ">"  
+
+let mk_tag_end(name) =
+	"</" ^ name ^ ">"  ^ mk_comment("End: " ^ name)
+
+let mk_tag(name, attributes, body) =
+  mk_tag_begin (name, attributes) ^ body ^ mk_tag_end(name)
+
+
 let mk_attr_val attr_name attr_val = 
-  attr_name ^ C.equality ^ C.quote ^ attr_val ^ C.quote
-
-(* TODO: unused/rm *)
-let mk_begin_item(name) =
-  "<" ^ tag_item ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
-
-let mk_begin_atom(kind) =
-  "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
-
-let mk_begin_group(kind) =
-  "<" ^ tag_group ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
-
-let mk_begin_segment(name) =
-  "<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
-
-let mk_begin_segment_with_kind name kind =
-  "<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
-                              (mk_attr_val attr_kind kind) ^ 
-  ">"
-
-let mk_begin_field(name) =
-  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
-
-let mk_end(tag) =
-  "</" ^ tag ^ ">"
-
-let mk_end_atom(kind) =
-  "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
-
-let mk_end_group(kind) =
-  "</" ^ tag_group ^ ">" ^ C.space ^ mk_comment(kind)
-
-let mk_end_segment(name) =
-  "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name)
-
-let mk_end_segment_with_kind name kind =
-  "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
-
-let mk_end_field(name) =
-  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(name)
-
-let mk_cdata(body) =
-  C.cdata_begin ^ C.newline ^ String.strip(body) 
-                        ^ C.newline ^ 
-  C.cdata_end
-
-let ilist_kind_to_html kind = 
-  if contains_substring chooseany kind then
-    checkbox
-  else if contains_substring chooseone kind then
-    radio
-  else
-    raise (Failure "xmlSyntax: Encountered IList of unknown kind")
-
-let append_opt x_opt l = 
-  match x_opt with 
-  | None -> l
-  | Some x -> List.append l [x]
-
-(** END: Utilities
- **********************************************************************)
-
+  attr_name ^ C.equality ^ C.dquote ^ attr_val ^ C.dquote
 
 (**********************************************************************
  ** BEGIN: Field makers
@@ -206,23 +176,23 @@ let append_opt x_opt l =
 let mk_field_generic(name, contents) =
   (* Strip white space around fields *)
   let contents =   String.strip ~drop:is_space contents in
-  let result = name ^ "=" ^ C.quote ^ contents ^ C.quote  in
+  let result = name ^ "=" ^ C.dquote ^ contents ^ C.dquote  in
     result
 
 let mk_field_id(label) =
-  mk_field_generic(id, label)
+  mk_field_generic(attr_id, label)
 
 let mk_authors(x) = 
   mk_field_generic(authors, x)
 
 let mk_body (x) = 
-  mk_field_generic(body, mk_cdata x)
+  mk_field_generic(body, x)
 
 let mk_body_src (x) = 
-  mk_field_generic(body_src, mk_cdata x)
+  mk_field_generic(body_src, x)
 
 let mk_body_pop (x) = 
-  mk_field_generic(body_pop, mk_cdata(x))
+  mk_field_generic(body_pop, x)
 
 let mk_cover_opt(x) = 
   match x with
@@ -245,20 +215,20 @@ let mk_pl_version_opt(x) =
   | Some y -> mk_field_generic(pl_version, y)
 
 let mk_explain (x) = 
-  mk_field_generic(explain, mk_cdata x)
+  mk_field_generic(explain, x)
 
 let mk_explain_src (x) = 
-  mk_field_generic(explain_src, mk_cdata x)
+  mk_field_generic(explain_src,  x)
 
 let mk_hint (x) = 
-  mk_field_generic(hint, mk_cdata x)
+  mk_field_generic(hint,  x)
 
 let mk_hint_src (x) = 
-  mk_field_generic(hint_src, mk_cdata x)
+  mk_field_generic(hint_src,  x)
 
 let mk_label(x) = 
   let _ = d_printf "mk_label: %s" x in 
-    mk_field_generic(id, x)
+    mk_field_generic(attr_id, x)
 
 let mk_label_opt(x) = 
   match x with
@@ -292,16 +262,16 @@ let mk_solution (x) =
   mk_field_generic(solution, x)
 
 let mk_refsol (x) = 
-  mk_field_generic(refsol, mk_cdata x)
+  mk_field_generic(refsol,  x)
 
 let mk_refsol_src (x) = 
-  mk_field_generic(refsol_src, mk_cdata x)
+  mk_field_generic(refsol_src,  x)
 
 let mk_rubric (x) = 
-  mk_field_generic(rubric, mk_cdata x)
+  mk_field_generic(rubric,  x)
 
 let mk_rubric_src (x) = 
-  mk_field_generic(rubric_src, mk_cdata x)
+  mk_field_generic(rubric_src,  x)
 
 let mk_refsols_opt refsol_opt = 
     match refsol_opt with
@@ -333,31 +303,26 @@ let mk_sound_opt(x) =
 
 
 let mk_title(x) = 
-  mk_field_generic(title, mk_cdata x)
+  mk_field_generic(title, x)
 
 let mk_title_src(x) = 
-  mk_field_generic(title_src, mk_cdata x)
+  mk_field_generic(title_src, x)
 
 let mk_title_src_opt(x) = 
   match x with
-  | None -> mk_field_generic(title_src, mk_cdata C.no_title)
-  | Some y -> mk_field_generic(title_src, mk_cdata y)
+  | None -> mk_field_generic(title_src, C.no_title)
+  | Some y -> mk_field_generic(title_src, y)
 
 let mk_title_opt (x) = 
   match x with
-  | None -> 
-    [mk_title C.no_title;
-     mk_title_src C.no_title]
-  | Some (t_html, t_src) -> 
-    [mk_title t_html;
-     mk_title_src t_src]
-
+  | None -> (mk_title C.no_title, mk_title_src C.no_title)
+  | Some (t_html, t_src) -> (mk_title t_html, mk_title_src t_src)
 
 let mk_caption(x) = 
-  mk_field_generic(caption, mk_cdata x)
+  mk_field_generic(caption,  x)
 
 let mk_caption_src(x) = 
-  mk_field_generic(caption_src, mk_cdata x)
+  mk_field_generic(caption_src,  x)
 
 let mk_caption_opt x = 
   match x with
@@ -391,29 +356,128 @@ let mk_unique(x) =
  **********************************************************************)
 
 
+(* TODO: unused/rm *)
+let mk_begin_item(name) =
+  "<" ^ tag_item ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
+
+let mk_begin_group(kind) =
+  "<" ^ tag_group ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+
+let level_of_segment (name) = 
+	match name with 
+	| "chapter" -> level1
+	| "section" -> level2
+	| "subsection" -> level3
+	| "subsubsection" -> level4
+	| "paragraph" -> level5
+  | x -> (printf "Fatal Error: Unknown segment: %s" x; exit (1)) 
+
+let mk_segment_heading(name, title) = 
+  match title with 
+	| None -> ""
+	| Some title -> 
+			match name with 
+			| "chapter" -> mk_tag (h1, None, title)
+			| "section" -> mk_tag (h2, None, title)
+			| "subsection" -> mk_tag (h3, None, title)
+			| "subsubsection" -> mk_tag (h4, None, title)
+			| "paragraph" -> mk_tag (h5, None, title)
+
+let mk_begin_segment(name, title, fields) =
+  let html_title = mk_segment_heading(name, title) in
+  let attr_class = mk_attr_val attr_class (level_of_segment name) in
+  let fields = attr_class::fields in
+  let attributes = List.reduce fields (fun x -> fun y -> x ^ C.space ^ y) in
+  let html_begin = 
+    match attributes with
+		| None -> 
+				"<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^ ">"
+		| Some a ->
+				"<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^ a ^ C.space ^ ">"
+	in
+      html_begin ^ C.newline ^ html_title
+
+let mk_begin_segment_with_kind name kind =
+  "<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
+                              (mk_attr_val attr_kind kind) ^ 
+  ">"
+
+let mk_begin_atom(kind, fields) =
+
+  "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
+
+
+let mk_begin_atom(kind, fields) =
+  let attr_class = mk_field_generic (attr_class, kind) in
+  let attributes = List.reduce (attr_class :: fields) (fun x -> fun y -> x ^ C.space ^ y) in
+    match attributes with
+		| None -> 
+				"<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ C.space ^ ">"
+		| Some a ->
+				"<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ C.space ^ a ^ C.space ^ ">"
+
+
+let mk_begin_field(name) =
+  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
+
+let mk_end(tag) =
+  "</" ^ tag ^ ">"
+
+let mk_end_atom(kind) =
+  "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
+
+let mk_end_group(kind) =
+  "</" ^ tag_group ^ ">" ^ C.space ^ mk_comment(kind)
+
+let mk_end_segment(name) =
+  "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name)
+
+let mk_end_segment_with_kind name kind =
+  "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
+
+let mk_end_field(name) =
+  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(name)
+
+let ilist_kind_to_html kind = 
+  if contains_substring chooseany kind then
+    checkbox
+  else if contains_substring chooseone kind then
+    radio
+  else
+    raise (Failure "xmlSyntax: Encountered IList of unknown kind")
+
+let append_opt x_opt l = 
+  match x_opt with 
+  | None -> l
+  | Some x -> List.append l [x]
+
+(** END: Utilities
+ **********************************************************************)
+
+
+
+
 (**********************************************************************
  ** BEGIN: Segment makers
  **********************************************************************)
 
 let mk_segment_atom kind fields =
   let _ = d_printf "mk_segment_atom: %s" kind in
-  let b = mk_begin_atom(kind) in
+  let b = mk_begin_atom(kind, fields) in
   let e = mk_end_atom(kind) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
-    match result with 
-    | None -> b ^ C.newline ^ e ^ C.newline
-    | Some r -> b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
+    b ^ C.newline ^ e ^ C.newline
 
-
-let mk_segment_generic name fields =
+let mk_segment_generic name fields body =
   let _ = d_printf "mk_segment_generic: %s" name in
-  let b = mk_begin_segment(name) in
+  let b = mk_begin_segment(name, None, fields) in
   let e = mk_end_segment(name) in  
-  let result = List.reduce fields (fun x -> fun y -> x ^ C.newline ^ y) in
-    match result with 
-    | None ->  b ^ C.newline ^ e ^ C.newline
-    | Some r ->  b ^ C.newline ^ r ^ C.newline ^ e ^ C.newline
+    b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
+let mk_segment_generic_titled name title fields body =
+  let _ = d_printf "mk_segment_generic: %s" name in
+  let b = mk_begin_segment(name, Some title, fields) in
+  let e = mk_end_segment(name) in  
+    b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
 let mk_segment_generic_with_kind name kind fields =
   let _ = d_printf "mk_segment_generic_with_kind: %s" name in
@@ -439,31 +503,29 @@ let mk_ilist ~kind ~pval ~body =
 
 let mk_cookie ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html = 
   let pval_html = mk_point_value_opt pval in
-  let titles = mk_title_opt topt in
   let label_html = mk_label_opt lopt in
   let tag_html = mk_item_tag_opt tagopt in
   let depend_html = mk_depend_opt dopt in
   let body_html = mk_body body_html in
   let body_src = mk_body_src body_src in
-  let fields = [pval_html] @ titles @ [label_html; tag_html; depend_html; body_html; body_src] in
+  let fields = [pval_html] @ [label_html; tag_html; depend_html; body_html; body_src] in
     mk_segment_generic kind fields
 
 let mk_prompt ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html ~cookies = 
   let pval_html = mk_point_value_opt pval in
-  let titles = mk_title_opt topt in
   let label_html = mk_label_opt lopt in
   let tag_html = mk_item_tag_opt tagopt in
   let depend_html = mk_depend_opt dopt in
   let body_html = mk_body body_html in
   let body_src = mk_body_src body_src in
-  let fields = [pval_html] @ titles @ [label_html; tag_html; depend_html; body_html; body_src; cookies] in
+  let fields = [pval_html] @ [label_html; tag_html; depend_html; body_html; body_src; cookies] in
     mk_segment_generic kind fields
 
 let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_html ~capopt ~prompts = 
   let pval_html = mk_point_value_opt pval in
   let pl_html = mk_pl_opt pl in
   let pl_version_html = mk_pl_version_opt pl_version in
-  let titles = mk_title_opt topt in
+  let (title_html, title_src) = mk_title_opt topt in 
   let cover_html = mk_cover_opt copt in
   let sound_html = mk_sound_opt sopt in
   let body_html = mk_body body_html in
@@ -471,61 +533,25 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
   let captions = mk_caption_opt capopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [pl_html; pl_version_html] @ titles @ [cover_html; sound_html; label_html; depend_html; pval_html; body_html; body_src; prompts] @ captions in
+  let fields = [label_html; title_html; pl_html; pl_version_html] @ [cover_html; sound_html; depend_html; pval_html; body_html; body_src; prompts] @ captions in
     mk_segment_atom kind fields
 
 let mk_segment ~kind ~pval ~topt ~strategy ~lopt ~dopt ~body = 
   let pval_html = mk_point_value_opt pval in
   let strategy_html = mk_strategy_opt strategy in
-  let titles = mk_title_opt topt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [pval_html; strategy_html] @ titles @ [label_html; depend_html; body] in
-	mk_segment_generic kind fields
+  let fields = [label_html; pval_html; strategy_html; depend_html] in
+    match topt with
+		| None ->	
+				mk_segment_generic kind fields body
+		| Some _ ->	
+				let (title_html, title_src) = mk_title_opt topt in
+				mk_segment_generic_titled kind title_html fields body
 
-let mk_paragraph ~pval ~title ~title_html ~lopt ~body = 
-  let pval_html = mk_point_value_opt pval in
-  let title_src = mk_title_src title in
-  let title_html = mk_title title_html in
-  let label_html = mk_label_opt lopt in
-  let fields = [pval_html] @ [title_src; title_html; label_html; body] in
-    mk_segment_generic paragraph fields
-
-let mk_subsubsection ~pval ~title ~title_html ~lopt ~body = 
-  let pval_html = mk_point_value_opt pval in
-  let title_src = mk_title_src title in
-  let title_html = mk_title title_html in
-  let label_html = mk_label_opt lopt in
-  let fields = [pval_html] @ [title_html; title_src; label_html; body] in
-    mk_segment_generic subsubsection fields 
-
-let mk_subsection ~pval ~title ~title_html ~lopt ~body = 
-  let pval_html = mk_point_value_opt pval in
-  let title_src = mk_title_src title in
-  let title_html = mk_title title_html in
-  let label_html = mk_label_opt lopt in
-  let fields = [pval_html] @ [title_html; title_src; label_html; body] in
-    mk_segment_generic subsection fields
-
-let mk_section ~pval ~title ~title_html ~lopt ~body = 
-  let pval_html = mk_point_value_opt pval in
-  let title_src = mk_title_src title in
-  let title_html = mk_title title_html in
-  let label_html = mk_label_opt lopt in
-  let fields = [pval_html] @ [title_html; title_src; label_html; body] in
-    mk_segment_generic section fields
-
-let mk_chapter ~pval ~title ~title_html ~label ~body = 
-  let pval_html = mk_point_value_opt pval in
-  let title_src:string = mk_title_src title in
-  let title_html = mk_title title_html in
-  let label_html:string = mk_label label in
-  let fields = [pval_html] @ [title_html; title_src; label_html; body] in
-  let chapter_html = mk_segment_generic chapter fields in 
-    tag_html_version ^ C.newline ^ chapter_html
 
 let mk_standalone html = 
-  tag_body_begin ^ C.newline ^ "Hello" ^ C.newline ^ tag_body_end
+  tag_body_begin ^ C.newline ^ html ^ C.newline ^ tag_body_end
 
 (**********************************************************************
  ** END: Segment makers

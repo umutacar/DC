@@ -771,6 +771,22 @@ struct
     	(atom_label, tt_all, tb_all)
 
 
+  let body_to_html translator atom =
+		let _ = d_printf "body_to_html: atom = %s, Not promoting\n" atom.kind in
+    let body = 
+      if Tex.is_code atom.kind then
+        match atom.pl with 
+        | None -> fmt_lstlisting_nopl atom.body
+        | Some pl -> fmt_lstlisting_pl (Option.value atom.pl  ~default:"c") atom.body  
+      else
+        atom.body
+    in
+		let _ = d_printf "atom body = %s\n" body in
+		let (body, languages) = sanitize_lst_language body in
+(*			let _ = d_printf "languages = %s\n" (str_of_str2_list languages) in *)
+    let _ = d_printf "body sanitized:\n %s" body in
+		translator Xml.body body
+
   let body_to_xml translator atom =
 		let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
     let body = 
@@ -807,6 +823,36 @@ struct
 						let multiplier = divide_points points sum in
 						let _ = List.map prompts ~f:(Prompt.propagate_point_value multiplier) in
 						points
+
+  let to_html translator atom = 
+		(* Translate body to xml *)
+		let body_html = body_to_html translator atom in
+		(* Atom has changed, reload *)
+		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
+    let depend = depend_to_html depend in
+		let point_val = normalize_point_val point_val in
+		let _ = d_printf "Atom.to_html: point_val = %s" (str_of_str_opt point_val) in
+    let titles = str_opt_to_html translator Xml.title title in
+		(* let prompts = map_concat_with newline (Prompt.to_html translator) prompts in *)
+    let prompts = "" in
+    let captions = str_opt_to_html translator Xml.caption caption in
+		let r = 
+			Html.mk_atom 
+				~kind:kind 
+        ~pl:pl
+        ~pl_version:pl_version
+        ~pval:point_val
+        ~topt:titles
+        ~copt:cover
+        ~sopt:sound
+        ~lopt:label
+				~dopt:depend 
+        ~body_src:body
+        ~body_html:body_html
+        ~capopt:captions
+        ~prompts
+   in
+     r
 
   let to_xml translator atom = 
 		(* Translate body to xml *)
@@ -958,6 +1004,30 @@ struct
     let _ = group.point_val <- sum in
 		force_float_string sum
 
+  let to_html translator group = 
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_html translator Xml.title title in
+    let depend = depend_to_html depend in
+		let atoms = map_concat_with newline (Atom.to_html translator) atoms in
+
+    (* We will use the kind of the group as a segment name.
+       Because these are unique this creates no ambiguity.
+       We know which segments are groups.
+     *)
+
+		let r = 
+			Xml.mk_segment 
+				~kind:kind 
+        ~pval:point_val
+        ~strategy:strategy
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:atoms
+   in
+     r
+
   let to_xml translator group = 
 		let {kind; point_val; strategy; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
@@ -1051,6 +1121,13 @@ struct
 		| Element_group g -> 
 				Group.propagate_point_value g 
 					
+	let to_html translator e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_html translator a
+		| Element_group g ->
+				Group.to_html translator g
+
 	let to_xml translator e = 
 		match e with
 		| Element_atom a ->
@@ -1115,6 +1192,11 @@ struct
     let points_sum = List.reduce (points_elements) ~f:add_points in
     let _ = block.point_val <- points_sum in
 		force_float_string points_sum
+
+  let to_html translator block = 
+		let {point_val; label; elements} = block in
+		let elements = map_concat_with newline (Element.to_html translator) elements in
+		elements
 
   let to_xml translator block = 
 		let {point_val; label; elements} = block in
@@ -1348,8 +1430,8 @@ struct
     let _ = d_printf "ast.segment.to_html: point_val = %s\n" (str_of_pval_opt point_val) in
     let titles = str_opt_to_html translator Html.title (Some title) in
     let depend = depend_to_html depend in
-		let block = "" in (* Block.to_html translator block in *)
-		let subsegments = "" in (* map_concat_with newline (to_html translator) subsegments in *)
+		let block = Block.to_html translator block in 
+		let subsegments =  map_concat_with newline (to_html translator) subsegments in
 		let body = block ^ newline ^ subsegments in
 		let r = 
 			Html.mk_segment
