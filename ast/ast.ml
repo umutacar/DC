@@ -1017,7 +1017,7 @@ struct
      *)
 
 		let r = 
-			Xml.mk_segment 
+			Html.mk_segment 
 				~kind:kind 
         ~pval:point_val
         ~strategy:strategy

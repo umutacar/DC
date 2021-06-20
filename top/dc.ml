@@ -134,7 +134,7 @@ let input_to_html is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infi
   let _ = printf "\nTranslating to atomic LaTeX ... %!" in
   let tex = Ast.to_tex ast in
   let _ = printf "Done%!" in
-  let _ = printf "\nTranslating to XML %!" in
+  let _ = printf "\nTranslating to HTML %!" in
   let html = Ast.to_html translator ast in
   let _ = printf "Done\n%!" in
     (tex, html)

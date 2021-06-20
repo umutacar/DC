@@ -31,7 +31,9 @@ let tag_body_end = "</body>"
 
 let tag_item = "item"
 let tag_atom = "div"
+let tag_div = "div"
 let tag_group = "group"
+let tag_section = "section"
 let tag_segment = "segment"
 let tag_field = "field"
 let tag_ilist = "ilist"
@@ -156,6 +158,7 @@ let mk_begin(tag) =
   "<" ^ tag ^ ">"
 
 let mk_tag_begin(name, attributes) =
+  let attributes = List.reduce attributes (fun x -> fun y -> x ^ C.space ^ y) in
   match attributes with 
 	| None -> "<" ^ name ^ ">"  
   | Some x -> "<" ^ name ^ C.space ^ x ^ C.space ^ ">"  
@@ -361,47 +364,32 @@ let level_of_segment (name) =
 	| "paragraph" -> level5
   | x -> (printf "Fatal Error: Unknown segment: %s" x; exit (1)) 
 
-let mk_segment_heading(name, title) = 
+let mk_section_heading(name, title) = 
   match title with 
 	| None -> ""
 	| Some title -> 
 			match name with 
-			| "chapter" -> mk_tag (h1, None, title)
-			| "section" -> mk_tag (h2, None, title)
-			| "subsection" -> mk_tag (h3, None, title)
-			| "subsubsection" -> mk_tag (h4, None, title)
-			| "paragraph" -> mk_tag (h5, None, title)
+			| "chapter" -> mk_tag (h1, [], title)
+			| "section" -> mk_tag (h2, [], title)
+			| "subsection" -> mk_tag (h3, [], title)
+			| "subsubsection" -> mk_tag (h4, [], title)
+			| "paragraph" -> mk_tag (h5, [], title)
+      |  _ -> mk_tag (tag_div, [], title)
 
-let mk_begin_segment(name, title, fields) =
-  let html_title = mk_segment_heading(name, title) in
-  let field_class = mk_field_generic (attr_class, level_of_segment name) in
-  let field_name = mk_field_generic (attr_name, name) in
-  let fields = field_class::field_name::fields in
-  let attributes = List.reduce fields (fun x -> fun y -> x ^ C.space ^ y) in
-  let html_begin = 
-    match attributes with
-		| None -> (printf "Fatal Error: Internal bug." ; exit(1)) 
-		| Some a ->
-				"<" ^ tag_segment ^ C.space ^ a ^ C.space ^ ">"
-	in
-      html_begin ^ C.newline ^ html_title
+let mk_begin_segment name topt fields =
+  "<" ^ tag_segment ^ C.space ^ name ^ C.space ^ fields ^
+  ">"
 
 let mk_begin_segment_with_kind name kind =
   "<" ^ tag_segment ^ C.space ^ (mk_field_generic (attr_name, name)) ^ C.space ^
                               (mk_field_generic (attr_kind, kind)) ^ 
   ">"
 
-
-let mk_begin_atom(kind, fields) =
-  let field_class = mk_field_generic (attr_class, kind) in
-  let attributes = List.reduce (field_class :: fields) (fun x -> fun y -> x ^ C.space ^ y) in
-    match attributes with
-		| None -> (printf "Fatal Error: Internal bug." ; exit(1)) 
-		| Some a ->
-				"<" ^ tag_atom ^ C.space ^ a ^ C.space ^ ">"
-
 let mk_end(tag) =
   "</" ^ tag ^ ">"
+
+let mk_end_named (tag, name) =
+  "</" ^ tag ^ ">" ^ C.space ^ mk_comment(name)
 
 let mk_end_atom(kind) =
   "</" ^ tag_atom ^ ">" ^ C.space ^ mk_comment(kind)
@@ -439,21 +427,30 @@ let append_opt x_opt l =
  ** BEGIN: Segment makers
  **********************************************************************)
 
-let mk_segment_atom kind fields body =
-  let _ = d_printf "mk_segment_atom: %s" kind in
-  let b = mk_begin_atom(kind, fields) in
-  let e = mk_end_atom(kind) in  
+let mk_segment_section name title fields body =
+  let tag = tag_section in
+  let html_title = mk_section_heading(name, title) in
+  let field_class = mk_field_generic (attr_class, level_of_segment name) in
+  let field_name = mk_field_generic (attr_name, name) in
+  let fields = field_class::field_name::fields in
+  let html_begin = mk_tag_begin (tag, fields)  in
+  let html_end = mk_tag_end tag in
+  html_begin ^ C.newline ^ html_title ^ body ^ html_end
+
+let mk_div kind fields body =
+  let b = mk_tag_begin (tag_div, fields) in
+  let e = mk_end_named (tag_div, kind) in  
     b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
 let mk_segment_generic name fields body =
   let _ = d_printf "mk_segment_generic: %s" name in
-  let b = mk_begin_segment(name, None, fields) in
-  let e = mk_end_segment(name) in  
+  let b = mk_begin_segment name None fields in
+  let e = mk_end_segment name in  
     b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
 let mk_segment_generic_titled name title fields body =
   let _ = d_printf "mk_segment_generic: %s" name in
-  let b = mk_begin_segment(name, Some title, fields) in
+  let b = mk_begin_segment name (Some title) fields in
   let e = mk_end_segment(name) in  
     b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
@@ -471,7 +468,7 @@ let mk_item ~pval ~body_src ~body_html =
   let pval_html = mk_point_value_opt pval in
   let body_html = mk_body body_html in
   let body_src = mk_body_src body_src in
-    mk_segment_generic item [pval_html; label_html; body_html; body_src] 
+    ""
 
 let mk_ilist ~kind ~pval ~body = 
   let kind_html = ilist_kind_to_html kind in
@@ -487,7 +484,7 @@ let mk_cookie ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html =
   let body_html = mk_body body_html in
   let body_src = mk_body_src body_src in
   let fields = [pval_html] @ [label_html; tag_html; depend_html; body_html; body_src] in
-    mk_segment_generic kind fields
+   "" (* mk_segment_generic kind fields *)
 
 let mk_prompt ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html ~cookies = 
   let pval_html = mk_point_value_opt pval in
@@ -497,36 +494,48 @@ let mk_prompt ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html ~cookie
   let body_html = mk_body body_html in
   let body_src = mk_body_src body_src in
   let fields = [pval_html] @ [label_html; tag_html; depend_html; body_html; body_src; cookies] in
-    mk_segment_generic kind fields
+    "" (* mk_segment_generic kind fields *)
 
 let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_html ~capopt ~prompts = 
+  let _ = printf "mk_atom: body = %s\n" body_html in
+  let field_class = mk_field_generic (attr_class, kind) in
   let pval_html = mk_point_value_opt pval in
   let pl_html = mk_pl_opt pl in
   let pl_version_html = mk_pl_version_opt pl_version in
   let (title_html, title_src) = mk_title_opt topt in 
   let cover_html = mk_cover_opt copt in
   let sound_html = mk_sound_opt sopt in
-  let body_html = mk_body body_html in
-  let body_src = mk_body_src body_src in
   let captions = mk_caption_opt capopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [label_html; title_html; pl_html; pl_version_html] @ [cover_html; sound_html; depend_html; pval_html;body_src; prompts] @ captions in
-    mk_segment_atom kind fields body
+  let fields = [field_class; label_html; title_html; pl_html; pl_version_html] @ [cover_html; sound_html; depend_html; pval_html; prompts] @ captions in
+    mk_div kind fields body_html
+
+let mk_segment_cluster ~kind ~topt fields ~body = 
+  let field_class = mk_field_generic (attr_class, kind) in
+    match topt with 
+		| None -> 
+				let fields = field_class::fields in
+				mk_div kind fields body
+		| Some title -> 
+				let fields = field_class::title::fields in
+				mk_div kind fields body
 
 let mk_segment ~kind ~pval ~topt ~strategy ~lopt ~dopt ~body = 
   let pval_html = mk_point_value_opt pval in
   let strategy_html = mk_strategy_opt strategy in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
   let fields = [label_html; pval_html; strategy_html; depend_html] in
-    match topt with
-		| None ->	
-				mk_segment_generic kind fields body
-		| Some _ ->	
-				let (title_html, title_src) = mk_title_opt topt in
-				mk_segment_generic_titled kind title_html fields body
-
+	match kind with 
+	| "chapter" -> mk_segment_section kind topt fields body
+	| "section" -> mk_segment_section kind topt fields body
+	| "subsection" -> mk_segment_section kind topt fields body
+	| "subsubsection" -> mk_segment_section kind topt fields body
+	| "paragraph" -> mk_segment_section kind topt fields body
+  | "cluster" -> mk_segment_cluster kind topt fields body
 
 let mk_standalone html = 
   tag_body_begin ^ C.newline ^ html ^ C.newline ^ tag_body_end
