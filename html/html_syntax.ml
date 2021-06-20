@@ -167,9 +167,6 @@ let mk_tag(name, attributes, body) =
   mk_tag_begin (name, attributes) ^ body ^ mk_tag_end(name)
 
 
-let mk_attr_val attr_name attr_val = 
-  attr_name ^ C.equality ^ C.dquote ^ attr_val ^ C.dquote
-
 (**********************************************************************
  ** BEGIN: Field makers
  **********************************************************************)
@@ -355,14 +352,6 @@ let mk_unique(x) =
  ** END: Field makers
  **********************************************************************)
 
-
-(* TODO: unused/rm *)
-let mk_begin_item(name) =
-  "<" ^ tag_item ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
-
-let mk_begin_group(kind) =
-  "<" ^ tag_group ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
-
 let level_of_segment (name) = 
 	match name with 
 	| "chapter" -> level1
@@ -385,40 +374,31 @@ let mk_segment_heading(name, title) =
 
 let mk_begin_segment(name, title, fields) =
   let html_title = mk_segment_heading(name, title) in
-  let attr_class = mk_attr_val attr_class (level_of_segment name) in
-  let fields = attr_class::fields in
+  let field_class = mk_field_generic (attr_class, level_of_segment name) in
+  let field_name = mk_field_generic (attr_name, name) in
+  let fields = field_class::field_name::fields in
   let attributes = List.reduce fields (fun x -> fun y -> x ^ C.space ^ y) in
   let html_begin = 
     match attributes with
-		| None -> 
-				"<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^ ">"
+		| None -> (printf "Fatal Error: Internal bug." ; exit(1)) 
 		| Some a ->
-				"<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^ a ^ C.space ^ ">"
+				"<" ^ tag_segment ^ C.space ^ a ^ C.space ^ ">"
 	in
       html_begin ^ C.newline ^ html_title
 
 let mk_begin_segment_with_kind name kind =
-  "<" ^ tag_segment ^ C.space ^ (mk_attr_val attr_name name) ^ C.space ^
-                              (mk_attr_val attr_kind kind) ^ 
+  "<" ^ tag_segment ^ C.space ^ (mk_field_generic (attr_name, name)) ^ C.space ^
+                              (mk_field_generic (attr_kind, kind)) ^ 
   ">"
 
-let mk_begin_atom(kind, fields) =
-
-  "<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ ">"
-
 
 let mk_begin_atom(kind, fields) =
-  let attr_class = mk_field_generic (attr_class, kind) in
-  let attributes = List.reduce (attr_class :: fields) (fun x -> fun y -> x ^ C.space ^ y) in
+  let field_class = mk_field_generic (attr_class, kind) in
+  let attributes = List.reduce (field_class :: fields) (fun x -> fun y -> x ^ C.space ^ y) in
     match attributes with
-		| None -> 
-				"<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ C.space ^ ">"
+		| None -> (printf "Fatal Error: Internal bug." ; exit(1)) 
 		| Some a ->
-				"<" ^ tag_atom ^ C.space ^ (mk_attr_val attr_name kind) ^ C.space ^ a ^ C.space ^ ">"
-
-
-let mk_begin_field(name) =
-  "<" ^ tag_field ^ C.space ^ (mk_attr_val attr_name name) ^ ">"
+				"<" ^ tag_atom ^ C.space ^ a ^ C.space ^ ">"
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
@@ -435,8 +415,6 @@ let mk_end_segment(name) =
 let mk_end_segment_with_kind name kind =
   "</" ^ tag_segment ^ ">" ^ C.space ^ mk_comment(name ^ "/" ^ kind)
 
-let mk_end_field(name) =
-  "</" ^ tag_field ^ ">"^ C.space ^ mk_comment(name)
 
 let ilist_kind_to_html kind = 
   if contains_substring chooseany kind then
@@ -461,11 +439,11 @@ let append_opt x_opt l =
  ** BEGIN: Segment makers
  **********************************************************************)
 
-let mk_segment_atom kind fields =
+let mk_segment_atom kind fields body =
   let _ = d_printf "mk_segment_atom: %s" kind in
   let b = mk_begin_atom(kind, fields) in
   let e = mk_end_atom(kind) in  
-    b ^ C.newline ^ e ^ C.newline
+    b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
 let mk_segment_generic name fields body =
   let _ = d_printf "mk_segment_generic: %s" name in
@@ -533,8 +511,8 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
   let captions = mk_caption_opt capopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [label_html; title_html; pl_html; pl_version_html] @ [cover_html; sound_html; depend_html; pval_html; body_html; body_src; prompts] @ captions in
-    mk_segment_atom kind fields
+  let fields = [label_html; title_html; pl_html; pl_version_html] @ [cover_html; sound_html; depend_html; pval_html;body_src; prompts] @ captions in
+    mk_segment_atom kind fields body
 
 let mk_segment ~kind ~pval ~topt ~strategy ~lopt ~dopt ~body = 
   let pval_html = mk_point_value_opt pval in
