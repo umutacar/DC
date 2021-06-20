@@ -6,6 +6,7 @@ open Utils
 (*
 let d_printf args = printf args
 *)
+module Html = Html_syntax
 module Labels = Tex_labels
 module Md = Md_syntax
 module Tex = Tex_syntax
@@ -187,7 +188,20 @@ let str_opt_to_xml translator kind source_opt =
 			 let source_xml = translator kind source  in
        Some (source_xml, source)
 
+(* Translate source string option to xml, return both *)
+let str_opt_to_html translator kind source_opt =
+   match source_opt with 
+   | None -> None 
+   | Some source -> 
+			 let source_html = translator kind source  in
+       Some (source_html, source)
+
 let depend_to_xml dopt = 
+	match dopt with 
+  |  None -> None
+  |  Some ls -> Some (str_of_str_list ls)
+
+let depend_to_html dopt = 
 	match dopt with 
   |  None -> None
   |  Some ls -> Some (str_of_str_list ls)
@@ -349,12 +363,13 @@ struct
 		in
     	()
 
-  let body_to_xml translator cookie =
-		let _ = d_printf "cookie.body_to_xml: cookie = %s\n" cookie.kind in
+  let body_to_hxml translator cookie =
+		let _ = d_printf "cookie.body_to_hxml: cookie = %s\n" cookie.kind in
     if Tex.is_cookie_algo_kind cookie.kind then
       translator Xml.code cookie.body
 		else
 			translator Xml.body cookie.body
+
 
   let propagate_point_value multiplier cookie = 
 		let {kind; point_val; weight; title; label; body} = cookie in
@@ -368,10 +383,33 @@ struct
 	    let _ = cookie.point_val <- Some (multiply_points  w multiplier) in
 			()
 
+  let to_html translator cookie = 
+		let {kind; point_val; title; label; tag; depend; body} = cookie in
+		(* Translate body to xml *)
+    let body_html = body_to_hxml translator cookie in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+		(* let point_val = normalize_point_val point_val in *)
+    let depend = depend_to_html depend in
+    let titles = str_opt_to_html translator Xml.title title in
+		let r = 
+			Html.mk_cookie 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+        ~tagopt:tag
+				~dopt:depend 
+        ~body_src:body
+        ~body_html:body_html
+   in
+     r
+
   let to_xml translator cookie = 
 		let {kind; point_val; title; label; tag; depend; body} = cookie in
 		(* Translate body to xml *)
-    let body_xml = body_to_xml translator cookie in
+    let body_xml = body_to_hxml translator cookie in
     (* Update: do not normalize. 0.0 is important to keep. 
        because default is not always zero.  it depends on the cookie.
      *)
@@ -555,8 +593,8 @@ struct
 		let (tt, tb) = tokenize_title_body prompt.title (Some (prompt.body)) in
     	(tt, tb)
 
-  let body_to_xml translator prompt =
-		let _ = d_printf "prompt.body_to_xml: prompt = %s\n" prompt.kind in
+  let body_to_hxml translator prompt =
+		let _ = d_printf "prompt.body_to_hxml: prompt = %s\n" prompt.kind in
     if Tex.is_secondary_choice_prompt prompt.kind then      
     	translator Xml.choice prompt.body
 		else
@@ -565,11 +603,39 @@ struct
 			else
   			translator Xml.body prompt.body
 
+
+  (* TODO incorporate cookies. *)
+  let to_html translator prompt = 
+		let {kind; point_val; title; label; tag; depend; body; cookies} = prompt in
+		(* Translate body to xml *)
+    let body_html = body_to_hxml translator prompt in
+    (* Update: do not normalize. 0.0 is important to keep. 
+       because default is not always zero.  it depends on the cookie.
+     *)
+    (* let point_val = normalize_point_val point_val in *)
+    let _ = d_printf "ast.prompt.to_html: kind %s, point_val = %s\n" kind (str_of_pval_opt point_val) in
+    let depend = depend_to_html depend in
+    let titles = str_opt_to_html translator Xml.title title in
+		let cookies = map_concat_with newline (Cookie.to_html translator) cookies in
+		let r = 
+			Html.mk_prompt 
+				~kind:kind 
+        ~pval:point_val
+        ~topt:titles
+        ~lopt:label
+        ~tagopt:tag
+				~dopt:depend 
+        ~body_src:body
+        ~body_html:body_html
+        ~cookies
+   in
+     r
+
   (* TODO incorporate cookies. *)
   let to_xml translator prompt = 
 		let {kind; point_val; title; label; tag; depend; body; cookies} = prompt in
 		(* Translate body to xml *)
-    let body_xml = body_to_xml translator prompt in
+    let body_xml = body_to_hxml translator prompt in
     (* Update: do not normalize. 0.0 is important to keep. 
        because default is not always zero.  it depends on the cookie.
      *)
@@ -756,9 +822,8 @@ struct
       (* Add atom label so that it can be used by the group. *)
     	(atom_label, tt_all, tb_all)
 
-
-  let body_to_xml translator atom =
-		let _ = d_printf "body_to_xml: atom = %s, Not promoting\n" atom.kind in
+  let body_to_hxml translator atom =
+		let _ = d_printf "body_to_hxml: atom = %s, Not promoting\n" atom.kind in
     let body = 
       if Tex.is_code atom.kind then
         match atom.pl with 
@@ -794,9 +859,38 @@ struct
 						let _ = List.map prompts ~f:(Prompt.propagate_point_value multiplier) in
 						points
 
+  let to_html translator atom = 
+		(* Translate body to xml *)
+		let body_html = body_to_hxml translator atom in
+		(* Atom has changed, reload *)
+		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
+    let depend = depend_to_html depend in
+		let point_val = normalize_point_val point_val in
+		let _ = d_printf "Atom.to_html: point_val = %s" (str_of_str_opt point_val) in
+    let titles = str_opt_to_html translator Xml.title title in
+		let prompts = map_concat_with newline (Prompt.to_html translator) prompts in
+    let captions = str_opt_to_html translator Xml.caption caption in
+		let r = 
+			Html.mk_atom 
+				~kind:kind 
+        ~pl:pl
+        ~pl_version:pl_version
+        ~pval:point_val
+        ~topt:titles
+        ~copt:cover
+        ~sopt:sound
+        ~lopt:label
+				~dopt:depend 
+        ~body_src:body
+        ~body_html:body_html
+        ~capopt:captions
+        ~prompts
+   in
+     r
+
   let to_xml translator atom = 
 		(* Translate body to xml *)
-		let body_xml = body_to_xml translator atom in
+		let body_xml = body_to_hxml translator atom in
 		(* Atom has changed, reload *)
 		let {kind; point_val; pl; pl_version; title; cover; sound; label; depend; prompts; body; caption} = atom in
     let depend = depend_to_xml depend in
@@ -944,6 +1038,30 @@ struct
     let _ = group.point_val <- sum in
 		force_float_string sum
 
+  let to_html translator group = 
+		let {kind; point_val; strategy; title; label; depend; atoms} = group in
+		let point_val = normalize_point_val point_val in
+    let titles = str_opt_to_html translator Xml.title title in
+    let depend = depend_to_html depend in
+		let atoms = map_concat_with newline (Atom.to_html translator) atoms in
+
+    (* We will use the kind of the group as a segment name.
+       Because these are unique this creates no ambiguity.
+       We know which segments are groups.
+     *)
+
+		let r = 
+			Html.mk_segment 
+				~kind:kind 
+        ~pval:point_val
+        ~strategy:strategy
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:atoms
+   in
+     r
+
   let to_xml translator group = 
 		let {kind; point_val; strategy; title; label; depend; atoms} = group in
 		let point_val = normalize_point_val point_val in
@@ -1037,6 +1155,13 @@ struct
 		| Element_group g -> 
 				Group.propagate_point_value g 
 					
+	let to_html translator e = 
+		match e with
+		| Element_atom a ->
+				Atom.to_html translator a
+		| Element_group g ->
+				Group.to_html translator g
+
 	let to_xml translator e = 
 		match e with
 		| Element_atom a ->
@@ -1101,6 +1226,11 @@ struct
     let points_sum = List.reduce (points_elements) ~f:add_points in
     let _ = block.point_val <- points_sum in
 		force_float_string points_sum
+
+  let to_html translator block = 
+		let {point_val; label; elements} = block in
+		let elements = map_concat_with newline (Element.to_html translator) elements in
+		elements
 
   let to_xml translator block = 
 		let {point_val; label; elements} = block in
@@ -1327,6 +1457,28 @@ struct
 		let _ = List.map subsegments ~f:normalize in
 		()
 
+  let rec to_html translator segment = 
+		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
+    let _ = d_printf "ast.segment.to_html: title = %s\n" title in
+		let point_val = normalize_point_val point_val in
+    let _ = d_printf "ast.segment.to_html: point_val = %s\n" (str_of_pval_opt point_val) in
+    let titles = str_opt_to_html translator Html.title (Some title) in
+    let depend = depend_to_html depend in
+		let block = Block.to_html translator block in 
+		let subsegments =  map_concat_with newline (to_html translator) subsegments in
+		let body = block ^ newline ^ subsegments in
+		let r = 
+			Html.mk_segment
+				~kind:kind 
+        ~pval:point_val
+        ~strategy:strategy
+        ~topt:titles
+        ~lopt:label
+				~dopt:depend 
+        ~body:body
+   in
+     r
+
   let rec to_xml translator segment = 
 		let {kind; point_val; strategy; title; label; depend; block; subsegments} = segment in
     let _ = d_printf "ast.segment.to_xml: title = %s\n" title in
@@ -1500,6 +1652,10 @@ let to_md ast =
 
 let to_tex ast = 
 	Segment.to_tex ast
+
+let to_html atom_translator ast = 
+	let html:string = Segment.to_html atom_translator ast in
+	Html.mk_standalone html  
 
 let to_xml atom_translator ast = 
 	let xml:string = Segment.to_xml atom_translator ast in

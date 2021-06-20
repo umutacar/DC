@@ -116,6 +116,29 @@ let ast_from_string (lex, parse) contents infilename =
   let _ = printf "Done.%!" in
 		ast
 
+let input_to_html is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename preamble_file = 
+  let (contents, translator) = 
+		if is_md then
+			prep_input_md verbose tmp_dir meta_dir default_pl infilename preamble_file 
+		else
+			prep_input_tex verbose verbose_pandoc tmp_dir meta_dir default_pl infilename preamble_file 
+	in
+  let _ = printf "Building the AST ...\n%!" in
+  let ast = 
+		if is_md then
+			ast_from_string (Md_lexer.lexer, Md_parser.top) contents infilename
+		else
+			ast_from_string (Tex_lexer.lexer, Tex_parser.top) contents  infilename
+	in
+  let _ = printf "\nDone.%!" in
+  let _ = printf "\nTranslating to atomic LaTeX ... %!" in
+  let tex = Ast.to_tex ast in
+  let _ = printf "Done%!" in
+  let _ = printf "\nTranslating to HTML %!" in
+  let html = Ast.to_html translator ast in
+  let _ = printf "Done\n%!" in
+    (tex, html)
+
 let input_to_xml is_md verbose verbose_pandoc tmp_dir meta_dir default_pl  infilename preamble_file = 
   let (contents, translator) = 
 		if is_md then
@@ -171,7 +194,7 @@ let main () =
     | Some _ -> (printf "Warning: multiple input files specified, taking first.\n")
   in
 
-  let usage_msg = "dc translates LaTeX/Markdown to Diderot XML. \n Usage: dc <file>.\n Options available:" 
+  let usage_msg = "dc translates LaTeX/Markdown to Diderot HTML/XML. \n Usage: dc <input file> -o <output file>.\n Options available:" 
   in
   let _  = Arg.parse spec take_infile_name usage_msg in
   let infile_name =  
@@ -188,8 +211,17 @@ let main () =
   in
   let _ = printf "Translating %s\n" infile_name in
   let is_md = Utils.file_is_markdown infile_name in
-  let (tex, xml) = input_to_xml is_md !arg_verbose !arg_verbose_pandoc !arg_tmp_dir !arg_meta_dir !arg_default_pl 
-                         infile_name !arg_preamble_file in       
+  let (tex, output) = 
+    if Utils.file_is_html outfile_name then
+			input_to_html is_md !arg_verbose !arg_verbose_pandoc !arg_tmp_dir !arg_meta_dir !arg_default_pl 
+        infile_name !arg_preamble_file 
+		else if Utils.file_is_xml outfile_name then
+			input_to_xml is_md !arg_verbose !arg_verbose_pandoc !arg_tmp_dir !arg_meta_dir !arg_default_pl 
+        infile_name !arg_preamble_file 
+		else
+			(printf "Unknown output file %s. Exiting!" outfile_name;
+		   exit(1))
+	in       
 	let _ = 
 		if is_md then
 			()
@@ -212,7 +244,7 @@ let main () =
 			end
 	in
   (* Write out xml output. *)
-  let _ = Out_channel.write_all outfile_name ~data:xml in
+  let _ = Out_channel.write_all outfile_name ~data:output in
   printf "Output written in %s\n" outfile_name 
 
 let _ = main ()

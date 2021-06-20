@@ -8,6 +8,7 @@ let cdata_end = "]]>"
 let equality = "="
 let newline = "\n"
 let quote = "'"
+let dquote = "\""
 let space = " "
 
 
