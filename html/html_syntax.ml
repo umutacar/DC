@@ -320,10 +320,16 @@ let mk_title_opt (x) =
 let mk_caption(x) = 
   mk_field_generic(caption,  x)
 
+
 let mk_caption_src(x) = 
   mk_field_generic(caption_src,  x)
 
-let mk_caption_opt x = 
+let mk_caption_opt_html(x) = 
+  match x with
+  | None -> mk_field_generic(caption, C.no_caption)
+  | Some (c_html, c_src) -> mk_field_generic(caption, c_html)
+
+let mk_captions_opt x = 
   match x with
   | None -> 
     [mk_caption C.no_caption;
@@ -400,8 +406,7 @@ let append_opt x_opt l =
 let mk_section name title fields body =
   let html_title = mk_section_heading(name, title) in
   let field_class = mk_field_generic (attr_class, level_of_segment name) in
-  let field_name = mk_field_generic (attr_name, name) in
-  let fields = field_class::field_name::fields in
+  let fields = field_class::fields in
   let html_begin = mk_tag_begin (tag_section, fields)  in
   let html_end = mk_tag_end_named (tag_section, name) in
   html_begin ^ C.newline ^ html_title ^ body ^ html_end
@@ -437,10 +442,10 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
   let (title_html, title_src) = mk_title_opt topt in 
   let cover_html = mk_cover_opt copt in
   let sound_html = mk_sound_opt sopt in
-  let captions = mk_caption_opt capopt in
+  let caption_html = mk_caption_opt_html capopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [label_html; title_html; pl_html; pl_version_html] @ [cover_html; sound_html; depend_html; pval_html] @ captions in
+  let fields = [label_html; title_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html; caption_html] in
   let body_and_prompts = body_html ^ C.newline ^ prompts in
     mk_div kind fields body_and_prompts
 
