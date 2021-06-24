@@ -154,7 +154,7 @@ let mk_tag_begin(tag, attributes) =
   let attributes = List.reduce attributes (fun x -> fun y -> x ^ C.space ^ y) in
   match attributes with 
 	| None -> "<" ^ tag ^ ">"  
-  | Some x -> "<" ^ tag ^ C.space ^ x ^ C.space ^ ">"  
+  | Some x -> "<" ^ tag ^ C.space ^ x ^ ">"  
 
 let mk_end(tag) =
   "</" ^ tag ^ ">"
@@ -442,10 +442,9 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
   let (title_html, title_src) = mk_title_opt topt in 
   let cover_html = mk_cover_opt copt in
   let sound_html = mk_sound_opt sopt in
-  let caption_html = mk_caption_opt_html capopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [label_html; title_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html; caption_html] in
+  let fields = [label_html; title_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html] in
   let body_and_prompts = body_html ^ C.newline ^ prompts in
     mk_div kind fields body_and_prompts
 
