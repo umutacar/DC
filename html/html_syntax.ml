@@ -382,7 +382,7 @@ let mk_section_heading(name, title) =
 			| "paragraph" -> mk_tag (h5, [], title)
       |  _ -> mk_tag (tag_div, [], title)
 
-let mk_div_heading(name) = 
+let mk_div_heading(title) = 
   match title with 
 	| None -> ""
 	| Some title -> mk_tag (strong, [], title)
@@ -430,30 +430,35 @@ let mk_cookie ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html =
   let label_html = mk_label_opt lopt in
   let tag_html = mk_item_tag_opt tagopt in
   let depend_html = mk_depend_opt dopt in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
   let fields = [pval_html; label_html; tag_html; depend_html] in
-    mk_div kind fields body_html
+    mk_div kind topt fields body_html
 
 let mk_prompt ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html ~cookies = 
   let pval_html = mk_point_value_opt pval in
   let label_html = mk_label_opt lopt in
   let tag_html = mk_item_tag_opt tagopt in
   let depend_html = mk_depend_opt dopt in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
   let fields = [label_html; pval_html; tag_html; depend_html] in
   let body_and_cookies = body_html ^ C.newline ^ cookies in
-    mk_div kind fields body_and_cookies
+    mk_div kind topt fields body_and_cookies
 
 let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_html ~capopt ~prompts = 
   let pval_html = mk_point_value_opt pval in
   let pl_html = mk_pl_opt pl in
   let pl_version_html = mk_pl_version_opt pl_version in
-  let (title_html, title_src) = mk_title_opt topt in 
   let cover_html = mk_cover_opt copt in
   let sound_html = mk_sound_opt sopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [label_html; title_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html] in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
+  let fields = [label_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html] in
   let body_and_prompts = body_html ^ C.newline ^ prompts in
-    mk_div kind fields body_and_prompts
+    mk_div kind topt fields body_and_prompts
 
 let mk_cluster ~kind ~topt fields ~body = 
   mk_div kind topt  fields body
