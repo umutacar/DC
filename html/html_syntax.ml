@@ -19,6 +19,7 @@ let h3 = "h3"
 let h4 = "h4"
 let h5 = "h5"
 let h6 = "h6"
+let strong = "strong"
 
 (* Tags *) 
 
@@ -381,6 +382,11 @@ let mk_section_heading(name, title) =
 			| "paragraph" -> mk_tag (h5, [], title)
       |  _ -> mk_tag (tag_div, [], title)
 
+let mk_div_heading(name) = 
+  match title with 
+	| None -> ""
+	| Some title -> mk_tag (strong, [], title)
+
 let mk_begin_segment name topt fields =
   "<" ^ tag_segment ^ C.space ^ name ^ C.space ^ fields ^
   ">"
@@ -409,14 +415,15 @@ let mk_section name title fields body =
   let fields = field_class::fields in
   let html_begin = mk_tag_begin (tag_section, fields)  in
   let html_end = mk_tag_end_named (tag_section, name) in
-  html_begin ^ C.newline ^ html_title ^ body ^ html_end
+  html_begin ^ C.newline ^ html_title ^ C.newline ^ body ^ html_end
 
-let mk_div kind fields body =
+let mk_div kind title fields body =
+  let html_title = mk_div_heading(title) in
   let field_class = mk_field_generic (attr_class, kind) in
   let fields = field_class::fields in
   let b = mk_tag_begin (tag_div, fields) in
   let e = mk_tag_end_named (tag_div, kind) in  
-    b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
+    b ^ C.newline ^ html_title ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
 let mk_cookie ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html = 
   let pval_html = mk_point_value_opt pval in
@@ -449,11 +456,7 @@ let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src 
     mk_div kind fields body_and_prompts
 
 let mk_cluster ~kind ~topt fields ~body = 
-    match topt with 
-		| None -> 
-				mk_div kind fields body
-		| Some title -> 
-				mk_div kind (title::fields) body
+  mk_div kind topt  fields body
 
 let mk_segment ~kind ~pval ~topt ~strategy ~lopt ~dopt ~body = 
   let pval_html = mk_point_value_opt pval in
