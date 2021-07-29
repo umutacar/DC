@@ -315,8 +315,8 @@ let mk_title_src_opt(x) =
 
 let mk_title_opt (x) = 
   match x with
-  | None -> (mk_title C.no_title, mk_title_src C.no_title)
-  | Some (t_html, t_src) -> (mk_title t_html, mk_title_src t_src)
+  | None -> (C.no_title, C.no_title)
+  | Some (t_html, t_src) -> (t_html, t_src)
 
 let mk_caption(x) = 
   mk_field_generic(caption,  x)
