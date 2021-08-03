@@ -310,7 +310,7 @@ let p_err_paragraph_with_attr = ("paragraph" as kind) p_ws p_err_seg_attr
 
 let p_cluster = "cluster"
 let p_flex = "flex"
-let p_glex = "glex"
+let p_cflex = "cflex"
 let p_problem_cluster = "mproblem"
 
 (* Latex environment: alphabethical chars plus an optional star *)
@@ -382,7 +382,7 @@ let p_err_heading_with_attr = '\\' p_err_segment_with_attr
 
 let p_group = ((p_cluster as kind) p_ws as kindws) |
               ((p_flex as kind) p_ws as kindws) |
-              ((p_glex as kind) p_ws as kindws) |
+              ((p_cflex as kind) p_ws as kindws) |
               ((p_problem_cluster as kind) p_ws as kindws) 
 
 (* Groups *)

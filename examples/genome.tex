@@ -71,7 +71,7 @@ fib n {
 \section{Genome Sequencing Problem}
 \label{genome::prob}
 
-\begin{glex}
+\begin{cflex}
 \begin{exercise}
 This is an exercise.
 \end{exercise}
@@ -79,7 +79,7 @@ This is an exercise.
 \begin{solution}
 This is the solution.
 \end{solution}
-\end{glex}
+\end{cflex}
 
 
 
@@ -97,8 +97,6 @@ This is the solution.
 %% \end{flushleft}
 
 \begin{gram}
-
-
 As with many ``real world'' applications, defining precisely the
 problem that models our application is interesting in itself.  
 %
@@ -574,7 +572,7 @@ We can now try to understand the properties of the genome-sequencing
 problem.
 \end{gram}
 
-\begin{flex}
+\begin{cflex}
 \begin{exercise}[Properties of the Solution]
 What is a property that the result sequence needs to have in relation
 to the fragments sequenced in the Shotgun Method?
@@ -586,9 +584,9 @@ should contain all of them.  In other words, the result is
 a~\defn{superstring} of the fragments.
 %
 \end{solution}
-\end{flex}
+\end{cflex}
 
-\begin{flex}
+\begin{cflex}
 \begin{exercise}
 There can be multiple superstrings for any given set of fragments.
 %
@@ -609,7 +607,7 @@ created by the copies that we made in the beginning.
 %
 %
 \end{solution}
-\end{flex}
+\end{cflex}
 
 \begin{teachnote}
 The claim above could probably be made more precise, perhaps with an
@@ -1613,7 +1611,7 @@ after $|S|$ recursive calls.
 
 
 
-\begin{flex}
+\begin{cflex}
 \begin{exercise}
 Why is the algorithm greedy?
 \end{exercise}
@@ -1625,7 +1623,7 @@ optimal decision.  Upon termination, the algorithm returns a single
 string that contains all strings in the original set $S$.  However,
 the superstring returned is not necessarily the shortest superstring.
 \end{solution}
-\end{flex}
+\end{cflex}
 
 %% \begin{todo}
 %% 	In the picture there should be a directed arrow from "gga" to "gagtat" with weight 2?
