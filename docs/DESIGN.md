@@ -18,7 +18,9 @@ For example,  plural items, such as sections, atoms, etc can be tricky.   If a p
 
 The parsing infrastructure is separated into three stages.  The implementation converged to this structure after various experiments.  The relevant PR where this structure is described is PR #124 in the DC repo.
 
-The stage-1 lexer (`tex_comment_lexer`) removes comments from the input.
+The stage-1 lexer (`tex_comment_lexer`) does some preprocessing by
+1) removing comments from the input,
+2) inserting empty lines around atoms (if they are on a blank line). 
 
 The stage-2 lexer and parser, `tex_lexer.mll` and `tex_parser.mly`, take the output of the first stage and divides it into "atoms" and a tree structure mirroring that of the document.
 
