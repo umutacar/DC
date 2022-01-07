@@ -6,7 +6,7 @@ OCB_FLAGS = -use-ocamlfind -package re2 -package core  -package netstring -I ast
 OCB = ocamlbuild $(OCB_FLAGS)
 
 ROOT_DIR = $(shell dirname $(CURDIR))
-GUIDE_DIR = $(ROOT_DIR)/diderot/diderot-guide
+GUIDE_DIR = $(ROOT_DIR)/diderotedu/diderot-guide
 
 #  il/il_syntax.ml il/il_ast.ml \
 
