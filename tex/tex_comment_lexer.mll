@@ -78,8 +78,16 @@ let p_end_env_verbatim = p_com_end p_ws p_o_curly p_ws "verbatim" p_ws p_c_curly
 
 let p_begin_env_skip = p_begin_env_lstlisting | p_begin_env_verbatim | p_begin_env_comment | p_begin_env_runlang
 
+
+let p_atom = "abstract" | "algo" | "algorithm" | "answer" | "assumption" | "code" | "corollary" | "costspec" | "datastr" | "datatype" | "definition" | "example" | "exercise" | "gram" | "hint" | "important" | "lemma" | "note" | "observe" | "observation" | "preamble" | "problem" | "proof" | "proposition" | "question" | "quote" | "remark" | "reminder" | "solution" | "syntax" | "task" | "theorem"
+
+let p_begin_atom = p_com_begin p_ws p_o_curly p_ws p_atom p_ws p_c_curly
+let p_end_atom = p_com_end p_ws p_o_curly p_ws p_atom p_ws p_c_curly
+
 let p_env = (p_alpha)+('*')? p_ws
 let p_end_env = p_com_end p_o_curly (p_env as kind) p_c_curly 
+
+
 
 (** END PATTERNS *)			
 (* Takes is_empty, the emptiness status of the current line *)
@@ -153,6 +161,20 @@ parse
      inline ^ rest
     }
 
+|	 p_begin_atom as x
+    {      
+     let rest = initial false lexbuf in
+     (* Insert newline before \begin{atom} *)
+  	 "\n" ^ x ^ rest
+    }	 
+
+|	 p_end_atom as x
+    {      
+     let rest = initial false lexbuf in
+     (* Insert newline after \end{atom} *)
+		  x ^ "\n" ^ rest
+    }	 
+
 | p_hspace as x 
     {
 (*     let _ = d_printf "!lexer matched segment: %s." kind in *)
@@ -189,6 +211,7 @@ parse
       let rest = initial true lexbuf in
 			x ^ rest
     }
+
 | p_hspace as x
 		{
       let rest = initial is_empty lexbuf in
