@@ -165,14 +165,20 @@ parse
     {      
      let rest = initial false lexbuf in
      (* Insert newline before \begin{atom} *)
-  	 "\n" ^ x ^ rest
+     if is_empty then
+       "\n" ^ x ^ rest
+     else
+       x ^ rest
     }	 
 
 |	 p_end_atom as x
     {      
      let rest = initial false lexbuf in
-     (* Insert newline after \end{atom} *)
-		  x ^ "\n" ^ rest
+     (* Insert newline before \begin{atom} *)
+     if is_empty then
+       x ^ "\n" ^ rest
+     else
+       x ^ rest
     }	 
 
 | p_hspace as x 
