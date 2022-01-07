@@ -174,7 +174,7 @@ parse
 |	 p_end_atom as x
     {      
      let rest = initial false lexbuf in
-     (* Insert newline before \begin{atom} *)
+     (* Insert newline after \end{atom} *)
      if is_empty then
        x ^ "\n" ^ rest
      else
