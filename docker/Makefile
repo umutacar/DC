@@ -1,5 +1,5 @@
 DC_HOME = /Users/umut/DC
-GUIDE_DIR = /Users/umut/diderot/diderot-guide
+GUIDE_DIR = /Users/umut/diderotedu/diderot-guide
 CONCORDE_DIR = /Users/umut/diderot/concorde
 
 default: 
