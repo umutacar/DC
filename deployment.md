@@ -1,5 +1,6 @@
 | Date       |    Guide    |    Problem Bank    | Notes
 --------------------------------------------------------
+| 01/07/2022 |    0.17.7   |    0.16            | Deployed on guide: 0.17.7 
 | 08/17/2021 |    0.17.6   |    0.16            | Deployed on guide: 0.17.6 
 | 03/31/2021 |    0.17.5   |    0.16            | Deployed on guide: 0.17.5 
 | 01/06/2021 |    0.17.4   |    0.16            | Deployed on guide: 0.17.4
