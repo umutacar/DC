@@ -19,6 +19,7 @@ let h3 = "h3"
 let h4 = "h4"
 let h5 = "h5"
 let h6 = "h6"
+let strong = "strong"
 
 (* Tags *) 
 
@@ -314,8 +315,8 @@ let mk_title_src_opt(x) =
 
 let mk_title_opt (x) = 
   match x with
-  | None -> (mk_title C.no_title, mk_title_src C.no_title)
-  | Some (t_html, t_src) -> (mk_title t_html, mk_title_src t_src)
+  | None -> (C.no_title, C.no_title)
+  | Some (t_html, t_src) -> (t_html, t_src)
 
 let mk_caption(x) = 
   mk_field_generic(caption,  x)
@@ -381,6 +382,11 @@ let mk_section_heading(name, title) =
 			| "paragraph" -> mk_tag (h5, [], title)
       |  _ -> mk_tag (tag_div, [], title)
 
+let mk_div_heading(title) = 
+  match title with 
+	| None -> ""
+	| Some title -> mk_tag (strong, [], title)
+
 let mk_begin_segment name topt fields =
   "<" ^ tag_segment ^ C.space ^ name ^ C.space ^ fields ^
   ">"
@@ -409,51 +415,53 @@ let mk_section name title fields body =
   let fields = field_class::fields in
   let html_begin = mk_tag_begin (tag_section, fields)  in
   let html_end = mk_tag_end_named (tag_section, name) in
-  html_begin ^ C.newline ^ html_title ^ body ^ html_end
+  html_begin ^ C.newline ^ html_title ^ C.newline ^ body ^ html_end
 
-let mk_div kind fields body =
+let mk_div kind title fields body =
+  let html_title = mk_div_heading(title) in
   let field_class = mk_field_generic (attr_class, kind) in
   let fields = field_class::fields in
   let b = mk_tag_begin (tag_div, fields) in
   let e = mk_tag_end_named (tag_div, kind) in  
-    b ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
+    b ^ C.newline ^ html_title ^ C.newline ^ body ^ C.newline ^ e ^ C.newline
 
 let mk_cookie ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html = 
   let pval_html = mk_point_value_opt pval in
   let label_html = mk_label_opt lopt in
   let tag_html = mk_item_tag_opt tagopt in
   let depend_html = mk_depend_opt dopt in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
   let fields = [pval_html; label_html; tag_html; depend_html] in
-    mk_div kind fields body_html
+    mk_div kind topt fields body_html
 
 let mk_prompt ~kind ~pval ~topt ~lopt ~tagopt ~dopt ~body_src ~body_html ~cookies = 
   let pval_html = mk_point_value_opt pval in
   let label_html = mk_label_opt lopt in
   let tag_html = mk_item_tag_opt tagopt in
   let depend_html = mk_depend_opt dopt in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
   let fields = [label_html; pval_html; tag_html; depend_html] in
   let body_and_cookies = body_html ^ C.newline ^ cookies in
-    mk_div kind fields body_and_cookies
+    mk_div kind topt fields body_and_cookies
 
 let mk_atom ~kind ~pval ~pl ~pl_version ~topt ~copt ~sopt ~lopt ~dopt ~body_src ~body_html ~capopt ~prompts = 
   let pval_html = mk_point_value_opt pval in
   let pl_html = mk_pl_opt pl in
   let pl_version_html = mk_pl_version_opt pl_version in
-  let (title_html, title_src) = mk_title_opt topt in 
   let cover_html = mk_cover_opt copt in
   let sound_html = mk_sound_opt sopt in
   let label_html = mk_label_opt lopt in
   let depend_html = mk_depend_opt dopt in
-  let fields = [label_html; title_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html] in
+  let (title_html, title_src) = mk_title_opt topt in 
+  let topt = Some title_html in
+  let fields = [label_html; pval_html; depend_html; cover_html; sound_html; pl_html; pl_version_html] in
   let body_and_prompts = body_html ^ C.newline ^ prompts in
-    mk_div kind fields body_and_prompts
+    mk_div kind topt fields body_and_prompts
 
 let mk_cluster ~kind ~topt fields ~body = 
-    match topt with 
-		| None -> 
-				mk_div kind fields body
-		| Some title -> 
-				mk_div kind (title::fields) body
+  mk_div kind topt  fields body
 
 let mk_segment ~kind ~pval ~topt ~strategy ~lopt ~dopt ~body = 
   let pval_html = mk_point_value_opt pval in
